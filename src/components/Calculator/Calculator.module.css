@@ -5,6 +5,7 @@
   margin-top: -3.1rem;
   height: 3.1rem;
   width: 12.5rem;
+  z-index: 2;
 }
 
 .tooltipText {
@@ -17,13 +18,13 @@
   box-shadow: 0 0.1rem 0.2rem 0 rgba(46, 62, 79, 0.1);
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   white-space: nowrap;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 .arrowDown {
   margin: auto;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-left: 0.5rem solid transparent;
   border-right: 0.5rem solid transparent;
   border-top: 0.5rem solid #343e47;

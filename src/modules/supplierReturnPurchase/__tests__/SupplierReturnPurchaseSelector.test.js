@@ -70,24 +70,6 @@ describe('SupplierReturnPurchaseSelector', () => {
 
       expect(actual).toEqual('$100.55');
     });
-
-    it('should handle if amount applied is a hypen', () => {
-      const state = {
-        supplierReturnId: '1',
-        supplierReturnPurchase: {
-          purchases: [
-            {
-              amountApplied: '-',
-            },
-          ],
-          debitAmount: '55.55',
-        },
-      };
-
-      const actual = getTotalAmountApplied(state);
-
-      expect(actual).toEqual('$0.00');
-    });
   });
 
   describe('getPurchases', () => {
@@ -107,24 +89,6 @@ describe('SupplierReturnPurchaseSelector', () => {
       const actual = getPurchases(state);
 
       expect(actual[0].owed).toEqual('54.88');
-    });
-
-    it('should handle if discount is a hyphen for a purchase', () => {
-      const state = {
-        supplierReturnId: '1',
-        supplierReturnPurchase: {
-          purchases: [
-            {
-              amount: '100.00',
-              discount: '-',
-            },
-          ],
-        },
-      };
-
-      const actual = getPurchases(state);
-
-      expect(actual[0].owed).toEqual('100.00');
     });
 
     [

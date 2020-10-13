@@ -11,7 +11,7 @@ import {
   getReferenceId,
   getSupplierName,
 } from '../SupplierReturnPurchaseSelector';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../components/Calculator/Calculator';
 import DatePicker from '../../../components/DatePicker/DatePicker';
 import styles from './SupplierReturnPurchaseOptions.module.css';
 
@@ -46,12 +46,14 @@ const SupplierReturnPurchaseOptions = ({
         selected={{ supplierName }}
         metaData={[{ columnName: 'supplierName', showData: true }]}
       />
-      <AmountInput
+      <Calculator
         className={styles.debit}
         name="debitAmount"
         label="Debit ($)"
         value={debitAmount}
         textAlign="right"
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
         disabled
       />
       <TextArea

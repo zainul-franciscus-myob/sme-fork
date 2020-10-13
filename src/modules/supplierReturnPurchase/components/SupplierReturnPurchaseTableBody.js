@@ -7,7 +7,7 @@ import {
   getPurchases,
   getTotalAmountApplied,
 } from '../SupplierReturnPurchaseSelector';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../components/Calculator/Calculator';
 import styles from './SupplierReturnPurchaseTable.module.css';
 
 const onAmountChange = (handler, index) => ({ target }) => {
@@ -39,7 +39,7 @@ const SupplierReturnPurchaseTableBody = ({
           </Table.RowItem>
           <Table.RowItem {...tableConfig.amount}>{row.amount}</Table.RowItem>
           <Table.RowItem {...tableConfig.discount}>
-            <AmountInput
+            <Calculator
               textAlign="right"
               name="discount"
               value={row.discount}
@@ -54,7 +54,7 @@ const SupplierReturnPurchaseTableBody = ({
           </Table.RowItem>
           <Table.RowItem {...tableConfig.owed}>{row.owed}</Table.RowItem>
           <Table.RowItem {...tableConfig.amountApplied}>
-            <AmountInput
+            <Calculator
               textAlign="right"
               name="amountApplied"
               value={row.amountApplied}

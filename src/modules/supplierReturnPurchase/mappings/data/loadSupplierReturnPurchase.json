@@ -9,9 +9,9 @@
       "date": "21/06/2019",
       "purchaseNumber": "0000001",
       "status": "Open",
-      "amount": "839.36",
-      "discount": "",
-      "owed": "",
+      "amount": "0.00",
+      "discount": "0.00",
+      "owed": "0.00",
       "amountApplied": "839.36"
     },
     {
@@ -19,8 +19,8 @@
       "date": "22/06/2019",
       "purchaseNumber": "0000002",
       "status": "Closed",
-      "amount": "900.99",
-      "discount": "",
+      "amount": "0.00",
+      "discount": "0.00",
       "owed": "500.00",
       "amountApplied": "400.99"
     }

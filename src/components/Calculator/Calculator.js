@@ -113,6 +113,7 @@ const Calculator = ({
   warningBody,
   errorMessage,
   errorMessageInline,
+  width,
   ...inputBoxProps
 }) => {
   // eslint-disable-next-line no-unused-vars
@@ -191,13 +192,15 @@ const Calculator = ({
   });
 
   const elementId = propId || id;
-  const width = target ? target.offsetWidth : 0;
+  const elementWidth = width || (target || { offsetWidth: 0 }).offsetWidth;
 
   const formattedValue = addCommasInPlace(currValue);
 
   return (
     <>
-      {isActive && <CalculatorTooltip value={evaluatedValue} width={width} />}
+      {isActive && (
+        <CalculatorTooltip value={evaluatedValue} width={elementWidth} />
+      )}
       <FieldMessagePopup
         id={elementId}
         reference={setTarget}
@@ -211,7 +214,7 @@ const Calculator = ({
         warningBody={warningBody}
         infoBody={infoBody}
         requiredLabel={requiredLabel}
-        width={width}
+        width={elementWidth}
         renderField={(props) => (
           <InputBox
             {...props}
