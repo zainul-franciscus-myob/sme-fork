@@ -1,8 +1,9 @@
 steps:
 
-  - name: ':white_check_mark: Running Checkmarx'
-    command: ./ops/bin/checkmarx
+  - name: ':white_check_mark: Running Sonarqube'
+    command: ./ops/bin/sonarqube
     branches: master
     agents:
       queue: cacc-prod-dflt
-    soft_fail: true
+    soft_fail:
+      - exit_status: 5

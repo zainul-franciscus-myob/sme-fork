@@ -1,0 +1,14 @@
+#!/bin/bash
+set -euo pipefail
+
+echo "--- Running Sonarqube"
+token=$(aws ssm get-parameter --name "/ops/appsec/sonarqube/token" --with-decryption --query "Parameter.Value" --output text 2>/dev/null)
+docker run -v "$PWD":/data \
+	-e SONARQUBE_LOGIN_KEY="$token" \
+	-e BUILDKITE_BUILD_NUMBER \
+	docker.myob.com/appsec/sonar-scanner:latest
+
+# If you want to fail builds add in
+# -e BREAK_BUILD="true"
+# check here for more docos on this docker image
+# https://github.com/myob-ops/sonar-scanner-docker-image
