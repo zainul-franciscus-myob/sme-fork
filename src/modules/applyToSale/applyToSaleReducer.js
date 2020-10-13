@@ -34,8 +34,6 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
-const safeParseNumber = (string) => (Number(string) ? Number(string) : 0);
-
 const setInitialState = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -107,21 +105,10 @@ const updateTableAmountInput = (state, action) => ({
   ...state,
   invoices: state.invoices.map((invoice, index) => {
     if (index === action.index) {
-      if (action.key === 'discount') {
-        return {
-          ...invoice,
-          discount: safeParseNumber(action.value),
-          displayDiscount: action.value,
-        };
-      }
-
-      if (action.key === 'amountApplied') {
-        return {
-          ...invoice,
-          amountApplied: safeParseNumber(action.value),
-          displayAmountApplied: action.value,
-        };
-      }
+      return {
+        ...invoice,
+        [action.key]: action.value,
+      };
     }
 
     return invoice;

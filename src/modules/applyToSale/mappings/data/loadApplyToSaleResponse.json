@@ -9,22 +9,18 @@
       "issueDate": "28/11/1998",
       "invoiceNumber": "INV111111",
       "status": "Open",
-      "totalAmount": 0,
-      "discount": 0,
-      "displayDiscount": "0.00",
-      "amountApplied": 150.03,
-      "displayAmountApplied": "150.03"
+      "totalAmount": "0.00",
+      "discount": "0.00",
+      "amountApplied": "150.03"
     },
     {
       "invoiceId": 2,
       "issueDate": "28/11/1998",
       "invoiceNumber": "INV222222",
       "status": "Open",
-      "totalAmount": 0,
-      "discount": 0,
-      "displayDiscount": "0.00",
-      "amountApplied": 457.02,
-      "displayAmountApplied": "457.02"
+      "totalAmount": "0.00",
+      "discount": "0.00",
+      "amountApplied": "457.02"
     }
   ]
 }

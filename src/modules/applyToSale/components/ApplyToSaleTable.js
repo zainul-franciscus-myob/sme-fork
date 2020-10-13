@@ -7,8 +7,8 @@ import {
   getIsCreating,
   getIsTableEmpty,
 } from '../applyToSaleSelectors';
-import AmountInput from '../../../components/autoFormatter/AmountInput/AmountInput';
 import ApplyToSaleTotals from './ApplyToSaleTotals';
+import Calculator from '../../../components/Calculator/Calculator';
 import TableView from '../../../components/TableView/TableView';
 import getApplyToSaleTableResponsiveConfig from './getApplyToSaleTableResponsiveConfig';
 
@@ -67,10 +67,10 @@ const ApplyToSaleTable = ({
               {invoice.totalAmount}
             </Table.RowItem>
             <Table.RowItem {...tableConfig.discount}>
-              <AmountInput
+              <Calculator
                 textAlign="right"
                 name="discount"
-                value={invoice.displayDiscount}
+                value={invoice.discount}
                 onChange={onAmountChange(onUpdateTableAmountInput, index)}
                 onBlur={onAmountChange(onUpdateTableAmountInput, index)}
                 numeralDecimalScaleMin={2}
@@ -85,10 +85,10 @@ const ApplyToSaleTable = ({
               {invoice.balanceDue}
             </Table.RowItem>
             <Table.RowItem {...tableConfig.amountApplied}>
-              <AmountInput
+              <Calculator
                 textAlign="right"
                 name="amountApplied"
-                value={invoice.displayAmountApplied}
+                value={invoice.amountApplied}
                 onChange={onAmountChange(onUpdateTableAmountInput, index)}
                 onBlur={onAmountChange(onUpdateTableAmountInput, index)}
                 numeralDecimalScaleMin={2}

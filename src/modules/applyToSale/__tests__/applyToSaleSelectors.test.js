@@ -7,20 +7,6 @@ import {
 
 describe('applyToSaleSelectors', () => {
   describe('getInvoices', () => {
-    it('formats amounts', () => {
-      const state = {
-        invoices: [
-          {
-            totalAmount: 100,
-          },
-        ],
-      };
-
-      const actual = getInvoices(state);
-
-      expect(actual[0].totalAmount).toEqual('100.00');
-    });
-
     it('generates invoice url', () => {
       const state = {
         region: 'au',
@@ -62,47 +48,31 @@ describe('applyToSaleSelectors', () => {
       });
     });
 
-    it('calculates and formats balance due', () => {
+    it('calculates balance due', () => {
       const state = {
         invoices: [
           {
-            totalAmount: 100,
-            discount: 50,
+            totalAmount: '100.00',
+            discount: '50.55',
           },
         ],
       };
 
       const actual = getInvoices(state);
 
-      expect(actual[0].balanceDue).toEqual('50.00');
-    });
-
-    it('shows display value for discount and amountApplied', () => {
-      const state = {
-        invoices: [
-          {
-            displayDiscount: 'a',
-            displayAmountApplied: 'b',
-          },
-        ],
-      };
-
-      const actual = getInvoices(state);
-
-      expect(actual[0].displayDiscount).toEqual('a');
-      expect(actual[0].displayAmountApplied).toEqual('b');
+      expect(actual[0].balanceDue).toEqual('49.45');
     });
   });
 
   describe('getTotalAmountApplied', () => {
-    it('sums all applied invoice amounts and formats result', () => {
+    it('sums all applied invoice amounts and adds currency symbol', () => {
       const state = {
         invoices: [
           {
-            amountApplied: 23.15,
+            amountApplied: '23.15',
           },
           {
-            amountApplied: 10,
+            amountApplied: '10.00',
           },
         ],
       };
@@ -123,13 +93,13 @@ describe('applyToSaleSelectors', () => {
       invoices: [
         {
           invoiceId: '1i',
-          amountApplied: 1,
-          discount: 2,
+          amountApplied: '1.00',
+          discount: '2.00',
         },
         {
           invoiceId: '2i',
-          amountApplied: 3,
-          discount: 4,
+          amountApplied: '3.00',
+          discount: '4.00',
         },
       ],
     };
@@ -145,13 +115,13 @@ describe('applyToSaleSelectors', () => {
         invoices: [
           {
             invoiceId: '1i',
-            amountApplied: 1,
-            discount: 2,
+            amountApplied: '1.00',
+            discount: '2.00',
           },
           {
             invoiceId: '2i',
-            amountApplied: 3,
-            discount: 4,
+            amountApplied: '3.00',
+            discount: '4.00',
           },
         ],
       };
@@ -164,7 +134,7 @@ describe('applyToSaleSelectors', () => {
         ...state,
         invoices: state.invoices.map((invoice) => ({
           ...invoice,
-          amountApplied: 0,
+          amountApplied: '0.00',
         })),
       };
 

@@ -10,7 +10,7 @@ import {
   getRefund,
 } from '../payRefundSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import Calculator from '../../../../components/Calculator/Calculator';
 import CustomerCombobox from '../../../../components/combobox/CustomerCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 
@@ -74,11 +74,13 @@ const PayRefundDetail = (props) => {
         requiredLabel={requiredLabel}
         disabled={!isCreating}
       />
-      <AmountInput
+      <Calculator
         label="Refund amount ($)"
         name="amount"
         value={amount}
         onChange={handleAmountChange(onRefundDetailsChange)}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={2}
         requiredLabel={requiredLabel}
         textAlign="right"
         disabled={!isCreating}

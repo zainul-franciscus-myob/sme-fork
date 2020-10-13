@@ -10,22 +10,14 @@
       "issueDate": "28/11/2018",
       "invoiceNumber": "INV111111",
       "status": "Open",
-      "totalAmount": 150.03,
-      "discount": 0,
-      "displayDiscount": "",
-      "amountApplied": 0,
-      "displayAmountApplied": ""
+      "totalAmount": "150.03"
     },
     {
       "invoiceId": 2,
       "issueDate": "28/11/1998",
       "invoiceNumber": "INV222222",
       "status": "Closed",
-      "totalAmount": 260.05,
-      "discount": 0,
-      "displayDiscount": "",
-      "amountApplied": 0,
-      "displayAmountApplied": ""
+      "totalAmount": "260.05"
     }
   ],
   "startOfFinancialYearDate": "2019-07-01T00:00:00"

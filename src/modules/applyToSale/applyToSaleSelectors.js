@@ -37,16 +37,17 @@ export const getInvoices = (state) =>
     ...invoice,
     link: getInvoiceLink(invoice.invoiceId)(state),
     labelColour: getLabelColour(invoice.status),
-    totalAmount: formatAmount(invoice.totalAmount),
-    displayDiscount: invoice.displayDiscount,
-    balanceDue: formatAmount(invoice.totalAmount - invoice.discount),
-    displayAmountApplied: invoice.displayAmountApplied,
+    totalAmount: invoice.totalAmount,
+    balanceDue: formatAmount(
+      Number(invoice.totalAmount || 0) - Number(invoice.discount || 0)
+    ),
   }));
 
 export const getTotalAmountApplied = (state) =>
   formatCurrency(
     state.invoices.reduce(
-      (accumulator, invoice) => accumulator + invoice.amountApplied,
+      (accumulator, invoice) =>
+        accumulator + Number(invoice.amountApplied || 0),
       0
     )
   );
@@ -58,7 +59,7 @@ export const getCreateApplyToSalePayload = (state) => ({
   reference:
     state.reference === state.originalReferenceId ? '' : state.reference,
   invoices: state.invoices
-    .filter((invoice) => invoice.amountApplied > 0)
+    .filter((invoice) => Number(invoice.amountApplied || 0) > 0)
     .map((invoice) => ({
       invoiceId: invoice.invoiceId,
       amountApplied: invoice.amountApplied,
