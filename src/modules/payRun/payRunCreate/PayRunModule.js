@@ -4,7 +4,6 @@ import React from 'react';
 import { getStep } from './PayRunSelectors';
 import AlertType from './types/AlertType';
 import EmployeePayListModule from './employeePayList/EmployeePayListModule';
-import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import PayRunDoneModule from './payRunDone/PayRunDoneModule';
 import PayRunView from './components/PayRunView';
@@ -21,7 +20,6 @@ export default class PayRunModule {
     integration,
     setRootView,
     pushMessage,
-    isToggleOn,
     subscribeOrUpgrade,
     featureToggles,
   }) {
@@ -31,7 +29,6 @@ export default class PayRunModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
     this.subModules = {
       startPayRunModule: new StartPayRunModule({
@@ -140,12 +137,7 @@ export default class PayRunModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isPayrollJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobsPayrun
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     this.render();
     this.startNewPayRun();
   }

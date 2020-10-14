@@ -18,8 +18,6 @@ describe('PayRunModule', () => {
       write: () => {},
     };
 
-    const isToggleOn = () => true;
-
     let wrapper;
     const setRootView = (component) => {
       wrapper = mount(component);
@@ -29,7 +27,6 @@ describe('PayRunModule', () => {
       integration,
       setRootView,
       pushMessage: [],
-      isToggleOn,
     });
     payRunModule.run();
     payRunModule.startNewPayRun();

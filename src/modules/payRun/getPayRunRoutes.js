@@ -9,7 +9,6 @@ const getPayRunRoutes = ({
   pushMessage,
   popMessages,
   replaceURLParams,
-  isToggleOn,
   subscribeOrUpgrade,
   featureToggles,
 }) => {
@@ -22,7 +21,6 @@ const getPayRunRoutes = ({
         integration,
         setRootView,
         pushMessage,
-        isToggleOn,
         subscribeOrUpgrade,
         featureToggles,
       }),

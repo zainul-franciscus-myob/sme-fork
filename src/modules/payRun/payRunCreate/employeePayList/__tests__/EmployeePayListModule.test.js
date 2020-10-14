@@ -32,12 +32,10 @@ describe('EmployeePayListModule', () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
     const setRootView = () => <div />;
-    const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
       integration,
       setRootView,
       pushMessage,
-      isToggleOn,
     });
 
     const store = new TestStore(payRunReducer);

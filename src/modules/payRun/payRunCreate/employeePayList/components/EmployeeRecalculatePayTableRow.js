@@ -179,7 +179,6 @@ const EmployeeRecalculatePayTableRow = ({
   entry,
   onChange,
   onBlur,
-  isPayrollJobColumnEnabled,
   onAddJob,
   featureToggles,
 }) => {
@@ -257,13 +256,11 @@ const EmployeeRecalculatePayTableRow = ({
         <Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>
       )}
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
-      {isPayrollJobColumnEnabled && (
-        <Table.RowItem className={styles.jobRowItem} {...tableConfig.job}>
-          {addJobRowItem}
-          {shouldShowUnderAllocationWarning && underAllocationWarningTooltip}
-          {shouldShowOverAllocationError && overAllocationErrorTooltip}
-        </Table.RowItem>
-      )}
+      <Table.RowItem className={styles.jobRowItem} {...tableConfig.job}>
+        {addJobRowItem}
+        {shouldShowUnderAllocationWarning && underAllocationWarningTooltip}
+        {shouldShowOverAllocationError && overAllocationErrorTooltip}
+      </Table.RowItem>
     </Table.Row>
   );
 };

@@ -6,9 +6,6 @@ import formatNumberWithDecimalScaleRange from '../../../../common/valueFormatter
 
 const getEmployeePayLines = (state) => state.employeePayList.lines;
 
-export const getIsPayrollJobColumnEnabled = (state) =>
-  state.isPayrollJobColumnEnabled;
-
 export const getJobOptions = (state) => state.employeePayList.jobs;
 
 export const getSelectedEmployeeId = (state) =>

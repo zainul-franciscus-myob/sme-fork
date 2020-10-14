@@ -15,7 +15,6 @@ const EmployeeRecalculatePayDeductionPayItems = ({
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
   shouldShowTableRows,
-  isPayrollJobColumnEnabled,
   onAddJob,
 }) => (
   <EmployeeRecalculatePayTableRows
@@ -28,7 +27,6 @@ const EmployeeRecalculatePayDeductionPayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
-    isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
     onAddJob={onAddJob}
   />
 );

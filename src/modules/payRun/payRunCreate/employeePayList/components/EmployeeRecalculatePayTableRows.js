@@ -13,7 +13,6 @@ const EmployeeRecalculatePayTableRows = ({
   onChange,
   onBlur,
   shouldShowTableRows,
-  isPayrollJobColumnEnabled,
   onAddJob,
   featureToggles,
 }) => {
@@ -32,7 +31,6 @@ const EmployeeRecalculatePayTableRows = ({
       entry={entry}
       onChange={onChange}
       onBlur={onBlur}
-      isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
       onAddJob={onAddJob}
       featureToggles={featureToggles}
     />

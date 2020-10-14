@@ -15,12 +15,10 @@ describe('PayRunDoneModule', () => {
     };
     const pushMessage = () => {};
     const setRootView = () => <div />;
-    const isToggleOn = () => true;
     const payRunModule = new PayRunModule({
       integration,
       setRootView,
       pushMessage,
-      isToggleOn,
     });
 
     const payRunDoneModule = new PayRunDoneModule({

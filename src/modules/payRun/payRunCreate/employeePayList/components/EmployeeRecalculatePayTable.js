@@ -1,8 +1,6 @@
 import { Table } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsPayrollJobColumnEnabled } from '../EmployeePayListSelectors';
 import EmployeeRecalculatePayDeductionPayItems from './EmployeeRecalculatePayDeductionPayItems';
 import EmployeeRecalculatePayEmployerExpensePayItems from './EmployeeRecalculatePayEmployerExpensePayItems';
 import EmployeeRecalculatePayLeavePayItems from './EmployeeRecalculatePayLeavePayItems';
@@ -21,7 +19,6 @@ const EmployeeRecalculatePayTable = ({
   employeeName,
   onEmployeePayItemChange,
   onEmployeePayItemBlur,
-  isPayrollJobColumnEnabled,
   onAddJob,
   featureToggles,
 }) => (
@@ -30,9 +27,7 @@ const EmployeeRecalculatePayTable = ({
       <Table.HeaderItem {...tableConfig.name}>Pay items</Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.hours}>Hours</Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.amount}>Amount ($)</Table.HeaderItem>
-      {isPayrollJobColumnEnabled && (
-        <Table.HeaderItem {...tableConfig.job}>Job</Table.HeaderItem>
-      )}
+      <Table.HeaderItem {...tableConfig.job}>Job</Table.HeaderItem>
     </Table.Header>
     <Table.Body>
       <EmployeeRecalculatePayWagePayItems
@@ -41,7 +36,6 @@ const EmployeeRecalculatePayTable = ({
         employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
-        isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
         featureToggles={featureToggles}
       />
@@ -51,7 +45,6 @@ const EmployeeRecalculatePayTable = ({
         employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
-        isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
         featureToggles={featureToggles}
       />
@@ -61,7 +54,6 @@ const EmployeeRecalculatePayTable = ({
         employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
-        isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
         featureToggles={featureToggles}
       />
@@ -71,7 +63,6 @@ const EmployeeRecalculatePayTable = ({
         employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
-        isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
         featureToggles={featureToggles}
       />
@@ -81,7 +72,6 @@ const EmployeeRecalculatePayTable = ({
         employeeName={employeeName}
         onEmployeePayItemChange={onEmployeePayItemChange}
         onEmployeePayItemBlur={onEmployeePayItemBlur}
-        isPayrollJobColumnEnabled={isPayrollJobColumnEnabled}
         onAddJob={onAddJob}
         featureToggles={featureToggles}
       />
@@ -89,8 +79,4 @@ const EmployeeRecalculatePayTable = ({
   </Table>
 );
 
-const mapStateToProps = (state) => ({
-  isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
-});
-
-export default connect(mapStateToProps)(EmployeeRecalculatePayTable);
+export default EmployeeRecalculatePayTable;
