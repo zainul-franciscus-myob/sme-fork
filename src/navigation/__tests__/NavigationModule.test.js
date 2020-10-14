@@ -41,7 +41,6 @@ describe('Navigation Module', () => {
       SELF_SERVICE_PORTAL_URL: 'self-service-portal.url',
       MYOB_URL: 'myob.url',
     },
-    isToggleOn: () => true,
     recordPageVisit: jest.fn(),
     trackUserEvent: jest.fn(),
     navigateTo: jest.fn(),

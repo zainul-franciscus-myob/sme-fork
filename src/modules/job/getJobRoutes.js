@@ -7,7 +7,6 @@ const getJobRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
-  isToggleOn,
 }) => {
   const routes = [
     {
@@ -17,7 +16,6 @@ const getJobRoutes = ({
         integration,
         setRootView,
         popMessages,
-        isToggleOn,
       }),
       documentTitle: 'Jobs',
     },
@@ -28,7 +26,6 @@ const getJobRoutes = ({
         integration,
         setRootView,
         pushMessage,
-        isToggleOn,
       }),
       documentTitle: 'Job',
     },

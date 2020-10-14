@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAccountingUrls,
   getActiveNav,
-  getIsJobEnabled,
   getOnlineTaxLabel,
   getTaxCodesLabel,
 } from '../NavigationSelectors';
@@ -26,13 +25,7 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
   />
 );
 
-const getItems = ({
-  urls,
-  taxCodesLabel,
-  onlineTaxLabel,
-  onMenuLinkClick,
-  isJobEnabled,
-}) =>
+const getItems = ({ urls, taxCodesLabel, onlineTaxLabel, onMenuLinkClick }) =>
   [
     urls.generalJournalList &&
       getMenuLink(urls.generalJournalList, 'General journals', onMenuLinkClick),
@@ -53,9 +46,7 @@ const getItems = ({
         'Manage linked accounts',
         onMenuLinkClick
       ),
-    isJobEnabled &&
-      urls.jobList &&
-      getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
+    urls.jobList && getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
     urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
     isAccountSeparatorRequired(urls) && (
       <Navigation.Separator key="separator-account" />
@@ -71,7 +62,6 @@ const AccountingMenu = ({
   onlineTaxLabel,
   onMenuSelect,
   onMenuLinkClick,
-  isJobEnabled,
 }) => (
   <Navigation.Menu
     label="Accounting"
@@ -82,7 +72,6 @@ const AccountingMenu = ({
       taxCodesLabel,
       onlineTaxLabel,
       onMenuLinkClick,
-      isJobEnabled,
     })}
     active={activeNav === 'accounting'}
   />
@@ -93,6 +82,5 @@ const mapStateToProps = (state, props) => ({
   activeNav: getActiveNav(state),
   taxCodesLabel: getTaxCodesLabel(state),
   onlineTaxLabel: getOnlineTaxLabel(state),
-  isJobEnabled: getIsJobEnabled(state),
 });
 export default connect(mapStateToProps)(AccountingMenu);

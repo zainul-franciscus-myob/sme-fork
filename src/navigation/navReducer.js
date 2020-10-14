@@ -1,7 +1,6 @@
 import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
-  SET_JOB_TOGGLE_STATUS,
   SET_LOADING_STATE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -64,18 +63,12 @@ const loadConfig = (
   myobUrl,
 });
 
-const setJobToggleStatus = (state, { isJobEnabled }) => ({
-  ...state,
-  isJobEnabled,
-});
-
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
   [SET_ROUTE_INFO]: setRouteInfo,
   [SET_URLS]: setUrls,
   [LOAD_CONFIG]: loadConfig,
-  [SET_JOB_TOGGLE_STATUS]: setJobToggleStatus,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);

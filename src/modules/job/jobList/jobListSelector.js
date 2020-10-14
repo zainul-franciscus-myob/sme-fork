@@ -9,7 +9,6 @@ export const getShowStatusColumn = (state) => state.showStatusColumn;
 export const getFilterOptions = (state) => state.filterOptions;
 export const getIsDefaultFilter = (state) => state.isDefaultFilter;
 export const getEntries = (state) => state.entries;
-export const getIsJobEnabled = (state) => state.isJobEnabled;
 
 export const getIsTableEmpty = (state) => state.entries.length === 0;
 

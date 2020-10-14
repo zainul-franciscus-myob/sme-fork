@@ -56,7 +56,6 @@ const getPrimary = ({
   shouldDisplayPayrollNzMenu,
   shouldDisplayInTray,
   shouldDisplayReportsMenu,
-  isJobEnabled,
 }) =>
   [
     shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
@@ -86,7 +85,6 @@ const getPrimary = ({
         key="AccountingMenu"
         onMenuSelect={onMenuSelect}
         onMenuLinkClick={onMenuLinkClick}
-        isJobEnabled={isJobEnabled}
       />
     ),
     shouldDisplayPayrollMenu && (
@@ -183,7 +181,6 @@ const NavigationBar = ({
   businessRole,
   email,
   hasTasks,
-  isJobEnabled,
   menuLogoUrl,
   onCreateBusinessClick,
   onManageMyProductClick,
@@ -226,7 +223,6 @@ const NavigationBar = ({
     shouldDisplayPayrollNzMenu,
     shouldDisplayInTray,
     shouldDisplayReportsMenu,
-    isJobEnabled,
   });
   const settings = getSettings({
     onMenuSelect,
