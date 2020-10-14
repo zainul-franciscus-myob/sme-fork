@@ -70,14 +70,12 @@ const setup = () => {
   const setRootView = () => {};
   const pushMessage = () => {};
   const popMessages = () => [];
-  const isToggleOn = () => true;
 
   const module = new SpendMoneyDetailModule({
     integration,
     setRootView,
     pushMessage,
     popMessages,
-    isToggleOn,
   });
   module.store = store;
   module.dispatcher = createSpendMoneyDispatcher(store);
@@ -520,7 +518,6 @@ describe('SpendMoneyDetailModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isSpendMoneyJobColumnEnabled: true,
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
@@ -586,7 +583,6 @@ describe('SpendMoneyDetailModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isSpendMoneyJobColumnEnabled: true,
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
@@ -645,7 +641,6 @@ describe('SpendMoneyDetailModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isSpendMoneyJobColumnEnabled: true,
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
@@ -711,7 +706,6 @@ describe('SpendMoneyDetailModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isSpendMoneyJobColumnEnabled: true,
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
@@ -771,7 +765,6 @@ describe('SpendMoneyDetailModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isSpendMoneyJobColumnEnabled: true,
             businessId: '👺',
             region: 'au',
             spendMoneyId: '1',

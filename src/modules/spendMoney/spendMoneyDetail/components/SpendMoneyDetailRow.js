@@ -6,7 +6,6 @@ import classnames from 'classnames';
 import {
   getAccountOptions,
   getIsJobComboboxDisabled,
-  getIsSpendMoneyJobColumnEnabled,
   getIsSubmitting,
   getIsSupplierBlocking,
   getLineDataByIndexSelector,
@@ -52,7 +51,6 @@ const SpendMoneyDetailRow = (props) => {
     isSubmitting,
     onAddAccount,
     onAddJob,
-    isSpendMoneyJobColumnEnabled,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -123,18 +121,16 @@ const SpendMoneyDetailRow = (props) => {
           disabled={isSubmitting}
         />
       </div>
-      {isSpendMoneyJobColumnEnabled && (
-        <JobCombobox
-          label="Job"
-          onChange={onChangeJobId}
-          items={lineJobOptions}
-          selectedId={jobId}
-          disabled={isSubmitting || isJobComboboxDisabled}
-          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        label="Job"
+        onChange={onChangeJobId}
+        items={lineJobOptions}
+        selectedId={jobId}
+        disabled={isSubmitting || isJobComboboxDisabled}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         label="Tax code"
         hideLabel={false}
@@ -154,7 +150,6 @@ const makeMapRowStateToProps = () => {
     newLineData: getNewLineData(state),
     accountOptions: getAccountOptions(state),
     taxCodeOptions: getTaxCodeOptions(state),
-    isSpendMoneyJobColumnEnabled: getIsSpendMoneyJobColumnEnabled(state),
     isJobComboboxDisabled: getIsJobComboboxDisabled(state),
     isSupplierBlocking: getIsSupplierBlocking(state),
     isSubmitting: getIsSubmitting(state),

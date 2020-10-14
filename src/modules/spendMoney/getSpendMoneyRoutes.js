@@ -7,7 +7,6 @@ const getSpendMoneyRoutes = ({
   pushMessage,
   popMessages,
   navigateTo,
-  isToggleOn,
 }) => {
   const routes = [
     {
@@ -19,7 +18,6 @@ const getSpendMoneyRoutes = ({
         pushMessage,
         popMessages,
         navigateTo,
-        isToggleOn,
       }),
       documentTitle: 'Spend money',
     },

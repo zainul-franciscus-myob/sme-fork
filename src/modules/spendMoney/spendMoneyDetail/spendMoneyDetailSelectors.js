@@ -64,9 +64,6 @@ const getHeadersProperties = createStructuredSelector({
   bankStatementText: getBankStatementText,
 });
 
-export const getIsSpendMoneyJobColumnEnabled = (state) =>
-  state.isSpendMoneyJobColumnEnabled;
-
 export const getIsReportableDisabled = createSelector(
   getSelectedPayToContactId,
   getContactType,

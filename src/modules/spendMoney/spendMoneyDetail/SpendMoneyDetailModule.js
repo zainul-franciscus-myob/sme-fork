@@ -49,7 +49,6 @@ import {
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
-import FeatureToggle from '../../../FeatureToggles';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
@@ -70,7 +69,6 @@ export default class SpendMoneyDetailModule {
     pushMessage,
     popMessages,
     navigateTo,
-    isToggleOn,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -80,8 +78,6 @@ export default class SpendMoneyDetailModule {
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
-
-    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
@@ -945,12 +941,7 @@ export default class SpendMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isSpendMoneyJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobs
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
