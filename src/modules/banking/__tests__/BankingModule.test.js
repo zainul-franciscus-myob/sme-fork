@@ -30,10 +30,10 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
+  FINISH_LOADING_OPEN_ENTRY,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
@@ -41,8 +41,6 @@ import {
   POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   RESET_BULK_ALLOCATION,
-  RESET_MATCH_TRANSACTION_OPTIONS,
-  SAVE_MATCH_TRANSACTION,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SET_ALERT,
@@ -52,33 +50,31 @@ import {
   SET_FOCUS,
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_STATE,
-  SET_MATCH_TRANSACTION_LOADING_STATE,
   SET_OPEN_ENTRY_LOADING_STATE,
   SET_OPEN_ENTRY_POSITION,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_TABLE_LOADING_STATE,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
+  START_LOADING_OPEN_ENTRY,
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   UNALLOCATE_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_FILTER_OPTIONS,
-  UPDATE_MATCH_TRANSACTION_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
+import { LOAD_MATCH_TRANSACTIONS } from '../tabs/matchTransaction/MatchTransactionIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import FocusLocations from '../types/FocusLocations';
 import HotkeyLocations from '../hotkeys/HotkeyLocations';
 import LoadingState from '../../../components/PageView/LoadingState';
-import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import ModalTypes from '../types/ModalTypes';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TabItems from '../types/TabItems';
@@ -119,6 +115,16 @@ describe('BankingModule', () => {
     module.dispatcher = createBankingDispatcher(store);
     module.integrator = createBankingIntegrator(store, integration);
 
+    // Mock Match Transaction Submodule
+    module.matchTransactionsSubModule = {
+      run: jest.fn(),
+      loadMatchTransactions: (onSuccess) => onSuccess({}),
+      saveMatchTransaction: (onSuccess) => onSuccess({}),
+      unmatchTransaction: (onSuccess) => onSuccess({}),
+      getIsEdited: () => false,
+      resetState: () => {},
+    };
+
     return {
       module,
       store,
@@ -134,12 +140,8 @@ describe('BankingModule', () => {
     module.run({});
     store.resetActions();
     integration.resetRequests();
-    module.splitAllocationContactComboboxModule = {
-      resetState: jest.fn(),
-      run: jest.fn(),
-    };
 
-    module.matchTransactionContactComboboxModule = {
+    module.splitAllocationContactComboboxModule = {
       resetState: jest.fn(),
       run: jest.fn(),
     };
@@ -317,7 +319,6 @@ describe('BankingModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isBankingJobColumnEnabled: true,
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
           },
@@ -354,7 +355,6 @@ describe('BankingModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isBankingJobColumnEnabled: true,
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
           },
@@ -388,7 +388,6 @@ describe('BankingModule', () => {
       expect(store.getActions()[0]).toEqual({
         intent: SET_INITIAL_STATE,
         context: {
-          isBankingJobColumnEnabled: true,
           isFastModeEnabled: true,
           isPrefillSplitAllocationEnabled: true,
         },
@@ -541,7 +540,22 @@ describe('BankingModule', () => {
     });
   });
 
+  // @@ This tests loading split allocation, match transactions and transfer money
   describe('toggleLine', () => {
+    const loadAttachmentsActions = [
+      {
+        intent: SET_ATTACHMENTS_LOADING_STATE,
+        isAttachmentsLoading: true,
+      },
+      {
+        intent: SET_ATTACHMENTS_LOADING_STATE,
+        isAttachmentsLoading: false,
+      },
+      expect.objectContaining({
+        intent: LOAD_ATTACHMENTS,
+      }),
+    ];
+
     it('close expanded line', () => {
       const {
         module,
@@ -568,17 +582,7 @@ describe('BankingModule', () => {
             intent: LOAD_NEW_SPLIT_ALLOCATION,
             index: 0,
           },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: true,
-          },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_ATTACHMENTS,
-          }),
+          ...loadAttachmentsActions,
         ]);
 
         expect(integration.getRequests()).toEqual([
@@ -648,48 +652,26 @@ describe('BankingModule', () => {
 
         expect(store.getActions()).toEqual([
           {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: true,
+            intent: START_LOADING_OPEN_ENTRY,
+            index,
+            tabId: TabItems.match,
           },
+
+          // This indicates that the underlying function `loadMatchTransactions` has been successfully executed
           {
-            intent: SET_OPEN_ENTRY_POSITION,
+            intent: FINISH_LOADING_OPEN_ENTRY,
             index,
           },
-          {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: true,
-          },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_ATTACHMENTS,
-          }),
+          ...loadAttachmentsActions,
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-            params: expect.objectContaining({
-              showType: MatchTransactionShowType.CLOSE_MATCHES,
-            }),
-          }),
-          expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
 
-        expect(
-          module.matchTransactionContactComboboxModule.run
-        ).toHaveBeenCalled();
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
 
       it('fails to load attachments', () => {
@@ -705,20 +687,16 @@ describe('BankingModule', () => {
 
         expect(store.getActions()).toEqual([
           {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: true,
+            intent: START_LOADING_OPEN_ENTRY,
+            index,
+            tabId: TabItems.match,
           },
+
+          // This indicates that the underlying function `loadMatchTransactions` has been successfully executed
           {
-            intent: SET_OPEN_ENTRY_POSITION,
+            intent: FINISH_LOADING_OPEN_ENTRY,
             index,
           },
-          {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
           {
             intent: SET_ATTACHMENTS_LOADING_STATE,
             isAttachmentsLoading: true,
@@ -738,12 +716,11 @@ describe('BankingModule', () => {
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
-          expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
 
       it('fails to load match transactions', () => {
@@ -753,18 +730,20 @@ describe('BankingModule', () => {
           store,
           index,
         } = setUpWithBankTransactionEntry(entry);
+
         integration.mapFailure(LOAD_MATCH_TRANSACTIONS);
+        module.matchTransactionsSubModule.loadMatchTransactions = (
+          _,
+          onFailure
+        ) => onFailure({});
 
         module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
           {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: true,
-          },
-          {
-            intent: SET_OPEN_ENTRY_POSITION,
+            intent: START_LOADING_OPEN_ENTRY,
             index,
+            tabId: TabItems.match,
           },
           {
             intent: SET_OPEN_ENTRY_LOADING_STATE,
@@ -776,35 +755,19 @@ describe('BankingModule', () => {
           {
             intent: SET_ALERT,
             alert: {
-              message: 'fails',
               type: 'danger',
             },
           },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: true,
-          },
-          {
-            intent: SET_ATTACHMENTS_LOADING_STATE,
-            isAttachmentsLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_ATTACHMENTS,
-          }),
+          ...loadAttachmentsActions,
         ]);
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
-          expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
 
-        expect(
-          module.matchTransactionContactComboboxModule.run
-        ).not.toHaveBeenCalled();
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
     });
 
@@ -835,20 +798,16 @@ describe('BankingModule', () => {
 
         expect(store.getActions()).toEqual([
           {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: true,
+            intent: START_LOADING_OPEN_ENTRY,
+            index,
+            tabId: TabItems.match,
           },
+
+          // This indicates that the underlying function `loadMatchTransactions` has been successfully executed
           {
-            intent: SET_OPEN_ENTRY_POSITION,
+            intent: FINISH_LOADING_OPEN_ENTRY,
             index,
           },
-          {
-            intent: SET_OPEN_ENTRY_LOADING_STATE,
-            isLoading: false,
-          },
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
           {
             intent: SET_ATTACHMENTS_LOADING_STATE,
             isAttachmentsLoading: true,
@@ -864,19 +823,11 @@ describe('BankingModule', () => {
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-            params: expect.objectContaining({
-              showType: MatchTransactionShowType.ALL,
-            }),
-          }),
-          expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
 
-        expect(
-          module.matchTransactionContactComboboxModule.run
-        ).toHaveBeenCalled();
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
     });
 
@@ -1098,140 +1049,65 @@ describe('BankingModule', () => {
     });
   });
 
-  describe('updateMatchTransactionOptions', () => {
-    it('successfully sorts and filters', () => {
-      const {
-        module,
-        integration,
-        store,
-      } = setUpWithOpenTransactionOnAllocateTab();
+  describe('unmatchTransaction', () => {
+    describe(`when open "${BankTransactionStatusTypes.matched}"`, () => {
+      const entry = {
+        transactionId: '1',
+        transactionUid: '123e4567-e89b-12d3-a456-789123456789',
+        date: '2018-10-21',
+        description: '',
+        withdrawal: 3300.0,
+        journals: [],
+        taxCode: '',
+        note: '',
+        isReportable: false,
+        allocateOrMatch: 'Allocate me',
+        type: BankTransactionStatusTypes.matched,
+      };
 
-      module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
+      it('succeeds', () => {
+        const {
+          module,
+          integration,
+          store,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_MATCH_TRANSACTION_OPTIONS,
-          key: 'contactId',
-          value: '🙅‍♀️',
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: true,
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: false,
-        },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
-        }),
-      ]);
+        module.toggleLine(index);
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
-          params: expect.objectContaining({
-            contactId: '🙅‍♀️',
-          }),
-        }),
-      ]);
-    });
+        integration.resetRequests();
+        store.resetActions();
 
-    it('fails to sorts and filters', () => {
-      const {
-        module,
-        integration,
-        store,
-      } = setUpWithOpenTransactionOnAllocateTab();
-      integration.mapFailure(SORT_AND_FILTER_MATCH_TRANSACTIONS);
+        module.matchTransactionsSubModule.unmatchTransaction = (onSuccess) =>
+          onSuccess({ entries: [] });
 
-      module.updateMatchTransactionOptions({ key: 'contactId', value: '🙅‍♀️' });
+        module.unmatchTransaction();
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: UPDATE_MATCH_TRANSACTION_OPTIONS,
-          key: 'contactId',
-          value: '🙅‍♀️',
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: true,
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: false,
-        },
-        {
-          intent: SET_ALERT,
-          alert: {
-            message: 'fails',
-            type: 'danger',
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
           },
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
-          params: expect.objectContaining({
-            contactId: '🙅‍♀️',
-          }),
-        }),
-      ]);
-    });
-  });
-
-  describe('resetMatchTransactionOptions', () => {
-    it('successfully resets filters', () => {
-      const {
-        module,
-        integration,
-        store,
-      } = setUpWithOpenTransactionOnAllocateTab();
-      const state = store.getState();
-      const defaultFilterOptions = state.openEntry.match.filterOptions;
-
-      store.setState({
-        ...state,
-        openEntry: {
-          ...state.openEntry,
-          match: {
-            ...state.openEntry.match,
-            filterOptions: {
-              showType: MatchTransactionShowType.SELECTED,
-              contactId: '🙅‍♀️',
-              keywords: 'test',
-              includeClosed: true,
-            },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
           },
-        },
+          expect.objectContaining({
+            intent: UNALLOCATE_TRANSACTION,
+          }),
+          {
+            intent: START_LOADING_OPEN_ENTRY,
+            index,
+            tabId: TabItems.match,
+          },
+
+          // This indicates that the underlying function `unmatchTransaction` has been successfully executed
+          {
+            intent: FINISH_LOADING_OPEN_ENTRY,
+            index,
+          },
+        ]);
       });
-
-      module.resetMatchTransactionOptions();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: RESET_MATCH_TRANSACTION_OPTIONS,
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: true,
-        },
-        {
-          intent: SET_MATCH_TRANSACTION_LOADING_STATE,
-          isLoading: false,
-        },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_MATCH_TRANSACTIONS,
-          params: expect.objectContaining(defaultFilterOptions),
-        }),
-      ]);
     });
   });
 
@@ -2196,12 +2072,9 @@ describe('BankingModule', () => {
       };
 
       it('/ expands accordian to default tab (match transaction)', () => {
-        const {
-          module,
-          store,
-          integration,
-          index,
-        } = setUpWithBankTransactionEntry(possibleMatchEntry);
+        const { module, integration, index } = setUpWithBankTransactionEntry(
+          possibleMatchEntry
+        );
 
         // Action
         const event = { index };
@@ -2209,22 +2082,13 @@ describe('BankingModule', () => {
         hotkeyHandler.action(event);
 
         // Assertion
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              intent: LOAD_MATCH_TRANSACTIONS,
-              index,
-            }),
-          ])
-        );
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
     });
 
@@ -2317,15 +2181,11 @@ describe('BankingModule', () => {
           );
           expect(integration.getRequests()).toEqual([
             expect.objectContaining({
-              intent: LOAD_MATCH_TRANSACTIONS,
-              params: expect.objectContaining({
-                showType: MatchTransactionShowType.SELECTED,
-              }),
-            }),
-            expect.objectContaining({
               intent: LOAD_ATTACHMENTS,
             }),
           ]);
+
+          expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
           expect(module.bankingRuleModule.run).toHaveBeenCalled();
         }
       );
@@ -2366,12 +2226,9 @@ describe('BankingModule', () => {
       });
 
       it('option m expands accordian to match transaction tab', () => {
-        const {
-          module,
-          store,
-          integration,
-          index,
-        } = setUpWithBankTransactionEntry(updatedEntry);
+        const { module, integration, index } = setUpWithBankTransactionEntry(
+          updatedEntry
+        );
 
         // Action
         const event = { index };
@@ -2379,22 +2236,13 @@ describe('BankingModule', () => {
         hotkeyHandler.action(event);
 
         // Assertion
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              intent: LOAD_MATCH_TRANSACTIONS,
-              index,
-            }),
-          ])
-        );
         expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
           expect.objectContaining({
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
 
       it('option t expands accordian to transfer money tab', () => {
@@ -2597,19 +2445,7 @@ describe('BankingModule', () => {
         hotkeyHandler.action();
 
         // Assertion
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({
-              intent: LOAD_MATCH_TRANSACTIONS,
-              index,
-            }),
-          ])
-        );
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_MATCH_TRANSACTIONS,
-          }),
-        ]);
+        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
 
       it('option t switches to the transfer money tab', () => {
@@ -2740,18 +2576,6 @@ describe('BankingModule', () => {
         ],
         [
           [COMMAND, ENTER],
-          'match transaction',
-          TabItems.match,
-          SAVE_MATCH_TRANSACTION,
-        ],
-        [
-          [CTRL, ENTER],
-          'match transaction',
-          TabItems.match,
-          SAVE_MATCH_TRANSACTION,
-        ],
-        [
-          [COMMAND, ENTER],
           'transfer money',
           TabItems.transfer,
           SAVE_TRANSFER_MONEY,
@@ -2796,6 +2620,47 @@ describe('BankingModule', () => {
           ]);
         }
       );
+
+      test.each([
+        [
+          [COMMAND, ENTER],
+          'match transaction',
+          TabItems.match,
+          ALLOCATE_TRANSACTION,
+        ],
+        [
+          [CTRL, ENTER],
+          'match transaction',
+          TabItems.match,
+          ALLOCATE_TRANSACTION,
+        ],
+      ])('%s should save %s when on %s tab', (hotkey, _, tab) => {
+        // Setup
+        const {
+          module,
+          store,
+          integration,
+          index,
+        } = setUpWithBankTransactionEntry(entry);
+        module.toggleLine(index);
+        module.changeOpenEntryTab(tab);
+        store.resetActions();
+        integration.resetRequests();
+
+        // Action
+        const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+        hotkeyHandler.action();
+
+        // Assertion
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              // This indicates that the underlying function `saveMatchTransaction` has been successfully executed
+              intent: ALLOCATE_TRANSACTION,
+            }),
+          ])
+        );
+      });
     });
 
     describe.each(Object.values(HotkeyLocations))('%s', (location) => {

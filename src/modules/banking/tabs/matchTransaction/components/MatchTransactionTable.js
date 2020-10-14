@@ -13,7 +13,7 @@ import EmptyView from '../../../components/EmptyView';
 import LoadingPageState from '../../../../../components/LoadingPageState/LoadingPageState';
 import MatchTransactionTableBody from './MatchTransactionTableBody';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
-import styles from '../../../components/BankTransactionOpenEntryTable.module.css'; // @TODO: Extract out styling
+import styles from '../../../components/BankTransactionOpenEntryTable.module.css';
 
 const tableConfig = {
   date: {

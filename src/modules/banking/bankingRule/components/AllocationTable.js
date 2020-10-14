@@ -10,7 +10,6 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../bankingRuleSelectors';
-import { getIsBankingJobColumnEnabled } from '../../selectors';
 import TableRow from './AllocationTableRow';
 import styles from './AllocationTable.module.css';
 
@@ -28,7 +27,6 @@ const AllocationTable = ({
   onAddRow,
   onRowChange,
   onRemoveRow,
-  isBankingJobColumnEnabled,
 }) => {
   const accountLabel = 'Account';
   const jobLabel = 'Job';
@@ -45,9 +43,10 @@ const AllocationTable = ({
           columnName: allocationLabel,
           styles: { width: '12.6rem' },
         },
-        ...(isBankingJobColumnEnabled
-          ? [{ columnName: jobLabel, styles: { width: '11.6rem' } }]
-          : []),
+        {
+          columnName: jobLabel,
+          styles: { width: '11.6rem' },
+        },
         {
           columnName: taxCodeLabel,
           styles: { width: '10.6rem' },
@@ -104,7 +103,6 @@ const mapStateToProps = (state) => ({
   remainingPercentage: getRemainingPercentage(state),
   isPercentageRed: getIsPercentageRed(state),
   taxCodeLabel: getTaxCodeLabel(state),
-  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(AllocationTable);

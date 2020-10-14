@@ -12,7 +12,6 @@ import BankTransactionTableRow from './BankTransactionTableRow';
 import BankTransactionTabs from './BankTransactionTabs';
 import DropZoneCardBody from './DropZoneCardBody';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
-import MatchTransactionBody from '../tabs/matchTransaction/components/MatchTransactionBody';
 import OpenEntryFooter from './OpenEntryFooter';
 import OpenEntrySecondaryContent from './OpenEntrySecondaryContent';
 import SplitAllocationBody from '../tabs/splitAllocation/components/SplitAllocationBody';
@@ -49,9 +48,9 @@ const BankTransactionTableBody = (props) => {
   } = props;
 
   const Content = {
-    [TabItems.allocate]: SplitAllocationBody,
-    [TabItems.match]: MatchTransactionBody,
-    [TabItems.transfer]: TransferMoneyBody,
+    [TabItems.allocate]: (bodyprops) => <SplitAllocationBody {...bodyprops} />,
+    [TabItems.match]: (bodyprops) => matchTransactionProps.render(bodyprops),
+    [TabItems.transfer]: (bodyprops) => <TransferMoneyBody {...bodyprops} />,
   }[activeTabId];
 
   const contentProps = {
@@ -85,7 +84,7 @@ const BankTransactionTableBody = (props) => {
   const openEntryPrimaryContent = isOpenEntryLoading ? (
     <LoadingPageState size="medium" />
   ) : (
-    <Content {...contentProps} />
+    Content(contentProps)
   );
 
   const openEntry = (

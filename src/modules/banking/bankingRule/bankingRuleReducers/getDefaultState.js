@@ -30,7 +30,6 @@ const getDefaultState = () => ({
   taxCodes: [],
   withdrawalAccounts: [],
   depositAccounts: [],
-  isBankingJobColumnEnabled: true,
 });
 
 export default getDefaultState;

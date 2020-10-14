@@ -83,48 +83,6 @@ export const CALCULATE_SPLIT_ALLOCATION_TAX = Symbol(
   'Calculate split allocation tax'
 );
 
-export const LOAD_MATCH_TRANSACTIONS = Symbol(
-  'Load list of match transactions'
-);
-export const SORT_AND_FILTER_MATCH_TRANSACTIONS = Symbol(
-  'Sort and filter list of match transactions'
-);
-export const SAVE_MATCH_TRANSACTION = Symbol('Save match transaction');
-export const SHOW_SELECTED_MATCH_TRANSACTIONS = Symbol(
-  'Show selected matched transaction'
-);
-export const UPDATE_MATCH_TRANSACTION_OPTIONS = Symbol(
-  'Update match transaction filter Options'
-);
-export const RESET_MATCH_TRANSACTION_OPTIONS = Symbol(
-  'Reset match transaction filter Options'
-);
-export const SET_MATCH_TRANSACTION_SORT_ORDER = Symbol(
-  'Set match transaction sort order'
-);
-export const UPDATE_MATCH_TRANSACTION_SELECTION = Symbol(
-  'Update match transaction selection'
-);
-export const UPDATE_SELECTED_TRANSACTION_DETAILS = Symbol(
-  'Update selected transaction details'
-);
-export const TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE = Symbol(
-  'Toggle select all state'
-);
-export const SET_MATCH_TRANSACTION_LOADING_STATE = Symbol(
-  'Set match transaction table loading state'
-);
-export const ADD_MATCH_TRANSACTION_ADJUSTMENT = Symbol(
-  'Add match transaction adjustment'
-);
-export const UPDATE_MATCH_TRANSACTION_ADJUSTMENT = Symbol(
-  'Update match transaction adjustment'
-);
-export const REMOVE_MATCH_TRANSACTION_ADJUSTMENT = Symbol(
-  'Remove match transaction adjustment'
-);
-export const EXPAND_ADJUSTMENT_SECTION = Symbol('Expand adjustment section');
-
 export const LOAD_MATCH_TRANSFER_MONEY = Symbol(
   'Load a list of matching transfer money'
 );
@@ -207,4 +165,9 @@ export const POPULATE_REMAINING_AMOUNT = Symbol('Calculate the remainder');
 
 export const SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED = Symbol(
   'Set transaction type to unmatched'
+);
+
+export const START_LOADING_OPEN_ENTRY = Symbol('Start loading the open entry');
+export const FINISH_LOADING_OPEN_ENTRY = Symbol(
+  'Finish loading the open entry'
 );

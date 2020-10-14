@@ -11,7 +11,6 @@ import {
   getTableRow,
   getTaxCodes,
 } from '../bankingRuleSelectors';
-import { getIsBankingJobColumnEnabled } from '../../selectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import JobCombobox from '../../../../components/combobox/JobCombobox';
@@ -46,7 +45,6 @@ const AllocationTableRow = ({
   isAccountDisabled,
   isInputField,
   onChange,
-  isBankingJobColumnEnabled,
   ...feelixInjectedProps
 }) => (
   <LineItemTable.Row
@@ -83,17 +81,15 @@ const AllocationTableRow = ({
         disabled={isFieldDisabled}
       />
     )}
-    {isBankingJobColumnEnabled && (
-      <JobCombobox
-        label="Job"
-        onChange={handleComboboxChange('jobId', onChange)}
-        items={jobs}
-        selectedId={allocation.jobId}
-        disabled={isFieldDisabled}
-        allowClear
-        left
-      />
-    )}
+    <JobCombobox
+      label="Job"
+      onChange={handleComboboxChange('jobId', onChange)}
+      items={jobs}
+      selectedId={allocation.jobId}
+      disabled={isFieldDisabled}
+      allowClear
+      left
+    />
     <TaxCodeCombobox
       name="taxCodeId"
       items={taxCodes}
@@ -112,7 +108,6 @@ const mapStateToProps = (state, props) => ({
   isInputField: getIsInputField(state, props),
   jobs: getJobs(state),
   taxCodes: getTaxCodes(state),
-  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(AllocationTableRow);

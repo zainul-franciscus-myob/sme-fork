@@ -10,10 +10,7 @@ import {
   getTaxLabel,
   getTotals,
 } from '../splitAllocationSelectors';
-import {
-  getIsBankingJobColumnEnabled,
-  getIsLoadingAccount,
-} from '../../../selectors';
+import { getIsLoadingAccount } from '../../../selectors';
 import SplitAllocationRow from './SplitAllocationRow';
 import TotalsContainer from '../../../components/TotalsContainer';
 import styles from './SplitAllocationTable.module.css';
@@ -70,7 +67,6 @@ const SplitAllocationTable = (props) => {
     onBlur,
     isLoading,
     isLoadingAccount,
-    isBankingJobColumnEnabled,
   } = props;
 
   const labels = [
@@ -108,9 +104,10 @@ const SplitAllocationTable = (props) => {
       columnName: lineDescription,
       styles: {},
     },
-    ...(isBankingJobColumnEnabled
-      ? [{ columnName: jobLabel, styles: { width: '8.4rem' } }]
-      : []),
+    {
+      columnName: jobLabel,
+      styles: { width: '8.4rem' },
+    },
     {
       columnName: taxLabel,
       requiredLabel: requiredText,
@@ -179,7 +176,6 @@ const mapStateToProps = (state) => ({
   taxAmountLabel: getTaxAmountLabel(state),
   isLoading: getIsLoading(state),
   isLoadingAccount: getIsLoadingAccount(state),
-  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(SplitAllocationTable);

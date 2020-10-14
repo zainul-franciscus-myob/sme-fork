@@ -2,14 +2,10 @@ import {
   LOAD_MATCH_TRANSACTIONS,
   SAVE_MATCH_TRANSACTION,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
-  UNALLOCATE_TRANSACTION,
-} from '../../BankingIntents';
+} from './MatchTransactionIntents';
+import { UNALLOCATE_TRANSACTION } from '../../BankingIntents';
 import {
-  getBankTransactionLineByIndex,
   getBusinessId,
-  getFilterOptions,
-} from '../../selectors';
-import {
   getDefaultMatchTransactionFilterRequestParams,
   getMatchTransactionFilterRequestParams,
   getMatchTransactionOrderBy,
@@ -19,28 +15,15 @@ import {
 } from './matchTransactionSelectors';
 
 const createBankingIntegrator = (store, integration) => ({
-  loadMatchTranscation: ({ index, onSuccess, onFailure }) => {
+  loadMatchTransactions: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-
     const intent = LOAD_MATCH_TRANSACTIONS;
-
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const { bankAccount: accountId } = getFilterOptions(state);
-
-    const line = getBankTransactionLineByIndex(state, index);
-
-    const filterOptions = getDefaultMatchTransactionFilterRequestParams(
-      accountId,
-      line
-    );
+    const urlParams = { businessId: getBusinessId(state) };
+    const filterOptions = getDefaultMatchTransactionFilterRequestParams(state);
 
     integration.read({
       intent,
-      params: {
-        ...filterOptions,
-      },
+      params: filterOptions,
       urlParams,
       onSuccess,
       onFailure,
@@ -73,12 +56,12 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  saveMatchTransaction: ({ index, onSuccess, onFailure }) => {
+  saveMatchTransaction: ({ onSuccess, onFailure }) => {
     const intent = SAVE_MATCH_TRANSACTION;
     const state = store.getState();
 
     const urlParams = { businessId: getBusinessId(state) };
-    const content = getMatchTransactionPayload(state, index);
+    const content = getMatchTransactionPayload(state);
 
     integration.write({
       intent,

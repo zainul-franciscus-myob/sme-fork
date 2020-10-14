@@ -8,6 +8,7 @@ import {
   CLOSE_BULK_ALLOCATION,
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
+  FINISH_LOADING_OPEN_ENTRY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
@@ -48,6 +49,7 @@ import {
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
+  START_LOADING_OPEN_ENTRY,
   START_MODAL_BLOCKING,
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
@@ -63,7 +65,6 @@ import {
 } from './BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ModalTypes from './types/ModalTypes';
-import createMatchTransactionDispatcher from './tabs/matchTransaction/createMatchTransactionDispatcher';
 import createSplitAllocationDispatcher from './tabs/splitAllocation/createSplitAllocationDispatcher';
 import createTransferMoneyDispatcher from './tabs/transferMoney/createTransferMoneyDispatcher';
 
@@ -541,7 +542,19 @@ const createBankingDispatcher = (store) => ({
       index,
     }),
 
-  ...createMatchTransactionDispatcher(store),
+  startLoadingOpenEntry: (index, tabId) =>
+    store.dispatch({
+      intent: START_LOADING_OPEN_ENTRY,
+      index,
+      tabId,
+    }),
+
+  finishLoadingOpenEntry: (index) =>
+    store.dispatch({
+      intent: FINISH_LOADING_OPEN_ENTRY,
+      index,
+    }),
+
   ...createSplitAllocationDispatcher(store),
   ...createTransferMoneyDispatcher(store),
 });

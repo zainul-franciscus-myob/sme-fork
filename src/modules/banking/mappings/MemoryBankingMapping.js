@@ -9,22 +9,20 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
-  SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
+import MemoryMatchTransactionsMapping from '../tabs/matchTransaction/mappings/MemoryMatchTransactionsMapping';
 import allocatedBankTransaction from './data/allocatedBankTransaction';
 import applyBankingRuleResponse from './data/applyBankingRuleResponse.json';
 import attachmentDetailResponse from './data/attachmentDetail';
@@ -34,18 +32,14 @@ import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
 import bulkUnallocatedBankTransactions from './data/bulkUnallocatedBankTransactions';
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
-import filteredMatchTransactions from './data/sortAndFilterMatchTransactions';
 import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadPrefillSplitAllocationResponse from './data/loadPrefillSplitAllocation';
 import loadReceiveMoney from './data/loadReceiveMoney';
 import loadSpendMoney from './data/loadSpendMoney';
-import matchAllocatedTransactions from './data/loadMatchAllocatedTransactions';
-import matchTransactions from './data/loadMatchTransactions';
 import matchTransferMoneyTransactionsPayload from './data/loadMatchTransferMoneyTransactions';
 import saveTransferMoneyPayload from './data/saveTransferMoney';
-import savedMatchTransaction from './data/saveMatchTransaction';
 import successResponse from './data/success';
 import transferMoneyPayload from './data/loadTransferMoney';
 import unallocatedBankTransaction from './data/unallocatedBankTransaction';
@@ -71,16 +65,6 @@ const loadPrefillSplitAllocation = ({ onSuccess }) =>
   onSuccess(loadPrefillSplitAllocationResponse);
 const saveSplitAllocation = ({ onSuccess }) =>
   onSuccess(allocatedBankTransaction);
-const loadMatchTransactions = ({ params, onSuccess }) =>
-  onSuccess(
-    params.allocatedJournalLineId
-      ? matchAllocatedTransactions
-      : matchTransactions
-  );
-const sortAndFilterMatchTransactions = ({ onSuccess }) =>
-  onSuccess(filteredMatchTransactions);
-const saveMatchTransaction = ({ onSuccess }) =>
-  onSuccess(savedMatchTransaction);
 const loadTransferMoney = ({ onSuccess }) => onSuccess(transferMoneyPayload);
 const loadMatchTransferMoneyTransactions = ({ onSuccess }) =>
   onSuccess(matchTransferMoneyTransactionsPayload);
@@ -110,9 +94,6 @@ const MemoryBankingMapping = {
   [LOAD_SPLIT_ALLOCATION]: loadSplitAlloation,
   [LOAD_PREFILL_SPLIT_ALLOCATION]: loadPrefillSplitAllocation,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
-  [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
-  [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
-  [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,
   [LOAD_TRANSFER_MONEY]: loadTransferMoney,
   [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoneyTransactions,
   [SAVE_TRANSFER_MONEY]: saveTransferMoney,
@@ -125,6 +106,7 @@ const MemoryBankingMapping = {
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAddedAccount,
   [LOAD_JOB_AFTER_CREATE]: loadAddedJob,
+  ...MemoryMatchTransactionsMapping,
 };
 
 export default MemoryBankingMapping;

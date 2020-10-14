@@ -5,6 +5,7 @@ import BankingViewCodes from '../BankingViewCodes';
 import Config from '../../../Config';
 import FocusLocations from '../types/FocusLocations';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Region from '../../../common/types/Region';
 import RuleTypes from '../bankingRule/RuleTypes';
 import StatusTypes from '../types/BankTransactionStatusTypes';
@@ -201,11 +202,6 @@ export const getSpendMoneyUid = (journals) =>
     ? journals[0].journalUid
     : undefined;
 
-export const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) =>
-  ['Invoice', 'Bill'].includes(appliedRule.ruleType)
-    ? String(appliedRule.contactId)
-    : undefined;
-
 export const getIsAllocated = ({ type, journals }) =>
   !!(
     (type === StatusTypes.singleAllocation ||
@@ -339,9 +335,6 @@ export const getActiveJobs = (state) =>
   state.jobs.filter((job) => job.isActive);
 
 export const getTitle = (state) => getRegionToDialectText(state.region)('Tax');
-
-export const getIsBankingJobColumnEnabled = (state) =>
-  state.isBankingJobColumnEnabled;
 
 export const getBankingRuleModuleContext = createSelector(
   getBusinessId,
@@ -570,4 +563,49 @@ export const getIsOpenTransactionWithdrawal = (state) => {
   const openPosition = getOpenPosition(state);
   const { withdrawal } = getBankTransactionLineByIndex(state, openPosition);
   return Boolean(withdrawal);
+};
+
+const getShowTypeFromBankTransaction = (bankTransaction) => {
+  switch (bankTransaction.type) {
+    case StatusTypes.matched:
+    case StatusTypes.unmatched:
+      return MatchTransactionShowType.CLOSE_MATCHES;
+    case StatusTypes.paymentRuleMatched:
+      return MatchTransactionShowType.ALL;
+    default:
+      return MatchTransactionShowType.SELECTED;
+  }
+};
+
+const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) =>
+  ['Invoice', 'Bill'].includes(appliedRule.ruleType)
+    ? String(appliedRule.contactId)
+    : undefined;
+
+export const getMatchTransactionsContext = (state, index) => {
+  const { bankAccount: bankAccountId } = getFilterOptions(state);
+  const bankTransaction = getBankTransactionLineByIndex(state, index);
+  const isWithdrawal = !!bankTransaction.withdrawal;
+  const accounts = isWithdrawal
+    ? getWithdrawalAccounts(state)
+    : getDepositAccounts(state);
+
+  return {
+    businessId: getBusinessId(state),
+    region: getRegion(state),
+    contactId: getAppliedPaymentRuleContactId(state),
+    taxCodes: getTaxCodes(state),
+    jobs: getJobs(state),
+    accounts,
+    bankAccountId,
+    showType: getShowTypeFromBankTransaction(bankTransaction),
+    transaction: {
+      id: bankTransaction.transactionId,
+      amount: bankTransaction.withdrawal || bankTransaction.deposit,
+      date: bankTransaction.date,
+      isWithdrawal,
+      description: bankTransaction.description,
+      note: bankTransaction.note,
+    },
+  };
 };

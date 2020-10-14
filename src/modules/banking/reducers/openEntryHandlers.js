@@ -1,3 +1,4 @@
+import { isStatusUnapproved } from '../types/BankTransactionStatusTypes';
 import ModalTypes from '../types/ModalTypes';
 import getDefaultState from './getDefaultState';
 
@@ -12,6 +13,37 @@ export const collapseTransactionLine = (state) => {
   };
 };
 
+// @@ This reducer function should be used going forwards for when a tab is loading
+export const startLoadingOpenEntry = (state, { index, tabId }) => ({
+  ...state,
+  // @@ `isOpenEntryLoading` can be deprecated after refactoring as tabs can handle their own loading
+  isOpenEntryLoading: true,
+  openPosition: index,
+  openEntry: {
+    ...getDefaultState().openEntry,
+    attachments: state.openEntry.attachments,
+    activeTabId: tabId,
+  },
+});
+
+// @@ This reducer function should be used going forwards for when a tab has finished loading
+// @@ This should only be triggered from the module when the given index is the same as the openPosition
+export const finishLoadingOpenEntry = (state, { index }) => ({
+  ...state,
+  // @@ `isOpenEntryLoading` can be deprecated after refactoring as tabs can handle their own loading
+  isOpenEntryLoading: false,
+  openEntry: {
+    ...state.openEntry,
+    description: state.entries[index].description,
+    note: state.entries[index].note,
+    attachments: state.openEntry.attachments,
+    isCreating: isStatusUnapproved(state.entries[index].type),
+  },
+  isModalBlocking: false,
+  modalAlert: undefined,
+});
+
+// @@ To be deprecated when split allocation and transfer money tab is refactored
 export const loadOpenEntry = (
   state,
   index,

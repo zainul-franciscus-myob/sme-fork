@@ -11,12 +11,14 @@ import {
   getLoadBankTransactionsParams,
   getLoadBankTransactionsUrlParams,
   getLocationOfTransactionLine,
+  getMatchTransactionsContext,
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
   getSpendMoneyUid,
 } from '../index';
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import FocusLocations from '../../types/FocusLocations';
+import MatchTransactionShowType from '../../types/MatchTransactionShowType';
 import Region from '../../../../common/types/Region';
 import RuleTypes from '../../bankingRule/RuleTypes';
 import TabItems from '../../types/TabItems';
@@ -639,6 +641,191 @@ describe('Bank transactions index selectors', () => {
       const actual = getSpendMoneyUid(journals);
 
       expect(actual).toEqual(undefined);
+    });
+  });
+
+  describe('getMatchTransactionsContext', () => {
+    it('should get the context for match transactions', () => {
+      const state = {
+        businessId: 'tony-tang-business',
+        region: 'au',
+        entries: [
+          {
+            transactionId: '1000',
+            withdrawal: 100,
+            deposit: undefined,
+            date: '20/12/2020',
+            description: 'some-description',
+            note: '',
+            type: BankTransactionStatusTypes.unmatched,
+          },
+        ],
+        taxCodes: [{ id: '2' }],
+        jobs: [{ id: '1' }],
+        withdrawalAccounts: [{ id: 'withdrawalAccounts' }],
+        depositAccounts: [{ id: 'depositAccounts' }],
+        filterOptions: {
+          bankAccount: '123',
+        },
+      };
+
+      const actual = getMatchTransactionsContext(state, 0);
+
+      expect(actual).toEqual({
+        businessId: 'tony-tang-business',
+        region: 'au',
+        contactId: undefined,
+        taxCodes: [{ id: '2' }],
+        jobs: [{ id: '1' }],
+        accounts: [{ id: 'withdrawalAccounts' }],
+        bankAccountId: '123',
+        showType: MatchTransactionShowType.CLOSE_MATCHES,
+        transaction: {
+          id: '1000',
+          amount: 100,
+          date: '20/12/2020',
+          isWithdrawal: true,
+          description: 'some-description',
+          note: '',
+        },
+      });
+    });
+
+    describe('setting accounts and isWithdrawal', () => {
+      it('should use deposit accounts and set isWithdrawal to false if transaction is a deposit', () => {
+        const state = {
+          entries: [
+            {
+              deposit: 200,
+              type: BankTransactionStatusTypes.unmatched,
+            },
+          ],
+          filterOptions: {},
+          withdrawalAccounts: [{ id: 'withdrawalAccounts' }],
+          depositAccounts: [{ id: 'depositAccounts' }],
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual).toEqual({
+          accounts: [{ id: 'depositAccounts' }],
+          showType: MatchTransactionShowType.CLOSE_MATCHES,
+          transaction: {
+            amount: 200,
+            isWithdrawal: false,
+          },
+        });
+      });
+
+      it('should use withdrawal accounts and set isWithdrawal to true if transaction is a withdrawal', () => {
+        const state = {
+          entries: [
+            {
+              withdrawal: 100,
+              type: BankTransactionStatusTypes.unmatched,
+            },
+          ],
+          filterOptions: {},
+          withdrawalAccounts: [{ id: 'withdrawalAccounts' }],
+          depositAccounts: [{ id: 'depositAccounts' }],
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual).toEqual({
+          accounts: [{ id: 'withdrawalAccounts' }],
+          showType: MatchTransactionShowType.CLOSE_MATCHES,
+          transaction: {
+            amount: 100,
+            isWithdrawal: true,
+          },
+        });
+      });
+    });
+
+    describe('setting the contactId', () => {
+      it('should set contactId if applied rule is a bill', () => {
+        const state = {
+          entries: [{}],
+          filterOptions: {},
+          appliedRule: {
+            ruleType: 'Bill',
+            contactId: '1',
+          },
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual.contactId).toEqual('1');
+      });
+
+      it('should set contactId if applied rule is a invoice', () => {
+        const state = {
+          entries: [{}],
+          filterOptions: {},
+          appliedRule: {
+            ruleType: 'Invoice',
+            contactId: '1',
+          },
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual.contactId).toEqual('1');
+      });
+
+      it('should not set contactId if applied rule is not an invoice or bill', () => {
+        const state = {
+          entries: [{}],
+          filterOptions: {},
+          appliedRule: {
+            ruleType: 'spend money',
+            contactId: '1',
+          },
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual.contactId).toEqual(undefined);
+      });
+    });
+
+    describe('setting the show type', () => {
+      test.each([
+        [
+          BankTransactionStatusTypes.unmatched,
+          MatchTransactionShowType.CLOSE_MATCHES,
+        ],
+        [
+          BankTransactionStatusTypes.matched,
+          MatchTransactionShowType.CLOSE_MATCHES,
+        ],
+        [
+          BankTransactionStatusTypes.paymentRuleMatched,
+          MatchTransactionShowType.ALL,
+        ],
+        [
+          BankTransactionStatusTypes.singleAllocation,
+          MatchTransactionShowType.SELECTED,
+        ],
+        [
+          BankTransactionStatusTypes.splitAllocation,
+          MatchTransactionShowType.SELECTED,
+        ],
+      ])('should set %s to show type', (transactionType, showType) => {
+        const state = {
+          entries: [
+            {
+              type: transactionType,
+            },
+          ],
+          filterOptions: {},
+        };
+
+        const actual = getMatchTransactionsContext(state, 0);
+
+        expect(actual.showType).toEqual(showType);
+      });
     });
   });
 });

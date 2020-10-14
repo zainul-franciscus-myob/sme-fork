@@ -3,7 +3,13 @@ import {
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
 } from '../../BankingIntents';
-import { loadOpenEntry } from '../openEntryHandlers';
+import {
+  finishLoadingOpenEntry,
+  loadOpenEntry,
+  startLoadingOpenEntry,
+} from '../openEntryHandlers';
+import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
+import TabItems from '../../types/TabItems';
 import bankingReducer from '../index';
 
 describe('openEntryHandlers', () => {
@@ -183,6 +189,85 @@ describe('openEntryHandlers', () => {
       const actual = loadOpenEntry(state, 1, 'propName', 'propValue', true);
 
       expect(actual.openEntry.description).toEqual('abc');
+    });
+  });
+
+  describe('startLoadingOpenEntry', () => {
+    it('starts loading the open entry', () => {
+      const state = {
+        isOpenEntryLoading: false,
+        openEntry: {
+          attachments: [
+            {
+              id: '1',
+            },
+          ],
+        },
+      };
+
+      const index = 0;
+      const tabId = TabItems.match;
+
+      const actual = startLoadingOpenEntry(state, { index, tabId });
+
+      const expected = {
+        isOpenEntryLoading: true,
+        openPosition: index,
+        openEntry: expect.objectContaining({
+          activeTabId: tabId,
+          attachments: [
+            {
+              id: '1',
+            },
+          ],
+        }),
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('finishLoadingOpenEntry', () => {
+    it('should finish loading the open entry', () => {
+      const state = {
+        isOpenEntryLoading: true,
+        entries: [
+          {
+            description: 'description',
+            note: 'note',
+            type: BankTransactionStatusTypes.unmatched,
+          },
+        ],
+        openEntry: {
+          attachments: [],
+          isCreating: false,
+        },
+        modalAlert: undefined,
+      };
+
+      const index = 0;
+
+      const actual = finishLoadingOpenEntry(state, { index });
+
+      const expected = {
+        isOpenEntryLoading: false,
+        isModalBlocking: false,
+        entries: [
+          {
+            description: 'description',
+            note: 'note',
+            type: BankTransactionStatusTypes.unmatched,
+          },
+        ],
+        openEntry: expect.objectContaining({
+          attachments: [],
+          description: 'description',
+          note: 'note',
+          isCreating: true,
+        }),
+      };
+
+      expect(actual).toEqual(expected);
     });
   });
 });

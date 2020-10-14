@@ -1,6 +1,5 @@
 import {
   ADD_ATTACHMENTS,
-  ADD_MATCH_TRANSACTION_ADJUSTMENT,
   ADD_SPLIT_ALLOCATION_LINE,
   ALLOCATE_TRANSACTION,
   APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE,
@@ -12,13 +11,12 @@ import {
   CLOSE_MODAL,
   COLLAPSE_TRANSACTION_LINE,
   DELETE_SPLIT_ALLOCATION_LINE,
-  EXPAND_ADJUSTMENT_SECTION,
+  FINISH_LOADING_OPEN_ENTRY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_PREFILL_SPLIT_ALLOCATION,
@@ -30,11 +28,8 @@ import {
   POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
-  REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_BULK_ALLOCATION,
   RESET_FILTERS,
-  RESET_MATCH_TRANSACTION_OPTIONS,
-  SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
@@ -51,8 +46,6 @@ import {
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
-  SET_MATCH_TRANSACTION_LOADING_STATE,
-  SET_MATCH_TRANSACTION_SORT_ORDER,
   SET_MATCH_TRANSFER_MONEY_LOADING_STATE,
   SET_MATCH_TRANSFER_MONEY_SELECTION,
   SET_MATCH_TRANSFER_MONEY_SORT_ORDER,
@@ -66,26 +59,20 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SET_TRANSFER_MONEY_DETAIL,
-  SHOW_SELECTED_MATCH_TRANSACTIONS,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
   START_ENTRY_LOADING_STATE,
   START_LOADING_MORE,
+  START_LOADING_OPEN_ENTRY,
   START_MODAL_BLOCKING,
   STOP_ENTRY_LOADING_STATE,
   STOP_LOADING_MORE,
   STOP_MODAL_BLOCKING,
-  TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE,
   UNALLOCATE_TRANSACTION,
   UNSELECT_TRANSACTIONS,
   UPDATE_BULK_ALLOCATION_OPTIONS,
   UPDATE_FILTER_OPTIONS,
-  UPDATE_MATCH_TRANSACTION_ADJUSTMENT,
-  UPDATE_MATCH_TRANSACTION_OPTIONS,
-  UPDATE_MATCH_TRANSACTION_SELECTION,
   UPDATE_PERIOD_DATE_RANGE,
-  UPDATE_SELECTED_TRANSACTION_DETAILS,
   UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -95,25 +82,9 @@ import {
 } from '../BankingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
-  addAdjustment,
-  expandAdjustmentSection,
-  loadMatchTransactions,
-  removeAdjustment,
-  resetMatchTransactionOptions,
-  saveMatchTransaction,
-  setMatchTransactionLoadingState,
-  setMatchTransactionSortOrder,
-  showSelectedMatchTransactions,
-  sortAndFilterMatchTransactions,
-  toggleMatchTransactionSelectAllState,
-  updateAdjustment,
-  updateMatchTransactionOptions,
-  updateMatchTransactionSelection,
-  updateSelectedTransactionDetails,
-} from '../tabs/matchTransaction/matchTransactionHandlers';
-import {
   addAttachments,
   collapseTransactionLine,
+  finishLoadingOpenEntry,
   loadAttachments,
   openRemoveAttachmentModal,
   removeAttachment,
@@ -122,6 +93,7 @@ import {
   setOpenEntryLoadingState,
   setOpenPosition,
   setOperationInProgressState,
+  startLoadingOpenEntry,
   uploadAttachment,
   uploadAttachmentFailed,
   uploadAttachmentProgress,
@@ -457,12 +429,14 @@ const setSubmittingNoteState = (state, action) => ({
   isSubmittingNote: action.isSubmittingNote,
 });
 
-export const loadAccountAfterCreate = (state, { account }) => ({
+// @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
+const loadAccountAfterCreate = (state, { account }) => ({
   ...state,
   withdrawalAccounts: [account, ...state.withdrawalAccounts],
   depositAccounts: [account, ...state.depositAccounts],
 });
 
+// @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
 const loadJobAfterCreate = (state, { intent, ...job }) => ({
   ...state,
   jobs: [job, ...state.jobs],
@@ -486,15 +460,19 @@ const loadJobAfterCreate = (state, { intent, ...job }) => ({
   isPageEdited: true,
 });
 
-const setJobLoadingState = (state, { isJobLoading }) => ({
-  ...state,
-  isJobLoading,
-});
+const setJobLoadingState = (state, { isJobLoading }) => {
+  return {
+    ...state,
+    isJobLoading, // @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
+  };
+};
 
-export const setLoadingSingleAccountState = (state, action) => ({
-  ...state,
-  isLoadingAccount: action.isLoadingAccount,
-});
+export const setLoadingSingleAccountState = (state, { isLoadingAccount }) => {
+  return {
+    ...state,
+    isLoadingAccount, // @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
+  };
+};
 
 export const setEntryHasAttachment = (state, { hasAttachment }) => ({
   ...state,
@@ -571,20 +549,6 @@ const handlers = {
   [SET_SPLIT_ALLOCATION_LOADING_STATE]: setSplitAllocationLoadingState,
   [SAVE_SPLIT_ALLOCATION]: saveSplitAllocation,
   [CALCULATE_SPLIT_ALLOCATION_TAX]: calculateSplitAllocationTax,
-  [LOAD_MATCH_TRANSACTIONS]: loadMatchTransactions,
-  [SORT_AND_FILTER_MATCH_TRANSACTIONS]: sortAndFilterMatchTransactions,
-  [SAVE_MATCH_TRANSACTION]: saveMatchTransaction,
-  [UPDATE_MATCH_TRANSACTION_OPTIONS]: updateMatchTransactionOptions,
-  [RESET_MATCH_TRANSACTION_OPTIONS]: resetMatchTransactionOptions,
-  [SET_MATCH_TRANSACTION_SORT_ORDER]: setMatchTransactionSortOrder,
-  [UPDATE_MATCH_TRANSACTION_SELECTION]: updateMatchTransactionSelection,
-  [UPDATE_SELECTED_TRANSACTION_DETAILS]: updateSelectedTransactionDetails,
-  [ADD_MATCH_TRANSACTION_ADJUSTMENT]: addAdjustment,
-  [UPDATE_MATCH_TRANSACTION_ADJUSTMENT]: updateAdjustment,
-  [REMOVE_MATCH_TRANSACTION_ADJUSTMENT]: removeAdjustment,
-  [EXPAND_ADJUSTMENT_SECTION]: expandAdjustmentSection,
-  [TOGGLE_MATCH_TRANSACTION_SELECT_ALL_STATE]: toggleMatchTransactionSelectAllState,
-  [SET_MATCH_TRANSACTION_LOADING_STATE]: setMatchTransactionLoadingState,
   [LOAD_MATCH_TRANSFER_MONEY]: loadMatchTransferMoney,
   [SORT_MATCH_TRANSFER_MONEY]: sortMatchTransferMoney,
   [SET_MATCH_TRANSFER_MONEY_SORT_ORDER]: setMatchTransferMoneySortOrder,
@@ -614,7 +578,6 @@ const handlers = {
   [REMOVE_ATTACHMENT]: removeAttachment,
   [SET_OPERATION_IN_PROGRESS_STATE]: setOperationInProgressState,
   [SET_ENTRY_HAS_ATTACHMENT]: setEntryHasAttachment,
-  [SHOW_SELECTED_MATCH_TRANSACTIONS]: showSelectedMatchTransactions,
   [SET_EDITING_NOTE_STATE]: setEditingNoteState,
   [SET_SUBMMITTING_NOTE_STATE]: setSubmittingNoteState,
   [SET_PENDING_NOTE]: setPendingNote,
@@ -626,6 +589,9 @@ const handlers = {
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
   [SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED]: setTransactionStatusTypeToUnmatched,
+
+  [START_LOADING_OPEN_ENTRY]: startLoadingOpenEntry,
+  [FINISH_LOADING_OPEN_ENTRY]: finishLoadingOpenEntry,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

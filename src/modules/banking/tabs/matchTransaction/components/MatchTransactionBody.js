@@ -13,7 +13,7 @@ import MatchTransactionTotals from './MatchTransactionTotals';
 import styles from './MatchTransactionBody.module.css';
 
 const MatchTransactionBody = ({
-  renderMatchTransactionContactCombobox,
+  renderContactCombobox,
   onAddAccount,
   onAddJob,
   onUpdateMatchTransactionOptions,
@@ -57,9 +57,7 @@ const MatchTransactionBody = ({
   return (
     <>
       <MatchTransactionOptions
-        renderMatchTransactionContactCombobox={
-          renderMatchTransactionContactCombobox
-        }
+        renderContactCombobox={renderContactCombobox}
         onUpdateMatchTransactionOptions={onUpdateMatchTransactionOptions}
         onResetMatchTransactionOptions={onResetMatchTransactionOptions}
       />

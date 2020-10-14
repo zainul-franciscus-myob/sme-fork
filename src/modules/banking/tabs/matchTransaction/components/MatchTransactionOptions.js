@@ -26,7 +26,7 @@ import styles from './MatchTransactionOptions.module.css';
 
 const MatchTransactionOptions = (props) => {
   const {
-    renderMatchTransactionContactCombobox,
+    renderContactCombobox,
     filterOptions: { showType, contactId, keywords, includeClosed },
     showAllFilters,
     includedClosedTransactionLabel,
@@ -86,7 +86,7 @@ const MatchTransactionOptions = (props) => {
       </Select>
       {showAllFilters && (
         <FilterGroup>
-          {renderMatchTransactionContactCombobox({
+          {renderContactCombobox({
             label: 'Contact',
             selectedId: contactId,
             name: 'contactId',

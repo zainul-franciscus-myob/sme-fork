@@ -9,22 +9,20 @@ import {
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_JOB_AFTER_CREATE,
-  LOAD_MATCH_TRANSACTIONS,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
   LOAD_TRANSFER_MONEY,
   OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
-  SAVE_MATCH_TRANSACTION,
   SAVE_PENDING_NOTE,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
-  SORT_AND_FILTER_MATCH_TRANSACTIONS,
   UNALLOCATE_TRANSACTION,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
+import HttpMatchTransactionsMapping from '../tabs/matchTransaction/mappings/HttpMatchTransactionsMapping';
 
 const HttpBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: {
@@ -87,21 +85,6 @@ const HttpBankingMapping = {
     getPath: ({ businessId }) =>
       `/${businessId}/banking/create_split_allocation`,
   },
-  [LOAD_MATCH_TRANSACTIONS]: {
-    method: 'GET',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/load_match_transactions`,
-  },
-  [SORT_AND_FILTER_MATCH_TRANSACTIONS]: {
-    method: 'GET',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/filter_match_transactions`,
-  },
-  [SAVE_MATCH_TRANSACTION]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/banking/save_match_transaction`,
-  },
   [LOAD_TRANSFER_MONEY]: {
     method: 'GET',
     getPath: ({ businessId, transferMoneyId }) =>
@@ -148,6 +131,7 @@ const HttpBankingMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/banking/link_in_tray_document`,
   },
+  ...HttpMatchTransactionsMapping,
 };
 
 export default HttpBankingMapping;

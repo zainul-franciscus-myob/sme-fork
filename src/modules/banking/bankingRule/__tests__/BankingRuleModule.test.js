@@ -45,7 +45,6 @@ describe('BankingRuleModule', () => {
       taxCodes: [],
       withdrawalAccounts: [],
       depositAccounts: [],
-      isBankingJobColumnEnabled: true,
     });
 
     store.resetActions();
@@ -78,7 +77,6 @@ describe('BankingRuleModule', () => {
         taxCodes: [],
         withdrawalAccounts: [],
         depositAccounts: [],
-        isBankingJobColumnEnabled: true,
       };
 
       module.run(context);
@@ -140,7 +138,6 @@ describe('BankingRuleModule', () => {
             taxCodes: [],
             withdrawalAccounts: [],
             depositAccounts: [],
-            isBankingJobColumnEnabled: true,
           });
 
           expect(module.contactComboboxModule.resetState).toHaveBeenCalled();

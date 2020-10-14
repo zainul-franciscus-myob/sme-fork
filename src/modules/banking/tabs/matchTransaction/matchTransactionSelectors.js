@@ -2,17 +2,6 @@ import { addDays, subDays } from 'date-fns';
 import { createSelector } from 'reselect';
 
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
-import {
-  getAppliedPaymentRuleContactId,
-  getBusinessId,
-  getDepositAccounts,
-  getEntries,
-  getFilterOptions,
-  getOpenTransactionLine,
-  getRegion,
-  getWithdrawalAccounts,
-} from '../../selectors/index';
-import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import MatchTransactionShowType from '../../types/MatchTransactionShowType';
@@ -20,36 +9,53 @@ import formatAmount from '../../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
 
-export const getMatchTransactionFilterOptions = (state) =>
-  state.openEntry.match.filterOptions;
+export const getRegion = (state) => state.region;
 
-export const getSelectedEntries = (state) =>
-  state.openEntry.match.selectedEntries;
+export const getBusinessId = (state) => state.businessId;
 
-export const getMatchTransactionOrderBy = (state) =>
-  state.openEntry.match.orderBy;
+export const getBankAccountId = (state) => state.bankAccountId;
 
-export const getMatchTransactionSortOrder = (state) =>
-  state.openEntry.match.sortOrder;
+export const getTransaction = (state) => state.transaction;
+
+export const getTransactionId = (state) => state.transaction.id;
+
+export const getIsTransactionWithdrawal = (state) =>
+  state.transaction.isWithdrawal;
+
+export const getTransactionAmount = (state) => state.transaction.amount;
+
+export const getIsMatchTransactionsTabOpen = (state) => state.isOpen;
+
+export const getMatchTransactionFilterOptions = (state) => state.filterOptions;
+
+export const getTaxCodes = (state) => state.taxCodes;
+
+export const getActiveJobs = (state) =>
+  state.jobs.filter((job) => job.isActive);
+
+export const getIsLoadingAccount = (state) => state.isLoadingAccount;
+export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
+
+export const getSelectedEntries = (state) => state.selectedEntries;
+
+export const getMatchTransactionOrderBy = (state) => state.orderBy;
+
+export const getMatchTransactionSortOrder = (state) => state.sortOrder;
 
 export const getMatchTransactionFlipSortOrder = (state) =>
-  state.openEntry.match.sortOrder === 'desc' ? 'asc' : 'desc';
+  state.sortOrder === 'desc' ? 'asc' : 'desc';
 
-export const getIsTableLoading = (state) =>
-  state.openEntry.match.isTableLoading;
+export const getIsTableLoading = (state) => state.isTableLoading;
 
-export const getTotalAmount = (state) => state.openEntry.match.totalAmount;
+export const getMatchTransactionEntries = (state) => state.entries;
 
-export const getMatchTransactionEntries = (state) =>
-  state.openEntry.match.entries;
+export const getShowAdjustmentTable = (state) => state.showAdjustmentTable;
 
-export const getShowAdjustmentTable = (state) =>
-  state.openEntry.match.showAdjustmentTable;
+export const getIsMatchTransactionsEdited = (state) => state.isEdited;
 
-export const getAdjustments = (state) => state.openEntry.match.adjustments;
+export const getAdjustments = (state) => state.adjustments;
 
-export const getIsTableEmpty = (state) =>
-  state.openEntry.match.entries.length === 0;
+export const getIsTableEmpty = (state) => state.entries.length === 0;
 
 export const getOrder = createSelector(
   getMatchTransactionSortOrder,
@@ -92,15 +98,6 @@ const getBadge = (entry) => {
     };
   }
   return {};
-};
-
-export const getPrefilledEntries = (state, entries) => {
-  const selectedEntries = getSelectedEntries(state);
-  return entries.map((entry) => {
-    const cachedState =
-      selectedEntries[`${entry.journalId}-${entry.journalLineId}`];
-    return cachedState || entry;
-  });
 };
 
 export const getTableEntries = createSelector(
@@ -153,25 +150,19 @@ export const getSelectedText = createSelector(getSelectedCount, (count) =>
   count > 0 ? `${count} transactions selected` : 'No transaction selected'
 );
 
-export const getAccounts = createSelector(
-  getOpenTransactionLine,
-  getWithdrawalAccounts,
-  getDepositAccounts,
-  (bankTransaction, withdrawalAccounts, depositAccounts) =>
-    bankTransaction.withdrawal ? withdrawalAccounts : depositAccounts
-);
+export const getAccounts = (state) => state.accounts;
 
-export const getMatchTransactionPayload = (state, index) => {
-  const entries = getEntries(state);
-  const openedEntry = entries[index];
+export const getMatchTransactionPayload = (state) => {
+  const transaction = getTransaction(state);
   const {
-    transactionId: bankTransactionId,
+    id: bankTransactionId,
     description: originalBankFeedDescription,
     note: newBankFeedDescription,
     date,
-  } = openedEntry;
+    isWithdrawal,
+  } = transaction;
 
-  const { bankAccount: bankFeedAccountId } = getFilterOptions(state);
+  const bankFeedAccountId = getBankAccountId(state);
   const bankFeedDescription =
     newBankFeedDescription || originalBankFeedDescription;
 
@@ -198,7 +189,7 @@ export const getMatchTransactionPayload = (state, index) => {
     bankFeedDescription,
     adjustments,
     date,
-    isCredit: Boolean(openedEntry.deposit) || undefined,
+    isCredit: !isWithdrawal || undefined,
     payments: [],
     allocations: [],
   };
@@ -249,11 +240,9 @@ export const getMatchTransactionPayload = (state, index) => {
 
 export const getUnmatchTransactionPayload = createSelector(
   getTableEntries,
-  getOpenTransactionLine,
-  getFilterOptions,
-  (journalTransactions, bankTransaction, bankTransactionFilterOptions) => {
-    const { transactionId } = bankTransaction;
-    const { bankAccount: bankAccountId } = bankTransactionFilterOptions;
+  getTransactionId,
+  getBankAccountId,
+  (journalTransactions, transactionId, bankAccountId) => {
     const entries = journalTransactions
       .filter(({ isMatched }) => isMatched)
       .map(({ journalLineId }) => ({
@@ -268,12 +257,10 @@ export const getUnmatchTransactionPayload = createSelector(
 );
 
 export const getTotals = createSelector(
-  getOpenTransactionLine,
+  getTransactionAmount,
   getTableEntries,
   getAdjustments,
-  (bankTransaction, entries, adjustments) => {
-    const bankTransactionAmount =
-      bankTransaction.withdrawal || bankTransaction.deposit;
+  (amount, entries, adjustments) => {
     const matchAmountTotal = entries
       .filter(({ selected }) => selected)
       .reduce((total, entry) => total + Number(entry.matchAmount), 0);
@@ -282,7 +269,7 @@ export const getTotals = createSelector(
       0
     );
     const outOfBalance = Number(
-      (bankTransactionAmount - matchAmountTotal - adjustmentsTotal).toFixed(2)
+      (amount - matchAmountTotal - adjustmentsTotal).toFixed(2)
     );
     return {
       matchAmountTotal: formatCurrency(matchAmountTotal),
@@ -301,9 +288,8 @@ export const getShowAllFilters = createSelector(
 );
 
 export const getIncludeClosedTransactionLabel = createSelector(
-  getOpenTransactionLine,
-  (bankTransaction) =>
-    bankTransaction.withdrawal ? 'Show paid bills' : 'Show closed invoices'
+  getIsTransactionWithdrawal,
+  (isWithdrawal) => (isWithdrawal ? 'Show paid bills' : 'Show closed invoices')
 );
 
 export const getShowIncludeClosedCheckbox = createSelector(
@@ -324,12 +310,13 @@ const AmountOffsetMap = {
   [MatchTransactionShowType.SELECTED]: { from: 0.1, to: 0.1 },
 };
 
-const getRequestParams = (accountId, bankTransaction, filterOptions) => {
+const getRequestParams = (accountId, transaction, filterOptions) => {
   const { showType, contactId, keywords, includeClosed } = filterOptions;
-  const { transactionId: bankFeedTransactionId, date } = bankTransaction;
-  const amount = Number(bankTransaction.withdrawal || bankTransaction.deposit);
+  const { id: bankFeedTransactionId, date } = transaction;
+  const amount = Number(transaction.amount);
   const offset = DayOffsetMap[showType];
-  const isCredit = Boolean(bankTransaction.deposit);
+  const isCredit = !transaction.isWithdrawal;
+
   const amountFrom = [
     MatchTransactionShowType.CLOSE_MATCHES,
     MatchTransactionShowType.SELECTED,
@@ -343,6 +330,7 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
     ? amount + AmountOffsetMap[showType].to
     : AmountOffsetMap[showType].to;
   const transactionDate = new Date(date);
+
   return {
     showType,
     bankFeedTransactionId,
@@ -358,42 +346,20 @@ const getRequestParams = (accountId, bankTransaction, filterOptions) => {
   };
 };
 
-const getShowTypeFromBankTransaction = (bankTransaction) => {
-  switch (bankTransaction.type) {
-    case BankTransactionStatusTypes.matched:
-    case BankTransactionStatusTypes.unmatched:
-      return MatchTransactionShowType.CLOSE_MATCHES;
-    case BankTransactionStatusTypes.paymentRuleMatched:
-      return MatchTransactionShowType.ALL;
-    default:
-      return MatchTransactionShowType.SELECTED;
-  }
-};
-
-export const getDefaultMatchTransactionFilterRequestParams = (
-  bankAccount,
-  bankTransaction
-) => {
-  const showType = getShowTypeFromBankTransaction(bankTransaction);
-
-  const contactId = getAppliedPaymentRuleContactId(bankTransaction);
-  const filterOptions = {
-    contactId,
-    showType,
-    includeClosed: false,
-    keywords: '',
-  };
-  return getRequestParams(bankAccount, bankTransaction, filterOptions);
-};
+export const getDefaultMatchTransactionFilterRequestParams = createSelector(
+  getBankAccountId,
+  getTransaction,
+  getMatchTransactionFilterOptions,
+  (bankAccountId, transaction, filterOptions) =>
+    getRequestParams(bankAccountId, transaction, filterOptions)
+);
 
 export const getMatchTransactionFilterRequestParams = createSelector(
-  getFilterOptions,
-  getOpenTransactionLine,
+  getBankAccountId,
+  getTransaction,
   getMatchTransactionFilterOptions,
-  (bankTransactionFilterOptions, bankTransaction, filterOptions) => {
-    const { bankAccount } = bankTransactionFilterOptions;
-    return getRequestParams(bankAccount, bankTransaction, filterOptions);
-  }
+  (bankAccountId, transaction, filterOptions) =>
+    getRequestParams(bankAccountId, transaction, filterOptions)
 );
 
 export const getHasAdjustment = createSelector(

@@ -1,7 +1,6 @@
 import { getDefaultOpenPosition } from '../selectors';
 import BankingViewCodes from '../BankingViewCodes';
 import LoadingState from '../../../components/PageView/LoadingState';
-import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TabItems from '../types/TabItems';
 import TransactionTypes from '../types/TransactionTypes';
@@ -78,7 +77,7 @@ const getDefaultState = () => ({
     isAttachmentsLoading: false,
     activeTabId: TabItems.allocate,
     description: '',
-    allocate: {
+    [TabItems.allocate]: {
       isLoading: false,
       id: '',
       date: '',
@@ -99,23 +98,7 @@ const getDefaultState = () => ({
         lineJobOptions: [],
       },
     },
-    match: {
-      isTableLoading: false,
-      totalAmount: 0,
-      filterOptions: {
-        showType: MatchTransactionShowType.CLOSE_MATCHES,
-        contactId: undefined,
-        keywords: '',
-        includeClosed: false,
-      },
-      orderBy: '',
-      sortOrder: '',
-      entries: [],
-      adjustments: [],
-      showAdjustmentTable: false,
-      selectedEntries: {},
-    },
-    transfer: {
+    [TabItems.transfer]: {
       isWithdrawal: false,
       isTableLoading: false,
       entries: [],

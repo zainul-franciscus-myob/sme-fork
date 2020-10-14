@@ -29,7 +29,6 @@ import {
   getBankTransactionLineByIndex,
   getBankingRuleModuleContext,
   getBusinessId,
-  getFilterOptions,
   getIndexOfNextUnmatchedLine,
   getIsAllocated,
   getIsEntryLoading,
@@ -40,6 +39,7 @@ import {
   getJobModalContext,
   getLastAllocatedAccount,
   getLocationOfTransactionLine,
+  getMatchTransactionsContext,
   getOpenEntryActiveTabId,
   getOpenEntryDefaultTabId,
   getOpenPosition,
@@ -59,13 +59,6 @@ import {
   getCanSelectMore,
   getIsEditedEntryInBulkSelection,
 } from './selectors/bulkActionSelectors';
-import {
-  getDefaultMatchTransactionFilterRequestParams,
-  getMatchTransactionContactComboboxContext,
-  getMatchTransactionFlipSortOrder,
-  getMatchTransactionOrderBy,
-  getShowType,
-} from './tabs/matchTransaction/matchTransactionSelectors';
 import {
   getFilesForUpload,
   getInTrayModalContext,
@@ -87,7 +80,7 @@ import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import JobModalModule from '../job/jobModal/JobModalModule';
 import LoadingState from '../../components/PageView/LoadingState';
-import MatchTransactionShowType from './types/MatchTransactionShowType';
+import MatchTransactionsModule from './tabs/matchTransaction/MatchTransactionsModule';
 import Store from '../../store/Store';
 import TabItems from './types/TabItems';
 import bankingReducer from './reducers';
@@ -114,10 +107,8 @@ export default class BankingModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
-    this.bankingRuleModule = new BankingRuleModule({
-      integration,
-      isToggleOn,
-    });
+
+    this.bankingRuleModule = new BankingRuleModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -139,8 +130,10 @@ export default class BankingModule {
     this.receiveMoneyBankingRuleComboboxModule = new BankingRuleComboboxModule({
       integration,
     });
-    this.matchTransactionContactComboboxModule = new ContactComboboxModule({
+
+    this.matchTransactionsSubModule = new MatchTransactionsModule({
       integration,
+      setAlert: this.dispatcher.setAlert,
     });
   }
 
@@ -151,21 +144,6 @@ export default class BankingModule {
     } else {
       this.filterBankTransactions();
     }
-  };
-
-  updateMatchTransactionOptions = ({ key, value }) => {
-    this.dispatcher.updateMatchTransactionOptions({ key, value });
-
-    if (key === 'keywords') {
-      debounce(this.sortOrFilterMatchTransaction)();
-    } else {
-      this.sortOrFilterMatchTransaction();
-    }
-  };
-
-  resetMatchTransactionOptions = () => {
-    this.dispatcher.resetMatchTransactionOptions();
-    this.sortOrFilterMatchTransaction();
   };
 
   updatePeriodDateRange = ({ period, dateFrom, dateTo }) => {
@@ -218,12 +196,6 @@ export default class BankingModule {
         : null;
     };
 
-    const renderMatchTransactionContactCombobox = (props) => {
-      return this.matchTransactionContactComboboxModule
-        ? this.matchTransactionContactComboboxModule.render(props)
-        : null;
-    };
-
     const hotkeyHandlers = this.buildHotkeyHandlers();
 
     const splitAllocationContentProps = {
@@ -243,37 +215,30 @@ export default class BankingModule {
 
     const splitAllocationFooterProps = {
       onSaveSplitAllocation: this.saveSplitAllocation,
-      onCancelSplitAllocation: this.confirmBefore(
-        this.dispatcher.collapseTransactionLine
-      ),
+      onCancelSplitAllocation: this.confirmBefore(this.collapseTransactionLine),
       onUnallocateTransaction: this.openUnmatchTransactionModal(
         this.unallocateOpenEntryTransaction
       ),
       onOpenBankingRuleModal: this.openBankingRuleModal,
     };
 
+    /*
+      I'm going to leave this props here at the moment. Not going to refactor into
+      the match transactions sub module until there's a bigger need for it.
+    */
     const matchTransactionContentProps = {
-      renderMatchTransactionContactCombobox,
-      onUpdateMatchTransactionOptions: this.updateMatchTransactionOptions,
-      onResetMatchTransactionOptions: this.resetMatchTransactionOptions,
-      onSortMatchTransactions: this.sortMatchTransaction,
-      onUpdateMatchTransactionSelection: this.dispatcher
-        .updateMatchTransactionSelection,
-      onUpdateSelectedTransactionDetails: this.dispatcher
-        .updateSelectedTransactionDetails,
-      onToggleSelectAllState: this.toggleSelectAllState,
-      onAddAdjustment: this.dispatcher.addMatchTransactionAdjustment,
-      onUpdateAdjustment: this.dispatcher.updateMatchTransactionAdjustment,
-      onRemoveAdjustment: this.dispatcher.removeMatchTransactionAdjustment,
-      onExpandAdjustmentSection: this.dispatcher.expandAdjustmentSection,
       onAddJob: this.openJobModal,
       onAddAccount: this.openAccountModal,
     };
 
+    /*
+      I'm going to leave this props here at the moment. Not going to refactor into
+      the match transactions sub module until there's a bigger need for it.
+    */
     const matchTransactionFooterProps = {
       onSaveMatchTransaction: this.saveMatchTransaction,
       onCancelMatchTransaction: this.confirmBefore(
-        this.dispatcher.collapseTransactionLine
+        this.collapseTransactionLine
       ),
       onUnmatchTransaction: this.openUnmatchTransactionModal(
         this.unmatchTransaction
@@ -289,9 +254,7 @@ export default class BankingModule {
 
     const transferMoneyFooterProps = {
       onSaveMatchTransferMoney: this.saveMatchTransferMoney,
-      onCancelTransferMoney: this.confirmBefore(
-        this.dispatcher.collapseTransactionLine
-      ),
+      onCancelTransferMoney: this.confirmBefore(this.collapseTransactionLine),
       onUnallocateTransaction: this.openUnmatchTransactionModal(
         this.unallocateOpenEntryTransaction
       ),
@@ -306,6 +269,7 @@ export default class BankingModule {
             footerProps: splitAllocationFooterProps,
           }}
           matchTransactionProps={{
+            render: this.matchTransactionsSubModule.render,
             contentProps: matchTransactionContentProps,
             footerProps: matchTransactionFooterProps,
           }}
@@ -381,12 +345,8 @@ export default class BankingModule {
     window.location.href = `/#/${region}/${businessId}/bankStatementImport`;
   };
 
-  toggleSelectAllState = ({ value }) => {
-    this.dispatcher.toggleSelectAllState(value);
-  };
-
   applyRuleToTransaction = ({ message, bankingRuleId }) => {
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (entries) => {
@@ -444,8 +404,9 @@ export default class BankingModule {
   saveBulkAllocation = () => {
     const state = this.store.getState();
     const isEditedEntryInBulkSelection = getIsEditedEntryInBulkSelection(state);
+    const isMatchTransactionEdited = this.matchTransactionsSubModule.getIsEdited();
 
-    if (isEditedEntryInBulkSelection) {
+    if (isEditedEntryInBulkSelection || isMatchTransactionEdited) {
       this.openCancelModal({
         onConfirm: () => {
           this.bulkAllocateTransactions();
@@ -469,7 +430,7 @@ export default class BankingModule {
 
   bulkAllocateTransactions = () => {
     this.dispatcher.setBulkLoadingState(true);
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
 
     const onSuccess = (payload) => {
       this.dispatcher.setBulkLoadingState(false);
@@ -501,7 +462,7 @@ export default class BankingModule {
 
   bulkUnallocateTransactions = () => {
     this.dispatcher.closeModal();
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
     this.dispatcher.setBulkLoadingState(true);
 
     const onSuccess = (payload) => {
@@ -580,7 +541,7 @@ export default class BankingModule {
       return;
     }
 
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
@@ -605,7 +566,7 @@ export default class BankingModule {
       return;
     }
 
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (payload) => {
@@ -632,8 +593,9 @@ export default class BankingModule {
   confirmBefore = (onConfirm) => (...args) => {
     const state = this.store.getState();
     const isEdited = getIsOpenEntryEdited(state);
+    const isMatchTransactionEdited = this.matchTransactionsSubModule.getIsEdited();
 
-    if (isEdited) {
+    if (isEdited || isMatchTransactionEdited) {
       this.openCancelModal({
         onConfirm: () => onConfirm(...args),
       });
@@ -657,7 +619,7 @@ export default class BankingModule {
 
     const isOpened = openPosition === index;
     if (isOpened) {
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
     } else {
       this.expandTransactionLine(index);
     }
@@ -711,7 +673,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
       this.dispatcher.setAlert({
         type: 'danger',
         message,
@@ -735,7 +697,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
       this.dispatcher.setAlert({ type: 'danger', message });
     };
 
@@ -791,7 +753,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
       this.dispatcher.setAlert({
         type: 'danger',
         message,
@@ -837,7 +799,7 @@ export default class BankingModule {
       onFailure,
     });
 
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
   };
 
   updateSplitAllocationHeader = ({ key, value }) => {
@@ -873,7 +835,7 @@ export default class BankingModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSplitAllocationLoadingState(false);
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
       this.dispatcher.setAlert({
         type: 'danger',
         message,
@@ -882,30 +844,6 @@ export default class BankingModule {
 
     this.integrator.loadPrefillSplitAllocation({
       bankingRuleId,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  unmatchTransaction = () => {
-    const state = this.store.getState();
-    const index = getOpenPosition(state);
-    const onSuccess = (payload) => {
-      this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.unallocateTransaction(payload);
-      this.ifOpen(index, () => this.loadMatchTransaction(index))();
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.setAlert({
-        type: 'danger',
-        message,
-      });
-    };
-
-    this.dispatcher.setOpenEntryLoadingState(true);
-    this.integrator.unmatchTransaction({
       onSuccess,
       onFailure,
     });
@@ -982,92 +920,39 @@ export default class BankingModule {
   };
 
   loadMatchTransaction = (index) => {
-    const state = this.store.getState();
+    this.dispatcher.startLoadingOpenEntry(index, TabItems.match);
 
-    const { bankAccount: accountId } = getFilterOptions(state);
-
-    const line = getBankTransactionLineByIndex(state, index);
-    const { withdrawal, deposit } = line;
-    const filterOptions = getDefaultMatchTransactionFilterRequestParams(
-      accountId,
-      line
-    );
-
-    const onSuccess = this.ifOpen(index, (payload) => {
-      this.dispatcher.setOpenEntryLoadingState(false);
-      const totalAmount = withdrawal || deposit;
-      this.dispatcher.loadMatchTransaction(
-        index,
-        filterOptions,
-        payload,
-        totalAmount
-      );
-      this.loadMatchTransactionContactCombobox();
-    });
+    const onSuccess = () => {
+      const currentOpenPosition = getOpenPosition(this.store.getState());
+      if (index === currentOpenPosition) {
+        this.dispatcher.finishLoadingOpenEntry(index);
+      }
+    };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setOpenEntryLoadingState(false);
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
       this.dispatcher.setAlert({
         type: 'danger',
         message,
       });
     };
 
-    this.dispatcher.setOpenEntryLoadingState(true);
-    this.dispatcher.setOpenEntryPosition(index);
-    this.integrator.loadMatchTranscation({
-      index,
-      onSuccess,
-      onFailure,
-    });
-  };
-
-  sortMatchTransaction = (orderBy) => {
-    this.updateMatchTransactionSortOrder(orderBy);
-    this.sortOrFilterMatchTransaction();
-  };
-
-  sortOrFilterMatchTransaction = () => {
     const state = this.store.getState();
-
-    const showType = getShowType(state);
-    if (showType === MatchTransactionShowType.SELECTED) {
-      this.dispatcher.showSelectedMatchTransactions();
-    } else {
-      const index = getOpenPosition(state);
-
-      const onSuccess = (payload) => {
-        const updatedState = this.store.getState();
-        if (getOpenPosition(updatedState) !== index) {
-          return;
-        }
-
-        this.dispatcher.setMatchTransactionLoadingState(false);
-        this.dispatcher.sortAndFilterMatchTransactions(index, payload);
-      };
-
-      const onFailure = ({ message }) => {
-        this.dispatcher.setMatchTransactionLoadingState(false);
-        this.dispatcher.setAlert({ message, type: 'danger' });
-      };
-
-      this.dispatcher.setMatchTransactionLoadingState(true);
-      this.integrator.sortOrFilterMatchTransaction({
-        onSuccess,
-        onFailure,
-      });
-    }
+    const context = getMatchTransactionsContext(state, index);
+    this.matchTransactionsSubModule.run(context);
+    this.matchTransactionsSubModule.loadMatchTransactions(onSuccess, onFailure);
   };
 
   saveMatchTransaction = () => {
     const state = this.store.getState();
 
     const index = getOpenPosition(state);
+    this.dispatcher.startEntryLoadingState(index);
 
     const onSuccess = (payload) => {
       this.dispatcher.stopEntryLoadingState(index);
-      this.dispatcher.saveMatchTransaction(index, payload);
+      this.dispatcher.allocateTransaction(index, { payload });
       this.dispatcher.setAlert({
         type: 'success',
         message: payload.message,
@@ -1082,25 +967,29 @@ export default class BankingModule {
       });
     };
 
-    this.dispatcher.startEntryLoadingState(index);
-    this.integrator.saveMatchTransaction({
-      index,
-      onSuccess,
-      onFailure,
-    });
-
-    this.dispatcher.collapseTransactionLine();
+    this.matchTransactionsSubModule.saveMatchTransaction(onSuccess, onFailure);
+    this.collapseTransactionLine();
   };
 
-  updateMatchTransactionSortOrder = (orderBy) => {
+  unmatchTransaction = () => {
     const state = this.store.getState();
+    const index = getOpenPosition(state);
+    const onSuccess = (payload) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.unallocateTransaction(payload);
+      this.ifOpen(index, () => this.loadMatchTransaction(index))();
+    };
 
-    const newSortOrder =
-      orderBy === getMatchTransactionOrderBy(state)
-        ? getMatchTransactionFlipSortOrder(state)
-        : 'asc';
+    const onFailure = ({ message }) => {
+      this.dispatcher.setOpenEntryLoadingState(false);
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
 
-    this.dispatcher.updateMatchTransactionSortOrder(orderBy, newSortOrder);
+    this.dispatcher.setOpenEntryLoadingState(true);
+    this.matchTransactionsSubModule.unmatchTransaction(onSuccess, onFailure);
   };
 
   saveMatchTransferMoney = () => {
@@ -1127,7 +1016,7 @@ export default class BankingModule {
       onSuccess,
       onFailure,
     });
-    this.dispatcher.collapseTransactionLine();
+    this.collapseTransactionLine();
   };
 
   saveTransferMoney = () => {
@@ -1146,7 +1035,7 @@ export default class BankingModule {
         type: 'success',
         message: payload.message,
       });
-      this.dispatcher.collapseTransactionLine();
+      this.collapseTransactionLine();
     };
 
     const onFailure = ({ message }) => {
@@ -1172,12 +1061,13 @@ export default class BankingModule {
   selectAllTransactions = () => {
     const state = this.store.getState();
     const isEdited = getIsOpenEntryEdited(state);
+    const isMatchTransactionEdited = this.matchTransactionsSubModule.getIsEdited();
     const canSelectMore = getCanSelectMore(state);
 
-    if (isEdited && canSelectMore) {
+    if ((isEdited || isMatchTransactionEdited) && canSelectMore) {
       this.openCancelModal({
         onConfirm: () => {
-          this.dispatcher.collapseTransactionLine();
+          this.collapseTransactionLine();
           this.dispatcher.selectAllTransactions();
         },
       });
@@ -1189,11 +1079,16 @@ export default class BankingModule {
   selectTransaction = ({ index, value }) => {
     const state = this.store.getState();
     const isEdited = getIsOpenEntryEdited(state);
+    const isMatchTransactionEdited = this.matchTransactionsSubModule.getIsEdited();
 
-    if (index === state.openPosition && isEdited && value) {
+    if (
+      index === state.openPosition &&
+      (isEdited || isMatchTransactionEdited) &&
+      value
+    ) {
       this.openCancelModal({
         onConfirm: () => {
-          this.dispatcher.collapseTransactionLine();
+          this.collapseTransactionLine();
           this.dispatcher.selectTransaction({ index, value });
         },
       });
@@ -1415,12 +1310,22 @@ export default class BankingModule {
   loadAccountAfterCreate = (accountId, onAccountCreated) => {
     this.accountModalModule.close();
     this.dispatcher.setLoadingSingleAccountState(true);
+
+    // @TODO: Remove this once we've refactored the match transaction module to load accounts
+    this.matchTransactionsSubModule.setLoadingSingleAccountState(true);
+
     const onSuccess = (payload) => {
       const state = this.store.getState();
-      this.dispatcher.setLoadingSingleAccountState(false);
       const activeTabId = getOpenEntryActiveTabId(state);
       const openPosition = getOpenPosition(state);
+
+      this.dispatcher.setLoadingSingleAccountState(false);
       this.dispatcher.loadAccountAfterCreate(payload);
+
+      // @TODO: Remove this once we've refactored the match transaction module to load accounts
+      this.matchTransactionsSubModule.loadAccountAfterCreate(payload);
+      this.matchTransactionsSubModule.setLoadingSingleAccountState(false);
+
       if (activeTabId === TabItems.allocate && openPosition > 0) {
         this.dispatcher.appendAccountToAllocateTable(payload);
       }
@@ -1433,9 +1338,17 @@ export default class BankingModule {
         type: 'danger',
         message,
       });
+
+      // @TODO: Remove this once we've refactored the match transaction module to load accounts
+      this.matchTransactionsSubModule.setLoadingSingleAccountState(false);
     };
 
     this.integrator.loadAccountAfterCreate({ accountId, onSuccess, onFailure });
+  };
+
+  collapseTransactionLine = () => {
+    this.dispatcher.collapseTransactionLine();
+    this.matchTransactionsSubModule.resetState();
   };
 
   resetState = () => {
@@ -1444,9 +1357,9 @@ export default class BankingModule {
     this.accountModalModule.resetState();
     this.bankingRuleModule.resetState();
     this.splitAllocationContactComboboxModule.resetState();
-    this.matchTransactionContactComboboxModule.resetState();
     this.receiveMoneyBankingRuleComboboxModule.resetState();
     this.spendMoneyBankingRuleComboboxModule.resetState();
+    this.matchTransactionsSubModule.resetState();
   };
 
   openJobModal = (onChange) => {
@@ -1464,16 +1377,27 @@ export default class BankingModule {
     this.jobModalModule.resetState();
     this.dispatcher.setJobLoadingState(true);
 
+    // @TODO: Remove this once we've refactored the match transaction module to load jobs
+    this.matchTransactionsSubModule.setJobLoadingState(true);
+
     const onSuccess = (payload) => {
       const job = { ...payload, id };
       this.dispatcher.setJobLoadingState(false);
       this.dispatcher.loadJobAfterCreate(id, job);
+
+      // @TODO: Remove this once we've refactored the match transaction module to load jobs
+      this.matchTransactionsSubModule.loadJobAfterCreate(id, job);
+      this.matchTransactionsSubModule.setJobLoadingState(false);
+
       onChange(job);
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setJobLoadingState(false);
       this.dispatcher.setAlert({ type: 'danger', message });
+
+      // @TODO: Remove this once we've refactored the match transaction module to load jobs
+      this.matchTransactionsSubModule.setJobLoadingState(false);
     };
 
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
@@ -1482,12 +1406,6 @@ export default class BankingModule {
   updateURLParams = () => {
     const state = this.store.getState();
     this.replaceURLParams(getURLParams(state));
-  };
-
-  loadMatchTransactionContactCombobox = () => {
-    const state = this.store.getState();
-    const context = getMatchTransactionContactComboboxContext(state);
-    this.matchTransactionContactComboboxModule.run(context);
   };
 
   loadSplitAllocationContactCombobox = () => {
@@ -1630,7 +1548,7 @@ export default class BankingModule {
     const isAccordionOpen = openPosition >= 0;
 
     if (isAccordionOpen) {
-      this.confirmBefore(this.dispatcher.collapseTransactionLine)(openPosition);
+      this.confirmBefore(this.collapseTransactionLine)(openPosition);
       this.setFocusToTransactionLine(openPosition);
     }
   };
@@ -1834,10 +1752,10 @@ export default class BankingModule {
 
     this.dispatcher.setInitialState({
       ...rest,
-      isBankingJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
       isFastModeEnabled,
       isPrefillSplitAllocationEnabled,
     });
+
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankTransactions();

@@ -2,11 +2,7 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIsBankingJobColumnEnabled,
-  getIsFocused,
-  getIsJobComboboxDisabled,
-} from '../../../selectors';
+import { getIsFocused, getIsJobComboboxDisabled } from '../../../selectors';
 import {
   getLineDataByIndex,
   getNewLineData,
@@ -48,7 +44,6 @@ const SplitAllocationRow = (props) => {
     labels,
     disabled,
     newLineData,
-    isBankingJobColumnEnabled,
     isJobComboboxDisabled,
     isAccountComboboxFocused,
     ...feelixInjectedProps
@@ -138,18 +133,16 @@ const SplitAllocationRow = (props) => {
         onChange={onChange}
         autoSize
       />
-      {isBankingJobColumnEnabled && (
-        <JobCombobox
-          label="Job"
-          onChange={handleComboBoxChange('jobId', onChange)}
-          items={lineJobOptions}
-          selectedId={jobId}
-          disabled={disabled || isJobComboboxDisabled}
-          addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        label="Job"
+        onChange={handleComboBoxChange('jobId', onChange)}
+        items={lineJobOptions}
+        selectedId={jobId}
+        disabled={disabled || isJobComboboxDisabled}
+        addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         disabled={disabled}
         items={taxCodes}
@@ -172,7 +165,6 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: getLineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
-    isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
     isJobComboboxDisabled: getIsJobComboboxDisabled(state),
     isAccountComboboxFocused: getIsFocused(
       state,

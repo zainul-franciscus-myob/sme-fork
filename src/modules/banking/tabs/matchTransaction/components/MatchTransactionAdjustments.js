@@ -2,14 +2,14 @@ import { BulkAdd, Input } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAccounts, getAdjustments } from '../matchTransactionSelectors';
 import {
+  getAccounts,
   getActiveJobs,
-  getIsBankingJobColumnEnabled,
+  getAdjustments,
   getIsJobComboboxDisabled,
   getIsLoadingAccount,
   getTaxCodes,
-} from '../../../selectors';
+} from '../matchTransactionSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import JobCombobox from '../../../../../components/combobox/JobCombobox';
@@ -19,7 +19,7 @@ import handleAmountInputChange from '../../../../../components/handlers/handleAm
 import handleComboboxChange from '../../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
 
-const getTableColumns = ({ taxCodeLabel, isBankingJobColumnEnabled }) => [
+const getTableColumns = ({ taxCodeLabel }) => [
   { label: 'Account', requiredLabel: 'required', textWrap: 'wrap' },
   {
     label: 'Amount ($)',
@@ -31,7 +31,10 @@ const getTableColumns = ({ taxCodeLabel, isBankingJobColumnEnabled }) => [
     align: 'right',
   },
   { label: 'Description' },
-  isBankingJobColumnEnabled ? { label: 'Job', textWrap: 'wrap' } : null,
+  {
+    label: 'Job',
+    textWrap: 'wrap',
+  },
   {
     label: taxCodeLabel,
     requiredLabel: 'required',
@@ -39,7 +42,7 @@ const getTableColumns = ({ taxCodeLabel, isBankingJobColumnEnabled }) => [
   },
 ];
 
-const getResponsiveWidths = (taxCodeLabel, isBankingJobColumnEnabled) => [
+const getResponsiveWidths = (taxCodeLabel) => [
   {
     'min-width': '1160px',
     config: [
@@ -47,9 +50,7 @@ const getResponsiveWidths = (taxCodeLabel, isBankingJobColumnEnabled) => [
       { columnName: 'Amount ($)', styles: { width: '16.4rem' } },
       { columnName: 'Quantity', styles: { width: '10.6rem' } },
       { columnName: 'Description', styles: { width: 'flex-1' } },
-      ...(isBankingJobColumnEnabled
-        ? [{ columnName: 'Job', styles: { width: '16.4rem' } }]
-        : []),
+      { columnName: 'Job', styles: { width: '16.4rem' } },
       { columnName: taxCodeLabel, styles: { width: '16.4rem' } },
     ],
   },
@@ -70,7 +71,6 @@ const renderRow = (
   onAddAccount,
   onAddJob,
   isLoadingAccount,
-  isBankingJobColumnEnabled,
   isJobComboboxDisabled
 ) => (index, adjustment, onChange) => {
   const {
@@ -123,18 +123,16 @@ const renderRow = (
           value={description}
         />
       </BulkAdd.RowItem>
-      {isBankingJobColumnEnabled && (
-        <BulkAdd.RowItem columnName={jobColumn.label} {...jobColumn}>
-          <JobCombobox
-            onChange={handleComboboxChange('jobId', onChange)}
-            items={jobs}
-            selectedId={jobId}
-            disabled={isJobComboboxDisabled}
-            addNewJob={() => onAddJob(handleComboboxChange('jobId', onChange))}
-            allowClear
-          />
-        </BulkAdd.RowItem>
-      )}
+      <BulkAdd.RowItem columnName={jobColumn.label} {...jobColumn}>
+        <JobCombobox
+          onChange={handleComboboxChange('jobId', onChange)}
+          items={jobs}
+          selectedId={jobId}
+          disabled={isJobComboboxDisabled}
+          addNewJob={() => onAddJob(handleComboboxChange('jobId', onChange))}
+          allowClear
+        />
+      </BulkAdd.RowItem>
       <BulkAdd.RowItem columnName={taxColumn.label} {...taxColumn}>
         <TaxCodeCombobox
           disabled={isLoadingAccount}
@@ -160,16 +158,9 @@ const MatchTransactionAdjustments = ({
   taxCodeLabel,
   isLoadingAccount,
   isJobComboboxDisabled,
-  isBankingJobColumnEnabled,
 }) => {
-  const tableColumns = getTableColumns({
-    taxCodeLabel,
-    isBankingJobColumnEnabled,
-  });
-  const responsiveWidths = getResponsiveWidths(
-    taxCodeLabel,
-    isBankingJobColumnEnabled
-  );
+  const tableColumns = getTableColumns({ taxCodeLabel });
+  const responsiveWidths = getResponsiveWidths(taxCodeLabel);
 
   return (
     <BulkAdd responsiveWidths={responsiveWidths}>
@@ -197,7 +188,6 @@ const MatchTransactionAdjustments = ({
           onAddAccount,
           onAddJob,
           isLoadingAccount,
-          isBankingJobColumnEnabled,
           isJobComboboxDisabled
         )}
         onRowChange={onUpdateAdjustment}
@@ -216,7 +206,6 @@ const mapStateToProps = (state) => ({
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
   isLoadingAccount: getIsLoadingAccount(state),
   isJobComboboxDisabled: getIsJobComboboxDisabled(state),
-  isBankingJobColumnEnabled: getIsBankingJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionAdjustments);

@@ -41,7 +41,6 @@ import {
 } from './selectors/bulkActionSelectors';
 import { getCreateTransferMoneyPayload } from './tabs/transferMoney/transferMoneySelectors';
 import { getRemoveDocumentParams } from './selectors/attachmentsSelectors';
-import createMatchTransactionIntegrator from './tabs/matchTransaction/createMatchTransactionIntegrator';
 import createSplitAllocationIntegrator from './tabs/splitAllocation/createSplitAllocationIntegrator';
 import createTransferMoneyIntegrator from './tabs/transferMoney/createTransferMoneyIntegrator';
 
@@ -182,8 +181,10 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  // @TODO: Currently both split allocation and transfer money make use of this function
-  //        I'll leave it here for now.
+  /* 
+    Currently split allocation and transfer money make use of this function.
+    @@ TODO: Remove after split allocation and transfer money have been refactored.
+  */
   unallocateOpenEntryTransaction: ({ onSuccess, onFailure }) => {
     const intent = UNALLOCATE_TRANSACTION;
     const state = store.getState();
@@ -377,7 +378,6 @@ const createBankingIntegrator = (store, integration) => ({
 
   ...createTransferMoneyIntegrator(store, integration),
   ...createSplitAllocationIntegrator(store, integration),
-  ...createMatchTransactionIntegrator(store, integration),
 });
 
 export default createBankingIntegrator;
