@@ -22,9 +22,6 @@ const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 export const getIsCreating = (state) => state.generalJournalId === 'new';
 export const getIsTaxInclusive = (state) => state.generalJournal.isTaxInclusive;
 
-export const getIsGeneralJournalJobColumnEnabled = (state) =>
-  state.isGeneralJournalJobColumnEnabled;
-
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   date: getDate,

@@ -45,7 +45,6 @@ const GeneralJournalDetailRow = ({
   onChange,
   onCreateAccountButtonClick,
   onCreateJobButtonClick,
-  isGeneralJournalJobColumnEnabled,
   isSystem,
   ...feelixInjectedProps
 }) => {
@@ -114,20 +113,18 @@ const GeneralJournalDetailRow = ({
         onChange={onChange}
         disabled={isTableDisabled || isSystem}
       />
-      {isGeneralJournalJobColumnEnabled && (
-        <JobCombobox
-          label="Job"
-          onChange={onComboboxChange('jobId', onChange)}
-          addNewJob={() =>
-            onCreateJobButtonClick(onComboboxChange('jobId', onChange))
-          }
-          items={lineJobOptions}
-          selectedId={jobId}
-          disabled={isTableDisabled || isSystem}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        label="Job"
+        onChange={onComboboxChange('jobId', onChange)}
+        addNewJob={() =>
+          onCreateJobButtonClick(onComboboxChange('jobId', onChange))
+        }
+        items={lineJobOptions}
+        selectedId={jobId}
+        disabled={isTableDisabled || isSystem}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}

@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
-  getIsGeneralJournalJobColumnEnabled,
   getIsOutOfBalanced,
   getIsSystem,
   getTableData,
@@ -27,7 +26,6 @@ const GeneralJournalDetailTable = ({
   onRemoveRow,
   onCreateAccountButtonClick,
   onCreateJobButtonClick,
-  isGeneralJournalJobColumnEnabled,
   isSystem,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
@@ -42,7 +40,6 @@ const GeneralJournalDetailTable = ({
         onChange={onChange}
         onRowInputBlur={onRowInputBlur}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
-        isGeneralJournalJobColumnEnabled={isGeneralJournalJobColumnEnabled}
         onCreateJobButtonClick={onCreateJobButtonClick}
       />
     );
@@ -70,9 +67,7 @@ const GeneralJournalDetailTable = ({
       label: 'Description',
       styles: {},
     },
-    ...(isGeneralJournalJobColumnEnabled
-      ? [{ label: 'Job', styles: { width: '8.4rem', align: 'left' } }]
-      : []),
+    { label: 'Job', styles: { width: '8.4rem', align: 'left' } },
     {
       label: taxCodeLabel,
       requiredLabel: 'Required',
@@ -134,7 +129,6 @@ const mapStateToProps = (state) => ({
   isOutOfBalance: getIsOutOfBalanced(state),
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
-  isGeneralJournalJobColumnEnabled: getIsGeneralJournalJobColumnEnabled(state),
   isSystem: getIsSystem(state),
 });
 

@@ -29,7 +29,6 @@ import {
   isPageEdited,
 } from './generalJournalDetailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import FeatureToggle from '../../../FeatureToggles';
 import GeneralJournalDetailView from './components/GeneralJournalDetailView';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -49,7 +48,6 @@ export default class GeneralJournalDetailModule {
     popMessages,
     pushMessage,
     navigateTo,
-    isToggleOn,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
@@ -64,7 +62,6 @@ export default class GeneralJournalDetailModule {
     );
     this.dispatcher = createGeneralJournalDispatcher(this.store);
     this.integrator = createGeneralJournalIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -485,12 +482,7 @@ export default class GeneralJournalDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isGeneralJournalJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobs
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
