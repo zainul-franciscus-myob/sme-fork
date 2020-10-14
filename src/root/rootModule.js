@@ -19,7 +19,6 @@ import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
 import CreateRootIntegrator from './createRootIntegrator';
 import DrawerModule from '../drawer/DrawerModule';
-import FeatureToggle from '../FeatureToggles';
 import LicenceService from './services/licence';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationModule from '../navigation/NavigationModule';
@@ -133,16 +132,7 @@ export default class RootModule {
     await this.splitFeatureToggles.init({ businessId });
   };
 
-  isToggleOn = (toggleName) => {
-    if (
-      toggleName === FeatureToggle.EssentialsJobs ||
-      toggleName === FeatureToggle.EssentialsJobsPayrun
-    ) {
-      return true;
-    }
-
-    return this.splitFeatureToggles.isToggleOn(toggleName);
-  };
+  isToggleOn = (toggleName) => this.splitFeatureToggles.isToggleOn(toggleName);
 
   runLeanEngage = () => {
     const state = this.store.getState();
