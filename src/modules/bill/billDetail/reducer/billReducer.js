@@ -177,7 +177,6 @@ const reloadBill = (state, action) => {
   const initialState = {
     ...defaultState,
     ...context,
-    isBillJobColumnEnabled: state.isBillJobColumnEnabled,
     loadingState: LoadingState.LOADING_SUCCESS,
   };
 

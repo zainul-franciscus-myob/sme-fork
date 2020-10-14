@@ -61,7 +61,6 @@ export const setUp = () => {
   const pushMessage = () => {};
   const popMessages = () => [];
   const replaceURLParams = () => {};
-  const isToggleOn = () => true;
   const navigateTo = jest.fn();
   const globalCallbacks = {
     inTrayBillSaved: jest.fn(),
@@ -76,7 +75,6 @@ export const setUp = () => {
     replaceURLParams,
     globalCallbacks,
     navigateTo,
-    isToggleOn,
   });
   const store = new TestStore(billReducer);
   module.store = store;
@@ -204,7 +202,6 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
       module.run(context);
 
@@ -230,7 +227,6 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
       module.run(context);
 
@@ -271,7 +267,6 @@ describe('BillModule', () => {
           billId: test.billId,
           businessId: '🐷',
           region: 'au',
-          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -308,7 +303,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
       module.run(context);
 
@@ -361,7 +355,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
 
       module.run(context);
@@ -408,7 +401,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
 
       module.run(context);
@@ -433,7 +425,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
 
       module.run(context);
@@ -465,7 +456,6 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
-          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -515,7 +505,6 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
-          isBillJobColumnEnabled: true,
         };
         module.run(context);
 
@@ -565,7 +554,6 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       };
 
       const expectedActionsWithoutPrefillAndTaxCalc = [

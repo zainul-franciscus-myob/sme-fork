@@ -69,7 +69,6 @@ import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import BillView from './components/BillView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
-import FeatureToggle from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
@@ -93,7 +92,6 @@ class BillModule {
     replaceURLParams,
     globalCallbacks,
     navigateTo,
-    isToggleOn,
     subscribeOrUpgrade,
   }) {
     this.setRootView = setRootView;
@@ -103,7 +101,6 @@ class BillModule {
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -1036,10 +1033,7 @@ class BillModule {
   };
 
   run(context) {
-    this.setInitialState({
-      ...context,
-      isBillJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
-    });
+    this.setInitialState(context);
     setupHotKeys(keyMap, {
       SAVE_ACTION: this.saveBill,
     });

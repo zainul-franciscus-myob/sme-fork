@@ -2,19 +2,16 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getIsBillJobColumnEnabled,
-  getTaxCodeLabel,
-} from '../selectors/billSelectors';
+import { getTaxCodeLabel } from '../selectors/billSelectors';
 import BillLineItemTable from './BillLineItemTable';
 import BillServiceTableRow from './BillServiceTableRow';
 
-const renderRow = (
-  onRowInputBlur,
-  onAddAccount,
-  onAddJob,
-  isBillJobColumnEnabled
-) => (index, _, onChange, labels) => (
+const renderRow = (onRowInputBlur, onAddAccount, onAddJob) => (
+  index,
+  _,
+  onChange,
+  labels
+) => (
   <BillServiceTableRow
     index={index}
     key={index}
@@ -23,7 +20,6 @@ const renderRow = (
     onAddAccount={onAddAccount}
     onAddJob={onAddJob}
     labels={labels}
-    isBillJobColumnEnabled={isBillJobColumnEnabled}
   />
 );
 
@@ -38,7 +34,6 @@ const BillServiceTable = ({
     onUpdateBillOption,
   },
   taxCodeLabel,
-  isBillJobColumnEnabled,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -54,10 +49,6 @@ const BillServiceTable = ({
     taxCodeLabel,
   ];
 
-  const jobColumn = (
-    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
-  );
-
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
@@ -66,7 +57,7 @@ const BillServiceTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    isBillJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -98,12 +89,7 @@ const BillServiceTable = ({
   return (
     <BillLineItemTable
       labels={labels}
-      renderRow={renderRow(
-        onRowInputBlur,
-        onAddAccount,
-        onAddJob,
-        isBillJobColumnEnabled
-      )}
+      renderRow={renderRow(onRowInputBlur, onAddAccount, onAddJob)}
       columnConfig={columnConfig}
       onAddRow={onAddRow}
       onRowChange={onRowChange}
@@ -116,7 +102,6 @@ const BillServiceTable = ({
 
 const mapStateToProps = (state) => ({
   taxCodeLabel: getTaxCodeLabel(state),
-  isBillJobColumnEnabled: getIsBillJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(BillServiceTable);

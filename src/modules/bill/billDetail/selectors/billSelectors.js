@@ -128,9 +128,6 @@ export const getPrefillButtonText = createSelector(
     isCreating ? 'Prefill from a source document' : 'Link a source document'
 );
 
-export const getIsBillJobColumnEnabled = (state) =>
-  state.isBillJobColumnEnabled;
-
 export const getTableData = createSelector(getBillLinesLength, (len) =>
   Array(len).fill({})
 );

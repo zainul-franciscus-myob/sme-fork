@@ -62,7 +62,6 @@ const BillItemAndServiceTableRow = ({
   onAddAccount,
   onAddJob,
   onRowInputBlur,
-  isBillJobColumnEnabled,
   renderItemCombobox,
   ...feelixInjectedProps
 }) => {
@@ -91,7 +90,7 @@ const BillItemAndServiceTableRow = ({
         <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem value={amount} />
-        {isBillJobColumnEnabled && <BillTableReadOnlyRowItem />}
+        <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem />
       </LineItemTable.Row>
     );
@@ -181,17 +180,15 @@ const BillItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isBillJobColumnEnabled && (
-        <JobCombobox
-          items={lineJobOptions}
-          selectedId={jobId}
-          addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
-          onChange={handleComboboxChange(onChange, 'jobId')}
-          disabled={isBlocking || isReadOnly}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        items={lineJobOptions}
+        selectedId={jobId}
+        addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
+        onChange={handleComboboxChange(onChange, 'jobId')}
+        disabled={isBlocking || isReadOnly}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}

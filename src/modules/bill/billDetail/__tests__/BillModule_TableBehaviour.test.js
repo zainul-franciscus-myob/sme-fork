@@ -188,7 +188,6 @@ describe('BillModule_TableBehaviour', () => {
         billId: '🍉',
         businessId: '🐷',
         region: 'au',
-        isBillJobColumnEnabled: true,
       });
       store.resetActions();
       integration.resetRequests();

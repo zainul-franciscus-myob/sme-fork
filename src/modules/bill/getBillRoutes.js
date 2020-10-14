@@ -10,7 +10,6 @@ const getBillRoutes = ({
   replaceURLParams,
   globalCallbacks,
   navigateTo,
-  isToggleOn,
   subscribeOrUpgrade,
 }) => {
   const routes = [
@@ -44,7 +43,6 @@ const getBillRoutes = ({
         popMessages,
         globalCallbacks,
         navigateTo,
-        isToggleOn,
         subscribeOrUpgrade,
       }),
       documentTitle: 'Bill',

@@ -25,7 +25,6 @@ describe('billReducer', () => {
       const state = {
         today: new Date(2020, 0, 1),
         billId: 'new',
-        isBillJobColumnEnabled: true,
       };
 
       const action = {
@@ -39,7 +38,6 @@ describe('billReducer', () => {
 
       const actual = billReducer(state, action);
 
-      expect(actual.isBillJobColumnEnabled).toEqual(true);
       expect(actual.loadingState).toEqual(LoadingState.LOADING_SUCCESS);
     });
 
