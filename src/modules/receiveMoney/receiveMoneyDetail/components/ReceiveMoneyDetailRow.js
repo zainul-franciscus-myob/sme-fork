@@ -49,7 +49,6 @@ const ReceiveMoneyDetailRow = ({
   onAddAccount,
   onAddJob,
   isSubmitting,
-  isReceiveMoneyJobColumnEnabled,
   isJobComboboxDisabled,
   ...feelixInjectedProps
 }) => {
@@ -109,17 +108,15 @@ const ReceiveMoneyDetailRow = ({
         onChange={onInputChange(onChange)}
         disabled={isSubmitting}
       />
-      {isReceiveMoneyJobColumnEnabled && (
-        <JobCombobox
-          items={lineJobOptions}
-          selectedId={jobId}
-          onChange={onComboboxChange('jobId', onChange)}
-          disabled={isSubmitting || isJobComboboxDisabled}
-          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        items={lineJobOptions}
+        selectedId={jobId}
+        onChange={onComboboxChange('jobId', onChange)}
+        disabled={isSubmitting || isJobComboboxDisabled}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         label="Tax code"
         hideLabel

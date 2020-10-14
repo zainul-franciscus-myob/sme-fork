@@ -29,9 +29,6 @@ const getIsTaxInclusive = (state) => state.receiveMoney.isTaxInclusive;
 const getLines = (state) => state.receiveMoney.lines;
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
-export const getIsReceiveMoneyJobColumnEnabled = (state) =>
-  state.isReceiveMoneyJobColumnEnabled;
-
 const getDepositIntoAccountOptions = (state) => state.depositIntoAccountOptions;
 const getPayFromContactOptions = (state) => state.payFromContactOptions.entries;
 export const getAccountOptions = (state) => state.accountOptions;

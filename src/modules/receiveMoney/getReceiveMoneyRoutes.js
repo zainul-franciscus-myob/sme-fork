@@ -7,7 +7,6 @@ const getReceiveMoneyRoutes = ({
   pushMessage,
   popMessages,
   navigateTo,
-  isToggleOn,
 }) => {
   const routes = [
     {
@@ -20,7 +19,6 @@ const getReceiveMoneyRoutes = ({
         pushMessage,
         popMessages,
         navigateTo,
-        isToggleOn,
       }),
       documentTitle: 'Receive money',
     },

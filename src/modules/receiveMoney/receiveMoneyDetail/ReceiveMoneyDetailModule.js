@@ -29,7 +29,6 @@ import {
 } from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
-import FeatureToggle from '../../../FeatureToggles';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
@@ -49,7 +48,6 @@ export default class ReceiveMoneyDetailModule {
     pushMessage,
     navigateTo,
     popMessages,
-    isToggleOn,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -63,8 +61,6 @@ export default class ReceiveMoneyDetailModule {
       store: this.store,
       integration,
     });
-
-    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -484,12 +480,7 @@ export default class ReceiveMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isReceiveMoneyJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobs
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

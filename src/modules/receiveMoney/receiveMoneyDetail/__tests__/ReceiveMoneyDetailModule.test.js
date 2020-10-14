@@ -40,14 +40,12 @@ const setup = () => {
   const setRootView = () => {};
   const pushMessage = () => {};
   const popMessages = () => [];
-  const isToggleOn = () => 'on';
 
   const module = new ReceiveMoneyDetailModule({
     integration,
     setRootView,
     pushMessage,
     popMessages,
-    isToggleOn,
   });
   module.store = store;
   module.dispatcher = createReceiveMoneyDetailDispatcher({ store });
