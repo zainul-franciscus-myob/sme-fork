@@ -25,7 +25,6 @@ import { getTerminationDateNewlySet } from './payrollDetails/selectors/Employmen
 import { getWagePayItemModal } from './payrollDetails/selectors/WagePayItemModalSelectors';
 import ContactDetailsTabModule from './contactDetails/ContactDetailsTabModule';
 import EmployeeDetailView from './components/EmployeeDetailView';
-import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalTypes from './ModalTypes';
 import PaymentDetailsTabModule from './paymentDetails/PaymentDetailsTabModule';
@@ -48,7 +47,6 @@ export default class EmployeeDetailModule {
     replaceURLParams,
     globalCallbacks,
     featureToggles,
-    isToggleOn,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -60,7 +58,6 @@ export default class EmployeeDetailModule {
     this.popMessageTypes = popMessageTypes;
     this.dispatcher = createEmployeeDetailDispatcher(this.store);
     this.integrator = createEmployeeDetailIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.subModules = {
       contactDetails: new ContactDetailsTabModule({
         integration,
@@ -338,12 +335,7 @@ export default class EmployeeDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isPayrollJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobsPayrun
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();

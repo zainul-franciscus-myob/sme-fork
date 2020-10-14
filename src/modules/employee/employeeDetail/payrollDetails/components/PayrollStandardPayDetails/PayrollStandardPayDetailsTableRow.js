@@ -1,11 +1,7 @@
 import { Button, Table } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  fieldTypes,
-  getIsPayrollJobColumnEnabled,
-} from '../../selectors/PayrollStandardPaySelectors';
+import { fieldTypes } from '../../selectors/PayrollStandardPaySelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 import JobCombobox from '../../../../../../components/combobox/JobCombobox';
 import styles from './PayrollStandardPayDetailsTableRow.module.css';
@@ -87,7 +83,6 @@ const PayrollStandardPayDetailsTableRow = ({
   onBlur,
   onClick,
   excludeJobs,
-  isPayrollJobColumnEnabled,
 }) => {
   const hourRowItem = renderAmountInputField({
     name: 'hours',
@@ -158,19 +153,11 @@ const PayrollStandardPayDetailsTableRow = ({
       <Table.RowItem {...tableConfigWithConditionalHeaders.amount}>
         {amountRowItem}
       </Table.RowItem>
-      {isPayrollJobColumnEnabled && (
-        <Table.RowItem
-          textWrap="wrap"
-          {...tableConfigWithConditionalHeaders.job}
-        >
-          {jobRowItem}
-        </Table.RowItem>
-      )}
+      <Table.RowItem textWrap="wrap" {...tableConfigWithConditionalHeaders.job}>
+        {jobRowItem}
+      </Table.RowItem>
     </Table.Row>
   );
 };
-const mapStateToProps = (state) => ({
-  isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
-});
 
-export default connect(mapStateToProps)(PayrollStandardPayDetailsTableRow);
+export default PayrollStandardPayDetailsTableRow;

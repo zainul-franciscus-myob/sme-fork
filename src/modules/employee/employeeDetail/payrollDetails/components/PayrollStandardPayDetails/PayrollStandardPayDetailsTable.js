@@ -1,8 +1,6 @@
 import { FieldGroup, Icons, Table, Tooltip } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsPayrollJobColumnEnabled } from '../../selectors/PayrollStandardPaySelectors';
 import PayrollStandardPayDetailsDeductionTableRows from './PayrollStandardPayDetailsDeductionTableRows';
 import PayrollStandardPayDetailsExpenseTableRows from './PayrollStandardPayDetailsExpenseTableRows';
 import PayrollStandardPayDetailsLeaveTableRows from './PayrollStandardPayDetailsLeaveTableRows';
@@ -64,54 +62,45 @@ const jobsHeaderItem = getHeaderItemWithTooltip(
   'Add a job for pay items you want to track.'
 );
 
-const PayrollStandardPayDetailsTable = (props) => {
-  const { isPayrollJobColumnEnabled } = props;
-  return (
-    <FieldGroup label={fieldGroupLabel}>
-      <Table>
-        <Table.Header>
-          <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.hours}>
-            {hoursHeaderItem}
-          </Table.HeaderItem>
-          <Table.HeaderItem {...tableConfig.amount}>
-            {amountHeaderItem}
-          </Table.HeaderItem>
-          {isPayrollJobColumnEnabled && (
-            <Table.HeaderItem {...tableConfig.job}>
-              {jobsHeaderItem}
-            </Table.HeaderItem>
-          )}
-        </Table.Header>
-        <Table.Body>
-          <PayrollStandardPayDetailsWageTableRows
-            tableConfig={tableConfig}
-            {...props}
-          />
-          <PayrollStandardPayDetailsDeductionTableRows
-            tableConfig={tableConfig}
-            {...props}
-          />
-          <PayrollStandardPayDetailsTaxTableRows
-            tableConfig={tableConfig}
-            {...props}
-          />
-          <PayrollStandardPayDetailsLeaveTableRows
-            tableConfig={tableConfig}
-            {...props}
-          />
-          <PayrollStandardPayDetailsExpenseTableRows
-            tableConfig={tableConfig}
-            {...props}
-          />
-        </Table.Body>
-      </Table>
-    </FieldGroup>
-  );
-};
+const PayrollStandardPayDetailsTable = (props) => (
+  <FieldGroup label={fieldGroupLabel}>
+    <Table>
+      <Table.Header>
+        <Table.HeaderItem {...tableConfig.name}>Name</Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.hours}>
+          {hoursHeaderItem}
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.amount}>
+          {amountHeaderItem}
+        </Table.HeaderItem>
+        <Table.HeaderItem {...tableConfig.job}>
+          {jobsHeaderItem}
+        </Table.HeaderItem>
+      </Table.Header>
+      <Table.Body>
+        <PayrollStandardPayDetailsWageTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollStandardPayDetailsDeductionTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollStandardPayDetailsTaxTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollStandardPayDetailsLeaveTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+        <PayrollStandardPayDetailsExpenseTableRows
+          tableConfig={tableConfig}
+          {...props}
+        />
+      </Table.Body>
+    </Table>
+  </FieldGroup>
+);
 
-const mapStateToProps = (state) => ({
-  isPayrollJobColumnEnabled: getIsPayrollJobColumnEnabled(state),
-});
-
-export default connect(mapStateToProps)(PayrollStandardPayDetailsTable);
+export default PayrollStandardPayDetailsTable;
