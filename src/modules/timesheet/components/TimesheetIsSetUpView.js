@@ -21,7 +21,6 @@ import {
   getEmployeeList,
   getFormattedHours,
   getIsTableLoading,
-  getIsTimesheetJobColumnEnabled,
   getPayItems,
   getRowHours,
   getSelectedDate,
@@ -78,7 +77,6 @@ const TimesheetIsSetUpView = ({
   onDisplayStartStopTimesChange,
   onCreateJobClick,
   onHoursBlur,
-  isTimesheetJobColumnEnabled,
   isTableLoading,
   activeJobOptions,
 }) => {
@@ -174,19 +172,17 @@ const TimesheetIsSetUpView = ({
             />
           ))}
         </Select>
-        {isTimesheetJobColumnEnabled && (
-          <JobCombobox
-            label="job"
-            onChange={handleComboBoxChange('jobId', onChange)}
-            addNewJob={() =>
-              onCreateJobClick(handleComboBoxChange('jobId', onChange))
-            }
-            items={data.jobOptions ? data.jobOptions : activeJobOptions}
-            selectedId={data.jobId}
-            disabled={!isEmployeeSelected || isTableLoading}
-            allowClear
-          />
-        )}
+        <JobCombobox
+          label="job"
+          onChange={handleComboBoxChange('jobId', onChange)}
+          addNewJob={() =>
+            onCreateJobClick(handleComboBoxChange('jobId', onChange))
+          }
+          items={data.jobOptions ? data.jobOptions : activeJobOptions}
+          selectedId={data.jobId}
+          disabled={!isEmployeeSelected || isTableLoading}
+          allowClear
+        />
         <TextArea
           name="notes"
           label="Notes"
@@ -320,7 +316,6 @@ const mapStateToProps = (state) => ({
   displayStartStopTimes: getDisplayStartStopTimes(state),
   totalHoursSum: getTimesheetTotalHours(state),
   weekDayTotals: getWeekDayTotals(state),
-  isTimesheetJobColumnEnabled: getIsTimesheetJobColumnEnabled(state),
   activeJobOptions: getActiveJobOptions(state),
   isTableLoading: getIsTableLoading(state),
 });

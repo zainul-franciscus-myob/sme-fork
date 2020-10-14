@@ -9,7 +9,6 @@ import {
   getTimesheetIsDirty,
   getUnsavedChangesModalAction,
 } from './timesheetSelectors';
-import FeatureToggle from '../../FeatureToggles';
 import JobModalModule from '../job/jobModal/JobModalModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -21,10 +20,9 @@ import createTimesheetIntegrator from './timesheetIntegrator';
 import reducer from './timesheetReducer';
 
 export default class TimesheetModule {
-  constructor({ setRootView, integration, isToggleOn }) {
+  constructor({ setRootView, integration }) {
     this.store = new Store(reducer);
     this.setRootView = setRootView;
-    this.isToggleOn = isToggleOn;
     this.jobModalModule = new JobModalModule({
       integration,
     });
@@ -314,12 +312,7 @@ export default class TimesheetModule {
   };
 
   run = (context) => {
-    this.dispatcher.loadContext({
-      ...context,
-      isTimesheetJobColumnEnabled: this.isToggleOn(
-        FeatureToggle.EssentialsJobsPayrun
-      ),
-    });
+    this.dispatcher.loadContext(context);
     this.render();
     this.loadInitialTimesheet();
   };

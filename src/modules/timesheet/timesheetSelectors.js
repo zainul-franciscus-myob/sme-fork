@@ -19,8 +19,6 @@ export const getPayItems = (state) =>
   );
 export const getActiveJobOptions = (state) =>
   state.jobOptions.filter((job) => job.isActive);
-export const getIsTimesheetJobColumnEnabled = (state) =>
-  state.isTimesheetJobColumnEnabled;
 export const getSelectedEmployeeId = (state) => state.selectedEmployeeId;
 export const getLoadingState = (state) => state.loadingState;
 export const getIsTableLoading = (state) => state.isTableLoading;

@@ -43,7 +43,6 @@ const getDefaultState = () => ({
   modal: null,
   modalAction: null,
   employeeAllowedPayItems: [],
-  isTimesheetJobColumnEnabled: false,
 });
 
 const loadInitialTimesheet = (state, { response }) => ({

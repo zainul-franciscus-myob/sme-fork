@@ -1,12 +1,7 @@
 import RouteName from '../../router/RouteName';
 import TimesheetModule from './TimesheetModule';
 
-const getTimesheetRoutes = ({
-  integration,
-  setRootView,
-  featureToggles,
-  isToggleOn,
-}) => {
+const getTimesheetRoutes = ({ integration, setRootView, featureToggles }) => {
   const routes = [
     {
       name: RouteName.TIMESHEET,
@@ -15,7 +10,6 @@ const getTimesheetRoutes = ({
         integration,
         setRootView,
         featureToggles,
-        isToggleOn,
       }),
       documentTitle: 'Timesheet',
     },
