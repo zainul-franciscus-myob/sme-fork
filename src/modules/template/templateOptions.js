@@ -43,7 +43,7 @@ export const BusinessDetailPayloadMap = {
   [AllBusinessDetailKeys.email]: 'Email',
   [AllBusinessDetailKeys.website]: 'Website',
   [AllBusinessDetailKeys.abn]: 'ABN',
-  [AllBusinessDetailKeys.gstNumber]: 'ABN',
+  [AllBusinessDetailKeys.gstNumber]: 'GSTNumber',
 };
 
 export const BusinessDetailLabelMap = {
