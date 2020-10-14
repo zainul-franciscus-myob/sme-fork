@@ -7,11 +7,12 @@ import {
   UPDATE_BANKING_RULE,
 } from './BankingRuleDetailIntents';
 import {
-  getBankingRuleParams,
+  getBankingRuleUrlParams,
   getBusinessId,
   getIsCreating,
-  getNewBankingRuleParams,
+  getNewBankingRuleUrlParams,
   getSaveBankingRuleContent,
+  getSaveBankingRuleParams,
 } from './bankingRuleDetailSelectors';
 
 const createBankingRuleDetailIntegrator = (store, integration) => ({
@@ -21,8 +22,8 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
 
     const intent = isCreating ? LOAD_NEW_BANKING_RULE : LOAD_BANKING_RULE;
     const urlParams = isCreating
-      ? getNewBankingRuleParams(state)
-      : getBankingRuleParams(state);
+      ? getNewBankingRuleUrlParams(state)
+      : getBankingRuleUrlParams(state);
 
     integration.read({
       intent,
@@ -38,13 +39,16 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
 
     const content = getSaveBankingRuleContent(state);
     const urlParams = isCreating
-      ? getNewBankingRuleParams(state)
-      : getBankingRuleParams(state);
+      ? getNewBankingRuleUrlParams(state)
+      : getBankingRuleUrlParams(state);
+    const params = getSaveBankingRuleParams(state);
+
     const intent = isCreating ? CREATE_BANKING_RULE : UPDATE_BANKING_RULE;
 
     integration.write({
       intent,
       urlParams,
+      params,
       content,
       onSuccess,
       onFailure,
@@ -54,7 +58,7 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
   deleteBankingRule: (onSuccess, onFailure) => {
     const state = store.getState();
 
-    const urlParams = getBankingRuleParams(state);
+    const urlParams = getBankingRuleUrlParams(state);
 
     integration.write({
       intent: DELETE_BANKING_RULE,

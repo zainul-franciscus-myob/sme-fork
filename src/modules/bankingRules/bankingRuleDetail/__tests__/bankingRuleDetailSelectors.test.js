@@ -1,8 +1,10 @@
 import {
   getIsInputField,
+  getIsNoConditionRuleAllowed,
   getIsPaymentReportableCheckboxDisabled,
   getRemainingPercentage,
 } from '../bankingRuleDetailSelectors';
+import RuleTypes from '../RuleTypes';
 
 describe('bankingRuleDetailSelectors', () => {
   describe('getIsInputField', () => {
@@ -119,5 +121,30 @@ describe('bankingRuleDetailSelectors', () => {
 
       expect(actual).toEqual(true);
     });
+  });
+
+  describe('getIsNoConditionRuleAllowed', () => {
+    it.each([
+      ['on', true, RuleTypes.spendMoney, true],
+      ['on', true, RuleTypes.receiveMoney, true],
+      ['on', true, RuleTypes.bill, false],
+      ['on', true, RuleTypes.invoice, false],
+      ['off', false, RuleTypes.spendMoney, false],
+      ['off', false, RuleTypes.receiveMoney, false],
+      ['off', false, RuleTypes.bill, false],
+      ['off', false, RuleTypes.invoice, false],
+    ])(
+      'With banklink-payee feature toggle %s, it should return %s',
+      (_, isFeatureToggleOn, ruleType, expected) => {
+        const state = {
+          bankingRuleId: 'new',
+          isNoConditionRuleEnabled: isFeatureToggleOn,
+          ruleType,
+        };
+
+        const actual = getIsNoConditionRuleAllowed(state);
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

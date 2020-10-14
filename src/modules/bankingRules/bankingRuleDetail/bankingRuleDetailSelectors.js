@@ -165,6 +165,12 @@ export const getIsInputField = (state, { index }) => {
 export const getIsPaymentReportable = (state) => state.isPaymentReportable;
 export const getIsPaymentReportableCheckboxDisabled = (state) =>
   state.contactType !== ContactType.SUPPLIER;
+
+export const getIsNoConditionRuleAllowed = (state) =>
+  state.isNoConditionRuleEnabled &&
+  (state.ruleType === RuleTypes.spendMoney ||
+    state.ruleType === RuleTypes.receiveMoney);
+
 export const getSaveBankingRuleContent = createStructuredSelector({
   name: getName,
   isInactiveRule: getIsInactiveRule,
@@ -179,13 +185,17 @@ export const getSaveBankingRuleContent = createStructuredSelector({
   isPaymentReportable: getIsPaymentReportable,
 });
 
-export const getNewBankingRuleParams = (state) => ({
+export const getNewBankingRuleUrlParams = (state) => ({
   businessId: getBusinessId(state),
 });
 
-export const getBankingRuleParams = (state) => ({
+export const getBankingRuleUrlParams = (state) => ({
   businessId: getBusinessId(state),
   bankingRuleId: getBankingRuleId(state),
+});
+
+export const getSaveBankingRuleParams = (state) => ({
+  isNoConditionRuleAllowed: getIsNoConditionRuleAllowed(state),
 });
 
 export const getBankingRuleListUrl = (state) => {

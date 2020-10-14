@@ -12,8 +12,10 @@ import {
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { getIsCreating } from '../bankingRuleDetailSelectors';
-import RuleTypes from '../RuleTypes';
+import {
+  getIsCreating,
+  getIsNoConditionRuleAllowed,
+} from '../bankingRuleDetailSelectors';
 import allocationHandlers from './allocationHandlers';
 import conditionHandlers from './conditionHandlers';
 import createReducer from '../../../../store/createReducer';
@@ -68,12 +70,10 @@ const getConditions = (
         },
       ];
 };
+
 const loadBankingRuleDetail = (state, action) => {
   const isCreating = getIsCreating(state);
-  const isAllowNoCondition =
-    state.isNoConditionRuleEnabled &&
-    (state.ruleType === RuleTypes.spendMoney ||
-      state.ruleType === RuleTypes.receiveMoney);
+  const isAllowNoCondition = getIsNoConditionRuleAllowed(state);
 
   return {
     ...state,
