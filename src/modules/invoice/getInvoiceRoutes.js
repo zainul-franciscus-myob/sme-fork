@@ -9,7 +9,6 @@ const getInvoiceRoutes = ({
   pushMessage,
   replaceURLParams,
   globalCallbacks,
-  isToggleOn,
   navigateTo,
   subscribeOrUpgrade,
 }) => {
@@ -40,7 +39,6 @@ const getInvoiceRoutes = ({
         popMessages,
         replaceURLParams,
         globalCallbacks,
-        isToggleOn,
         navigateTo,
         subscribeOrUpgrade,
       }),

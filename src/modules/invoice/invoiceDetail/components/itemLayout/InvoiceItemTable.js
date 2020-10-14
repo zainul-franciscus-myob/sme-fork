@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsInvoiceJobColumnEnabled,
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/invoiceDetailSelectors';
@@ -21,7 +20,6 @@ const InvoiceItemTable = ({
     onLoadAccounts,
   },
   taxCodeLabel,
-  isInvoiceJobColumnEnabled,
   renderItemCombobox,
   renderJobCombobox,
 }) => {
@@ -36,10 +34,6 @@ const InvoiceItemTable = ({
   const jobLabel = 'Job';
   const requiredLabel = 'This is required';
 
-  const jobColumn = (
-    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
-  );
-
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{itemNameLabel}</LineItemTable.HeaderItem>,
@@ -53,7 +47,7 @@ const InvoiceItemTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    isInvoiceJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -124,7 +118,6 @@ const InvoiceItemTable = ({
       onUpdateAmount={onUpdateAmount}
       onAddAccount={onAddAccount}
       onLoadAccounts={onLoadAccounts}
-      isInvoiceJobColumnEnabled={isInvoiceJobColumnEnabled}
       renderItemCombobox={renderItemCombobox}
       renderJobCombobox={renderJobCombobox}
     />
@@ -149,7 +142,6 @@ const InvoiceItemTable = ({
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
-  isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTable);

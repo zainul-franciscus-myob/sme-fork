@@ -49,7 +49,6 @@ import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSele
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
-import FeatureToggle from '../../../FeatureToggles';
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
@@ -74,7 +73,6 @@ export default class InvoiceDetailModule {
     popMessages,
     replaceURLParams,
     globalCallbacks,
-    isToggleOn,
     navigateTo,
     subscribeOrUpgrade,
   }) {
@@ -88,7 +86,6 @@ export default class InvoiceDetailModule {
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
 
-    this.isToggleOn = isToggleOn;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
 
     this.accountModalModule = new AccountModalModule({
@@ -891,10 +888,7 @@ export default class InvoiceDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isInvoiceJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
-    });
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
 

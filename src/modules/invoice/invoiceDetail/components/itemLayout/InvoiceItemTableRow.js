@@ -70,7 +70,6 @@ const InvoiceItemTableRow = ({
   isReadOnly,
   onUpdateAmount,
   onAddAccount,
-  isInvoiceJobColumnEnabled,
   renderItemCombobox,
   renderJobCombobox,
   ...feelixInjectedProps
@@ -88,7 +87,7 @@ const InvoiceItemTableRow = ({
         <InvoiceTableReadOnlyRowItem />
         <InvoiceTableReadOnlyRowItem />
         <InvoiceTableReadOnlyRowItem value={amount} />
-        {isInvoiceJobColumnEnabled && <InvoiceTableReadOnlyRowItem />}
+        <InvoiceTableReadOnlyRowItem />
         <InvoiceTableReadOnlyRowItem />
       </LineItemTable.Row>
     );
@@ -173,16 +172,15 @@ const InvoiceItemTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isInvoiceJobColumnEnabled &&
-        renderJobCombobox({
-          name: 'jobId',
-          label: 'Job',
-          hideLabel: true,
-          selectedId: jobId,
-          disabled: isSubmitting || isReadOnly,
-          onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
-          left: true,
-        })}
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isSubmitting || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}

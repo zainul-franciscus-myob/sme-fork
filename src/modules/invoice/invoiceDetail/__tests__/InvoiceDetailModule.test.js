@@ -49,7 +49,6 @@ export const setup = () => {
     popMessages: () => [],
     replaceURLParams: () => {},
     reload: () => {},
-    isToggleOn: () => true,
   });
   module.store = store;
   module.dispatcher = createInvoiceDetailDispatcher(store);

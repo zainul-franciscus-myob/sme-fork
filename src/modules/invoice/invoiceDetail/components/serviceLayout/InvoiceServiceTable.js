@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsInvoiceJobColumnEnabled,
   getIsPreConversion,
   getTableData,
   getTaxCodeLabel,
@@ -24,7 +23,6 @@ const InvoiceServiceTable = ({
     onLoadAccounts,
   },
   renderJobCombobox,
-  isInvoiceJobColumnEnabled,
   isPreConversion,
 }) => {
   const descriptionLabel = 'Description';
@@ -32,10 +30,6 @@ const InvoiceServiceTable = ({
   const amountLabel = 'Amount ($)';
   const jobLabel = 'Job';
   const requiredLabel = 'This is required';
-
-  const jobColumn = (
-    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
-  );
 
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
@@ -45,7 +39,7 @@ const InvoiceServiceTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    isInvoiceJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -92,7 +86,6 @@ const InvoiceServiceTable = ({
       onAddAccount={onAddAccount}
       onLoadAccounts={onLoadAccounts}
       renderJobCombobox={renderJobCombobox}
-      isInvoiceJobColumnEnabled={isInvoiceJobColumnEnabled}
     />
   );
 
@@ -117,7 +110,6 @@ const InvoiceServiceTable = ({
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
-  isInvoiceJobColumnEnabled: getIsInvoiceJobColumnEnabled(state),
   isPreConversion: getIsPreConversion(state),
 });
 

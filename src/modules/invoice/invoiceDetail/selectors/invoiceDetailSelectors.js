@@ -51,8 +51,6 @@ export const getIsAllowOnlinePayments = (state) =>
 export const getAmountPaid = (state) => state.invoice.amountPaid;
 export const getLines = (state) => state.invoice.lines;
 export const getLength = (state) => state.invoice.lines.length;
-export const getIsInvoiceJobColumnEnabled = (state) =>
-  state.isInvoiceJobColumnEnabled;
 export const getNewLine = (state) => state.newLine;
 
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
