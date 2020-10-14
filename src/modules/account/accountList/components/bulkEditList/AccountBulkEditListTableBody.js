@@ -8,12 +8,7 @@ import {
   getTableEntries,
   getTaxCodeList,
 } from '../../AccountListSelectors';
-import AccountNameRowItem from './accountRowItems/AccountNameRowItem';
-import AccountNumberRowItem from './accountRowItems/AccountNumberRowItem';
-import AccountTypeRowItem from './accountRowItems/AccountTypeRowItem';
-import OpeningBalanceRowItem from './accountRowItems/OpeningBalanceRowItem';
-import ReadOnlyRowItem from './accountRowItems/ReadOnlyRowItem';
-import TaxCodeRowItem from './accountRowItems/TaxCodeRowItem';
+import AccountBulkEditListTableRow from './AccountBulkEditListTableRow';
 
 const AccountBulkEditListTableBody = ({
   tableConfig,
@@ -43,63 +38,31 @@ const AccountBulkEditListTableBody = ({
     } = entry;
 
     return (
-      <Table.Row key={id}>
-        <AccountNumberRowItem
-          config={tableConfig.accountNumber}
-          accountNumber={accountNumber}
-          indentLevel={indentLevel}
-          isSystem={isSystem}
-          isHeader={isHeader}
-          index={index}
-          onChange={onAccountNumberChange}
-          onBlur={onAccountNumberBlur}
-          prefix={accountClassifications[accountType].prefix}
-          accountNumberCount={accountNumberCount}
-        />
-        <AccountNameRowItem
-          config={tableConfig.accountName}
-          accountName={accountName}
-          isSystem={isSystem}
-          isHeader={isHeader}
-          index={index}
-          onChange={onAccountDetailsChange}
-        />
-        <AccountTypeRowItem
-          config={tableConfig.type}
-          isSystem={isSystem}
-          isHeader={isHeader}
-          accountClassifications={accountClassifications}
-          accountType={accountType}
-          subAccountType={subAccountType}
-          index={index}
-          onChange={onAccountDetailsChange}
-        />
-        <TaxCodeRowItem
-          config={tableConfig.taxCode}
-          isSystem={isSystem}
-          isHeader={isHeader}
-          taxCodeList={taxCodeList}
-          taxCode={taxCode}
-          selectedTaxCodeId={taxCodeId}
-          index={index}
-          onChange={onAccountDetailsChange}
-        />
-        <OpeningBalanceRowItem
-          config={tableConfig.openingBalance}
-          isSystem={isSystem}
-          isHeader={isHeader}
-          openingBalance={openingBalance}
-          index={index}
-          onChange={onAccountDetailsChange}
-          onBlur={calculateRemainingHistoricalBalance}
-        />
-        <ReadOnlyRowItem
-          config={tableConfig.balance}
-          value={balance}
-          isSystem={isSystem}
-          isHeader={isHeader}
-        />
-      </Table.Row>
+      <AccountBulkEditListTableRow
+        tableConfig={tableConfig}
+        onAccountDetailsChange={onAccountDetailsChange}
+        onAccountNumberChange={onAccountNumberChange}
+        onAccountNumberBlur={onAccountNumberBlur}
+        calculateRemainingHistoricalBalance={
+          calculateRemainingHistoricalBalance
+        }
+        accountClassifications={accountClassifications}
+        taxCodeList={taxCodeList}
+        accountNumberCount={accountNumberCount}
+        index={index}
+        id={id}
+        accountNumber={accountNumber}
+        accountName={accountName}
+        balance={balance}
+        isSystem={isSystem}
+        isHeader={isHeader}
+        indentLevel={indentLevel}
+        openingBalance={openingBalance}
+        subAccountTyp={subAccountType}
+        accountType={accountType}
+        taxCode={taxCode}
+        taxCodeId={taxCodeId}
+      />
     );
   });
 
