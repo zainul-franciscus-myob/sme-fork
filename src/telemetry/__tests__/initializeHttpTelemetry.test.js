@@ -193,5 +193,26 @@ describe('Telemetry', () => {
         expectedOptions
       );
     });
+
+    it('should remove null values from eventProperties', () => {
+      const { trackUserEvent } = telemetry;
+      const expectedOptions = {
+        context: {
+          'Google Analytics': {
+            clientId: '593164909.1569991666',
+          },
+        },
+      };
+      trackUserEvent({
+        eventName: 'eventName',
+        eventProperties: { p1: 'p1', p2: null, p3: '' },
+      });
+      expect(trackMock).toHaveBeenCalledTimes(1);
+      expect(trackMock).toBeCalledWith(
+        'eventName',
+        { p1: 'p1' },
+        expectedOptions
+      );
+    });
   });
 });

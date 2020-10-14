@@ -15,7 +15,13 @@ import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunModule {
-  constructor({ integration, store, pushMessage, featureToggles }) {
+  constructor({
+    integration,
+    store,
+    pushMessage,
+    featureToggles,
+    trackUserEvent,
+  }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
@@ -26,6 +32,7 @@ export default class RecordPayRunModule {
       onDeclared: this.recordPayments,
     });
     this.isAllowNegativesInPayRuns = featureToggles?.isAllowNegativesInPayRuns;
+    this.trackUserEvent = trackUserEvent;
   }
 
   recordPayments = () => {
@@ -44,13 +51,11 @@ export default class RecordPayRunModule {
     };
 
     this.integrator.recordPayments({ onSuccess, onFailure });
-    this.showAppcuesPopup();
+    this.trackRecordPayment();
   };
 
-  showAppcuesPopup = () => {
-    // eslint-disable-next-line no-unused-expressions
-    window.Appcues &&
-      window.Appcues.show('c31e7ff9-b5a1-4d21-9b29-5c68b1314304');
+  trackRecordPayment = () => {
+    this.trackUserEvent('recordPayment', { action: 'record_payment' });
   };
 
   saveDraftAndRedirect = () => {

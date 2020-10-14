@@ -202,16 +202,9 @@ describe('Navigation Module', () => {
         navigationModule.manageMyProduct();
 
         expect(navigationModule.trackUserEvent).toHaveBeenCalledTimes(1);
-        expect(navigationModule.trackUserEvent).toBeCalledWith(
-          expect.objectContaining({
-            eventName: 'manageMyProduct',
-            eventProperties: {
-              businessId: 'businessId',
-              userEmail: 'abc',
-              timestamp: expect.any(Number),
-            },
-          })
-        );
+        expect(
+          navigationModule.trackUserEvent
+        ).toBeCalledWith('manageMyProduct', { userEmail: 'abc' });
       });
 
       it('opens manage my product page in new tab', () => {

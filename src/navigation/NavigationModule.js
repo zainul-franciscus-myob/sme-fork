@@ -205,18 +205,12 @@ export default class NavigationModule {
     const state = this.store.getState();
     const userEmail = getUserEmail(state);
     const productManagementUrl = getProductManagementUrl(state);
-    const businessId = getBusinessId(state);
 
     const telemetryData = {
-      eventName: 'manageMyProduct',
-      eventProperties: {
-        businessId,
-        userEmail,
-        timestamp: +new Date(),
-      },
+      userEmail,
     };
 
-    this.trackUserEvent(telemetryData);
+    this.trackUserEvent('manageMyProduct', telemetryData);
     this.navigateTo(productManagementUrl, true);
   };
 

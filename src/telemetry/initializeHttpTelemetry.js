@@ -89,6 +89,17 @@ const recordPageVisit = (currentRouteName, userId, businessId) => {
   window.analytics.page(currentRouteName, pageViewProperties, pageViewOptions);
 };
 
+const removeEmpty = (obj) => {
+  Object.entries(obj).forEach(([key, value]) => {
+    if (value && typeof value === 'object') {
+      removeEmpty(obj[key]);
+    } else if (value === undefined || value === null || value === '') {
+      delete obj[key]; // eslint-disable-line no-param-reassign
+    }
+  });
+  return obj;
+};
+
 const trackUserEvent = (eventName, telemetryProperties) => {
   const trackUserEventOptions = { context: {} };
 
@@ -98,7 +109,12 @@ const trackUserEvent = (eventName, telemetryProperties) => {
       clientId: googleAnalyticsClientId,
     };
   }
-  window.analytics.track(eventName, telemetryProperties, trackUserEventOptions);
+
+  window.analytics.track(
+    eventName,
+    removeEmpty(telemetryProperties),
+    trackUserEventOptions
+  );
 };
 
 const initializeHttpTelemetry = () => {

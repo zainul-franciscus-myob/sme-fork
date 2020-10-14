@@ -11,6 +11,7 @@ const getPayRunRoutes = ({
   replaceURLParams,
   subscribeOrUpgrade,
   featureToggles,
+  trackUserEvent,
 }) => {
   const routes = [
     {
@@ -23,6 +24,7 @@ const getPayRunRoutes = ({
         pushMessage,
         subscribeOrUpgrade,
         featureToggles,
+        trackUserEvent,
       }),
       documentTitle: 'Pay run',
     },

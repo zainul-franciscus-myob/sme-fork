@@ -61,6 +61,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     featureToggles,
     loadGlobalBusinessDetails: rootModule.loadGlobalBusinessDetails,
     loadHelpContentBasedOnRoute: rootModule.loadHelpContentBasedOnRoute,
+    trackUserEvent: rootModule.trackTelemetryUserEvent,
   });
 
   const routes = getRoutes(container);

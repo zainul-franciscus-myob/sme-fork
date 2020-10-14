@@ -89,4 +89,59 @@ describe('RecordPayRunModule', () => {
       expect(openBlob).toHaveBeenCalled();
     });
   });
+
+  describe('Telemetry event', () => {
+    const trackUserEvent = jest.fn();
+    const constructRecordPayRunModuleLocal = () => {
+      const integration = {
+        readFile: ({ onSuccess }) => onSuccess('FOO'),
+        write: ({ onSuccess }) => {
+          onSuccess({ message: 'success' });
+        },
+      };
+      const pushMessage = () => {};
+      const setRootView = () => <div />;
+      const isToggleOn = () => true;
+
+      const payRunModule = new PayRunModule({
+        integration,
+        setRootView,
+        pushMessage,
+        isToggleOn,
+      });
+      const defaulState = payRunModule.store.getState();
+      // mock get state and add businessId
+      payRunModule.store.getState = jest.fn();
+      payRunModule.store.getState.mockReturnValue({
+        ...defaulState,
+        businessId: '1234',
+      });
+      const recordPayRunModule = new RecordPayRunModule({
+        integration,
+        store: payRunModule.store,
+        pushMessage,
+        trackUserEvent,
+      });
+
+      const view = recordPayRunModule.getView();
+
+      const wrappedView = (
+        <Provider store={payRunModule.store}>{view}</Provider>
+      );
+      const wrapper = mount(wrappedView);
+
+      wrapper.update();
+      return { wrapper, recordPayRunModule };
+    };
+
+    it('should call telemetry service to tract payment event with correct details', () => {
+      const { recordPayRunModule } = constructRecordPayRunModuleLocal();
+      recordPayRunModule.trackRecordPayment();
+
+      expect(recordPayRunModule.trackUserEvent).toHaveBeenCalledTimes(1);
+      const parameters = recordPayRunModule.trackUserEvent.mock.calls[0];
+      expect(parameters[0]).toEqual('recordPayment');
+      expect(parameters[1].action).toEqual('record_payment');
+    });
+  });
 });

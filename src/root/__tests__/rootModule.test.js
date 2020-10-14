@@ -7,6 +7,10 @@ import createRootIntegrator from '../createRootIntegrator';
 import rootReducer from '../rootReducer';
 import subscriptionResponse from '../mappings/data/subscription.json';
 
+jest.mock('../../Auth', () => ({
+  getUser: () => ({ userId: '654321' }),
+}));
+
 const setup = () => {
   const store = new TestStore(rootReducer);
   const integration = new TestIntegration();
@@ -315,6 +319,48 @@ describe('rootModule', () => {
 
         expect(root.recordPageVisit).toBeCalledTimes(1);
       });
+    });
+  });
+
+  describe('getTelemetryFields', () => {
+    it('should call trackUserEvent with correct properties', () => {
+      const { module } = setup();
+      module.store = {
+        getState: () => ({
+          businessId: '12345',
+          subscription: {
+            product: {
+              name: 'Essentials new',
+              productLine: 'Accounting',
+            },
+          },
+        }),
+      };
+      module.trackTelemetryUserEvent('recordPayrun', {
+        customProp: 'record_payment',
+      });
+
+      const actualDetails = module.trackUserEvent.mock.calls[0][0];
+
+      const expected = {
+        eventName: 'recordPayrun',
+        userId: '654321',
+        eventProperties: {
+          userId: '654321',
+          businessId: '12345',
+          action: '',
+          customProp: 'record_payment',
+          label: '',
+          url: 'http://localhost/',
+          product: 'Essentials new',
+          productFamily: 'SME',
+          productLine: 'Accounting',
+          category: 'SME',
+          timestamp: actualDetails?.eventProperties?.timestamp,
+        },
+      };
+
+      expect(module.trackUserEvent).toHaveBeenCalledWith(expected);
     });
   });
 });

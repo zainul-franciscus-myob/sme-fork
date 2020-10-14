@@ -1,4 +1,8 @@
-import { getModuleAction, getTelemetryData } from '../rootSelectors';
+import {
+  getModuleAction,
+  getTelemetryData,
+  getTelemetryFields,
+} from '../rootSelectors';
 import ModuleAction from '../../common/types/ModuleAction';
 import RouteName from '../../router/RouteName';
 
@@ -92,6 +96,60 @@ describe('rootSelector', () => {
           expect(actual[ModuleAction.LOAD_BUSINESS]).toEqual(expected);
         }
       );
+    });
+  });
+
+  describe('get Telemetry User Event Data', () => {
+    const state = {
+      region: 'au',
+      businessId: '12345',
+      businessRole: 'businessRole',
+      industry: 'industry',
+      subscription: {
+        product: {
+          displayName: 'Stub Product',
+          id: '1',
+          name: 'Stub Product Name',
+          productLine: 'Stub Product Line',
+        },
+      },
+      currentUser: {
+        isAdvisor: true,
+      },
+    };
+
+    it('create telemetry user event data ', () => {
+      const actual = getTelemetryFields(
+        state,
+        { userId: 'userId' },
+        'some event',
+        { label: 'some label', customProp: 'some property' }
+      );
+
+      const expected = {
+        eventName: 'some event',
+        userId: 'userId',
+        eventProperties: {
+          userId: 'userId',
+          businessId: '12345',
+          action: '',
+          label: 'some label',
+          url: 'http://localhost/',
+          product: 'Stub Product Name',
+          productFamily: 'SME',
+          productLine: 'Stub Product Line',
+          category: 'SME',
+          timestamp: actual?.eventProperties?.timestamp,
+          customProp: 'some property',
+        },
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('return empty object if no business Id', () => {
+      const actual = getTelemetryFields({}, { userId: 'userId' });
+      expect(actual).toEqual({});
     });
   });
 });

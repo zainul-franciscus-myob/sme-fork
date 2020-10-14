@@ -13,7 +13,9 @@ import {
   getModuleAction,
   getRegion,
   getTelemetryData,
+  getTelemetryFields,
 } from './rootSelectors';
+import { getUser } from '../Auth';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -93,7 +95,7 @@ export default class RootModule {
       toggleHelp: this.drawer.toggleHelp,
       isToggleOn: this.isToggleOn,
       recordPageVisit,
-      trackUserEvent,
+      trackUserEvent: this.trackTelemetryUserEvent,
       navigateTo: this.navigateTo,
     });
 
@@ -234,6 +236,17 @@ export default class RootModule {
     const state = this.store.getState();
     const url = getErrorPageUrl(state);
     this.navigateTo(url);
+  };
+
+  trackTelemetryUserEvent = (eventName, customProperties) => {
+    const state = this.store.getState();
+    const telemetryFields = getTelemetryFields(
+      state,
+      getUser(),
+      eventName,
+      customProperties
+    );
+    this.trackUserEvent(telemetryFields);
   };
 
   run = async (routeProps, module, context) => {

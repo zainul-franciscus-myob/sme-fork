@@ -38,6 +38,31 @@ export const getErrorPageUrl = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/error`
 );
 
+export const getTelemetryFields = (state, user, eventName, customProperties) =>
+  state.businessId
+    ? {
+        eventName,
+        userId: user.userId,
+        eventProperties: {
+          userId: user.userId,
+          businessId: state.businessId,
+          action: '',
+          label: '',
+          url: window.location.href,
+          product: state.subscription.product
+            ? state.subscription.product.name
+            : null,
+          productFamily: 'SME',
+          productLine: state.subscription.product
+            ? state.subscription.product.productLine
+            : null,
+          category: 'SME',
+          timestamp: new Date().toISOString(),
+          ...customProperties,
+        },
+      }
+    : {};
+
 export const getTelemetryData = (state) =>
   state.businessId
     ? {
