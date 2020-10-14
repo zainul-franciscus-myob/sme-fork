@@ -55,8 +55,6 @@ export const getNote = (state) => state.quote.note;
 export const getIsTaxInclusive = (state) => state.quote.isTaxInclusive;
 export const getLines = (state) => state.quote.lines;
 export const getLength = (state) => state.quote.lines.length;
-export const getIsQuoteJobColumnEnabled = (state) =>
-  state.isQuoteJobColumnEnabled;
 export const getTaxExclusiveFreightAmount = (state) =>
   state.quote.taxExclusiveFreightAmount;
 export const getFreightTaxAmount = (state) => state.quote.freightTaxAmount;

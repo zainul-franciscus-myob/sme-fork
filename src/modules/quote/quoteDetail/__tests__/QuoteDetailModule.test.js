@@ -35,7 +35,6 @@ describe('QuoteDetailModule', () => {
     const pushMessage = () => {};
     const popMessages = () => [];
     const replaceURLParams = () => {};
-    const isToggleOn = () => true;
     const integration = new TestIntegration();
 
     const module = new QuoteDetailModule({
@@ -44,7 +43,6 @@ describe('QuoteDetailModule', () => {
       pushMessage,
       popMessages,
       replaceURLParams,
-      isToggleOn,
     });
     module.redirectToUrl = jest.fn();
     const store = new TestStore(quoteDetailReducer);
@@ -104,7 +102,6 @@ describe('QuoteDetailModule', () => {
                 businessId: 'businessId',
                 region: 'au',
                 quoteId: test.quoteId,
-                isQuoteJobColumnEnabled: true,
               },
             },
             {
@@ -145,7 +142,6 @@ describe('QuoteDetailModule', () => {
                 businessId: 'businessId',
                 region: 'au',
                 quoteId: test.quoteId,
-                isQuoteJobColumnEnabled: true,
               },
             },
             {
@@ -206,7 +202,6 @@ describe('QuoteDetailModule', () => {
             businessId: 'businessId',
             region: 'au',
             quoteId: 'new',
-            isQuoteJobColumnEnabled: true,
           },
         },
         {
@@ -257,7 +252,6 @@ describe('QuoteDetailModule', () => {
             businessId: 'businessId',
             region: 'au',
             quoteId: 'new',
-            isQuoteJobColumnEnabled: true,
           },
         },
         {

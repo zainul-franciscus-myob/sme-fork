@@ -50,7 +50,6 @@ import {
 } from './selectors/EmailSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
-import FeatureToggle from '../../../FeatureToggles';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -74,7 +73,6 @@ export default class QuoteDetailModule {
     popMessages,
     navigateTo,
     replaceURLParams,
-    isToggleOn,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -86,8 +84,6 @@ export default class QuoteDetailModule {
     this.store = new Store(quoteDetailReducer);
     this.dispatcher = createQuoteDetailDispatcher(this.store);
     this.integrator = createQuoteDetailIntegrator(this.store, integration);
-
-    this.isToggleOn = isToggleOn;
 
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
@@ -898,10 +894,7 @@ export default class QuoteDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isQuoteJobColumnEnabled: this.isToggleOn(FeatureToggle.EssentialsJobs),
-    });
+    this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
     this.render();
 

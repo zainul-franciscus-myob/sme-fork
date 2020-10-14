@@ -9,7 +9,6 @@ const getQuoteRoutes = ({
   popMessages,
   navigateTo,
   replaceURLParams,
-  isToggleOn,
 }) => {
   const routes = [
     {
@@ -33,7 +32,6 @@ const getQuoteRoutes = ({
         popMessages,
         navigateTo,
         replaceURLParams,
-        isToggleOn,
       }),
       documentTitle: 'Quote',
     },

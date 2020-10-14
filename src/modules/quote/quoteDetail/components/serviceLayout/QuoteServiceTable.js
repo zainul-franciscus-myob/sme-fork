@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsQuoteJobColumnEnabled,
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/QuoteDetailSelectors';
@@ -32,12 +31,7 @@ const QuoteServiceTable = ({
     onAddJob,
   },
   taxCodeLabel,
-  isQuoteJobColumnEnabled,
 }) => {
-  const jobColumn = (
-    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>
-  );
-
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
@@ -46,7 +40,7 @@ const QuoteServiceTable = ({
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,
-    isQuoteJobColumnEnabled ? jobColumn : undefined,
+    <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {taxCodeLabel}
     </LineItemTable.HeaderItem>,
@@ -92,7 +86,6 @@ const QuoteServiceTable = ({
       onAddJob={onAddJob}
       onRowInputBlur={onRowInputBlur}
       labels={labels}
-      isQuoteJobColumnEnabled={isQuoteJobColumnEnabled}
     />
   );
 
@@ -115,7 +108,6 @@ const QuoteServiceTable = ({
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
-  isQuoteJobColumnEnabled: getIsQuoteJobColumnEnabled(state),
 });
 
 export default connect(mapStateToProps)(QuoteServiceTable);

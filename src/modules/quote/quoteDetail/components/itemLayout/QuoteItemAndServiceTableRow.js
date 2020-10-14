@@ -74,7 +74,6 @@ const QuoteItemAndServiceTableRow = ({
   onTableRowAmountInputBlur,
   onAddAccountButtonClick,
   onAddJob,
-  isQuoteJobColumnEnabled,
   isJobComboboxDisabled,
   ...feelixInjectedProps
 }) => {
@@ -89,7 +88,7 @@ const QuoteItemAndServiceTableRow = ({
         <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem value={displayAmount} />
-        {isQuoteJobColumnEnabled && <QuoteTableReadOnlyRowItem />}
+        <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem />
       </LineItemTable.Row>
     );
@@ -183,17 +182,15 @@ const QuoteItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      {isQuoteJobColumnEnabled && (
-        <JobCombobox
-          items={lineJobOptions}
-          selectedId={jobId}
-          onChange={onComboboxChange('jobId', onChange)}
-          addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-          disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
-          allowClear
-          left
-        />
-      )}
+      <JobCombobox
+        items={lineJobOptions}
+        selectedId={jobId}
+        onChange={onComboboxChange('jobId', onChange)}
+        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
+        disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
+        allowClear
+        left
+      />
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}
