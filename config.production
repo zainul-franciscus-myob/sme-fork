@@ -19,7 +19,6 @@ REACT_APP_CREATE_BUSINESS_URL_AU=http://myob.com.au/new-ea-create-new-business \
 REACT_APP_CREATE_BUSINESS_URL_NZ=http://myob.co.nz/new-ea-create-new-business \
 REACT_APP_BANKFEED_PORTAL_URL=https://apply.bankfeeds.myob.com/Forms/Portal \
 REACT_APP_MYOB_URL=https://myob.com \
-REACT_APP_MYOB_TEAM_URL=https://team.myob.com \
 REACT_APP_GENESYS_CHAT=true \
 NODE_OPTIONS=--max_old_space_size=4096 \
 $@

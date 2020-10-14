@@ -40,7 +40,6 @@ describe('Navigation Module', () => {
       MY_REPORTS_URL: 'my-reports.url',
       SELF_SERVICE_PORTAL_URL: 'self-service-portal.url',
       MYOB_URL: 'myob.url',
-      MYOB_TEAM_URL: 'https://myob.team.url',
     },
     isToggleOn: () => true,
     recordPageVisit: jest.fn(),
@@ -160,16 +159,6 @@ describe('Navigation Module', () => {
 
         expect(state.urls[RouteName.PRODUCT_MANAGEMENT_DETAIL]).toEqual(
           'myob.url/manage-my-product?businessId=🍟'
-        );
-      });
-
-      it('builds a URL for myobTeamLink', () => {
-        navigationModule.run({ routeProps: baseData });
-
-        const state = navigationModule.store.getState();
-
-        expect(state.urls[RouteName.MYOB_TEAM_LINK]).toEqual(
-          'https://myob.team.url'
         );
       });
     });

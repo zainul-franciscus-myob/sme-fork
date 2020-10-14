@@ -171,8 +171,6 @@ export const featuresConfig = {
     params: { contactId: 'new' },
   },
 
-  myobTeamLink: { routeName: RouteName.MYOB_TEAM_LINK },
-
   reportsStandard: { routeName: RouteName.REPORTS_STANDARD },
   reportsFavourite: { routeName: RouteName.REPORTS_FAVOURITE },
   reportsCustom: { routeName: RouteName.REPORTS_CUSTOM },

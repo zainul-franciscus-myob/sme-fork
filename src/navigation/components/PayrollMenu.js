@@ -52,14 +52,13 @@ const getItems = (urls, onMenuLinkClick) =>
       getMenuLink(urls.payItemList, 'Pay items', onMenuLinkClick),
     urls.timesheets &&
       getMenuLink(urls.timesheets, 'Timesheets', onMenuLinkClick),
-    urls.myobTeamLink &&
-      getMenuLinkWithIcon(
-        urls.myobTeamLink,
-        'MYOB Team',
-        <Icons.OpenExternalLink />,
-        onMenuLinkClick,
-        '_blank'
-      ),
+    getMenuLinkWithIcon(
+      'https://team.myob.com',
+      'MYOB Team',
+      <Icons.OpenExternalLink />,
+      onMenuLinkClick,
+      '_blank'
+    ),
     <Navigation.Separator key="separator-pay-item-timesheets" />,
     urls.electronicPaymentCreate &&
       getMenuLink(
