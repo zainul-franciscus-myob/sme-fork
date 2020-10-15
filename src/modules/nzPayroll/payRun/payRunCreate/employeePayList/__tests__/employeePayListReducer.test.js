@@ -5,6 +5,7 @@ import {
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+  UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../../PayRunIntents';
 import employeePayList from './fixtures/loadEmployeePayList';
@@ -70,114 +71,92 @@ describe('employeePayListReducer', () => {
   });
 
   describe('UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION', () => {
-    it('should update employee line and original employee line', () => {
+    it('should update employee line', () => {
       const state = {
         employeePayList: {
           lines: [
             {
-              employeeId: '1',
               name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
+              id: 217,
+              employeeId: 21,
+              daysPaid: 5,
+              taxCode: 'M',
+              gross: '1500.00',
+              takeHomePay: '700.00',
+              kiwiSaver: '40.00',
+              paye: '110.00',
+              isSelected: true,
               payItems: [
                 {
-                  payItemId: '11',
-                  payItemName: 'PayGWithholding',
-                  type: 'Tax',
-                  amount: '222.00',
+                  payrollCategoryId: 22,
+                  payrollCategoryName: 'Salary Wage',
+                  payrollCategoryType: 'SalaryWage',
+                  amount: '100000.00',
+                  quantity: '0.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: 0,
                   isSubmitting: true,
-                  hours: '1.00',
-                },
-              ],
-            },
-          ],
-          originalLines: [
-            {
-              employeeId: '1',
-              name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
-              payItems: [
-                {
-                  payItemId: '11',
-                  payItemName: 'PayGWithholding',
-                  type: 'Tax',
-                  amount: '222.00',
-                  hours: '0.00',
                 },
               ],
             },
           ],
         },
       };
-      const recalculatedEmployeePay = {
-        employeeId: '1',
+      const updatedEmployeePay = {
         name: 'Mary Jones',
-        gross: 1500,
-        payg: 100,
-        deduction: 300,
-        netPay: 700,
-        super: 150,
+        id: 217,
+        employeeId: 21,
+        daysPaid: 5,
+        taxCode: 'M',
+        gross: '2000.00',
+        takeHomePay: '700.00',
+        kiwiSaver: '222.00',
+        paye: '777.00',
+        isSelected: true,
         payItems: [
           {
-            payItemId: '11',
-            payItemName: 'PayGWithholding',
-            type: 'Tax',
-            amount: '222.00',
-            hours: '1.00',
+            payrollCategoryId: 22,
+            payrollCategoryName: 'Salary Wage',
+            payrollCategoryType: 'SalaryWage',
+            amount: '22.00',
+            quantity: '0.00',
+            id: 16,
+            calculationType: 'Amount',
+            rate: 0,
           },
         ],
       };
       const action = {
         intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-        employeeId: '1',
-        recalculatedEmployeePay,
+        employeeId: 21,
+        updatedEmployeePay,
       };
       const expected = {
         employeePayList: {
           lines: [
             {
-              employeeId: '1',
               name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
+              id: 217,
+              employeeId: 21,
+              daysPaid: 5,
+              taxCode: 'M',
+              gross: '2000.00',
+              takeHomePay: '700.00',
+              kiwiSaver: '222.00',
+              paye: '777.00',
+              isSelected: true,
               payItems: [
                 {
-                  payItemId: '11',
-                  payItemName: 'PayGWithholding',
-                  type: 'Tax',
+                  payrollCategoryId: 22,
+                  payrollCategoryName: 'Salary Wage',
+                  payrollCategoryType: 'SalaryWage',
+                  amount: '22.00',
+                  quantity: '0.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: 0,
                   isSubmitting: false,
-                  amount: '222.00',
-                  hours: '1.00',
-                },
-              ],
-            },
-          ],
-          originalLines: [
-            {
-              employeeId: '1',
-              name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
-              payItems: [
-                {
-                  payItemId: '11',
-                  payItemName: 'PayGWithholding',
-                  type: 'Tax',
-                  amount: '222.00',
-                  hours: '1.00',
                 },
               ],
             },
@@ -190,64 +169,45 @@ describe('employeePayListReducer', () => {
       expect(actual).toEqual(expected);
     });
 
-    describe('clearing negative values after recalculate', () => {
+    describe('clearing negative values after update', () => {
       const state = {
         employeePayList: {
-          baseHourlyWagePayItemId: '11',
-          baseSalaryWagePayItemId: '9',
+          baseHourlyWagePayItemId: 22,
+          baseSalaryWagePayItemId: 9,
           lines: [
             {
-              employeeId: '1',
               name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
+              id: 217,
+              employeeId: 21,
+              daysPaid: 5,
+              taxCode: 'M',
+              gross: '1500.00',
+              takeHomePay: '700.00',
+              kiwiSaver: '40.00',
+              paye: '110.00',
+              isSelected: true,
               payItems: [
                 {
-                  payItemId: '11',
-                  payItemName: 'Base Hourly',
-                  type: 'HourlyWage',
+                  payrollCategoryId: 22,
+                  payrollCategoryName: 'Base Hourly',
+                  payrollCategoryType: 'HourlyWage',
                   amount: '0.00',
+                  quantity: '0.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: '0.00',
                   isSubmitting: true,
-                  hours: '0.00',
                 },
                 {
-                  payItemId: '10',
-                  payItemName: 'Some other wage',
-                  type: 'HourlyWage',
-                  amount: '-10.00',
+                  payrollCategoryId: 33,
+                  payrollCategoryName: 'Not base hourly',
+                  payrollCategoryType: 'HourlyWage',
+                  amount: '-20.00',
+                  quantity: '-2.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: '10.00',
                   isSubmitting: true,
-                  hours: '-20.00',
-                },
-              ],
-            },
-          ],
-          originalLines: [
-            {
-              employeeId: '1',
-              name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
-              payItems: [
-                {
-                  payItemId: '11',
-                  payItemName: 'Base Hourly',
-                  type: 'HourlyWage',
-                  amount: '-222.00',
-                  hours: '-1.00',
-                },
-                {
-                  payItemId: '10',
-                  payItemName: 'Some other wage',
-                  type: 'HourlyWage',
-                  amount: '-10.00',
-                  isSubmitting: true,
-                  hours: '-20.00',
                 },
               ],
             },
@@ -255,29 +215,45 @@ describe('employeePayListReducer', () => {
         },
       };
 
-      const recalculatedEmployeePay = {
-        employeeId: '1',
+      const updatedEmployeePay = {
         name: 'Mary Jones',
-        gross: 1500,
-        payg: 100,
-        deduction: 300,
-        netPay: 700,
-        super: 150,
+        id: 217,
+        employeeId: 21,
+        daysPaid: 5,
+        taxCode: 'M',
+        gross: '1500.00',
+        takeHomePay: '700.00',
+        kiwiSaver: '40.00',
+        paye: '110.00',
+        isSelected: true,
         payItems: [
           {
-            payItemId: '11',
-            payItemName: 'Base Hourly',
-            type: 'HourlyWage',
+            payrollCategoryId: 22,
+            payrollCategoryName: 'Base Hourly',
+            payrollCategoryType: 'HourlyWage',
             amount: '-20.00',
-            hours: '-1.00',
+            quantity: '-1.00',
+            id: 16,
+            calculationType: 'Amount',
+            rate: '0.00',
+          },
+          {
+            payrollCategoryId: 33,
+            payrollCategoryName: 'Not base hourly',
+            payrollCategoryType: 'HourlyWage',
+            amount: '-20.00',
+            quantity: '-2.00',
+            id: 16,
+            calculationType: 'Amount',
+            rate: '10.00',
           },
         ],
       };
 
       const action = {
         intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-        employeeId: '1',
-        recalculatedEmployeePay,
+        employeeId: 21,
+        updatedEmployeePay,
       };
 
       it('clears the negative amount for base hourly', () => {
@@ -288,62 +264,64 @@ describe('employeePayListReducer', () => {
         );
       });
 
-      it('clears the negative hours for base hourly', () => {
+      it('clears the negative quantity for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual(
+        expect(actual.employeePayList.lines[0].payItems[0].quantity).toEqual(
           '0.00'
         );
       });
 
-      const recalculatedEmployeePayForNonBaseHourly = {
-        employeeId: '1',
-        name: 'Mary Jones',
-        gross: 1500,
-        payg: 100,
-        deduction: 300,
-        netPay: 700,
-        super: 150,
-        payItems: [
-          {
-            payItemId: '11',
-            payItemName: 'PayGWithholding',
-            type: 'Tax',
-            amount: '222.00',
-            hours: '1.00',
-          },
-          {
-            payItemId: '10',
-            payItemName: 'Some other wage',
-            type: 'NonHourlyWage',
-            amount: '-10.00',
-            isSubmitting: true,
-            hours: '-20.00',
-          },
-        ],
-      };
+      const nonBaseHourlyPayItems = [
+        {
+          payrollCategoryId: 22,
+          payrollCategoryName: 'Tax item',
+          payrollCategoryType: 'Tax',
+          amount: '-10.00',
+          quantity: '-1.00',
+          id: 16,
+          calculationType: 'Amount',
+          rate: '0.00',
+        },
+        {
+          payrollCategoryId: 33,
+          payrollCategoryName: 'Not base hourly',
+          payrollCategoryType: 'NonHourlyWage',
+          amount: '-111.00',
+          quantity: '-222.00',
+          id: 16,
+          calculationType: 'Amount',
+          rate: '10.00',
+        },
+      ];
 
       it('does not clear the negative amount for non base hourly', () => {
         const actual = payRunReducer(state, {
           intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-          employeeId: '1',
-          recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
+          employeeId: 21,
+          updatedEmployeePay: {
+            ...updatedEmployeePay,
+            payItems: nonBaseHourlyPayItems,
+          },
         });
 
         expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
-          '-10.00'
+          '-111.00'
         );
       });
 
-      it('does not clear the negative hours for non base hourly', () => {
+      it('does not clear the negative quantity for non base hourly', () => {
         const actual = payRunReducer(state, {
           intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-          employeeId: '1',
-          recalculatedEmployeePay: recalculatedEmployeePayForNonBaseHourly,
+          employeeId: 21,
+          updatedEmployeePay: {
+            ...updatedEmployeePay,
+            payItems: nonBaseHourlyPayItems,
+          },
         });
 
-        expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual(
-          '-20.00'
+        expect(actual.employeePayList.lines[0].payItems[1].quantity).toEqual(
+          '-222.00'
         );
       });
     });
@@ -432,29 +410,42 @@ describe('employeePayListReducer', () => {
     const action = {
       intent: LOAD_DRAFT_PAY_RUN,
       createdDraftPayRun: {
-        baseHourlyWagePayItemId: 2,
+        draftPayRunId: 7,
+        baseHourlyWagePayItemId: 22,
         baseSalaryWagePayItemId: 1,
         employeePays: [
           {
             employeeId: 21,
             payItems: [
               {
-                payItemId: 1,
-                payItemName: 'Salary Wage',
-                amount: '-100.00',
-                hours: '0.00',
+                payrollCategoryId: 22,
+                payrollCategoryName: 'Base Hourly',
+                payrollCategoryType: 'HourlyWage',
+                amount: '-200.00',
+                quantity: '-10.00',
+                id: 16,
+                calculationType: 'Amount',
+                rate: '20.00',
               },
               {
-                payItemId: 2,
-                payItemName: 'Hourly Wage',
-                amount: '-100.00',
-                hours: '-10.00',
+                payrollCategoryId: 1,
+                payrollCategoryName: 'Base Salary',
+                payrollCategoryType: 'SalaryWage',
+                amount: '-20.00',
+                quantity: '-1.00',
+                id: 16,
+                calculationType: 'Amount',
+                rate: '0.00',
               },
               {
-                payItemId: 3,
-                payItemName: 'Annual leave',
-                amount: '-10.00',
-                hours: '0.00',
+                payrollCategoryId: 33,
+                payrollCategoryName: 'Not base hourly',
+                payrollCategoryType: 'HourlyWage',
+                amount: '-20.00',
+                quantity: '-2.00',
+                id: 16,
+                calculationType: 'Amount',
+                rate: '10.00',
               },
             ],
           },
@@ -465,7 +456,7 @@ describe('employeePayListReducer', () => {
     it('sets negative amount to zero for base salary pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
+      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
         '0.00'
       );
     });
@@ -473,14 +464,14 @@ describe('employeePayListReducer', () => {
     it('does not set negative amount to zero for other pay items', () => {
       const actual = payRunReducer(state, action);
       expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual(
-        '-10.00'
+        '-20.00'
       );
     });
 
     it('sets negative amount to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
         '0.00'
       );
     });
@@ -488,7 +479,9 @@ describe('employeePayListReducer', () => {
     it('sets negative hours to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[1].hours).toEqual('0.00');
+      expect(actual.employeePayList.lines[0].payItems[0].quantity).toEqual(
+        '0.00'
+      );
     });
 
     it('sets days paid', () => {
@@ -601,6 +594,85 @@ describe('employeePayListReducer', () => {
       const expected = {
         employeePayList: {
           isPayItemLineDirty: true,
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('UPDATE_EMPLOYEE_PAY_ITEM', () => {
+    it('Employee pay line is updated', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              name: 'Mary Jones',
+              id: 217,
+              employeeId: 21,
+              daysPaid: 5,
+              taxCode: 'M',
+              gross: '1500.00',
+              takeHomePay: '700.00',
+              kiwiSaver: '40.00',
+              paye: '110.00',
+              isSelected: true,
+              payItems: [
+                {
+                  payrollCategoryId: 22,
+                  payrollCategoryName: 'Salary Wage',
+                  payrollCategoryType: 'SalaryWage',
+                  amount: '100000.00',
+                  quantity: '0.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: 0,
+                  isSubmitting: true,
+                },
+              ],
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_EMPLOYEE_PAY_ITEM,
+        employeeId: 21,
+        payItemId: 22,
+        key: 'quantity',
+        value: 10,
+      };
+      const expected = {
+        employeePayList: {
+          lines: [
+            {
+              name: 'Mary Jones',
+              id: 217,
+              employeeId: 21,
+              daysPaid: 5,
+              taxCode: 'M',
+              gross: '1500.00',
+              takeHomePay: '700.00',
+              kiwiSaver: '40.00',
+              paye: '110.00',
+              isSelected: true,
+              payItems: [
+                {
+                  payrollCategoryId: 22,
+                  payrollCategoryName: 'Salary Wage',
+                  payrollCategoryType: 'SalaryWage',
+                  amount: '100000.00',
+                  quantity: '10.00',
+                  id: 16,
+                  calculationType: 'Amount',
+                  rate: 0,
+                  isSubmitting: true,
+                },
+              ],
+            },
+          ],
         },
       };
 

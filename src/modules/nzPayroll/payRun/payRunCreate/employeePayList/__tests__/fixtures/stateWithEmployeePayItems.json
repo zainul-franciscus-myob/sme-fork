@@ -10,298 +10,205 @@
   "employeePayList": {
     "lines": [
       {
-        "employeeId": "21",
         "name": "Mary Jones",
-        "gross": 1500,
-        "payg": 100,
-        "deduction": 300,
-        "netPay": 700,
-        "super": 150,
+        "id": 217,
+        "employeeId": 21,
+        "daysPaid": 5,
+        "taxCode": "M",
+        "gross": "1500.00",
+        "takeHomePay": "700.00",
+        "kiwiSaver": "40.00",
+        "paye": "110.00",
+        "isSelected": true,
         "payItems": [
           {
-            "payItemId": "1",
-            "payItemName": "Salary Wage",
-            "type": "SalaryWage",
+            "payrollCategoryId": 22,
+            "payrollCategoryName": "Salary Wage",
+            "payrollCategoryType": "SalaryWage",
             "amount": "100000.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 16,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "2",
-            "payItemName": "Hourly Wage",
-            "type": "HourlyWage",
+            "payrollCategoryId": 21,
+            "payrollCategoryName": "Hourly Wage",
+            "payrollCategoryType": "HourlyWage",
             "amount": "0.00",
-            "quantity": "38.50"
+            "quantity": "38.50",
+            "id": 26,
+            "calculationType": "Rate",
+            "rate": "20.00"
           },
           {
-            "payItemId": "3",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
+            "payrollCategoryId": 3,
+            "payrollCategoryName": "Child support deduction",
+            "payrollCategoryType": "Deduction",
             "amount": "100.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 36,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "4",
-            "payItemName": "Superannuation deduction before tax",
-            "type": "SuperannuationDeductionBeforeTax",
+            "payrollCategoryId": 4,
+            "payrollCategoryName": "Superannuation deduction before tax",
+            "payrollCategoryType": "SuperannuationDeductionBeforeTax",
             "amount": "200.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 46,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "5",
-            "payItemName": "Superannuation deduction after tax",
-            "type": "SuperannuationDeductionAfterTax",
+            "payrollCategoryId": 5,
+            "payrollCategoryName": "Superannuation deduction after tax",
+            "payrollCategoryType": "SuperannuationDeductionAfterTax",
             "amount": "100.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 56,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "6",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
+            "payrollCategoryId": 6,
+            "payrollCategoryName": "Child support deduction",
+            "payrollCategoryType": "Deduction",
             "amount": "5000.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 66,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "7",
-            "payItemName": "Annual Leave",
-            "type": "Entitlement",
+            "payrollCategoryId": 7,
+            "payrollCategoryName": "Annual Leave",
+            "payrollCategoryType": "Entitlement",
             "amount": "0.00",
-            "quantity": "30.00"
+            "quantity": "30.00",
+            "id": 76,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "8",
-            "payItemName": "Sick Leave",
-            "type": "Entitlement",
+            "payrollCategoryId": 8,
+            "payrollCategoryName": "Sick Leave",
+            "payrollCategoryType": "Entitlement",
             "amount": "0.00",
-            "quantity": "10.00"
+            "quantity": "10.00",
+            "id": 86,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "9",
-            "payItemName": "Employer contribution",
-            "type": "KiwiSaverEmployers",
+            "payrollCategoryId": 9,
+            "payrollCategoryName": "Employer contribution",
+            "payrollCategoryType": "KiwiSaverEmployers",
             "amount": "10.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 96,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "11",
-            "payItemName": "PayGWithholding",
-            "type": "Tax",
+            "payrollCategoryId": 11,
+            "payrollCategoryName": "PayGWithholding",
+            "payrollCategoryType": "Tax",
             "amount": "222.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 116,
+            "calculationType": "Amount",
+            "rate": 0
           }
         ]
       },
       {
         "employeeId": "22",
+        "id": 218,
         "name": "John Smith",
+        "daysPaid": 4,
         "gross": 2250.55,
-        "payg": 125,
-        "deduction": 315,
-        "netPay": 1005.15,
-        "super": 200,
+        "taxCode": "M",
+        "isSelected": true,
+        "takeHomePay": "1005.15",
+        "kiwiSaver": "200.00",
+        "paye": "125.00",
         "payItems": [
           {
-            "payItemId": "21",
-            "payItemName": "Salary Wage",
-            "type": "SalaryWage",
+            "payrollCategoryId": "21",
+            "payrollCategoryName": "Salary Wage",
+            "payrollCategoryType": "SalaryWage",
             "amount": "200000.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 1,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "22",
-            "payItemName": "Hourly Wage",
-            "type": "HourlyWage",
+            "payrollCategoryId": "22",
+            "payrollCategoryName": "Hourly Wage",
+            "payrollCategoryType": "HourlyWage",
             "amount": "0.00",
-            "quantity": "100.50"
+            "quantity": "100.50",
+            "id": 2,
+            "calculationType": "Rate",
+            "rate": "20.00"
           },
           {
-            "payItemId": "33",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
+            "payrollCategoryId": "33",
+            "payrollCategoryName": "Child support deduction",
+            "payrollCategoryType": "Deduction",
             "amount": "200.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 3,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "44",
-            "payItemName": "Annual Leave",
-            "type": "Entitlement",
+            "payrollCategoryId": "44",
+            "payrollCategoryName": "Annual Leave",
+            "payrollCategoryType": "Entitlement",
             "amount": "0.00",
-            "quantity": "50.00"
+            "quantity": "50.00",
+            "id": 4,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "55",
-            "payItemName": "Sick Leave",
-            "type": "Entitlement",
+            "payrollCategoryId": "55",
+            "payrollCategoryName": "Sick Leave",
+            "payrollCategoryType": "Entitlement",
             "amount": "0.00",
-            "quantity": "40.00"
+            "quantity": "40.00",
+            "id": 5,
+            "calculationType": "Amount",
+            "rate": 0
           },
           {
-            "payItemId": "66",
-            "payItemName": "Hot Chocolate Reimbursement",
-            "type": "Expense",
+            "payrollCategoryId": "66",
+            "payrollCategoryName": "Hot Chocolate Reimbursement",
+            "payrollCategoryType": "Expense",
             "amount": "1000000.00",
-            "quantity": "0.00"
+            "quantity": "1000.00",
+            "id": 6,
+            "calculationType": "Rate",
+            "rate": 100
           },
           {
-            "payItemId": "77",
-            "payItemName": "PayGWithholding",
-            "type": "Tax",
+            "payrollCategoryId": "77",
+            "payrollCategoryName": "PayGWithholding",
+            "payrollCategoryType": "Tax",
             "amount": "222333.00",
-            "quantity": "0.00"
+            "quantity": "0.00",
+            "id": 7,
+            "calculationType": "Amount",
+            "rate": 0
           }
         ]
       }
     ],
-    "originalLines": [
-      {
-        "employeeId": "21",
-        "name": "Mary Jones",
-        "gross": 1500,
-        "payg": 100,
-        "deduction": 300,
-        "netPay": 700,
-        "super": 150,
-        "payItems": [
-          {
-            "payItemId": "1",
-            "payItemName": "Salary Wage",
-            "type": "SalaryWage",
-            "amount": "100000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "2",
-            "payItemName": "Hourly Wage",
-            "type": "HourlyWage",
-            "amount": "1.00",
-            "quantity": "38.50"
-          },
-          {
-            "payItemId": "3",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
-            "amount": "100.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "4",
-            "payItemName": "Superannuation deduction before tax",
-            "type": "SuperannuationDeductionBeforeTax",
-            "amount": "200.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "5",
-            "payItemName": "Superannuation deduction after tax",
-            "type": "SuperannuationDeductionAfterTax",
-            "amount": "100.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "6",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
-            "amount": "5000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "7",
-            "payItemName": "Annual Leave",
-            "type": "Entitlement",
-            "amount": "0.00",
-            "quantity": "30.00"
-          },
-          {
-            "payItemId": "8",
-            "payItemName": "Sick Leave",
-            "type": "Entitlement",
-            "amount": "0.00",
-            "quantity": "10.00"
-          },
-          {
-            "payItemId": "9",
-            "payItemName": "Coffee Reimbursement",
-            "type": "Expense",
-            "amount": "10000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "10",
-            "payItemName": "Mortgage repayment",
-            "type": "SuperannuationExpense",
-            "amount": "10000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "11",
-            "payItemName": "PayGWithholding",
-            "type": "Tax",
-            "amount": "222.00",
-            "quantity": "0.00"
-          }
-        ]
-      },
-      {
-        "employeeId": "22",
-        "name": "John Smith",
-        "gross": 2250.55,
-        "payg": 125,
-        "deduction": 315,
-        "netPay": 1005.15,
-        "super": 200,
-        "payItems": [
-          {
-            "payItemId": "21",
-            "payItemName": "Salary Wage",
-            "type": "SalaryWage",
-            "amount": "200000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "22",
-            "payItemName": "Hourly Wage",
-            "type": "HourlyWage",
-            "amount": "0.00",
-            "quantity": "100.50"
-          },
-          {
-            "payItemId": "33",
-            "payItemName": "Child support deduction",
-            "type": "Deduction",
-            "amount": "200.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "44",
-            "payItemName": "Annual Leave",
-            "type": "Entitlement",
-            "amount": "0.00",
-            "quantity": "50.00"
-          },
-          {
-            "payItemId": "55",
-            "payItemName": "Sick Leave",
-            "type": "Entitlement",
-            "amount": "0.00",
-            "quantity": "40.00"
-          },
-          {
-            "payItemId": "66",
-            "payItemName": "Hot Chocolate Reimbursement",
-            "type": "Expense",
-            "amount": "1000000.00",
-            "quantity": "0.00"
-          },
-          {
-            "payItemId": "77",
-            "payItemName": "PayGWithholding",
-            "type": "Tax",
-            "amount": "222333.00",
-            "quantity": "0.00"
-          }
-        ]
-      }
-    ],
-    "baseHourlyWagePayItemId": "2",
-    "baseSalaryWagePayItemId": "100"
+    "baseHourlyWagePayItemId": 21,
+    "baseSalaryWagePayItemId": 22
   }
 }

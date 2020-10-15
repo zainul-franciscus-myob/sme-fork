@@ -6,7 +6,7 @@ export const LOAD_DRAFT_PAY_RUN = Symbol('Load draft pay run');
 export const NEXT_STEP = Symbol('Next step');
 export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');
-export const RECALCULATE_PAY = Symbol('Recalculate pay');
+export const UPDATE_EMPLOYEE_PAY = Symbol('Recalculate pay');
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol(
   'Update is employee selected'
 );
@@ -29,3 +29,4 @@ export const SET_TOTAL_TAKE_HOME_PAY = Symbol(
   'Sets amount for total take home pay'
 );
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_DRAFT_PAY_RUN_ID = Symbol('Set draft pay run id');

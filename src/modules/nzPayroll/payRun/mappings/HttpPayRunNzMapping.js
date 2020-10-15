@@ -1,8 +1,8 @@
 import {
   CREATE_DRAFT_PAY_RUN,
-  RECALCULATE_PAY,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
+  UPDATE_EMPLOYEE_PAY,
 } from '../payRunCreate/PayRunIntents';
 
 const PayRunMapping = {
@@ -14,10 +14,10 @@ const PayRunMapping = {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/nz-payroll/payRun/draft`,
   },
-  [RECALCULATE_PAY]: {
-    method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/nz-payroll/payRun/recalculate_pay`,
+  [UPDATE_EMPLOYEE_PAY]: {
+    method: 'PUT',
+    getPath: ({ businessId, draftPayRunId, employeePayId }) =>
+      `/${businessId}/nz-payroll/payRun/draft/${draftPayRunId}/employeePays/${employeePayId}`,
   },
   [RECORD_PAYMENTS]: {
     method: 'POST',

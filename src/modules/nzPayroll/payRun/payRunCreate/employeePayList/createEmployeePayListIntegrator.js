@@ -1,20 +1,22 @@
-import { RECALCULATE_PAY } from '../PayRunIntents';
-import { getBusinessId } from '../PayRunSelectors';
-import { getRecalculatePayPayload } from './EmployeePayListSelectors';
+import { UPDATE_EMPLOYEE_PAY } from '../PayRunIntents';
+import { getBusinessId, getDraftPayRunId } from '../PayRunSelectors';
+import {
+  getEmployeePayId,
+  getUpdateEmployeePayRequest,
+} from './EmployeePayListSelectors';
 
 const createEmployeePayListIntegrator = (store, integration) => ({
-  recalculatePay: ({ employeeId, payItemId, key, onSuccess, onFailure }) => {
+  updateEmployeePay: ({ employeeId, onSuccess, onFailure }) => {
     const state = store.getState();
-    const intent = RECALCULATE_PAY;
-    const businessId = getBusinessId(state);
+    const intent = UPDATE_EMPLOYEE_PAY;
     const urlParams = {
-      businessId,
+      businessId: getBusinessId(state),
+      draftPayRunId: getDraftPayRunId(state),
+      employeePayId: getEmployeePayId({ state, employeeId }),
     };
-    const content = getRecalculatePayPayload({
+    const content = getUpdateEmployeePayRequest({
       state,
       employeeId,
-      payItemId,
-      key,
     });
 
     integration.write({

@@ -18,8 +18,7 @@ const AmountInputField = ({
   value,
   employeeId,
   payItemId,
-  type,
-  isSubmitting,
+  isDisabled,
   onChange,
   onBlur,
 }) => (
@@ -30,7 +29,7 @@ const AmountInputField = ({
       hideLabel
       textAlign="right"
       value={value}
-      disabled={isSubmitting || type === 'HourlyWage' || type === 'KiwiSaver'}
+      disabled={isDisabled}
       onChange={handleInputChange(onChange, employeeId, payItemId)}
       onBlur={handleInputChange(onBlur, employeeId, payItemId)}
     />
@@ -43,7 +42,7 @@ const HoursInputField = ({
   payItemId,
   onChange,
   onBlur,
-  isSubmitting,
+  isDisabled,
 }) => (
   <FormHorizontal>
     <HoursInput
@@ -54,10 +53,15 @@ const HoursInputField = ({
       value={value}
       onChange={handleInputChange(onChange, employeeId, payItemId)}
       onBlur={handleInputChange(onBlur, employeeId, payItemId)}
-      disabled={isSubmitting}
+      disabled={isDisabled}
     />
   </FormHorizontal>
 );
+
+const typeAmountInputDisabled = (type) =>
+  type === 'HourlyWage' ||
+  type === 'KiwiSaverEmployers' ||
+  type === 'KiwiSaverEmployee';
 
 const PayDetailsTableRow = ({
   tableConfig,
@@ -66,17 +70,18 @@ const PayDetailsTableRow = ({
   entry,
   onChange,
   onBlur,
+  disableAmountInput,
 }) => {
   const hourRowItem = (
     <HoursInputField
       value={entry.quantity}
       employeeId={employeeId}
       employeeName={employeeName}
-      payItemId={entry.payItemId}
+      payItemId={entry.payrollCategoryId}
       onChange={onChange}
       onBlur={onBlur}
       leaveWarning={entry.leaveWarning}
-      isSubmitting={entry.isSubmitting}
+      isDisabled={entry.isSubmitting}
     />
   );
 
@@ -84,20 +89,23 @@ const PayDetailsTableRow = ({
     <AmountInputField
       value={entry.amount}
       employeeId={employeeId}
-      payItemId={entry.payItemId}
-      type={entry.type}
-      isSubmitting={entry.isSubmitting}
+      payItemId={entry.payrollCategoryId}
       onChange={onChange}
       onBlur={onBlur}
+      isDisabled={
+        entry.isSubmitting ||
+        disableAmountInput ||
+        typeAmountInputDisabled(entry.payrollCategoryType)
+      }
     />
   );
 
   return (
-    <Table.Row key={entry.payItemId}>
+    <Table.Row key={entry.payrollCategoryId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
-        {entry.payItemName}
+        {entry.payrollCategoryName}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.hours}>
+      <Table.RowItem {...tableConfig.quantity}>
         {entry.shouldShowQuantity && hourRowItem}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>

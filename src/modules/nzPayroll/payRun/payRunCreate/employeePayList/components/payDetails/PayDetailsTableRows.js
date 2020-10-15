@@ -13,6 +13,7 @@ const PayDetailsTableRows = ({
   onChange,
   onBlur,
   shouldShowTableRows,
+  disableAmountInput,
 }) => {
   const headerRow = (
     <Table.Row key={name}>
@@ -22,13 +23,14 @@ const PayDetailsTableRows = ({
 
   const rows = entries.map((entry) => (
     <PayDetailsTableRow
-      key={entry.payItemId}
+      key={entry.payrollCategoryId}
       tableConfig={tableConfig}
       employeeId={employeeId}
       employeeName={employeeName}
       entry={entry}
       onChange={onChange}
       onBlur={onBlur}
+      disableAmountInput={disableAmountInput}
     />
   ));
 

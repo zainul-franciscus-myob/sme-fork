@@ -26,6 +26,7 @@ const KiwiSaverPayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
+    disableAmountInput
   />
 );
 

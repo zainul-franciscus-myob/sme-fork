@@ -1,10 +1,13 @@
 [
   {
-    "payItemId": "9",
-    "payItemName": "Employer contribution",
-    "type": "KiwiSaverEmployers",
+    "payrollCategoryId": 9,
+    "payrollCategoryName": "Employer contribution",
+    "payrollCategoryType": "KiwiSaverEmployers",
     "amount": "10.00",
     "quantity": "0.00",
+    "id": 96,
+    "calculationType": "Amount",
+    "rate": 0,
     "shouldShowQuantity": false
   }
 ]

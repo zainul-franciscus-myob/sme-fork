@@ -81,11 +81,6 @@ const isKiwiSaverPayItem = (payItemType) =>
 const getEmployeeLineByEmployeeId = (state, employeeId) =>
   state.employeePayList.lines.find((line) => line.employeeId === employeeId);
 
-const getOriginalEmployeeLineByEmployeeId = (state, employeeId) =>
-  state.employeePayList.originalLines.find(
-    (line) => line.employeeId === employeeId
-  );
-
 const getBaseHourlyWagePayItemId = (state) =>
   state.employeePayList.baseHourlyWagePayItemId;
 const getBaseSalaryWagePayItemId = (state) =>
@@ -94,17 +89,25 @@ const getBaseSalaryWagePayItemId = (state) =>
 const SMALLER = -1;
 const BIGGER = 1;
 const wagePayItemComparator = (a, b, baseWageIds) => {
-  if (baseWageIds.includes(b.payItemId)) {
+  if (baseWageIds.includes(b.payrollCategoryId)) {
     return BIGGER;
   }
-  if (baseWageIds.includes(a.payItemId)) {
+  if (baseWageIds.includes(a.payrollCategoryId)) {
     return SMALLER;
   }
 
-  if (a.type === 'HourlyWage' && b.type === 'SalaryWage') return SMALLER;
-  if (b.type === 'HourlyWage' && a.type === 'SalaryWage') return BIGGER;
+  if (
+    a.payrollCategoryType === 'HourlyWage' &&
+    b.payrollCategoryType === 'SalaryWage'
+  )
+    return SMALLER;
+  if (
+    b.payrollCategoryType === 'HourlyWage' &&
+    a.payrollCategoryType === 'SalaryWage'
+  )
+    return BIGGER;
 
-  return a.payItemName.localeCompare(b.payItemName);
+  return a.payrollCategoryName.localeCompare(b.payrollCategoryName);
 };
 
 export const getWagePayItemEntries = createSelector(
@@ -113,7 +116,7 @@ export const getWagePayItemEntries = createSelector(
   getBaseSalaryWagePayItemId,
   (line, baseHourlyWagePayItemId, baseSalaryWagePayItemId) =>
     line.payItems
-      .filter((payItem) => isWagePayItem(payItem.type))
+      .filter((payItem) => isWagePayItem(payItem.payrollCategoryType))
       .sort((a, b) =>
         wagePayItemComparator(a, b, [
           baseHourlyWagePayItemId,
@@ -122,7 +125,7 @@ export const getWagePayItemEntries = createSelector(
       )
       .map((payItem) => ({
         ...payItem,
-        shouldShowQuantity: payItem.type === 'HourlyWage',
+        shouldShowQuantity: payItem.payrollCategoryType === 'HourlyWage',
       }))
 );
 
@@ -130,7 +133,7 @@ export const getTaxPayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (line) =>
     line.payItems
-      .filter((payItem) => isTaxPayItem(payItem.type))
+      .filter((payItem) => isTaxPayItem(payItem.payrollCategoryType))
       .map((payItem) => ({
         ...payItem,
         shouldShowQuantity: false,
@@ -141,7 +144,7 @@ export const getKiwiSaverPayItemEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (line) =>
     line.payItems
-      .filter((payItem) => isKiwiSaverPayItem(payItem.type))
+      .filter((payItem) => isKiwiSaverPayItem(payItem.payrollCategoryType))
       .map((payItem) => ({
         ...payItem,
         shouldShowQuantity: false,
@@ -150,50 +153,29 @@ export const getKiwiSaverPayItemEntries = createSelector(
 
 export const getShouldShowWagePayItems = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) => line.payItems.some((payItem) => isWagePayItem(payItem.type))
+  (line) =>
+    line.payItems.some((payItem) => isWagePayItem(payItem.payrollCategoryType))
 );
 
 export const getShouldShowTaxPayItems = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) => line.payItems.some((payItem) => isTaxPayItem(payItem.type))
+  (line) =>
+    line.payItems.some((payItem) => isTaxPayItem(payItem.payrollCategoryType))
 );
 
 export const getShouldShowKiwiSaverPayItems = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) => line.payItems.some((payItem) => isKiwiSaverPayItem(payItem.type))
+  (line) =>
+    line.payItems.some((payItem) =>
+      isKiwiSaverPayItem(payItem.payrollCategoryType)
+    )
 );
 
-const getPayItemLineForRecalculatePayload = (payItem) => {
-  const { isSubmitting, ...restOfPayItem } = payItem;
-  return restOfPayItem;
+export const getUpdateEmployeePayRequest = ({ state, employeeId }) => {
+  return getEmployeeLineByEmployeeId(state, employeeId);
 };
 
-export const getRecalculatePayPayload = ({
-  state,
-  employeeId,
-  payItemId,
-  key,
-}) => {
-  const editedField = key;
-  const editedEmployeeLine = getEmployeeLineByEmployeeId(state, employeeId);
-  const editedPayItem = editedEmployeeLine.payItems.find(
-    (payItem) => payItem.payItemId === payItemId
-  );
-  const originalEmployeeLine = getOriginalEmployeeLineByEmployeeId(
-    state,
-    employeeId
-  );
-
-  return {
-    employeeId,
-    paymentFrequency: state.startPayRun.currentEditingPayRun.paymentFrequency,
-    paymentDate: state.startPayRun.currentEditingPayRun.paymentDate,
-    payPeriodStart: state.startPayRun.currentEditingPayRun.payPeriodStart,
-    payPeriodEnd: state.startPayRun.currentEditingPayRun.payPeriodEnd,
-    payItems: originalEmployeeLine.payItems.map((payItem) =>
-      getPayItemLineForRecalculatePayload(payItem)
-    ),
-    editedField,
-    editedPayItem: getPayItemLineForRecalculatePayload(editedPayItem),
-  };
+export const getEmployeePayId = ({ state, employeeId }) => {
+  const employeePay = getEmployeeLineByEmployeeId(state, employeeId);
+  return employeePay.id;
 };

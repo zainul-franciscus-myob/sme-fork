@@ -1,4 +1,5 @@
 {
+  "draftPayRunId": 7,
   "employeePays": [
     {
       "name": "Mary Jones",
@@ -13,9 +14,9 @@
       "isSelected": true,
       "payItems": [
         {
-          "payItemId": 38,
-          "payItemName": "Hourly Wage",
-          "type": "HourlyWage",
+          "payrollCategoryId": 38,
+          "payrollCategoryName": "Hourly Wage",
+          "payrollCategoryType": "HourlyWage",
           "amount": "0.70",
           "quantity": "12.30",
           "rate": "20.00",
@@ -23,64 +24,64 @@
         },
         {
           "amount": "100.00",
-          "payItemId": 39,
-          "payItemName": "Salary Wage",
+          "payrollCategoryId": 39,
+          "payrollCategoryName": "Salary Wage",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "payrollCategoryType": "SalaryWage",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "100.00",
-          "payItemId": 40,
-          "payItemName": "B Hourly Wage",
+          "payrollCategoryId": 40,
+          "payrollCategoryName": "B Hourly Wage",
           "quantity": "0.00",
-          "type": "HourlyWage",
+          "payrollCategoryType": "HourlyWage",
           "rate": "20.00",
           "calculationType": "Rate"
         },
         {
           "amount": "200.00",
-          "payItemId": 6,
-          "payItemName": "Base Salary",
+          "payrollCategoryId": 6,
+          "payrollCategoryName": "Base Salary",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "payrollCategoryType": "SalaryWage",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "20.00",
-          "payItemId": 661,
-          "payItemName": "Employee Contribution 3%",
+          "payrollCategoryId": 661,
+          "payrollCategoryName": "Employee Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployee",
+          "payrollCategoryType": "KiwiSaverEmployee",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "20.00",
-          "payItemId": 662,
-          "payItemName": "Employer Contribution 3%",
+          "payrollCategoryId": 662,
+          "payrollCategoryName": "Employer Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployers",
+          "payrollCategoryType": "KiwiSaverEmployers",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "10.00",
-          "payItemId": 663,
-          "payItemName": "Employer superannuation contribution tax (ESCT) 10.5%",
+          "payrollCategoryId": 663,
+          "payrollCategoryName": "Employer superannuation contribution tax (ESCT) 10.5%",
           "quantity": "0.00",
-          "type": "ESCT",
+          "payrollCategoryType": "ESCT",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "110.00",
-          "payItemId": 77,
-          "payItemName": "PAYE Tax",
+          "payrollCategoryId": 77,
+          "payrollCategoryName": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "payrollCategoryType": "Tax",
           "rate": "0.00",
           "calculationType": "Amount"
         }
@@ -100,55 +101,55 @@
       "payItems": [
         {
           "amount": "550.00",
-          "payItemId": 38,
-          "payItemName": "Hourly Wage",
+          "payrollCategoryId": 38,
+          "payrollCategoryName": "Hourly Wage",
           "quantity": "13.00",
-          "type": "HourlyWage",
+          "payrollCategoryType": "HourlyWage",
           "rate": "20.00",
           "calculationType": "Rate"
         },
         {
           "amount": "100.00",
-          "payItemId": 39,
-          "payItemName": "Salary Wage",
+          "payrollCategoryId": 39,
+          "payrollCategoryName": "Salary Wage",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "payrollCategoryType": "SalaryWage",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "10.00",
-          "payItemId": 661,
-          "payItemName": "Employee Contribution 3%",
+          "payrollCategoryId": 661,
+          "payrollCategoryName": "Employee Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployee",
+          "payrollCategoryType": "KiwiSaverEmployee",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "10.00",
-          "payItemId": 662,
-          "payItemName": "Employer Contribution 3%",
+          "payrollCategoryId": 662,
+          "payrollCategoryName": "Employer Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployers",
+          "payrollCategoryType": "KiwiSaverEmployers",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "10.00",
-          "payItemId": 663,
-          "payItemName": "Employer superannuation contribution tax (ESCT) 10.5%",
+          "payrollCategoryId": 663,
+          "payrollCategoryName": "Employer superannuation contribution tax (ESCT) 10.5%",
           "quantity": "0.00",
-          "type": "ESCT",
+          "payrollCategoryType": "ESCT",
           "rate": "0.00",
           "calculationType": "Amount"
         },
         {
           "amount": "90.00",
-          "payItemId": 77,
-          "payItemName": "PAYE Tax",
+          "payrollCategoryId": 77,
+          "payrollCategoryName": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "payrollCategoryType": "Tax",
           "rate": "0.00",
           "calculationType": "Amount"
         }

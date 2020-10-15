@@ -5,6 +5,7 @@ import {
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
+  UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../PayRunIntents';
 import clearNegatives from '../clearNegativesInPayItems';
@@ -15,7 +16,6 @@ export const getEmployeePayListDefaultState = () => ({
   payPeriodEmployeeLimit: {},
   isPayItemLineDirty: false,
   lines: [],
-  originalLines: [],
   selectedEmployeeId: undefined,
   selectedPayItem: undefined,
   baseHourlyWagePayItemId: null,
@@ -93,14 +93,14 @@ const updateAreAllEmployeesSelected = (state, { value }) => ({
 const updateTheEditedEmployeePayItems = (
   state,
   employeeId,
-  recalculatedEmployeePay
+  updatedEmployeePay
 ) =>
   state.lines.map((line) =>
     line.employeeId === employeeId
       ? {
           ...line,
-          ...recalculatedEmployeePay,
-          payItems: recalculatedEmployeePay.payItems.map((payItem) => ({
+          ...updatedEmployeePay,
+          payItems: updatedEmployeePay.payItems.map((payItem) => ({
             ...payItem,
             isSubmitting: false,
           })),
@@ -110,20 +110,12 @@ const updateTheEditedEmployeePayItems = (
 
 const updateEmployeeLineAfterRecalculation = (
   state,
-  { employeeId, recalculatedEmployeePay }
+  { employeeId, updatedEmployeePay }
 ) => ({
   ...state,
   lines: clearNegatives(
-    updateTheEditedEmployeePayItems(state, employeeId, recalculatedEmployeePay),
+    updateTheEditedEmployeePayItems(state, employeeId, updatedEmployeePay),
     [state.baseHourlyWagePayItemId, state.baseSalaryWagePayItemId]
-  ),
-  originalLines: state.originalLines.map((originalLine) =>
-    originalLine.employeeId === employeeId
-      ? {
-          ...originalLine,
-          ...recalculatedEmployeePay,
-        }
-      : originalLine
   ),
 });
 
@@ -139,6 +131,32 @@ const setPayItemLineDirty = (state, action) => ({
   isPayItemLineDirty: action.isDirty,
 });
 
+const updatePayItem = (payItem, key, value) => ({
+  ...payItem,
+  [key]: formatNumberWithDecimalScaleRange(value, 2, 3),
+});
+
+const updateEmployeeLinePayItem = (employeeLine, payItemId, key, value) => ({
+  ...employeeLine,
+  payItems: employeeLine.payItems.map((payItem) =>
+    payItem.payrollCategoryId === payItemId
+      ? updatePayItem(payItem, key, value)
+      : payItem
+  ),
+});
+
+const updateEmployeePayItem = (
+  state,
+  { employeeId, payItemId, key, value }
+) => ({
+  ...state,
+  lines: state.lines.map((line) =>
+    line.employeeId === employeeId
+      ? updateEmployeeLinePayItem(line, payItemId, key, value)
+      : line
+  ),
+});
+
 export const employeePayListHandlers = {
   [LOAD_DRAFT_PAY_RUN]: loadDraftPayRun,
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
@@ -147,4 +165,5 @@ export const employeePayListHandlers = {
   [UPDATE_ARE_ALL_EMPLOYEES_SELECTED]: updateAreAllEmployeesSelected,
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
   [SET_PAY_ITEM_LINE_DIRTY]: setPayItemLineDirty,
+  [UPDATE_EMPLOYEE_PAY_ITEM]: updateEmployeePayItem,
 };

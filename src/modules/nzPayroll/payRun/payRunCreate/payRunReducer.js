@@ -6,6 +6,7 @@ import {
 import {
   NEXT_STEP,
   SET_ALERT,
+  SET_DRAFT_PAY_RUN_ID,
   SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -22,11 +23,10 @@ import {
 } from './startPayRun/startPayRunReducer';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
-import uuid from '../../../../common/uuid/uuid';
 import wrapHandlers from '../../../../store/wrapHandlers';
 
 const getDefaultState = () => ({
-  payRunId: uuid(),
+  draftPayRunId: -1,
   loadingState: LoadingState.LOADING,
   step: START_PAY_RUN,
   isSubmitting: false,
@@ -66,6 +66,11 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
+const setDraftPayRunId = (state, draftPayRun) => ({
+  ...state,
+  draftPayRunId: draftPayRun.draftPayRunId,
+});
+
 const setEmployeePayments = (state, { response }) => ({
   ...state,
   [PREPARE_PAYSLIPS.key]: {
@@ -83,6 +88,7 @@ const handlers = {
   [NEXT_STEP]: nextStep,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
+  [SET_DRAFT_PAY_RUN_ID]: setDraftPayRunId,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(EMPLOYEE_PAY_LIST.key, employeePayListHandlers),
 };

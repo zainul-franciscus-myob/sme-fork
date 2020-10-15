@@ -1,22 +1,23 @@
 import {
+  getEmployeePayId,
   getFormattedEmployeePayLines,
   getIsAllSelected,
   getIsPartiallySelected,
   getKiwiSaverPayItemEntries,
   getNumberOfSelected,
-  getRecalculatePayPayload,
   getShouldShowKiwiSaverPayItems,
   getShouldShowTaxPayItems,
   getShouldShowWagePayItems,
   getTaxPayItemEntries,
   getTotals,
+  getUpdateEmployeePayRequest,
   getWagePayItemEntries,
   isPayItemLineDirty,
 } from '../EmployeePayListSelectors';
 import employeePayList from './fixtures/stateWithEmployeePayItems';
-import expectedRecalculatePayPayload from './fixtures/expectedPayDetailsPayload';
 import kiwiSaverPayItemEntries from './fixtures/kiwiSaverPayItemEntries';
 import taxPayItemEntries from './fixtures/taxPayItemEntries';
+import updateEmployeePayRequest from './fixtures/updateEmployeePayRequest';
 import wagePayItemEntries from './fixtures/wagePayItemEntries';
 
 describe('EmployeePayListSelectors', () => {
@@ -107,134 +108,10 @@ describe('EmployeePayListSelectors', () => {
   describe('getWagePayItemEntries', () => {
     it('returns sorted wage pay item entries', () => {
       const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, {
-        employeeId: '21',
+        employeeId: 21,
       });
 
       const expectedWagePayItemEntries = wagePayItemEntries;
-
-      expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
-    });
-
-    it('puts the wage pay items to the top but does not sort them', () => {
-      const state = {
-        ...employeePayList,
-        employeePayList: {
-          lines: [
-            {
-              employeeId: '21',
-              name: 'Mary Jones',
-              gross: 1500,
-              payg: 100,
-              deduction: 300,
-              netPay: 700,
-              super: 150,
-              payItems: [
-                {
-                  payItemId: '1',
-                  payItemName: 'Salary Wage',
-                  type: 'SalaryWage',
-                  amount: '100000.00',
-                  quantity: '0.00',
-                },
-                {
-                  payItemId: '2',
-                  payItemName: 'Hourly Wage',
-                  type: 'HourlyWage',
-                  amount: '0.00',
-                  quantity: '38.50',
-                },
-                {
-                  payItemId: '3',
-                  payItemName: 'Child support deduction',
-                  type: 'Deduction',
-                  amount: '100.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '4',
-                  payItemName: 'Superannuation deduction before tax',
-                  type: 'SuperannuationDeductionBeforeTax',
-                  amount: '200.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '5',
-                  payItemName: 'Superannuation deduction after tax',
-                  type: 'SuperannuationDeductionAfterTax',
-                  amount: '100.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '6',
-                  payItemName: 'Child support deduction',
-                  type: 'Deduction',
-                  amount: '5000.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '7',
-                  payItemName: 'Annual Leave',
-                  type: 'Entitlement',
-                  amount: '0.00',
-                  hours: '30.00',
-                },
-                {
-                  payItemId: '8',
-                  payItemName: 'Sick Leave',
-                  type: 'Entitlement',
-                  amount: '0.00',
-                  hours: '10.00',
-                },
-                {
-                  payItemId: '9',
-                  payItemName: 'Coffee Reimbursement',
-                  type: 'Expense',
-                  amount: '10000.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '10',
-                  payItemName: 'Mortgage repayment',
-                  type: 'SuperannuationExpense',
-                  amount: '10000.00',
-                  hours: '0.00',
-                },
-                {
-                  payItemId: '11',
-                  payItemName: 'PayGWithholding',
-                  type: 'Tax',
-                  amount: '222.00',
-                  hours: '0.00',
-                },
-              ],
-            },
-          ],
-          baseHourlyWagePayItemId: '2',
-          baseSalaryWagePayItemId: '1',
-        },
-      };
-      const actualWagePayItemEntries = getWagePayItemEntries(state, {
-        employeeId: '21',
-      });
-
-      const expectedWagePayItemEntries = [
-        {
-          payItemId: '1',
-          payItemName: 'Salary Wage',
-          type: 'SalaryWage',
-          amount: '100000.00',
-          quantity: '0.00',
-          shouldShowQuantity: false,
-        },
-        {
-          payItemId: '2',
-          payItemName: 'Hourly Wage',
-          type: 'HourlyWage',
-          amount: '0.00',
-          quantity: '38.50',
-          shouldShowQuantity: true,
-        },
-      ];
 
       expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
     });
@@ -243,7 +120,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getTaxPayItemEntries', () => {
     it('returns tax pay item entries', () => {
       const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, {
-        employeeId: '21',
+        employeeId: 21,
       });
 
       const expectedTaxPayItemEntries = taxPayItemEntries;
@@ -256,7 +133,7 @@ describe('EmployeePayListSelectors', () => {
     it('returns employer expense pay items without the hours field', () => {
       const actualEmployerExpensePayItemEntries = getKiwiSaverPayItemEntries(
         employeePayList,
-        { employeeId: '21' }
+        { employeeId: 21 }
       );
 
       const expectedEmployerExpensePayItemEntries = kiwiSaverPayItemEntries;
@@ -270,7 +147,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getShouldShowWagePayItems', () => {
     it('returns true when employee has at least one wage pay item', () => {
       const actual = getShouldShowWagePayItems(employeePayList, {
-        employeeId: '21',
+        employeeId: 21,
       });
       const expected = true;
 
@@ -282,7 +159,7 @@ describe('EmployeePayListSelectors', () => {
         employeePayList: {
           lines: [
             {
-              employeeId: '21',
+              employeeId: 21,
               payItems: [
                 {
                   type: 'Tax',
@@ -292,7 +169,7 @@ describe('EmployeePayListSelectors', () => {
           ],
         },
       };
-      const actual = getShouldShowWagePayItems(state, { employeeId: '21' });
+      const actual = getShouldShowWagePayItems(state, { employeeId: 21 });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -302,7 +179,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getShouldShowTaxPayItem', () => {
     it('returns true when employee has at least one tax pay item', () => {
       const actual = getShouldShowTaxPayItems(employeePayList, {
-        employeeId: '21',
+        employeeId: 21,
       });
       const expected = true;
 
@@ -314,7 +191,7 @@ describe('EmployeePayListSelectors', () => {
         employeePayList: {
           lines: [
             {
-              employeeId: '21',
+              employeeId: 21,
               payItems: [
                 {
                   type: 'Deduction',
@@ -324,7 +201,7 @@ describe('EmployeePayListSelectors', () => {
           ],
         },
       };
-      const actual = getShouldShowTaxPayItems(state, { employeeId: '21' });
+      const actual = getShouldShowTaxPayItems(state, { employeeId: 21 });
       const expected = false;
 
       expect(actual).toEqual(expected);
@@ -334,7 +211,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getShouldShowKiwiSaverPayItems', () => {
     it('returns true when employee has at least one KiwiSaver pay item', () => {
       const actual = getShouldShowKiwiSaverPayItems(employeePayList, {
-        employeeId: '21',
+        employeeId: 21,
       });
       const expected = true;
 
@@ -345,7 +222,7 @@ describe('EmployeePayListSelectors', () => {
         employeePayList: {
           lines: [
             {
-              employeeId: '21',
+              employeeId: 21,
               payItems: [
                 {
                   type: 'Tax',
@@ -359,7 +236,7 @@ describe('EmployeePayListSelectors', () => {
         },
       };
       const actual = getShouldShowKiwiSaverPayItems(state, {
-        employeeId: '21',
+        employeeId: 21,
       });
       const expected = false;
 
@@ -367,17 +244,15 @@ describe('EmployeePayListSelectors', () => {
     });
   });
 
-  describe('getRecalculatedPayPayload', () => {
-    it('returns the payload to recalculate the pay for a particular employee', () => {
-      const actualPayload = getRecalculatePayPayload({
+  describe('getUpdateEmployeePayRequest', () => {
+    it('returns the request to update an employee pay', () => {
+      const actualPayload = getUpdateEmployeePayRequest({
         state: employeePayList,
-        employeeId: '21',
-        payItemId: '2',
-        key: 'quantity',
+        employeeId: 21,
       });
-      const expectedPayload = expectedRecalculatePayPayload;
+      const expectedRequest = updateEmployeePayRequest;
 
-      expect(actualPayload).toEqual(expectedPayload);
+      expect(actualPayload).toEqual(expectedRequest);
     });
   });
 
@@ -520,6 +395,27 @@ describe('EmployeePayListSelectors', () => {
       const actual = isPayItemLineDirty(state);
 
       const expected = true;
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getEmployeePayId', () => {
+    it('should get employee pay id', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              employeeId: 7,
+              id: 666,
+            },
+          ],
+        },
+      };
+
+      const actual = getEmployeePayId({ state, employeeId: 7 });
+
+      const expected = 666;
 
       expect(actual).toEqual(expected);
     });

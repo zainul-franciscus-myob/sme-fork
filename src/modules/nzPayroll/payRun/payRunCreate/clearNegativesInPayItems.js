@@ -1,12 +1,14 @@
 const replaceNegativeAmountWithZero = (basePayItemIds, payItem) =>
-  basePayItemIds.includes(payItem.payItemId) && parseFloat(payItem.amount) < 0
+  basePayItemIds.includes(payItem.payrollCategoryId) &&
+  parseFloat(payItem.amount) < 0
     ? '0.00'
     : payItem.amount;
 
-const replaceNegativeHoursWithZero = (basePayItemIds, payItem) =>
-  basePayItemIds.includes(payItem.payItemId) && parseFloat(payItem.hours) < 0
+const replaceNegativeQuantityWithZero = (basePayItemIds, payItem) =>
+  basePayItemIds.includes(payItem.payrollCategoryId) &&
+  parseFloat(payItem.quantity) < 0
     ? '0.00'
-    : payItem.hours;
+    : payItem.quantity;
 
 const clearNegatives = (employeePaysLines, basePayItemIds) =>
   employeePaysLines.map((line) => ({
@@ -14,7 +16,7 @@ const clearNegatives = (employeePaysLines, basePayItemIds) =>
     payItems: line.payItems.map((payItem) => ({
       ...payItem,
       amount: replaceNegativeAmountWithZero(basePayItemIds, payItem),
-      hours: replaceNegativeHoursWithZero(basePayItemIds, payItem),
+      quantity: replaceNegativeQuantityWithZero(basePayItemIds, payItem),
     })),
   }));
 

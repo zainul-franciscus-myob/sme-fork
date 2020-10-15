@@ -26,6 +26,7 @@ const TaxPayItems = ({
     onChange={onEmployeePayItemChange}
     onBlur={onEmployeePayItemBlur}
     shouldShowTableRows={shouldShowTableRows}
+    disableAmountInput
   />
 );
 

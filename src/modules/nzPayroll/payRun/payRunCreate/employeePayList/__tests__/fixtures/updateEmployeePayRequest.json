@@ -1,0 +1,114 @@
+{
+  "name": "Mary Jones",
+  "id": 217,
+  "employeeId": 21,
+  "daysPaid": 5,
+  "taxCode": "M",
+  "gross": "1500.00",
+  "takeHomePay": "700.00",
+  "kiwiSaver": "40.00",
+  "paye": "110.00",
+  "isSelected": true,
+  "payItems": [
+    {
+      "payrollCategoryId": 22,
+      "payrollCategoryName": "Salary Wage",
+      "payrollCategoryType": "SalaryWage",
+      "amount": "100000.00",
+      "quantity": "0.00",
+      "id": 16,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 21,
+      "payrollCategoryName": "Hourly Wage",
+      "payrollCategoryType": "HourlyWage",
+      "amount": "0.00",
+      "quantity": "38.50",
+      "id": 26,
+      "calculationType": "Rate",
+      "rate": "20.00"
+    },
+    {
+      "payrollCategoryId": 3,
+      "payrollCategoryName": "Child support deduction",
+      "payrollCategoryType": "Deduction",
+      "amount": "100.00",
+      "quantity": "0.00",
+      "id": 36,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 4,
+      "payrollCategoryName": "Superannuation deduction before tax",
+      "payrollCategoryType": "SuperannuationDeductionBeforeTax",
+      "amount": "200.00",
+      "quantity": "0.00",
+      "id": 46,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 5,
+      "payrollCategoryName": "Superannuation deduction after tax",
+      "payrollCategoryType": "SuperannuationDeductionAfterTax",
+      "amount": "100.00",
+      "quantity": "0.00",
+      "id": 56,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 6,
+      "payrollCategoryName": "Child support deduction",
+      "payrollCategoryType": "Deduction",
+      "amount": "5000.00",
+      "quantity": "0.00",
+      "id": 66,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 7,
+      "payrollCategoryName": "Annual Leave",
+      "payrollCategoryType": "Entitlement",
+      "amount": "0.00",
+      "quantity": "30.00",
+      "id": 76,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 8,
+      "payrollCategoryName": "Sick Leave",
+      "payrollCategoryType": "Entitlement",
+      "amount": "0.00",
+      "quantity": "10.00",
+      "id": 86,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 9,
+      "payrollCategoryName": "Employer contribution",
+      "payrollCategoryType": "KiwiSaverEmployers",
+      "amount": "10.00",
+      "quantity": "0.00",
+      "id": 96,
+      "calculationType": "Amount",
+      "rate": 0
+    },
+    {
+      "payrollCategoryId": 11,
+      "payrollCategoryName": "PayGWithholding",
+      "payrollCategoryType": "Tax",
+      "amount": "222.00",
+      "quantity": "0.00",
+      "id": 116,
+      "calculationType": "Amount",
+      "rate": 0
+    }
+  ]
+}

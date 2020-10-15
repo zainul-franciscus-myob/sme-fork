@@ -1,18 +1,24 @@
 [
   {
-    "payItemId": "2",
-    "payItemName": "Hourly Wage",
-    "type": "HourlyWage",
-    "amount": "0.00",
-    "quantity": "38.50",
-    "shouldShowQuantity": true
-  },
-  {
-    "payItemId": "1",
-    "payItemName": "Salary Wage",
-    "type": "SalaryWage",
+    "payrollCategoryId": 22,
+    "payrollCategoryName": "Salary Wage",
+    "payrollCategoryType": "SalaryWage",
     "amount": "100000.00",
     "quantity": "0.00",
+    "id": 16,
+    "calculationType": "Amount",
+    "rate": 0,
     "shouldShowQuantity": false
+  },
+  {
+    "payrollCategoryId": 21,
+    "payrollCategoryName": "Hourly Wage",
+    "payrollCategoryType": "HourlyWage",
+    "amount": "0.00",
+    "quantity": "38.50",
+    "id": 26,
+    "calculationType": "Rate",
+    "rate": "20.00",
+    "shouldShowQuantity": true
   }
 ]

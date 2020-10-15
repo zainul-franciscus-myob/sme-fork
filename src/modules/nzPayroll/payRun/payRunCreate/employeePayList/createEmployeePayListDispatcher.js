@@ -59,13 +59,12 @@ const createEmployeePayListDispatcher = (store) => ({
 
   updateEmployeeLineAfterRecalculation: ({
     employeeId,
-    recalculatedEmployeePay,
+    updatedEmployeePay,
   }) => {
-    const intent = UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION;
     store.dispatch({
-      intent,
+      intent: UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
       employeeId,
-      recalculatedEmployeePay,
+      updatedEmployeePay,
     });
   },
 

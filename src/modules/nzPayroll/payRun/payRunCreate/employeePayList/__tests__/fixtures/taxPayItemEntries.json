@@ -1,10 +1,13 @@
 [
   {
-    "payItemId": "11",
-    "payItemName": "PayGWithholding",
-    "type": "Tax",
+    "payrollCategoryId": 11,
+    "payrollCategoryName": "PayGWithholding",
+    "payrollCategoryType": "Tax",
     "amount": "222.00",
     "quantity": "0.00",
+    "id": 116,
+    "calculationType": "Amount",
+    "rate": 0,
     "shouldShowQuantity": false
   }
 ]

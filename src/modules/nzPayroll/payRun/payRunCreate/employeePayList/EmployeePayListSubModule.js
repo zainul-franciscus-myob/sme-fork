@@ -12,7 +12,6 @@ export default class EmployeePayListSubModule {
     this.pushMessage = pushMessage;
     this.dispatcher = createEmployeePayListDispatcher(store);
     this.integrator = createEmployeePayListIntegrator(store, integration);
-    this.pendingNavigateFunction = null;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
   }
 
@@ -44,23 +43,21 @@ export default class EmployeePayListSubModule {
         key,
         value,
       });
-      this.recalculateEmployeePay({
+      this.requestUpdateEmployeePay({
         employeeId,
-        payItemId,
-        key,
       });
     }
   };
 
-  recalculateEmployeePay = ({ employeeId, payItemId, key }) => {
+  requestUpdateEmployeePay = ({ employeeId }) => {
     this.dispatcher.setSubmittingState(true);
 
-    const onSuccess = (recalculatedEmployeePay) => {
+    const onSuccess = (updatedEmployeePay) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setPayItemLineDirty(false);
       this.dispatcher.updateEmployeeLineAfterRecalculation({
         employeeId,
-        recalculatedEmployeePay,
+        updatedEmployeePay,
       });
     };
 
@@ -69,10 +66,8 @@ export default class EmployeePayListSubModule {
       this.dispatcher.setPayItemLineDirty(false);
     };
 
-    this.integrator.recalculatePay({
+    this.integrator.updateEmployeePay({
       employeeId,
-      payItemId,
-      key,
       onSuccess,
       onFailure,
     });

@@ -120,3 +120,5 @@ export const getDashboardUrl = createSelector(
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/dashboard`
 );
+
+export const getDraftPayRunId = (state) => state.draftPayRunId;
