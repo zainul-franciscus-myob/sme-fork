@@ -35,6 +35,7 @@ const AccountBulkEditListTableBody = ({
       accountType,
       taxCode,
       taxCodeId,
+      hideAccountNumber,
     } = entry;
 
     return (
@@ -62,6 +63,7 @@ const AccountBulkEditListTableBody = ({
         accountType={accountType}
         taxCode={taxCode}
         taxCodeId={taxCodeId}
+        hideAccountNumber={hideAccountNumber}
       />
     );
   });

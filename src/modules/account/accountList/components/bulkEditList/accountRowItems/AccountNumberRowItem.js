@@ -2,7 +2,6 @@ import { Input, Table } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
-import ReadOnlyRowItem from './ReadOnlyRowItem';
 import styles from '../../AccountListTable.module.css';
 
 const handleOnChange = (handler, index, prefix) => (e) => {
@@ -15,26 +14,12 @@ const AccountNumberRowItem = ({
   accountNumber,
   indentLevel,
   isHeader,
-  isSystem,
   index,
   onChange,
   onBlur,
   prefix,
   accountNumberCount,
 }) => {
-  if (isSystem) {
-    return (
-      <ReadOnlyRowItem
-        config={config}
-        value={accountNumber}
-        title={accountNumber}
-        indentLevel={indentLevel}
-        isSystem={isSystem}
-        isHeader={isHeader}
-      />
-    );
-  }
-
   const className = classNames({
     [styles.headerAccount]: isHeader,
     [styles.indent]: indentLevel > 0,

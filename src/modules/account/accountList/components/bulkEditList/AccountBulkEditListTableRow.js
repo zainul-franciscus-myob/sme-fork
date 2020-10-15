@@ -30,21 +30,23 @@ const AccountBulkEditListTableRow = ({
   accountType,
   taxCode,
   taxCodeId,
+  hideAccountNumber,
 }) => {
   return (
     <Table.Row key={id}>
-      <AccountNumberRowItem
-        config={tableConfig.accountNumber}
-        accountNumber={accountNumber}
-        indentLevel={indentLevel}
-        isSystem={isSystem}
-        isHeader={isHeader}
-        index={index}
-        onChange={onAccountNumberChange}
-        onBlur={onAccountNumberBlur}
-        prefix={accountClassifications[accountType].prefix}
-        accountNumberCount={accountNumberCount}
-      />
+      {!hideAccountNumber && (
+        <AccountNumberRowItem
+          config={tableConfig.accountNumber}
+          accountNumber={accountNumber}
+          indentLevel={indentLevel}
+          isHeader={isHeader}
+          index={index}
+          onChange={onAccountNumberChange}
+          onBlur={onAccountNumberBlur}
+          prefix={accountClassifications[accountType].prefix}
+          accountNumberCount={accountNumberCount}
+        />
+      )}
       <AccountNameRowItem
         config={tableConfig.accountName}
         accountName={accountName}
