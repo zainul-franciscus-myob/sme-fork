@@ -50,12 +50,12 @@ export const getTotalAmountApplied = createSelector(
   getIsCreating,
   (currentPurchases, debitAmount, isCreating) => {
     const totalApplied = currentPurchases.reduce((acc, purchase) => {
-      const amountApplied = Number(purchase.amountApplied || 0);
+      const amountApplied = Number(purchase.amountApplied) || 0;
       return acc + amountApplied;
     }, 0);
     const absoluteAmount = formatAmount(Math.abs(totalApplied).toFixed(2));
     const formattedAmount =
-      Number(totalApplied || 0) < 0
+      (Number(totalApplied) || 0) < 0
         ? `-$${absoluteAmount}`
         : `$${absoluteAmount}`;
 
@@ -77,7 +77,7 @@ export const getPurchases = createSelector(
     currentPurchases.map((purchase) => {
       const discount = Number(purchase.discount || 0);
       const calculatedOwed = formatAmount(
-        (Number(purchase.amount || 0) - discount).toFixed(2)
+        ((Number(purchase.amount) || 0) - discount).toFixed(2)
       );
       const link = `/#/${region}/${businessId}/bill/${purchase.id}`;
 
@@ -85,7 +85,7 @@ export const getPurchases = createSelector(
         ...purchase,
         statusLabelColour: getLabelColour(purchase.status),
         owed: isCreating ? calculatedOwed : purchase.owed,
-        amount: formatAmount(purchase.amount || 0),
+        amount: formatAmount(Number(purchase.amount) || 0),
         link,
       };
     })

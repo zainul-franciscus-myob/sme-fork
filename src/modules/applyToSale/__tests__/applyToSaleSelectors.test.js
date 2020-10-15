@@ -48,19 +48,34 @@ describe('applyToSaleSelectors', () => {
       });
     });
 
-    it('calculates balance due', () => {
+    it('calculates balance due and formats it', () => {
       const state = {
         invoices: [
           {
-            totalAmount: '100.00',
-            discount: '50.55',
+            totalAmount: '2000.00',
+            discount: '50.00',
           },
         ],
       };
 
       const actual = getInvoices(state);
 
-      expect(actual[0].balanceDue).toEqual('49.45');
+      expect(actual[0].balanceDue).toEqual('1,950.00');
+    });
+
+    it('formats totalAmount', () => {
+      const state = {
+        invoices: [
+          {
+            totalAmount: '2000.00',
+            discount: '0.00',
+          },
+        ],
+      };
+
+      const actual = getInvoices(state);
+
+      expect(actual[0].totalAmount).toEqual('2,000.00');
     });
   });
 
