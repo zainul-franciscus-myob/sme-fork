@@ -12,7 +12,6 @@ import {
 } from './businessSettingsSelectors';
 import { mainTabIds } from './tabItems';
 import BusinessSettingsView from './components/BusinessSettingsView';
-import FeatureToggles from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import businessDetailReducer from './businessSettingsReducer';
@@ -282,14 +281,8 @@ export default class BusinessSettingsModule {
     }
   };
 
-  // @FEATURE_TOGGLE: start-new-financial-year
   run(context) {
-    this.dispatcher.setInitialState({
-      ...context,
-      isStartNewFinancialYearEnabled: this.isToggleOn(
-        FeatureToggles.StartNewFinancialYear
-      ),
-    });
+    this.dispatcher.setInitialState(context);
     this.render();
     setupHotKeys(keyMap, this.handlers);
     this.loadBusinessSettings();

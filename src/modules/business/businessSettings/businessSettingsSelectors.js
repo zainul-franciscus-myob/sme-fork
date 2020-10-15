@@ -143,8 +143,6 @@ export const getFinancialYearDetails = createStructuredSelector({
   openingBalanceMonth: (state) => state.businessDetails.openingBalanceMonth,
   openingBalanceDate: (state) => state.businessDetails.openingBalanceDate,
   isFinancialYearClosed: (state) => state.businessDetails.isFinancialYearClosed,
-  isStartNewFinancialYearEnabled: (state) =>
-    state.isStartNewFinancialYearEnabled,
   isFinancialYearSectionReadOnly: (state) =>
     state.isFinancialYearSectionReadOnly,
   financialYearOptions: (state) => state.financialYearOptions,

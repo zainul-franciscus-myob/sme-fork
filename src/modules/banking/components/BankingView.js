@@ -10,9 +10,9 @@ import React from 'react';
 import {
   getAlert,
   getIsSetupBankFeedsView,
+  getLoadMoreButtonStatus,
   getLoadingState,
   getModalType,
-  // getLoadMoreButtonStatus, See comment below on <LoadMoreButton>
 } from '../selectors';
 import {
   getBulkMessage,
@@ -24,6 +24,7 @@ import BankTransactionPageHead from './BankTransactionPageHead';
 import BankTransactionTable from './BankTransactionTable';
 import BankingModal from './BankingModal';
 import BulkAllocationPopover from './BulkAllocationPopover';
+import LoadMoreButton from '../../../components/PaginatedListTemplate/LoadMoreButton';
 import NoContentView from './NoContentView';
 import PageView from '../../../components/PageView/PageView';
 import styles from './BankingView.module.css';
@@ -82,8 +83,8 @@ const BankingView = (props) => {
     onNoteBlur,
     onImportStatementButtonClick,
     onLinkFromInTrayButtonClick,
-    // onLoadMoreButtonClick, See comment below on <LoadMoreButton>
-    // loadMoreButtonStatus,
+    onLoadMoreButtonClick,
+    loadMoreButtonStatus,
   } = props;
 
   const bulkUnallocate = showBulkUnallocate && (
@@ -179,12 +180,10 @@ const BankingView = (props) => {
           onLinkFromInTrayButtonClick={onLinkFromInTrayButtonClick}
         />
       </StandardTemplate>
-      {/* Commented out because business highly likely to re-introduce pagination.
-          To re-introduce pagination, simply uncomment this. All other wiring is intact.
-       <LoadMoreButton
+      <LoadMoreButton
         onLoadMoreButtonClick={onLoadMoreButtonClick}
         loadMoreButtonStatus={loadMoreButtonStatus}
-      /> */}
+      />
     </>
   );
 
@@ -203,7 +202,7 @@ const mapStateToProps = (state) => ({
   bulkMessage: getBulkMessage(state),
   showBulkActions: showBulkActionsSelector(state),
   showBulkUnallocate: getShowBulkUnallocate(state),
-  // loadMoreButtonStatus: getLoadMoreButtonStatus(state),  See comment above on <LoadMoreButton>
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(BankingView);

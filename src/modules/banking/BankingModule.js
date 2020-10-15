@@ -1745,6 +1745,10 @@ export default class BankingModule {
       this.isToggleOn(FeatureToggle.FastModeLoadBankTransactions) ||
       isFastModeEnabledQueryParam;
 
+    const hasPagination = this.isToggleOn(
+      FeatureToggle.BankTransactionsPagination
+    );
+
     const isPrefillSplitAllocationEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
       isEarlyAccess: this.isToggleOn(FeatureToggle.BankLinkPayee),
@@ -1753,6 +1757,7 @@ export default class BankingModule {
     this.dispatcher.setInitialState({
       ...rest,
       isFastModeEnabled,
+      hasPagination,
       isPrefillSplitAllocationEnabled,
     });
 

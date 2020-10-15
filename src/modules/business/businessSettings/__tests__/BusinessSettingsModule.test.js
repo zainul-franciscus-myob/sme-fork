@@ -95,7 +95,6 @@ describe('BusinessSettingsModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             businessId: '🦒',
-            isStartNewFinancialYearEnabled: true,
           },
         },
         {
@@ -128,7 +127,6 @@ describe('BusinessSettingsModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             businessId: '🦒',
-            isStartNewFinancialYearEnabled: true,
           },
         },
         {

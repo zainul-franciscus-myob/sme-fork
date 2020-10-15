@@ -78,7 +78,6 @@ const getDefaultState = () => ({
     isOpen: false,
     isLoading: false,
   },
-  isStartNewFinancialYearEnabled: false,
   isFinancialYearSettingsChanged: false,
   financialYearOptions: [],
   isFinancialYearSectionReadOnly: false,
@@ -109,7 +108,6 @@ const setInitialState = (state, { context }) => {
     ...state,
     businessId: context.businessId,
     region: context.region,
-    isStartNewFinancialYearEnabled: context.isStartNewFinancialYearEnabled,
     selectedTab: isKnownTabId ? selectedTab : mainTabIds.businessDetails,
   };
 };

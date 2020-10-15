@@ -81,6 +81,9 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = (state) => state.isTableLoading;
 
+export const getIsTransactionsView = (state) =>
+  state.viewCode === BankingViewCodes.TRANSACTIONS_VIEW;
+
 export const getIsCantLoadTransactionsView = (state) =>
   state.viewCode === BankingViewCodes.EMPTY_TABLE_VIEW;
 
@@ -440,10 +443,11 @@ export const getOffset = (state) => state.pagination.offset;
 
 export const getLoadMoreButtonStatus = (state) => {
   const isTableLoading = getIsTableLoading(state);
+  const isError = !getIsTransactionsView(state);
   const { isLoadingMore } = state;
-  const isLastPage = state.pagination && !state.pagination.hasNextPage;
+  const isLastPage = !state.pagination?.hasNextPage;
 
-  if (isLastPage || isTableLoading) {
+  if (isLastPage || isTableLoading || isError) {
     return LoadMoreButtonStatuses.HIDDEN;
   }
 
@@ -455,6 +459,8 @@ export const getLoadMoreButtonStatus = (state) => {
 
 const getIsFastModeEnabled = (state) => state.isFastModeEnabled;
 
+const getHasPagination = (state) => state.hasPagination;
+
 export const getLoadBankTransactionsUrlParams = createSelector(
   getBusinessId,
   (businessId) => ({ businessId })
@@ -464,11 +470,13 @@ export const getLoadBankTransactionsParams = createSelector(
   getSortOrder,
   getOrderBy,
   getIsFastModeEnabled,
-  (filterOptions, sortOrder, orderBy, isFastModeEnabled) => ({
+  getHasPagination,
+  (filterOptions, sortOrder, orderBy, isFastModeEnabled, hasPagination) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     fastMode: isFastModeEnabled,
+    hasPagination,
   })
 );
 
@@ -482,12 +490,21 @@ export const getLoadBankTransactionsNextPageParams = createSelector(
   getOrderBy,
   getOffset,
   getIsFastModeEnabled,
-  (filterOptions, sortOrder, orderBy, offset, isFastModeEnabled) => ({
+  getHasPagination,
+  (
+    filterOptions,
+    sortOrder,
+    orderBy,
+    offset,
+    isFastModeEnabled,
+    hasPagination
+  ) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset,
     fastMode: isFastModeEnabled,
+    hasPagination,
   })
 );
 
@@ -500,12 +517,14 @@ export const getFilterBankTransactionsParams = createSelector(
   getSortOrder,
   getOrderBy,
   getIsFastModeEnabled,
-  (filterOptions, sortOrder, orderBy, isFastModeEnabled) => ({
+  getHasPagination,
+  (filterOptions, sortOrder, orderBy, isFastModeEnabled, hasPagination) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset: 0,
     fastMode: isFastModeEnabled,
+    hasPagination,
   })
 );
 

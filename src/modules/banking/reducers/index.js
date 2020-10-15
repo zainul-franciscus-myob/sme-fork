@@ -189,9 +189,7 @@ const loadBankTransactionsNextPage = (state, action) => {
   return {
     ...state,
     entries: [...state.entries, ...entries],
-    pagination: {
-      ...action.pagination,
-    },
+    pagination: action.pagination,
   };
 };
 

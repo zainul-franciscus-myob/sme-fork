@@ -3,9 +3,12 @@ import {
   getDisplayBalances,
   getIsAllocated,
   getIsOpenTransactionWithdrawal,
+  getLoadMoreButtonStatus,
   getOpenEntryDefaultTabId,
   getShowCreateBankingRuleButton,
 } from '../index';
+import BankingViewCodes from '../../BankingViewCodes';
+import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TabItems from '../../types/TabItems';
 
 describe('bankingSelector', () => {
@@ -196,6 +199,91 @@ describe('bankingSelector', () => {
       const actual = getIsOpenTransactionWithdrawal(state);
 
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getLoadMoreButtonStatus', () => {
+    const state = {
+      pagination: {
+        hasNextPage: true,
+      },
+      isTableLoading: false,
+      viewCode: BankingViewCodes.TRANSACTIONS_VIEW,
+      isLoadingMore: false,
+    };
+
+    it(`return ${LoadMoreButtonStatuses.HIDDEN} when is does not have pagination`, () => {
+      const modifiedState = {
+        ...state,
+        pagination: undefined,
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it(`return ${LoadMoreButtonStatuses.HIDDEN} when pagination has no next page`, () => {
+      const modifiedState = {
+        ...state,
+        pagination: {
+          hasNextPage: false,
+        },
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it(`return ${LoadMoreButtonStatuses.HIDDEN} when is table is loading (e.g. filter change)`, () => {
+      const modifiedState = {
+        ...state,
+        isTableLoading: true,
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it(`return ${LoadMoreButtonStatuses.HIDDEN} when is table has loaded with error`, () => {
+      const modifiedState = {
+        ...state,
+        viewCode: BankingViewCodes.EMPTY_TABLE_VIEW,
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it(`return ${LoadMoreButtonStatuses.HIDDEN} when is bank feeds not setup`, () => {
+      const modifiedState = {
+        ...state,
+        viewCode: BankingViewCodes.SET_UP_BANK_FEEDS_VIEW,
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.HIDDEN);
+    });
+
+    it(`return ${LoadMoreButtonStatuses.LOADING} when already loading more`, () => {
+      const modifiedState = {
+        ...state,
+        isLoadingMore: true,
+      };
+
+      const actual = getLoadMoreButtonStatus(modifiedState);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.LOADING);
+    });
+
+    it(`otherwise returns ${LoadMoreButtonStatuses.SHOWN}`, () => {
+      const actual = getLoadMoreButtonStatus(state);
+
+      expect(actual).toEqual(LoadMoreButtonStatuses.SHOWN);
     });
   });
 });

@@ -321,6 +321,7 @@ describe('BankingModule', () => {
           context: {
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
+            hasPagination: true,
           },
         },
         {
@@ -357,6 +358,7 @@ describe('BankingModule', () => {
           context: {
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
+            hasPagination: true,
           },
         },
         {
@@ -379,18 +381,20 @@ describe('BankingModule', () => {
     });
 
     // @Disposable tests: Ensures our logic for setting isFastModeEnabled is correct
-    it('sets fastMode given feature toggle is true', () => {
+    it('sets fastMode using queryParam when toggle is false', () => {
       const { store, integration, module } = setUp();
+      module.isToggleOn = () => false;
       integration.mapFailure(LOAD_BANK_TRANSACTIONS);
 
-      module.run({});
+      module.run({
+        fastMode: true,
+      });
 
       expect(store.getActions()[0]).toEqual({
         intent: SET_INITIAL_STATE,
-        context: {
+        context: expect.objectContaining({
           isFastModeEnabled: true,
-          isPrefillSplitAllocationEnabled: true,
-        },
+        }),
       });
     });
   });

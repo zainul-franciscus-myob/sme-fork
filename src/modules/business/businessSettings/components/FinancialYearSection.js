@@ -26,7 +26,6 @@ const FinancialYearSection = ({
   openingBalanceDate,
   openingBalanceYear,
   openingBalanceMonth,
-  isStartNewFinancialYearEnabled,
   isFinancialYearSectionReadOnly,
   onFinancialYearSettingsChange,
   onStartNewFinancialYear,
@@ -54,7 +53,7 @@ const FinancialYearSection = ({
     />
   );
 
-  const startNewFYButton = isStartNewFinancialYearEnabled && (
+  const startNewFYButton = (
     <FinancialYearButton
       onStartNewFinancialYear={onStartNewFinancialYear}
       onOpenFinancialYearModal={onOpenFinancialYearModal}
