@@ -19,7 +19,7 @@ REACT_APP_CREATE_BUSINESS_URL_AU=http://squishy-redirector.svc.platform.myobdev.
 REACT_APP_CREATE_BUSINESS_URL_NZ=http://myob.co.nz/sit/new-ea-create-new-business \
 REACT_APP_BANKFEED_PORTAL_URL=https://apply.bankfeeds.myob.com/Forms/Portal \
 REACT_APP_MYOB_URL=https://myob.com/sit \
-REACT_APP_MYOB_TEAM_URL=https://d278f1m4j861wt.cloudfront.net\
+REACT_APP_MYOB_TEAM_URL=https://d278f1m4j861wt.cloudfront.net \
 REACT_APP_GENESYS_CHAT=false \
 NODE_OPTIONS=--max_old_space_size=4096 \
 $@
