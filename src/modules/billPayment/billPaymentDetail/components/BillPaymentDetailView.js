@@ -5,10 +5,14 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
-  getIsPayBillRemittanceAdviceEnabled,
+  getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
+  getRemittanceAdviceEmailDetails,
+  getRemittanceAdviceType,
   getShouldSendRemittanceAdvice,
+  getShouldShowAlertMessage,
+  getTemplateOptions,
   getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
@@ -19,16 +23,20 @@ import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
+import RemittanceAdviceModal from './RemittanceAdviceModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
+import billPaymentModalTypes from '../billPaymentModalTypes';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
 const BillPaymentDetailView = ({
+  remittanceAdviceEmailDetails,
   loadingState,
   modalType,
   title,
+  onRemittanceAdviceEmailDetailsChange,
   onUpdateIsElectronicPayment,
   isCreating,
-  isPayBillRemittanceAdviceEnabled,
+  isRemittanceAdviceEnabled,
   renderContactCombobox,
   onChangeBankStatementText,
   onChangeReferenceId,
@@ -37,7 +45,11 @@ const BillPaymentDetailView = ({
   onUpdateTableInputField,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onCloseRemittanceAdviceModal,
+  onUpdateRemittanceAdviceType,
+  onRemittanceAdviceClick,
   onSaveButtonClick,
+  onConfirmEmailRemittanceAdviceModal,
   onConfirmSaveAndRedirect,
   onDiscardAndRedirect,
   onCloseUnsaveModal,
@@ -46,13 +58,16 @@ const BillPaymentDetailView = ({
   onDeleteModal,
   alertMessage,
   onDismissAlert,
+  remittanceAdviceType,
   shouldSendRemittanceAdvice,
+  shouldShowAlertMessage,
   onShouldSendRemittanceAdviceChange,
+  templateOptions,
 }) => {
   let modal;
-  if (modalType === 'cancel') {
+  if (modalType === billPaymentModalTypes.cancel) {
     modal = <CancelModal onCancel={onCloseModal} onConfirm={onCancelModal} />;
-  } else if (modalType === 'delete') {
+  } else if (modalType === billPaymentModalTypes.delete) {
     modal = (
       <DeleteModal
         onCancel={onCloseModal}
@@ -60,7 +75,7 @@ const BillPaymentDetailView = ({
         title="Delete this payment?"
       />
     );
-  } else if (modalType === 'unsaved') {
+  } else if (modalType === billPaymentModalTypes.unsaved) {
     modal = (
       <UnsavedModal
         onConfirmSave={onConfirmSaveAndRedirect}
@@ -70,23 +85,34 @@ const BillPaymentDetailView = ({
         description="Looks like you've made changes. Do you want to record these changes?"
       />
     );
+  } else if (modalType === billPaymentModalTypes.remittanceAdvice) {
+    modal = (
+      <RemittanceAdviceModal
+        alertMessage={alertMessage}
+        onConfirm={onConfirmEmailRemittanceAdviceModal}
+        onCancel={onCloseRemittanceAdviceModal}
+        onDismissAlert={onDismissAlert}
+        remittanceAdviceType={remittanceAdviceType}
+        onUpdateRemittanceAdviceType={onUpdateRemittanceAdviceType}
+        remittanceAdviceEmailDetails={remittanceAdviceEmailDetails}
+        onRemittanceAdviceEmailDetailsChange={
+          onRemittanceAdviceEmailDetailsChange
+        }
+        templateOptions={templateOptions}
+      />
+    );
   }
-
-  const alertComponent = alertMessage && (
-    <Alert type="danger" onDismiss={onDismissAlert}>
-      {alertMessage}
-    </Alert>
-  );
 
   const actions = (
     <BillPaymentActions
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onSaveButtonClick={onSaveButtonClick}
+      onRemittanceAdviceClick={onRemittanceAdviceClick}
     />
   );
 
-  const sendRemittanceAdvice = (
+  const shouldSendRemittanceAdviceCheckbox = (
     <>
       <Checkbox
         name="shouldSendRemittanceAdvice"
@@ -100,7 +126,7 @@ const BillPaymentDetailView = ({
           {
             "You'll have the option to send by email or export a PDF when you save this payment."
           }
-          <a href="TBC">&nbsp;Learn more</a>
+          <a href="/">&nbsp;Learn more</a>
         </Alert>
       )}
     </>
@@ -119,9 +145,15 @@ const BillPaymentDetailView = ({
           onChangeReferenceId={onChangeReferenceId}
         />
       }
-      actions={actions}
-      alert={alertComponent}
       sticky="none"
+      actions={actions}
+      alert={
+        shouldShowAlertMessage && (
+          <Alert type="danger" onDismiss={onDismissAlert}>
+            {alertMessage}
+          </Alert>
+        )
+      }
     >
       {modal}
       {isCreating && (
@@ -133,7 +165,9 @@ const BillPaymentDetailView = ({
         onUpdateTableInputField={onUpdateTableInputField}
       />
       <Separator />
-      {isPayBillRemittanceAdviceEnabled && isCreating && sendRemittanceAdvice}
+      {isRemittanceAdviceEnabled &&
+        isCreating &&
+        shouldSendRemittanceAdviceCheckbox}
     </LineItemTemplate>
   );
 
@@ -147,7 +181,11 @@ const mapStateToProps = (state) => ({
   title: getTitle(state),
   isCreating: getIsCreating(state),
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
-  isPayBillRemittanceAdviceEnabled: getIsPayBillRemittanceAdviceEnabled(state),
+  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
+  shouldShowAlertMessage: getShouldShowAlertMessage(state),
+  remittanceAdviceEmailDetails: getRemittanceAdviceEmailDetails(state),
+  remittanceAdviceType: getRemittanceAdviceType(state),
+  templateOptions: getTemplateOptions(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);

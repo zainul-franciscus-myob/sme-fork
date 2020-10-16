@@ -1,7 +1,9 @@
 import {
   DELETE_BILL_PAYMENT,
+  EXPORT_PDF,
   LOAD_BILL_LIST,
   LOAD_SUPPLIER_PAYMENT_INFO,
+  SEND_EMAIL,
   UPDATE_REFERENCE_ID,
 } from '../BillPaymentIntents';
 import {
@@ -9,6 +11,8 @@ import {
   getLoadBillListParams,
   getLoadBillPaymentIntent,
   getLoadSupplierPaymentInfoUrlParams,
+  getRemittanceAdviceEmailDetails,
+  getRemittanceAdviceUrlParams,
   getSaveBillPaymentIntent,
   getSaveBillPaymentPayload,
   getUpdateReferenceIdParams,
@@ -33,6 +37,28 @@ const createBillPaymentDetailIntegrator = (store, integration) => ({
     integration.write({
       intent: DELETE_BILL_PAYMENT,
       urlParams: getBillPaymentUrlParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+  sendRemittanceAdviceEmail: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: SEND_EMAIL,
+      urlParams: getRemittanceAdviceUrlParams(state),
+      content: getRemittanceAdviceEmailDetails(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+  exportRemittanceAdvicePdf: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: EXPORT_PDF,
+      urlParams: getRemittanceAdviceUrlParams(state),
+      content: getRemittanceAdviceEmailDetails(state),
       onSuccess,
       onFailure,
     });

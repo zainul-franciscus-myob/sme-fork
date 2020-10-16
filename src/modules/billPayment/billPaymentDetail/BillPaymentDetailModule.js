@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
   SUCCESSFULLY_DELETED_BILL_PAYMENT,
   SUCCESSFULLY_SAVED_BILL_PAYMENT,
 } from '../../../common/types/MessageTypes';
@@ -19,16 +20,19 @@ import {
   getRegion,
   getShouldLoadBillList,
   getShouldSendRemittanceAdvice,
+  getShouldShowRemittanceAdviceModal,
   getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
+import billPaymentModalTypes from './billPaymentModalTypes';
 import billPaymentReducer from './billPaymentDetailReducer';
 import createBillPaymentDetailDispatcher from './createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from './createBillPaymentDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
+import remittanceAdviceTypes from './remittanceAdviceMethodTypes';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
@@ -49,12 +53,11 @@ export default class BillPaymentModule {
       this.store,
       integration
     );
-
     this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.isElectronicPaymentEnabled =
       featureToggles?.isElectronicPaymentEnabled;
-    this.isPayBillRemittanceAdviceEnabled =
+    this.isRemittanceAdviceEnabled =
       featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
@@ -195,10 +198,14 @@ export default class BillPaymentModule {
     this.navigateTo(`/#/${region}/${businessId}/bill/${billId}`);
   };
 
-  reloadSavedBillPayment = ({ id }) => {
+  reloadSavedBillPayment = ({ id, message }) => {
     this.dispatcher.updateBillPaymentId(id);
     this.replaceURLParams({ billPaymentId: id });
     this.loadBillPayment();
+    if (getShouldShowRemittanceAdviceModal(this.store.getState())) {
+      this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
+      this.dispatcher.setAlertMessage(message);
+    }
   };
 
   dismissAlert = () => this.dispatcher.setAlertMessage('');
@@ -243,14 +250,50 @@ export default class BillPaymentModule {
 
   openCancelModal = () => {
     if (getIsPageEdited(this.store.getState())) {
-      this.dispatcher.openModal('cancel');
+      this.dispatcher.openModal(billPaymentModalTypes.cancel);
     } else {
       this.cancelBillPayment();
     }
   };
 
+  openRemittanceAdviceModal = () => {
+    this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
+  };
+
+  closeRemittanceAdviceModal = () => {
+    this.dismissAlert();
+    this.dispatcher.closeModal();
+  };
+
+  confirmRemittanceAdviceModal = () => {
+    const state = this.store.getState();
+
+    this.dispatcher.setSubmittingState(true);
+    this.closeRemittanceAdviceModal();
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
+        content: response.message,
+      });
+      this.dispatcher.setAlertMessage(response.message);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlertMessage(message);
+    };
+
+    if (state.remittanceAdviceType === remittanceAdviceTypes.email) {
+      this.integrator.sendRemittanceAdviceEmail({ onSuccess, onFailure });
+    } else if (state.remittanceAdviceType === remittanceAdviceTypes.export) {
+      this.integrator.exportRemittanceAdvicePdf({ onSuccess, onFailure });
+    }
+  };
+
   openDeleteModal = () => {
-    this.dispatcher.openModal('delete');
+    this.dispatcher.openModal(billPaymentModalTypes.delete);
   };
 
   deleteBillPayment = () => {
@@ -308,6 +351,12 @@ export default class BillPaymentModule {
         onUpdateBankStatementText={this.updateBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
         onSaveButtonClick={this.saveBillPayment}
+        onConfirmEmailRemittanceAdviceModal={this.confirmRemittanceAdviceModal}
+        onRemittanceAdviceClick={this.openRemittanceAdviceModal}
+        onRemittanceAdviceEmailDetailsChange={
+          this.dispatcher.updateEmailRemittanceAdviceDetails
+        }
+        onCloseRemittanceAdviceModal={this.closeRemittanceAdviceModal}
         onCancelButtonClick={this.openCancelModal}
         onDeleteButtonClick={this.openDeleteModal}
         onCloseModal={this.dispatcher.closeModal}
@@ -319,6 +368,9 @@ export default class BillPaymentModule {
         onCloseUnsaveModal={this.closeUnsaveModal}
         onShouldSendRemittanceAdviceChange={
           this.dispatcher.updateShouldSendRemittanceAdvice
+        }
+        onUpdateRemittanceAdviceType={
+          this.dispatcher.updateRemittanceAdviceType
         }
       />
     );
@@ -346,7 +398,7 @@ export default class BillPaymentModule {
     this.dispatcher.setInitialState({
       ...context,
       isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
-      isPayBillRemittanceAdviceEnabled: this.isPayBillRemittanceAdviceEnabled,
+      isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
@@ -379,7 +431,7 @@ export default class BillPaymentModule {
     const state = this.store.getState();
     if (getIsPageEdited(state)) {
       this.dispatcher.setRedirectUrl(url);
-      this.dispatcher.openModal('unsaved');
+      this.dispatcher.openModal(billPaymentModalTypes.unsaved);
     } else {
       this.navigateTo(url);
     }

@@ -1,10 +1,12 @@
 import {
   CREATE_BILL_PAYMENT,
   DELETE_BILL_PAYMENT,
+  EXPORT_PDF,
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_PAYMENT_INFO,
+  SEND_EMAIL,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
 } from '../BillPaymentIntents';
@@ -48,6 +50,16 @@ const HttpBillPaymentMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/billPayment/load_supplier_payment_details/${supplierId}`,
+  },
+  [SEND_EMAIL]: {
+    method: 'POST',
+    getPath: ({ businessId, billPaymentId }) =>
+      `/${businessId}/billPayment/send_remittance_advice_email/${billPaymentId}`,
+  },
+  [EXPORT_PDF]: {
+    method: 'GET',
+    getPath: ({ businessId, billPaymentId }) =>
+      `/${businessId}/billPayment/export_remittance_advice_pdf/${billPaymentId}`,
   },
 };
 

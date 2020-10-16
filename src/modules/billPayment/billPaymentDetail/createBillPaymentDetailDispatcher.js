@@ -15,6 +15,8 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
+  UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+  UPDATE_REMITTANCE_ADVICE_TYPE,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
@@ -75,6 +77,13 @@ const createBillPaymentDetailDispatcher = (store) => ({
       value,
     });
   },
+  updateEmailRemittanceAdviceDetails: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+      key,
+      value,
+    });
+  },
   changeBankStatementText: (bankStatementText) => {
     store.dispatch({
       intent: CHANGE_BANK_STATEMENT_TEXT,
@@ -115,6 +124,12 @@ const createBillPaymentDetailDispatcher = (store) => ({
     store.dispatch({
       intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
       shouldSendRemittanceAdvice: value,
+    });
+  },
+  updateRemittanceAdviceType: ({ value }) => {
+    store.dispatch({
+      intent: UPDATE_REMITTANCE_ADVICE_TYPE,
+      remittanceAdviceType: value,
     });
   },
   loadSupplierPaymentInfo: ({

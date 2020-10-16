@@ -9,12 +9,14 @@ import {
 } from '../BillPaymentIntents';
 import ContactType from '../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
+import billPaymentModalTypes from './billPaymentModalTypes';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import tableViewTypes from './tableViewTypes';
 
-export const getIsPayBillRemittanceAdviceEnabled = (state) =>
-  state.isPayBillRemittanceAdviceEnabled;
+export const getIsRemittanceAdviceEnabled = (state) =>
+  state.isRemittanceAdviceEnabled;
+export const getAlertMessage = (state) => state.alertMessage;
 export const getLoadingState = (state) => state.loadingState;
 export const getIsTableLoading = (state) => state.isTableLoading;
 export const getIsSupplierLoading = (state) => state.isSupplierLoading;
@@ -40,10 +42,14 @@ export const getModalType = (state) => state.modalType;
 export const getRedirectUrl = (state) => state.redirectUrl;
 export const getIsPaymentDetailsComplete = (state) =>
   state.isPaymentDetailsComplete;
-
 export const getIsCreating = (state) => state.billPaymentId === 'new';
 export const getShouldSendRemittanceAdvice = (state) =>
   state.shouldSendRemittanceAdvice;
+export const getRemittanceAdviceEmailDetails = (state) =>
+  state.remittanceAdviceEmailDetails;
+export const getRemittanceAdviceType = (state) => state.remittanceAdviceType;
+export const getTemplateOptions = (state) => state.templateOptions;
+
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 
 export const getTitle = createSelector(
@@ -135,6 +141,19 @@ export const getCanDelete = createSelector(
   getIsElectronicallyProcessed,
   (isCreating, isElectronicallyProcessed) =>
     !isCreating && !isElectronicallyProcessed
+);
+
+export const getShouldShowRemittanceAdviceModal = createSelector(
+  getIsCreating,
+  getShouldSendRemittanceAdvice,
+  (isCreating, shouldSendRemittance) => !isCreating && shouldSendRemittance
+);
+
+export const getShouldShowAlertMessage = createSelector(
+  getModalType,
+  getAlertMessage,
+  (modalType, alertMessage) =>
+    modalType !== billPaymentModalTypes.remittanceAdvice && alertMessage
 );
 
 export const getBankStatementText = (state) => state.bankStatementText;
@@ -293,8 +312,6 @@ export const getSaveBillPaymentPayload = (state) =>
     ? getCreateBillPaymentPayload(state)
     : getUpdateBillPaymentPayload(state);
 
-export const getAlertMessage = (state) => state.alertMessage;
-
 export const getLoadBillPaymentIntent = createSelector(
   getIsCreating,
   (isCreating) => (isCreating ? LOAD_NEW_BILL_PAYMENT : LOAD_BILL_PAYMENT)
@@ -306,6 +323,15 @@ export const getSaveBillPaymentIntent = createSelector(
 );
 
 export const getBillPaymentUrlParams = createSelector(
+  getBusinessId,
+  getBillPaymentId,
+  (businessId, billPaymentId) => ({
+    businessId,
+    billPaymentId,
+  })
+);
+
+export const getRemittanceAdviceUrlParams = createSelector(
   getBusinessId,
   getBillPaymentId,
   (businessId, billPaymentId) => ({

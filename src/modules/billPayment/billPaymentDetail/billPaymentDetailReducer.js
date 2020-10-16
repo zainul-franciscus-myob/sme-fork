@@ -17,6 +17,8 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
+  UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+  UPDATE_REMITTANCE_ADVICE_TYPE,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
 } from '../BillPaymentIntents';
@@ -24,6 +26,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
+import remittanceAdviceTypes from './remittanceAdviceMethodTypes';
 
 const getDefaultState = () => ({
   region: '',
@@ -58,7 +61,19 @@ const getDefaultState = () => ({
   applyPaymentToBillId: '',
   startOfFinancialYearDate: '',
   shouldSendRemittanceAdvice: false,
-  isPayBillRemittanceAdviceEnabled: false,
+  isRemittanceAdviceEnabled: false,
+  remittanceAdviceType: remittanceAdviceTypes.email,
+  templateOptions: [
+    { name: 'Remittance Advice Template', label: 'a cool template' },
+  ],
+  remittanceAdviceEmailDetails: {
+    toAddresses: ['somewhere@something.com'],
+    ccToAddresses: ['cc@me.com'],
+    subject: 'A Remittance But no Advice',
+    isEmailMeACopy: false,
+    messageBody: 'm e s s a g e Body',
+    templateName: 'Remittance Advice Template',
+  },
 });
 
 const pageEdited = { isPageEdited: true };
@@ -205,6 +220,17 @@ const updateHeaderOption = (state, action) => ({
       : state.entries,
 });
 
+const updateEmailRemittanceAdviceDetails = (state, action) => {
+  return {
+    ...state,
+    ...pageEdited,
+    remittanceAdviceEmailDetails: {
+      ...state.remittanceAdviceEmailDetails,
+      [action.key]: action.value,
+    },
+  };
+};
+
 const changeBankStatementText = (state, { bankStatementText }) => {
   return {
     ...state,
@@ -257,9 +283,14 @@ const updateTableInputField = (state, action) => ({
   ),
 });
 
-const shouldSendRemittanceAdvice = (state, action) => ({
+const updateShouldSendRemittanceAdvice = (state, action) => ({
   ...state,
   shouldSendRemittanceAdvice: action.shouldSendRemittanceAdvice,
+});
+
+const updateRemittanceAdviceType = (state, { remittanceAdviceType }) => ({
+  ...state,
+  remittanceAdviceType,
 });
 
 const openModal = (state, action) => ({
@@ -293,6 +324,7 @@ const handlers = {
   [LOAD_BILL_LIST]: loadBillList,
   [LOAD_SUPPLIER_PAYMENT_INFO]: loadSupplierPaymentInfo,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
+  [UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS]: updateEmailRemittanceAdviceDetails,
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CHANGE_REFERENCE_ID]: changeReferenceId,
@@ -304,7 +336,8 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_REDIRECT_URL]: setRedirectUrl,
-  [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: shouldSendRemittanceAdvice,
+  [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: updateShouldSendRemittanceAdvice,
+  [UPDATE_REMITTANCE_ADVICE_TYPE]: updateRemittanceAdviceType,
 };
 
 const billPaymentDetailReducer = createReducer(getDefaultState(), handlers);

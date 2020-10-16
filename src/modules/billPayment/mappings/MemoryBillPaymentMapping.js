@@ -1,10 +1,12 @@
 import {
   CREATE_BILL_PAYMENT,
   DELETE_BILL_PAYMENT,
+  EXPORT_PDF,
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_PAYMENT_INFO,
+  SEND_EMAIL,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
 } from '../BillPaymentIntents';
@@ -24,6 +26,9 @@ const updateReferenceId = ({ onSuccess }) => onSuccess(billPaymentReferenceId);
 const createBillPayment = ({ onSuccess }) => onSuccess(successMessage);
 const updateBillPayment = ({ onSuccess }) => onSuccess(successMessage);
 const deleteBillPayment = ({ onSuccess }) => onSuccess(successMessage);
+const sendRemittanceAdviceEmail = ({ onSuccess }) => onSuccess(successMessage);
+const exportRemittanceAdvicePdf = ({ onSuccess }) =>
+  onSuccess(new Blob([], { type: 'application/pdf' }));
 
 const MemoryBillPaymentMapping = {
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
@@ -34,6 +39,8 @@ const MemoryBillPaymentMapping = {
   [CREATE_BILL_PAYMENT]: createBillPayment,
   [UPDATE_BILL_PAYMENT]: updateBillPayment,
   [DELETE_BILL_PAYMENT]: deleteBillPayment,
+  [SEND_EMAIL]: sendRemittanceAdviceEmail,
+  [EXPORT_PDF]: exportRemittanceAdvicePdf,
 };
 
 export default MemoryBillPaymentMapping;

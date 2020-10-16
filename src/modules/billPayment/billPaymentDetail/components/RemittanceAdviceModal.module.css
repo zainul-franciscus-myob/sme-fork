@@ -1,0 +1,3 @@
+div :global(.form-group) {
+  flex-grow: 1;
+}

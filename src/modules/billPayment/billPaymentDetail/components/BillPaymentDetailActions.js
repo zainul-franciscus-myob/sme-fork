@@ -5,14 +5,19 @@ import React from 'react';
 import {
   getCanDelete,
   getIsActionsDisabled,
+  getIsCreating,
+  getIsRemittanceAdviceEnabled,
 } from '../BillPaymentDetailSelectors';
 
 const BillPaymentActions = ({
   onSaveButtonClick,
+  onRemittanceAdviceClick,
+  isRemittanceAdviceEnabled,
   onCancelButtonClick,
   onDeleteButtonClick,
   isActionsDisabled,
   canDelete,
+  isCreating,
 }) => (
   <ButtonRow
     primary={[
@@ -47,6 +52,16 @@ const BillPaymentActions = ({
           Delete
         </Button>
       ),
+      isRemittanceAdviceEnabled && !isCreating && (
+        <Button
+          key="sendRemittanceAdviceEmail"
+          name="sendRemittanceAdvice"
+          type="secondary"
+          onClick={onRemittanceAdviceClick}
+        >
+          Send Remittance
+        </Button>
+      ),
     ]}
   />
 );
@@ -54,6 +69,8 @@ const BillPaymentActions = ({
 const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
   canDelete: getCanDelete(state),
+  isCreating: getIsCreating(state),
+  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentActions);

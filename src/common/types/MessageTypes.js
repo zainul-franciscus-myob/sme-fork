@@ -68,6 +68,11 @@ export const PREFILL_INTRAY_DOCUMENT_FOR_BILL = Symbol(
   'Prefill intray document'
 );
 
+// Remittance Advice
+export const SUCCESSFULLY_CREATED_REMITTANCE_ADVICE = Symbol(
+  'Successfully created remittance advice'
+);
+
 // Bill payment
 export const SUCCESSFULLY_SAVED_BILL_PAYMENT = Symbol(
   'Successfully saved bill payment'

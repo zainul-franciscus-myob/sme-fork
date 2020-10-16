@@ -7,6 +7,7 @@ import {
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_PAYMENT_INFO,
   OPEN_MODAL,
+  SEND_EMAIL,
   SET_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
@@ -14,6 +15,7 @@ import {
   SET_SUPPLIER_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
   UPDATE_BILL_PAYMENT,
+  UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
@@ -27,8 +29,10 @@ import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
+import billPaymentModalTypes from '../billPaymentModalTypes';
 import createBillPaymentDetailDispatcher from '../createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from '../createBillPaymentDetailIntegrator';
+import remittanceAdviceTypes from '../remittanceAdviceMethodTypes';
 
 describe('BillPaymentDetailModule', () => {
   const setup = () => {
@@ -36,6 +40,7 @@ describe('BillPaymentDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
     const pushMessage = () => {};
+    const replaceURLParams = jest.fn();
     const navigateTo = jest.fn((url) => {
       window.location.href = url;
     });
@@ -45,6 +50,7 @@ describe('BillPaymentDetailModule', () => {
       setRootView,
       pushMessage,
       navigateTo,
+      replaceURLParams,
     });
     module.store = store;
     module.dispatcher = createBillPaymentDetailDispatcher(store);
@@ -62,7 +68,11 @@ describe('BillPaymentDetailModule', () => {
     const toolbox = setup();
     const { store, integration, module } = toolbox;
 
-    module.run({ billPaymentId: 'new', applyPaymentToBillId });
+    module.run({
+      businessId: '33',
+      billPaymentId: 'new',
+      applyPaymentToBillId,
+    });
     store.resetActions();
     integration.resetRequests();
 
@@ -73,7 +83,7 @@ describe('BillPaymentDetailModule', () => {
     const toolbox = setup();
     const { store, integration, module } = toolbox;
 
-    module.run({ billPaymentId: '1' });
+    module.run({ businessId: '33', billPaymentId: '1' });
     store.resetActions();
     integration.resetRequests();
 
@@ -169,7 +179,7 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: OPEN_MODAL,
-          modalType: 'delete',
+          modalType: billPaymentModalTypes.delete,
         },
       ]);
 
@@ -316,6 +326,36 @@ describe('BillPaymentDetailModule', () => {
         );
       });
 
+      it(`successfully ${test.name}`, () => {
+        const { module, store, integration } = test.setup();
+        module.pushMessage = jest.fn();
+
+        module.saveBillPayment();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: test.intent,
+          }),
+        ]);
+        expect(module.pushMessage).toHaveBeenCalledWith({
+          type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
+          content: expect.any(String),
+        });
+        expect(window.location.href).toEqual(
+          expect.stringContaining(test.redirectUrl)
+        );
+      });
+
       it(`fails to ${test.name}`, () => {
         const { module, store, integration } = test.setup();
         integration.mapFailure(test.intent);
@@ -352,6 +392,54 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([]);
       expect(integration.getRequests()).toEqual([]);
     });
+
+    it(`shows email remittance advice modal when send remittance is selected`, () => {
+      const { module, store, integration } = setupWithNew();
+      module.pushMessage = jest.fn();
+
+      module.dispatcher.updateShouldSendRemittanceAdvice({ value: true });
+      module.saveBillPayment();
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: UPDATE_BILL_PAYMENT_ID,
+            billPaymentId: 1,
+          },
+          expect.objectContaining({
+            intent: LOAD_BILL_PAYMENT,
+          }),
+          {
+            intent: OPEN_MODAL,
+            modalType: billPaymentModalTypes.remittanceAdvice,
+          },
+          {
+            intent: SET_ALERT_MESSAGE,
+            alertMessage: "Great Work! You've done it well!",
+          },
+        ])
+      );
+
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: CREATE_BILL_PAYMENT,
+          }),
+          expect.objectContaining({
+            intent: LOAD_BILL_PAYMENT,
+          }),
+        ])
+      );
+
+      expect(module.pushMessage).toHaveBeenCalledWith({
+        type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
+        content: expect.any(String),
+      });
+
+      expect(module.replaceURLParams).toHaveBeenCalledWith({
+        billPaymentId: 1,
+      });
+    });
   });
 
   describe('saveHandler', () => {
@@ -364,7 +452,7 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: OPEN_MODAL,
-          modalType: 'delete',
+          modalType: billPaymentModalTypes.delete,
         },
       ]);
 
@@ -381,7 +469,6 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([]);
       expect(integration.getRequests()).toEqual([]);
     });
-
     [
       {
         name: 'create',
@@ -815,7 +902,7 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: OPEN_MODAL,
-          modalType: 'cancel',
+          modalType: billPaymentModalTypes.cancel,
         },
       ]);
     });
@@ -852,6 +939,91 @@ describe('BillPaymentDetailModule', () => {
     });
   });
 
+  describe('sendRemittanceAdviceModal', () => {
+    it('should not show when send remittance advice checkbox is unchecked', () => {
+      const { module, store } = setupWithExisting();
+
+      module.dispatcher.updateShouldSendRemittanceAdvice({ value: false });
+      module.saveBillPayment();
+
+      expect(store.getActions()).not.toContain({
+        intent: OPEN_MODAL,
+        action: remittanceAdviceTypes.email,
+      });
+    });
+
+    it('should close and return to bill payment after clicking cancel', () => {
+      const { module, store } = setupWithExisting();
+
+      module.openRemittanceAdviceModal();
+      store.resetActions();
+
+      module.closeRemittanceAdviceModal();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_ALERT_MESSAGE,
+          alertMessage: '',
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+      ]);
+    });
+
+    it('should not be shown when loading an existing bill', () => {
+      const toolbox = setupWithExisting();
+      const { store } = toolbox;
+
+      expect(store.getActions()).not.toContain(
+        expect.objectContaining({
+          intent: OPEN_MODAL,
+          action: remittanceAdviceTypes.email,
+        })
+      );
+    });
+
+    it('should send remittance advice request on confirm', () => {
+      const toolbox = setupWithExisting();
+      const { store, module, integration } = toolbox;
+
+      module.openRemittanceAdviceModal();
+      store.resetActions();
+
+      module.confirmRemittanceAdviceModal();
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: true,
+          },
+          {
+            intent: SET_ALERT_MESSAGE,
+            alertMessage: '',
+          },
+          {
+            intent: CLOSE_MODAL,
+          },
+          {
+            intent: SET_SUBMITTING_STATE,
+            isSubmitting: false,
+          },
+          expect.objectContaining({
+            intent: SET_ALERT_MESSAGE,
+          }),
+        ])
+      );
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SEND_EMAIL,
+          urlParams: { businessId: '33', billPaymentId: '1' },
+          content: store.getState().remittanceAdviceEmailDetails,
+        },
+      ]);
+    });
+  });
+
   describe('handlePageTransition', () => {
     const setupWithEditedPage = () => {
       const toolbox = setupWithExisting();
@@ -884,7 +1056,7 @@ describe('BillPaymentDetailModule', () => {
         },
         {
           intent: OPEN_MODAL,
-          modalType: 'unsaved',
+          modalType: billPaymentModalTypes.unsaved,
         },
       ]);
     });
