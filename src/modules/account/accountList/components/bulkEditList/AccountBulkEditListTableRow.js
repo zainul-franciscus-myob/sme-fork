@@ -39,6 +39,7 @@ const AccountBulkEditListTableRow = ({
           config={tableConfig.accountNumber}
           accountNumber={accountNumber}
           indentLevel={indentLevel}
+          isSystem={isSystem}
           isHeader={isHeader}
           index={index}
           onChange={onAccountNumberChange}
