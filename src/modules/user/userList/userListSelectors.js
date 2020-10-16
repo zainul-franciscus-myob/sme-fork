@@ -4,6 +4,8 @@ export const getAlert = ({ alert }) => alert;
 
 export const getBusinessId = ({ businessId }) => businessId;
 
+export const getSerialNumber = ({ serialNumber }) => serialNumber;
+
 export const getEntries = (state) => state.entries;
 
 export const getFlipSortOrder = ({ sortOrder }) =>
@@ -38,4 +40,12 @@ export const getTableEntries = createSelector(
       ...entry,
       link: `/#/${region}/${businessId}/user/${entry.id}`,
     }))
+);
+
+export const getMyDotMyobLink = createSelector(
+  getBusinessId,
+  getSerialNumber,
+  (businessId, serialNumber) => {
+    return `https://my.myob.com/pages/CloudServiceAdministrationRedirector.aspx?Action=ARLADMIN&serialnumber=${serialNumber}&CdfId=${businessId}`;
+  }
 );

@@ -6,6 +6,7 @@ import {
   getAlert,
   getIsCurrentUserOnlineAdmin,
   getLoadingState,
+  getMyDotMyobLink,
 } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
@@ -20,7 +21,14 @@ export const tableConfig = {
 };
 
 const UserListView = (props) => {
-  const { alert, loadingState, onCreateUser, onDismissAlert, onSort } = props;
+  const {
+    alert,
+    myDotMyobLink,
+    loadingState,
+    onCreateUser,
+    onDismissAlert,
+    onSort,
+  } = props;
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -29,7 +37,7 @@ const UserListView = (props) => {
   );
 
   const openMyMyob = () => {
-    window.open('https://my.myob.com', '_blank', 'noopener noreferrer');
+    window.open(myDotMyobLink, '_blank', 'noopener noreferrer');
   };
 
   const pageHead = (
@@ -72,6 +80,7 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   isCurrentUserOnlineAdmin: getIsCurrentUserOnlineAdmin(state),
+  myDotMyobLink: getMyDotMyobLink(state),
 });
 
 export default connect(mapStateToProps)(UserListView);
