@@ -44,6 +44,7 @@ import getPurchaseSettingsRoutes from './modules/purchaseSettings/getPurchaseSet
 import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
+import getRecurringTransactionRoutes from './modules/recurringTransaction/getRecurringTransactionRoutes';
 import getReportsSubscribeNowRoutes from './modules/reportsSubscribeNow/getReportsSubscribeNowRoutes';
 import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRoutes';
 import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
@@ -120,6 +121,7 @@ const getRoutes = (moduleParams) => [
   ...getBankFeedsApplyRoutes(moduleParams),
   ...getPayRunNzRoutes(moduleParams),
   ...getReportsSubscribeNowRoutes(moduleParams),
+  ...getRecurringTransactionRoutes(moduleParams),
 ];
 
 export default getRoutes;

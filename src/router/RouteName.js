@@ -109,6 +109,7 @@ const RouteName = {
   QUOTE_WITH_STATUS_DETAIL: 'quoteWithList/quoteDetail',
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
   REPORT_SETTINGS: 'reportSettings',
+  RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
 };
 
 export default RouteName;
