@@ -2,6 +2,8 @@ import {
   CREATE_INVOICE_DETAIL,
   CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   LOAD_ABN_FROM_CUSTOMER,
+  LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
@@ -9,8 +11,10 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_PAY_DIRECT,
   RELOAD_INVOICE_DETAIL,
+  RESET_CUSTOMER,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CUSTOMER_QUOTES_LOADING_STATE,
   SET_INVOICE_HISTORY_LOADING,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -20,6 +24,7 @@ import {
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
   UPDATE_INVOICE_ID_AFTER_CREATE,
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
 } from '../../InvoiceIntents';
@@ -28,6 +33,7 @@ import {
   SUCCESSFULLY_SAVED_INVOICE,
 } from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -1343,6 +1349,109 @@ describe('InvoiceDetailModule', () => {
         }),
       ]);
       expect(module.globalCallbacks.invoiceSaved).not.toHaveBeenCalled();
+    });
+  });
+  describe('updateHeaderOptions', () => {
+    describe('When update customerId', () => {
+      it('successfully loads contact and their quotes', () => {
+        const { module, integration, store } = setupWithRun({
+          isCreating: true,
+        });
+        module.updateHeaderOptions({ key: 'customerId', value: 'cust0001' });
+        expect(store.getActions()).toEqual([
+          {
+            intent: UPDATE_INVOICE_DETAIL_HEADER_OPTIONS,
+            key: 'customerId',
+            value: 'cust0001',
+          },
+          {
+            intent: RESET_CUSTOMER,
+          },
+          expect.objectContaining({
+            intent: LOAD_CUSTOMER,
+          }),
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: true,
+          },
+          {
+            intent: SET_ABN_LOADING_STATE,
+            isAbnLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CUSTOMER,
+          }),
+          {
+            intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+            isLoadingCustomerQuotes: true,
+          },
+          expect.objectContaining({
+            intent: LOAD_CUSTOMER_QUOTES,
+          }),
+          {
+            intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+            isLoadingCustomerQuotes: false,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_CUSTOMER,
+            urlParams: {
+              businessId: 'businessId',
+              customerId: 'cust0001',
+            },
+          }),
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_CUSTOMER,
+            urlParams: {
+              businessId: 'businessId',
+              customerId: 'cust0001',
+            },
+          }),
+          expect.objectContaining({
+            intent: LOAD_CUSTOMER_QUOTES,
+            urlParams: {
+              businessId: 'businessId',
+              customerId: 'cust0001',
+            },
+          }),
+        ]);
+      });
+      it('fails to load contact', () => {
+        const { module, integration, store } = setupWithRun({
+          isCreating: true,
+        });
+        integration.mapFailure(LOAD_CUSTOMER);
+        module.updateHeaderOptions({ key: 'customerId', value: 'cust0001' });
+        expect(store.getActions()).toContainEqual({
+          intent: LOAD_CUSTOMER,
+        });
+      });
+      it('fails to load abn', () => {
+        const { module, integration, store } = setupWithRun({
+          isCreating: true,
+        });
+        integration.mapFailure(LOAD_ABN_FROM_CUSTOMER);
+        module.updateHeaderOptions({ key: 'customerId', value: 'cust0001' });
+        expect(store.getActions()).toContainEqual({
+          intent: LOAD_ABN_FROM_CUSTOMER,
+          abn: {
+            status: AbnStatus.UNAVAILABLE,
+          },
+        });
+      });
+      it('fails to customer quotes', () => {
+        const { module, integration, store } = setupWithRun({
+          isCreating: true,
+        });
+        integration.mapFailure(LOAD_CUSTOMER_QUOTES);
+        module.updateHeaderOptions({ key: 'customerId', value: 'cust0001' });
+        expect(store.getActions()).not.toContainEqual(
+          expect.objectContaining({
+            intent: LOAD_CUSTOMER_QUOTES,
+          })
+        );
+      });
     });
   });
 });

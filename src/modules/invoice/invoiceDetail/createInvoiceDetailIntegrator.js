@@ -8,6 +8,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
@@ -19,6 +20,7 @@ import {
 } from '../InvoiceIntents';
 import {
   getBusinessId,
+  getCustomerId,
   getIsCreating,
   getIsTaxInclusive,
 } from './selectors/invoiceDetailSelectors';
@@ -292,6 +294,27 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       urlParams: {
         businessId,
         itemId,
+      },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadCustomerQuotes: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = LOAD_CUSTOMER_QUOTES;
+    const businessId = getBusinessId(state);
+    const customerId = getCustomerId(state);
+    const dateTo = new Date();
+
+    integration.read({
+      intent,
+      params: {
+        dateTo,
+      },
+      urlParams: {
+        businessId,
+        customerId,
       },
       onSuccess,
       onFailure,

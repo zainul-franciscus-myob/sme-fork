@@ -45,6 +45,7 @@ import {
   getRedirectState,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
+import { getInvoiceQuoteUrl } from './selectors/quickQuoteSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
@@ -381,7 +382,7 @@ export default class InvoiceDetailModule {
 
     const onFailure = ({ message }) => {
       this.displayFailureAlert(message);
-      this.dispatcher.loadCustomer('');
+      this.dispatcher.loadCustomer({});
     };
 
     this.integrator.loadCustomer({
@@ -427,6 +428,7 @@ export default class InvoiceDetailModule {
 
         if (value) {
           this.loadCustomer();
+          this.loadCustomerQuotes();
         }
       }
     }
@@ -620,6 +622,14 @@ export default class InvoiceDetailModule {
   };
 
   closeModal = () => this.dispatcher.setModalType(InvoiceDetailModalType.NONE);
+
+  closeQuoteModal = () => {
+    this.dispatcher.resetCustomerQuote();
+    this.closeModal();
+  };
+
+  openQuickQuote = () =>
+    this.dispatcher.setModalType(InvoiceDetailModalType.QUICK_QUOTE);
 
   sendEmail = () => {
     if (getIsSubmitting(this.store.getState())) return;
@@ -1022,6 +1032,32 @@ export default class InvoiceDetailModule {
       : null;
   };
 
+  loadCustomerQuotes = () => {
+    const onSuccess = (customerQuotes) => {
+      this.dispatcher.loadCustomerQuotes(customerQuotes);
+      this.dispatcher.setCustomerQuotesLoadingState(false);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setCustomerQuotesLoadingState(false);
+    };
+
+    this.dispatcher.setCustomerQuotesLoadingState(true);
+    this.integrator.loadCustomerQuotes({ onSuccess, onFailure });
+  };
+
+  selectCustomerQuote = (value) => {
+    this.dispatcher.selectCustomerQuote(value);
+  };
+
+  convertCustomerQuote = () => {
+    const state = this.store.getState();
+
+    const invoiceQuoteUrl = getInvoiceQuoteUrl(state);
+
+    this.navigateTo(invoiceQuoteUrl);
+  };
+
   loadJobCombobox = () => {
     const state = this.store.getState();
     const context = getJobComboboxContext(state);
@@ -1084,6 +1120,12 @@ export default class InvoiceDetailModule {
           onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
           onConfirmSaveAmountDueWarning: this.saveInvoice,
         }}
+        quickQuoteModalListeners={{
+          onCloseModal: this.closeQuoteModal,
+          onSelectCustomerQuote: this.selectCustomerQuote,
+          onConvertCustomerQuote: this.convertCustomerQuote,
+        }}
+        onOpenQuickQuote={this.openQuickQuote}
         emailSettingsModalListeners={{
           onChange: this.updateEmailInvoiceDetail,
           onConfirm: this.handleSaveEmailSettings,

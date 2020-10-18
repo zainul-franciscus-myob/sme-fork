@@ -8,6 +8,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
@@ -138,6 +139,11 @@ const HttpInvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId, customerId }) =>
       `/${businessId}/invoice/load_abn_from_customer/${customerId}`,
+  },
+  [LOAD_CUSTOMER_QUOTES]: {
+    method: 'GET',
+    getPath: ({ businessId, customerId }) =>
+      `/${businessId}/invoice/load_customer_quotes/${customerId}`,
   },
 };
 

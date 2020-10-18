@@ -5,8 +5,6 @@ export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_MODAL_ALERT = Symbol('Set modal alert');
 export const SET_MODAL_TYPE = Symbol('Set modal type');
 export const SET_MODAL_SUBMITTING_STATE = Symbol('Set modal submitting state');
-export const OPEN_MODAL = Symbol('Open Modal');
-export const CLOSE_MODAL = Symbol('Close Modal');
 
 export const LOAD_INVOICE_LIST = Symbol('Load list of invoices');
 export const SORT_AND_FILTER_INVOICE_LIST = Symbol(
@@ -119,3 +117,10 @@ export const SET_SHOW_PRE_CONVERSION_ALERT = Symbol(
 export const LOAD_ABN_FROM_CUSTOMER = Symbol('Load abn given a customer id');
 export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
 export const RESET_CUSTOMER = Symbol('Reset the abn');
+
+export const LOAD_CUSTOMER_QUOTES = Symbol('Load customer quotes');
+export const SET_CUSTOMER_QUOTES_LOADING_STATE = Symbol(
+  'Set customer quotes loading state'
+);
+export const SELECT_CUSTOMER_QUOTE = Symbol('Select customer quote');
+export const RESET_CUSTOMER_QUOTE = Symbol('Reset customer quote');

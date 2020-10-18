@@ -73,6 +73,8 @@ const InvoiceDetailView = ({
   onClickOnRefNo,
   onFocusActivityHistory,
   onRedirectToCreatePayment,
+  onOpenQuickQuote,
+  quickQuoteModalListeners,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -81,6 +83,7 @@ const InvoiceDetailView = ({
       onUpdateHeaderOptions={onUpdateHeaderOptions}
       onIssueDateBlur={onIssueDateBlur}
       onDismissPreConversionAlert={onDismissPreConversionAlert}
+      onOpenQuickQuote={onOpenQuickQuote}
     />
   );
 
@@ -107,6 +110,7 @@ const InvoiceDetailView = ({
       exportPdfModalListeners={exportPdfModalListeners}
       redirectToUrlListeners={redirectToUrlListeners}
       preConversionModalListeners={preConversionModalListeners}
+      quickQuoteModalListeners={quickQuoteModalListeners}
     />
   );
 

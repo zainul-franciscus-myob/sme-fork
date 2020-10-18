@@ -7,6 +7,7 @@ import {
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
@@ -15,10 +16,13 @@ import {
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
+  RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
   SAVE_EMAIL_SETTINGS,
+  SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CUSTOMER_QUOTES_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -301,8 +305,30 @@ const createInvoiceDetailDispatcher = (store) => ({
     });
   },
 
+  loadCustomerQuotes: (customerQuotes) => {
+    store.dispatch({
+      intent: LOAD_CUSTOMER_QUOTES,
+      customerQuotes,
+    });
+  },
+
+  setCustomerQuotesLoadingState: (isLoadingCustomerQuotes) => {
+    store.dispatch({
+      intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+      isLoadingCustomerQuotes,
+    });
+  },
+
   resetCustomer: () => {
     store.dispatch({ intent: RESET_CUSTOMER });
+  },
+
+  selectCustomerQuote: (quoteId) => {
+    store.dispatch({ intent: SELECT_CUSTOMER_QUOTE, quoteId });
+  },
+
+  resetCustomerQuote: () => {
+    store.dispatch({ intent: RESET_CUSTOMER_QUOTE });
   },
 });
 

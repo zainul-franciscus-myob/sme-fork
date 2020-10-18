@@ -10,6 +10,7 @@ import {
   LOAD_ABN_FROM_CUSTOMER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
@@ -18,10 +19,13 @@ import {
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
+  RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
   SAVE_EMAIL_SETTINGS,
+  SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
+  SET_CUSTOMER_QUOTES_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_INVOICE_HISTORY_CLOSED,
   SET_INVOICE_HISTORY_LOADING,
@@ -456,6 +460,26 @@ const loadAbnFromCustomer = (state, action) => ({
   abn: action.abn,
 });
 
+const loadCustomerQuotes = (state, action) => ({
+  ...state,
+  customerQuotes: action.customerQuotes,
+});
+
+const setCustomerQuotesLoadingState = (state, { isLoadingCustomerQuotes }) => ({
+  ...state,
+  isLoadingCustomerQuotes,
+});
+
+const selectCustomerQuote = (state, { quoteId }) => ({
+  ...state,
+  customerQuoteId: quoteId,
+});
+
+const resetCustomerQuote = (state) => ({
+  ...state,
+  customerQuoteId: '',
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -515,6 +539,11 @@ const handlers = {
 
   [LOAD_ABN_FROM_CUSTOMER]: loadAbnFromCustomer,
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
+
+  [LOAD_CUSTOMER_QUOTES]: loadCustomerQuotes,
+  [SET_CUSTOMER_QUOTES_LOADING_STATE]: setCustomerQuotesLoadingState,
+  [SELECT_CUSTOMER_QUOTE]: selectCustomerQuote,
+  [RESET_CUSTOMER_QUOTE]: resetCustomerQuote,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

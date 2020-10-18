@@ -1,5 +1,7 @@
 import {
   Alert,
+  Badge,
+  Button,
   DetailHeader,
   Input,
   RadioButtonGroup,
@@ -7,8 +9,12 @@ import {
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import classnames from 'classnames';
 
+import {
+  getCustomerHasNoQuotes,
+  getCustomerQuoteCount,
+  getShouldShowCustomerQuotes,
+} from '../selectors/quickQuoteSelectors';
 import {
   getInvoiceDetailOptions,
   getIsBeforeFYAndAfterConversionDate,
@@ -53,6 +59,10 @@ const InvoiceDetailOptions = ({
   showPreConversionAlert,
   shouldShowAbn,
   onDismissPreConversionAlert,
+  onOpenQuickQuote,
+  customerQuoteCount,
+  customerHasNoQuotes,
+  shouldShowCustomerQuotes,
 }) => {
   const onIsTaxInclusiveChange = (handler) => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
@@ -66,29 +76,36 @@ const InvoiceDetailOptions = ({
     </ReadOnly>
   );
 
+  const quickQuoteView = customerHasNoQuotes ? (
+    'No open quotes'
+  ) : (
+    <Button
+      onClick={onOpenQuickQuote}
+      type="link"
+      icon={<Badge color="purple">{customerQuoteCount}</Badge>}
+      className={styles.quickQuoteButton}
+    >
+      Open quotes
+    </Button>
+  );
+
   const primary = (
     <>
-      <div
-        className={classnames(styles.contactComboBox, {
-          [styles.maximiseContactCombobox]: !shouldShowAbn,
-        })}
-      >
-        {renderContactCombobox({
-          selectedId: customerId,
-          name: 'customerId',
-          label: 'Customer',
-          hideLabel: false,
-          requiredLabel,
-          allowClear: true,
-          disabled: isCustomerDisabled || isReadOnly,
-          width: 'xl',
-          onChange: handleAutoCompleteChange(
-            'customerId',
-            onUpdateHeaderOptions
-          ),
-          onAlert: onInputAlert,
-        })}
+      {renderContactCombobox({
+        selectedId: customerId,
+        name: 'customerId',
+        label: 'Customer',
+        hideLabel: false,
+        requiredLabel,
+        allowClear: true,
+        disabled: isCustomerDisabled || isReadOnly,
+        width: 'xl',
+        onChange: handleAutoCompleteChange('customerId', onUpdateHeaderOptions),
+        onAlert: onInputAlert,
+      })}
+      <div className={styles.boxFlexContainer}>
         {shouldShowAbn && <InvoiceAbnPopover />}
+        {shouldShowCustomerQuotes && quickQuoteView}
       </div>
       {billingAddress}
     </>
@@ -179,6 +196,9 @@ const mapStateToProps = (state) => ({
   showPreConversionAlert: getShowPreConversionAlert(state),
   shouldShowAbn: getShouldShowAbn(state),
   isBeforeFYAndAfterConversionDate: getIsBeforeFYAndAfterConversionDate(state),
+  customerQuoteCount: getCustomerQuoteCount(state),
+  customerHasNoQuotes: getCustomerHasNoQuotes(state),
+  shouldShowCustomerQuotes: getShouldShowCustomerQuotes(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);

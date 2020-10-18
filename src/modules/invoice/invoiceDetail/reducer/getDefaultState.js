@@ -107,6 +107,9 @@ const getDefaultState = () => ({
   redirectRefJournalType: '',
   isPreConversion: false,
   showPreConversionAlert: false,
+  customerQuotes: [],
+  isLoadingCustomerQuotes: true,
+  customerQuoteId: '',
 });
 
 export default getDefaultState;

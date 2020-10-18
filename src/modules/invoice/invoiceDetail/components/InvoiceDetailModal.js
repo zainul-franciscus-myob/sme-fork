@@ -13,6 +13,7 @@ import ExportPdfModal from './ExportPdfModal';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailPreConversionModal from './InvoiceDetailPreConversionModal';
 import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
+import QuickQuoteModal from './QuickQuoteModal';
 import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
@@ -32,6 +33,7 @@ const InvoiceDetailModal = ({
   redirectToUrlListeners,
   exportPdfModalListeners,
   preConversionModalListeners,
+  quickQuoteModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -117,6 +119,16 @@ const InvoiceDetailModal = ({
         isActionsDisabled={isActionsDisabled}
         title="Record changes?"
         description="Looks like you've made changes. Do you want to record these changes?"
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.QUICK_QUOTE) {
+    return (
+      <QuickQuoteModal
+        onSelectCustomerQuote={quickQuoteModalListeners.onSelectCustomerQuote}
+        onCloseModal={quickQuoteModalListeners.onCloseModal}
+        onConvertCustomerQuote={quickQuoteModalListeners.onConvertCustomerQuote}
       />
     );
   }

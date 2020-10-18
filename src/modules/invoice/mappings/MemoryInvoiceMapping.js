@@ -8,6 +8,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ACCOUNT_OPTIONS,
   LOAD_CUSTOMER,
+  LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_DETAIL,
   LOAD_INVOICE_HISTORY,
   LOAD_INVOICE_LIST,
@@ -42,6 +43,7 @@ import invoiceServiceReadOnlyDetail from './data/serviceLayout/invoiceServiceRea
 import loadAbnDetail from './data/loadAbn.json';
 import loadAccountOptions from './data/loadAccountOptions';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
+import loadCustomerQuotesResponse from './data/loadCustomerQuotesResponse';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
 import payDirect from './data/loadPayDirect';
@@ -135,6 +137,8 @@ const MemoryInvoiceMapping = {
   [DELETE_PRE_CONVERSION_INVOIVE_DETAIL]: ({ onSuccess }) =>
     onSuccess(successResponse),
   [LOAD_ABN_FROM_CUSTOMER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
+  [LOAD_CUSTOMER_QUOTES]: ({ onSuccess }) =>
+    onSuccess(loadCustomerQuotesResponse),
 };
 
 export default MemoryInvoiceMapping;
