@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { getTotals, isPayItemLineDirty } from './EmployeePayListSelectors';
-import EmployeePayListView from './components/EmployeePayListView';
-import createEmployeePayListDispatcher from './createEmployeePayListDispatcher';
-import createEmployeePayListIntegrator from './createEmployeePayListIntegrator';
+import { getTotals, isPayItemLineDirty } from './DraftPayRunSelectors';
+import DraftPayRunView from './components/DraftPayRunView';
+import createDraftPayRunDispatcher from './createDraftPayRunDispatcher';
+import createDraftPayRunIntegrator from './createDraftPayRunIntegrator';
 import formatAmount from '../../../../../common/valueFormatters/formatAmount';
 
-export default class EmployeePayListSubModule {
+export default class DraftPayRunSubModule {
   constructor({ integration, store, pushMessage, subscribeOrUpgrade }) {
     this.store = store;
     this.pushMessage = pushMessage;
-    this.dispatcher = createEmployeePayListDispatcher(store);
-    this.integrator = createEmployeePayListIntegrator(store, integration);
+    this.dispatcher = createDraftPayRunDispatcher(store);
+    this.integrator = createDraftPayRunIntegrator(store, integration);
     this.subscribeOrUpgrade = subscribeOrUpgrade;
   }
 
@@ -79,7 +79,7 @@ export default class EmployeePayListSubModule {
 
   render() {
     return (
-      <EmployeePayListView
+      <DraftPayRunView
         onSelectRow={this.dispatcher.updateIsEmployeeSelected}
         onSelectAllRows={this.dispatcher.updateAreAllEmployeesSelected}
         onEmployeePayItemChange={this.changeEmployeePayItem}

@@ -12,7 +12,7 @@ import clearNegatives from '../clearNegativesInPayItems';
 import formatNumberWithDecimalScaleRange from '../../../../../common/valueFormatters/formatNumberWithDecimalScaleRange';
 import getEmployeePayLines from '../getEmployeePayLines';
 
-export const getEmployeePayListDefaultState = () => ({
+export const getDraftPayRunDefaultState = () => ({
   payPeriodEmployeeLimit: {},
   isPayItemLineDirty: false,
   lines: [],
@@ -157,7 +157,7 @@ const updateEmployeePayItem = (
   ),
 });
 
-export const employeePayListHandlers = {
+export const draftPayRunHandlers = {
   [LOAD_DRAFT_PAY_RUN]: loadDraftPayRun,
   [FORMAT_EMPLOYEE_PAY_ITEM]: formatEmployeePayItem,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,

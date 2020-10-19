@@ -77,7 +77,7 @@ describe('payRunReducer', () => {
       expect(result.startPayRun.currentEditingPayRun).toEqual(draftData);
     });
 
-    it('sets the employeePayList as expected without originalLines', () => {
+    it('sets the draftPayRun as expected without originalLines', () => {
       const expected = {
         lines: [
           {
@@ -268,7 +268,7 @@ describe('payRunReducer', () => {
       expect(result.startPayRun.currentEditingPayRun).toEqual(draftData);
     });
 
-    it('sets the employeePayList as expected with originalLines', () => {
+    it('sets the draftPayRun as expected with originalLines', () => {
       const expected = {
         lines: [
           {

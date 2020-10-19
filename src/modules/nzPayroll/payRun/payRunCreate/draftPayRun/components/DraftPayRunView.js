@@ -6,9 +6,9 @@ import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import EmployeePayTable from './EmployeesPayTable';
-import styles from './EmployeePayListView.module.css';
+import styles from './DraftPayRunView.module.css';
 
-const EmployeePayListView = ({
+const DraftPayRunView = ({
   onSelectRow,
   onSelectAllRows,
   onEmployeePayItemChange,
@@ -40,4 +40,4 @@ const mapStateToProps = (state) => ({
   payRunSteps: getStepperSteps(state),
 });
 
-export default connect(mapStateToProps)(EmployeePayListView);
+export default connect(mapStateToProps)(DraftPayRunView);

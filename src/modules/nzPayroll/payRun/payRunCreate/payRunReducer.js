@@ -1,4 +1,4 @@
-import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
+import { DRAFT_PAY_RUN, START_PAY_RUN } from './payRunSteps';
 import {
   NEXT_STEP,
   SET_ALERT,
@@ -9,9 +9,9 @@ import {
 } from './PayRunIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
-  employeePayListHandlers,
-  getEmployeePayListDefaultState,
-} from './employeePayList/employeePayListReducer';
+  draftPayRunHandlers,
+  getDraftPayRunDefaultState,
+} from './draftPayRun/draftPayRunReducer';
 import {
   getStartPayRunDefaultState,
   startPayRunHandlers,
@@ -26,7 +26,7 @@ const getDefaultState = () => ({
   step: START_PAY_RUN,
   isSubmitting: false,
   [START_PAY_RUN.key]: getStartPayRunDefaultState(),
-  [EMPLOYEE_PAY_LIST.key]: getEmployeePayListDefaultState(),
+  [DRAFT_PAY_RUN.key]: getDraftPayRunDefaultState(),
 });
 
 const resetState = () => ({ ...getDefaultState() });
@@ -76,7 +76,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_DRAFT_PAY_RUN_ID]: setDraftPayRunId,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
-  ...wrapHandlers(EMPLOYEE_PAY_LIST.key, employeePayListHandlers),
+  ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
 };
 
 const payRunReducer = createReducer(getDefaultState(), handlers);

@@ -1,5 +1,5 @@
 const getEmployeePayListForPaySlips = (state) =>
-  state.employeePayList.lines
+  state.draftPayRun.lines
     .filter((e) => e.isSelected)
     .map((employee) => ({
       transactionId: employee.id,

@@ -1,5 +1,5 @@
 import { UPDATE_EMPLOYEE_PAY } from '../../PayRunIntents';
-import createEmployeePayListIntegrator from '../createEmployeePayListIntegrator';
+import createDraftPayRunIntegrator from '../createDraftPayRunIntegrator';
 
 describe('Employee pay list integrator', () => {
   describe('update employee pay', () => {
@@ -39,13 +39,13 @@ describe('Employee pay list integrator', () => {
         getState: () => ({
           businessId: 7,
           draftPayRunId: 77,
-          employeePayList: {
+          draftPayRun: {
             lines: [expectedContent],
           },
         }),
       };
 
-      const integrator = createEmployeePayListIntegrator(store, integration);
+      const integrator = createDraftPayRunIntegrator(store, integration);
 
       integrator.updateEmployeePay({
         employeeId: 21,

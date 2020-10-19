@@ -8,14 +8,14 @@ import {
   UPDATE_EMPLOYEE_PAY_ITEM,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../../PayRunIntents';
-import employeePayList from './fixtures/loadEmployeePayList';
+import draftPayRun from './fixtures/loadDraftPayRun';
 import payRunReducer from '../../payRunReducer';
 
-describe('employeePayListReducer', () => {
+describe('draftPayRunReducer', () => {
   describe('updateIsEmployeeSelected', () => {
     it('should toggle isSelected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             { employeeId: '1', isSelected: true },
             { employeeId: '2', isSelected: true },
@@ -27,7 +27,7 @@ describe('employeePayListReducer', () => {
         id: '1',
       };
       const expected = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             { employeeId: '1', isSelected: false },
             { employeeId: '2', isSelected: true },
@@ -44,7 +44,7 @@ describe('employeePayListReducer', () => {
   describe('updateAreAllEmployeesSelected', () => {
     it('should toggle isSelected for all employees', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             { employeeId: '1', isSelected: true },
             { employeeId: '2', isSelected: true },
@@ -56,7 +56,7 @@ describe('employeePayListReducer', () => {
         value: false,
       };
       const expected = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             { employeeId: '1', isSelected: false },
             { employeeId: '2', isSelected: false },
@@ -73,7 +73,7 @@ describe('employeePayListReducer', () => {
   describe('UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION', () => {
     it('should update employee line', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               name: 'Mary Jones',
@@ -133,7 +133,7 @@ describe('employeePayListReducer', () => {
         updatedEmployeePay,
       };
       const expected = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               name: 'Mary Jones',
@@ -171,7 +171,7 @@ describe('employeePayListReducer', () => {
 
     describe('clearing negative values after update', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           baseHourlyWagePayItemId: 22,
           baseSalaryWagePayItemId: 9,
           lines: [
@@ -259,15 +259,13 @@ describe('employeePayListReducer', () => {
       it('clears the negative amount for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
-          '0.00'
-        );
+        expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
       });
 
       it('clears the negative quantity for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.employeePayList.lines[0].payItems[0].quantity).toEqual(
+        expect(actual.draftPayRun.lines[0].payItems[0].quantity).toEqual(
           '0.00'
         );
       });
@@ -305,7 +303,7 @@ describe('employeePayListReducer', () => {
           },
         });
 
-        expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
+        expect(actual.draftPayRun.lines[0].payItems[1].amount).toEqual(
           '-111.00'
         );
       });
@@ -320,7 +318,7 @@ describe('employeePayListReducer', () => {
           },
         });
 
-        expect(actual.employeePayList.lines[0].payItems[1].quantity).toEqual(
+        expect(actual.draftPayRun.lines[0].payItems[1].quantity).toEqual(
           '-222.00'
         );
       });
@@ -331,7 +329,7 @@ describe('employeePayListReducer', () => {
     const employeeId = '1';
     const payItemId = '2';
     const state = {
-      employeePayList: {
+      draftPayRun: {
         lines: [
           {
             employeeId,
@@ -355,9 +353,7 @@ describe('employeePayListReducer', () => {
     it('should format the amount field of a particular pay item to 2 decimal places', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
-        '3.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('3.00');
     });
 
     it('should format the amount field of a particular pay item to 0.00 for a NaN input', () => {
@@ -368,9 +364,7 @@ describe('employeePayListReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
-        '0.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
     });
 
     it('should format the hours field of a particular pay item to 2 decimal places min, and 3 decimal places max', () => {
@@ -383,7 +377,7 @@ describe('employeePayListReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('3.00');
+      expect(actual.draftPayRun.lines[0].payItems[0].hours).toEqual('3.00');
     });
 
     it('should format the hours field of a particular pay item to 0.00 for a NaN input', () => {
@@ -395,13 +389,13 @@ describe('employeePayListReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.employeePayList.lines[0].payItems[0].hours).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payItems[0].hours).toEqual('0.00');
     });
   });
 
   describe('LOAD_DRAFT_PAY_RUN', () => {
     const state = {
-      employeePayList: {
+      draftPayRun: {
         baseHourlyWagePayItemId: 11,
         baseSalaryWagePayItemId: 9,
       },
@@ -456,57 +450,49 @@ describe('employeePayListReducer', () => {
     it('sets negative amount to zero for base salary pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[1].amount).toEqual(
-        '0.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[1].amount).toEqual('0.00');
     });
 
     it('does not set negative amount to zero for other pay items', () => {
       const actual = payRunReducer(state, action);
-      expect(actual.employeePayList.lines[0].payItems[2].amount).toEqual(
-        '-20.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[2].amount).toEqual('-20.00');
     });
 
     it('sets negative amount to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].amount).toEqual(
-        '0.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
     });
 
     it('sets negative hours to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.employeePayList.lines[0].payItems[0].quantity).toEqual(
-        '0.00'
-      );
+      expect(actual.draftPayRun.lines[0].payItems[0].quantity).toEqual('0.00');
     });
 
     it('sets days paid', () => {
       const ourAction = {
         intent: LOAD_DRAFT_PAY_RUN,
-        createdDraftPayRun: employeePayList,
+        createdDraftPayRun: draftPayRun,
       };
       const actual = payRunReducer(state, ourAction);
-      expect(actual.employeePayList.lines[0].daysPaid).toEqual(5);
+      expect(actual.draftPayRun.lines[0].daysPaid).toEqual(5);
     });
 
     it('sets take home pay', () => {
       const ourAction = {
         intent: LOAD_DRAFT_PAY_RUN,
-        createdDraftPayRun: employeePayList,
+        createdDraftPayRun: draftPayRun,
       };
       const actual = payRunReducer(state, ourAction);
-      expect(actual.employeePayList.lines[0].takeHomePay).toEqual(700);
+      expect(actual.draftPayRun.lines[0].takeHomePay).toEqual(700);
     });
   });
 
   describe('UPDATE_EMPLOYEE_DAYS_PAID', () => {
     it('update daysPaid field in store onChange', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: '1',
@@ -529,15 +515,14 @@ describe('employeePayListReducer', () => {
 
       const expected = 1;
 
-      const actual = payRunReducer(state, action).employeePayList.lines[0]
-        .daysPaid;
+      const actual = payRunReducer(state, action).draftPayRun.lines[0].daysPaid;
 
       expect(actual).toEqual(expected);
     });
 
     it('update daysPaid does not alter other fields', () => {
       const initialState = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: '1',
@@ -562,7 +547,7 @@ describe('employeePayListReducer', () => {
       };
 
       const expected = initialState;
-      expected.employeePayList.lines[0].daysPaid = 1;
+      expected.draftPayRun.lines[0].daysPaid = 1;
 
       const state = initialState;
 
@@ -581,7 +566,7 @@ describe('employeePayListReducer', () => {
   describe('SET_PAY_ITEM_LINE_DIRTY', () => {
     it('update daysPaid field in store onChange', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           isPayItemLineDirty: false,
         },
       };
@@ -592,7 +577,7 @@ describe('employeePayListReducer', () => {
       };
 
       const expected = {
-        employeePayList: {
+        draftPayRun: {
           isPayItemLineDirty: true,
         },
       };
@@ -606,7 +591,7 @@ describe('employeePayListReducer', () => {
   describe('UPDATE_EMPLOYEE_PAY_ITEM', () => {
     it('Employee pay line is updated', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               name: 'Mary Jones',
@@ -645,7 +630,7 @@ describe('employeePayListReducer', () => {
         value: 10,
       };
       const expected = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               name: 'Mary Jones',

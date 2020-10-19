@@ -4,7 +4,7 @@ describe('PreparePaySlipsSelectors', () => {
   describe('getEmployeePayListForPaySlips', () => {
     it('should return list of selected employees', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               id: 1,

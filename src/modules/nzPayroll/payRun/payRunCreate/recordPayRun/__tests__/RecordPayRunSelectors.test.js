@@ -4,7 +4,7 @@ describe('RecordPayRunSelectors', () => {
   describe('getNumberOfSelected', () => {
     it('should get the number of selected employees', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               isSelected: false,

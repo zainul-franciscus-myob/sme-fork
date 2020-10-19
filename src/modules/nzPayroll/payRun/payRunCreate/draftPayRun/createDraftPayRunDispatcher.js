@@ -10,7 +10,7 @@ import {
 } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 
-const createEmployeePayListDispatcher = (store) => ({
+const createDraftPayRunDispatcher = (store) => ({
   ...createPayRunDispatchers(store),
 
   updateEmployeeDaysPaid: (employeeId, daysPaid) => {
@@ -77,4 +77,4 @@ const createEmployeePayListDispatcher = (store) => ({
   },
 });
 
-export default createEmployeePayListDispatcher;
+export default createDraftPayRunDispatcher;

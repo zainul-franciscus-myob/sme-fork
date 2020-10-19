@@ -2,10 +2,10 @@ import { createSelector } from 'reselect';
 
 import formatAmount from '../../../../../common/valueFormatters/formatAmount';
 
-const getEmployeePayList = (state) => state.employeePayList;
+const getDraftPayRun = (state) => state.draftPayRun;
 
 const getEmployeePayLines = createSelector(
-  getEmployeePayList,
+  getDraftPayRun,
   (pays) => pays.lines
 );
 
@@ -68,7 +68,7 @@ export const getTotals = createSelector(getEmployeePayLines, (lines) => {
 });
 
 export const isPayItemLineDirty = createSelector(
-  getEmployeePayList,
+  getDraftPayRun,
   (pays) => pays.isPayItemLineDirty
 );
 
@@ -79,12 +79,12 @@ const isKiwiSaverPayItem = (payItemType) =>
   ['KiwiSaverEmployee', 'KiwiSaverEmployers', 'ESCT'].includes(payItemType);
 
 const getEmployeeLineByEmployeeId = (state, employeeId) =>
-  state.employeePayList.lines.find((line) => line.employeeId === employeeId);
+  state.draftPayRun.lines.find((line) => line.employeeId === employeeId);
 
 const getBaseHourlyWagePayItemId = (state) =>
-  state.employeePayList.baseHourlyWagePayItemId;
+  state.draftPayRun.baseHourlyWagePayItemId;
 const getBaseSalaryWagePayItemId = (state) =>
-  state.employeePayList.baseSalaryWagePayItemId;
+  state.draftPayRun.baseSalaryWagePayItemId;
 
 const SMALLER = -1;
 const BIGGER = 1;

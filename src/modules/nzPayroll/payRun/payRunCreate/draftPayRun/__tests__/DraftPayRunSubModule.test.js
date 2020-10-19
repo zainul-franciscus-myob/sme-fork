@@ -3,17 +3,17 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LOAD_DRAFT_PAY_RUN } from '../../PayRunIntents';
-import EmployeePayListSubModule from '../EmployeePayListSubModule';
+import DraftPayRunSubModule from '../DraftPayRunSubModule';
 import PayRunModule from '../../PayRunModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
-import createEmployeePayListDispatcher from '../createEmployeePayListDispatcher';
-import createEmployeePayListIntegrator from '../createEmployeePayListIntegrator';
+import createDraftPayRunDispatcher from '../createDraftPayRunDispatcher';
+import createDraftPayRunIntegrator from '../createDraftPayRunIntegrator';
 import createdDraftPayRun from '../../../mappings/data/payRun/createDraftPayRun.json';
 import payRunReducer from '../../payRunReducer';
 
-describe('EmployeePayListSubModule', () => {
-  const constructEmployeePayListSubModule = () => {
+describe('DraftPayRunSubModule', () => {
+  const constructdraftPayRunSubModule = () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
     const setRootView = () => <div />;
@@ -28,18 +28,18 @@ describe('EmployeePayListSubModule', () => {
     const store = new TestStore(payRunReducer);
     payRunModule.store = store;
 
-    const employeePayListModule = new EmployeePayListSubModule({
+    const draftPayRunModule = new DraftPayRunSubModule({
       integration,
       store: payRunModule.store,
       pushMessage,
     });
-    employeePayListModule.dispatcher = createEmployeePayListDispatcher(store);
-    employeePayListModule.integrator = createEmployeePayListIntegrator(
+    draftPayRunModule.dispatcher = createDraftPayRunDispatcher(store);
+    draftPayRunModule.integrator = createDraftPayRunIntegrator(
       store,
       integration
     );
 
-    const view = employeePayListModule.render();
+    const view = draftPayRunModule.render();
 
     const wrappedView = <Provider store={payRunModule.store}>{view}</Provider>;
 
@@ -48,13 +48,13 @@ describe('EmployeePayListSubModule', () => {
     wrapper.update();
     return {
       wrapper,
-      module: employeePayListModule,
+      module: draftPayRunModule,
       payRunModule,
       store: payRunModule.store,
     };
   };
   describe('Check dispatcher and reducer are linked', () => {
-    const { payRunModule, module, store } = constructEmployeePayListSubModule();
+    const { payRunModule, module, store } = constructdraftPayRunSubModule();
 
     it('should hold id', () => {
       payRunModule.resetState();
@@ -64,7 +64,7 @@ describe('EmployeePayListSubModule', () => {
         createdDraftPayRun,
       });
 
-      const employee = module.store.state.employeePayList.lines.find(
+      const employee = module.store.state.draftPayRun.lines.find(
         (x) => x.employeeId === 21
       );
       expect(employee.employeeId).toEqual(21);

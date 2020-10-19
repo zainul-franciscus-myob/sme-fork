@@ -3,9 +3,9 @@ import { getBusinessId, getDraftPayRunId } from '../PayRunSelectors';
 import {
   getEmployeePayId,
   getUpdateEmployeePayRequest,
-} from './EmployeePayListSelectors';
+} from './DraftPayRunSelectors';
 
-const createEmployeePayListIntegrator = (store, integration) => ({
+const createDraftPayRunIntegrator = (store, integration) => ({
   updateEmployeePay: ({ employeeId, onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = UPDATE_EMPLOYEE_PAY;
@@ -30,4 +30,4 @@ const createEmployeePayListIntegrator = (store, integration) => ({
   },
 });
 
-export default createEmployeePayListIntegrator;
+export default createDraftPayRunIntegrator;

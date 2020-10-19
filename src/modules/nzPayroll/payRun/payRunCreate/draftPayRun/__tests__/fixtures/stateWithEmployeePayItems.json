@@ -7,7 +7,7 @@
       "payPeriodEnd": "2019-09-11"
     }
   },
-  "employeePayList": {
+  "draftPayRun": {
     "lines": [
       {
         "name": "Mary Jones",

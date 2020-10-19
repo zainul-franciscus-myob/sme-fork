@@ -40,7 +40,7 @@ describe('RecordPayRunView', () => {
     });
 
     it('should display number of selected employees', () => {
-      const employeePayList = {
+      const draftPayRun = {
         lines: [
           {
             employeeId: '21',
@@ -57,7 +57,7 @@ describe('RecordPayRunView', () => {
 
       store.setState({
         ...store.getState(),
-        employeePayList,
+        draftPayRun,
       });
 
       const wrapper = mountWithProvider(<RecordPayRunView {...props} />);
@@ -69,7 +69,7 @@ describe('RecordPayRunView', () => {
     });
 
     it('should display correct label for single employee', () => {
-      const employeePayList = {
+      const draftPayRun = {
         lines: [
           {
             employeeId: '21',
@@ -81,7 +81,7 @@ describe('RecordPayRunView', () => {
 
       store.setState({
         ...store.getState(),
-        employeePayList,
+        draftPayRun,
       });
 
       const wrapper = mountWithProvider(<RecordPayRunView {...props} />);
@@ -93,11 +93,11 @@ describe('RecordPayRunView', () => {
     });
 
     it('should display correct label for zero employees selected', () => {
-      const employeePayList = { lines: [] };
+      const draftPayRun = { lines: [] };
 
       store.setState({
         ...store.getState(),
-        employeePayList,
+        draftPayRun,
       });
 
       const wrapper = mountWithProvider(<RecordPayRunView {...props} />);

@@ -15,7 +15,7 @@ import {
   getIsPartiallySelected,
   getNumberOfSelected,
   getTotals,
-} from '../EmployeePayListSelectors';
+} from '../DraftPayRunSelectors';
 import PayDetailsTable from './payDetails/PayDetailsTable';
 import handleCheckboxChange from '../../../../../../components/handlers/handleCheckboxChange';
 import styles from './EmployeesPayTable.module.css';

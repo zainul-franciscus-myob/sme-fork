@@ -3,13 +3,13 @@ import React from 'react';
 
 import {
   DONE,
-  EMPLOYEE_PAY_LIST,
+  DRAFT_PAY_RUN,
   PREPARE_PAYSLIPS,
   RECORD_AND_REPORT,
   START_PAY_RUN,
 } from './payRunSteps';
 import { getStepKey } from './PayRunSelectors';
-import EmployeePayListSubModule from './employeePayList/EmployeePayListSubModule';
+import DraftPayRunSubModule from './draftPayRun/DraftPayRunSubModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PayRunDoneSubModule from './payRunDone/PayRunDoneSubModule';
 import PayRunView from './components/PayRunView';
@@ -33,7 +33,7 @@ export default class PayRunModule {
         integration,
         store: this.store,
       }),
-      [EMPLOYEE_PAY_LIST.key]: new EmployeePayListSubModule({
+      [DRAFT_PAY_RUN.key]: new DraftPayRunSubModule({
         integration,
         store: this.store,
         pushMessage,

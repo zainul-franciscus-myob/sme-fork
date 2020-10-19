@@ -3,14 +3,14 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
+import DraftPayRunView from '../DraftPayRunView';
 import EmployeePayActions from '../EmployeePayActions';
 import EmployeePayHeader from '../../../components/EmployeePayHeader';
-import EmployeePayListView from '../EmployeePayListView';
 import EmployeePayTable from '../EmployeesPayTable';
 import TestStore from '../../../../../../../store/TestStore';
 import payRunReducer from '../../../payRunReducer';
 
-describe('EmployeePayListView', () => {
+describe('DraftPayRunView', () => {
   let store;
   const props = {};
 
@@ -28,7 +28,7 @@ describe('EmployeePayListView', () => {
 
   describe('On load', () => {
     it('should have all expected components', () => {
-      const wrapper = mountWithProvider(<EmployeePayListView {...props} />);
+      const wrapper = mountWithProvider(<DraftPayRunView {...props} />);
       expect(wrapper.exists(PageHead)).toEqual(true);
       expect(wrapper.exists(Stepper)).toEqual(true);
       expect(wrapper.exists(EmployeePayHeader)).toEqual(true);

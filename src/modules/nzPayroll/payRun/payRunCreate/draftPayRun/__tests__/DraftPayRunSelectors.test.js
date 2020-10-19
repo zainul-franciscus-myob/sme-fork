@@ -13,18 +13,18 @@ import {
   getUpdateEmployeePayRequest,
   getWagePayItemEntries,
   isPayItemLineDirty,
-} from '../EmployeePayListSelectors';
-import employeePayList from './fixtures/stateWithEmployeePayItems';
+} from '../DraftPayRunSelectors';
+import draftPayRun from './fixtures/stateWithEmployeePayItems';
 import kiwiSaverPayItemEntries from './fixtures/kiwiSaverPayItemEntries';
 import taxPayItemEntries from './fixtures/taxPayItemEntries';
 import updateEmployeePayRequest from './fixtures/updateEmployeePayRequest';
 import wagePayItemEntries from './fixtures/wagePayItemEntries';
 
-describe('EmployeePayListSelectors', () => {
+describe('draftPayRunSelectors', () => {
   describe('getIsPartiallySelected', () => {
     it('returns false when all selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [{ isSelected: true }, { isSelected: true }],
         },
       };
@@ -34,7 +34,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('returns false when none selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [{ isSelected: false }, { isSelected: false }],
         },
       };
@@ -44,7 +44,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('returns true when some selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [{ isSelected: true }, { isSelected: false }],
         },
       };
@@ -56,7 +56,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getTotals', () => {
     it('calculates totals', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: '20',
@@ -107,7 +107,7 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getWagePayItemEntries', () => {
     it('returns sorted wage pay item entries', () => {
-      const actualWagePayItemEntries = getWagePayItemEntries(employeePayList, {
+      const actualWagePayItemEntries = getWagePayItemEntries(draftPayRun, {
         employeeId: 21,
       });
 
@@ -119,7 +119,7 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getTaxPayItemEntries', () => {
     it('returns tax pay item entries', () => {
-      const actualTaxPayItemEntries = getTaxPayItemEntries(employeePayList, {
+      const actualTaxPayItemEntries = getTaxPayItemEntries(draftPayRun, {
         employeeId: 21,
       });
 
@@ -132,7 +132,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getKiwiSaverPayItemEntries', () => {
     it('returns employer expense pay items without the hours field', () => {
       const actualEmployerExpensePayItemEntries = getKiwiSaverPayItemEntries(
-        employeePayList,
+        draftPayRun,
         { employeeId: 21 }
       );
 
@@ -146,7 +146,7 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowWagePayItems', () => {
     it('returns true when employee has at least one wage pay item', () => {
-      const actual = getShouldShowWagePayItems(employeePayList, {
+      const actual = getShouldShowWagePayItems(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -156,7 +156,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('returns false when employee has no wage pay item', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: 21,
@@ -178,7 +178,7 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowTaxPayItem', () => {
     it('returns true when employee has at least one tax pay item', () => {
-      const actual = getShouldShowTaxPayItems(employeePayList, {
+      const actual = getShouldShowTaxPayItems(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -188,7 +188,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('returns false when employee has no tax pay item', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: 21,
@@ -210,7 +210,7 @@ describe('EmployeePayListSelectors', () => {
 
   describe('getShouldShowKiwiSaverPayItems', () => {
     it('returns true when employee has at least one KiwiSaver pay item', () => {
-      const actual = getShouldShowKiwiSaverPayItems(employeePayList, {
+      const actual = getShouldShowKiwiSaverPayItems(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -219,7 +219,7 @@ describe('EmployeePayListSelectors', () => {
     });
     it('returns false when employee has no KiwiSaver pay item', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: 21,
@@ -247,7 +247,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getUpdateEmployeePayRequest', () => {
     it('returns the request to update an employee pay', () => {
       const actualPayload = getUpdateEmployeePayRequest({
-        state: employeePayList,
+        state: draftPayRun,
         employeeId: 21,
       });
       const expectedRequest = updateEmployeePayRequest;
@@ -259,7 +259,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getFormattedEmployeePayLines', () => {
     it('returns all lines correctly formatted to decimal', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               daysPaid: 5,
@@ -291,7 +291,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getIsAllSelected', () => {
     it('should return true when all lines are selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               isSelected: true,
@@ -310,7 +310,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('should return false when there are unselected lines', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               isSelected: true,
@@ -329,7 +329,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('should return true when there are no lines', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [],
         },
       };
@@ -343,7 +343,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getNumberOfSelected', () => {
     it('should return the number of lines selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               isSelected: true,
@@ -367,7 +367,7 @@ describe('EmployeePayListSelectors', () => {
 
     it('should return 0 when no lines are selected', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               isSelected: false,
@@ -387,7 +387,7 @@ describe('EmployeePayListSelectors', () => {
   describe('isPayItemLineDirty', () => {
     it('should get is pay item line dirty', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           isPayItemLineDirty: true,
         },
       };
@@ -403,7 +403,7 @@ describe('EmployeePayListSelectors', () => {
   describe('getEmployeePayId', () => {
     it('should get employee pay id', () => {
       const state = {
-        employeePayList: {
+        draftPayRun: {
           lines: [
             {
               employeeId: 7,

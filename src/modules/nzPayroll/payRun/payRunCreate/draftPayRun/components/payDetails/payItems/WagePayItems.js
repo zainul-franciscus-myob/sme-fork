@@ -4,7 +4,7 @@ import React from 'react';
 import {
   getShouldShowWagePayItems,
   getWagePayItemEntries,
-} from '../../../EmployeePayListSelectors';
+} from '../../../DraftPayRunSelectors';
 import PayDetailsTableRows from '../PayDetailsTableRows';
 
 const WagePayItems = ({

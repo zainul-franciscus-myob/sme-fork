@@ -15,8 +15,8 @@ export const RECORD_AND_REPORT = {
   nextStep: PREPARE_PAYSLIPS,
 };
 
-export const EMPLOYEE_PAY_LIST = {
-  key: 'employeePayList',
+export const DRAFT_PAY_RUN = {
+  key: 'draftPayRun',
   index: 1,
   nextStep: RECORD_AND_REPORT,
 };
@@ -24,5 +24,5 @@ export const EMPLOYEE_PAY_LIST = {
 export const START_PAY_RUN = {
   key: 'startPayRun',
   index: 0,
-  nextStep: EMPLOYEE_PAY_LIST,
+  nextStep: DRAFT_PAY_RUN,
 };

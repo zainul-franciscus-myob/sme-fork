@@ -1,4 +1,4 @@
-import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from '../payRunSteps';
+import { DRAFT_PAY_RUN, START_PAY_RUN } from '../payRunSteps';
 import {
   NEXT_STEP,
   SET_DRAFT_PAY_RUN_ID,
@@ -84,7 +84,7 @@ describe('NZ Payrun reducer', () => {
       };
 
       const expected = {
-        step: EMPLOYEE_PAY_LIST,
+        step: DRAFT_PAY_RUN,
       };
 
       const actual = payRunReducer(state, action);
