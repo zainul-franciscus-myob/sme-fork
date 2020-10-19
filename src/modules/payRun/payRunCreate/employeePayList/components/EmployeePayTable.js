@@ -26,8 +26,8 @@ import styles from './EmployeePayTable.module.css';
 
 const tableConfig = {
   employee: { width: 'flex-2', columnName: 'Employee' },
-  payg: { width: 'flex-1', columnName: 'Gross ($}', align: 'right' },
-  gross: { width: 'flex-1', columnName: 'PAYG ($)', align: 'right' },
+  gross: { width: 'flex-1', columnName: 'Gross ($)', align: 'right' },
+  payg: { width: 'flex-1', columnName: 'PAYG ($)', align: 'right' },
   deduction: { width: 'flex-1', columnName: 'Deductions ($)', align: 'right' },
   netPay: { width: 'flex-1', columnName: 'Net pay ($)', align: 'right' },
   super: { width: 'flex-1', columnName: 'Super ($)', align: 'right' },
