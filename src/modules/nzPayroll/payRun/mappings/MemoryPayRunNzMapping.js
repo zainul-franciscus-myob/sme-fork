@@ -5,7 +5,6 @@ import {
   UPDATE_EMPLOYEE_PAY,
 } from '../payRunCreate/PayRunIntents';
 import createDraftPayRun from './data/payRun/createDraftPayRun';
-import recordPayments from './data/payRun/recordPayments';
 import startNewPayRun from './data/payRun/startNewPayRun';
 import updatedEmployeePay from './data/payRun/updatedEmployeePay';
 
@@ -13,7 +12,7 @@ const PayRunMapping = {
   [START_NEW_PAY_RUN]: ({ onSuccess }) => onSuccess(startNewPayRun),
   [CREATE_DRAFT_PAY_RUN]: ({ onSuccess }) => onSuccess(createDraftPayRun),
   [UPDATE_EMPLOYEE_PAY]: ({ onSuccess }) => onSuccess(updatedEmployeePay),
-  [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess(recordPayments),
+  [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess({}),
 };
 
 export default PayRunMapping;

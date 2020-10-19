@@ -18,9 +18,6 @@ export const UPDATE_ARE_ALL_EMPLOYEES_SELECTED = Symbol(
 );
 export const FORMAT_EMPLOYEE_PAY_ITEM = Symbol('Format employee pay item');
 export const RECORD_PAYMENTS = Symbol('Record payments');
-export const SET_EMPLOYEE_PAYMENTS = Symbol(
-  'Store employee payments returned from record payments request'
-);
 export const SET_ALERT = Symbol('Set alert');
 export const UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION = Symbol(
   'Update employee line after recalculation'

@@ -3,12 +3,10 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { SET_EMPLOYEE_PAYMENTS } from '../../../PayRunIntents';
 import PaySlipEmployeesView from '../PaySlipEmployeesView';
 import PrintPaySlipsView from '../PrintPaySlipsView';
 import TestStore from '../../../../../../../store/TestStore';
 import payRunReducer from '../../../payRunReducer';
-import response from '../../../../mappings/data/payRun/recordPayments';
 
 describe('PaySlipEmployeesView', () => {
   let store;
@@ -21,7 +19,6 @@ describe('PaySlipEmployeesView', () => {
     });
 
   const setup = () => {
-    store.dispatch({ intent: SET_EMPLOYEE_PAYMENTS, response });
     return mountWithProvider(<PaySlipEmployeesView />);
   };
 

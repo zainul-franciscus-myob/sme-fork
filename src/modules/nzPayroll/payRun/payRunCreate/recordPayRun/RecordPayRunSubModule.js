@@ -17,10 +17,9 @@ export default class RecordPayRunSubModule {
   recordPayments = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const onSuccess = (response) => {
+    const onSuccess = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.dismissAlert();
-      this.dispatcher.setEmployeePayments(response);
       this.dispatcher.nextStep();
     };
 

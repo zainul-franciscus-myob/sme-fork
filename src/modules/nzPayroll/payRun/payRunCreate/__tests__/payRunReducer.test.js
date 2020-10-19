@@ -1,6 +1,7 @@
 import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from '../payRunSteps';
 import {
   NEXT_STEP,
+  SET_DRAFT_PAY_RUN_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -20,6 +21,7 @@ describe('NZ Payrun reducer', () => {
       const actual = payRunReducer(state, action);
       expect(actual.step).toBe(START_PAY_RUN);
       expect(actual.loadingState).toBe(LoadingState.LOADING);
+      expect(actual.draftPayRunId).toBe(-1);
     });
   });
 
@@ -104,6 +106,29 @@ describe('NZ Payrun reducer', () => {
 
       const expected = {
         isSubmitting: true,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Set pay run id', () => {
+    it('should set the draftPayRunId', () => {
+      const state = {
+        draftPayRunId: -1,
+      };
+
+      const action = {
+        intent: SET_DRAFT_PAY_RUN_ID,
+        createdDraftPayRun: {
+          draftPayRunId: 1234,
+        },
+      };
+
+      const expected = {
+        draftPayRunId: 1234,
       };
 
       const actual = payRunReducer(state, action);

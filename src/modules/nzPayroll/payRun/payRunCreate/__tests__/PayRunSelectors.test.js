@@ -1,6 +1,7 @@
 import {
   getBusinessId,
   getDashboardUrl,
+  getDraftPayRunId,
   getEmployeeHeader,
   getIsSubmitting,
   getLoadingState,
@@ -288,6 +289,18 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getDashboardUrl(state)).toEqual(expected);
+    });
+  });
+
+  describe('getDraftPayRunId', () => {
+    it('should get the pay run id', () => {
+      const expected = '1234';
+
+      const state = {
+        draftPayRunId: expected,
+      };
+
+      expect(getDraftPayRunId(state)).toEqual(expected);
     });
   });
 });

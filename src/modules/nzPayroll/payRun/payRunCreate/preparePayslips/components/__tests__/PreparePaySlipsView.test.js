@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { NEXT_STEP, SET_EMPLOYEE_PAYMENTS } from '../../../PayRunIntents';
+import { NEXT_STEP } from '../../../PayRunIntents';
 import { PREPARE_PAYSLIPS } from '../../../payRunSteps';
 import EmployeePayHeader from '../../../components/EmployeePayHeader';
 import PaySlipEmployeesView from '../PaySlipEmployeesView';
@@ -17,9 +17,6 @@ describe('PreparePaySlipsView', () => {
 
   const state = {
     step: PREPARE_PAYSLIPS,
-    preparePaySlips: {
-      printPaySlipEmployees: [],
-    },
   };
 
   const mountWithProvider = (component) =>
@@ -30,10 +27,6 @@ describe('PreparePaySlipsView', () => {
 
   const setup = () => {
     store.dispatch({ intent: NEXT_STEP, state });
-    store.dispatch({
-      intent: SET_EMPLOYEE_PAYMENTS,
-      response: state.preparePaySlips,
-    });
     return mountWithProvider(<PreparePaySlipsView />);
   };
 

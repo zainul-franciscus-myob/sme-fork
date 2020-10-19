@@ -21,8 +21,8 @@ const PayRunMapping = {
   },
   [RECORD_PAYMENTS]: {
     method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/nz-payroll/payRun/record_payments`,
+    getPath: ({ businessId, draftPayRunId }) =>
+      `/${businessId}/nz-payroll/payRun/${draftPayRunId}`,
   },
 };
 

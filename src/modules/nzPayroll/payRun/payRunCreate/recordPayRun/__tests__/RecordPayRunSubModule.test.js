@@ -6,7 +6,6 @@ import {
   NEXT_STEP,
   RECORD_PAYMENTS,
   SET_ALERT,
-  SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
 } from '../../PayRunIntents';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
@@ -16,7 +15,6 @@ import RecordPayRunSubModule from '../RecordPayRunSubModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
 import payRunReducer from '../../payRunReducer';
-import recordPayments from '../../../mappings/data/payRun/recordPayments';
 
 describe('RecordPayRunSubModule', () => {
   const constructRecordPayRunSubModule = () => {
@@ -46,8 +44,6 @@ describe('RecordPayRunSubModule', () => {
     it('sets employee payments when integration is successful', () => {
       const { store, integration, wrapper } = constructRecordPayRunSubModule();
 
-      integration.mapSuccess(RECORD_PAYMENTS, recordPayments);
-
       const recordButton = findButtonWithTestId(wrapper, 'saveButton');
       recordButton.simulate('click');
 
@@ -65,10 +61,6 @@ describe('RecordPayRunSubModule', () => {
           alert: undefined,
         },
         {
-          intent: SET_EMPLOYEE_PAYMENTS,
-          response: recordPayments,
-        },
-        {
           intent: NEXT_STEP,
         },
       ]);
@@ -76,7 +68,7 @@ describe('RecordPayRunSubModule', () => {
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({
           intent: RECORD_PAYMENTS,
-          urlParams: { businessId: undefined },
+          urlParams: { businessId: undefined, draftPayRunId: -1 },
           params: undefined,
         })
       );
@@ -111,7 +103,7 @@ describe('RecordPayRunSubModule', () => {
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({
           intent: RECORD_PAYMENTS,
-          urlParams: { businessId: undefined },
+          urlParams: { businessId: undefined, draftPayRunId: -1 },
           params: undefined,
         })
       );

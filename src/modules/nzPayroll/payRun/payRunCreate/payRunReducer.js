@@ -1,13 +1,8 @@
-import {
-  EMPLOYEE_PAY_LIST,
-  PREPARE_PAYSLIPS,
-  START_PAY_RUN,
-} from './payRunSteps';
+import { EMPLOYEE_PAY_LIST, START_PAY_RUN } from './payRunSteps';
 import {
   NEXT_STEP,
   SET_ALERT,
   SET_DRAFT_PAY_RUN_ID,
-  SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -66,24 +61,15 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const setDraftPayRunId = (state, draftPayRun) => ({
+const setDraftPayRunId = (state, { createdDraftPayRun }) => ({
   ...state,
-  draftPayRunId: draftPayRun.draftPayRunId,
-});
-
-const setEmployeePayments = (state, { response }) => ({
-  ...state,
-  [PREPARE_PAYSLIPS.key]: {
-    ...state[PREPARE_PAYSLIPS.key],
-    printPaySlipEmployees: response.printPaySlipEmployees,
-  },
+  draftPayRunId: createdDraftPayRun.draftPayRunId,
 });
 
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_EMPLOYEE_PAYMENTS]: setEmployeePayments,
   [SET_TOTAL_TAKE_HOME_PAY]: setTotalTakeHomePay,
   [NEXT_STEP]: nextStep,
   [SET_SUBMITTING_STATE]: setSubmittingState,

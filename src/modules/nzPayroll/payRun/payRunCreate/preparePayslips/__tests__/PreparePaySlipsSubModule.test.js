@@ -2,12 +2,11 @@ import { Button } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 
-import { NEXT_STEP, SET_EMPLOYEE_PAYMENTS } from '../../PayRunIntents';
+import { NEXT_STEP } from '../../PayRunIntents';
 import PreparePaySlipsSubModule from '../PreparePaySlipsSubModule';
 import PreparePaySlipsView from '../components/PreparePaySlipsView';
 import TestStore from '../../../../../../store/TestStore';
 import payRunReducer from '../../payRunReducer';
-import response from '../../../mappings/data/payRun/recordPayments';
 
 describe('PreparePaySlipsSubModule', () => {
   let store;
@@ -24,7 +23,6 @@ describe('PreparePaySlipsSubModule', () => {
 
   beforeEach(() => {
     store = new TestStore(payRunReducer);
-    store.dispatch({ intent: SET_EMPLOYEE_PAYMENTS, response });
     wrapper = setup();
     wrapper.update();
   });
@@ -40,10 +38,6 @@ describe('PreparePaySlipsSubModule', () => {
       nextButton.simulate('click');
 
       expect(store.getActions()).toEqual([
-        {
-          intent: SET_EMPLOYEE_PAYMENTS,
-          response,
-        },
         {
           intent: NEXT_STEP,
         },

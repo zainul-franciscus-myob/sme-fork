@@ -1,8 +1,11 @@
-import { createSelector } from 'reselect';
+const getEmployeePayListForPaySlips = (state) =>
+  state.employeePayList.lines
+    .filter((e) => e.isSelected)
+    .map((employee) => ({
+      transactionId: employee.id,
+      employeeId: employee.employeeId,
+      name: employee.name,
+      takeHomePay: employee.takeHomePay,
+    }));
 
-export const getPreparePaySlips = (state) => state.preparePaySlips;
-
-export const getPrintPaySlipEmployees = createSelector(
-  getPreparePaySlips,
-  ({ printPaySlipEmployees }) => printPaySlipEmployees
-);
+export default getEmployeePayListForPaySlips;

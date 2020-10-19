@@ -2,8 +2,8 @@ import { FieldGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getPrintPaySlipEmployees } from '../PreparePaySlipsSelectors';
 import PrintPaySlipsView from './PrintPaySlipsView';
+import getEmployeePayListForPaySlips from '../PreparePaySlipsSelectors';
 
 const PaySlipEmployeesView = ({ printPaySlipEmployees }) => (
   <FieldGroup label="Employees">
@@ -12,7 +12,7 @@ const PaySlipEmployeesView = ({ printPaySlipEmployees }) => (
 );
 
 const mapStateToProps = (state) => ({
-  printPaySlipEmployees: getPrintPaySlipEmployees(state),
+  printPaySlipEmployees: getEmployeePayListForPaySlips(state),
 });
 
 export default connect(mapStateToProps)(PaySlipEmployeesView);

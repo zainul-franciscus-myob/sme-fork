@@ -2,7 +2,6 @@ import { PageState, Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { printPaySlipEmployees } from '../../../../mappings/data/payRun/recordPayments';
 import PrintPaySlipsView from '../PrintPaySlipsView';
 
 describe('PrintPaySlipsView', () => {
@@ -12,7 +11,20 @@ describe('PrintPaySlipsView', () => {
 
   describe('Table View with employee', () => {
     const props = {
-      employees: printPaySlipEmployees,
+      employees: [
+        {
+          transactionId: 2,
+          employeeId: 297,
+          name: 'Fin Adventureland',
+          takeHomePay: '61.77',
+        },
+        {
+          transactionId: 4,
+          employeeId: 299,
+          name: 'Princess Bubblegum',
+          takeHomePay: '61.78',
+        },
+      ],
     };
 
     beforeEach(() => {

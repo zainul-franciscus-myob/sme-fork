@@ -1,47 +1,52 @@
-import {
-  getPreparePaySlips,
-  getPrintPaySlipEmployees,
-} from '../PreparePaySlipsSelectors';
+import getEmployeePayListForPaySlips from '../PreparePaySlipsSelectors';
 
 describe('PreparePaySlipsSelectors', () => {
-  const printPaySlipEmployees = [
-    {
-      transactionId: 2,
-      employeeId: 297,
-      name: 'Fin Adventureland',
-      email: 'finlovesswords@fcbarcelona.com',
-      takeHomePay: '61.77',
-      hasPaySlipEmailSent: false,
-      hasBankFile: true,
-    },
-    {
-      transactionId: 4,
-      employeeId: 299,
-      name: 'Princess Bubblegum',
-      email: 'pbubs@fcbarcelona.com',
-      takeHomePay: '61.78',
-      hasPaySlipEmailSent: false,
-      hasBankFile: false,
-    },
-  ];
+  describe('getEmployeePayListForPaySlips', () => {
+    it('should return list of selected employees', () => {
+      const state = {
+        employeePayList: {
+          lines: [
+            {
+              id: 1,
+              employeeId: '20',
+              name: 'Mary Jones',
+              takeHomePay: 700,
+              isSelected: true,
+            },
+            {
+              id: 2,
+              employeeId: '21',
+              name: 'Mary Jones',
+              takeHomePay: 800,
+              isSelected: false,
+            },
+            {
+              id: 3,
+              employeeId: '22',
+              name: 'Mary Jones',
+              takeHomePay: 900,
+              isSelected: true,
+            },
+          ],
+        },
+      };
 
-  const preparePaySlips = { printPaySlipEmployees };
+      const expected = [
+        {
+          transactionId: 1,
+          employeeId: '20',
+          name: 'Mary Jones',
+          takeHomePay: 700,
+        },
+        {
+          transactionId: 3,
+          employeeId: '22',
+          name: 'Mary Jones',
+          takeHomePay: 900,
+        },
+      ];
 
-  const state = { preparePaySlips };
-
-  describe('getPrintPaySlipEmployees', () => {
-    it('should list of employees with payslips to be printed', () => {
-      const actual = getPrintPaySlipEmployees(state);
-      const expected = printPaySlipEmployees;
-
-      expect(actual).toEqual(expected);
-    });
-  });
-
-  describe('getPreparePaySlips', () => {
-    it('should prepare payslip information', () => {
-      const actual = getPreparePaySlips(state);
-      const expected = preparePaySlips;
+      const actual = getEmployeePayListForPaySlips(state);
 
       expect(actual).toEqual(expected);
     });

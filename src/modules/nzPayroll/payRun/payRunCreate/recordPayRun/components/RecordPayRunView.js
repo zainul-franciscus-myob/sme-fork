@@ -2,10 +2,10 @@ import { Card, FieldGroup, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getNumberOfSelected } from '../RecordPayRunSelectors';
 import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import RecordPayRunActions from './RecordPayRunActions';
+import getNumberOfSelected from '../RecordPayRunSelectors';
 import styles from './RecordPayRunView.module.css';
 
 const RecordPayRunView = ({
