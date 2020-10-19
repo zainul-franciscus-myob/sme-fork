@@ -17,7 +17,7 @@ describe('buildOnlinePaymentLink', () => {
     });
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=99999999&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+      'https://e3e8.com?target=oip-settings&cdf=99999999&sn=89274892&source=SMEP&isTrial=true&medium=settings&isMerchant=false'
     );
   });
 
@@ -28,7 +28,7 @@ describe('buildOnlinePaymentLink', () => {
     });
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=2b4f04&sn=99999999&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+      'https://e3e8.com?target=oip-settings&cdf=2b4f04&sn=99999999&source=SMEP&isTrial=true&medium=settings&isMerchant=false'
     );
   });
 
@@ -36,7 +36,7 @@ describe('buildOnlinePaymentLink', () => {
     const actual = buildOnlinePaymentLink(params);
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=false'
+      'https://e3e8.com?target=oip-settings&cdf=2b4f04&sn=89274892&source=SMEP&isTrial=true&medium=settings&isMerchant=false'
     );
   });
 
@@ -44,7 +44,7 @@ describe('buildOnlinePaymentLink', () => {
     const actual = buildOnlinePaymentLink({ ...params, isTrial: false });
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=false&medium=settings&isMerchant=false'
+      'https://e3e8.com?target=oip-settings&cdf=2b4f04&sn=89274892&source=SMEP&isTrial=false&medium=settings&isMerchant=false'
     );
   });
 
@@ -55,7 +55,7 @@ describe('buildOnlinePaymentLink', () => {
     });
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=sales%20settings&isMerchant=false'
+      'https://e3e8.com?target=oip-settings&cdf=2b4f04&sn=89274892&source=SMEP&isTrial=true&medium=sales%20settings&isMerchant=false'
     );
   });
 
@@ -63,7 +63,7 @@ describe('buildOnlinePaymentLink', () => {
     const actual = buildOnlinePaymentLink({ ...params, isRegistered: true });
 
     expect(actual).toEqual(
-      'https://e3e8.com?cdf=2b4f04&sn=89274892&source=ARL&isTrial=true&medium=settings&isMerchant=true'
+      'https://e3e8.com?target=oip-settings&cdf=2b4f04&sn=89274892&source=SMEP&isTrial=true&medium=settings&isMerchant=true'
     );
   });
 });

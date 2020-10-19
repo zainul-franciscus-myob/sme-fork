@@ -9,9 +9,10 @@ const buildOnlinePaymentLink = ({
   location,
 }) => {
   const queryParams = getQueryFromParams({
+    target: 'oip-settings',
     cdf: businessId,
     sn: serialNumber,
-    source: 'ARL',
+    source: 'SMEP',
     isTrial,
     medium: location,
     isMerchant: isRegistered,
