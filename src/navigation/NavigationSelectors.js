@@ -287,10 +287,13 @@ export const getReportsUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
   reportsPackBuilder: enabledUrls.reportsPackBuilder,
   reportsPdfStyleTemplates: enabledUrls.reportsPdfStyleTemplates,
 }));
+
 export const getShouldDisplayReportsMenu = createSelector(
   getIsLoading,
   getReportsUrls,
-  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean)
+  getShouldDisplayPayrollNzMenu,
+  (isLoading, urlsReport, isNzEap) =>
+    !isLoading && Object.values(urlsReport).some(Boolean) && !isNzEap
 );
 
 export const getShouldDisplaySubscriptionNow = (state) =>

@@ -3,6 +3,7 @@ import {
   getSalesUrls,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
+  getShouldDisplayReportsMenu,
   getShouldDisplaySubscriptionNow,
   getShouldShowPaymentDetail,
   getShowUrls,
@@ -219,6 +220,48 @@ describe('NavigationSelectors', () => {
 
       const actual = getShouldDisplayPayrollMenu(updatedState);
       expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getShouldDisplayReportMenu', () => {
+    const state = {
+      routeParams: {
+        region: 'au',
+      },
+      enabledFeatures: ['reportsStandard'],
+      urls: { reportsStandard: 'reportsStandard' },
+    };
+
+    it('true when region is au', () => {
+      const actual = getShouldDisplayReportsMenu(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when region is nz and payroll is enabled', () => {
+      const updatedState = {
+        ...state,
+        routeParams: { region: 'nz' },
+        enabledFeatures: ['employeeListNz', 'reportsStandard'],
+        urls: {
+          reportsStandard: 'reportsStandard',
+          employeeListNz: 'employeeListNz',
+        },
+      };
+      const actual = getShouldDisplayReportsMenu(updatedState);
+      expect(actual).toEqual(false);
+    });
+
+    it('true when region is nz and payroll is disabled', () => {
+      const updatedState = {
+        ...state,
+        routeParams: { region: 'nz' },
+        enabledFeatures: ['reportsStandard'],
+        urls: {
+          reportsStandard: 'reportsStandard',
+        },
+      };
+      const actual = getShouldDisplayReportsMenu(updatedState);
+      expect(actual).toEqual(true);
     });
   });
 });
