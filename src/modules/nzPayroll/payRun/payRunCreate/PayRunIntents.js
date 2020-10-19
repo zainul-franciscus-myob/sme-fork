@@ -7,6 +7,7 @@ export const NEXT_STEP = Symbol('Next step');
 export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');
 export const UPDATE_EMPLOYEE_PAY = Symbol('Recalculate pay');
+export const UPDATE_DRAFT_PAY_RUN = Symbol('Update draft pay run');
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol(
   'Update is employee selected'
 );

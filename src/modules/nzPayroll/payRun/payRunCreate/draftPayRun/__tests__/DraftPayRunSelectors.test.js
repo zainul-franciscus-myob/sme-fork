@@ -10,6 +10,7 @@ import {
   getShouldShowWagePayItems,
   getTaxPayItemEntries,
   getTotals,
+  getUpdateDraftPayRunRequest,
   getUpdateEmployeePayRequest,
   getWagePayItemEntries,
   isPayItemLineDirty,
@@ -418,6 +419,26 @@ describe('draftPayRunSelectors', () => {
       const expected = 666;
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getUpdateDraftPayRunRequest', () => {
+    it('returns the request to update the selected employees in draft pay run', () => {
+      const actualPayload = getUpdateDraftPayRunRequest(draftPayRun);
+      const expectedRequest = {
+        employeePays: [
+          {
+            id: 217,
+            isSelected: true,
+          },
+          {
+            id: 218,
+            isSelected: false,
+          },
+        ],
+      };
+
+      expect(actualPayload).toEqual(expectedRequest);
     });
   });
 });

@@ -1,7 +1,8 @@
-import { UPDATE_EMPLOYEE_PAY } from '../PayRunIntents';
+import { UPDATE_DRAFT_PAY_RUN, UPDATE_EMPLOYEE_PAY } from '../PayRunIntents';
 import { getBusinessId, getDraftPayRunId } from '../PayRunSelectors';
 import {
   getEmployeePayId,
+  getUpdateDraftPayRunRequest,
   getUpdateEmployeePayRequest,
 } from './DraftPayRunSelectors';
 
@@ -18,6 +19,24 @@ const createDraftPayRunIntegrator = (store, integration) => ({
       state,
       employeeId,
     });
+
+    integration.write({
+      intent,
+      allowParallelRequests: true,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+  updateDraftPayRun: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = UPDATE_DRAFT_PAY_RUN;
+    const urlParams = {
+      businessId: getBusinessId(state),
+      draftPayRunId: getDraftPayRunId(state),
+    };
+    const content = getUpdateDraftPayRunRequest(state);
 
     integration.write({
       intent,

@@ -6,7 +6,7 @@ const getDraftPayRun = (state) => state.draftPayRun;
 
 const getEmployeePayLines = createSelector(
   getDraftPayRun,
-  (pays) => pays.lines
+  (draftPayRun) => draftPayRun.lines
 );
 
 export const getFormattedEmployeePayLines = createSelector(
@@ -174,6 +174,16 @@ export const getShouldShowKiwiSaverPayItems = createSelector(
 export const getUpdateEmployeePayRequest = ({ state, employeeId }) => {
   return getEmployeeLineByEmployeeId(state, employeeId);
 };
+
+export const getUpdateDraftPayRunRequest = createSelector(
+  getEmployeePayLines,
+  (lines) => ({
+    employeePays: lines.map((line) => ({
+      id: line.id,
+      isSelected: line.isSelected,
+    })),
+  })
+);
 
 export const getEmployeePayId = ({ state, employeeId }) => {
   const employeePay = getEmployeeLineByEmployeeId(state, employeeId);

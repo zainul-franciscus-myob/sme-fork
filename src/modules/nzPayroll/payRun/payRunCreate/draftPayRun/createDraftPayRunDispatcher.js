@@ -19,13 +19,11 @@ const createDraftPayRunDispatcher = (store) => ({
   },
 
   updateIsEmployeeSelected: (id) => {
-    const intent = UPDATE_IS_EMPLOYEE_SELECTED;
-    store.dispatch({ intent, id });
+    store.dispatch({ intent: UPDATE_IS_EMPLOYEE_SELECTED, id });
   },
 
   updateAreAllEmployeesSelected: ({ value }) => {
-    const intent = UPDATE_ARE_ALL_EMPLOYEES_SELECTED;
-    store.dispatch({ intent, value });
+    store.dispatch({ intent: UPDATE_ARE_ALL_EMPLOYEES_SELECTED, value });
   },
 
   setPayItemLineDirty: (isDirty) => {

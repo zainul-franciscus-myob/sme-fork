@@ -77,11 +77,34 @@ export default class DraftPayRunSubModule {
     this.dispatcher.updateEmployeeDaysPaid(employeeId, daysPaid);
   };
 
+  updateDraftPayRun = () => {
+    this.dispatcher.setSubmittingState(true);
+    const handleResponse = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+    this.integrator.updateDraftPayRun({
+      onSuccess: handleResponse,
+      onFailure: handleResponse,
+    });
+  };
+
+  updateIsEmployeeSelected = (id) => {
+    this.dispatcher.updateIsEmployeeSelected(id);
+
+    this.updateDraftPayRun();
+  };
+
+  updateAreAllEmployeesSelected = (value) => {
+    this.dispatcher.updateAreAllEmployeesSelected(value);
+
+    this.updateDraftPayRun();
+  };
+
   render() {
     return (
       <DraftPayRunView
-        onSelectRow={this.dispatcher.updateIsEmployeeSelected}
-        onSelectAllRows={this.dispatcher.updateAreAllEmployeesSelected}
+        onSelectRow={this.updateIsEmployeeSelected}
+        onSelectAllRows={this.updateAreAllEmployeesSelected}
         onEmployeePayItemChange={this.changeEmployeePayItem}
         onEmployeePayItemBlur={this.updateEmployeePay}
         onNextButtonClick={this.nextStep}

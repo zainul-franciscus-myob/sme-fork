@@ -130,7 +130,7 @@
         "daysPaid": 4,
         "gross": 2250.55,
         "taxCode": "M",
-        "isSelected": true,
+        "isSelected": false,
         "takeHomePay": "1005.15",
         "kiwiSaver": "200.00",
         "paye": "125.00",
