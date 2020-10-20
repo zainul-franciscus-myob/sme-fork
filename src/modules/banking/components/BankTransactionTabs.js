@@ -31,7 +31,7 @@ const TypeInfoPopOver = () => {
   );
 
   return (
-    <div className={styles.popoverIcon}>
+    <div>
       <Popover body={body} closeOnOuterAction className={styles.popover}>
         <Icons.Info className={styles.icon} />
       </Popover>
