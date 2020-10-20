@@ -538,6 +538,7 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   orderBy,
   offset: 0,
   fastMode: getIsFastModeEnabled(state),
+  hasPagination: getHasPagination(state),
 });
 
 export const getIsSelected = (state, index) =>
