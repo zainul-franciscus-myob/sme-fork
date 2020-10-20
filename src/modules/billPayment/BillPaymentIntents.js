@@ -1,9 +1,10 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
-export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
-export const SET_SUPPLIER_LOADING_STATE = Symbol('Set supplier loading state');
+export const SET_IS_SUPPLIER_LOADING = Symbol(
+  'Set supplier details loading state'
+);
+export const SET_IS_TABLE_LOADING = Symbol('Set table loading state');
 export const LOAD_NEW_BILL_PAYMENT = Symbol('Load new bill payment');
 export const LOAD_BILL_PAYMENT = Symbol('Load bill payment');
-export const LOAD_BILL_LIST = Symbol('Load bill list');
 export const CHANGE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const UPDATE_HEADER_OPTION = Symbol('Update header option');
@@ -20,7 +21,6 @@ export const DELETE_BILL_PAYMENT = Symbol('Delete bill payment');
 export const UPDATE_SHOULD_SEND_REMITTANCE_ADVICE = Symbol(
   'Update Should Send Remittance Advice'
 );
-export const SEND_REMITTANCE_ADVICE = Symbol('Send remittance advice');
 export const SEND_EMAIL = Symbol('Send remittance advice email');
 export const EXPORT_PDF = Symbol('Export remittance advice PDF');
 
@@ -32,4 +32,7 @@ export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_REDIRECT_URL = Symbol('Set redirect url');
-export const LOAD_SUPPLIER_PAYMENT_INFO = Symbol('Load Supplier payment info');
+export const LOAD_BILL_LIST = Symbol('Load bill list');
+export const LOAD_SUPPLIER_PAYMENT_DETAILS = Symbol(
+  'Load supplier payment details'
+);

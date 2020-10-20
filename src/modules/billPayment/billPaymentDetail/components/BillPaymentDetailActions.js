@@ -58,8 +58,9 @@ const BillPaymentActions = ({
           name="sendRemittanceAdvice"
           type="secondary"
           onClick={onRemittanceAdviceClick}
+          disabled={isActionsDisabled}
         >
-          Send Remittance
+          Send Remittance Advice
         </Button>
       ),
     ]}

@@ -18,8 +18,8 @@ export const getIsRemittanceAdviceEnabled = (state) =>
   state.isRemittanceAdviceEnabled;
 export const getAlertMessage = (state) => state.alertMessage;
 export const getLoadingState = (state) => state.loadingState;
-export const getIsTableLoading = (state) => state.isTableLoading;
 export const getIsSupplierLoading = (state) => state.isSupplierLoading;
+
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 export const getBillPaymentId = (state) => state.billPaymentId;
@@ -33,6 +33,7 @@ const getElectronicPaymentId = (state) => state.electronicPaymentId;
 export const getElectronicPaymentReference = (state) =>
   state.electronicPaymentReference;
 export const getSupplierId = (state) => state.supplierId;
+export const getSupplierName = (state) => state.supplierName;
 const getReferenceId = (state) => state.referenceId;
 const getDate = (state) => state.date;
 export const getShowPaidBills = (state) => state.showPaidBills;
@@ -40,8 +41,8 @@ const getDescription = (state) => state.description;
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getModalType = (state) => state.modalType;
 export const getRedirectUrl = (state) => state.redirectUrl;
-export const getIsPaymentDetailsComplete = (state) =>
-  state.isPaymentDetailsComplete;
+export const getArePaymentDetailsComplete = (state) =>
+  state.arePaymentDetailsComplete;
 export const getIsCreating = (state) => state.billPaymentId === 'new';
 export const getShouldSendRemittanceAdvice = (state) =>
   state.shouldSendRemittanceAdvice;
@@ -153,7 +154,7 @@ export const getShouldShowAlertMessage = createSelector(
   getModalType,
   getAlertMessage,
   (modalType, alertMessage) =>
-    modalType !== billPaymentModalTypes.remittanceAdvice && alertMessage
+    modalType !== billPaymentModalTypes.remittanceAdvice && alertMessage.message
 );
 
 export const getBankStatementText = (state) => state.bankStatementText;
@@ -190,11 +191,17 @@ export const getShouldShowSupplierPopover = createSelector(
   (supplierId, showElectronicPayments, isElectronicPayment) =>
     supplierId && showElectronicPayments && isElectronicPayment
 );
+export const getCanSendRemittanceAdvice = createSelector(
+  getRemittanceAdviceEmailDetails,
+  (remittanceAdviceEmailDetails) =>
+    remittanceAdviceEmailDetails.toAddresses.some((e) => e.includes('@'))
+);
 
 export const getBillPaymentOptions = createStructuredSelector({
   accounts: getAccounts,
   accountId: getAccountId,
   supplierId: getSupplierId,
+  supplierName: getSupplierName,
   referenceId: getReferenceId,
   date: getDate,
   description: getDescription,
@@ -205,38 +212,23 @@ export const getBillPaymentOptions = createStructuredSelector({
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear,
   showElectronicPayments: getShowElectronicPayments,
   shouldShowSupplierPopover: getShouldShowSupplierPopover,
+  electronicPaymentReference: getElectronicPaymentReference,
+  isSupplierLoading: getIsSupplierLoading,
 });
 
-export const getShouldLoadBillList = (key, value, state) => {
-  const supplierId = getSupplierId(state);
-
-  return (
-    (key === 'supplierId' && value.length > 0) ||
-    (key === 'showPaidBills' && supplierId.length > 0)
-  );
-};
-
-export const getLoadBillListParams = createSelector(
-  getBusinessId,
-  getSupplierId,
-  getShowPaidBills,
-  (businessId, supplierId, showPaidBills) => ({
-    urlParams: {
-      businessId,
-      supplierId,
-    },
-    params: {
-      showPaidBills,
-    },
-  })
-);
-
-export const getLoadSupplierPaymentInfoUrlParams = createSelector(
+export const getLoadSupplierDetailsUrlParams = createSelector(
   getBusinessId,
   getSupplierId,
   (businessId, supplierId) => ({
     businessId,
     supplierId,
+  })
+);
+
+export const getLoadSupplierDetailsParams = createSelector(
+  getShowPaidBills,
+  (showPaidBills) => ({
+    showPaidBills,
   })
 );
 
@@ -260,6 +252,12 @@ export const getTotalAmount = createSelector(
         0
       )
     )}`
+);
+
+export const getIsTableLoading = createSelector(
+  getIsSupplierLoading,
+  (state) => state.isTableLoading,
+  (isSupplierLoading, isTableLoading) => isSupplierLoading || isTableLoading
 );
 
 export const getIsReferenceIdDirty = ({ referenceId, originalReferenceId }) =>
@@ -322,7 +320,7 @@ export const getSaveBillPaymentIntent = createSelector(
   (isCreating) => (isCreating ? CREATE_BILL_PAYMENT : UPDATE_BILL_PAYMENT)
 );
 
-export const getBillPaymentUrlParams = createSelector(
+export const getLoadBillPaymentUrlParams = createSelector(
   getBusinessId,
   getBillPaymentId,
   (businessId, billPaymentId) => ({
@@ -331,12 +329,37 @@ export const getBillPaymentUrlParams = createSelector(
   })
 );
 
+export const getLoadBillPaymentParams = createSelector(
+  getIsCreating,
+  getSupplierId,
+  getShowPaidBills,
+  (isCreating, supplierId, showPaidBills) => {
+    if (supplierId && isCreating) return { supplierId, showPaidBills };
+    if (supplierId) return { supplierId };
+    return {};
+  }
+);
+
 export const getRemittanceAdviceUrlParams = createSelector(
   getBusinessId,
   getBillPaymentId,
   (businessId, billPaymentId) => ({
     businessId,
     billPaymentId,
+  })
+);
+
+export const getRemittanceAdviceEmailContent = createSelector(
+  getBusinessId,
+  getBillPaymentId,
+  getSupplierName,
+  getRemittanceAdviceEmailDetails,
+  (businessId, billPaymentId, supplierName, remittanceAdviceEmailDetails) => ({
+    ...remittanceAdviceEmailDetails,
+    supplierName,
+    ccAddresses: remittanceAdviceEmailDetails.ccAddresses.filter(
+      (e) => e.length
+    ),
   })
 );
 

@@ -1,9 +1,9 @@
-import { Icons, Popover, Spinner } from '@myob/myob-widgets';
+import { Icons, Popover } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getIsPaymentDetailsComplete,
+  getArePaymentDetailsComplete,
   getIsSupplierLoading,
   getSupplierLink,
 } from '../BillPaymentDetailSelectors';
@@ -12,8 +12,7 @@ import styles from './SupplierPaymentDetailsStatus.module.css';
 
 const SupplierPaymentDetailsStatus = ({
   editSupplierUrl,
-  isPaymentDetailsComplete,
-  isSupplierLoading,
+  arePaymentDetailsComplete,
 }) => {
   const popoverChild = (
     <>
@@ -57,22 +56,12 @@ const SupplierPaymentDetailsStatus = ({
     </div>
   );
 
-  const paymentDetailsStatus = isPaymentDetailsComplete
-    ? validStatus
-    : invalidStatus;
-
-  const spinner = (
-    <div className={styles.statusWrapper}>
-      <Spinner size="small" />
-    </div>
-  );
-
-  return isSupplierLoading ? spinner : paymentDetailsStatus;
+  return arePaymentDetailsComplete ? validStatus : invalidStatus;
 };
 
 const mapStateToProps = (state) => ({
   editSupplierUrl: getSupplierLink(state),
-  isPaymentDetailsComplete: getIsPaymentDetailsComplete(state),
+  arePaymentDetailsComplete: getArePaymentDetailsComplete(state),
   isSupplierLoading: getIsSupplierLoading(state),
 });
 

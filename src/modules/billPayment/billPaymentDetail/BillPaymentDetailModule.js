@@ -18,10 +18,7 @@ import {
   getModalType,
   getRedirectUrl,
   getRegion,
-  getShouldLoadBillList,
   getShouldSendRemittanceAdvice,
-  getShouldShowRemittanceAdviceModal,
-  getSupplierId,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
@@ -61,15 +58,12 @@ export default class BillPaymentModule {
       featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
-  loadBillPayment = () => {
-    const state = this.store.getState();
-
+  loadBillPayment = (onSuccessFn) => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      if (getSupplierId(state)) {
-        this.loadSupplierPaymentInfo();
-      }
       this.dispatcher.loadBillPayment(response);
+      if (onSuccessFn) onSuccessFn(response);
     };
 
     const onFailure = () => {
@@ -77,48 +71,42 @@ export default class BillPaymentModule {
     };
 
     this.integrator.loadBillPayment({ onSuccess, onFailure });
-
-    if (getSupplierId(state)) {
-      this.loadBillList();
-    }
-
-    this.loadContactCombobox();
   };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
   };
 
-  loadBillList = () => {
-    this.dispatcher.setTableLoadingState(true);
+  loadSupplierDetails = () => {
+    this.dispatcher.setIsSupplierLoading(true);
 
     const onSuccess = (response) => {
-      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setIsSupplierLoading(false);
+      this.dispatcher.loadSupplierPaymentDetails(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setIsSupplierLoading(false);
+      this.dispatcher.setAlertMessage(message);
+    };
+
+    this.integrator.loadSupplierDetails({ onSuccess, onFailure });
+  };
+
+  loadBillList = () => {
+    this.dispatcher.setIsTableLoading(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setIsTableLoading(false);
       this.dispatcher.loadBillList(response);
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setIsTableLoading(false);
       this.dispatcher.setAlertMessage(message);
     };
 
     this.integrator.loadBillList({ onSuccess, onFailure });
-  };
-
-  loadSupplierPaymentInfo = () => {
-    this.dispatcher.setSupplierLoadingState(true);
-
-    const onSuccess = (response) => {
-      this.dispatcher.setSupplierLoadingState(false);
-      this.dispatcher.loadSupplierPaymentInfo(response);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSupplierLoadingState(false);
-      this.dispatcher.setAlertMessage(message);
-    };
-
-    this.integrator.loadSupplierPaymentInfo({ onSuccess, onFailure });
   };
 
   updateHeaderOption = ({ key, value }) => {
@@ -126,11 +114,12 @@ export default class BillPaymentModule {
 
     this.dispatcher.updateHeaderOption({ key, value });
 
-    if (getShouldLoadBillList(key, value, state)) {
+    if (key === 'supplierId' && value.length > 0) {
+      this.loadSupplierDetails();
+    }
+    if (key === 'showPaidBills' && state.supplierId.length > 0) {
       this.loadBillList();
     }
-
-    if (key === 'supplierId' && value) this.loadSupplierPaymentInfo();
     if (key === 'accountId') this.updateReferenceId();
   };
 
@@ -199,13 +188,14 @@ export default class BillPaymentModule {
   };
 
   reloadSavedBillPayment = ({ id, message }) => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.dispatcher.updateBillPaymentId(id);
     this.replaceURLParams({ billPaymentId: id });
-    this.loadBillPayment();
-    if (getShouldShowRemittanceAdviceModal(this.store.getState())) {
+
+    this.loadBillPayment(() => {
       this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
       this.dispatcher.setAlertMessage(message);
-    }
+    });
   };
 
   dismissAlert = () => this.dispatcher.setAlertMessage('');
@@ -224,7 +214,8 @@ export default class BillPaymentModule {
       });
 
       if (getShouldSendRemittanceAdvice(state)) {
-        this.reloadSavedBillPayment(response);
+        const id = response.id || state.billPaymentId;
+        this.reloadSavedBillPayment({ ...response, id });
         return;
       }
       const url = getRedirectUrl(state);
@@ -257,11 +248,19 @@ export default class BillPaymentModule {
   };
 
   openRemittanceAdviceModal = () => {
-    this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
+    const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+    if (getIsPageEdited(state)) {
+      this.dispatcher.updateShouldSendRemittanceAdvice({ value: true });
+      this.saveBillPayment();
+    } else {
+      this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
+    }
   };
 
   closeRemittanceAdviceModal = () => {
     this.dismissAlert();
+    this.dispatcher.updateShouldSendRemittanceAdvice({ value: false });
     this.dispatcher.closeModal();
   };
 
@@ -354,7 +353,7 @@ export default class BillPaymentModule {
         onConfirmEmailRemittanceAdviceModal={this.confirmRemittanceAdviceModal}
         onRemittanceAdviceClick={this.openRemittanceAdviceModal}
         onRemittanceAdviceEmailDetailsChange={
-          this.dispatcher.updateEmailRemittanceAdviceDetails
+          this.dispatcher.updateEmailRemittanceAdviceEmailDetails
         }
         onCloseRemittanceAdviceModal={this.closeRemittanceAdviceModal}
         onCancelButtonClick={this.openCancelModal}
@@ -402,8 +401,9 @@ export default class BillPaymentModule {
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
-    this.dispatcher.setLoadingState(LoadingState.LOADING);
-    this.loadBillPayment();
+    this.loadBillPayment((response) => {
+      if (!response.supplierId) this.loadContactCombobox();
+    });
   };
 
   resetState() {

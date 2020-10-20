@@ -2,11 +2,12 @@ import {
   CHANGE_REFERENCE_ID,
   LOAD_BILL_LIST,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_INFO,
+  LOAD_SUPPLIER_PAYMENT_DETAILS,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
+import supplierPaymentDetails from '../../mappings/data/supplierPaymentDetails.json';
 
 describe('billPaymentDetailReducer', () => {
   describe('LOAD_BILL_LIST', () => {
@@ -197,33 +198,69 @@ describe('billPaymentDetailReducer', () => {
     });
   });
 
-  describe('LOAD_SUPPLIER_PAYMENT_INFO', () => {
-    it('should set the supplier payment info', () => {
+  describe('LOAD_SUPPLIER_DETAILS', () => {
+    it('should set the supplier payment details', () => {
       const state = {
         bankStatementText: '',
-        isPaymentDetailsComplete: false,
+        arePaymentDetailsComplete: false,
+        entries: [],
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_PAYMENT_INFO,
-        supplierStatementText: 'WAWA',
-        isPaymentDetailsComplete: true,
+        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        ...supplierPaymentDetails,
       };
 
       const actual = billPaymentDetailReducer(state, action);
 
       expect(actual.bankStatementText).toEqual('WAWA');
-      expect(actual.isPaymentDetailsComplete).toEqual(true);
+      expect(actual.arePaymentDetailsComplete).toEqual(true);
+      expect(actual.entries).toEqual([
+        {
+          billAmount: '250.05',
+          billNumber: '0000023',
+          date: '27/03/2019',
+          discountAmount: '',
+          id: '1',
+          paidAmount: '',
+          status: 'Open',
+        },
+        {
+          billAmount: '2500.05',
+          billNumber: '0000024',
+          date: '27/03/2019',
+          discountAmount: '',
+          id: '378',
+          paidAmount: '',
+          status: 'Open',
+        },
+      ]);
     });
 
     it('should not set the bankStatementText when modified', () => {
       const state = {
         bankStatementText: 'MY TEXT',
+        entries: [],
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_PAYMENT_INFO,
-        supplierStatementText: 'WAWA',
+        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        ...supplierPaymentDetails,
+      };
+
+      const actual = billPaymentDetailReducer(state, action);
+
+      expect(actual.bankStatementText).toEqual('MY TEXT');
+    });
+    it('should not set the bankStatementText when modified', () => {
+      const state = {
+        bankStatementText: 'MY TEXT',
+        entries: [],
+      };
+
+      const action = {
+        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        ...supplierPaymentDetails,
       };
 
       const actual = billPaymentDetailReducer(state, action);

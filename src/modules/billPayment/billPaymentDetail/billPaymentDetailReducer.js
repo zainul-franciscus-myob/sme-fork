@@ -5,14 +5,14 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_INFO,
+  LOAD_SUPPLIER_PAYMENT_DETAILS,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_IS_SUPPLIER_LOADING,
+  SET_IS_TABLE_LOADING,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
-  SET_SUPPLIER_LOADING_STATE,
-  SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
@@ -33,6 +33,7 @@ const getDefaultState = () => ({
   businessId: '',
   billPaymentId: '',
   supplierId: '',
+  supplierName: '',
   accounts: [],
   accountId: '',
   defaultAccountId: '',
@@ -46,15 +47,15 @@ const getDefaultState = () => ({
   description: '',
   supplierStatementText: '',
   bankStatementText: '',
-  isPaymentDetailsComplete: false,
+  arePaymentDetailsComplete: false,
   date: formatIsoDate(new Date()),
   entries: [],
   totalPaid: '',
   loadingState: LoadingState.LOADING,
-  isTableLoading: false,
   isSubmitting: false,
   isPageEdited: false,
   isSupplierLoading: false,
+  isTableLoading: false,
   modalType: '',
   alertMessage: '',
   paymentAmount: '',
@@ -63,16 +64,14 @@ const getDefaultState = () => ({
   shouldSendRemittanceAdvice: false,
   isRemittanceAdviceEnabled: false,
   remittanceAdviceType: remittanceAdviceTypes.email,
-  templateOptions: [
-    { name: 'Remittance Advice Template', label: 'a cool template' },
-  ],
+  templateOptions: [],
   remittanceAdviceEmailDetails: {
-    toAddresses: ['somewhere@something.com'],
-    ccToAddresses: ['cc@me.com'],
-    subject: 'A Remittance But no Advice',
+    toAddresses: [''],
+    ccAddresses: [''],
+    subject: '',
     isEmailMeACopy: false,
-    messageBody: 'm e s s a g e Body',
-    templateName: 'Remittance Advice Template',
+    messageBody: '',
+    templateName: '',
   },
 });
 
@@ -85,14 +84,14 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setTableLoadingState = (state, action) => ({
+const setIsSupplierLoading = (state, { isSupplierLoading }) => ({
   ...state,
-  isTableLoading: action.isTableLoading,
+  isSupplierLoading,
 });
 
-const setSupplierLoadingState = (state, action) => ({
+const setIsTableLoading = (state, { isTableLoading }) => ({
   ...state,
-  isSupplierLoading: action.isSupplierLoading,
+  isTableLoading,
 });
 
 const setInitialState = (state, action) => ({
@@ -119,64 +118,6 @@ const formatBankStatementText = (bankStatementText) => {
 const getDefaultBankStatementText = ({ supplierStatementText, referenceId }) =>
   formatBankStatementText(supplierStatementText || `PAYMENT ${referenceId}`);
 
-const loadNewBillPayment = (state, action) => ({
-  ...state,
-  accounts: action.accounts,
-  accountId: action.accountId,
-  defaultAccountId: action.accountId,
-  showPaidBills: action.showPaidBills,
-  referenceId: action.referenceId,
-  originalReferenceId: action.referenceId,
-  bankStatementText: getDefaultBankStatementText(action),
-  electronicClearingAccountId: action.electronicClearingAccountId,
-  startOfFinancialYearDate: action.startOfFinancialYearDate,
-});
-
-const loadBillPayment = (state, action) => ({
-  ...state,
-  date: action.date,
-  supplierId: action.supplierId,
-  accounts: action.accounts,
-  accountId: action.accountId,
-  defaultAccountId: action.accountId,
-  referenceId: action.referenceId,
-  originalReferenceId: action.referenceId,
-  entries: action.entries,
-  description: action.description,
-  bankStatementText: action.bankStatementText,
-  electronicClearingAccountId: action.electronicClearingAccountId,
-  isElectronicallyProcessed: action.isElectronicallyProcessed,
-  electronicPaymentId: action.electronicPaymentId,
-  electronicPaymentReference: action.electronicPaymentReference,
-  startOfFinancialYearDate: action.startOfFinancialYearDate,
-  isPaymentDetailsComplete: action.isPaymentDetailsComplete,
-});
-
-const loadBillList = (state, action) => ({
-  ...state,
-  entries: action.entries.map((entry) => {
-    const prevEntry = state.entries.find((prev) => prev.id === entry.id);
-    const shouldApplyPaymentTo = state.applyPaymentToBillId === entry.id;
-
-    if (shouldApplyPaymentTo) {
-      return {
-        ...entry,
-        paidAmount: state.paymentAmount,
-      };
-    }
-
-    if (prevEntry) {
-      return {
-        ...entry,
-        paidAmount: prevEntry.paidAmount,
-        discountAmount: prevEntry.discountAmount,
-      };
-    }
-
-    return entry;
-  }),
-});
-
 const updateBankStatementText = (state, action) => ({
   ...state,
   bankStatementText: action?.bankStatementText
@@ -190,7 +131,7 @@ const updateWhenUsingDefaultStatementText = (stateUpdater) => (
 ) => {
   /*
   This function wrapper handles the update of the bank statement text
-  to the a default. There are multiple source and multiple triggers that can
+  to the default. There are multiple sources and multiple triggers that can
   result in the statement text being changed and updated. This text must be
   provided and only valid characters for creation of valid ABA
 
@@ -210,6 +151,95 @@ const updateWhenUsingDefaultStatementText = (stateUpdater) => (
   return shouldUpdate ? updateBankStatementText(newState) : newState;
 };
 
+const createBillListEntries = (state, entries) =>
+  entries.map((entry) => {
+    const prevEntry = state.entries.find((prev) => prev.id === entry.id);
+    const shouldApplyPaymentTo = state.applyPaymentToBillId === entry.id;
+
+    if (shouldApplyPaymentTo) {
+      return {
+        ...entry,
+        paidAmount: state.paymentAmount,
+      };
+    }
+
+    if (prevEntry) {
+      return {
+        ...entry,
+        paidAmount: prevEntry.paidAmount,
+        discountAmount: prevEntry.discountAmount,
+      };
+    }
+
+    return entry;
+  });
+
+const loadSupplierPaymentDetails = updateWhenUsingDefaultStatementText(
+  (state, { supplierStatementText, arePaymentDetailsComplete, entries }) => ({
+    ...state,
+    supplierStatementText,
+    arePaymentDetailsComplete,
+    entries: createBillListEntries(state, entries),
+  })
+);
+
+const loadBillList = (state, { entries }) => ({
+  ...state,
+  entries: createBillListEntries(state, entries),
+});
+
+const loadNewBillPayment = (state, action) => {
+  const newState = {
+    ...state,
+    accounts: action.accounts,
+    accountId: action.accountId,
+    defaultAccountId: action.accountId,
+    showPaidBills: action.showPaidBills,
+    referenceId: action.referenceId,
+    originalReferenceId: action.referenceId,
+    bankStatementText: getDefaultBankStatementText(action),
+    electronicClearingAccountId: action.electronicClearingAccountId,
+    startOfFinancialYearDate: action.startOfFinancialYearDate,
+  };
+
+  if (action.supplierId) {
+    return {
+      ...loadSupplierPaymentDetails(newState, action),
+      supplierId: action.supplierId,
+      supplierName: action.supplierName,
+    };
+  }
+
+  return newState;
+};
+
+const loadBillPayment = (state, action) => ({
+  ...state,
+  date: action.date,
+  supplierId: action.supplierId,
+  supplierName: action.supplierName,
+  supplierStatementText: action.supplierStatementText,
+  accounts: action.accounts,
+  accountId: action.accountId,
+  defaultAccountId: action.accountId,
+  referenceId: action.referenceId,
+  originalReferenceId: action.referenceId,
+  entries: action.entries,
+  description: action.description,
+  bankStatementText: action.bankStatementText,
+  electronicClearingAccountId: action.electronicClearingAccountId,
+  isElectronicallyProcessed: action.isElectronicallyProcessed,
+  electronicPaymentId: action.electronicPaymentId,
+  electronicPaymentReference: action.electronicPaymentReference,
+  startOfFinancialYearDate: action.startOfFinancialYearDate,
+  arePaymentDetailsComplete: action.arePaymentDetailsComplete,
+  templateOptions: action.templateOptions,
+  remittanceAdviceEmailDetails: {
+    ...state.remittanceAdviceEmailDetails,
+    ...action.emailDefaultSettings,
+  },
+});
+
 const updateHeaderOption = (state, action) => ({
   ...state,
   ...pageEdited,
@@ -220,10 +250,9 @@ const updateHeaderOption = (state, action) => ({
       : state.entries,
 });
 
-const updateEmailRemittanceAdviceDetails = (state, action) => {
+const updateEmailRemittanceAdviceEmailDetails = (state, action) => {
   return {
     ...state,
-    ...pageEdited,
     remittanceAdviceEmailDetails: {
       ...state.remittanceAdviceEmailDetails,
       [action.key]: action.value,
@@ -260,15 +289,6 @@ const updateBillPaymentId = (state, { billPaymentId }) => ({
   ...state,
   billPaymentId,
 });
-
-const loadSupplierPaymentInfo = updateWhenUsingDefaultStatementText(
-  (state, { supplierStatementText, isPaymentDetailsComplete }) => ({
-    ...state,
-    ...pageEdited,
-    supplierStatementText,
-    isPaymentDetailsComplete,
-  })
-);
 
 const updateTableInputField = (state, action) => ({
   ...state,
@@ -316,15 +336,15 @@ const setRedirectUrl = (state, { redirectUrl }) => ({
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_TABLE_LOADING_STATE]: setTableLoadingState,
-  [SET_SUPPLIER_LOADING_STATE]: setSupplierLoadingState,
+  [SET_IS_SUPPLIER_LOADING]: setIsSupplierLoading,
+  [SET_IS_TABLE_LOADING]: setIsTableLoading,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [LOAD_BILL_PAYMENT]: loadBillPayment,
   [LOAD_BILL_LIST]: loadBillList,
-  [LOAD_SUPPLIER_PAYMENT_INFO]: loadSupplierPaymentInfo,
+  [LOAD_SUPPLIER_PAYMENT_DETAILS]: loadSupplierPaymentDetails,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
-  [UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS]: updateEmailRemittanceAdviceDetails,
+  [UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS]: updateEmailRemittanceAdviceEmailDetails,
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CHANGE_REFERENCE_ID]: changeReferenceId,

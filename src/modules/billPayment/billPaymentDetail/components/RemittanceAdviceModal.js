@@ -32,7 +32,7 @@ const handleItemChange = (handler, key) => (emails) => {
 const RemittanceAdviceModal = ({
   alertMessage,
   remittanceAdviceEmailDetails,
-  isActionsDisabled,
+  canSendRemittanceAdvice,
   onCancel,
   onConfirm,
   onRemittanceAdviceEmailDetailsChange,
@@ -55,10 +55,10 @@ const RemittanceAdviceModal = ({
       />
       <EmailItemList
         label="CC"
-        items={remittanceAdviceEmailDetails.ccToAddresses}
+        items={remittanceAdviceEmailDetails.ccAddresses}
         onItemChange={handleItemChange(
           onRemittanceAdviceEmailDetailsChange,
-          'ccToAddresses'
+          'ccAddresses'
         )}
         onKeyDown={onKeyDown}
       />
@@ -115,11 +115,7 @@ const RemittanceAdviceModal = ({
   );
 
   return (
-    <Modal
-      title="Remittance Advice"
-      onCancel={onCancel}
-      canClose={!isActionsDisabled}
-    >
+    <Modal title="Remittance Advice" onCancel={onCancel}>
       <Modal.Body>
         {alertMessage && (
           <Alert onDismiss={onDismissAlert} type="success">
@@ -144,7 +140,11 @@ const RemittanceAdviceModal = ({
         <Button type="secondary" onClick={onCancel}>
           Cancel
         </Button>
-        <Button type="primary" onClick={onConfirm} disabled={isActionsDisabled}>
+        <Button
+          type="primary"
+          onClick={onConfirm}
+          disabled={!canSendRemittanceAdvice}
+        >
           Send remittance advice
         </Button>
       </Modal.Footer>

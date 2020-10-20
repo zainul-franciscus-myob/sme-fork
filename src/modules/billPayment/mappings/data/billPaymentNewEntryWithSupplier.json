@@ -22,24 +22,33 @@
       "displayId": "1-109"
     }
   ],
-  "date": "2019-03-28",
   "accountId": "123",
-  "supplierId": "1",
   "referenceId": "BP0000002",
-  "bankStatementText": "BNK TEXT",
-  "description": "Payment; A-Z Stationery Supplies. If empty, something else here",
+  "showPaidBills": false,
+  "electronicClearingAccountId": "789",
+  "supplierId": "1000000",
+  "supplierName": "Scoober Steve",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "supplierStatementText": "WAWA",
+  "arePaymentDetailsComplete": true,
   "entries": [
     {
-      "id": "378",
+      "id": "1",
       "billNumber": "0000023",
       "status": "Open",
       "date": "27/03/2019",
-      "billAmount": "0.00",
-      "paidAmount": "2500.05",
-      "discountAmount": "0.00"
+      "billAmount": "250.05",
+      "discountAmount": "",
+      "paidAmount": ""
+    },
+    {
+      "id": "378",
+      "billNumber": "0000024",
+      "status": "Open",
+      "date": "27/03/2019",
+      "billAmount": "2500.05",
+      "discountAmount": "",
+      "paidAmount": ""
     }
-  ],
-  "electronicClearingAccountId": "789",
-  "startOfFinancialYearDate": "2019-07-01T00:00:00",
-  "arePaymentDetailsComplete": true
+  ]
 }

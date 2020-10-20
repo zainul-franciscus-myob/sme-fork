@@ -5,55 +5,10 @@ import {
   getIsElectronicPayment,
   getSaveBillPaymentPayload,
   getShouldDisableSupplier,
-  getShouldLoadBillList,
   getShouldShowSupplierPopover,
 } from '../BillPaymentDetailSelectors';
 
 describe('BillPaymentSelector', () => {
-  describe('getShouldLoadBillList', () => {
-    it('Should load pay list if a supplier is selected', () => {
-      const key = 'supplierId';
-      const value = '1';
-      const state = {
-        supplierId: '',
-        showPaidBills: false,
-      };
-
-      const expected = true;
-      const actual = getShouldLoadBillList(key, value, state);
-
-      expect(actual).toBe(expected);
-    });
-
-    it('Should load pay list if showPaidBills is selected and a supplierId had been selected', () => {
-      const key = 'showPaidBills';
-      const value = true;
-      const state = {
-        supplierId: '1',
-        showPaidBills: false,
-      };
-
-      const expected = true;
-      const actual = getShouldLoadBillList(key, value, state);
-
-      expect(actual).toBe(expected);
-    });
-
-    it('Should not load pay list if showPaidBills is selected and a supplierId has not been selected', () => {
-      const key = 'showPaidBills';
-      const value = true;
-      const state = {
-        supplierId: '',
-        showPaidBills: false,
-      };
-
-      const expected = false;
-      const actual = getShouldLoadBillList(key, value, state);
-
-      expect(actual).toBe(expected);
-    });
-  });
-
   describe('getBillEntries', () => {
     it('returns the right shape for bill entries', () => {
       const state = {

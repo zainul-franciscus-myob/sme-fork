@@ -1,6 +1,7 @@
 import {
   Checkbox,
   CheckboxGroup,
+  Combobox,
   DetailHeader,
   Input,
   TextArea,
@@ -10,10 +11,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
-import {
-  getBillPaymentOptions,
-  getElectronicPaymentReference,
-} from '../BillPaymentDetailSelectors';
+import { getBillPaymentOptions } from '../BillPaymentDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
 import SupplierPaymentDetailsStatus from './SupplierPaymentDetailsStatus';
@@ -29,6 +27,7 @@ const onDateChange = (handler) => (key) => ({ value }) =>
 
 const BillPaymentOptions = ({
   supplierId,
+  supplierName,
   accounts,
   accountId,
   description,
@@ -48,10 +47,42 @@ const BillPaymentOptions = ({
   isBeforeStartOfFinancialYear,
   shouldShowSupplierPopover,
   electronicPaymentReference,
+  isSupplierLoading,
 }) => {
   const requiredLabel = 'This is required';
   const requiredBankStatementText =
     'This will appear on your supplier’s bank statement to help identify the payment';
+  const supplierComboProps = {
+    name: 'supplierId',
+    label: 'Supplier',
+    hideLabel: false,
+    hideAdd: true,
+    allowClear: true,
+    width: 'xl',
+  };
+
+  const autoCompleteSupplierComboBox = renderContactCombobox({
+    ...supplierComboProps,
+    selectedId: supplierId,
+    requiredLabel,
+    onChange: handleAutoCompleteChange('supplierId', onUpdateHeaderOption),
+  });
+
+  const predeterminedSupplierComboBox = (
+    <Combobox
+      {...supplierComboProps}
+      selected={{ supplierId, supplierName }}
+      disabled
+      onChange={() => {}}
+      metaData={[
+        {
+          columnName: 'supplierName',
+          showData: true,
+        },
+      ]}
+      items={[{ supplierId, supplierName }]}
+    />
+  );
 
   const primary = (
     <>
@@ -60,21 +91,9 @@ const BillPaymentOptions = ({
           [styles.maximiseContactCombobox]: !shouldShowSupplierPopover,
         })}
       >
-        {renderContactCombobox({
-          selectedId: supplierId,
-          name: 'supplierId',
-          label: 'Supplier',
-          hideLabel: false,
-          hideAdd: true,
-          requiredLabel: isCreating ? requiredLabel : undefined,
-          allowClear: true,
-          disabled: shouldDisableSupplier,
-          onChange: handleAutoCompleteChange(
-            'supplierId',
-            onUpdateHeaderOption
-          ),
-          width: 'xl',
-        })}
+        {shouldDisableSupplier
+          ? predeterminedSupplierComboBox
+          : autoCompleteSupplierComboBox}
         {shouldShowSupplierPopover && <SupplierPaymentDetailsStatus />}
       </div>
       {showElectronicPayments && (
@@ -118,7 +137,7 @@ const BillPaymentOptions = ({
           onBlur={handleInputChange(onUpdateBankStatementText)}
           requiredLabel={requiredBankStatementText}
           maxLength={18}
-          disabled={electronicPaymentReference}
+          disabled={electronicPaymentReference || isSupplierLoading}
           width="xl"
         />
       )}
@@ -172,7 +191,6 @@ const BillPaymentOptions = ({
 
 const mapStateToProps = (state) => ({
   ...getBillPaymentOptions(state),
-  electronicPaymentReference: getElectronicPaymentReference(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentOptions);

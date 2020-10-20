@@ -3,14 +3,14 @@ import {
   CHANGE_REFERENCE_ID,
   CLOSE_MODAL,
   LOAD_BILL_LIST,
-  LOAD_SUPPLIER_PAYMENT_INFO,
+  LOAD_SUPPLIER_PAYMENT_DETAILS,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
+  SET_IS_SUPPLIER_LOADING,
+  SET_IS_TABLE_LOADING,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
-  SET_SUPPLIER_LOADING_STATE,
-  SET_TABLE_LOADING_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
@@ -35,16 +35,16 @@ const createBillPaymentDetailDispatcher = (store) => ({
       context,
     });
   },
-  setTableLoadingState: (isTableLoading) => {
+  setIsSupplierLoading: (isSupplierLoading) => {
     store.dispatch({
-      intent: SET_TABLE_LOADING_STATE,
-      isTableLoading,
+      intent: SET_IS_SUPPLIER_LOADING,
+      isSupplierLoading,
     });
   },
-  setSupplierLoadingState: (isSupplierLoading) => {
+  setIsTableLoading: (isTableLoading) => {
     store.dispatch({
-      intent: SET_SUPPLIER_LOADING_STATE,
-      isSupplierLoading,
+      intent: SET_IS_TABLE_LOADING,
+      isTableLoading,
     });
   },
   setLoadingState: (loadingState) => {
@@ -77,7 +77,7 @@ const createBillPaymentDetailDispatcher = (store) => ({
       value,
     });
   },
-  updateEmailRemittanceAdviceDetails: ({ key, value }) => {
+  updateEmailRemittanceAdviceEmailDetails: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
       key,
@@ -132,14 +132,16 @@ const createBillPaymentDetailDispatcher = (store) => ({
       remittanceAdviceType: value,
     });
   },
-  loadSupplierPaymentInfo: ({
-    statementText: supplierStatementText,
-    isPaymentDetailsComplete,
+  loadSupplierPaymentDetails: ({
+    supplierStatementText,
+    arePaymentDetailsComplete,
+    entries,
   }) => {
     store.dispatch({
-      intent: LOAD_SUPPLIER_PAYMENT_INFO,
+      intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
       supplierStatementText,
-      isPaymentDetailsComplete,
+      arePaymentDetailsComplete,
+      entries,
     });
   },
   loadBillList: ({ entries }) => {
