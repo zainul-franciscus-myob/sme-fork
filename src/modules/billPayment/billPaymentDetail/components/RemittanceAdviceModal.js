@@ -12,7 +12,6 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import './RemittanceAdviceModal.module.css';
 import EmailItemList from '../../../../components/itemList/EmailItemList';
 import EnterKeyFocusableWrapper from '../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -21,6 +20,7 @@ import handleRadioButtonChange from '../../../../components/handlers/handleRadio
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
 import remittanceAdviceTypes from '../remittanceAdviceMethodTypes';
+import styles from './RemittanceAdviceModal.module.css';
 
 const handleItemChange = (handler, key) => (emails) => {
   handler({
@@ -42,7 +42,7 @@ const RemittanceAdviceModal = ({
   templateOptions,
 }) => {
   const emailView = (onKeyDown) => (
-    <>
+    <div className={styles.itemList}>
       <EmailItemList
         label="To"
         items={remittanceAdviceEmailDetails.toAddresses}
@@ -93,7 +93,7 @@ const RemittanceAdviceModal = ({
         rows={10}
         maxLength={4000}
       />
-    </>
+    </div>
   );
 
   const view = (onKeyDown) => (
