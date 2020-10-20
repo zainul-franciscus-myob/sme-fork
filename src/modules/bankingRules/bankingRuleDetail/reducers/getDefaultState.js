@@ -16,7 +16,8 @@ const getDefaultState = () => ({
   allocationType: '',
   allocations: [],
   conditions: [],
-  allocationAccounts: [],
+  depositAccounts: [],
+  withdrawalAccounts: [],
   bankAccounts: [],
   taxCodes: [],
   newAllocationLine: {

@@ -1,4 +1,5 @@
 import {
+  getAllocationAccounts,
   getIsInputField,
   getIsNoConditionRuleAllowed,
   getIsPaymentReportableCheckboxDisabled,
@@ -146,5 +147,50 @@ describe('bankingRuleDetailSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getAllocationAccounts', () => {
+    const state = {
+      withdrawalAccounts: [
+        {
+          id: '🦕',
+        },
+      ],
+      depositAccounts: [
+        {
+          id: '🙅‍♀️',
+        },
+      ],
+    };
+
+    [
+      {
+        ruleType: RuleTypes.bill,
+        expected: state.withdrawalAccounts,
+      },
+      {
+        ruleType: RuleTypes.spendMoney,
+        expected: state.withdrawalAccounts,
+      },
+      {
+        ruleType: RuleTypes.invoice,
+        expected: state.depositAccounts,
+      },
+      {
+        ruleType: RuleTypes.receiveMoney,
+        expected: state.depositAccounts,
+      },
+    ].forEach(({ ruleType, expected }) => {
+      it(`return correct accounts when ${ruleType}`, () => {
+        const modifiedState = {
+          ...state,
+          ruleType,
+        };
+
+        const actual = getAllocationAccounts(modifiedState);
+
+        expect(actual).toEqual(expected);
+      });
+    });
   });
 });

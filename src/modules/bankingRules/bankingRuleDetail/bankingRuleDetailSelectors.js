@@ -35,7 +35,13 @@ export const getIsAlertShown = createSelector(getAlert, (alert) =>
 export const getIsInactiveRule = (state) => state.isInactiveRule;
 export const getName = (state) => state.name;
 export const getPageTitle = (state) => state.title;
-export const getAllocationAccounts = (state) => state.allocationAccounts;
+export const getAllocationAccounts = (state) =>
+  ({
+    [RuleTypes.bill]: state.withdrawalAccounts,
+    [RuleTypes.spendMoney]: state.withdrawalAccounts,
+    [RuleTypes.invoice]: state.depositAccounts,
+    [RuleTypes.receiveMoney]: state.depositAccounts,
+  }[state.ruleType]);
 export const getBankAccounts = (state) => state.bankAccounts;
 export const getTaxCodes = (state) => state.taxCodes;
 export const getContactId = (state) => state.contactId;
