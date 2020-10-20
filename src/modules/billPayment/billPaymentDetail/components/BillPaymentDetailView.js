@@ -129,7 +129,13 @@ const BillPaymentDetailView = ({
           {
             "You'll have the option to send by email or export a PDF when you save this payment."
           }
-          <a href="/">&nbsp;Learn more</a>
+          <a
+            href="https://help.myob.com/wiki/x/TA5XAw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            &nbsp;Learn more
+          </a>
         </Alert>
       )}
     </>
