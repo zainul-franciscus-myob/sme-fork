@@ -11,6 +11,7 @@ import {
   getTotals,
 } from '../splitAllocationSelectors';
 import { getIsLoadingAccount } from '../../../selectors';
+import LineItemTableHeader from '../../../../../components/LineItemTable/LineItemTableHeader';
 import SplitAllocationRow from './SplitAllocationRow';
 import TotalsContainer from '../../../components/TotalsContainer';
 import styles from './SplitAllocationTable.module.css';
@@ -67,6 +68,7 @@ const SplitAllocationTable = (props) => {
     onBlur,
     isLoading,
     isLoadingAccount,
+    onViewedAccountToolTip,
   } = props;
 
   const labels = [
@@ -85,6 +87,7 @@ const SplitAllocationTable = (props) => {
       columnName: accountLabel,
       requiredLabel: requiredText,
       styles: { width: '35.2rem' },
+      toolTipContent: 'Use accounts to categorise transactions',
     },
     {
       columnName: amountLabelDollar,
@@ -128,15 +131,16 @@ const SplitAllocationTable = (props) => {
     },
   ];
 
-  const headerItems = columns.map(({ columnName, requiredLabel }) => (
-    <LineItemTable.HeaderItem
-      key={columnName}
-      columnName={columnName}
-      requiredLabel={requiredLabel}
-    >
-      {columnName}
-    </LineItemTable.HeaderItem>
-  ));
+  const headerItems = columns.map(
+    ({ columnName, requiredLabel, toolTipContent }) => (
+      <LineItemTableHeader
+        label={columnName}
+        required={requiredLabel}
+        toolTipContent={toolTipContent}
+        toolTipMouseEnter={onViewedAccountToolTip}
+      />
+    )
+  );
 
   return (
     <LineItemTable

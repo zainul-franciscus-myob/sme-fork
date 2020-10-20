@@ -69,3 +69,7 @@ export const SET_PREFILL_INTRAY_DOCUMENT_ID = Symbol(
 export const LOAD_ABN_FROM_CONTACT = Symbol('Load abn given a contact id');
 export const SET_ABN_LOADING_STATE = Symbol('Set abn loading state');
 export const CLEAR_ABN = Symbol('Clear the abn');
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

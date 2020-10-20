@@ -171,3 +171,7 @@ export const START_LOADING_OPEN_ENTRY = Symbol('Start loading the open entry');
 export const FINISH_LOADING_OPEN_ENTRY = Symbol(
   'Finish loading the open entry'
 );
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

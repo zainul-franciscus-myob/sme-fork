@@ -7,6 +7,7 @@ import {
   getIsBankingRuleOpen,
   getRuleType,
   getSupplierComboboxContext,
+  getViewedAccountToolTip,
 } from './bankingRuleSelectors';
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleView from './components/BankingRuleView';
@@ -18,11 +19,12 @@ import createBankingRuleDispatcher from './createBankingRuleDispatcher';
 import createBankingRuleIntegrator from './createBankingRuleIntegrator';
 
 export default class BankingRuleModule {
-  constructor({ integration }) {
+  constructor({ integration, trackUserEvent }) {
     this.store = new Store(bankingRuleReducer);
     this.dispatcher = createBankingRuleDispatcher(this.store);
     this.integrator = createBankingRuleIntegrator(this.store, integration);
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.trackUserEvent = trackUserEvent;
   }
 
   resetState = () => {
@@ -39,6 +41,15 @@ export default class BankingRuleModule {
     this.dispatcher.setInitialState({ ...context });
     this.dispatcher.open();
     this.loadContactCombobox();
+  };
+
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
   };
 
   render = ({ onCreateBankingRule }) => {
@@ -67,6 +78,7 @@ export default class BankingRuleModule {
             this.createBankingRule(onCreateBankingRule);
           }}
           onAlert={this.dispatcher.setAlert}
+          onViewedAccountToolTip={this.viewedAccountToolTip}
         />
       </Provider>
     );

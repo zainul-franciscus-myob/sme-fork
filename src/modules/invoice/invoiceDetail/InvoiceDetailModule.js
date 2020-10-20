@@ -30,6 +30,7 @@ import {
   getTaxCalculations,
   getUniqueSelectedItemIds,
   getUniqueSelectedJobIds,
+  getViewedAccountToolTip,
 } from './selectors/invoiceDetailSelectors';
 import {
   getCanSaveEmailSettings,
@@ -76,19 +77,17 @@ export default class InvoiceDetailModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
+    trackUserEvent,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.replaceURLParams = replaceURLParams;
     this.globalCallbacks = globalCallbacks;
-
     this.store = new Store(invoiceDetailReducer);
     this.dispatcher = createInvoiceDetailDispatcher(this.store);
     this.integrator = createInvoiceDetailIntegrator(this.store, integration);
-
     this.subscribeOrUpgrade = subscribeOrUpgrade;
-
     this.accountModalModule = new AccountModalModule({
       integration,
     });
@@ -101,8 +100,8 @@ export default class InvoiceDetailModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
-
     this.navigateTo = navigateTo;
+    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -1076,6 +1075,15 @@ export default class InvoiceDetailModule {
     return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
   };
 
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
 
@@ -1091,6 +1099,7 @@ export default class InvoiceDetailModule {
           onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddAccount: this.openAccountModal,
           onLoadAccounts: this.loadAccounts,
+          onViewedAccountToolTip: this.viewedAccountToolTip,
         }}
         itemLayoutListeners={{
           onAddRow: this.addInvoiceLine,
@@ -1099,6 +1108,7 @@ export default class InvoiceDetailModule {
           onUpdateAmount: this.calculateLinesOnAmountChange,
           onAddAccount: this.openAccountModal,
           onLoadAccounts: this.loadAccounts,
+          onViewedAccountToolTip: this.viewedAccountToolTip,
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.handleSaveInvoice,

@@ -59,6 +59,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
   SET_TRANSFER_MONEY_DETAIL,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   SORT_AND_FILTER_BANK_TRANSACTIONS,
   SORT_MATCH_TRANSFER_MONEY,
   START_ENTRY_LOADING_STATE,
@@ -506,6 +507,11 @@ export const setTransactionStatusTypeToUnmatched = (state, action) => {
   };
 };
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
@@ -587,9 +593,9 @@ const handlers = {
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
   [SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED]: setTransactionStatusTypeToUnmatched,
-
   [START_LOADING_OPEN_ENTRY]: startLoadingOpenEntry,
   [FINISH_LOADING_OPEN_ENTRY]: finishLoadingOpenEntry,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 
 const bankingReducer = createReducer(getDefaultState(), handlers);

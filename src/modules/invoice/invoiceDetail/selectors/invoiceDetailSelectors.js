@@ -495,3 +495,5 @@ export const getUniqueSelectedJobIds = (state) => {
 
   return [];
 };
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

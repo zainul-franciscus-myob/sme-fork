@@ -29,6 +29,7 @@ import {
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   TOGGLE_QUOTE_HISTORY_ACCORDION,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
@@ -256,6 +257,13 @@ const createQuoteDetailDispatcher = (store) => ({
     store.dispatch({
       intent: TOGGLE_QUOTE_HISTORY_ACCORDION,
     }),
+
+  setViewedAccountToolTip: (viewedAccountToolTip) => {
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
+    });
+  },
 });
 
 export default createQuoteDetailDispatcher;

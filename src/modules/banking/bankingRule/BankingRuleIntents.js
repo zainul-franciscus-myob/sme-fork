@@ -26,3 +26,7 @@ export const CREATE_BANKING_RULE_SPEND_MONEY = Symbol(
 export const CREATE_BANKING_RULE_RECEIVE_MONEY = Symbol(
   'Create banking rule receive money'
 );
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

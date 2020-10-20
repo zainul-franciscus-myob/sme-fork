@@ -9,6 +9,7 @@ import {
   getTaxLabel,
   getTotals,
 } from '../selectors/receiveMoneyDetailSelectors';
+import LineItemTableHeader from '../../../../components/LineItemTable/LineItemTableHeader';
 import ReceiveMoneyDetailRow from './ReceiveMoneyDetailRow';
 
 const ReceiveMoneyDetailTable = ({
@@ -23,6 +24,7 @@ const ReceiveMoneyDetailTable = ({
   onRowInputBlur,
   onAddAccount,
   onAddJob,
+  onViewedAccountToolTip,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -44,12 +46,13 @@ const ReceiveMoneyDetailTable = ({
   const columns = [
     {
       label: 'Account',
-      requiredLabel: 'required',
+      requiredLabel: 'This is required',
       styles: { width: '35.2rem', align: 'left' },
+      toolTipContent: 'Use accounts to categorise transactions',
     },
     {
       label: 'Amount ($)',
-      requiredLabel: 'required',
+      requiredLabel: 'This is required',
       styles: { width: '12.5rem', align: 'right' },
     },
     {
@@ -66,22 +69,23 @@ const ReceiveMoneyDetailTable = ({
     },
     {
       label: taxCodeLabel,
-      requiredLabel: 'required',
+      requiredLabel: 'This is required',
       styles: { width: '8.4rem', align: 'left' },
     },
   ];
 
   const labels = columns.map(({ label }) => label);
 
-  const headerItems = columns.map(({ label, requiredLabel }) => (
-    <LineItemTable.HeaderItem
-      key={label}
-      columnName={label}
-      requiredLabel={requiredLabel}
-    >
-      {label}
-    </LineItemTable.HeaderItem>
-  ));
+  const headerItems = columns.map(
+    ({ label, requiredLabel, toolTipContent }) => (
+      <LineItemTableHeader
+        label={label}
+        required={requiredLabel}
+        toolTipContent={toolTipContent}
+        toolTipMouseEnter={onViewedAccountToolTip}
+      />
+    )
+  );
 
   const columnConfig = [
     {

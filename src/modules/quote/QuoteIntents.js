@@ -91,3 +91,7 @@ export const RESET_CONTACT = Symbol('Reset contact');
 export const TOGGLE_QUOTE_HISTORY_ACCORDION = Symbol(
   'Toggle quote history accordion'
 );
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

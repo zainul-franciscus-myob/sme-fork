@@ -5,6 +5,7 @@ import React from 'react';
 import { getTaxCodeLabel } from '../selectors/billSelectors';
 import BillLineItemTable from './BillLineItemTable';
 import BillServiceTableRow from './BillServiceTableRow';
+import LineItemTableHeader from '../../../../components/LineItemTable/LineItemTableHeader';
 
 const renderRow = (onRowInputBlur, onAddAccount, onAddJob) => (
   index,
@@ -32,6 +33,7 @@ const BillServiceTable = ({
     onAddAccount,
     onAddJob,
     onUpdateBillOption,
+    onViewedAccountToolTip,
   },
   taxCodeLabel,
 }) => {
@@ -51,9 +53,12 @@ const BillServiceTable = ({
 
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTableHeader
+      label={accountLabel}
+      required={requiredLabel}
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,

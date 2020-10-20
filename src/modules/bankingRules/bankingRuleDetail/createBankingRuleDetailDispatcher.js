@@ -13,6 +13,7 @@ import {
   SET_IS_PAGE_EDITED,
   SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_CONDITION_PREDICATE,
   UPDATE_CONTACT,
   UPDATE_FORM,
@@ -171,6 +172,12 @@ const createBankingRuleDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_JOB_LOADING_STATE,
       isJobLoading,
+    }),
+
+  setViewedAccountToolTip: (viewedAccountToolTip) =>
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     }),
 });
 

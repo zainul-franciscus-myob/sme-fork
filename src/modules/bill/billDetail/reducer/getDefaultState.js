@@ -117,4 +117,5 @@ export const getDefaultState = () => ({
   startOfFinancialYearDate: '',
   isPreConversion: false,
   showPreConversionAlert: false,
+  viewedAccountToolTip: false,
 });

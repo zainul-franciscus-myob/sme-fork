@@ -41,6 +41,7 @@ const ReceiveMoneyDetailView = ({
   onAddJob,
   onLoadMoreContacts,
   onContactSearch,
+  onViewedAccountToolTip,
 }) => {
   const templateOptions = (
     <ReceiveMoneyDetailOptions
@@ -93,6 +94,7 @@ const ReceiveMoneyDetailView = ({
           onRowInputBlur={onRowInputBlur}
           onAddAccount={onAddAccount}
           onAddJob={onAddJob}
+          onViewedAccountToolTip={onViewedAccountToolTip}
         />
       </LineItemTemplate>
     </React.Fragment>

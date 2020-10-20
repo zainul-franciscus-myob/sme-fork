@@ -43,6 +43,7 @@ import {
   getSpendMoneyId,
   getTaxCodeOptions,
   getTransactionListUrl,
+  getViewedAccountToolTip,
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
@@ -69,6 +70,7 @@ export default class SpendMoneyDetailModule {
     pushMessage,
     popMessages,
     navigateTo,
+    trackUserEvent,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -78,11 +80,10 @@ export default class SpendMoneyDetailModule {
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
-
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
-
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -719,6 +720,15 @@ export default class SpendMoneyDetailModule {
       : null;
   };
 
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
+
   render = () => {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
@@ -756,6 +766,7 @@ export default class SpendMoneyDetailModule {
         onOpenSplitView={this.openSplitView}
         onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
         onBlurBankStatementText={this.dispatcher.resetBankStatementText}
+        onViewedAccountToolTip={this.viewedAccountToolTip}
       />
     );
 

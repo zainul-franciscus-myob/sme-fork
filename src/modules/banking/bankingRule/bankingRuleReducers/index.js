@@ -8,6 +8,7 @@ import {
   REMOVE_TABLE_ROW,
   SET_ALERT,
   SET_SAVING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_LOADING,
   STOP_LOADING,
   UPDATE_CONDITION_PREDICATE,
@@ -135,6 +136,11 @@ const close = (state) => ({
   isOpen: false,
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const resetState = () => getDefaultState();
 
 const bankingRuleHandlers = {
@@ -156,6 +162,7 @@ const bankingRuleHandlers = {
   [STOP_LOADING]: stopLoading,
   [OPEN]: open,
   [CLOSE]: close,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 
 export default createReducer(getDefaultState(), bankingRuleHandlers);

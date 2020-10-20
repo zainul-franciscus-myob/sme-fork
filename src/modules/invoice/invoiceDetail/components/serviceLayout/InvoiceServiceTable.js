@@ -8,6 +8,7 @@ import {
   getTaxCodeLabel,
 } from '../../selectors/invoiceDetailSelectors';
 import InvoiceServiceTableRow from './InvoiceServiceTableRow';
+import LineItemTableHeader from '../../../../../components/LineItemTable/LineItemTableHeader';
 import styles from './InvoiceServiceTable.module.css';
 
 const InvoiceServiceTable = ({
@@ -21,6 +22,7 @@ const InvoiceServiceTable = ({
     onRemoveRow,
     onAddAccount,
     onLoadAccounts,
+    onViewedAccountToolTip,
   },
   renderJobCombobox,
   isPreConversion,
@@ -33,9 +35,12 @@ const InvoiceServiceTable = ({
 
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTableHeader
+      label={accountLabel}
+      required={requiredLabel}
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,

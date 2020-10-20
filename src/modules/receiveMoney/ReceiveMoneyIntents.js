@@ -38,3 +38,7 @@ export const SET_DUPLICATE_ID = Symbol('Set duplicate id');
 
 export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

@@ -124,3 +124,7 @@ export const SET_CUSTOMER_QUOTES_LOADING_STATE = Symbol(
 );
 export const SELECT_CUSTOMER_QUOTE = Symbol('Select customer quote');
 export const RESET_CUSTOMER_QUOTE = Symbol('Reset customer quote');
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

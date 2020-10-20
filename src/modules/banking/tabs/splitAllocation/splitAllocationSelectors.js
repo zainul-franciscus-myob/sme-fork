@@ -205,3 +205,5 @@ export const getSpendMoneyBankingRuleComboboxContext = (state) => {
     bankingRuleType: BankingRuleTypes.SpendMoney,
   };
 };
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

@@ -7,6 +7,7 @@ import {
   getTaxCodeLabel,
 } from '../../selectors/invoiceDetailSelectors';
 import InvoiceItemTableRow from './InvoiceItemTableRow';
+import LineItemTableHeader from '../../../../../components/LineItemTable/LineItemTableHeader';
 
 const InvoiceItemTable = ({
   tableData,
@@ -18,6 +19,7 @@ const InvoiceItemTable = ({
     onUpdateAmount,
     onAddAccount,
     onLoadAccounts,
+    onViewedAccountToolTip,
   },
   taxCodeLabel,
   renderItemCombobox,
@@ -37,9 +39,12 @@ const InvoiceItemTable = ({
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{itemNameLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTableHeader
+      label={accountLabel}
+      required={requiredLabel}
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
     <LineItemTable.HeaderItem>{unitOfMeasureLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,

@@ -416,3 +416,5 @@ export const getContactComboboxContext = (state) => {
     displayMode: DisplayMode.NAME_ONLY,
   };
 };
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

@@ -6,13 +6,14 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/QuoteDetailSelectors';
+import LineItemTableHeader from '../../../../../components/LineItemTable/LineItemTableHeader';
 import QuoteServiceTableRow from './QuoteServiceTableRow';
 
 const descriptionLabel = 'Description';
 const accountLabel = 'Account';
 const amountLabel = 'Amount ($)';
 const jobLabel = 'Job';
-const requiredLabel = 'Required';
+const requiredLabel = 'This is required';
 
 const onTableAddRow = (handler) => ({ id, ...partialLine }) =>
   handler(partialLine);
@@ -29,14 +30,18 @@ const QuoteServiceTable = ({
     onRowInputBlur,
     onAddAccountButtonClick,
     onAddJob,
+    onViewedAccountToolTip,
   },
   taxCodeLabel,
 }) => {
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTableHeader
+      label={accountLabel}
+      required={requiredLabel}
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
     <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
       {amountLabel}
     </LineItemTable.HeaderItem>,

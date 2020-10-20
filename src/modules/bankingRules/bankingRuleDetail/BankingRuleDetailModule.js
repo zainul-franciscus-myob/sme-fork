@@ -17,6 +17,7 @@ import {
   getOpenedModalType,
   getSaveUrl,
   getSupplierComboboxContext,
+  getViewedAccountToolTip,
 } from './bankingRuleDetailSelectors';
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
@@ -41,6 +42,7 @@ export default class BankingRuleDetailModule {
     pushMessage,
     featureToggles,
     isToggleOn,
+    trackUserEvent,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -55,7 +57,17 @@ export default class BankingRuleDetailModule {
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
+    this.trackUserEvent = trackUserEvent;
   }
+
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
 
   render = () => {
     const jobModal = this.jobModalModule.render();
@@ -91,6 +103,7 @@ export default class BankingRuleDetailModule {
         onConfirmSave={this.saveBankingRule}
         onAlert={this.dispatcher.displayAlert}
         onDismissAlert={this.dispatcher.dismissAlert}
+        onViewedAccountToolTip={this.viewedAccountToolTip}
       />
     );
 

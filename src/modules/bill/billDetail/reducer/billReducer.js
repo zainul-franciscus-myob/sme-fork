@@ -33,6 +33,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -695,6 +696,11 @@ const setShowPreConversionAlert = (state, { showPreConversionAlert }) => ({
   showPreConversionAlert,
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -742,6 +748,7 @@ const handlers = {
   [UPDATE_ISSUE_DATE]: updateIssueDate,
   [CONVERT_TO_PRE_CONVERSION_BILL]: convertToPreConversionBill,
   [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

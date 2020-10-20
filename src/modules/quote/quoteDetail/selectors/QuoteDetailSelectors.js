@@ -425,3 +425,5 @@ export const getUniqueSelectedItemIds = (state) => {
 
   return [];
 };
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

@@ -10,6 +10,7 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../bankingRuleDetailSelectors';
+import LineItemTableHeader from '../../../../components/LineItemTable/LineItemTableHeader';
 import NoMoveWrapper from '../../../../components/LineItemTable/NoMoveWrapper';
 import TableRow from './BankingRuleDetailAllocationTableRow';
 import styles from './BankingRuleDetailView.module.css';
@@ -35,6 +36,7 @@ const BankingRuleDetailAllocationTable = ({
   onAddJob,
   onRowChange,
   onRemoveRow,
+  onViewedAccountToolTip,
 }) => {
   const accountLabel = 'Account';
   const jobLabel = 'Job';
@@ -65,10 +67,16 @@ const BankingRuleDetailAllocationTable = ({
   const labels = [accountLabel, allocationLabel, jobLabel, taxCodeLabel];
 
   const headerItems = [
-    <LineItemTable.HeaderItem key={accountLabel} requiredLabel="required">
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem key={allocationLabel} requiredLabel="required">
+    <LineItemTableHeader
+      label={accountLabel}
+      required="This is required"
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
+    <LineItemTable.HeaderItem
+      key={allocationLabel}
+      requiredLabel="This is required"
+    >
       {allocationLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem key={jobLabel}>

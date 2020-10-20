@@ -30,6 +30,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SOURCE,
   SET_UPGRADE_MODAL_SHOWING,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_BLOCKING,
   START_LOADING,
   START_MODAL_BLOCKING,
@@ -369,6 +370,13 @@ const createBillDispatcher = (store) => ({
     store.dispatch({
       intent: LOAD_ABN_FROM_SUPPLIER,
       abn,
+    });
+  },
+
+  setViewedAccountToolTip: (viewedAccountToolTip) => {
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     });
   },
 });

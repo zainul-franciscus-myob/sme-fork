@@ -37,6 +37,7 @@ import {
   getSupplierId,
   getTaxCodeOptions,
   getUniqueSelectedItemIds,
+  getViewedAccountToolTip,
 } from './selectors/billSelectors';
 import {
   getBillListUrl,
@@ -93,6 +94,7 @@ class BillModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
+    trackUserEvent,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -112,12 +114,12 @@ class BillModule {
     this.globalCallbacks = globalCallbacks;
     this.navigateTo = navigateTo;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
-
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.openAlert,
     });
+    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -840,6 +842,15 @@ class BillModule {
     this.integrator.unlinkInTrayDocument({ onSuccess, onFailure });
   };
 
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
+
   redirectToCreateNewBill = () => {
     const state = this.store.getState();
     const url = getCreateNewBillUrl(state);
@@ -979,6 +990,7 @@ class BillModule {
             onAddAccount: this.openAccountModal,
             onAddJob: this.openJobModal,
             onUpdateBillOption: this.updateBillOption,
+            onViewedAccountToolTip: this.viewedAccountToolTip,
           }}
           itemAndServiceLayoutListeners={{
             onRowInputBlur: this.calculateBillLines,
@@ -989,6 +1001,7 @@ class BillModule {
             onAddJob: this.openJobModal,
             onAddItemButtonClick: this.openInventoryModal,
             onUpdateBillOption: this.updateBillOption,
+            onViewedAccountToolTip: this.viewedAccountToolTip,
           }}
           onPrefillButtonClick={this.openInTrayModal}
           exportPdfModalListeners={{

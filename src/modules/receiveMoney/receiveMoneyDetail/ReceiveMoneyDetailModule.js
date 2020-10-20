@@ -20,6 +20,7 @@ import {
   getOpenedModalType,
   getReceiveMoneyId,
   getTaxCalculations,
+  getViewedAccountToolTip,
   isPageEdited,
 } from './selectors/receiveMoneyDetailSelectors';
 import {
@@ -48,6 +49,7 @@ export default class ReceiveMoneyDetailModule {
     pushMessage,
     navigateTo,
     popMessages,
+    trackUserEvent,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -55,18 +57,17 @@ export default class ReceiveMoneyDetailModule {
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.navigateTo = navigateTo;
-
     this.dispatcher = createReceiveMoneyDetailDispatcher({ store: this.store });
     this.integrator = createReceiveMoneyDetailIntegrator({
       store: this.store,
       integration,
     });
-
     this.accountModalModule = new AccountModalModule({
       integration,
     });
     this.jobModalModule = new JobModalModule({ integration });
     this.contactModalModule = new ContactModalModule({ integration });
+    this.trackUserEvent = trackUserEvent;
   }
 
   openContactModal = () => {
@@ -400,6 +401,15 @@ export default class ReceiveMoneyDetailModule {
     this.navigateTo(url);
   };
 
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
@@ -428,6 +438,7 @@ export default class ReceiveMoneyDetailModule {
         onAddJob={this.openJobModal}
         onLoadMoreContacts={this.loadContactOptions}
         onContactSearch={this.searchContact}
+        onViewedAccountToolTip={this.viewedAccountToolTip}
       />
     );
 

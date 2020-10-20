@@ -11,6 +11,7 @@ const getBankingRoutes = ({
   navigateTo,
   replaceURLParams,
   loadHelpContentBasedOnRoute,
+  trackUserEvent,
 }) => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
@@ -29,6 +30,7 @@ const getBankingRoutes = ({
       replaceURLParams,
       featureToggles,
       loadHelpContentBasedOnRoute,
+      trackUserEvent,
     }),
     documentTitle: 'Bank feed transactions',
   },

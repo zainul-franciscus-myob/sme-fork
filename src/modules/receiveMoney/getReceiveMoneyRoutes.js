@@ -7,6 +7,7 @@ const getReceiveMoneyRoutes = ({
   pushMessage,
   popMessages,
   navigateTo,
+  trackUserEvent,
 }) => {
   const routes = [
     {
@@ -19,6 +20,7 @@ const getReceiveMoneyRoutes = ({
         pushMessage,
         popMessages,
         navigateTo,
+        trackUserEvent,
       }),
       documentTitle: 'Receive money',
     },

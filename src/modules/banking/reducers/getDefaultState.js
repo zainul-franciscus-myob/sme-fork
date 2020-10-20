@@ -119,6 +119,7 @@ const getDefaultState = () => ({
     isFocused: false,
   },
   lastAllocatedAccount: undefined,
+  viewedAccountToolTip: false,
 });
 
 export default getDefaultState;

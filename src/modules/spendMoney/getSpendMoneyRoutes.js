@@ -7,6 +7,7 @@ const getSpendMoneyRoutes = ({
   pushMessage,
   popMessages,
   navigateTo,
+  trackUserEvent,
 }) => {
   const routes = [
     {
@@ -18,6 +19,7 @@ const getSpendMoneyRoutes = ({
         pushMessage,
         popMessages,
         navigateTo,
+        trackUserEvent,
       }),
       documentTitle: 'Spend money',
     },

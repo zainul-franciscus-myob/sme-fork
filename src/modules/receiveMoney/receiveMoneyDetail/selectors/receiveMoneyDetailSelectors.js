@@ -188,3 +188,5 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
     startOfFinancialYearDate &&
     isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

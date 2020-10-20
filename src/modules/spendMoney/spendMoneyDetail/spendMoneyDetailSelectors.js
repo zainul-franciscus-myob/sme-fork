@@ -464,3 +464,5 @@ export const getLoadAddedJobUrlParams = (state, jobId) => {
   const businessId = getBusinessId(state);
   return { businessId, jobId };
 };
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

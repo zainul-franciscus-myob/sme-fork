@@ -34,6 +34,7 @@ const BankingRuleView = ({
   isLoading,
   isOpen,
   alert,
+  onViewedAccountToolTip,
 }) => {
   const modalBody = (
     <>
@@ -56,6 +57,7 @@ const BankingRuleView = ({
           onRemoveAllocationLine={onRemoveAllocationLine}
           renderContactCombobox={renderContactCombobox}
           onAlert={onAlert}
+          onViewedAccountToolTip={onViewedAccountToolTip}
         />
       )}
       {!showShowAllocationSection && (

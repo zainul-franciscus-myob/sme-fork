@@ -35,6 +35,7 @@ const AllocationSection = ({
   region,
   isPaymentReportable,
   shouldShowPaymentReportableCheckbox,
+  onViewedAccountToolTip,
 }) => (
   <FieldGroup label="Create transaction with this information">
     <div className={styles.contactAndIsReportableContainer}>
@@ -79,6 +80,7 @@ const AllocationSection = ({
       onAddRow={onAddAllocationLine}
       onRowChange={onUpdateAllocationLine}
       onRemoveRow={onRemoveAllocationLine}
+      onViewedAccountToolTip={onViewedAccountToolTip}
     />
   </FieldGroup>
 );

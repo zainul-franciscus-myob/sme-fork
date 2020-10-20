@@ -9,6 +9,7 @@ const getBankingRuleRoutes = ({
   pushMessage,
   isToggleOn,
   featureToggles,
+  trackUserEvent,
 }) => {
   const routes = [
     {
@@ -30,6 +31,7 @@ const getBankingRuleRoutes = ({
         pushMessage,
         isToggleOn,
         featureToggles,
+        trackUserEvent,
       }),
       documentTitle: 'Banking rule',
     },

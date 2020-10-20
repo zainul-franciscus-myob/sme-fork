@@ -63,6 +63,7 @@ const SpendMoneyDetailView = ({
   onOpenSplitView,
   onClosePrefillInfo,
   onBlurBankStatementText,
+  onViewedAccountToolTip,
 }) => {
   const primaryOptions = (
     <SpendMoneyDetailPrimaryOptions
@@ -116,6 +117,7 @@ const SpendMoneyDetailView = ({
       onRowInputBlur={onRowInputBlur}
       onAddAccount={onAddAccount}
       onAddJob={onAddJob}
+      onViewedAccountToolTip={onViewedAccountToolTip}
     />
   );
 

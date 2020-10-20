@@ -15,6 +15,7 @@ const SplitAllocationBody = ({
   onAddAccount,
   onAddJob,
   onBlur,
+  onViewedAccountToolTip,
 }) => (
   <React.Fragment>
     <SplitAllocationOptions
@@ -37,6 +38,7 @@ const SplitAllocationBody = ({
       onAddAccount={onAddAccount}
       onAddJob={onAddJob}
       onBlur={onBlur}
+      onViewedAccountToolTip={onViewedAccountToolTip}
     />
   </React.Fragment>
 );

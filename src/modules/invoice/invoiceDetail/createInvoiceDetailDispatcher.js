@@ -38,6 +38,7 @@ import {
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
@@ -329,6 +330,13 @@ const createInvoiceDetailDispatcher = (store) => ({
 
   resetCustomerQuote: () => {
     store.dispatch({ intent: RESET_CUSTOMER_QUOTE });
+  },
+
+  setViewedAccountToolTip: (viewedAccountToolTip) => {
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
+    });
   },
 });
 

@@ -16,6 +16,7 @@ import {
   SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
@@ -177,6 +178,11 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     store.dispatch({
       intent: SET_DUPLICATE_ID,
       duplicateId,
+    }),
+  setViewedAccountToolTip: (viewedAccountToolTip) =>
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     }),
 });
 

@@ -54,6 +54,7 @@ import {
   getReceiveMoneyBankingRuleComboboxContext,
   getSpendMoneyBankingRuleComboboxContext,
   getSplitAllocateContactComboboxContext,
+  getViewedAccountToolTip,
 } from './tabs/splitAllocation/splitAllocationSelectors';
 import {
   getCanSelectMore,
@@ -98,6 +99,7 @@ export default class BankingModule {
     replaceURLParams,
     featureToggles,
     loadHelpContentBasedOnRoute,
+    trackUserEvent,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
@@ -107,8 +109,10 @@ export default class BankingModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
-
-    this.bankingRuleModule = new BankingRuleModule({ integration });
+    this.bankingRuleModule = new BankingRuleModule({
+      integration,
+      trackUserEvent,
+    });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -120,7 +124,6 @@ export default class BankingModule {
     this.receiveMoneyTaxCalculator = createTaxCalculator(
       TaxCalculatorTypes.receiveMoney
     );
-
     this.splitAllocationContactComboboxModule = new ContactComboboxModule({
       integration,
     });
@@ -130,11 +133,11 @@ export default class BankingModule {
     this.receiveMoneyBankingRuleComboboxModule = new BankingRuleComboboxModule({
       integration,
     });
-
     this.matchTransactionsSubModule = new MatchTransactionsModule({
       integration,
       setAlert: this.dispatcher.setAlert,
     });
+    this.trackUserEvent = trackUserEvent;
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -159,6 +162,15 @@ export default class BankingModule {
   resetFilters = () => {
     this.dispatcher.resetFilters();
     this.filterBankTransactions();
+  };
+
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
   };
 
   render = () => {
@@ -211,6 +223,7 @@ export default class BankingModule {
       onAddJob: this.openJobModal,
       onAddAccount: this.openAccountModal,
       onBlur: this.dispatcher.blurEntry,
+      onViewedAccountToolTip: this.viewedAccountToolTip,
     };
 
     const splitAllocationFooterProps = {

@@ -31,6 +31,7 @@ import {
   SET_QUOTE_LINE_DIRTY,
   SET_QUOTE_SUBMITTING_STATE,
   SET_SUBMITTING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   TOGGLE_QUOTE_HISTORY_ACCORDION,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_QUOTE_DETAIL,
@@ -456,6 +457,11 @@ const cacheItemSellingDetails = (state, { itemId, itemSellingDetails }) => ({
   },
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -466,32 +472,25 @@ const handlers = {
   [CLOSE_MODAL]: closeModal,
   [SET_MODAL_SUBMITTING_STATE]: setModalSubmittingState,
   [SET_MODAL_ALERT]: setModalAlert,
-
   [LOAD_QUOTE_DETAIL]: loadQuoteDetail,
   [RELOAD_QUOTE_DETAIL]: reloadQuoteDetail,
   [UPDATE_QUOTE_ID_AFTER_CREATE]: updateQuoteIdAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_QUOTE_DETAIL_HEADER_OPTIONS]: updateQuoteDetailHeaderOptions,
   [UPDATE_LAYOUT]: updateLayout,
-
   [ADD_QUOTE_LINE]: addQuoteLine,
   [UPDATE_QUOTE_LINE]: updateQuoteLine,
   [REMOVE_QUOTE_LINE]: removeQuoteLine,
-
   [SET_QUOTE_SUBMITTING_STATE]: setQuoteSubmittingState,
   [SET_QUOTE_LINE_DIRTY]: setQuoteLineDirty,
   [CALCULATE_LINES]: calculateLines,
-
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
   [RESET_CONTACT]: resetContact,
-
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_CONTACT_LOADING_STATE]: setCustomerLoadingState,
-
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,
-
   [UPDATE_EMAIL_QUOTE_DETAIL]: updateEmailQuoteDetail,
   [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
   [RESET_EMAIL_QUOTE_DETAIL]: resetEmailQuoteDetail,
@@ -500,13 +499,12 @@ const handlers = {
   [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,
   [UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS]: uploadEmailAttachmentUploadProgress,
   [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
-
   [CHANGE_EXPORT_PDF_TEMPLATE]: changeExportPdfForm,
   [CALCULATE_LINE_AMOUNTS]: calculatePartialQuoteLineAmounts,
   [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
   [CACHE_ITEM_SELLING_DETAILS]: cacheItemSellingDetails,
-
   [TOGGLE_QUOTE_HISTORY_ACCORDION]: toggleQuoteHistoryAccordion,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 
 const quoteDetailReducer = createReducer(getDefaultState(), handlers);

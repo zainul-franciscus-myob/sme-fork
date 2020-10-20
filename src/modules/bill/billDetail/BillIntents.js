@@ -71,3 +71,7 @@ export const UPDATE_PRE_CONVERSION_BILL_DETAIL = Symbol(
 export const DELETE_PRE_CONVERSION_BILL_DETAIL = Symbol(
   'Delete a pre conversion bill'
 );
+
+export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
+  'Set the viewed Account tool tip state'
+);

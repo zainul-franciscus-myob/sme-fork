@@ -39,6 +39,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -129,6 +130,7 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
   isJobLoading: false,
   contactType: undefined,
+  viewedAccountToolTip: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -732,6 +734,11 @@ const setJobLoadingState = (state, { isJobLoading }) => ({
   isJobLoading,
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -781,6 +788,7 @@ const handlers = {
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [LOAD_ABN_FROM_CONTACT]: loadAbnFromContact,
   [CLEAR_ABN]: clearAbn,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

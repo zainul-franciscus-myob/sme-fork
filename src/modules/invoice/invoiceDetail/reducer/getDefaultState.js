@@ -110,6 +110,7 @@ const getDefaultState = () => ({
   customerQuotes: [],
   isLoadingCustomerQuotes: true,
   customerQuoteId: '',
+  viewedAccountToolTip: false,
 });
 
 export default getDefaultState;

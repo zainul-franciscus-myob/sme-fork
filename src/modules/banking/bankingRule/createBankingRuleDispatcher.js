@@ -8,6 +8,7 @@ import {
   REMOVE_TABLE_ROW,
   SET_ALERT,
   SET_SAVING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_LOADING,
   STOP_LOADING,
   UPDATE_CONDITION_PREDICATE,
@@ -150,6 +151,13 @@ const createBankingRuleDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
+    });
+  },
+
+  setViewedAccountToolTip: (viewedAccountToolTip) => {
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     });
   },
 });

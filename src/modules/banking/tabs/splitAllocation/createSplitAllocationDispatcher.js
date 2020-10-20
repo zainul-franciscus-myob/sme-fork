@@ -7,6 +7,7 @@ import {
   LOAD_SPLIT_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SET_SPLIT_ALLOCATION_LOADING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
   UPDATE_SPLIT_ALLOCATION_LINE,
@@ -96,6 +97,13 @@ const createSplitAllocationDispatcher = (store) => ({
     store.dispatch({
       intent: CALCULATE_SPLIT_ALLOCATION_TAX,
       taxCalculations,
+    });
+  },
+
+  setViewedAccountToolTip: (viewedAccountToolTip) => {
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     });
   },
 });

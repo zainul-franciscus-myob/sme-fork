@@ -6,6 +6,7 @@ import {
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/QuoteDetailSelectors';
+import LineItemTableHeader from '../../../../../components/LineItemTable/LineItemTableHeader';
 import QuoteItemAndServiceTableRow from './QuoteItemAndServiceTableRow';
 
 const itemIdLabel = 'Item ID';
@@ -17,7 +18,7 @@ const discountLabel = 'Discount (%)';
 const amountLabel = 'Amount ($)';
 const unitOfMeasureLabel = 'Unit';
 const jobLabel = 'Job';
-const requiredLabel = 'Required';
+const requiredLabel = 'This is required';
 
 const QuoteItemAndServiceTable = ({
   renderItemCombobox,
@@ -30,15 +31,19 @@ const QuoteItemAndServiceTable = ({
     onRowInputBlur,
     onAddAccountButtonClick,
     onAddJob,
+    onViewedAccountToolTip,
   },
   taxCodeLabel,
 }) => {
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {accountLabel}
-    </LineItemTable.HeaderItem>,
+    <LineItemTableHeader
+      label={accountLabel}
+      required={requiredLabel}
+      toolTipContent="Use accounts to categorise transactions"
+      toolTipMouseEnter={onViewedAccountToolTip}
+    />,
     <LineItemTable.HeaderItem>{unitOfMeasureLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitLabel}</LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{unitPriceLabel}</LineItemTable.HeaderItem>,

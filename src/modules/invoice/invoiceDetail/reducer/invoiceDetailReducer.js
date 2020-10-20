@@ -41,6 +41,7 @@ import {
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
   UPDATE_EMAIL_INVOICE_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
@@ -480,6 +481,11 @@ const resetCustomerQuote = (state) => ({
   customerQuoteId: '',
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -492,26 +498,20 @@ const handlers = {
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [LOAD_INVOICE_DETAIL]: loadInvoiceDetail,
   [RELOAD_INVOICE_DETAIL]: reloadInvoiceDetail,
-
   [LOAD_CUSTOMER]: loadCustomer,
   [RESET_CUSTOMER]: resetCustomer,
-
   [UPDATE_INVOICE_ID_AFTER_CREATE]: updateInvoiceIdAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [UPDATE_INVOICE_DETAIL_HEADER_OPTIONS]: setInvoiceDetailHeaderOptions,
   [UPDATE_INVOICE_PAYMENT_AMOUNT]: updatePaymentAmount,
   [UPDATE_INVOICE_LAYOUT]: updateInvoiceLayout,
-
   [ADD_INVOICE_LINE]: addInvoiceLine,
   [REMOVE_INVOICE_LINE]: removeInvoiceLine,
   [UPDATE_INVOICE_LINE]: updateInvoiceLine,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-
   [SET_INVOICE_ITEM_LINE_DIRTY]: setInvoiceItemLineDirty,
-
   [LOAD_PAY_DIRECT]: loadPayDirect,
   [SET_PAY_DIRECT_LOADING_STATE]: setPayDirectLoadingState,
-
   [SAVE_EMAIL_SETTINGS]: saveEmailSettings,
   [UPDATE_EMAIL_INVOICE_DETAIL]: updateEmailInvoiceDetail,
   [RESET_EMAIL_INVOICE_DETAIL]: resetEmailInvoiceDetail,
@@ -520,30 +520,25 @@ const handlers = {
   [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,
   [UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS]: uploadEmailAttachmentUploadProgress,
   [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
-
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
-
   [SET_INVOICE_HISTORY_LOADING]: setInvoiceHistoryLoading,
   [SET_INVOICE_HISTORY_UNAVAILABLE]: setInvoiceHistoryUnavailable,
   [SET_INVOICE_HISTORY_CLOSED]: setInvoiceHistoryClosed,
   [SET_INVOICE_HISTORY_OPEN]: setInvoiceHistoryOpen,
   [SET_REDIRECT_STATE]: setRedirectState,
   [LOAD_INVOICE_HISTORY]: loadInvoiceHistory,
-
   [CALCULATE_LINES]: calculateLines,
   [CALCULATE_LINE_AMOUNTS]: calculateLineAmounts,
   [LOAD_ITEM_SELLING_DETAILS]: loadItemSellingDetails,
-
   [CONVERT_TO_PRE_CONVERSION_INVOICE]: convertToPreConversionInvoice,
   [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
-
   [LOAD_ABN_FROM_CUSTOMER]: loadAbnFromCustomer,
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
-
   [LOAD_CUSTOMER_QUOTES]: loadCustomerQuotes,
   [SET_CUSTOMER_QUOTES_LOADING_STATE]: setCustomerQuotesLoadingState,
   [SELECT_CUSTOMER_QUOTE]: selectCustomerQuote,
   [RESET_CUSTOMER_QUOTE]: resetCustomerQuote,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

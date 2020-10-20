@@ -36,6 +36,7 @@ import {
   getShouldSaveAndReload,
   getTaxCalculations,
   getUniqueSelectedItemIds,
+  getViewedAccountToolTip,
 } from './selectors/QuoteDetailSelectors';
 import {
   getCreateInvoiceFromQuoteUrl,
@@ -73,6 +74,7 @@ export default class QuoteDetailModule {
     popMessages,
     navigateTo,
     replaceURLParams,
+    trackUserEvent,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -80,11 +82,9 @@ export default class QuoteDetailModule {
     this.popMessages = popMessages;
     this.navigateTo = navigateTo;
     this.replaceURLParams = replaceURLParams;
-
     this.store = new Store(quoteDetailReducer);
     this.dispatcher = createQuoteDetailDispatcher(this.store);
     this.integrator = createQuoteDetailIntegrator(this.store, integration);
-
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
@@ -92,6 +92,7 @@ export default class QuoteDetailModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
+    this.trackUserEvent = trackUserEvent;
   }
 
   loadQuote = () => {
@@ -754,6 +755,15 @@ export default class QuoteDetailModule {
       : null;
   };
 
+  viewedAccountToolTip = () => {
+    if (getViewedAccountToolTip(this.store.getState()) === false) {
+      this.dispatcher.setViewedAccountToolTip(true);
+      this.trackUserEvent('viewedAccountToolTip', {
+        action: 'viewed_accountToolTip',
+      });
+    }
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
@@ -765,6 +775,7 @@ export default class QuoteDetailModule {
       onRowInputBlur: this.formatQuoteLine,
       onAddAccountButtonClick: this.openAccountModal,
       onAddJob: this.openJobModal,
+      onViewedAccountToolTip: this.viewedAccountToolTip,
     };
 
     const view = (

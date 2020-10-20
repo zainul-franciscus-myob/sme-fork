@@ -8,6 +8,7 @@ import {
   OPEN_MODAL,
   SET_IS_PAGE_EDITED,
   SET_LOADING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_CONTACT,
   UPDATE_FORM,
 } from '../BankingRuleDetailIntents';
@@ -165,6 +166,11 @@ const updateContact = (
   };
 };
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -179,6 +185,7 @@ const handlers = {
   [LOAD_BANKING_RULE]: loadBankingRuleDetail,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [UPDATE_CONTACT]: updateContact,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
   ...allocationHandlers,
   ...conditionHandlers,
 };

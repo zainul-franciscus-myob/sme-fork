@@ -30,6 +30,7 @@ const getDefaultState = () => ({
   taxCodes: [],
   withdrawalAccounts: [],
   depositAccounts: [],
+  viewedAccountToolTip: false,
 });
 
 export default getDefaultState;

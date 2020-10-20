@@ -258,3 +258,5 @@ export const getSupplierComboboxContext = buildGetContactComboboxContext(
 export const getContactComboboxContext = buildGetContactComboboxContext(
   ContactType.ALL
 );
+
+export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

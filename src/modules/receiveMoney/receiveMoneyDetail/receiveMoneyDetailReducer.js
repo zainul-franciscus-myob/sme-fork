@@ -19,6 +19,7 @@ import {
   SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_RECEIVE_MONEY_HEADER,
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
@@ -86,6 +87,7 @@ const getDefaultState = () => ({
   region: '',
   isJobLoading: false,
   startOfFinancialYearDate: '',
+  viewedAccountToolTip: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -320,6 +322,11 @@ const setDuplicateId = (state, action) => ({
   duplicateId: action.duplicateId,
 });
 
+const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
+  ...state,
+  viewedAccountToolTip,
+});
+
 const handlers = {
   [LOAD_RECEIVE_MONEY_DETAIL]: loadReceiveMoneyDetail,
   [LOAD_NEW_RECEIVE_MONEY]: loadNewReceiveMoney,
@@ -345,6 +352,7 @@ const handlers = {
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_DUPLICATE_ID]: setDuplicateId,
+  [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };
 const receiveMoneyReducer = createReducer(getDefaultState(), handlers);
 

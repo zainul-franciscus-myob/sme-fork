@@ -36,6 +36,7 @@ import {
   SET_SHOW_SPLIT_VIEW,
   SET_SUBMITTING_STATE,
   SET_SUPPLIER_BLOCKING_STATE,
+  SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_SPEND_MONEY_HEADER,
   UPDATE_SPEND_MONEY_LINE,
@@ -316,6 +317,12 @@ const createSpendMoneyDispatcher = (store) => ({
   clearAbn: () =>
     store.dispatch({
       intent: CLEAR_ABN,
+    }),
+
+  setViewedAccountToolTip: (viewedAccountToolTip) =>
+    store.dispatch({
+      intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
+      viewedAccountToolTip,
     }),
 });
 

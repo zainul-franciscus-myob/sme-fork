@@ -47,6 +47,7 @@ const BankingRuleDetailView = ({
   onConfirmSave,
   onDismissAlert,
   onAlert,
+  onViewedAccountToolTip,
 }) => {
   const view = (
     <BaseTemplate>
@@ -88,6 +89,7 @@ const BankingRuleDetailView = ({
             onRowChange={onRowChange}
             onRemoveRow={onRemoveRow}
             onAddJob={onAddJob}
+            onViewedAccountToolTip={onViewedAccountToolTip}
           />
         )}
       </Card>
