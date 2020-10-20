@@ -12,6 +12,7 @@ import {
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
   SET_EDIT_MODE,
+  SET_HOVERED_ROW,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
@@ -50,6 +51,7 @@ const getDefaultState = () => ({
   },
   accountClassifications: {},
   taxCodeList: [],
+  hoveredRowIndex: null,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -172,7 +174,7 @@ const setEditMode = (state, { editingMode }) => ({
 const setAccountDetails = (state, action) => ({
   ...state,
   entries: state.entries.map((entry, id) =>
-    id === action.index
+    id === action.index && entry[action.key] !== action.value
       ? { ...entry, [action.key]: action.value, dirty: true }
       : entry
   ),
@@ -189,6 +191,11 @@ const setRemainingHistoricalBalance = (
 ) => ({
   ...state,
   remainingHistoricalBalance,
+});
+
+const setHoveredRow = (state, { index }) => ({
+  ...state,
+  hoveredRowIndex: index,
 });
 
 const handlers = {
@@ -216,6 +223,8 @@ const handlers = {
   [SET_REDIRECT_URL]: setRedirectUrl,
 
   [SET_REMAINING_HISTORICAL_BALANCE]: setRemainingHistoricalBalance,
+
+  [SET_HOVERED_ROW]: setHoveredRow,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);

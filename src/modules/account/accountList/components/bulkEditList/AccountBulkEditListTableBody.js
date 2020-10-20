@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountClassifications,
   getAccountNumberCounts,
+  getHoveredRowIndex,
   getTableEntries,
   getTaxCodeList,
 } from '../../AccountListSelectors';
@@ -19,6 +20,9 @@ const AccountBulkEditListTableBody = ({
   calculateRemainingHistoricalBalance,
   accountClassifications,
   taxCodeList,
+  onEntryHover,
+  onEntryLeave,
+  hoveredRowIndex,
 }) => {
   const accountNumberCount = getAccountNumberCounts(entries);
   const rows = entries.map((entry, index) => {
@@ -36,6 +40,7 @@ const AccountBulkEditListTableBody = ({
       taxCode,
       taxCodeId,
       hideAccountNumber,
+      dirty,
     } = entry;
 
     return (
@@ -59,11 +64,15 @@ const AccountBulkEditListTableBody = ({
         isHeader={isHeader}
         indentLevel={indentLevel}
         openingBalance={openingBalance}
-        subAccountTyp={subAccountType}
+        subAccountType={subAccountType}
         accountType={accountType}
         taxCode={taxCode}
         taxCodeId={taxCodeId}
         hideAccountNumber={hideAccountNumber}
+        onEntryHover={onEntryHover}
+        onEntryLeave={onEntryLeave}
+        hoveredRowIndex={hoveredRowIndex}
+        dirty={dirty}
       />
     );
   });
@@ -75,6 +84,7 @@ const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   accountClassifications: getAccountClassifications(state),
   taxCodeList: getTaxCodeList(state),
+  hoveredRowIndex: getHoveredRowIndex(state),
 });
 
 export default connect(mapStateToProps)(AccountBulkEditListTableBody);

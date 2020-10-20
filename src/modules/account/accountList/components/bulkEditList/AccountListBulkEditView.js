@@ -50,6 +50,8 @@ const AccountListBulkEditView = ({
   onBulkUpdateDiscardClick,
   onBulkUpdateModalCancelClick,
   calculateRemainingHistoricalBalance,
+  onEntryHover,
+  onEntryLeave,
 }) => {
   const alertComponents =
     alert &&
@@ -124,6 +126,8 @@ const AccountListBulkEditView = ({
       onAccountNumberChange={onAccountNumberChange}
       onAccountNumberBlur={onAccountNumberBlur}
       calculateRemainingHistoricalBalance={calculateRemainingHistoricalBalance}
+      onEntryHover={onEntryHover}
+      onEntryLeave={onEntryLeave}
     />
   );
 
