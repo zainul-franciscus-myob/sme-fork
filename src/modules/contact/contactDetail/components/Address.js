@@ -1,4 +1,11 @@
-import { FieldGroup, Input, Select, TextArea } from '@myob/myob-widgets';
+import {
+  FieldGroup,
+  Icons,
+  Input,
+  Select,
+  TextArea,
+  Tooltip,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import CountryCombobox from '../../../../components/combobox/CountryCombobox';
@@ -109,6 +116,11 @@ const Address = ({
         <Input
           name="email"
           label="Email"
+          labelAccessory={
+            <Tooltip triggerContent={<Icons.Info />}>
+              Use a semicolon to add another email.
+            </Tooltip>
+          }
           value={email}
           onChange={onInputChange(onAddressChange)}
           width="lg"

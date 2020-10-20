@@ -164,7 +164,7 @@ const ContactDetails = ({
       label="Contact ID"
       labelAccessory={
         <Tooltip triggerContent={<Icons.Info />}>
-          Enter a reference or account ID for this contact
+          Enter a reference or account ID for this contact.
         </Tooltip>
       }
       value={referenceId}
