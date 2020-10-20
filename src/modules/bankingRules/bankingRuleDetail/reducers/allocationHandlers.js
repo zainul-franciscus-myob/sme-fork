@@ -4,9 +4,10 @@ import {
   REMOVE_TABLE_ROW,
 } from '../BankingRuleDetailIntents';
 import { allocationTypeOptions } from '../AllocationTypes';
+import { getAllocationAccounts } from '../bankingRuleDetailSelectors';
 
 const findTaxCodeIdByAccountId = (state, accountId) =>
-  state.allocationAccounts.find((account) => account.id === accountId)
+  getAllocationAccounts(state).find((account) => account.id === accountId)
     .taxCodeId;
 
 const addAllocation = ({ state, allocations, newRow }) => {

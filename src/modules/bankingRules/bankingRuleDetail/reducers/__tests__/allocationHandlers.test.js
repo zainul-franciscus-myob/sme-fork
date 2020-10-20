@@ -3,14 +3,16 @@ import {
   REMOVE_TABLE_ROW,
   UPDATE_FORM,
 } from '../../BankingRuleDetailIntents';
+import RuleTypes from '../../RuleTypes';
 import bankingRuleDetailReducer from '..';
 
 describe('allocationHandlers', () => {
   describe('addTableRow', () => {
     const state = {
+      ruleType: RuleTypes.spendMoney,
       allocationType: 'Percent',
       allocations: [],
-      allocationAccounts: [
+      withdrawalAccounts: [
         {
           id: '1',
           taxCodeId: '1',
@@ -93,7 +95,7 @@ describe('allocationHandlers', () => {
 
       const modifiedState = {
         ...state,
-        allocationAccounts: [
+        withdrawalAccounts: [
           {
             id: '1',
             taxCodeId: '2',
