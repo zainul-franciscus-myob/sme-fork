@@ -239,13 +239,13 @@ const AccountBulkEditListTableRow = ({
 
 const areEqual = (prevProps, nextProps) => {
   return (
+    prevProps.index !== nextProps.hoveredRowIndex &&
+    prevProps.index !== prevProps.hoveredRowIndex &&
+    prevProps.taxCodeId === nextProps.taxCodeId &&
     prevProps.accountNumber === nextProps.accountNumber &&
     prevProps.accountName === nextProps.accountName &&
     prevProps.subAccountType === nextProps.subAccountType &&
-    prevProps.taxCodeId === nextProps.taxCodeId &&
-    prevProps.openingBalance === nextProps.openingBalance &&
-    prevProps.index !== nextProps.hoveredRowIndex &&
-    prevProps.index !== prevProps.hoveredRowIndex
+    prevProps.openingBalance === nextProps.openingBalance
   );
 };
 
