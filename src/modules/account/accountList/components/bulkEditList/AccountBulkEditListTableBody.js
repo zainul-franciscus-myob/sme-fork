@@ -70,14 +70,17 @@ const AccountBulkEditListTableBody = ({
         taxCodeId={taxCodeId}
         hideAccountNumber={hideAccountNumber}
         onEntryHover={onEntryHover}
-        onEntryLeave={onEntryLeave}
         hoveredRowIndex={hoveredRowIndex}
         dirty={dirty}
       />
     );
   });
 
-  return <Table.Body>{rows}</Table.Body>;
+  return (
+    <div onMouseLeave={onEntryLeave}>
+      <Table.Body>{rows}</Table.Body>
+    </div>
+  );
 };
 
 const mapStateToProps = (state) => ({

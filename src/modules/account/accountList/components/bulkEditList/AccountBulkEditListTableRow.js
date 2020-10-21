@@ -186,11 +186,10 @@ const AccountBulkEditListTableRow = ({
   taxCodeId,
   hideAccountNumber,
   onEntryHover,
-  onEntryLeave,
   hoveredRowIndex,
   dirty,
 }) => (
-  <div onMouseEnter={() => onEntryHover(index)} onMouseLeave={onEntryLeave}>
+  <div onMouseEnter={() => onEntryHover(index)}>
     {hoveredRowIndex === index || dirty
       ? getEditableFields(
           tableConfig,

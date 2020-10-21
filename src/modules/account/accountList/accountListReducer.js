@@ -23,6 +23,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 
 const getDefaultState = () => ({
   businessId: '',
@@ -108,6 +109,8 @@ const sortAndFilterAccountList = (state, action) => {
     ...state,
     entries: action.entries.map((entry) => ({
       ...entry,
+      openingBalance: formatAmount(entry.openingBalance),
+      balance: formatAmount(entry.balance),
       selected: selectedAccounts[entry.id],
       dirty: false,
     })),
