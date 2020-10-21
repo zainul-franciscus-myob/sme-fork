@@ -300,6 +300,10 @@ export default class AccountListModule {
     }
   };
 
+  stringWithCommaToNumber = (numberString) => {
+    return parseFloat(numberString.replace(/,/g, ''));
+  };
+
   calculateRemainingHistoricalBalance = () => {
     const state = this.store.getState();
     const remainingHistoricalBalance = getAccountsForCalcHistoricalBalance(
@@ -307,7 +311,7 @@ export default class AccountListModule {
     ).reduce((acc, entry) => {
       if (!entry.openingBalance) return acc;
 
-      const openingBalance = parseFloat(entry.openingBalance);
+      const openingBalance = this.stringWithCommaToNumber(entry.openingBalance);
       if (
         entry.accountType === accountTypes.ASSET ||
         entry.accountType === accountTypes.COST_OF_SALES ||
@@ -346,8 +350,6 @@ export default class AccountListModule {
         calculateRemainingHistoricalBalance={
           this.calculateRemainingHistoricalBalance
         }
-        onEntryHover={this.dispatcher.setHoveredRow}
-        onEntryLeave={() => this.dispatcher.setHoveredRow(null)}
       />
     );
 

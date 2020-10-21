@@ -73,8 +73,6 @@ export const getDirtyEntries = (state) =>
 
 export const getModalType = (state) => state.modalType;
 
-export const getHoveredRowIndex = (state) => state.hoveredRowIndex;
-
 export const getAccountsForBulkUpdate = (state) => ({
   accounts: state.entries
     .filter((entry) => entry.dirty)

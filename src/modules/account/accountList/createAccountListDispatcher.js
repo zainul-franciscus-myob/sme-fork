@@ -14,7 +14,6 @@ import {
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
   SET_EDIT_MODE,
-  SET_HOVERED_ROW,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
@@ -136,11 +135,6 @@ const createAccountListDispatcher = (store) => ({
   setRemainingHistoricalBalance: (remainingHistoricalBalance) => {
     const intent = SET_REMAINING_HISTORICAL_BALANCE;
     store.dispatch({ intent, remainingHistoricalBalance });
-  },
-
-  setHoveredRow: (index) => {
-    const intent = SET_HOVERED_ROW;
-    store.dispatch({ intent, index });
   },
 });
 

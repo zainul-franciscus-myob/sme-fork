@@ -67,8 +67,8 @@ describe('accountListReducer', () => {
       const action = {
         intent: SORT_AND_FILTER_ACCOUNT_LIST,
         entries: [
-          { id: 1, balance: 1, openingBalance: 10 },
-          { id: 2, balance: 1, openingBalance: 10 },
+          { id: 1, openingBalance: 10 },
+          { id: 2, openingBalance: 10 },
         ],
       };
       const state = {
@@ -80,20 +80,8 @@ describe('accountListReducer', () => {
       const actual = reducer(state, action);
       const expected = {
         entries: [
-          {
-            id: 1,
-            balance: '1.00',
-            openingBalance: '10.00',
-            selected: true,
-            dirty: false,
-          },
-          {
-            id: 2,
-            balance: '1.00',
-            openingBalance: '10.00',
-            selected: true,
-            dirty: false,
-          },
+          { id: 1, openingBalance: 10, selected: true, dirty: false },
+          { id: 2, openingBalance: 10, selected: true, dirty: false },
         ],
       };
       expect(actual).toEqual(expected);

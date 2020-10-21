@@ -12,7 +12,6 @@ import {
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
   SET_EDIT_MODE,
-  SET_HOVERED_ROW,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
@@ -23,7 +22,6 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
-import formatAmount from '../../../common/valueFormatters/formatAmount';
 
 const getDefaultState = () => ({
   businessId: '',
@@ -52,7 +50,6 @@ const getDefaultState = () => ({
   },
   accountClassifications: {},
   taxCodeList: [],
-  hoveredRowIndex: null,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -109,8 +106,6 @@ const sortAndFilterAccountList = (state, action) => {
     ...state,
     entries: action.entries.map((entry) => ({
       ...entry,
-      openingBalance: formatAmount(entry.openingBalance),
-      balance: formatAmount(entry.balance),
       selected: selectedAccounts[entry.id],
       dirty: false,
     })),
@@ -177,7 +172,7 @@ const setEditMode = (state, { editingMode }) => ({
 const setAccountDetails = (state, action) => ({
   ...state,
   entries: state.entries.map((entry, id) =>
-    id === action.index && entry[action.key] !== action.value
+    id === action.index
       ? { ...entry, [action.key]: action.value, dirty: true }
       : entry
   ),
@@ -195,14 +190,6 @@ const setRemainingHistoricalBalance = (
   ...state,
   remainingHistoricalBalance,
 });
-
-const setHoveredRow = (state, { index }) => {
-  if (state.hoveredRowIndex === index) return state;
-  return {
-    ...state,
-    hoveredRowIndex: index,
-  };
-};
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
@@ -229,8 +216,6 @@ const handlers = {
   [SET_REDIRECT_URL]: setRedirectUrl,
 
   [SET_REMAINING_HISTORICAL_BALANCE]: setRemainingHistoricalBalance,
-
-  [SET_HOVERED_ROW]: setHoveredRow,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);
