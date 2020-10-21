@@ -291,9 +291,8 @@ export const getReportsUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
 export const getShouldDisplayReportsMenu = createSelector(
   getIsLoading,
   getReportsUrls,
-  getShouldDisplayPayrollNzMenu,
-  (isLoading, urlsReport, isNzEap) =>
-    !isLoading && Object.values(urlsReport).some(Boolean) && !isNzEap
+  (isLoading, urlsReport) =>
+    !isLoading && Object.values(urlsReport).some(Boolean)
 );
 
 export const getShouldDisplaySubscriptionNow = (state) =>
