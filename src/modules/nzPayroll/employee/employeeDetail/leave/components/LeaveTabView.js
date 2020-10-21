@@ -1,24 +1,17 @@
-import {
-  DatePicker,
-  FieldGroup,
-  FormHorizontal,
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { FieldGroup, FormHorizontal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getHolidayPay, getLeaveDetails } from '../LeaveSelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
 
-const LeaveTabView = ({ leave, holidayPay, onLeaveChange }) => {
+const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
   const onInputChange = (event) =>
     onLeaveChange({
       key: event.target.name,
       value: event.target.value,
     });
-
-  const onDateChange = (fieldName) => ({ value }) =>
-    onLeaveChange({ key: fieldName, value });
+  //  eslint-disable-next-line
 
   return (
     <FormHorizontal layout="primary">
@@ -36,7 +29,7 @@ const LeaveTabView = ({ leave, holidayPay, onLeaveChange }) => {
           disabled // Disabled to meet EAP requirement
         />
       </FieldGroup>
-
+      {/*
       <FieldGroup label="Sick leave ">
         <ReadOnly name="sickLeaveCurrentBalance" label="Current balance (days)">
           {leave.sickLeaveCurrentBalance}
@@ -100,6 +93,7 @@ const LeaveTabView = ({ leave, holidayPay, onLeaveChange }) => {
           value={leave.alternativeOpeningBalance}
         />
       </FieldGroup>
+     */}
     </FormHorizontal>
   );
 };
