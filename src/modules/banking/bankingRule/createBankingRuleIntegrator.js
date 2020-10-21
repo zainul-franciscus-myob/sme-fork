@@ -7,6 +7,7 @@ import {
 import {
   getBankingRule,
   getBusinessId,
+  getIsNoConditionRuleAllowed,
   getRuleType,
 } from './bankingRuleSelectors';
 import RuleTypes from './RuleTypes';
@@ -23,6 +24,9 @@ const createBankingRuleIntegrator = (store, integration) => ({
     const state = store.getState();
 
     const urlParams = { businessId: getBusinessId(state) };
+    const params = {
+      isNoConditionRuleAllowed: getIsNoConditionRuleAllowed(state),
+    };
     const ruleType = getRuleType(state);
     const content = getBankingRule(state);
     const intent = ruleIntentMap[ruleType];
@@ -30,6 +34,7 @@ const createBankingRuleIntegrator = (store, integration) => ({
     integration.write({
       intent,
       urlParams,
+      params,
       content,
       onSuccess,
       onFailure,

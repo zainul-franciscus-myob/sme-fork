@@ -350,6 +350,7 @@ export const getBankingRuleModuleContext = createSelector(
   getTaxCodes,
   getWithdrawalAccounts,
   getDepositAccounts,
+  getIsPrefillSplitAllocationEnabled,
   (
     businessId,
     region,
@@ -360,7 +361,8 @@ export const getBankingRuleModuleContext = createSelector(
     jobs,
     taxCodes,
     withdrawalAccounts,
-    depositAccounts
+    depositAccounts,
+    isPrefillSplitAllocationEnabled
   ) => {
     const { date, withdrawal, deposit, description } = openTransactionLine;
     const { bankAccount } = filterOptions;
@@ -396,6 +398,7 @@ export const getBankingRuleModuleContext = createSelector(
       taxCodes,
       withdrawalAccounts,
       depositAccounts,
+      isNoConditionRuleAllowed: isPrefillSplitAllocationEnabled,
     };
   }
 );

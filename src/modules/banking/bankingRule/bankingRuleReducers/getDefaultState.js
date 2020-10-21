@@ -30,6 +30,7 @@ const getDefaultState = () => ({
   taxCodes: [],
   withdrawalAccounts: [],
   depositAccounts: [],
+  isNoConditionRuleAllowed: false,
   viewedAccountToolTip: false,
 });
 

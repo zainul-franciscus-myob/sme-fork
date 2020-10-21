@@ -74,6 +74,7 @@ const setInitialState = (
     depositAccounts,
     jobs,
     taxCodes,
+    isNoConditionRuleAllowed,
   }
 ) => {
   const state = getDefaultState();
@@ -103,6 +104,7 @@ const setInitialState = (
         },
       ],
     },
+    isNoConditionRuleAllowed,
   };
 };
 

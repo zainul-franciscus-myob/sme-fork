@@ -18,6 +18,9 @@ export const getBankAccounts = (state) => state.bankAccounts;
 
 export const getBankTransactionDetails = (state) => state.transaction;
 
+export const getIsNoConditionRuleAllowed = (state) =>
+  state.isNoConditionRuleAllowed;
+
 export const getIsWithdrawal = createSelector(
   getBankTransactionDetails,
   ({ withdrawal }) => Boolean(withdrawal)
