@@ -5,7 +5,7 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_IS_SUPPLIER_LOADING,
@@ -17,7 +17,7 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
-  UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+  UPDATE_REMITTANCE_ADVICE_DETAILS,
   UPDATE_REMITTANCE_ADVICE_TYPE,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
@@ -26,7 +26,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
-import remittanceAdviceTypes from './remittanceAdviceMethodTypes';
+import remittanceAdviceTypes from './remittanceAdviceTypes';
 
 const getDefaultState = () => ({
   region: '',
@@ -57,15 +57,15 @@ const getDefaultState = () => ({
   isSupplierLoading: false,
   isTableLoading: false,
   modalType: '',
-  alertMessage: '',
+  alertMessage: { message: '', type: '' },
   paymentAmount: '',
   applyPaymentToBillId: '',
   startOfFinancialYearDate: '',
   shouldSendRemittanceAdvice: false,
   isRemittanceAdviceEnabled: false,
   remittanceAdviceType: remittanceAdviceTypes.email,
-  templateOptions: [],
-  remittanceAdviceEmailDetails: {
+  templateOptions: [''],
+  remittanceAdviceDetails: {
     toAddresses: [''],
     ccAddresses: [''],
     subject: '',
@@ -174,7 +174,7 @@ const createBillListEntries = (state, entries) =>
     return entry;
   });
 
-const loadSupplierPaymentDetails = updateWhenUsingDefaultStatementText(
+const loadSupplierDetails = updateWhenUsingDefaultStatementText(
   (state, { supplierStatementText, arePaymentDetailsComplete, entries }) => ({
     ...state,
     supplierStatementText,
@@ -204,7 +204,7 @@ const loadNewBillPayment = (state, action) => {
 
   if (action.supplierId) {
     return {
-      ...loadSupplierPaymentDetails(newState, action),
+      ...loadSupplierDetails(newState, action),
       supplierId: action.supplierId,
       supplierName: action.supplierName,
     };
@@ -234,9 +234,9 @@ const loadBillPayment = (state, action) => ({
   startOfFinancialYearDate: action.startOfFinancialYearDate,
   arePaymentDetailsComplete: action.arePaymentDetailsComplete,
   templateOptions: action.templateOptions,
-  remittanceAdviceEmailDetails: {
-    ...state.remittanceAdviceEmailDetails,
-    ...action.emailDefaultSettings,
+  remittanceAdviceDetails: {
+    ...state.remittanceAdviceDetails,
+    ...action.remittanceAdviceDefaults,
   },
 });
 
@@ -250,11 +250,11 @@ const updateHeaderOption = (state, action) => ({
       : state.entries,
 });
 
-const updateEmailRemittanceAdviceEmailDetails = (state, action) => {
+const updateRemittanceAdviceDetails = (state, action) => {
   return {
     ...state,
-    remittanceAdviceEmailDetails: {
-      ...state.remittanceAdviceEmailDetails,
+    remittanceAdviceDetails: {
+      ...state.remittanceAdviceDetails,
       [action.key]: action.value,
     },
   };
@@ -325,7 +325,10 @@ const closeModal = (state) => ({
 
 const setAlertMessage = (state, action) => ({
   ...state,
-  alertMessage: action.alertMessage,
+  alertMessage: {
+    type: action.type,
+    message: action.message,
+  },
 });
 
 const setRedirectUrl = (state, { redirectUrl }) => ({
@@ -342,9 +345,9 @@ const handlers = {
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [LOAD_BILL_PAYMENT]: loadBillPayment,
   [LOAD_BILL_LIST]: loadBillList,
-  [LOAD_SUPPLIER_PAYMENT_DETAILS]: loadSupplierPaymentDetails,
+  [LOAD_SUPPLIER_DETAILS]: loadSupplierDetails,
   [UPDATE_HEADER_OPTION]: updateHeaderOption,
-  [UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS]: updateEmailRemittanceAdviceEmailDetails,
+  [UPDATE_REMITTANCE_ADVICE_DETAILS]: updateRemittanceAdviceDetails,
   [UPDATE_TABLE_INPUT_FIELD]: updateTableInputField,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CHANGE_REFERENCE_ID]: changeReferenceId,
@@ -352,6 +355,7 @@ const handlers = {
   [CHANGE_BANK_STATEMENT_TEXT]: changeBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
   [SET_SUBMITTING_STATE]: setSubmittingState,
+
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ALERT_MESSAGE]: setAlertMessage,

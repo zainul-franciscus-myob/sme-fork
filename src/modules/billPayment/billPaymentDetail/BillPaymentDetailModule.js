@@ -29,7 +29,7 @@ import billPaymentReducer from './billPaymentDetailReducer';
 import createBillPaymentDetailDispatcher from './createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from './createBillPaymentDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
-import remittanceAdviceTypes from './remittanceAdviceMethodTypes';
+import remittanceAdviceTypes from './remittanceAdviceTypes';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
@@ -82,12 +82,12 @@ export default class BillPaymentModule {
 
     const onSuccess = (response) => {
       this.dispatcher.setIsSupplierLoading(false);
-      this.dispatcher.loadSupplierPaymentDetails(response);
+      this.dispatcher.loadSupplierDetails(response);
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setIsSupplierLoading(false);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     this.integrator.loadSupplierDetails({ onSuccess, onFailure });
@@ -103,7 +103,7 @@ export default class BillPaymentModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setIsTableLoading(false);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     this.integrator.loadBillList({ onSuccess, onFailure });
@@ -157,7 +157,7 @@ export default class BillPaymentModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     this.integrator.updateReferenceId({ onSuccess, onFailure });
@@ -194,11 +194,12 @@ export default class BillPaymentModule {
 
     this.loadBillPayment(() => {
       this.dispatcher.openModal(billPaymentModalTypes.remittanceAdvice);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'success' });
     });
   };
 
-  dismissAlert = () => this.dispatcher.setAlertMessage('');
+  dismissAlert = () =>
+    this.dispatcher.setAlertMessage({ message: '', type: '' });
 
   saveBillPayment = () => {
     const state = this.store.getState();
@@ -233,7 +234,7 @@ export default class BillPaymentModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     this.integrator.saveBillPayment({ onSuccess, onFailure });
@@ -276,12 +277,15 @@ export default class BillPaymentModule {
         type: SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
         content: response.message,
       });
-      this.dispatcher.setAlertMessage(response.message);
+      this.dispatcher.setAlertMessage({
+        message: response.message,
+        type: 'success',
+      });
     };
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     if (state.remittanceAdviceType === remittanceAdviceTypes.email) {
@@ -310,7 +314,7 @@ export default class BillPaymentModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setAlertMessage(message);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
     this.integrator.deleteBillPayment({ onSuccess, onFailure });
@@ -352,8 +356,8 @@ export default class BillPaymentModule {
         onSaveButtonClick={this.saveBillPayment}
         onConfirmEmailRemittanceAdviceModal={this.confirmRemittanceAdviceModal}
         onRemittanceAdviceClick={this.openRemittanceAdviceModal}
-        onRemittanceAdviceEmailDetailsChange={
-          this.dispatcher.updateEmailRemittanceAdviceEmailDetails
+        onRemittanceAdviceDetailsChange={
+          this.dispatcher.updateRemittanceAdviceDetails
         }
         onCloseRemittanceAdviceModal={this.closeRemittanceAdviceModal}
         onCancelButtonClick={this.openCancelModal}

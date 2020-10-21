@@ -5,7 +5,7 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   SEND_EMAIL,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
@@ -16,15 +16,14 @@ import billPaymentNewEntry from './data/billPaymentNewEntry';
 import billPaymentNewEntryWithSupplier from './data/billPaymentNewEntryWithSupplier';
 import billPaymentReferenceId from './data/billPaymentReferenceId';
 import successMessage from './data/success.json';
-import supplierPaymentDetails from './data/supplierPaymentDetails.json';
+import supplierDetails from './data/supplierDetails.json';
 
 const loadBillPayment = ({ onSuccess }) => onSuccess(billPaymentEntry);
 const loadNewBillPayment = ({ onSuccess, params }) =>
   onSuccess(
     params?.supplierId ? billPaymentNewEntryWithSupplier : billPaymentNewEntry
   );
-const loadSupplierPaymentDetails = ({ onSuccess }) =>
-  onSuccess(supplierPaymentDetails);
+const loadSupplierDetails = ({ onSuccess }) => onSuccess(supplierDetails);
 const loadBillList = ({ onSuccess }) => onSuccess(billList);
 const updateReferenceId = ({ onSuccess }) => onSuccess(billPaymentReferenceId);
 const createBillPayment = ({ onSuccess }) => onSuccess(successMessage);
@@ -37,7 +36,7 @@ const exportRemittanceAdvicePdf = ({ onSuccess }) =>
 const MemoryBillPaymentMapping = {
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [LOAD_BILL_PAYMENT]: loadBillPayment,
-  [LOAD_SUPPLIER_PAYMENT_DETAILS]: loadSupplierPaymentDetails,
+  [LOAD_SUPPLIER_DETAILS]: loadSupplierDetails,
   [LOAD_BILL_LIST]: loadBillList,
   [UPDATE_REFERENCE_ID]: updateReferenceId,
   [CREATE_BILL_PAYMENT]: createBillPayment,

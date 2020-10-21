@@ -5,7 +5,7 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   SEND_EMAIL,
   UPDATE_BILL_PAYMENT,
   UPDATE_REFERENCE_ID,
@@ -27,7 +27,7 @@ const HttpBillPaymentMapping = {
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/billPayment/load_bill_list/${supplierId}`,
   },
-  [LOAD_SUPPLIER_PAYMENT_DETAILS]: {
+  [LOAD_SUPPLIER_DETAILS]: {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/billPayment/load_supplier_payment_details/${supplierId}`,

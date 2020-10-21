@@ -9,7 +9,7 @@ import {
   getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
-  getRemittanceAdviceEmailDetails,
+  getRemittanceAdviceDetails,
   getRemittanceAdviceType,
   getShouldSendRemittanceAdvice,
   getShouldShowAlertMessage,
@@ -30,11 +30,11 @@ import billPaymentModalTypes from '../billPaymentModalTypes';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 
 const BillPaymentDetailView = ({
-  remittanceAdviceEmailDetails,
+  remittanceAdviceDetails,
   loadingState,
   modalType,
   title,
-  onRemittanceAdviceEmailDetailsChange,
+  onRemittanceAdviceDetailsChange,
   onUpdateIsElectronicPayment,
   isCreating,
   isRemittanceAdviceEnabled,
@@ -97,10 +97,8 @@ const BillPaymentDetailView = ({
         canSendRemittanceAdvice={canSendRemittanceAdvice}
         remittanceAdviceType={remittanceAdviceType}
         onUpdateRemittanceAdviceType={onUpdateRemittanceAdviceType}
-        remittanceAdviceEmailDetails={remittanceAdviceEmailDetails}
-        onRemittanceAdviceEmailDetailsChange={
-          onRemittanceAdviceEmailDetailsChange
-        }
+        remittanceAdviceDetails={remittanceAdviceDetails}
+        onRemittanceAdviceDetailsChange={onRemittanceAdviceDetailsChange}
         templateOptions={templateOptions}
       />
     );
@@ -158,8 +156,8 @@ const BillPaymentDetailView = ({
       actions={actions}
       alert={
         shouldShowAlertMessage && (
-          <Alert type="danger" onDismiss={onDismissAlert}>
-            {alertMessage}
+          <Alert type={alertMessage.type} onDismiss={onDismissAlert}>
+            {alertMessage.message}
           </Alert>
         )
       }
@@ -192,7 +190,7 @@ const mapStateToProps = (state) => ({
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
-  remittanceAdviceEmailDetails: getRemittanceAdviceEmailDetails(state),
+  remittanceAdviceDetails: getRemittanceAdviceDetails(state),
   remittanceAdviceType: getRemittanceAdviceType(state),
   templateOptions: getTemplateOptions(state),
   canSendRemittanceAdvice: getCanSendRemittanceAdvice(state),

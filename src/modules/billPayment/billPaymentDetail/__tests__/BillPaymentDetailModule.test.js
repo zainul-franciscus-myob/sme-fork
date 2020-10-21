@@ -5,7 +5,7 @@ import {
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   OPEN_MODAL,
   SEND_EMAIL,
   SET_ALERT_MESSAGE,
@@ -33,7 +33,7 @@ import billPaymentDetailReducer from '../billPaymentDetailReducer';
 import billPaymentModalTypes from '../billPaymentModalTypes';
 import createBillPaymentDetailDispatcher from '../createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from '../createBillPaymentDetailIntegrator';
-import remittanceAdviceTypes from '../remittanceAdviceMethodTypes';
+import remittanceAdviceTypes from '../remittanceAdviceTypes';
 
 describe('BillPaymentDetailModule', () => {
   const setup = () => {
@@ -241,7 +241,8 @@ describe('BillPaymentDetailModule', () => {
         },
         {
           intent: SET_ALERT_MESSAGE,
-          alertMessage: 'fails',
+          message: 'fails',
+          type: 'danger',
         },
       ]);
       expect(integration.getRequests()).toEqual([
@@ -374,7 +375,8 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
+            message: 'fails',
+            type: 'danger',
           },
         ]);
         expect(integration.getRequests()).toEqual([
@@ -416,7 +418,8 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: SET_ALERT_MESSAGE,
-            alertMessage: "Great Work! You've done it well!",
+            message: "Great Work! You've done it well!",
+            type: 'success',
           },
         ])
       );
@@ -531,7 +534,8 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: SET_ALERT_MESSAGE,
-            alertMessage: 'fails',
+            message: 'fails',
+            type: 'danger',
           },
         ]);
         expect(integration.getRequests()).toEqual([
@@ -646,7 +650,8 @@ describe('BillPaymentDetailModule', () => {
             },
             {
               intent: SET_ALERT_MESSAGE,
-              alertMessage: 'fails',
+              message: 'fails',
+              type: 'danger',
             },
           ])
         );
@@ -680,20 +685,20 @@ describe('BillPaymentDetailModule', () => {
               isSupplierLoading: false,
             },
             expect.objectContaining({
-              intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+              intent: LOAD_SUPPLIER_DETAILS,
             }),
           ])
         );
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
-            intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+            intent: LOAD_SUPPLIER_DETAILS,
           }),
         ]);
       });
 
       it('fails to load supplier details', () => {
         const { module, store, integration } = setupWithExisting();
-        integration.mapFailure(LOAD_SUPPLIER_PAYMENT_DETAILS);
+        integration.mapFailure(LOAD_SUPPLIER_DETAILS);
 
         module.updateHeaderOption({ key: 'supplierId', value: '2' });
 
@@ -706,14 +711,15 @@ describe('BillPaymentDetailModule', () => {
             },
             {
               intent: SET_ALERT_MESSAGE,
-              alertMessage: 'fails',
+              message: 'fails',
+              type: 'danger',
             },
           ])
         );
         expect(integration.getRequests()).toEqual(
           expect.arrayContaining([
             expect.objectContaining({
-              intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+              intent: LOAD_SUPPLIER_DETAILS,
             }),
           ])
         );
@@ -785,7 +791,8 @@ describe('BillPaymentDetailModule', () => {
             },
             {
               intent: SET_ALERT_MESSAGE,
-              alertMessage: 'fails',
+              message: 'fails',
+              type: 'danger',
             },
           ])
         );
@@ -916,7 +923,8 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_ALERT_MESSAGE,
-          alertMessage: '',
+          message: '',
+          type: '',
         },
         {
           intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
@@ -957,7 +965,8 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: SET_ALERT_MESSAGE,
-            alertMessage: '',
+            message: '',
+            type: '',
           },
           {
             intent: CLOSE_MODAL,
@@ -972,14 +981,14 @@ describe('BillPaymentDetailModule', () => {
         ])
       );
       expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
+        {
           intent: SEND_EMAIL,
           urlParams: { businessId: '33', billPaymentId: '1' },
-          content: {
-            ...store.getState().remittanceAdviceEmailDetails,
+          content: expect.objectContaining({
+            ...store.getState().remittanceAdviceDetails,
             ccAddresses: [],
-          },
-        }),
+          }),
+        },
       ]);
     });
   });

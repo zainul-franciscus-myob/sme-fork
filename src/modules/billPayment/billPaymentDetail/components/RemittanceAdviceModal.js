@@ -19,7 +19,7 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 import handleRadioButtonChange from '../../../../components/handlers/handleRadioButtonChange';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import handleTextAreaChange from '../../../../components/handlers/handleTextAreaChange';
-import remittanceAdviceTypes from '../remittanceAdviceMethodTypes';
+import remittanceAdviceTypes from '../remittanceAdviceTypes';
 import styles from './RemittanceAdviceModal.module.css';
 
 const handleItemChange = (handler, key) => (emails) => {
@@ -31,11 +31,11 @@ const handleItemChange = (handler, key) => (emails) => {
 
 const RemittanceAdviceModal = ({
   alertMessage,
-  remittanceAdviceEmailDetails,
+  remittanceAdviceDetails,
   canSendRemittanceAdvice,
   onCancel,
   onConfirm,
-  onRemittanceAdviceEmailDetailsChange,
+  onRemittanceAdviceDetailsChange,
   remittanceAdviceType,
   onUpdateRemittanceAdviceType,
   onDismissAlert,
@@ -45,19 +45,19 @@ const RemittanceAdviceModal = ({
     <div className={styles.itemList}>
       <EmailItemList
         label="To"
-        items={remittanceAdviceEmailDetails.toAddresses}
+        items={remittanceAdviceDetails.toAddresses}
         requiredLabel="Required"
         onItemChange={handleItemChange(
-          onRemittanceAdviceEmailDetailsChange,
+          onRemittanceAdviceDetailsChange,
           'toAddresses'
         )}
         onKeyDown={onKeyDown}
       />
       <EmailItemList
         label="CC"
-        items={remittanceAdviceEmailDetails.ccAddresses}
+        items={remittanceAdviceDetails.ccAddresses}
         onItemChange={handleItemChange(
-          onRemittanceAdviceEmailDetailsChange,
+          onRemittanceAdviceDetailsChange,
           'ccAddresses'
         )}
         onKeyDown={onKeyDown}
@@ -69,10 +69,8 @@ const RemittanceAdviceModal = ({
           <Checkbox
             name="isEmailMeACopy"
             label="Email me a copy"
-            checked={remittanceAdviceEmailDetails.isEmailMeACopy}
-            onChange={handleCheckboxChange(
-              onRemittanceAdviceEmailDetailsChange
-            )}
+            checked={remittanceAdviceDetails.isEmailMeACopy}
+            onChange={handleCheckboxChange(onRemittanceAdviceDetailsChange)}
           />
         )}
       />
@@ -80,16 +78,16 @@ const RemittanceAdviceModal = ({
       <Input
         name="subject"
         label="Subject"
-        value={remittanceAdviceEmailDetails.subject}
-        onChange={handleInputChange(onRemittanceAdviceEmailDetailsChange)}
+        value={remittanceAdviceDetails.subject}
+        onChange={handleInputChange(onRemittanceAdviceDetailsChange)}
         onKeyDown={onKeyDown}
         maxLength={255}
       />
       <TextArea
         name="messageBody"
         label="Message"
-        value={remittanceAdviceEmailDetails.messageBody}
-        onChange={handleTextAreaChange(onRemittanceAdviceEmailDetailsChange)}
+        value={remittanceAdviceDetails.messageBody}
+        onChange={handleTextAreaChange(onRemittanceAdviceDetailsChange)}
         rows={10}
         maxLength={4000}
       />
@@ -102,10 +100,9 @@ const RemittanceAdviceModal = ({
         emailView(onKeyDown)}
       <Select
         label="Template"
-        name="templateName"
-        value={remittanceAdviceEmailDetails.templateName}
-        onChange={handleSelectChange(onRemittanceAdviceEmailDetailsChange)}
-        requiredLabel="This is required"
+        name="selectedTemplate"
+        value={remittanceAdviceDetails.templateName}
+        onChange={handleSelectChange(onRemittanceAdviceDetailsChange)}
       >
         {templateOptions.map(({ name, label }) => (
           <Select.Option value={name} label={label} key={name} />
@@ -115,11 +112,11 @@ const RemittanceAdviceModal = ({
   );
 
   return (
-    <Modal title="Remittance Advice" onCancel={onCancel}>
+    <Modal title="Remittance advice" onCancel={onCancel}>
       <Modal.Body>
-        {alertMessage && (
-          <Alert onDismiss={onDismissAlert} type="success">
-            {alertMessage}
+        {alertMessage.message && (
+          <Alert onDismiss={onDismissAlert} type={alertMessage.type}>
+            {alertMessage.message}
           </Alert>
         )}
         <RadioButtonGroup
@@ -145,7 +142,9 @@ const RemittanceAdviceModal = ({
           onClick={onConfirm}
           disabled={!canSendRemittanceAdvice}
         >
-          Send remittance advice
+          {remittanceAdviceType === remittanceAdviceTypes.email
+            ? 'Send remittance advice'
+            : 'Download'}
         </Button>
       </Modal.Footer>
     </Modal>

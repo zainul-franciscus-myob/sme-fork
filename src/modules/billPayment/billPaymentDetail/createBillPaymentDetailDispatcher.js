@@ -3,7 +3,7 @@ import {
   CHANGE_REFERENCE_ID,
   CLOSE_MODAL,
   LOAD_BILL_LIST,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   OPEN_MODAL,
   SET_ALERT_MESSAGE,
   SET_IS_SUPPLIER_LOADING,
@@ -15,7 +15,7 @@ import {
   UPDATE_BILL_PAYMENT_ID,
   UPDATE_HEADER_OPTION,
   UPDATE_REFERENCE_ID,
-  UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+  UPDATE_REMITTANCE_ADVICE_DETAILS,
   UPDATE_REMITTANCE_ADVICE_TYPE,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_TABLE_INPUT_FIELD,
@@ -77,9 +77,9 @@ const createBillPaymentDetailDispatcher = (store) => ({
       value,
     });
   },
-  updateEmailRemittanceAdviceEmailDetails: ({ key, value }) => {
+  updateRemittanceAdviceDetails: ({ key, value }) => {
     store.dispatch({
-      intent: UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS,
+      intent: UPDATE_REMITTANCE_ADVICE_DETAILS,
       key,
       value,
     });
@@ -96,10 +96,11 @@ const createBillPaymentDetailDispatcher = (store) => ({
       bankStatementText,
     });
   },
-  setAlertMessage: (alertMessage) => {
+  setAlertMessage: ({ message, type }) => {
     store.dispatch({
       intent: SET_ALERT_MESSAGE,
-      alertMessage,
+      message,
+      type,
     });
   },
   changeReferenceId: ({ value }) => {
@@ -132,13 +133,13 @@ const createBillPaymentDetailDispatcher = (store) => ({
       remittanceAdviceType: value,
     });
   },
-  loadSupplierPaymentDetails: ({
+  loadSupplierDetails: ({
     supplierStatementText,
     arePaymentDetailsComplete,
     entries,
   }) => {
     store.dispatch({
-      intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+      intent: LOAD_SUPPLIER_DETAILS,
       supplierStatementText,
       arePaymentDetailsComplete,
       entries,

@@ -8,8 +8,8 @@ export const LOAD_BILL_PAYMENT = Symbol('Load bill payment');
 export const CHANGE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const UPDATE_HEADER_OPTION = Symbol('Update header option');
-export const UPDATE_REMITTANCE_ADVICE_EMAIL_DETAILS = Symbol(
-  'Update remittance advice email details'
+export const UPDATE_REMITTANCE_ADVICE_DETAILS = Symbol(
+  'Update remittance advice details'
 );
 export const UPDATE_TABLE_INPUT_FIELD = Symbol('Update table input field');
 export const UPDATE_REFERENCE_ID = Symbol('Update referenceId');
@@ -33,6 +33,4 @@ export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_REDIRECT_URL = Symbol('Set redirect url');
 export const LOAD_BILL_LIST = Symbol('Load bill list');
-export const LOAD_SUPPLIER_PAYMENT_DETAILS = Symbol(
-  'Load supplier payment details'
-);
+export const LOAD_SUPPLIER_DETAILS = Symbol('Load supplier details');

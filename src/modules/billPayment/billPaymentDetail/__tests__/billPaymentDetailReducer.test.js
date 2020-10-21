@@ -2,12 +2,12 @@ import {
   CHANGE_REFERENCE_ID,
   LOAD_BILL_LIST,
   LOAD_NEW_BILL_PAYMENT,
-  LOAD_SUPPLIER_PAYMENT_DETAILS,
+  LOAD_SUPPLIER_DETAILS,
   UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_REFERENCE_ID,
 } from '../../BillPaymentIntents';
 import billPaymentDetailReducer from '../billPaymentDetailReducer';
-import supplierPaymentDetails from '../../mappings/data/supplierPaymentDetails.json';
+import supplierPaymentDetails from '../../mappings/data/supplierDetails.json';
 
 describe('billPaymentDetailReducer', () => {
   describe('LOAD_BILL_LIST', () => {
@@ -207,7 +207,7 @@ describe('billPaymentDetailReducer', () => {
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        intent: LOAD_SUPPLIER_DETAILS,
         ...supplierPaymentDetails,
       };
 
@@ -244,7 +244,7 @@ describe('billPaymentDetailReducer', () => {
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        intent: LOAD_SUPPLIER_DETAILS,
         ...supplierPaymentDetails,
       };
 
@@ -259,7 +259,7 @@ describe('billPaymentDetailReducer', () => {
       };
 
       const action = {
-        intent: LOAD_SUPPLIER_PAYMENT_DETAILS,
+        intent: LOAD_SUPPLIER_DETAILS,
         ...supplierPaymentDetails,
       };
 

@@ -60,7 +60,7 @@ const BillPaymentActions = ({
           onClick={onRemittanceAdviceClick}
           disabled={isActionsDisabled}
         >
-          Send Remittance Advice
+          Send remittance advice
         </Button>
       ),
     ]}

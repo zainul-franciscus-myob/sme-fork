@@ -12,6 +12,7 @@ import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import billPaymentModalTypes from './billPaymentModalTypes';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
+import remittanceAdviceTypes from './remittanceAdviceTypes';
 import tableViewTypes from './tableViewTypes';
 
 export const getIsRemittanceAdviceEnabled = (state) =>
@@ -46,11 +47,10 @@ export const getArePaymentDetailsComplete = (state) =>
 export const getIsCreating = (state) => state.billPaymentId === 'new';
 export const getShouldSendRemittanceAdvice = (state) =>
   state.shouldSendRemittanceAdvice;
-export const getRemittanceAdviceEmailDetails = (state) =>
-  state.remittanceAdviceEmailDetails;
+export const getRemittanceAdviceDetails = (state) =>
+  state.remittanceAdviceDetails;
 export const getRemittanceAdviceType = (state) => state.remittanceAdviceType;
 export const getTemplateOptions = (state) => state.templateOptions;
-
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 
 export const getTitle = createSelector(
@@ -192,9 +192,11 @@ export const getShouldShowSupplierPopover = createSelector(
     supplierId && showElectronicPayments && isElectronicPayment
 );
 export const getCanSendRemittanceAdvice = createSelector(
-  getRemittanceAdviceEmailDetails,
-  (remittanceAdviceEmailDetails) =>
-    remittanceAdviceEmailDetails.toAddresses.some((e) => e.includes('@'))
+  getRemittanceAdviceDetails,
+  getRemittanceAdviceType,
+  (remittanceAdviceDetails, remittanceAdviceType) =>
+    remittanceAdviceType !== remittanceAdviceTypes.email ||
+    remittanceAdviceDetails.toAddresses.some((e) => e.includes('@'))
 );
 
 export const getBillPaymentOptions = createStructuredSelector({
@@ -353,13 +355,11 @@ export const getRemittanceAdviceEmailContent = createSelector(
   getBusinessId,
   getBillPaymentId,
   getSupplierName,
-  getRemittanceAdviceEmailDetails,
-  (businessId, billPaymentId, supplierName, remittanceAdviceEmailDetails) => ({
-    ...remittanceAdviceEmailDetails,
+  getRemittanceAdviceDetails,
+  (businessId, billPaymentId, supplierName, remittanceAdviceDetails) => ({
+    ...remittanceAdviceDetails,
     supplierName,
-    ccAddresses: remittanceAdviceEmailDetails.ccAddresses.filter(
-      (e) => e.length
-    ),
+    ccAddresses: remittanceAdviceDetails.ccAddresses.filter((e) => e.length),
   })
 );
 
