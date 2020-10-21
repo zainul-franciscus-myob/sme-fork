@@ -196,10 +196,13 @@ const setRemainingHistoricalBalance = (
   remainingHistoricalBalance,
 });
 
-const setHoveredRow = (state, { index }) => ({
-  ...state,
-  hoveredRowIndex: index,
-});
+const setHoveredRow = (state, { index }) => {
+  if (state.hoveredRowIndex === index) return state;
+  return {
+    ...state,
+    hoveredRowIndex: index,
+  };
+};
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,

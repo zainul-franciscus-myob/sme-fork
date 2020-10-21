@@ -189,7 +189,7 @@ const AccountBulkEditListTableRow = ({
   hoveredRowIndex,
   dirty,
 }) => (
-  <div onMouseEnter={() => onEntryHover(index)}>
+  <div onMouseMove={() => onEntryHover(index)}>
     {hoveredRowIndex === index || dirty
       ? getEditableFields(
           tableConfig,
