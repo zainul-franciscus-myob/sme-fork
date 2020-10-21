@@ -2,17 +2,15 @@ import { FieldGroup, FormHorizontal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getHolidayPay, getLeaveDetails } from '../LeaveSelectors';
+import { getLeaveDetails } from '../LeaveSelectors';
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 
-const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
-  const onInputChange = (event) =>
-    onLeaveChange({
-      key: event.target.name,
-      value: event.target.value,
-    });
-  //  eslint-disable-next-line
-
+const LeaveTabView = ({ leave, onLeaveChange, onHolidayPayBlur }) => {
+  /* eslint-disable */
+    const onDateChange = (fieldName) => ({value}) =>
+      onLeaveChange({key: fieldName, value});
+  
   return (
     <FormHorizontal layout="primary">
       <FieldGroup label="Holidays">
@@ -22,11 +20,11 @@ const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
           numeralIntegerScale={3}
           numeralPositiveOnly
           width="xs"
-          name="holidayPay"
+          name="holidayPayRate"
           textAlign="right"
-          value={holidayPay.holidayPayRate}
-          onChange={onInputChange}
-          disabled // Disabled to meet EAP requirement
+          value={leave.holidayPayRate}
+          onBlur={handleInputChange(onHolidayPayBlur)}
+          onChange={handleInputChange(onLeaveChange)}
         />
       </FieldGroup>
       {/*
@@ -43,7 +41,7 @@ const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
           textAlign="right"
           width="xs"
           value={leave.sickLeaveAnnualEntitlement}
-          onChange={onInputChange}
+          onChange={handleInputChange(onLeaveChange)}
         />
         <AmountInput
           label="Maximum to accure (days)"
@@ -53,7 +51,7 @@ const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
           numeralPositiveOnly
           textAlign="right"
           width="xs"
-          onChange={onInputChange}
+          onChange={handleInputChange(onLeaveChange)}
           value={leave.sickLeaveMaximumToAccure}
         />
         <DatePicker
@@ -70,7 +68,7 @@ const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
           numeralIntegerScale={5}
           textAlign="right"
           width="xs"
-          onChange={onInputChange}
+          onChange={handleInputChange(onLeaveChange)}
           value={leave.sickLeaveOpeningBalance}
         />
       </FieldGroup>
@@ -89,18 +87,16 @@ const LeaveTabView = ({ holidayPay, onLeaveChange }) => {
           numeralIntegerScale={5}
           textAlign="right"
           width="xs"
-          onChange={onInputChange}
+          onChange={handleInputChange(onLeaveChange)}
           value={leave.alternativeOpeningBalance}
         />
-      </FieldGroup>
-     */}
+      </FieldGroup> */}
     </FormHorizontal>
   );
 };
 
 const mapStateToProps = (state) => ({
   leave: getLeaveDetails(state),
-  holidayPay: getHolidayPay(state),
 });
 
 export default connect(mapStateToProps)(LeaveTabView);

@@ -27,10 +27,14 @@ describe('LeaveTabView', () => {
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetail });
     const onLeaveChange = jest.fn();
+    const onHolidayPayBlur = jest.fn();
     const wrapper = mountWithProvider(
-      <LeaveTabView onLeaveChange={onLeaveChange} />
+      <LeaveTabView
+        onLeaveChange={onLeaveChange}
+        onHolidayPayBlur={onHolidayPayBlur}
+      />
     );
-    return { wrapper, onLeaveChange };
+    return { wrapper, onLeaveChange, onHolidayPayBlur };
   };
 
   it('should render LeaveTabView', () => {
@@ -62,13 +66,13 @@ describe('LeaveTabView', () => {
   */
 
   describe('LeaveTabView fields', () => {
-    const { holidayPay } = employeeDetail.payrollDetails;
+    const { leave } = employeeDetail.payrollDetails;
 
     it.each([
       {
         label: 'Holiday pay (%)',
-        name: 'holidayPay',
-        data: holidayPay.holidayPayRate,
+        name: 'holidayPayRate',
+        data: leave.holidayPayRate,
       },
       /*  {
         label: 'Annual entitlement (days)',
@@ -141,7 +145,7 @@ describe('LeaveTabView', () => {
   describe('LeaveTabView input fields calls onLeaveChange on user interaction', () => {
     /*
     it.each([
-      'holidayPay',
+      'holidayPayRate',
       'sickLeaveAnnualEntitlement',
       'sickLeaveMaximumToAccure',
       'sickLeaveOpeningBalance',
@@ -166,13 +170,19 @@ describe('LeaveTabView', () => {
       expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });
   */
-    it('HolidayPay field is disabled', () => {
-      const { wrapper } = setup();
+  });
 
-      const field = wrapper.find({ name: 'holidayPay' }).find('AmountInput');
-      const isDisabled = field.props().disabled;
-
-      expect(isDisabled).toBeTruthy();
+  describe('on holidayPayRate blur', () => {
+    it('should call onHolidayPayBlur handler with correct key and value', () => {
+      const holidayPayInputFieldName = 'holidayPayRate';
+      const target = { name: holidayPayInputFieldName, value: '3' };
+      const expected = { key: holidayPayInputFieldName, value: '3' };
+      const { wrapper, onHolidayPayBlur } = setup();
+      const holidayPayRateInput = wrapper
+        .find({ name: holidayPayInputFieldName })
+        .find('AmountInput');
+      holidayPayRateInput.props().onBlur({ target });
+      expect(onHolidayPayBlur).toHaveBeenCalledWith(expected);
     });
   });
 });

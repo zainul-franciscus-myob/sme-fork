@@ -1,14 +1,10 @@
-import { getHolidayPay } from '../LeaveSelectors';
+import { getLeaveDetails } from '../LeaveSelectors';
 
-describe('getHolidayPay', () => {
-  it('should get holiday pay', () => {
-    const state = {
-      payrollDetails: { holidayPay: { holidayPayRate: '5.00' } },
-    };
-    const expected = { holidayPayRate: '5.00' };
-
-    const actual = getHolidayPay(state);
-
-    expect(actual).toMatchObject(expected);
+describe('getLeaveDetails', () => {
+  it('should get leave details', () => {
+    const leave = { holidayPayRate: '5.00' };
+    const state = { payrollDetails: { leave } };
+    const actual = getLeaveDetails(state);
+    expect(actual).toMatchObject(leave);
   });
 });

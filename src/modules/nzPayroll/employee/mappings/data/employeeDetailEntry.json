@@ -33,7 +33,8 @@
       "nextAnniversaryDate": "2020-12-25",
       "sickLeaveOpeningBalance": "10.00",
       "alternativeCurrentBalance": "10.00",
-      "alternativeOpeningBalance": "10.00"
+      "alternativeOpeningBalance": "10.00",
+      "holidayPayRate": "8.12"
     },
     "tax": {
       "irdNumber": "999 888 777",
@@ -44,9 +45,6 @@
       "employeeContributionRate" : 3,
       "employerContributionRate" : 13.50,
       "employerSuperannuationContributionTax": 0.175
-    },
-    "holidayPay": {
-      "holidayPayRate": "8.12"
     }
   },
   "genderOptions": [

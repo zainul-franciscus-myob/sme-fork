@@ -8,7 +8,10 @@ export default class LeaveModule {
     this.dispatcher = leaveDispatcher(store);
 
     this.view = (
-      <LeaveTabView onLeaveChange={this.dispatcher.updateLeaveDetails} />
+      <LeaveTabView
+        onLeaveChange={this.dispatcher.updateLeaveDetails}
+        onHolidayPayBlur={this.dispatcher.updateHolidayPay}
+      />
     );
   }
 
