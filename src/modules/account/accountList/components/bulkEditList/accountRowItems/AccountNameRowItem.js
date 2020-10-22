@@ -38,6 +38,7 @@ const AccountNameRowItem = ({
     <Table.RowItem columnName={config.columnName} {...config.styles}>
       <div className={className}>
         <Input
+          label=""
           name={config.fieldName}
           width="md"
           value={accountName}

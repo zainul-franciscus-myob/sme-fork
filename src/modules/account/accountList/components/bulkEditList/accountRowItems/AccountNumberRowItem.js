@@ -45,14 +45,16 @@ const AccountNumberRowItem = ({
     <Table.RowItem columnName={config.columnName} {...config.styles}>
       <div className={className} data-indent-level={indentLevel}>
         <Input
+          label=""
           name={config.fieldName}
           width="xs"
           value={accountNumber}
           onChange={handleOnChange(onChange, index, prefix)}
           onBlur={handleOnChange(onBlur, index, prefix)}
           errorMessage={
-            accountNumberCount[accountNumber] > 1 &&
-            'Account number already exists'
+            accountNumberCount[accountNumber] > 1
+              ? 'Account number already exists'
+              : ''
           }
           errorMessageInline={accountNumberCount[accountNumber] > 1}
         />

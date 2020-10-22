@@ -50,6 +50,8 @@ const AccountListBulkEditView = ({
   onBulkUpdateDiscardClick,
   onBulkUpdateModalCancelClick,
   calculateRemainingHistoricalBalance,
+  onEntryHover,
+  onEntryLeave,
 }) => {
   const alertComponents =
     alert &&
@@ -124,6 +126,8 @@ const AccountListBulkEditView = ({
       onAccountNumberChange={onAccountNumberChange}
       onAccountNumberBlur={onAccountNumberBlur}
       calculateRemainingHistoricalBalance={calculateRemainingHistoricalBalance}
+      onEntryHover={onEntryHover}
+      onEntryLeave={onEntryLeave}
     />
   );
 
@@ -162,7 +166,7 @@ const AccountListBulkEditView = ({
     />,
   ];
 
-  const subHeadChildren = <TotalsHeader totalItems={totalItems} />;
+  const subHeadChildren = <TotalsHeader title="" totalItems={totalItems} />;
 
   const accountView = (
     <React.Fragment>

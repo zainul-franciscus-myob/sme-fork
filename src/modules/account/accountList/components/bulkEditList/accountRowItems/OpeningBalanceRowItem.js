@@ -48,6 +48,7 @@ const OpeningBalanceRowItem = ({
       <AmountInput
         textAlign="right"
         className={styles.textAlign}
+        label=""
         hideLabel
         name={config.fieldName}
         value={openingBalance}

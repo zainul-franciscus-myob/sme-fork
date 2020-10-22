@@ -47,7 +47,7 @@ const AccountTypeRowItem = ({
   const accountSubTypeOptions = Object.entries(
     accountSubTypes
   ).map(([key, value]) => (
-    <Select.Option value={key} label={value.displayName} />
+    <Select.Option key={key} value={key} label={value.displayName} />
   ));
 
   return (
@@ -69,6 +69,45 @@ const AccountTypeRowItem = ({
         </Select.OptionGroup>
       </Select>
     </Table.RowItem>
+  );
+};
+
+export const ReadyOnlyAccountTypeRowItem = ({
+  config,
+  isSystem,
+  isHeader,
+  accountClassifications,
+  accountType,
+  subAccountType,
+}) => {
+  const accountTypeName = getAccountTypeName(
+    accountClassifications,
+    accountType
+  );
+  const accountSubTypes = getAccountSubTypes(
+    accountClassifications,
+    accountType
+  );
+
+  if (isHeader || !accountSubTypes) {
+    return (
+      <ReadOnlyRowItem
+        config={config}
+        value={accountTypeName}
+        title={subAccountType}
+        isSystem={isSystem}
+        isHeader={isHeader}
+      />
+    );
+  }
+  return (
+    <ReadOnlyRowItem
+      config={config}
+      value={accountSubTypes[subAccountType].displayName}
+      title={subAccountType}
+      isSystem={isSystem}
+      isHeader={isHeader}
+    />
   );
 };
 

@@ -56,3 +56,5 @@ export const SET_REDIRECT_URL = Symbol('Set redirect url');
 export const SET_REMAINING_HISTORICAL_BALANCE = Symbol(
   'Set Remaining Historical Balance'
 );
+
+export const SET_HOVERED_ROW = Symbol('Set hovered row');

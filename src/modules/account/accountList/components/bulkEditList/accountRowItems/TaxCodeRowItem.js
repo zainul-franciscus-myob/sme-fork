@@ -45,6 +45,7 @@ const TaxCodeRowItem = ({
     >
       <TaxCodeCombobox
         name={config.fieldName}
+        label=""
         metaData={metaData}
         items={taxCodeList}
         selectedId={`${selectedTaxCodeId}`}
