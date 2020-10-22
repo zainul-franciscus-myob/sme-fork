@@ -57,7 +57,7 @@ const createBillPaymentDetailIntegrator = (store, integration) => ({
   exportRemittanceAdvicePdf: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
-    integration.write({
+    integration.readFile({
       intent: EXPORT_PDF,
       urlParams: getRemittanceAdviceUrlParams(state),
       params: { formName: getRemittanceAdviceDetails(state).templateName },

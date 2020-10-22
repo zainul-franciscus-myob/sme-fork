@@ -35,7 +35,7 @@ export const getElectronicPaymentReference = (state) =>
   state.electronicPaymentReference;
 export const getSupplierId = (state) => state.supplierId;
 export const getSupplierName = (state) => state.supplierName;
-const getReferenceId = (state) => state.referenceId;
+export const getReferenceId = (state) => state.referenceId;
 const getDate = (state) => state.date;
 export const getShowPaidBills = (state) => state.showPaidBills;
 const getDescription = (state) => state.description;

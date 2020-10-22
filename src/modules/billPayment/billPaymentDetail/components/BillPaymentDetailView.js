@@ -28,6 +28,7 @@ import RemittanceAdviceModal from './RemittanceAdviceModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 import billPaymentModalTypes from '../billPaymentModalTypes';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import remittanceAdviceTypes from '../remittanceAdviceTypes';
 
 const BillPaymentDetailView = ({
   remittanceAdviceDetails,
@@ -50,7 +51,8 @@ const BillPaymentDetailView = ({
   onUpdateRemittanceAdviceType,
   onRemittanceAdviceClick,
   onSaveButtonClick,
-  onConfirmEmailRemittanceAdviceModal,
+  onSendRemittanceAdviceEmail,
+  onDownloadRemittanceAdvicePdf,
   canSendRemittanceAdvice,
   onConfirmSaveAndRedirect,
   onDiscardAndRedirect,
@@ -91,7 +93,11 @@ const BillPaymentDetailView = ({
     modal = (
       <RemittanceAdviceModal
         alertMessage={alertMessage}
-        onConfirm={onConfirmEmailRemittanceAdviceModal}
+        onConfirm={
+          remittanceAdviceType === remittanceAdviceTypes.email
+            ? onSendRemittanceAdviceEmail
+            : onDownloadRemittanceAdvicePdf
+        }
         onCancel={onCloseRemittanceAdviceModal}
         onDismissAlert={onDismissAlert}
         canSendRemittanceAdvice={canSendRemittanceAdvice}

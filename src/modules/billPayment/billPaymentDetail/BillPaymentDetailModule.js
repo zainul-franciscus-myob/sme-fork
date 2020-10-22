@@ -17,6 +17,7 @@ import {
   getIsReferenceIdDirty,
   getModalType,
   getRedirectUrl,
+  getReferenceId,
   getRegion,
   getShouldSendRemittanceAdvice,
 } from './BillPaymentDetailSelectors';
@@ -29,7 +30,7 @@ import billPaymentReducer from './billPaymentDetailReducer';
 import createBillPaymentDetailDispatcher from './createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from './createBillPaymentDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
-import remittanceAdviceTypes from './remittanceAdviceTypes';
+import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BillPaymentModule {
@@ -265,9 +266,7 @@ export default class BillPaymentModule {
     this.dispatcher.closeModal();
   };
 
-  confirmRemittanceAdviceModal = () => {
-    const state = this.store.getState();
-
+  sendRemittanceAdviceEmail = () => {
     this.dispatcher.setSubmittingState(true);
     this.closeRemittanceAdviceModal();
 
@@ -288,11 +287,41 @@ export default class BillPaymentModule {
       this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
-    if (state.remittanceAdviceType === remittanceAdviceTypes.email) {
-      this.integrator.sendRemittanceAdviceEmail({ onSuccess, onFailure });
-    } else if (state.remittanceAdviceType === remittanceAdviceTypes.export) {
-      this.integrator.exportRemittanceAdvicePdf({ onSuccess, onFailure });
-    }
+    this.integrator.sendRemittanceAdviceEmail({ onSuccess, onFailure });
+  };
+
+  downloadRemittanceAdvicePdf = () => {
+    const state = this.store.getState();
+
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.closeRemittanceAdviceModal();
+
+    const onSuccess = (data) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.pushMessage({
+        type: SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
+      });
+
+      this.dispatcher.setAlertMessage({
+        message: 'Remittance advice has been downloaded',
+        type: 'success',
+      });
+
+      const referenceId = getReferenceId(state);
+
+      openBlob({
+        blob: data,
+        filename: `${referenceId}.pdf`,
+        shouldDownload: true,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
+    };
+
+    this.integrator.exportRemittanceAdvicePdf({ onSuccess, onFailure });
   };
 
   openDeleteModal = () => {
@@ -354,7 +383,8 @@ export default class BillPaymentModule {
         onUpdateBankStatementText={this.updateBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
         onSaveButtonClick={this.saveBillPayment}
-        onConfirmEmailRemittanceAdviceModal={this.confirmRemittanceAdviceModal}
+        onSendRemittanceAdviceEmail={this.sendRemittanceAdviceEmail}
+        onDownloadRemittanceAdvicePdf={this.downloadRemittanceAdvicePdf}
         onRemittanceAdviceClick={this.openRemittanceAdviceModal}
         onRemittanceAdviceDetailsChange={
           this.dispatcher.updateRemittanceAdviceDetails

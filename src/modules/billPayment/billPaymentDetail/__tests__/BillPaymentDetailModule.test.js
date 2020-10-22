@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   CREATE_BILL_PAYMENT,
   DELETE_BILL_PAYMENT,
+  EXPORT_PDF,
   LOAD_BILL_LIST,
   LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
@@ -33,7 +34,10 @@ import billPaymentDetailReducer from '../billPaymentDetailReducer';
 import billPaymentModalTypes from '../billPaymentModalTypes';
 import createBillPaymentDetailDispatcher from '../createBillPaymentDetailDispatcher';
 import createBillPaymentDetailIntegrator from '../createBillPaymentDetailIntegrator';
+import openBlob from '../../../../common/blobOpener/openBlob';
 import remittanceAdviceTypes from '../remittanceAdviceTypes';
+
+jest.mock('../../../../common/blobOpener/openBlob');
 
 describe('BillPaymentDetailModule', () => {
   const setup = () => {
@@ -955,7 +959,7 @@ describe('BillPaymentDetailModule', () => {
       module.openRemittanceAdviceModal();
       store.resetActions();
 
-      module.confirmRemittanceAdviceModal();
+      module.sendRemittanceAdviceEmail();
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
@@ -990,6 +994,49 @@ describe('BillPaymentDetailModule', () => {
           }),
         },
       ]);
+    });
+
+    it('should download remittance advice request on confirm', () => {
+      const toolbox = setupWithExisting();
+      const { store, module, integration } = toolbox;
+
+      module.openRemittanceAdviceModal();
+      store.resetActions();
+
+      module.downloadRemittanceAdvicePdf();
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: SET_LOADING_STATE,
+            loadingState: LoadingState.LOADING_SUCCESS,
+          },
+          {
+            intent: SET_ALERT_MESSAGE,
+            message: '',
+            type: '',
+          },
+          {
+            intent: CLOSE_MODAL,
+          },
+          {
+            intent: SET_LOADING_STATE,
+            loadingState: LoadingState.LOADING_SUCCESS,
+          },
+          expect.objectContaining({
+            intent: SET_ALERT_MESSAGE,
+          }),
+        ])
+      );
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: EXPORT_PDF,
+          urlParams: { businessId: '33', billPaymentId: '1' },
+          params: { formName: '' },
+        },
+      ]);
+
+      expect(openBlob).toHaveBeenCalled();
     });
   });
 
