@@ -3,6 +3,8 @@ import {
   CLOSE_MODAL,
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
+  LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_CONTACT_AFTER_CREATE,
   LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
@@ -103,7 +105,6 @@ const setupWithDuplicate = () => {
   return toolbox;
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const setUpWithPageEdited = () => {
   const toolbox = setup();
   const { store, integration, module } = toolbox;
@@ -120,6 +121,17 @@ export const setUpWithPageEdited = () => {
   module.updateReceiveMoneyLine(lineIndex, lineKey, lineValue);
   store.resetActions();
   integration.resetRequests();
+
+  return toolbox;
+};
+
+const setUpWithMockJobComboboxModule = () => {
+  const toolbox = setup();
+
+  toolbox.module.jobComboboxModule = {
+    run: jest.fn(),
+    load: jest.fn(),
+  };
 
   return toolbox;
 };
@@ -141,7 +153,7 @@ describe('ReceiveMoneyDetailModule', () => {
     ];
 
     it('should successfully load with new receive money, followed by loading contact options', () => {
-      const { store, integration, module } = setup();
+      const { store, integration, module } = setUpWithMockJobComboboxModule();
 
       module.run({ receiveMoneyId: 'new' });
 
@@ -171,10 +183,13 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).not.toHaveBeenCalled();
     });
 
     it('should successfully load with existing, followed by loading contact options', () => {
-      const { store, integration, module } = setup();
+      const { store, integration, module } = setUpWithMockJobComboboxModule();
 
       module.run({ receiveMoneyId: '1' });
 
@@ -204,10 +219,13 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).toHaveBeenCalledWith(['1', '2']);
     });
 
     it('should successfully load with duplicate, followed by loading contact options', () => {
-      const { store, integration, module } = setup();
+      const { store, integration, module } = setUpWithMockJobComboboxModule();
       module.popMessages = () => [
         {
           type: DUPLICATE_RECEIVE_MONEY,
@@ -215,7 +233,7 @@ describe('ReceiveMoneyDetailModule', () => {
         },
       ];
 
-      module.run({ businessId: 'bizId', receiveMoneyId: 'new' });
+      module.run({ businessId: 'bizId', region: 'au', receiveMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
         expect.objectContaining({
@@ -251,10 +269,16 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalledWith({
+        businessId: 'bizId',
+        region: 'au',
+      });
+      expect(module.jobComboboxModule.load).toHaveBeenCalledWith(['2']);
     });
 
     it('should fail to load receive money, and not make any request or action to load contact options', () => {
-      const { store, integration, module } = setup();
+      const { store, integration, module } = setUpWithMockJobComboboxModule();
       integration.mapFailure(LOAD_RECEIVE_MONEY_DETAIL);
 
       module.run({ receiveMoneyId: '1' });
@@ -278,6 +302,9 @@ describe('ReceiveMoneyDetailModule', () => {
           intent: LOAD_RECEIVE_MONEY_DETAIL,
         }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).not.toHaveBeenCalled();
     });
   });
 
@@ -724,6 +751,64 @@ describe('ReceiveMoneyDetailModule', () => {
       ]);
       expect(module.navigateTo).toHaveBeenCalledWith(
         '/#/au/bizId/transactionList'
+      );
+    });
+
+    it('should create job when create job modal is open', () => {
+      const { module } = setUpWithPageEdited();
+      module.jobComboboxModule = {
+        isCreateJobModalOpened: () => true,
+        createJob: jest.fn(),
+      };
+
+      module.saveHandler();
+
+      expect(module.jobComboboxModule.createJob).toHaveBeenCalled();
+    });
+
+    it('should create contact when contact modal is open', () => {
+      const { module, store, integration } = setUpWithPageEdited();
+      module.openContactModal();
+      store.resetActions();
+
+      module.saveHandler();
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_CONTACT_AFTER_CREATE,
+          }),
+        ])
+      );
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_CONTACT_AFTER_CREATE,
+          }),
+        ])
+      );
+    });
+
+    it('should create account when account modal is open', () => {
+      const { module, store, integration } = setUpWithPageEdited();
+      module.openAccountModal(() => {});
+      store.resetActions();
+
+      module.saveHandler();
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_ACCOUNT_AFTER_CREATE,
+          }),
+        ])
+      );
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_ACCOUNT_AFTER_CREATE,
+          }),
+        ])
       );
     });
   });

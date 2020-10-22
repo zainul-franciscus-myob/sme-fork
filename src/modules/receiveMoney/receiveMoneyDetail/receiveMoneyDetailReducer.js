@@ -7,7 +7,6 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
@@ -16,7 +15,6 @@ import {
   SET_CONTACT_LOADING_STATE,
   SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
@@ -54,7 +52,6 @@ const getDefaultState = () => ({
     jobId: '',
     description: '',
     taxCodeId: '',
-    lineJobOptions: [],
   },
   totals: {
     subTotal: '$0.00',
@@ -71,7 +68,6 @@ const getDefaultState = () => ({
     entries: [],
   },
   accountOptions: [],
-  jobOptions: [],
   taxCodeOptions: [],
   modal: undefined,
   alertMessage: '',
@@ -85,7 +81,6 @@ const getDefaultState = () => ({
   isPageEdited: false,
   businessId: '',
   region: '',
-  isJobLoading: false,
   startOfFinancialYearDate: '',
   viewedAccountToolTip: false,
 });
@@ -94,26 +89,17 @@ const pageEdited = { isPageEdited: true };
 
 const resetState = () => getDefaultState();
 
-const buildLineJobOptions = ({ action, jobId }) =>
-  action.jobOptions
-    ? action.jobOptions.filter((job) => job.isActive || job.id === jobId)
-    : [];
-
 const loadReceiveMoneyDetail = (state, action) => ({
   ...state,
   receiveMoney: {
     ...state.receiveMoney,
     ...action.receiveMoney,
     originalReferenceId: action.receiveMoney.referenceId,
-    lines: action.receiveMoney.lines.map((line) => ({
-      ...line,
-      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
-    })),
+    lines: action.receiveMoney.lines,
   },
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildLineJobOptions({ action }),
   },
   totals: action.totals,
   pageTitle: action.pageTitle,
@@ -126,7 +112,6 @@ const loadReceiveMoneyDetail = (state, action) => ({
       }
     : state.payFromContactOptions,
   accountOptions: action.accountOptions,
-  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
@@ -196,12 +181,10 @@ const loadNewReceiveMoney = (state, action) => ({
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildLineJobOptions({ action }),
   },
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
   accountOptions: action.accountOptions,
-  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
 });
@@ -286,27 +269,6 @@ const loadContactOptions = (state, { pagination, entries }) => ({
   },
 });
 
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  receiveMoney: {
-    ...state.receiveMoney,
-    lines: state.receiveMoney.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
-});
-
-const setJobLoadingState = (state, { isJobLoading }) => ({
-  ...state,
-  isJobLoading,
-});
-
 const resetTotals = (state) => ({
   ...state,
   totals: getDefaultState().totals,
@@ -349,8 +311,6 @@ const handlers = {
   [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
   [SET_CONTACT_OPTIONS_LOADING_STATE]: setContactOptionsLoadingState,
   [LOAD_CONTACT_OPTIONS]: loadContactOptions,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };

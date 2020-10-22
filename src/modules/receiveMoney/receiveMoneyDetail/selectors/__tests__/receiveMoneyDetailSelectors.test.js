@@ -2,6 +2,7 @@ import {
   getIsBeforeStartOfFinancialYear,
   getLoadContactOptionsStatus,
   getTaxCalculations,
+  getUniqueSelectedJobIds,
 } from '../receiveMoneyDetailSelectors';
 import LoadMoreButtonStatus from '../../../../../components/AutoComplete/LoadMoreButtonStatus';
 
@@ -129,6 +130,25 @@ describe('receiveMoneySelectors', () => {
 
       const actual = getLoadContactOptionsStatus(state);
       expect(actual).toEqual(LoadMoreButtonStatus.HIDDEN);
+    });
+  });
+
+  describe('getUniqueSelectedJobIds', () => {
+    it('returns a list of unique selected job ids excluding empty ids', () => {
+      const state = {
+        receiveMoney: {
+          lines: [
+            { jobId: '1' },
+            { jobId: '2' },
+            { jobId: '' },
+            { jobId: '1' },
+          ],
+        },
+      };
+
+      const actual = getUniqueSelectedJobIds(state);
+
+      expect(actual).toEqual(['1', '2']);
     });
   });
 });

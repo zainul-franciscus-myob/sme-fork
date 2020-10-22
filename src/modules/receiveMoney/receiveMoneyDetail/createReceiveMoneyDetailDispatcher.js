@@ -6,14 +6,12 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_CONTACT_OPTIONS,
-  LOAD_JOB_AFTER_CREATE,
   OPEN_MODAL,
   RESET_TOTALS,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
@@ -163,16 +161,6 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     store.dispatch({
       intent: SET_CONTACT_OPTIONS_LOADING_STATE,
       isLoading,
-    }),
-  loadJobAfterCreate: (payload) =>
-    store.dispatch({
-      intent: LOAD_JOB_AFTER_CREATE,
-      ...payload,
-    }),
-  setJobLoadingState: (isJobLoading) =>
-    store.dispatch({
-      intent: SET_JOB_LOADING_STATE,
-      isJobLoading,
     }),
   setDuplicateId: (duplicateId) =>
     store.dispatch({

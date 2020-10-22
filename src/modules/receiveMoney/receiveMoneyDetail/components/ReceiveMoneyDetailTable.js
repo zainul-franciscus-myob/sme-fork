@@ -23,7 +23,7 @@ const ReceiveMoneyDetailTable = ({
   onRemoveRow,
   onRowInputBlur,
   onAddAccount,
-  onAddJob,
+  renderJobCombobox,
   onViewedAccountToolTip,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
@@ -38,7 +38,7 @@ const ReceiveMoneyDetailTable = ({
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
         onAddAccount={onAddAccount}
-        onAddJob={onAddJob}
+        renderJobCombobox={renderJobCombobox}
       />
     );
   };

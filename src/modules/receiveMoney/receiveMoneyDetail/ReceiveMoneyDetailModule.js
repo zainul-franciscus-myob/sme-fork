@@ -14,12 +14,13 @@ import {
   getIsCreating,
   getIsLineEdited,
   getIsTableEmpty,
-  getJobModalContext,
+  getJobComboboxContext,
   getModal,
   getModalUrl,
   getOpenedModalType,
   getReceiveMoneyId,
   getTaxCalculations,
+  getUniqueSelectedJobIds,
   getViewedAccountToolTip,
   isPageEdited,
 } from './selectors/receiveMoneyDetailSelectors';
@@ -30,7 +31,7 @@ import {
 } from './selectors/redirectSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
-import JobModalModule from '../../job/jobModal/JobModalModule';
+import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import ReceiveMoneyDetailView from './components/ReceiveMoneyDetailView';
@@ -65,7 +66,10 @@ export default class ReceiveMoneyDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.jobModalModule = new JobModalModule({ integration });
+    this.jobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
     this.contactModalModule = new ContactModalModule({ integration });
     this.trackUserEvent = trackUserEvent;
   }
@@ -97,36 +101,6 @@ export default class ReceiveMoneyDetailModule {
     };
 
     this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  };
-
-  openJobModal = (onChange) => {
-    const state = this.store.getState();
-    const context = getJobModalContext(state);
-
-    this.jobModalModule.run({
-      context,
-      onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
-    });
-  };
-
-  loadJobAfterCreate = ({ message, id }, onChange) => {
-    this.jobModalModule.resetState();
-    this.displaySuccessAlert(message);
-    this.dispatcher.setJobLoadingState(true);
-
-    const onSuccess = (payload) => {
-      const job = { ...payload, id };
-      this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(job);
-      onChange(job);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setJobLoadingState(false);
-    };
-
-    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   openAccountModal = (onChange) => {
@@ -172,17 +146,35 @@ export default class ReceiveMoneyDetailModule {
     this.integrator.loadContactOptions({ onSuccess, onFailure });
   };
 
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobComboboxContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
+  updateJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.jobComboboxModule.load(selectedJobIds);
+    }
+  };
+
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
   searchContact = ({
     keywords,
     onSuccess: onSearchContactSuccess,
-    onFailure: onSearchJobFailure,
+    onFailure: onSearchContactFailure,
   }) => {
     const onSuccess = ({ entries }) => {
       onSearchContactSuccess(entries);
     };
 
     const onFailure = () => {
-      onSearchJobFailure();
+      onSearchContactFailure();
     };
 
     this.integrator.searchContact({ keywords, onSuccess, onFailure });
@@ -194,6 +186,7 @@ export default class ReceiveMoneyDetailModule {
       this.dispatcher.loadReceiveMoney(response);
 
       this.loadContactOptions();
+      this.updateJobCombobox();
     };
 
     const onFailure = () => {
@@ -413,13 +406,11 @@ export default class ReceiveMoneyDetailModule {
   render = () => {
     const accountModal = this.accountModalModule.render();
     const contactModal = this.contactModalModule.render();
-    const jobModal = this.jobModalModule.render();
 
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
         accountModal={accountModal}
         contactModal={contactModal}
-        jobModal={jobModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveReceiveMoney}
         onSaveAndButtonClick={this.saveAnd}
@@ -435,9 +426,9 @@ export default class ReceiveMoneyDetailModule {
         onRowInputBlur={this.calculateLineTotals}
         onAddAccount={this.openAccountModal}
         onAddContact={this.openContactModal}
-        onAddJob={this.openJobModal}
         onLoadMoreContacts={this.loadContactOptions}
         onContactSearch={this.searchContact}
+        renderJobCombobox={this.renderJobCombobox}
         onViewedAccountToolTip={this.viewedAccountToolTip}
       />
     );
@@ -454,8 +445,14 @@ export default class ReceiveMoneyDetailModule {
       this.accountModalModule.save();
       return;
     }
+
     if (this.contactModalModule.isOpened()) {
       this.contactModalModule.save();
+      return;
+    }
+
+    if (this.jobComboboxModule.isCreateJobModalOpened()) {
+      this.jobComboboxModule.createJob();
       return;
     }
 
@@ -497,11 +494,13 @@ export default class ReceiveMoneyDetailModule {
     this.readMessages();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadReceiveMoney();
+    this.loadJobCombobox();
   }
 
   resetState() {
     this.accountModalModule.resetState();
     this.contactModalModule.resetState();
+    this.jobComboboxModule.resetState();
     this.dispatcher.resetState();
   }
 

@@ -18,7 +18,6 @@ import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 const ReceiveMoneyDetailView = ({
   accountModal,
   contactModal,
-  jobModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -38,9 +37,9 @@ const ReceiveMoneyDetailView = ({
   onRowInputBlur,
   onAddAccount,
   onAddContact,
-  onAddJob,
   onLoadMoreContacts,
   onContactSearch,
+  renderJobCombobox,
   onViewedAccountToolTip,
 }) => {
   const templateOptions = (
@@ -86,14 +85,13 @@ const ReceiveMoneyDetailView = ({
         )}
         {accountModal}
         {contactModal}
-        {jobModal}
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}
           onRemoveRow={onRemoveRow}
           onRowInputBlur={onRowInputBlur}
           onAddAccount={onAddAccount}
-          onAddJob={onAddJob}
+          renderJobCombobox={renderJobCombobox}
           onViewedAccountToolTip={onViewedAccountToolTip}
         />
       </LineItemTemplate>

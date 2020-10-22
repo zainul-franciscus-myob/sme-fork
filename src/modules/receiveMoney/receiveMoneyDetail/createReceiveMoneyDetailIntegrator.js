@@ -4,7 +4,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_CONTACT_OPTIONS,
-  LOAD_JOB_AFTER_CREATE,
   SEARCH_CONTACT,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
@@ -12,7 +11,6 @@ import { getIsCreating } from './selectors/receiveMoneyDetailSelectors';
 import {
   getLoadAddedAccountUrlParams,
   getLoadAddedContactUrlParams,
-  getLoadAddedJobUrlParams,
   getLoadContactOptionsParams,
   getLoadContactOptionsUrlParams,
   getLoadReceiveMoneyIntent,
@@ -114,18 +112,6 @@ const createReceiveMoneyDetailIntegrator = ({ store, integration }) => ({
       intent,
       urlParams,
       params,
-      onSuccess,
-      onFailure,
-    });
-  },
-  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_JOB_AFTER_CREATE;
-    const urlParams = getLoadAddedJobUrlParams(state, id);
-
-    integration.read({
-      intent,
-      urlParams,
       onSuccess,
       onFailure,
     });

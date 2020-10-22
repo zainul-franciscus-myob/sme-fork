@@ -5,14 +5,12 @@ import React from 'react';
 import {
   getAccountOptions,
   getIsActionsDisabled,
-  getIsJobComboboxDisabled,
   getLineDataByIndexSelector,
   getNewLineData,
   getTaxCodeOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../components/Calculator/Calculator';
-import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onComboboxChange = (name, handler) => (item) => {
@@ -20,6 +18,15 @@ const onComboboxChange = (name, handler) => (item) => {
     target: {
       name,
       value: item.id,
+    },
+  });
+};
+
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
     },
   });
 };
@@ -47,22 +54,13 @@ const ReceiveMoneyDetailRow = ({
   taxCodeOptions,
   accountOptions,
   onAddAccount,
-  onAddJob,
   isSubmitting,
-  isJobComboboxDisabled,
+  renderJobCombobox,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
 
-  const {
-    amount,
-    units,
-    jobId,
-    description,
-    accountId,
-    taxCodeId,
-    lineJobOptions,
-  } = data;
+  const { amount, units, jobId, description, accountId, taxCodeId } = data;
 
   return (
     <LineItemTable.Row id={index} index={index} {...feelixInjectedProps}>
@@ -108,15 +106,15 @@ const ReceiveMoneyDetailRow = ({
         onChange={onInputChange(onChange)}
         disabled={isSubmitting}
       />
-      <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        onChange={onComboboxChange('jobId', onChange)}
-        disabled={isSubmitting || isJobComboboxDisabled}
-        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isSubmitting,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         label="Tax code"
         hideLabel
@@ -137,7 +135,6 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isSubmitting: getIsActionsDisabled(state),
-    isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   });
 };
 

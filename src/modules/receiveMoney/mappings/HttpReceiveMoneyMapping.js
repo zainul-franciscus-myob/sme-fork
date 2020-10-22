@@ -5,7 +5,6 @@ import {
   LOAD_CONTACT_AFTER_CREATE,
   LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   SEARCH_CONTACT,
@@ -55,11 +54,6 @@ const HttpReceiveMoneyMapping = {
   [SEARCH_CONTACT]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/receiveMoney/load_contacts`,
-  },
-  [LOAD_JOB_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, jobId }) =>
-      `/${businessId}/receiveMoney/load_job/${jobId}`,
   },
   [LOAD_DUPLICATE_RECEIVE_MONEY]: {
     method: 'GET',

@@ -39,11 +39,6 @@ export const getLoadAddedContactUrlParams = (state, contactId) => {
   return { businessId, contactId };
 };
 
-export const getLoadAddedJobUrlParams = (state, jobId) => {
-  const businessId = getBusinessId(state);
-  return { businessId, jobId };
-};
-
 export const getReceiveMoneyForCreatePayload = (state) => {
   const { referenceId, originalReferenceId, ...rest } = getReceiveMoney(state);
 
