@@ -171,3 +171,50 @@ AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
 | json field=k8s_log "message" as app_log
 | fields app_log, k8s_log
 ```
+
+## Production
+
+### `sme-web-bff`
+Order routes with frequency of errors
+```
+// filters
+_sourceCategory = /aws/ex-cluster-production
+AND _sourceName = *sme.production-sme-web-bff*
+//AND filter_bank_transactions              //route (optional)
+
+
+// parse k8s log
+| json field=_raw "log" as k8s_log              //get log from _raw and display it as k8s_log
+| json field=k8s_log "message" as app_log
+| json field=app_log "statusCode" as statusCode //get statusCode from message and display as statusCode
+| json field=app_log "url" as url
+| replace(url, /^(\/.*?\/)/, "") as route       //remove company file GUID from url
+
+| fields statusCode, url, route                 //fields that will be displayed
+
+| where statusCode > 404                       
+
+| count by route               
+| sort by _count
+```
+
+Find logs for internal server errors (HTTP code 500)
+```
+// filters
+_sourceCategory = /aws/ex-cluster-production
+AND _sourceName = *sme.production-sme-web-bff*
+//AND filter_bank_transactions              //route (optional)
+//AND 05b6f3a3-8aae-40da-9ac3-3ce8825a319a // requestId (optional)
+
+// parse k8s log
+| json field=_raw "log" as k8s_log              //get log from _raw and display it as k8s_log
+| json field=k8s_log "message" as app_log
+| json field=app_log "statusCode" as statusCode //get statusCode from message and display as statusCode
+| json field=app_log "url" as url
+
+| fields app_log, k8s_log, statusCode, url      //fields that will be displayed
+
+| where statusCode > 404
+```
+
+
