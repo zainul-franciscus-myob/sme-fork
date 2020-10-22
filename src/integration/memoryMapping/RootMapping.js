@@ -59,6 +59,7 @@ import PurchaseSettingsMapping from '../../modules/purchaseSettings/mappings/Mem
 import QuoteMapping from '../../modules/quote/mappings/MemoryQuoteMapping';
 import ReceiveMoneyMapping from '../../modules/receiveMoney/mappings/MemoryReceiveMoneyMapping';
 import ReceiveRefundMapping from '../../modules/receiveRefund/mappings/MemoryReceiveRefundMapping';
+import RecurringTransactionMapping from '../../modules/recurringTransaction/mappings/MemoryRecurringTransactionMapping';
 import ReportsSubscribeNowMapping from '../../modules/reportsSubscribeNow/mappings/MemorySubscriptionMapping';
 import RootBusinessDetailsMapping from '../../root/services/businessDetails/mappings/MemoryBusinessDetailsMapping';
 import RootLicenceMapping from '../../root/services/licence/mappings/MemoryLicenceMapping';
@@ -177,6 +178,7 @@ const RootMapping = Object.freeze({
   ...ReportsSubscribeNowMapping,
   ...BankingRuleModalMapping,
   ...PurchaseSettingsMapping,
+  ...RecurringTransactionMapping,
 });
 
 export default RootMapping;

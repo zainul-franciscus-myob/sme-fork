@@ -4,7 +4,8 @@ import RouteName from '../../router/RouteName';
 const getRecurringTransactionRoutes = ({
   integration,
   setRootView,
-  popMessages,
+  featureToggles,
+  isToggleOn,
 }) => {
   const routes = [
     {
@@ -13,7 +14,8 @@ const getRecurringTransactionRoutes = ({
       module: new RecurringTransactionListModule({
         integration,
         setRootView,
-        popMessages,
+        featureToggles,
+        isToggleOn,
       }),
       documentTitle: 'Recurring Transactions',
     },
