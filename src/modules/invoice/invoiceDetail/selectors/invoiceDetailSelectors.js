@@ -48,6 +48,7 @@ export const getExpirationDays = (state) =>
   Number(state.invoice.expirationDays);
 export const getIsAllowOnlinePayments = (state) =>
   state.invoice.isAllowOnlinePayments;
+export const getCanApplySurcharge = (state) => state.invoice.canApplySurcharge;
 export const getAmountPaid = (state) => state.invoice.amountPaid;
 export const getLines = (state) => state.invoice.lines;
 export const getLength = (state) => state.invoice.lines.length;

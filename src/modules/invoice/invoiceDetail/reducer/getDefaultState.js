@@ -33,6 +33,7 @@ const getDefaultState = () => ({
     purchaseOrderNumber: '',
     issueDate: formatIsoDate(new Date()),
     isAllowOnlinePayments: false,
+    canApplySurcharge: false,
     isTaxInclusive: true,
     expirationTerm: '',
     expirationDays: '',

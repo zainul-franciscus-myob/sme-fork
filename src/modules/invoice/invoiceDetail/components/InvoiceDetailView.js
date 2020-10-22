@@ -75,6 +75,7 @@ const InvoiceDetailView = ({
   onRedirectToCreatePayment,
   onOpenQuickQuote,
   quickQuoteModalListeners,
+  redirectToSetUpOnlinePayments,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -84,6 +85,7 @@ const InvoiceDetailView = ({
       onIssueDateBlur={onIssueDateBlur}
       onDismissPreConversionAlert={onDismissPreConversionAlert}
       onOpenQuickQuote={onOpenQuickQuote}
+      redirectToSetUpOnlinePayments={redirectToSetUpOnlinePayments}
     />
   );
 

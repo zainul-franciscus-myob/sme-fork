@@ -2,6 +2,7 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import {
   getBusinessId,
+  getCanApplySurcharge,
   getIsAllowOnlinePayments,
   getIsTrial,
   getSerialNumber,
@@ -13,8 +14,12 @@ const getIsLoading = (state) => state.payDirect.isLoading;
 const getIsServiceAvailable = (state) => state.payDirect.isServiceAvailable;
 const getIsRegistered = (state) => state.payDirect.isRegistered;
 const getRegistrationUrl = (state) => state.payDirect.registrationUrl;
+const getIsSurchargingAvailable = (state) =>
+  state.payDirect.isSurchargingAvailable && getIsAllowOnlinePayments(state);
+const getIsSurchargingRegistered = (state) =>
+  state.payDirect.isSurchargingRegistered;
 
-const getSetUpOnlinePaymentsLink = createSelector(
+export const getSetUpOnlinePaymentsLink = createSelector(
   getRegistrationUrl,
   getBusinessId,
   getSerialNumber,
@@ -37,6 +42,8 @@ export const getPayDirectOptions = createStructuredSelector({
   isTrial: getIsTrial,
   isServiceAvailable: getIsServiceAvailable,
   isAllowOnlinePayments: getIsAllowOnlinePayments,
-  setUpOnlinePaymentsLink: getSetUpOnlinePaymentsLink,
   hasSetUpOnlinePayments: getIsRegistered,
+  canApplySurcharge: getCanApplySurcharge,
+  showSurchargingOptions: getIsSurchargingAvailable,
+  hasSetupSurcharging: getIsSurchargingRegistered,
 });

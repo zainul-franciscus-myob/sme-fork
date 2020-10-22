@@ -112,6 +112,7 @@ export const getCreateOrUpdatePreConversionPayload = (state) => {
     note,
     amountPaid,
     isAllowOnlinePayments,
+    canApplySurcharge,
     lines,
   } = getInvoice(state);
 
@@ -127,6 +128,7 @@ export const getCreateOrUpdatePreConversionPayload = (state) => {
     note,
     amountPaid,
     isAllowOnlinePayments,
+    canApplySurcharge,
     lines,
   };
 };

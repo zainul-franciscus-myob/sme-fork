@@ -11,22 +11,22 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getPayDirectOptions } from '../selectors/payDirectSelectors';
+import InvoiceDetailSurcharging from './InvoiceDetailSurcharging';
 import OnlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import styles from './InvoiceDetailOnlinePaymentMethod.module.css';
-
-const openNewTab = (url) => () => window.open(url);
 
 const InvoiceDetailOnlinePaymentMethod = ({
   disabled,
   isLoading,
   isTrial,
   isServiceAvailable,
-  setUpOnlinePaymentsLink,
   isAllowOnlinePayments,
   hasSetUpOnlinePayments,
-  onUpdateAllowOnlinePayments,
+  onUpdateOnlinePaymentOptions,
+  showSurchargingOptions,
+  redirectToSetUpOnlinePayments,
 }) => {
   const label = 'Allow online payments';
   const imgAlt = 'Online payment methods';
@@ -91,13 +91,21 @@ const InvoiceDetailOnlinePaymentMethod = ({
             label=""
             disabled={disabled}
             checked={isAllowOnlinePayments}
-            onChange={handleCheckboxChange(onUpdateAllowOnlinePayments)}
+            onChange={handleCheckboxChange(onUpdateOnlinePaymentOptions)}
           />
           <img
             src={OnlinePaymentMethodsImage}
             alt={imgAlt}
             className={styles.onlinePaymentMethodsImage}
           />
+
+          {showSurchargingOptions && (
+            <InvoiceDetailSurcharging
+              disabled={disabled}
+              onUpdateCanApplySurcharge={onUpdateOnlinePaymentOptions}
+              redirectToSetUpOnlinePayments={redirectToSetUpOnlinePayments}
+            />
+          )}
         </div>
       )}
     />
@@ -119,7 +127,7 @@ const InvoiceDetailOnlinePaymentMethod = ({
               type="link"
               icon={<Icons.OpenExternalLink />}
               iconLeft
-              onClick={openNewTab(setUpOnlinePaymentsLink)}
+              onClick={redirectToSetUpOnlinePayments}
             >
               Set up
             </Button>

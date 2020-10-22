@@ -63,6 +63,7 @@ const InvoiceDetailOptions = ({
   customerQuoteCount,
   customerHasNoQuotes,
   shouldShowCustomerQuotes,
+  redirectToSetUpOnlinePayments,
 }) => {
   const onIsTaxInclusiveChange = (handler) => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
@@ -152,7 +153,8 @@ const InvoiceDetailOptions = ({
       {showOnlinePayment && (
         <InvoiceDetailOnlinePaymentMethod
           disabled={isReadOnly}
-          onUpdateAllowOnlinePayments={onUpdateHeaderOptions}
+          onUpdateOnlinePaymentOptions={onUpdateHeaderOptions}
+          redirectToSetUpOnlinePayments={redirectToSetUpOnlinePayments}
         />
       )}
       <RadioButtonGroup

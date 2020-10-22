@@ -47,6 +47,7 @@ import {
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { getInvoiceQuoteUrl } from './selectors/quickQuoteSelectors';
+import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
@@ -370,6 +371,12 @@ export default class InvoiceDetailModule {
     const url = getCreateNewInvoiceUrl(state);
 
     this.navigateTo(url);
+  };
+
+  redirectToSetUpOnlinePayments = () => {
+    const state = this.store.getState();
+    const url = getSetUpOnlinePaymentsLink(state);
+    this.navigateTo(url, true);
   };
 
   loadCustomer = () => {
@@ -1184,6 +1191,7 @@ export default class InvoiceDetailModule {
         onFocusActivityHistory={this.focusActivityHistory}
         onRedirectToCreatePayment={this.redirectToInvoicePayment}
         onDismissPreConversionAlert={this.dismissPreConversionAlert}
+        redirectToSetUpOnlinePayments={this.redirectToSetUpOnlinePayments}
       />
     );
 
