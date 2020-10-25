@@ -6,19 +6,17 @@ jest.mock('../../Auth');
 jest.mock('../../store/localStorageDriver');
 
 describe('Telemetry', () => {
-  const segmentWriteKey = undefined;
+  let businessId = 'a-business-id';
+
   const currentRouteName = 'home';
   const telemetryParams = {
     currentRouteName,
-    telemetryData: {
-      businessId: 'a-business-id',
-    },
   };
 
   describe('initialisation', () => {
     it('will not crash if analytics is not setup', () => {
       window.analytics = undefined;
-      const module = initializeHttpTelemetry(segmentWriteKey);
+      const module = initializeHttpTelemetry();
       expect(module).not.toBe(undefined);
     });
   });
@@ -49,9 +47,22 @@ describe('Telemetry', () => {
 
     setAnalyticsTraits.mockImplementation(() => {});
 
+    const getTelemetryInfo = () => ({
+      region: 'region',
+      businessId,
+      subscription: {},
+      currentUser: {},
+    });
+
+    const expectedTelemetryProperties = {
+      businessId,
+      region: 'region',
+    };
+
     beforeEach(() => {
-      telemetry = initializeHttpTelemetry(segmentWriteKey);
+      telemetry = initializeHttpTelemetry(getTelemetryInfo);
       jest.clearAllMocks();
+      businessId = 'a-business-id';
       window.analytics = {
         initialize: true,
         page: pageMock,
@@ -86,38 +97,28 @@ describe('Telemetry', () => {
 
     it('should identify user with the expected traits', () => {
       const { recordPageVisit } = telemetry;
-      const modifiedTelemetryParams = {
-        ...telemetryParams,
-        telemetryData: {
-          ...telemetryParams.telemetryData,
-          a: 'a',
-          b: 'b',
-        },
-      };
 
-      recordPageVisit(modifiedTelemetryParams);
+      recordPageVisit(telemetryParams);
 
       expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
       expect(identifyMock).toHaveBeenCalledTimes(1);
-      expect(identifyMock).toBeCalledWith('mockuserId', {
-        businessId: 'a-business-id',
-        a: 'a',
-        b: 'b',
-      });
+      expect(identifyMock).toBeCalledWith(
+        'mockuserId',
+        expectedTelemetryProperties
+      );
     });
 
     it('should identify user even when no business has been selected', () => {
       const { recordPageVisit } = telemetry;
-      const modifiedTelemetryParams = {
-        ...telemetryParams,
-        telemetryData: {},
-      };
 
-      recordPageVisit(modifiedTelemetryParams);
+      recordPageVisit(telemetryParams);
 
       expect(setAnalyticsTraits).toHaveBeenCalledTimes(1);
       expect(identifyMock).toHaveBeenCalledTimes(1);
-      expect(identifyMock).toBeCalledWith('mockuserId', {});
+      expect(identifyMock).toBeCalledWith(
+        'mockuserId',
+        expectedTelemetryProperties
+      );
     });
 
     it('should call group', () => {
@@ -145,16 +146,12 @@ describe('Telemetry', () => {
     it('identifies again when business id changes', () => {
       const { recordPageVisit } = telemetry;
       recordPageVisit(telemetryParams);
-      recordPageVisit({
-        ...telemetryParams,
-        telemetryData: {
-          ...telemetryParams.telemetryData,
-          businessId: 'new-business-id',
-        },
-      });
+      businessId = 'new-business-id';
+      recordPageVisit(telemetryParams);
       expect(identifyMock).toHaveBeenCalledTimes(2);
       expect(setAnalyticsTraits).toHaveBeenCalledTimes(2);
       expect(identifyMock).toHaveBeenLastCalledWith('mockuserId', {
+        ...expectedTelemetryProperties,
         businessId: 'new-business-id',
       });
     });
@@ -166,9 +163,13 @@ describe('Telemetry', () => {
     global.window = Object.create(window);
 
     const trackMock = jest.fn();
+    const getTelemetryInfo = () => ({
+      businessId: '1',
+      subscription: {},
+    });
 
     beforeEach(() => {
-      telemetry = initializeHttpTelemetry(segmentWriteKey);
+      telemetry = initializeHttpTelemetry(getTelemetryInfo);
       jest.clearAllMocks();
       window.analytics = {
         initialize: true,
@@ -185,11 +186,16 @@ describe('Telemetry', () => {
           },
         },
       };
-      trackUserEvent({ eventName: 'eventName', eventProperties: { p1: 'p1' } });
+      trackUserEvent({
+        eventName: 'eventName',
+        customProperties: { p1: 'p1' },
+      });
       expect(trackMock).toHaveBeenCalledTimes(1);
       expect(trackMock).toBeCalledWith(
         'eventName',
-        { p1: 'p1' },
+        expect.objectContaining({
+          p1: 'p1',
+        }),
         expectedOptions
       );
     });
@@ -205,12 +211,15 @@ describe('Telemetry', () => {
       };
       trackUserEvent({
         eventName: 'eventName',
-        eventProperties: { p1: 'p1', p2: null, p3: '' },
+        customProperties: { p1: 'p1', p2: null, p3: '' },
       });
       expect(trackMock).toHaveBeenCalledTimes(1);
       expect(trackMock).toBeCalledWith(
         'eventName',
-        { p1: 'p1' },
+        expect.not.objectContaining({
+          p2: null,
+          p3: '',
+        }),
         expectedOptions
       );
     });

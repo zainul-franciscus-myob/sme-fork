@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { recordPageVisit } from '../telemetry';
 import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
@@ -9,14 +10,12 @@ class OnboardingModule {
     tasksService,
     toggleTasks,
     businessDetailsService,
-    recordPageVisit,
   }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.tasksService = tasksService;
     this.toggleTasks = toggleTasks;
     this.businessDetailsService = businessDetailsService;
-    this.recordPageVisit = recordPageVisit;
   }
 
   save = async (event, { businessName, businessRole, industryId }) => {
@@ -38,16 +37,7 @@ class OnboardingModule {
     this.toggleTasks();
   };
 
-  onboardingVisited = () => {
-    const { recordPageVisit, routeProps } = this;
-
-    recordPageVisit({
-      ...routeProps,
-      telemetryData: {
-        businessId: routeProps.routeParams.businessId,
-      },
-    });
-  };
+  onboardingVisited = () => recordPageVisit(this.routeProps);
 
   render = () => {
     const { dispatcher, save, onboardingVisited, businessId } = this;

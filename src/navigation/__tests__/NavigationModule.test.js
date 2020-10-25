@@ -1,9 +1,15 @@
 import { LOAD_NAVIGATION_CONFIG, SET_ROUTE_INFO } from '../NavigationIntents';
+import { recordPageVisit, trackUserEvent } from '../../telemetry';
 import ModuleAction from '../../common/types/ModuleAction';
 import NavigationModule from '../NavigationModule';
 import RouteName from '../../router/RouteName';
 import TestStore from '../../store/TestStore';
 import navReducer from '../navReducer';
+
+jest.mock('../../telemetry', () => ({
+  recordPageVisit: jest.fn(),
+  trackUserEvent: jest.fn(),
+}));
 
 describe('Navigation Module', () => {
   afterEach(() => {
@@ -42,8 +48,6 @@ describe('Navigation Module', () => {
       MYOB_URL: 'myob.url',
       MYOB_TEAM_URL: 'https://myob.team.url',
     },
-    recordPageVisit: jest.fn(),
-    trackUserEvent: jest.fn(),
     navigateTo: jest.fn(),
     toggleHelp: jest.fn(),
     toggleTasks: jest.fn(),
@@ -176,21 +180,15 @@ describe('Navigation Module', () => {
     describe('when user clicks on Create new business', () => {
       it('sends telemetry info with expected payload', () => {
         const data = {
-          routeParams: {
-            businessId: 'businessId',
-          },
           currentRouteName: 'someUrl',
         };
         navigationModule.run({ routeProps: data });
         navigationModule.createBusiness();
 
-        expect(navigationModule.recordPageVisit).toHaveBeenCalledTimes(1);
-        expect(navigationModule.recordPageVisit).toBeCalledWith(
+        expect(recordPageVisit).toHaveBeenCalledTimes(1);
+        expect(recordPageVisit).toBeCalledWith(
           expect.objectContaining({
             currentRouteName: 'createNewBusiness',
-            telemetryData: {
-              businessId: 'businessId',
-            },
           })
         );
       });
@@ -212,10 +210,13 @@ describe('Navigation Module', () => {
         navigationModule.run({ routeProps: data });
         navigationModule.manageMyProduct();
 
-        expect(navigationModule.trackUserEvent).toHaveBeenCalledTimes(1);
-        expect(
-          navigationModule.trackUserEvent
-        ).toBeCalledWith('manageMyProduct', { userEmail: 'abc' });
+        expect(trackUserEvent).toHaveBeenCalledTimes(1);
+        expect(trackUserEvent).toBeCalledWith({
+          eventName: 'manageMyProduct',
+          customProperties: {
+            userEmail: 'abc',
+          },
+        });
       });
 
       it('opens manage my product page in new tab', () => {

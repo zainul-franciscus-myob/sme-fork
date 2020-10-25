@@ -6,6 +6,7 @@ import {
   getStpDeclarationContext,
 } from './RecordPayRunSelectors';
 import { getPayRunListUrl } from '../PayRunSelectors';
+import { trackUserEvent } from '../../../../telemetry';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import RecordPayRunView from './components/RecordPayRunView';
@@ -15,13 +16,7 @@ import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 import openBlob from '../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunModule {
-  constructor({
-    integration,
-    store,
-    pushMessage,
-    featureToggles,
-    trackUserEvent,
-  }) {
+  constructor({ integration, store, pushMessage, featureToggles }) {
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.store = store;
@@ -32,7 +27,6 @@ export default class RecordPayRunModule {
       onDeclared: this.recordPayments,
     });
     this.isAllowNegativesInPayRuns = featureToggles?.isAllowNegativesInPayRuns;
-    this.trackUserEvent = trackUserEvent;
   }
 
   recordPayments = () => {
@@ -54,9 +48,11 @@ export default class RecordPayRunModule {
     this.trackRecordPayment();
   };
 
-  trackRecordPayment = () => {
-    this.trackUserEvent('recordPayment', { action: 'record_payment' });
-  };
+  trackRecordPayment = () =>
+    trackUserEvent({
+      eventName: 'recordPayment',
+      customProperties: { action: 'record_payment' },
+    });
 
   saveDraftAndRedirect = () => {
     const state = this.store.getState();

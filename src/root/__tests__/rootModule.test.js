@@ -1,4 +1,5 @@
 import { LOAD_SUBSCRIPTION } from '../rootIntents';
+import { recordPageVisit } from '../../telemetry';
 import RootModule from '../rootModule';
 import TestIntegration from '../../integration/TestIntegration';
 import TestStore from '../../store/TestStore';
@@ -9,6 +10,9 @@ import subscriptionResponse from '../mappings/data/subscription.json';
 
 jest.mock('../../Auth', () => ({
   getUser: () => ({ userId: '654321' }),
+}));
+jest.mock('../../telemetry', () => ({
+  recordPageVisit: jest.fn(),
 }));
 
 const setup = () => {
@@ -21,7 +25,6 @@ const setup = () => {
       replaceURLParamsAndReload: jest.fn(),
       constructPath: jest.fn(),
     },
-    recordPageVisit: jest.fn(),
     trackUserEvent: jest.fn(),
     startLeanEngage: jest.fn(),
   });
@@ -33,6 +36,10 @@ const setup = () => {
 };
 
 describe('rootModule', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('can be instantiated', () => {
     const integration = jest.fn();
     const router = jest.fn();
@@ -61,7 +68,6 @@ describe('rootModule', () => {
           navigateTo: jest.fn(),
         },
         startLeanEngage: jest.fn(),
-        recordPageVisit: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
@@ -292,75 +298,25 @@ describe('rootModule', () => {
 
     describe('runTelemetry', () => {
       it('when business id is null', async () => {
-        const root = await createAndRunModule(
-          buildRouteProps(),
-          buildModule(),
-          context
-        );
-        expect(root.recordPageVisit).toBeCalledTimes(1);
+        await createAndRunModule(buildRouteProps(), buildModule(), context);
+        expect(recordPageVisit).toBeCalledTimes(1);
       });
 
       it('when business id is set and is the same as last business id', async () => {
-        const root = await createAndRunModule(
+        await createAndRunModule(
           buildRouteProps('id'),
           buildModule(),
           context,
           'id'
         );
-        expect(root.recordPageVisit).toBeCalledTimes(1);
+        expect(recordPageVisit).toBeCalledTimes(1);
       });
 
       it('when business id is set and is different from last business id', async () => {
-        const root = await createAndRunModule(
-          buildRouteProps('id'),
-          buildModule(),
-          context
-        );
+        await createAndRunModule(buildRouteProps('id'), buildModule(), context);
 
-        expect(root.recordPageVisit).toBeCalledTimes(1);
+        expect(recordPageVisit).toBeCalledTimes(1);
       });
-    });
-  });
-
-  describe('getTelemetryFields', () => {
-    it('should call trackUserEvent with correct properties', () => {
-      const { module } = setup();
-      module.store = {
-        getState: () => ({
-          businessId: '12345',
-          subscription: {
-            product: {
-              name: 'Essentials new',
-              productLine: 'Accounting',
-            },
-          },
-        }),
-      };
-      module.trackTelemetryUserEvent('recordPayrun', {
-        customProp: 'record_payment',
-      });
-
-      const actualDetails = module.trackUserEvent.mock.calls[0][0];
-
-      const expected = {
-        eventName: 'recordPayrun',
-        userId: '654321',
-        eventProperties: {
-          userId: '654321',
-          businessId: '12345',
-          action: '',
-          customProp: 'record_payment',
-          label: '',
-          url: 'http://localhost/',
-          product: 'Essentials new',
-          productFamily: 'SME',
-          productLine: 'Accounting',
-          category: 'SME',
-          timestamp: actualDetails?.eventProperties?.timestamp,
-        },
-      };
-
-      expect(module.trackUserEvent).toHaveBeenCalledWith(expected);
     });
   });
 });

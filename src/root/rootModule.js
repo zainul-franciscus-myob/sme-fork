@@ -12,10 +12,9 @@ import {
   getLeanEngageInfo,
   getModuleAction,
   getRegion,
-  getTelemetryData,
-  getTelemetryFields,
+  getTelemetryInfo,
 } from './rootSelectors';
-import { getUser } from '../Auth';
+import { recordPageVisit } from '../telemetry';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -41,13 +40,7 @@ export default class RootModule {
     this.store = new Store(RootReducer);
   }
 
-  init = ({
-    integration,
-    router,
-    recordPageVisit,
-    trackUserEvent,
-    startLeanEngage,
-  }) => {
+  init = ({ integration, router, startLeanEngage }) => {
     const {
       constructPath,
       replaceURLParamsAndReload,
@@ -75,8 +68,6 @@ export default class RootModule {
     this.licenceService = LicenceService(integration, this.store);
     this.lastBusinessId = null;
     this.startLeanEngage = startLeanEngage;
-    this.recordPageVisit = recordPageVisit;
-    this.trackUserEvent = trackUserEvent;
     this.splitFeatureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
@@ -94,8 +85,6 @@ export default class RootModule {
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
       isToggleOn: this.isToggleOn,
-      recordPageVisit,
-      trackUserEvent: this.trackTelemetryUserEvent,
       navigateTo: this.navigateTo,
     });
 
@@ -105,7 +94,6 @@ export default class RootModule {
       tasksService: this.tasksService,
       toggleTasks: this.drawer.toggleTasks,
       businessDetailsService: this.businessDetailsService,
-      recordPageVisit,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({
@@ -140,17 +128,6 @@ export default class RootModule {
     const state = this.store.getState();
 
     this.startLeanEngage(getLeanEngageInfo(state));
-  };
-
-  runTelemetry = ({ currentRouteName, previousRouteName }) => {
-    const state = this.store.getState();
-    const telemetryData = getTelemetryData(state);
-
-    this.recordPageVisit({
-      currentRouteName,
-      previousRouteName,
-      telemetryData,
-    });
   };
 
   subscribeOrUpgrade = async () => {
@@ -238,16 +215,7 @@ export default class RootModule {
     this.navigateTo(url);
   };
 
-  trackTelemetryUserEvent = (eventName, customProperties) => {
-    const state = this.store.getState();
-    const telemetryFields = getTelemetryFields(
-      state,
-      getUser(),
-      eventName,
-      customProperties
-    );
-    this.trackUserEvent(telemetryFields);
-  };
+  getTelemetryInfo = () => getTelemetryInfo(this.store.getState());
 
   run = async (routeProps, module, context) => {
     const {
@@ -282,7 +250,10 @@ export default class RootModule {
       this.runLeanEngage();
     }
 
-    this.runTelemetry(routeProps);
+    recordPageVisit({
+      currentRouteName,
+      previousRouteName,
+    });
 
     this.lastBusinessId = businessId;
 

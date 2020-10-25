@@ -1,4 +1,9 @@
+import { recordPageVisit } from '../../telemetry';
 import OnboardingModule from '../OnboardingModule';
+
+jest.mock('../../telemetry', () => ({
+  recordPageVisit: jest.fn(),
+}));
 
 describe('OnboardingModule', () => {
   it('can be instantiated', () => {
@@ -13,9 +18,7 @@ describe('OnboardingModule', () => {
   });
 
   it('sends telemetry event with expected payload when onboarding view first loads', () => {
-    const onboardingModule = new OnboardingModule({
-      recordPageVisit: jest.fn(),
-    });
+    const onboardingModule = new OnboardingModule({});
 
     const routeProps = {
       routeParams: {
@@ -25,13 +28,10 @@ describe('OnboardingModule', () => {
     onboardingModule.run(routeProps);
     onboardingModule.onboardingVisited();
 
-    expect(onboardingModule.recordPageVisit).toHaveBeenCalledTimes(1);
-    expect(onboardingModule.recordPageVisit).toBeCalledWith(
+    expect(recordPageVisit).toHaveBeenCalledTimes(1);
+    expect(recordPageVisit).toBeCalledWith(
       expect.objectContaining({
         currentRouteName: 'onboarding',
-        telemetryData: {
-          businessId: 'bizId',
-        },
       })
     );
   });

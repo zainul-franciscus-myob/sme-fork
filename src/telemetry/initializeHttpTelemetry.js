@@ -1,6 +1,8 @@
 import { getUser } from '../Auth';
 import { parsePath, parseUrl } from './parseUrlAndPath';
 import { setAnalyticsTraits } from '../store/localStorageDriver';
+import getRecordPageVisitFields from './getRecordPageVisitFields';
+import getTrackUserEventFields from './getTrackUserEventFields';
 
 const associateUserWithGroup = (currentBusinessId, { businessId }) => {
   if (businessId && currentBusinessId !== businessId) {
@@ -117,22 +119,26 @@ const trackUserEvent = (eventName, telemetryProperties) => {
   );
 };
 
-const initializeHttpTelemetry = () => {
+const initializeHttpTelemetry = (getTelemetryInfo) => {
   let userId;
   let businessId;
 
   return {
-    trackUserEvent: ({ eventName, eventProperties }) => {
+    trackUserEvent: ({ eventName, customProperties }) => {
       if (window.analytics) {
+        const eventProperties = getTrackUserEventFields({
+          ...getTelemetryInfo(),
+          user: getUser(),
+          customProperties,
+        });
+
         trackUserEvent(eventName, eventProperties);
       }
     },
-    recordPageVisit: ({
-      currentRouteName,
-      previousRouteName,
-      telemetryData = { businessId: undefined },
-    }) => {
+    recordPageVisit: ({ currentRouteName, previousRouteName }) => {
       if (window.analytics) {
+        const telemetryData = getRecordPageVisitFields(getTelemetryInfo());
+
         userId = identifyUser(userId, businessId, telemetryData);
         businessId = associateUserWithGroup(businessId, telemetryData);
         recordPageVisit(currentRouteName, userId, businessId);

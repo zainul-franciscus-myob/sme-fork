@@ -3,9 +3,14 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { findButtonWithTestId } from '../../../../../common/tests/selectors';
+import { trackUserEvent } from '../../../../../telemetry';
 import PayRunModule from '../../PayRunModule';
 import RecordPayRunModule from '../RecordPayRunModule';
 import openBlob from '../../../../../common/blobOpener/openBlob';
+
+jest.mock('../../../../../telemetry', () => ({
+  trackUserEvent: jest.fn(),
+}));
 
 jest.mock('../../../../../common/blobOpener/openBlob');
 
@@ -91,7 +96,6 @@ describe('RecordPayRunModule', () => {
   });
 
   describe('Telemetry event', () => {
-    const trackUserEvent = jest.fn();
     const constructRecordPayRunModuleLocal = () => {
       const integration = {
         readFile: ({ onSuccess }) => onSuccess('FOO'),
@@ -120,7 +124,6 @@ describe('RecordPayRunModule', () => {
         integration,
         store: payRunModule.store,
         pushMessage,
-        trackUserEvent,
       });
 
       const view = recordPayRunModule.getView();
@@ -138,10 +141,12 @@ describe('RecordPayRunModule', () => {
       const { recordPayRunModule } = constructRecordPayRunModuleLocal();
       recordPayRunModule.trackRecordPayment();
 
-      expect(recordPayRunModule.trackUserEvent).toHaveBeenCalledTimes(1);
-      const parameters = recordPayRunModule.trackUserEvent.mock.calls[0];
-      expect(parameters[0]).toEqual('recordPayment');
-      expect(parameters[1].action).toEqual('record_payment');
+      expect(trackUserEvent).toHaveBeenCalledTimes(1);
+      const parameters = trackUserEvent.mock.calls[0];
+      expect(parameters[0]).toEqual({
+        eventName: 'recordPayment',
+        customProperties: { action: 'record_payment' },
+      });
     });
   });
 });

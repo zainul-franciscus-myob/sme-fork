@@ -21,6 +21,7 @@ import {
   getUserEmail,
 } from './NavigationSelectors';
 import { logout } from '../Auth';
+import { recordPageVisit, trackUserEvent } from '../telemetry';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationBar from './components/NavigationBar';
 import RouteName from '../router/RouteName';
@@ -36,8 +37,6 @@ export default class NavigationModule {
     config,
     toggleHelp,
     toggleTasks,
-    recordPageVisit,
-    trackUserEvent,
     navigateTo,
   }) {
     this.integration = integration;
@@ -48,8 +47,6 @@ export default class NavigationModule {
     this.config = config;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
-    this.recordPageVisit = recordPageVisit;
-    this.trackUserEvent = trackUserEvent;
     this.navigateTo = navigateTo;
   }
 
@@ -196,14 +193,10 @@ export default class NavigationModule {
   };
 
   createBusiness = async () => {
-    const telemetryProps = {
+    recordPageVisit({
       ...this.routeProps,
       currentRouteName: 'createNewBusiness',
-      telemetryData: {
-        businessId: this.routeProps.routeParams.businessId,
-      },
-    };
-    this.recordPageVisit(telemetryProps);
+    });
     const state = this.store.getState();
     this.redirectToPage(getCreateNewBusinessUrl(state));
   };
@@ -217,7 +210,10 @@ export default class NavigationModule {
       userEmail,
     };
 
-    this.trackUserEvent('manageMyProduct', telemetryData);
+    trackUserEvent({
+      eventName: 'manageMyProduct',
+      customProperties: telemetryData,
+    });
     this.navigateTo(productManagementUrl, true);
   };
 

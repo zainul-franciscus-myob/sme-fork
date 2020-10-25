@@ -3,13 +3,13 @@ import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import { initializeAuth } from './Auth';
+import { initializeTelemetry } from './telemetry';
 import Config from './Config';
 import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
 import getCreateIntegration from './integration/getCreateIntegration';
 import getInitializeLeanEngage from './leanEngage/getInitializeLeanEngage';
-import getInitializeTelemetry from './telemetry/getInitializeTelemetry';
 import getRoutes from './getRoutes';
 import loadFeatureToggles from './featureToggles/loadFeatureToggles';
 import stopResizeAnimation from './stopResizeAnimation';
@@ -25,9 +25,8 @@ async function main(integrationType, telemetryType, leanEngageType) {
   const integration = createIntegration({
     getRegion: rootModule.getRegion,
   });
-  const initializeTelemetry = getInitializeTelemetry(telemetryType);
-  const telemetry = initializeTelemetry();
-  const { recordPageVisit, trackUserEvent } = telemetry;
+
+  initializeTelemetry(telemetryType, rootModule.getTelemetryInfo);
   const initializeLeanEngage = getInitializeLeanEngage(leanEngageType);
   const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
 
@@ -41,8 +40,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
   rootModule.init({
     integration,
     router,
-    recordPageVisit,
-    trackUserEvent,
     startLeanEngage,
   });
 
@@ -61,7 +58,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     featureToggles,
     loadGlobalBusinessDetails: rootModule.loadGlobalBusinessDetails,
     loadHelpContentBasedOnRoute: rootModule.loadHelpContentBasedOnRoute,
-    trackUserEvent: rootModule.trackTelemetryUserEvent,
   });
 
   const routes = getRoutes(container);
