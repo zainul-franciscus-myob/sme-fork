@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAlert,
   getIsLoading,
+  getRegion,
   getShouldShowBanking,
   getShouldShowLeanEngage,
   getShouldShowPayroll,
@@ -13,6 +14,7 @@ import {
   getShouldShowTracking,
   getShouldUsePayrollLayout,
 } from '../selectors/DashboardSelectors';
+import DashBoardNzPayrollEapView from './payroll/DashboardNzPayrollEapView';
 import DashBoardPayrollView from './payroll/DashboardPayrollView';
 import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardHeader from './DashboardHeader';
@@ -22,6 +24,7 @@ import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
 import DashboardSalesCard from './sales/DashboardSalesCard';
 import DashboardTrackingCard from './tracking/DashboardTrackingCard';
 import PageView from '../../../components/PageView/PageView';
+import Region from '../../../common/types/Region';
 import footerImage from './footer-right-illustration.svg';
 import styles from './DashboardView.module.css';
 
@@ -45,6 +48,7 @@ const DashboardView = ({
   shouldShowTracking,
   shouldUsePayrollLayout,
   shouldShowPayroll,
+  region,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -118,7 +122,7 @@ const DashboardView = ({
     </BaseTemplate>
   );
 
-  const payrollView = (
+  const auPayrollView = (
     <DashBoardPayrollView
       onDismissAlert={onDismissAlert}
       onLinkClick={onLinkClick}
@@ -126,6 +130,16 @@ const DashboardView = ({
       onPayrollReportsReload={onPayrollReportsReload}
     />
   );
+
+  const nzPayrollView = (
+    <DashBoardNzPayrollEapView
+      onDismissAlert={onDismissAlert}
+      onLinkClick={onLinkClick}
+      onPayrollReload={onPayrollReload}
+    />
+  );
+
+  const payrollView = region === Region.nz ? nzPayrollView : auPayrollView;
 
   const view = shouldUsePayrollLayout ? payrollView : dashboardView;
 
@@ -142,6 +156,7 @@ const mapStateToProps = (state) => ({
   shouldShowPayroll: getShouldShowPayroll(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
+  region: getRegion(state),
 });
 
 export default connect(mapStateToProps)(DashboardView);
