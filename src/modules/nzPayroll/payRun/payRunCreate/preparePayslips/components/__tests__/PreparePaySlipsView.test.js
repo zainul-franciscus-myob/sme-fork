@@ -37,7 +37,7 @@ describe('PreparePaySlipsView', () => {
 
   it('should have Page Header', () => {
     const pageHeader = wrapper
-      .find({ title: 'Prepare pay slips' })
+      .find({ title: 'Pay run summary' })
       .find(PageHead);
     expect(pageHeader.exists()).toBe(true);
   });

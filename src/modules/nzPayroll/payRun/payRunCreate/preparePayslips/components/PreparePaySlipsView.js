@@ -16,7 +16,7 @@ const PreparePaySlipsView = ({ stepNumber, payRunSteps, onNextClick }) => {
 
   return (
     <>
-      <PageHead title="Prepare pay slips" />
+      <PageHead title="Pay run summary" />
       <div className={styles.stepper}>
         <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
       </div>

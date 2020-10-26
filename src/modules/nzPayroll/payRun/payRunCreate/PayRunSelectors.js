@@ -85,7 +85,7 @@ const initialStepperSteps = [
   },
   {
     number: '4',
-    title: 'Prepare pay slips',
+    title: 'Pay run summary',
     type: 'incomplete',
   },
   {
