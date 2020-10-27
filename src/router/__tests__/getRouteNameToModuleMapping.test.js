@@ -13,9 +13,10 @@ describe('getRouteNameToModuleMapping', () => {
       {
         name: 'freddo',
         documentTitle: '🐸',
-        module: {
-          run: () => '🐸',
-        },
+        loadModule: () =>
+          Promise.resolve({
+            run: () => '🐸',
+          }),
       },
     ];
 
@@ -27,7 +28,7 @@ describe('getRouteNameToModuleMapping', () => {
         title: '🐧',
       },
       freddo: {
-        module: routes[1].module,
+        loadModule: routes[1].loadModule,
         title: '🐸',
       },
     });

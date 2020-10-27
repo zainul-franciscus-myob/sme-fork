@@ -14,14 +14,12 @@ URL parameters are declared when a module is associated with a route, e.g [getBa
 ```js
 // Routes
 
-const getBankingRuleRoutes = ({ integration, setRootView }) => [
+const getBankingRuleRoutes = () => [
   {
     name: RouteName.BANKING_RULE_DETAIL,
     path: '/:region/:businessId/bankingRule/:bankingRuleId',
     allowedParams: ['isDuplicate']
-    module: new BankingRuleDetailModule({
-      integration, setRootView, pushMessage,
-    }),
+    loadModule: () => import('./BankingRuleDetailModule'),
     documentTitle: 'Banking rule',
   },
 

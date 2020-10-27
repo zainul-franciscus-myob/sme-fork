@@ -41,6 +41,7 @@ const getPaySuperRoutes = ({
         pushMessage,
         featureToggles,
       }),
+      documentTitle: 'Pay super',
     },
   ];
   return routes;

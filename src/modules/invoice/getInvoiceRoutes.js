@@ -1,17 +1,7 @@
-import InvoiceDetailModule from './invoiceDetail/InvoiceDetailModule';
-import InvoiceListModule from './invoiceList/InvoiceListModule';
 import RouteName from '../../router/RouteName';
 
-const getInvoiceRoutes = ({
-  integration,
-  setRootView,
-  popMessages,
-  pushMessage,
-  replaceURLParams,
-  globalCallbacks,
-  navigateTo,
-  subscribeOrUpgrade,
-}) => {
+/** @type {import('../module-types').RouteConfig} */
+const getInvoiceRoutes = () => {
   const routes = [
     {
       name: RouteName.INVOICE_LIST,
@@ -25,23 +15,14 @@ const getInvoiceRoutes = ({
         'orderBy',
         'sortOrder',
       ],
-      module: new InvoiceListModule({ integration, setRootView, popMessages }),
+      loadModule: () => import('./invoiceList/InvoiceListModule'),
       documentTitle: 'Invoices',
     },
     {
       name: RouteName.INVOICE_DETAIL,
       path: '/:region/:businessId/invoice/:invoiceId',
       allowedParams: ['layout', 'quoteId'],
-      module: new InvoiceDetailModule({
-        integration,
-        setRootView,
-        pushMessage,
-        popMessages,
-        replaceURLParams,
-        globalCallbacks,
-        navigateTo,
-        subscribeOrUpgrade,
-      }),
+      loadModule: () => import('./invoiceDetail/InvoiceDetailModule'),
       documentTitle: 'Invoice',
     },
   ];

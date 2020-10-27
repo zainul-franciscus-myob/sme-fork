@@ -13,7 +13,12 @@ import createLearnBankFeedIntegrator from './createBankingLearnIntegrator';
 import createLearnBankingDispatcher from './createBankingLearnDispatcher';
 
 export default class BankingLearnModule {
-  constructor({ integration, setRootView, learnBankingCompleted, navigateTo }) {
+  constructor({
+    integration,
+    setRootView,
+    globalCallbacks: { learnBankingCompleted },
+    navigateTo,
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.learnBankingCompleted = learnBankingCompleted;
