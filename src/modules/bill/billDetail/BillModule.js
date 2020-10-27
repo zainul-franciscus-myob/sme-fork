@@ -95,6 +95,7 @@ class BillModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
+    featureToggles,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -114,7 +115,10 @@ class BillModule {
     this.globalCallbacks = globalCallbacks;
     this.navigateTo = navigateTo;
     this.subscribeOrUpgrade = subscribeOrUpgrade;
-    this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({
+      integration,
+      featureToggles,
+    });
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.openAlert,

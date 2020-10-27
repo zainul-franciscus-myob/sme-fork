@@ -54,7 +54,10 @@ export default class BankingRuleDetailModule {
       this.integration
     );
     this.jobModalModule = new JobModalModule({ integration });
-    this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({
+      integration,
+      featureToggles,
+    });
     this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
   }

@@ -38,6 +38,8 @@ export default class ContactDetailModule {
     });
     this.isElectronicPaymentEnabled =
       featureToggles?.isElectronicPaymentEnabled;
+    this.isPayBillRemittanceAdviceEnabled =
+      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   openAccountModal = () => {
@@ -264,6 +266,7 @@ export default class ContactDetailModule {
     this.dispatcher.setInitialState({
       ...context,
       isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
+      isPayBillRemittanceAdviceEnabled: this.isPayBillRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

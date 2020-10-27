@@ -14,9 +14,10 @@ import createContactComboboxDispatcher from './createContactComboboxDispatcher';
 import createContactComboboxIntegrator from './createContactComboboxIntegrator';
 
 export default class ContactComboboxModule {
-  constructor({ integration }) {
+  constructor({ integration, featureToggles }) {
     this.onChange = () => {};
     this.onAlert = () => {};
+    this.featureToggles = featureToggles || {};
 
     this.store = new Store(contactComboboxReducer);
     this.integrator = createContactComboboxIntegrator({
@@ -83,7 +84,7 @@ export default class ContactComboboxModule {
     const context = getContactModalContext(state);
 
     this.contactModalModule.run({
-      context,
+      context: { ...context, ...this.featureToggles },
       onSaveSuccess: this.loadContactComboboxOptionAfterCreate,
       onLoadFailure: (message) => {
         this.onAlert({ type: AlertType.DANGER, message });

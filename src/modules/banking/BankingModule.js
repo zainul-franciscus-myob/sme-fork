@@ -109,7 +109,10 @@ export default class BankingModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
-    this.bankingRuleModule = new BankingRuleModule({ integration });
+    this.bankingRuleModule = new BankingRuleModule({
+      integration,
+      featureToggles,
+    });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -123,6 +126,7 @@ export default class BankingModule {
     );
     this.splitAllocationContactComboboxModule = new ContactComboboxModule({
       integration,
+      featureToggles,
     });
     this.spendMoneyBankingRuleComboboxModule = new BankingRuleComboboxModule({
       integration,

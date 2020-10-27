@@ -177,5 +177,28 @@ describe('contactModalReducer', () => {
 
       expect(actual.contact.paymentDetails.statementText).toEqual('ABC & CBA');
     });
+
+    it('accepts all characters for email', () => {
+      const emailInput = '123$%%&*TY@ghUY)(!?}{+_.~com';
+      const state = {
+        contact: {
+          paymentDetails: {
+            email: '',
+          },
+        },
+      };
+
+      const action = {
+        intent: SET_CONTACT_MODAL_PAYMENT_DETAILS,
+        key: 'email',
+        value: { emailInput },
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.contact.paymentDetails.email).toEqual({
+        emailInput,
+      });
+    });
   });
 });

@@ -66,14 +66,15 @@ export const getDefaultState = () => ({
       accountNumber: '',
       accountName: '',
       statementText: '',
+      email: '',
     },
   },
   contactTypeOptions: [],
+  isPayBillRemittanceAdviceEnabled: false,
 });
 
 const setInitialState = (state, { context }) => {
   const defaultState = getDefaultState();
-
   return {
     ...defaultState,
     businessId: context.businessId,
@@ -84,6 +85,7 @@ const setInitialState = (state, { context }) => {
       ...defaultState.contact,
       contactType: context.contactType || defaultState.contact.contactType,
     },
+    isPayBillRemittanceAdviceEnabled: context.isPayBillRemittanceAdviceEnabled,
   };
 };
 

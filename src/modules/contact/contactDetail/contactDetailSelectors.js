@@ -2,6 +2,9 @@ import { createSelector, createStructuredSelector } from 'reselect';
 
 import countryList from '../../../sharedData/countryList';
 
+export const getIsPayBillRemittanceAdviceEnabled = (state) =>
+  state.isPayBillRemittanceAdviceEnabled;
+
 export const getContactId = (state) => state.contactId;
 
 export const getIsCreating = (state) => state.contactId === 'new';

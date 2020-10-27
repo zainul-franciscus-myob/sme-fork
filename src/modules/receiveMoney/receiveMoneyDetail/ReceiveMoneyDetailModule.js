@@ -51,6 +51,7 @@ export default class ReceiveMoneyDetailModule {
     pushMessage,
     navigateTo,
     popMessages,
+    featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -71,6 +72,7 @@ export default class ReceiveMoneyDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.contactModalModule = new ContactModalModule({ integration });
+    this.featureToggles = featureToggles || {};
   }
 
   openContactModal = () => {
@@ -78,7 +80,7 @@ export default class ReceiveMoneyDetailModule {
     const context = getContactModalContext(state);
 
     this.contactModalModule.run({
-      context,
+      context: { ...context, ...this.featureToggles },
       onLoadFailure: (message) => this.displayFailureAlert(message),
       onSaveSuccess: ({ id, message }) =>
         this.loadContactAfterCreate({ id, message }),

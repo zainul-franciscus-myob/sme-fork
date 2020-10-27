@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsPayBillRemittanceAdviceEnabled,
   getPaymentDetails,
   getShowPaymentDetails,
 } from '../../ContactModalSelectors';
@@ -14,6 +15,7 @@ const PaymentDetailsWithToggle = ({
   onPaymentDetailsChange,
   onToggle,
   isToggled,
+  isPayBillRemittanceAdviceEnabled,
 }) => {
   const toggleButton = (
     <FieldGroup label="Payment details">
@@ -27,6 +29,7 @@ const PaymentDetailsWithToggle = ({
     <PaymentDetails
       {...paymentDetails}
       onPaymentDetailsChange={onPaymentDetailsChange}
+      isPayBillRemittanceAdviceEnabled={isPayBillRemittanceAdviceEnabled}
     />
   );
 
@@ -36,6 +39,7 @@ const PaymentDetailsWithToggle = ({
 const mapStateToProps = (state) => ({
   paymentDetails: getPaymentDetails(state),
   isToggled: getShowPaymentDetails(state),
+  isPayBillRemittanceAdviceEnabled: getIsPayBillRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(PaymentDetailsWithToggle);

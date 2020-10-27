@@ -20,11 +20,14 @@ import createBankingRuleDispatcher from './createBankingRuleDispatcher';
 import createBankingRuleIntegrator from './createBankingRuleIntegrator';
 
 export default class BankingRuleModule {
-  constructor({ integration }) {
+  constructor({ integration, featureToggles }) {
     this.store = new Store(bankingRuleReducer);
     this.dispatcher = createBankingRuleDispatcher(this.store);
     this.integrator = createBankingRuleIntegrator(this.store, integration);
-    this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({
+      integration,
+      featureToggles,
+    });
   }
 
   resetState = () => {

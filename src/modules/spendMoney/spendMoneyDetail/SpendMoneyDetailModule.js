@@ -71,6 +71,7 @@ export default class SpendMoneyDetailModule {
     pushMessage,
     popMessages,
     navigateTo,
+    featureToggles,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -82,7 +83,10 @@ export default class SpendMoneyDetailModule {
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
-    this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({
+      integration,
+      featureToggles,
+    });
   }
 
   openAccountModal = (onChange) => {

@@ -14,7 +14,9 @@ const PaymentDetails = ({
   accountName,
   bankNumber,
   statementText,
+  email,
   onPaymentDetailsChange,
+  isPayBillRemittanceAdviceEnabled,
 }) => (
   <FieldGroup label="Payment details">
     <BSBInput
@@ -57,6 +59,22 @@ const PaymentDetails = ({
       onChange={onInputChange(onPaymentDetailsChange)}
       width="lg"
     />
+    {isPayBillRemittanceAdviceEnabled && (
+      <Input
+        name="email"
+        label="Remittance advice email"
+        value={email}
+        onChange={onInputChange(onPaymentDetailsChange)}
+        width="lg"
+        maxlength={256}
+        labelAccessory={
+          <Tooltip triggerContent={<Icons.Info />}>
+            If this field is blank, we’ll send the remittance advice to the
+            email recorded in the billing details
+          </Tooltip>
+        }
+      />
+    )}
   </FieldGroup>
 );
 

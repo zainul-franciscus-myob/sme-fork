@@ -9,7 +9,7 @@ import createContactModalDispatcher from './createContactModalDispatcher';
 import createContactModalIntegrator from './createContactModalIntegrator';
 
 export default class ContactModalModule {
-  constructor({ integration }) {
+  constructor({ integration, featureToggles }) {
     this.integration = integration;
     this.onSaveSuccess = () => {};
     this.onLoadFailure = () => {};
@@ -20,6 +20,8 @@ export default class ContactModalModule {
       this.integration
     );
     this.dispatcher = createContactModalDispatcher(this.store);
+    this.isPayBillRemittanceAdviceEnabled =
+      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   isOpened = () => getIsOpen(this.store.getState());
