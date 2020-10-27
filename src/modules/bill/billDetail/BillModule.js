@@ -65,6 +65,7 @@ import {
 } from './selectors/BillModuleSelectors';
 import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
@@ -94,7 +95,6 @@ class BillModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
-    trackUserEvent,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -119,7 +119,6 @@ class BillModule {
       integration,
       onAlert: this.openAlert,
     });
-    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -845,8 +844,9 @@ class BillModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

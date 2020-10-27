@@ -47,6 +47,7 @@ import {
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
@@ -70,7 +71,6 @@ export default class SpendMoneyDetailModule {
     pushMessage,
     popMessages,
     navigateTo,
-    trackUserEvent,
   }) {
     this.store = new Store(spendMoneyDetailReducer);
     this.setRootView = setRootView;
@@ -83,7 +83,6 @@ export default class SpendMoneyDetailModule {
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
-    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -723,8 +722,9 @@ export default class SpendMoneyDetailModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

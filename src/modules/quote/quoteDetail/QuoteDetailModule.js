@@ -49,6 +49,7 @@ import {
   getEmailModalType,
   getFilesForUpload,
 } from './selectors/EmailSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
@@ -74,7 +75,6 @@ export default class QuoteDetailModule {
     popMessages,
     navigateTo,
     replaceURLParams,
-    trackUserEvent,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -92,7 +92,6 @@ export default class QuoteDetailModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
-    this.trackUserEvent = trackUserEvent;
   }
 
   loadQuote = () => {
@@ -758,8 +757,9 @@ export default class QuoteDetailModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

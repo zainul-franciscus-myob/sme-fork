@@ -19,6 +19,7 @@ import {
   getSupplierComboboxContext,
   getViewedAccountToolTip,
 } from './bankingRuleDetailSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
@@ -42,7 +43,6 @@ export default class BankingRuleDetailModule {
     pushMessage,
     featureToggles,
     isToggleOn,
-    trackUserEvent,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -57,14 +57,14 @@ export default class BankingRuleDetailModule {
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
-    this.trackUserEvent = trackUserEvent;
   }
 
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

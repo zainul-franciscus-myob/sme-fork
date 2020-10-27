@@ -49,6 +49,7 @@ import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import { getInvoiceQuoteUrl } from './selectors/quickQuoteSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
@@ -78,7 +79,6 @@ export default class InvoiceDetailModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
-    trackUserEvent,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -102,7 +102,6 @@ export default class InvoiceDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.navigateTo = navigateTo;
-    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -1085,8 +1084,9 @@ export default class InvoiceDetailModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

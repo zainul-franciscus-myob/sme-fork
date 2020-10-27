@@ -9,6 +9,7 @@ import {
   getSupplierComboboxContext,
   getViewedAccountToolTip,
 } from './bankingRuleSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleView from './components/BankingRuleView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
@@ -19,12 +20,11 @@ import createBankingRuleDispatcher from './createBankingRuleDispatcher';
 import createBankingRuleIntegrator from './createBankingRuleIntegrator';
 
 export default class BankingRuleModule {
-  constructor({ integration, trackUserEvent }) {
+  constructor({ integration }) {
     this.store = new Store(bankingRuleReducer);
     this.dispatcher = createBankingRuleDispatcher(this.store);
     this.integrator = createBankingRuleIntegrator(this.store, integration);
     this.contactComboboxModule = new ContactComboboxModule({ integration });
-    this.trackUserEvent = trackUserEvent;
   }
 
   resetState = () => {
@@ -46,8 +46,9 @@ export default class BankingRuleModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

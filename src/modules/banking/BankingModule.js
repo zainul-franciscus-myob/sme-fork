@@ -68,6 +68,7 @@ import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
 } from './tabs/transferMoney/transferMoneySelectors';
+import { trackUserEvent } from '../../telemetry';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleComboboxModule from '../bankingRules/bankingRuleCombobox/BankingRuleComboboxModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
@@ -99,7 +100,6 @@ export default class BankingModule {
     replaceURLParams,
     featureToggles,
     loadHelpContentBasedOnRoute,
-    trackUserEvent,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
@@ -109,10 +109,7 @@ export default class BankingModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
-    this.bankingRuleModule = new BankingRuleModule({
-      integration,
-      trackUserEvent,
-    });
+    this.bankingRuleModule = new BankingRuleModule({ integration });
     this.inTrayModalModule = new InTrayModalModule({ integration });
     this.accountModalModule = new AccountModalModule({
       integration,
@@ -137,7 +134,6 @@ export default class BankingModule {
       integration,
       setAlert: this.dispatcher.setAlert,
     });
-    this.trackUserEvent = trackUserEvent;
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -167,8 +163,9 @@ export default class BankingModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };

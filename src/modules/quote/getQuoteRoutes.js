@@ -9,7 +9,6 @@ const getQuoteRoutes = ({
   popMessages,
   navigateTo,
   replaceURLParams,
-  trackUserEvent,
 }) => {
   const routes = [
     {
@@ -33,7 +32,6 @@ const getQuoteRoutes = ({
         popMessages,
         navigateTo,
         replaceURLParams,
-        trackUserEvent,
       }),
       documentTitle: 'Quote',
     },

@@ -29,6 +29,7 @@ import {
   getSaveUrl,
   getTransactionListUrl,
 } from './selectors/redirectSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactModalModule from '../../contact/contactModal/ContactModalModule';
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
@@ -50,7 +51,6 @@ export default class ReceiveMoneyDetailModule {
     pushMessage,
     navigateTo,
     popMessages,
-    trackUserEvent,
   }) {
     this.integration = integration;
     this.store = new Store(receiveMoneyDetailReducer);
@@ -71,7 +71,6 @@ export default class ReceiveMoneyDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.contactModalModule = new ContactModalModule({ integration });
-    this.trackUserEvent = trackUserEvent;
   }
 
   openContactModal = () => {
@@ -397,8 +396,9 @@ export default class ReceiveMoneyDetailModule {
   viewedAccountToolTip = () => {
     if (getViewedAccountToolTip(this.store.getState()) === false) {
       this.dispatcher.setViewedAccountToolTip(true);
-      this.trackUserEvent('viewedAccountToolTip', {
-        action: 'viewed_accountToolTip',
+      trackUserEvent({
+        eventName: 'viewedAccountToolTip',
+        customProperties: { action: 'viewed_accountToolTip' },
       });
     }
   };
