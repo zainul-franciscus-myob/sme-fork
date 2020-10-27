@@ -9,3 +9,5 @@ export const LOAD_PURCHASE_SETTINGS = Symbol('Load purchase settings');
 export const UPDATE_EMAIL_SETTINGS = Symbol('Update email settings');
 
 export const SET_ALERT = Symbol('Set alert');
+
+export const EXPORT_SAMPLE_PDF = Symbol('Export sample PDF');

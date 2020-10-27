@@ -8,5 +8,5 @@
       "name": "Default Remittance Advice Template"
     }
   ],
-  "displayTemplateList": true
+  "shouldDisplayCustomTemplateList": true
 }

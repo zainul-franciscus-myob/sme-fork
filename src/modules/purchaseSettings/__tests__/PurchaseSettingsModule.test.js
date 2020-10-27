@@ -1,4 +1,5 @@
 import {
+  EXPORT_SAMPLE_PDF,
   LOAD_PURCHASE_SETTINGS,
   SET_ALERT,
   SET_LOADING_STATE,
@@ -11,8 +12,11 @@ import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import createPurchaseSettingsDispatcher from '../createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from '../createPurchaseSettingsIntegrator';
+import openBlob from '../../../common/blobOpener/openBlob';
 import purchaseSettingsDetailReducer from '../purchaseSettingsReducer';
 import successResponse from '../mappings/data/success';
+
+jest.mock('../../../common/blobOpener/openBlob');
 
 describe('PurchaseSettingsDetailModule', () => {
   const setRootView = () => {};
@@ -155,6 +159,24 @@ describe('PurchaseSettingsDetailModule', () => {
             remittanceAdviceEmailBody: 'body',
             remittanceAdviceEmailSubject: 'subject',
           },
+        }),
+      ]);
+    });
+  });
+
+  describe('exportPdf', () => {
+    it('downloads sample PDF', () => {
+      const { module, integration } = setupWithRun();
+
+      module.exportPdf();
+
+      expect(openBlob).toBeCalledWith(
+        expect.objectContaining({ shouldDownload: true })
+      );
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: EXPORT_SAMPLE_PDF,
         }),
       ]);
     });

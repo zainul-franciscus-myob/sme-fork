@@ -9,4 +9,5 @@ export const getAlert = (state) => state.alert;
 
 export const getTemplateList = (state) => state.templateList;
 
-export const getDisplayTemplateList = (state) => state.displayTemplateList;
+export const getShouldDisplayCustomTemplateList = (state) =>
+  state.shouldDisplayCustomTemplateList;

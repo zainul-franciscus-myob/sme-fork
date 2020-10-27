@@ -1,4 +1,5 @@
 import {
+  EXPORT_SAMPLE_PDF,
   LOAD_PURCHASE_SETTINGS,
   UPDATE_EMAIL_SETTINGS,
 } from './purchaseSettingsIntents';
@@ -17,6 +18,22 @@ const createPurchaseSettingsIntegrator = (store, integration) => ({
     };
 
     integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadSamplePdf: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = EXPORT_SAMPLE_PDF;
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    integration.readFile({
       intent,
       urlParams,
       onSuccess,

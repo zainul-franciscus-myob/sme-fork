@@ -6,6 +6,7 @@ import PurchaseSettingsView from './components/PurchaseSettingsView';
 import Store from '../../store/Store';
 import createPurchaseSettingsDispatcher from './createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from './createPurchaseSettingsIntegrator';
+import openBlob from '../../common/blobOpener/openBlob';
 import purchaseSettingsReducer from './purchaseSettingsReducer';
 
 export default class PurchaseSettingsModule {
@@ -42,6 +43,20 @@ export default class PurchaseSettingsModule {
     });
   };
 
+  exportPdf = () => {
+    const onSuccess = (data) => {
+      openBlob({
+        blob: data,
+        filename: 'RemittanceAdviceSample',
+        shouldDownload: true,
+      });
+    };
+
+    const onFailure = () => {};
+
+    this.integrator.loadSamplePdf({ onSuccess, onFailure });
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     this.loadPurchaseSettings();
@@ -73,6 +88,7 @@ export default class PurchaseSettingsModule {
         }
         saveEmailSettings={this.saveEmailSettings}
         onDismissAlert={this.dispatcher.dismissAlert}
+        exportPdf={this.exportPdf}
       />
     );
 

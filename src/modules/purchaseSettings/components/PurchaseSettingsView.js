@@ -16,8 +16,8 @@ import React from 'react';
 import {
   getAlert,
   getDefaultRemittanceAdviceEmailSettings,
-  getDisplayTemplateList,
   getLoadingState,
+  getShouldDisplayCustomTemplateList,
   getTemplateList,
 } from '../purchaseSettingsSelector';
 import PageView from '../../../components/PageView/PageView';
@@ -32,7 +32,8 @@ const PurchaseSettingsView = ({
   alert,
   onDismissAlert,
   templateList,
-  displayTemplateList,
+  shouldDisplayCustomTemplateList,
+  exportPdf,
 }) => {
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -48,10 +49,7 @@ const PurchaseSettingsView = ({
 
   const view = (
     <>
-      <FormTemplate
-        alert={alertComponent}
-        pageHead="Remittance Advice Settings"
-      >
+      <FormTemplate alert={alertComponent} pageHead="Purchases settings">
         <>
           <div className={styles.templateContainer}>
             <Card>
@@ -91,7 +89,7 @@ const PurchaseSettingsView = ({
             />
           </div>
         </>
-        {displayTemplateList && (
+        {shouldDisplayCustomTemplateList ? (
           <Card>
             <FieldGroup label="MYOB AccountRight desktop templates">
               {
@@ -104,6 +102,18 @@ const PurchaseSettingsView = ({
               </Table.Header>
               {templateRows}
             </Table>
+          </Card>
+        ) : (
+          <Card>
+            <FieldGroup label="Preview remittance advice">
+              {
+                'See what your remittance advice will look like to customers by downloading an example.'
+              }
+            </FieldGroup>
+            <br />
+            <Button type="link" onClick={exportPdf}>
+              Download preview (PDF)
+            </Button>
           </Card>
         )}
       </FormTemplate>
@@ -118,6 +128,6 @@ const mapStateToProps = (state) => ({
   emailSettings: getDefaultRemittanceAdviceEmailSettings(state),
   alert: getAlert(state),
   templateList: getTemplateList(state),
-  displayTemplateList: getDisplayTemplateList(state),
+  shouldDisplayCustomTemplateList: getShouldDisplayCustomTemplateList(state),
 });
 export default connect(mapStateToProps)(PurchaseSettingsView);

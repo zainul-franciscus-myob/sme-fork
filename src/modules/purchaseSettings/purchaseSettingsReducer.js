@@ -27,7 +27,13 @@ const setLoadingState = (state, { loadingState }) => ({
 
 const loadPurchaseSettings = (
   state,
-  { intent, emailSettings, templateList, displayTemplateList, ...rest }
+  {
+    intent,
+    emailSettings,
+    templateList,
+    getShouldDisplayCustomTemplateList,
+    ...rest
+  }
 ) => ({
   ...state,
   ...rest,
@@ -36,7 +42,7 @@ const loadPurchaseSettings = (
     ...emailSettings,
   },
   templateList,
-  displayTemplateList,
+  getShouldDisplayCustomTemplateList,
 });
 
 const updateDefaultRemittanceAdviceEmailField = (state, { key, value }) => ({
