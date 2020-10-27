@@ -311,7 +311,7 @@ export default class BillPaymentModule {
 
       openBlob({
         blob: data,
-        filename: `${referenceId}.pdf`,
+        filename: `RemittanceAdvice-${referenceId}.pdf`,
         shouldDownload: true,
       });
     };
