@@ -1,3 +1,4 @@
+export const SET_ALERT = Symbol('Set alert');
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const LOAD_RECURRING_TRANSACTION_LIST = Symbol(
   'Load recurring transaction list'

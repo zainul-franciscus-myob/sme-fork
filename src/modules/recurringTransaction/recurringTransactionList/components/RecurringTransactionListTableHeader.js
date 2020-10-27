@@ -19,12 +19,7 @@ const RecurringTransactionListTableHeader = ({
       />
     </Table.HeaderItem>
     <Table.HeaderItem {...tableConfig.transactionType}>
-      <HeaderSort
-        title="Transaction type"
-        sortName="TransactionType"
-        activeSort={order}
-        onSort={onSort}
-      />
+      Transaction type
     </Table.HeaderItem>
     <Table.HeaderItem {...tableConfig.amount}>
       <HeaderSort

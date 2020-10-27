@@ -1,8 +1,9 @@
-import { PageHead } from '@myob/myob-widgets';
+import { Alert, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
   getIsLoading,
   getIsRecurringTransactionEnabled,
 } from '../recurringTransactionListSelectors';
@@ -25,12 +26,20 @@ const tableConfig = {
 };
 
 const RecurringTransactionListView = ({
+  alert,
   isLoading,
+  onDismissAlert,
   onUpdateFilter,
   onResetFilter,
   onSort,
   isRecurringTransactionEnabled,
 }) => {
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
   const filterBar = (
     <RecurringTransactionListFilterOptions
       onUpdateFilter={onUpdateFilter}
@@ -40,6 +49,7 @@ const RecurringTransactionListView = ({
 
   const recurringTransactionListView = (
     <StandardTemplate
+      alert={alertComponent}
       pageHead={<PageHead title="Recurring Transactions" />}
       filterBar={filterBar}
       tableHeader={
@@ -63,6 +73,7 @@ const RecurringTransactionListView = ({
 };
 
 const mapStateToProps = (state) => ({
+  alert: getAlert(state),
   isLoading: getIsLoading(state),
   isRecurringTransactionEnabled: getIsRecurringTransactionEnabled(state),
 });

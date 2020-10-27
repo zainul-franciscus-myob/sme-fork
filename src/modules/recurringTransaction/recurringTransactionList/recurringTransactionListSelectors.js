@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
 
+export const getAlert = (state) => state.alert;
+
 export const getIsLoading = (state) => state.isLoading;
 
 export const getTableEntries = ({ entries }) => entries;
@@ -13,6 +15,8 @@ export const getOrderBy = (state) => state.orderBy;
 
 export const getIsRecurringTransactionEnabled = (state) =>
   state.isRecurringTransactionEnabled;
+
+export const getIsTableLoading = (state) => state.isTableLoading;
 
 export const getFlipSortOrder = ({ sortOrder }) =>
   sortOrder === 'desc' ? 'asc' : 'desc';

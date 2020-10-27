@@ -1,6 +1,7 @@
 import {
   LOAD_RECURRING_TRANSACTION_LIST,
   RESET_FILTER_OPTIONS,
+  SET_ALERT,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -29,6 +30,18 @@ const CreateRecurringTransactionListDispatcher = (store) => ({
     store.dispatch({
       intent: SET_LOADING_STATE,
       isLoading,
+    });
+  },
+  setAlert: (alert) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert,
+    });
+  },
+  dismissAlert: () => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
     });
   },
   setTableLoadingState: (isTableLoading) => {

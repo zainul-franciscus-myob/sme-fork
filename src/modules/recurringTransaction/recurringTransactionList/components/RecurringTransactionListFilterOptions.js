@@ -2,10 +2,14 @@ import { FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTransactionTypeFilters } from '../recurringTransactionListSelectors';
+import {
+  getFilterOptions,
+  getTransactionTypeFilters,
+} from '../recurringTransactionListSelectors';
 import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
 const RecurringTransactionListFilterOptions = ({
+  filterOptions: { type },
   typeOptions,
   onUpdateFilter,
   onResetFilter,
@@ -13,8 +17,9 @@ const RecurringTransactionListFilterOptions = ({
   return (
     <FilterBar onReset={onResetFilter}>
       <Select
-        name="Transaction Type"
-        label="Transaction Type"
+        name="type"
+        label="Transaction type"
+        value={type}
         onChange={handleSelectChange(onUpdateFilter)}
       >
         {typeOptions.map(({ label, value }) => (
@@ -27,6 +32,7 @@ const RecurringTransactionListFilterOptions = ({
 
 const mapStateToProps = (state) => ({
   typeOptions: getTransactionTypeFilters(state),
+  filterOptions: getFilterOptions(state),
 });
 
 export default connect(mapStateToProps)(RecurringTransactionListFilterOptions);

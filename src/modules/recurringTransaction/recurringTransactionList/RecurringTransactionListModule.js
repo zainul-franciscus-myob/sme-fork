@@ -29,6 +29,7 @@ export default class RecurringTransactionModule {
         onUpdateFilter={this.updateFilterOptions}
         onResetFilter={this.resetFilterOptions}
         onSort={this.updateSort}
+        onDismissAlert={this.dismissAlert}
       />
     );
 
@@ -66,6 +67,10 @@ export default class RecurringTransactionModule {
   resetFilterOptions = () => {
     this.dispatcher.resetFilterOptions();
     this.sortAndFilterRecurringTransactionList();
+  };
+
+  dismissAlert = () => {
+    this.dispatcher.dismissAlert();
   };
 
   sortAndFilterRecurringTransactionList = () => {

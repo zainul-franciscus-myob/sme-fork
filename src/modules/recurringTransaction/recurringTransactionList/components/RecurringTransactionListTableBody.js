@@ -2,14 +2,21 @@ import { Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableEntries } from '../recurringTransactionListSelectors';
+import {
+  getIsTableLoading,
+  getTableEntries,
+} from '../recurringTransactionListSelectors';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 
-const RecurringTransactionListTableBody = ({ tableConfig, entries }) => {
+const RecurringTransactionListTableBody = ({
+  tableConfig,
+  entries,
+  isTableLoading,
+}) => {
   return (
-    <StickyTableBody>
+    <StickyTableBody isLoading={isTableLoading}>
       {entries.map((entry) => (
-        <Table.Row key={entry.id}>
+        <Table.Row key={`${entry.transactionType}-${entry.id}`}>
           <Table.RowItem {...tableConfig.transactionName}>
             {entry.transactionName}
           </Table.RowItem>
@@ -25,6 +32,7 @@ const RecurringTransactionListTableBody = ({ tableConfig, entries }) => {
 
 const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
+  isTableLoading: getIsTableLoading(state),
 });
 
 export default connect(mapStateToProps)(RecurringTransactionListTableBody);
