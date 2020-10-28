@@ -24,8 +24,8 @@ describe('Employee pay details table', () => {
   });
 
   describe('Renders with unselectable amount input field', () => {
-    it('for payrollCategoryType KiwiSaverEmployers', () => {
-      const entry = { hours: 5, payrollCategoryType: 'KiwiSaverEmployers' };
+    it('for type KiwiSaverEmployers', () => {
+      const entry = { hours: 5, type: 'KiwiSaverEmployers' };
 
       const wrapper = mount(<PayDetailsTableRow {...props} entry={entry} />);
 
@@ -35,8 +35,8 @@ describe('Employee pay details table', () => {
       expect(isSelectable).toEqual(true);
     });
 
-    it('for payrollCategoryType KiwiSaverEmployee', () => {
-      const entry = { hours: 5, payrollCategoryType: 'KiwiSaverEmployee' };
+    it('for type KiwiSaverEmployee', () => {
+      const entry = { hours: 5, type: 'KiwiSaverEmployee' };
 
       const wrapper = mount(<PayDetailsTableRow {...props} entry={entry} />);
 
@@ -46,8 +46,8 @@ describe('Employee pay details table', () => {
       expect(isSelectable).toEqual(true);
     });
 
-    it('for payrollCategoryType HourlyWage', () => {
-      const entry = { hours: 5, payrollCategoryType: 'HourlyWage' };
+    it('for type HourlyWage', () => {
+      const entry = { hours: 5, type: 'HourlyWage' };
 
       const wrapper = mount(<PayDetailsTableRow {...props} entry={entry} />);
 

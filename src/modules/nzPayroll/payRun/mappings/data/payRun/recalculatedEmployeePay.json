@@ -6,7 +6,7 @@
   "daysPaid": 300,
   "takeHomePay": 1000,
   "kiwiSaver": 350,
-  "payItems": [{
+  "payLines": [{
       "payItemId": 1,
       "payItemName": "Salary Wage",
       "type": "SalaryWage",

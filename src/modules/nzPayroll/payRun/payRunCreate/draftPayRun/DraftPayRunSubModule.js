@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getTotals, isPayItemLineDirty } from './DraftPayRunSelectors';
+import { getTotals, isPayLineDirty } from './DraftPayRunSelectors';
 import DraftPayRunView from './components/DraftPayRunView';
 import createDraftPayRunDispatcher from './createDraftPayRunDispatcher';
 import createDraftPayRunIntegrator from './createDraftPayRunIntegrator';
@@ -22,9 +22,9 @@ export default class DraftPayRunSubModule {
     this.dispatcher.nextStep();
   };
 
-  changeEmployeePayItem = ({ employeeId, payItemId, key, value }) => {
-    this.dispatcher.setPayItemLineDirty(true);
-    this.dispatcher.updateEmployeePayItem({
+  changeEmployeePayLine = ({ employeeId, payItemId, key, value }) => {
+    this.dispatcher.setPayLineDirty(true);
+    this.dispatcher.updateEmployeePayLine({
       employeeId,
       payItemId,
       key,
@@ -34,10 +34,10 @@ export default class DraftPayRunSubModule {
 
   updateEmployeePay = ({ employeeId, payItemId, key, value }) => {
     const state = this.store.getState();
-    const payItemLineIsDirty = isPayItemLineDirty(state);
+    const payLineDirty = isPayLineDirty(state);
 
-    if (payItemLineIsDirty) {
-      this.dispatcher.formatEmployeePayItem({
+    if (payLineDirty) {
+      this.dispatcher.formatEmployeePayLine({
         employeeId,
         payItemId,
         key,
@@ -54,7 +54,7 @@ export default class DraftPayRunSubModule {
 
     const onSuccess = (updatedEmployeePay) => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setPayItemLineDirty(false);
+      this.dispatcher.setPayLineDirty(false);
       this.dispatcher.updateEmployeeLineAfterRecalculation({
         employeeId,
         updatedEmployeePay,
@@ -63,7 +63,7 @@ export default class DraftPayRunSubModule {
 
     const onFailure = () => {
       this.dispatcher.setSubmittingState(false);
-      this.dispatcher.setPayItemLineDirty(false);
+      this.dispatcher.setPayLineDirty(false);
     };
 
     this.integrator.updateEmployeePay({
@@ -105,17 +105,17 @@ export default class DraftPayRunSubModule {
       <DraftPayRunView
         onSelectRow={this.updateIsEmployeeSelected}
         onSelectAllRows={this.updateAreAllEmployeesSelected}
-        onEmployeePayItemChange={this.changeEmployeePayItem}
-        onEmployeePayItemBlur={this.updateEmployeePay}
+        onEmployeePayLineChange={this.changeEmployeePayLine}
+        onEmployeePayLineBlur={this.updateEmployeePay}
         onNextButtonClick={this.nextStep}
         onDaysPaidChange={this.updateDaysPaid}
       />
     );
   }
 
-  getAmount = (payItem, id, index) => {
+  getAmount = (payLine, id, index) => {
     if (index === 0) {
-      return payItem.amount;
+      return payLine.amount;
     }
     return formatAmount(0);
   };

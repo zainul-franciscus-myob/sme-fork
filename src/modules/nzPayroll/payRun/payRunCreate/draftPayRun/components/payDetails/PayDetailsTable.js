@@ -2,17 +2,17 @@ import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import DaysPaidRow from './PayDetailsDaysPaidRow';
-import KiwiSaverPayItems from './payItems/KiwiSaverPayItems';
-import TaxPayItems from './payItems/TaxPayItems';
-import WagePayItems from './payItems/WagePayItems';
+import KiwiSaverPayLines from './payLines/KiwiSaverPayLines';
+import TaxPayLines from './payLines/TaxPayLines';
+import WagePayLines from './payLines/WagePayLines';
 import tableConfig from './PayDetailsTableConfig';
 
 const PayDetailsTable = ({
   employeeId,
   employeeName,
   daysPaid,
-  onEmployeePayItemChange,
-  onEmployeePayItemBlur,
+  onEmployeePayLineChange,
+  onEmployeePayLineBlur,
   onDaysPaidChange,
 }) => (
   <Table>
@@ -28,26 +28,26 @@ const PayDetailsTable = ({
         employeeId={employeeId}
         daysPaid={daysPaid}
       />
-      <WagePayItems
+      <WagePayLines
         tableConfig={tableConfig}
         employeeId={employeeId}
         employeeName={employeeName}
-        onEmployeePayItemChange={onEmployeePayItemChange}
-        onEmployeePayItemBlur={onEmployeePayItemBlur}
+        onEmployeePayLineChange={onEmployeePayLineChange}
+        onEmployeePayLineBlur={onEmployeePayLineBlur}
       />
-      <TaxPayItems
+      <TaxPayLines
         tableConfig={tableConfig}
         employeeId={employeeId}
         employeeName={employeeName}
-        onEmployeePayItemChange={onEmployeePayItemChange}
-        onEmployeePayItemBlur={onEmployeePayItemBlur}
+        onEmployeePayLineChange={onEmployeePayLineChange}
+        onEmployeePayLineBlur={onEmployeePayLineBlur}
       />
-      <KiwiSaverPayItems
+      <KiwiSaverPayLines
         tableConfig={tableConfig}
         employeeId={employeeId}
         employeeName={employeeName}
-        onEmployeePayItemChange={onEmployeePayItemChange}
-        onEmployeePayItemBlur={onEmployeePayItemBlur}
+        onEmployeePayLineChange={onEmployeePayLineChange}
+        onEmployeePayLineBlur={onEmployeePayLineBlur}
       />
     </Table.Body>
   </Table>

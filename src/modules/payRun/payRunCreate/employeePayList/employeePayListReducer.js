@@ -228,7 +228,7 @@ const updateEmployeePayItem = (
 
 const formatPayItemHours = (hours) =>
   formatNumberWithDecimalScaleRange(hours, 2, 3);
-const formatPayItemAmount = (amount) =>
+const formatPayLineAmount = (amount) =>
   formatNumberWithDecimalScaleRange(amount, 2, 2);
 const getFormattedPayItems = (payItems, payItemId, key, value) =>
   payItems.map((payItem) =>
@@ -238,7 +238,7 @@ const getFormattedPayItems = (payItems, payItemId, key, value) =>
           [key]:
             key === 'hours'
               ? formatPayItemHours(value)
-              : formatPayItemAmount(value),
+              : formatPayLineAmount(value),
           isSubmitting: true,
         }
       : {

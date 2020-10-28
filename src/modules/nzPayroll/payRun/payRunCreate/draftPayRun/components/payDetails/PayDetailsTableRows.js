@@ -23,7 +23,7 @@ const PayDetailsTableRows = ({
 
   const rows = entries.map((entry) => (
     <PayDetailsTableRow
-      key={entry.payrollCategoryId}
+      key={entry.payItemId}
       tableConfig={tableConfig}
       employeeId={employeeId}
       employeeName={employeeName}

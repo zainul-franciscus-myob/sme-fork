@@ -11,8 +11,8 @@ import styles from './DraftPayRunView.module.css';
 const DraftPayRunView = ({
   onSelectRow,
   onSelectAllRows,
-  onEmployeePayItemChange,
-  onEmployeePayItemBlur,
+  onEmployeePayLineChange,
+  onEmployeePayLineBlur,
   onNextButtonClick,
   stepNumber,
   payRunSteps,
@@ -27,8 +27,8 @@ const DraftPayRunView = ({
     <EmployeePayTable
       onSelectRow={onSelectRow}
       onSelectAllRows={onSelectAllRows}
-      onEmployeePayItemChange={onEmployeePayItemChange}
-      onEmployeePayItemBlur={onEmployeePayItemBlur}
+      onEmployeePayLineChange={onEmployeePayLineChange}
+      onEmployeePayLineBlur={onEmployeePayLineBlur}
       onDaysPaidChange={onDaysPaidChange}
     />
     <EmployeePayActions onNextButtonClick={onNextButtonClick} />

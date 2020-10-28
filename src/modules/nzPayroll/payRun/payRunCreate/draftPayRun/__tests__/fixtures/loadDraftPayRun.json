@@ -10,7 +10,7 @@
       "paye": 100,
       "takeHomePay": 700,
       "kiwiSaver": 150,
-      "payItems": [
+      "payLines": [
         {
           "payItemId": 1,
           "payItemName": "Salary Wage",
@@ -84,7 +84,7 @@
       "paye": 125,
       "takeHomePay": 1005.15,
       "kiwiSaver": 200,
-      "payItems": [
+      "payLines": [
         {
           "payItemId": 21,
           "payItemName": "Salary Wage",

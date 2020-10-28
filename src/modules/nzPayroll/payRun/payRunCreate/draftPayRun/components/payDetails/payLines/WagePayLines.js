@@ -2,37 +2,36 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getKiwiSaverPayItemEntries,
-  getShouldShowKiwiSaverPayItems,
+  getShouldShowWagePayLines,
+  getWagePayLineEntries,
 } from '../../../DraftPayRunSelectors';
 import PayDetailsTableRows from '../PayDetailsTableRows';
 
-const KiwiSaverPayItems = ({
+const WagePayLines = ({
   tableConfig,
   employeeId,
   employeeName,
   entries,
-  onEmployeePayItemChange,
-  onEmployeePayItemBlur,
+  onEmployeePayLineChange,
+  onEmployeePayLineBlur,
   shouldShowTableRows,
 }) => (
   <PayDetailsTableRows
-    name="kiwiSaver"
-    title="KiwiSaver"
+    name="wage"
+    title="Wages"
     tableConfig={tableConfig}
     employeeId={employeeId}
     employeeName={employeeName}
     entries={entries}
-    onChange={onEmployeePayItemChange}
-    onBlur={onEmployeePayItemBlur}
+    onChange={onEmployeePayLineChange}
+    onBlur={onEmployeePayLineBlur}
     shouldShowTableRows={shouldShowTableRows}
-    disableAmountInput
   />
 );
 
 const mapStateToProps = (state, props) => ({
-  entries: getKiwiSaverPayItemEntries(state, props),
-  shouldShowTableRows: getShouldShowKiwiSaverPayItems(state, props),
+  entries: getWagePayLineEntries(state, props),
+  shouldShowTableRows: getShouldShowWagePayLines(state, props),
 });
 
-export default connect(mapStateToProps)(KiwiSaverPayItems);
+export default connect(mapStateToProps)(WagePayLines);

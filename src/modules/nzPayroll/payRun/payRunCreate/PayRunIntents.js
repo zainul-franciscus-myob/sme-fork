@@ -4,8 +4,8 @@ export const SET_PAY_PERIOD_DETAILS = Symbol('Set pay period details');
 export const CREATE_DRAFT_PAY_RUN = Symbol('Create draft pay run');
 export const LOAD_DRAFT_PAY_RUN = Symbol('Load draft pay run');
 export const NEXT_STEP = Symbol('Next step');
-export const SET_PAY_ITEM_LINE_DIRTY = Symbol('Set pay item line dirty');
-export const UPDATE_EMPLOYEE_PAY_ITEM = Symbol('Update employee pay item');
+export const SET_PAY_LINE_DIRTY = Symbol('Set pay item line dirty');
+export const UPDATE_EMPLOYEE_PAY_LINE = Symbol('Update employee pay item');
 export const UPDATE_EMPLOYEE_PAY = Symbol('Recalculate pay');
 export const UPDATE_DRAFT_PAY_RUN = Symbol('Update draft pay run');
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol(
@@ -17,7 +17,7 @@ export const UPDATE_EMPLOYEE_DAYS_PAID = Symbol(
 export const UPDATE_ARE_ALL_EMPLOYEES_SELECTED = Symbol(
   'Update are all employees selected'
 );
-export const FORMAT_EMPLOYEE_PAY_ITEM = Symbol('Format employee pay item');
+export const FORMAT_EMPLOYEE_PAY_LINE = Symbol('Format employee pay item');
 export const RECORD_PAYMENTS = Symbol('Record payments');
 export const SET_ALERT = Symbol('Set alert');
 export const UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION = Symbol(

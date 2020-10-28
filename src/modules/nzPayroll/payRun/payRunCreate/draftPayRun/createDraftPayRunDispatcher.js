@@ -1,11 +1,11 @@
 import {
-  FORMAT_EMPLOYEE_PAY_ITEM,
-  SET_PAY_ITEM_LINE_DIRTY,
+  FORMAT_EMPLOYEE_PAY_LINE,
+  SET_PAY_LINE_DIRTY,
   SET_TOTAL_TAKE_HOME_PAY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-  UPDATE_EMPLOYEE_PAY_ITEM,
+  UPDATE_EMPLOYEE_PAY_LINE,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../PayRunIntents';
 import createPayRunDispatchers from '../createPayRunDispatchers';
@@ -26,17 +26,16 @@ const createDraftPayRunDispatcher = (store) => ({
     store.dispatch({ intent: UPDATE_ARE_ALL_EMPLOYEES_SELECTED, value });
   },
 
-  setPayItemLineDirty: (isDirty) => {
+  setPayLineDirty: (isDirty) => {
     store.dispatch({
-      intent: SET_PAY_ITEM_LINE_DIRTY,
+      intent: SET_PAY_LINE_DIRTY,
       isDirty,
     });
   },
 
-  updateEmployeePayItem: ({ employeeId, payItemId, key, value }) => {
-    const intent = UPDATE_EMPLOYEE_PAY_ITEM;
+  updateEmployeePayLine: ({ employeeId, payItemId, key, value }) => {
     store.dispatch({
-      intent,
+      intent: UPDATE_EMPLOYEE_PAY_LINE,
       employeeId,
       payItemId,
       key,
@@ -44,10 +43,9 @@ const createDraftPayRunDispatcher = (store) => ({
     });
   },
 
-  formatEmployeePayItem: ({ employeeId, payItemId, key, value }) => {
-    const intent = FORMAT_EMPLOYEE_PAY_ITEM;
+  formatEmployeePayLine: ({ employeeId, payItemId, key, value }) => {
     store.dispatch({
-      intent,
+      intent: FORMAT_EMPLOYEE_PAY_LINE,
       employeeId,
       payItemId,
       key,

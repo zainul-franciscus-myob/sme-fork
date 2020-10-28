@@ -4,8 +4,8 @@ const getEmployeePayLines = (employeePays, isSelectedFunc) => {
   return employeePays.map((employeePay) => ({
     ...employeePay,
     isSelected: isSelectedFunc(employeePay),
-    payItems: employeePay.payItems.map((payItem) => ({
-      ...payItem,
+    payLines: employeePay.payLines.map((payLine) => ({
+      ...payLine,
       isSubmitting: false,
     })),
   }));

@@ -77,7 +77,7 @@ const PayDetailsTableRow = ({
       value={entry.quantity}
       employeeId={employeeId}
       employeeName={employeeName}
-      payItemId={entry.payrollCategoryId}
+      payItemId={entry.payItemId}
       onChange={onChange}
       onBlur={onBlur}
       leaveWarning={entry.leaveWarning}
@@ -89,21 +89,21 @@ const PayDetailsTableRow = ({
     <AmountInputField
       value={entry.amount}
       employeeId={employeeId}
-      payItemId={entry.payrollCategoryId}
+      payItemId={entry.payItemId}
       onChange={onChange}
       onBlur={onBlur}
       isDisabled={
         entry.isSubmitting ||
         disableAmountInput ||
-        typeAmountInputDisabled(entry.payrollCategoryType)
+        typeAmountInputDisabled(entry.type)
       }
     />
   );
 
   return (
-    <Table.Row key={entry.payrollCategoryId}>
+    <Table.Row key={entry.payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
-        {entry.payrollCategoryName}
+        {entry.name}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.quantity}>
         {entry.shouldShowQuantity && hourRowItem}

@@ -1,11 +1,11 @@
 import {
-  FORMAT_EMPLOYEE_PAY_ITEM,
+  FORMAT_EMPLOYEE_PAY_LINE,
   LOAD_DRAFT_PAY_RUN,
-  SET_PAY_ITEM_LINE_DIRTY,
+  SET_PAY_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
-  UPDATE_EMPLOYEE_PAY_ITEM,
+  UPDATE_EMPLOYEE_PAY_LINE,
   UPDATE_IS_EMPLOYEE_SELECTED,
 } from '../../PayRunIntents';
 import draftPayRun from './fixtures/loadDraftPayRun';
@@ -86,11 +86,11 @@ describe('draftPayRunReducer', () => {
               kiwiSaver: '40.00',
               paye: '110.00',
               isSelected: true,
-              payItems: [
+              payLines: [
                 {
-                  payrollCategoryId: 22,
-                  payrollCategoryName: 'Salary Wage',
-                  payrollCategoryType: 'SalaryWage',
+                  payItemId: 22,
+                  name: 'Salary Wage',
+                  type: 'SalaryWage',
                   amount: '100000.00',
                   quantity: '0.00',
                   id: 16,
@@ -114,11 +114,11 @@ describe('draftPayRunReducer', () => {
         kiwiSaver: '222.00',
         paye: '777.00',
         isSelected: true,
-        payItems: [
+        payLines: [
           {
-            payrollCategoryId: 22,
-            payrollCategoryName: 'Salary Wage',
-            payrollCategoryType: 'SalaryWage',
+            payItemId: 22,
+            name: 'Salary Wage',
+            type: 'SalaryWage',
             amount: '22.00',
             quantity: '0.00',
             id: 16,
@@ -146,11 +146,11 @@ describe('draftPayRunReducer', () => {
               kiwiSaver: '222.00',
               paye: '777.00',
               isSelected: true,
-              payItems: [
+              payLines: [
                 {
-                  payrollCategoryId: 22,
-                  payrollCategoryName: 'Salary Wage',
-                  payrollCategoryType: 'SalaryWage',
+                  payItemId: 22,
+                  name: 'Salary Wage',
+                  type: 'SalaryWage',
                   amount: '22.00',
                   quantity: '0.00',
                   id: 16,
@@ -186,11 +186,11 @@ describe('draftPayRunReducer', () => {
               kiwiSaver: '40.00',
               paye: '110.00',
               isSelected: true,
-              payItems: [
+              payLines: [
                 {
-                  payrollCategoryId: 22,
-                  payrollCategoryName: 'Base Hourly',
-                  payrollCategoryType: 'HourlyWage',
+                  payItemId: 22,
+                  name: 'Base Hourly',
+                  type: 'HourlyWage',
                   amount: '0.00',
                   quantity: '0.00',
                   id: 16,
@@ -199,9 +199,9 @@ describe('draftPayRunReducer', () => {
                   isSubmitting: true,
                 },
                 {
-                  payrollCategoryId: 33,
-                  payrollCategoryName: 'Not base hourly',
-                  payrollCategoryType: 'HourlyWage',
+                  payItemId: 33,
+                  name: 'Not base hourly',
+                  type: 'HourlyWage',
                   amount: '-20.00',
                   quantity: '-2.00',
                   id: 16,
@@ -226,11 +226,11 @@ describe('draftPayRunReducer', () => {
         kiwiSaver: '40.00',
         paye: '110.00',
         isSelected: true,
-        payItems: [
+        payLines: [
           {
-            payrollCategoryId: 22,
-            payrollCategoryName: 'Base Hourly',
-            payrollCategoryType: 'HourlyWage',
+            payItemId: 22,
+            name: 'Base Hourly',
+            type: 'HourlyWage',
             amount: '-20.00',
             quantity: '-1.00',
             id: 16,
@@ -238,9 +238,9 @@ describe('draftPayRunReducer', () => {
             rate: '0.00',
           },
           {
-            payrollCategoryId: 33,
-            payrollCategoryName: 'Not base hourly',
-            payrollCategoryType: 'HourlyWage',
+            payItemId: 33,
+            name: 'Not base hourly',
+            type: 'HourlyWage',
             amount: '-20.00',
             quantity: '-2.00',
             id: 16,
@@ -259,22 +259,22 @@ describe('draftPayRunReducer', () => {
       it('clears the negative amount for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
+        expect(actual.draftPayRun.lines[0].payLines[0].amount).toEqual('0.00');
       });
 
       it('clears the negative quantity for base hourly', () => {
         const actual = payRunReducer(state, action);
 
-        expect(actual.draftPayRun.lines[0].payItems[0].quantity).toEqual(
+        expect(actual.draftPayRun.lines[0].payLines[0].quantity).toEqual(
           '0.00'
         );
       });
 
-      const nonBaseHourlyPayItems = [
+      const nonBaseHourlyPayLines = [
         {
-          payrollCategoryId: 22,
-          payrollCategoryName: 'Tax item',
-          payrollCategoryType: 'Tax',
+          payItemId: 22,
+          name: 'Tax item',
+          type: 'Tax',
           amount: '-10.00',
           quantity: '-1.00',
           id: 16,
@@ -282,9 +282,9 @@ describe('draftPayRunReducer', () => {
           rate: '0.00',
         },
         {
-          payrollCategoryId: 33,
-          payrollCategoryName: 'Not base hourly',
-          payrollCategoryType: 'NonHourlyWage',
+          payItemId: 33,
+          name: 'Not base hourly',
+          type: 'NonHourlyWage',
           amount: '-111.00',
           quantity: '-222.00',
           id: 16,
@@ -299,11 +299,11 @@ describe('draftPayRunReducer', () => {
           employeeId: 21,
           updatedEmployeePay: {
             ...updatedEmployeePay,
-            payItems: nonBaseHourlyPayItems,
+            payLines: nonBaseHourlyPayLines,
           },
         });
 
-        expect(actual.draftPayRun.lines[0].payItems[1].amount).toEqual(
+        expect(actual.draftPayRun.lines[0].payLines[1].amount).toEqual(
           '-111.00'
         );
       });
@@ -314,18 +314,18 @@ describe('draftPayRunReducer', () => {
           employeeId: 21,
           updatedEmployeePay: {
             ...updatedEmployeePay,
-            payItems: nonBaseHourlyPayItems,
+            payLines: nonBaseHourlyPayLines,
           },
         });
 
-        expect(actual.draftPayRun.lines[0].payItems[1].quantity).toEqual(
+        expect(actual.draftPayRun.lines[0].payLines[1].quantity).toEqual(
           '-222.00'
         );
       });
     });
   });
 
-  describe('formatPayItemAmount', () => {
+  describe('formatPayLineAmount', () => {
     const employeeId = '1';
     const payItemId = '2';
     const state = {
@@ -333,7 +333,7 @@ describe('draftPayRunReducer', () => {
         lines: [
           {
             employeeId,
-            payItems: [
+            payLines: [
               {
                 payItemId,
               },
@@ -343,7 +343,7 @@ describe('draftPayRunReducer', () => {
       },
     };
     const action = {
-      intent: FORMAT_EMPLOYEE_PAY_ITEM,
+      intent: FORMAT_EMPLOYEE_PAY_LINE,
       employeeId,
       payItemId,
       key: 'amount',
@@ -353,7 +353,7 @@ describe('draftPayRunReducer', () => {
     it('should format the amount field of a particular pay item to 2 decimal places', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('3.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].amount).toEqual('3.00');
     });
 
     it('should format the amount field of a particular pay item to 0.00 for a NaN input', () => {
@@ -364,7 +364,7 @@ describe('draftPayRunReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].amount).toEqual('0.00');
     });
 
     it('should format the hours field of a particular pay item to 2 decimal places min, and 3 decimal places max', () => {
@@ -377,7 +377,7 @@ describe('draftPayRunReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].hours).toEqual('3.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].hours).toEqual('3.00');
     });
 
     it('should format the hours field of a particular pay item to 0.00 for a NaN input', () => {
@@ -389,7 +389,7 @@ describe('draftPayRunReducer', () => {
 
       const actual = payRunReducer(state, modifiedAction);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].hours).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].hours).toEqual('0.00');
     });
   });
 
@@ -410,11 +410,11 @@ describe('draftPayRunReducer', () => {
         employeePays: [
           {
             employeeId: 21,
-            payItems: [
+            payLines: [
               {
-                payrollCategoryId: 22,
-                payrollCategoryName: 'Base Hourly',
-                payrollCategoryType: 'HourlyWage',
+                payItemId: 22,
+                name: 'Base Hourly',
+                type: 'HourlyWage',
                 amount: '-200.00',
                 quantity: '-10.00',
                 id: 16,
@@ -422,9 +422,9 @@ describe('draftPayRunReducer', () => {
                 rate: '20.00',
               },
               {
-                payrollCategoryId: 1,
-                payrollCategoryName: 'Base Salary',
-                payrollCategoryType: 'SalaryWage',
+                payItemId: 1,
+                name: 'Base Salary',
+                type: 'SalaryWage',
                 amount: '-20.00',
                 quantity: '-1.00',
                 id: 16,
@@ -432,9 +432,9 @@ describe('draftPayRunReducer', () => {
                 rate: '0.00',
               },
               {
-                payrollCategoryId: 33,
-                payrollCategoryName: 'Not base hourly',
-                payrollCategoryType: 'HourlyWage',
+                payItemId: 33,
+                name: 'Not base hourly',
+                type: 'HourlyWage',
                 amount: '-20.00',
                 quantity: '-2.00',
                 id: 16,
@@ -450,24 +450,24 @@ describe('draftPayRunReducer', () => {
     it('sets negative amount to zero for base salary pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.draftPayRun.lines[0].payItems[1].amount).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payLines[1].amount).toEqual('0.00');
     });
 
     it('does not set negative amount to zero for other pay items', () => {
       const actual = payRunReducer(state, action);
-      expect(actual.draftPayRun.lines[0].payItems[2].amount).toEqual('-20.00');
+      expect(actual.draftPayRun.lines[0].payLines[2].amount).toEqual('-20.00');
     });
 
     it('sets negative amount to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].amount).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].amount).toEqual('0.00');
     });
 
     it('sets negative hours to zero for base hourly pay item in the lines', () => {
       const actual = payRunReducer(state, action);
 
-      expect(actual.draftPayRun.lines[0].payItems[0].quantity).toEqual('0.00');
+      expect(actual.draftPayRun.lines[0].payLines[0].quantity).toEqual('0.00');
     });
 
     it('sets days paid', () => {
@@ -567,18 +567,18 @@ describe('draftPayRunReducer', () => {
     it('update daysPaid field in store onChange', () => {
       const state = {
         draftPayRun: {
-          isPayItemLineDirty: false,
+          isPayLineDirty: false,
         },
       };
 
       const action = {
-        intent: SET_PAY_ITEM_LINE_DIRTY,
+        intent: SET_PAY_LINE_DIRTY,
         isDirty: true,
       };
 
       const expected = {
         draftPayRun: {
-          isPayItemLineDirty: true,
+          isPayLineDirty: true,
         },
       };
 
@@ -604,11 +604,11 @@ describe('draftPayRunReducer', () => {
               kiwiSaver: '40.00',
               paye: '110.00',
               isSelected: true,
-              payItems: [
+              payLines: [
                 {
-                  payrollCategoryId: 22,
-                  payrollCategoryName: 'Salary Wage',
-                  payrollCategoryType: 'SalaryWage',
+                  payItemId: 22,
+                  name: 'Salary Wage',
+                  type: 'SalaryWage',
                   amount: '100000.00',
                   quantity: '0.00',
                   id: 16,
@@ -623,7 +623,7 @@ describe('draftPayRunReducer', () => {
       };
 
       const action = {
-        intent: UPDATE_EMPLOYEE_PAY_ITEM,
+        intent: UPDATE_EMPLOYEE_PAY_LINE,
         employeeId: 21,
         payItemId: 22,
         key: 'quantity',
@@ -643,11 +643,11 @@ describe('draftPayRunReducer', () => {
               kiwiSaver: '40.00',
               paye: '110.00',
               isSelected: true,
-              payItems: [
+              payLines: [
                 {
-                  payrollCategoryId: 22,
-                  payrollCategoryName: 'Salary Wage',
-                  payrollCategoryType: 'SalaryWage',
+                  payItemId: 22,
+                  name: 'Salary Wage',
+                  type: 'SalaryWage',
                   amount: '100000.00',
                   quantity: '10.00',
                   id: 16,

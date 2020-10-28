@@ -4,14 +4,14 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LOAD_DRAFT_PAY_RUN } from '../../../../../PayRunIntents';
-import KiwiSaverPayItems from '../KiwiSaverPayItems';
+import KiwiSaverPayLines from '../KiwiSaverPayLines';
 import PayDetailsTableRow from '../../PayDetailsTableRow';
 import TestStore from '../../../../../../../../../store/TestStore';
 import createdDraftPayRun from '../../../../__tests__/fixtures/createDraftPayRun';
 import payRunReducer from '../../../../../payRunReducer';
 import tableConfig from '../../PayDetailsTableConfig';
 
-describe('KiwiSaverPayItems', () => {
+describe('KiwiSaverPayLines', () => {
   let store;
   const props = {
     employeeId: 22,
@@ -38,7 +38,7 @@ describe('KiwiSaverPayItems', () => {
     });
 
   it('Should have the expected values in row header', () => {
-    const wrapper = mountWithProvider(<KiwiSaverPayItems {...props} />);
+    const wrapper = mountWithProvider(<KiwiSaverPayLines {...props} />);
 
     const expected = 'KiwiSaver';
 
@@ -51,7 +51,7 @@ describe('KiwiSaverPayItems', () => {
   });
 
   it('Should have three child rows', () => {
-    const wrapper = mountWithProvider(<KiwiSaverPayItems {...props} />);
+    const wrapper = mountWithProvider(<KiwiSaverPayLines {...props} />);
     expect(wrapper.find(PayDetailsTableRow).length).toEqual(3);
   });
 });

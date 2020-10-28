@@ -3,23 +3,23 @@ import {
   getFormattedEmployeePayLines,
   getIsAllSelected,
   getIsPartiallySelected,
-  getKiwiSaverPayItemEntries,
+  getKiwiSaverPayLineEntries,
   getNumberOfSelected,
-  getShouldShowKiwiSaverPayItems,
-  getShouldShowTaxPayItems,
-  getShouldShowWagePayItems,
-  getTaxPayItemEntries,
+  getShouldShowKiwiSaverPayLines,
+  getShouldShowTaxPayLines,
+  getShouldShowWagePayLines,
+  getTaxPayLineEntries,
   getTotals,
   getUpdateDraftPayRunRequest,
   getUpdateEmployeePayRequest,
-  getWagePayItemEntries,
-  isPayItemLineDirty,
+  getWagePayLineEntries,
+  isPayLineDirty,
 } from '../DraftPayRunSelectors';
-import draftPayRun from './fixtures/stateWithEmployeePayItems';
-import kiwiSaverPayItemEntries from './fixtures/kiwiSaverPayItemEntries';
-import taxPayItemEntries from './fixtures/taxPayItemEntries';
+import draftPayRun from './fixtures/stateWithEmployeePayLines';
+import kiwiSaverPayLineEntries from './fixtures/kiwiSaverPayLineEntries';
+import taxPayLineEntries from './fixtures/taxPayLineEntries';
 import updateEmployeePayRequest from './fixtures/updateEmployeePayRequest';
-import wagePayItemEntries from './fixtures/wagePayItemEntries';
+import wagePayLineEntries from './fixtures/wagePayLineEntries';
 
 describe('draftPayRunSelectors', () => {
   describe('getIsPartiallySelected', () => {
@@ -106,48 +106,48 @@ describe('draftPayRunSelectors', () => {
     });
   });
 
-  describe('getWagePayItemEntries', () => {
+  describe('getWagePayLineEntries', () => {
     it('returns sorted wage pay item entries', () => {
-      const actualWagePayItemEntries = getWagePayItemEntries(draftPayRun, {
+      const actualWagePayLineEntries = getWagePayLineEntries(draftPayRun, {
         employeeId: 21,
       });
 
-      const expectedWagePayItemEntries = wagePayItemEntries;
+      const expectedWagePayLineEntries = wagePayLineEntries;
 
-      expect(actualWagePayItemEntries).toEqual(expectedWagePayItemEntries);
+      expect(actualWagePayLineEntries).toEqual(expectedWagePayLineEntries);
     });
   });
 
-  describe('getTaxPayItemEntries', () => {
+  describe('getTaxPayLineEntries', () => {
     it('returns tax pay item entries', () => {
-      const actualTaxPayItemEntries = getTaxPayItemEntries(draftPayRun, {
+      const actualTaxPayLineEntries = getTaxPayLineEntries(draftPayRun, {
         employeeId: 21,
       });
 
-      const expectedTaxPayItemEntries = taxPayItemEntries;
+      const expectedTaxPayLineEntries = taxPayLineEntries;
 
-      expect(actualTaxPayItemEntries).toEqual(expectedTaxPayItemEntries);
+      expect(actualTaxPayLineEntries).toEqual(expectedTaxPayLineEntries);
     });
   });
 
-  describe('getKiwiSaverPayItemEntries', () => {
+  describe('getKiwiSaverPayLineEntries', () => {
     it('returns employer expense pay items without the hours field', () => {
-      const actualEmployerExpensePayItemEntries = getKiwiSaverPayItemEntries(
+      const actualEmployerExpensePayLineEntries = getKiwiSaverPayLineEntries(
         draftPayRun,
         { employeeId: 21 }
       );
 
-      const expectedEmployerExpensePayItemEntries = kiwiSaverPayItemEntries;
+      const expectedEmployerExpensePayLineEntries = kiwiSaverPayLineEntries;
 
-      expect(actualEmployerExpensePayItemEntries).toEqual(
-        expectedEmployerExpensePayItemEntries
+      expect(actualEmployerExpensePayLineEntries).toEqual(
+        expectedEmployerExpensePayLineEntries
       );
     });
   });
 
-  describe('getShouldShowWagePayItems', () => {
+  describe('getShouldShowWagePayLines', () => {
     it('returns true when employee has at least one wage pay item', () => {
-      const actual = getShouldShowWagePayItems(draftPayRun, {
+      const actual = getShouldShowWagePayLines(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -161,7 +161,7 @@ describe('draftPayRunSelectors', () => {
           lines: [
             {
               employeeId: 21,
-              payItems: [
+              payLines: [
                 {
                   type: 'Tax',
                 },
@@ -170,16 +170,16 @@ describe('draftPayRunSelectors', () => {
           ],
         },
       };
-      const actual = getShouldShowWagePayItems(state, { employeeId: 21 });
+      const actual = getShouldShowWagePayLines(state, { employeeId: 21 });
       const expected = false;
 
       expect(actual).toEqual(expected);
     });
   });
 
-  describe('getShouldShowTaxPayItem', () => {
+  describe('getShouldShowTaxPayLine', () => {
     it('returns true when employee has at least one tax pay item', () => {
-      const actual = getShouldShowTaxPayItems(draftPayRun, {
+      const actual = getShouldShowTaxPayLines(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -193,7 +193,7 @@ describe('draftPayRunSelectors', () => {
           lines: [
             {
               employeeId: 21,
-              payItems: [
+              payLines: [
                 {
                   type: 'Deduction',
                 },
@@ -202,16 +202,16 @@ describe('draftPayRunSelectors', () => {
           ],
         },
       };
-      const actual = getShouldShowTaxPayItems(state, { employeeId: 21 });
+      const actual = getShouldShowTaxPayLines(state, { employeeId: 21 });
       const expected = false;
 
       expect(actual).toEqual(expected);
     });
   });
 
-  describe('getShouldShowKiwiSaverPayItems', () => {
+  describe('getShouldShowKiwiSaverPayLines', () => {
     it('returns true when employee has at least one KiwiSaver pay item', () => {
-      const actual = getShouldShowKiwiSaverPayItems(draftPayRun, {
+      const actual = getShouldShowKiwiSaverPayLines(draftPayRun, {
         employeeId: 21,
       });
       const expected = true;
@@ -224,7 +224,7 @@ describe('draftPayRunSelectors', () => {
           lines: [
             {
               employeeId: 21,
-              payItems: [
+              payLines: [
                 {
                   type: 'Tax',
                 },
@@ -236,7 +236,7 @@ describe('draftPayRunSelectors', () => {
           ],
         },
       };
-      const actual = getShouldShowKiwiSaverPayItems(state, {
+      const actual = getShouldShowKiwiSaverPayLines(state, {
         employeeId: 21,
       });
       const expected = false;
@@ -385,15 +385,15 @@ describe('draftPayRunSelectors', () => {
     });
   });
 
-  describe('isPayItemLineDirty', () => {
+  describe('isPayLineDirty', () => {
     it('should get is pay item line dirty', () => {
       const state = {
         draftPayRun: {
-          isPayItemLineDirty: true,
+          isPayLineDirty: true,
         },
       };
 
-      const actual = isPayItemLineDirty(state);
+      const actual = isPayLineDirty(state);
 
       const expected = true;
 

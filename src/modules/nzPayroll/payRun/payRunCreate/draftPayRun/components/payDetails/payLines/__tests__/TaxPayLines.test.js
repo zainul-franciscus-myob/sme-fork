@@ -5,13 +5,13 @@ import React from 'react';
 
 import { LOAD_DRAFT_PAY_RUN } from '../../../../../PayRunIntents';
 import PayDetailsTableRow from '../../PayDetailsTableRow';
-import TaxPayItems from '../TaxPayItems';
+import TaxPayLines from '../TaxPayLines';
 import TestStore from '../../../../../../../../../store/TestStore';
 import createdDraftPayRun from '../../../../__tests__/fixtures/createDraftPayRun';
 import payRunReducer from '../../../../../payRunReducer';
 import tableConfig from '../../PayDetailsTableConfig';
 
-describe('TaxPayItems', () => {
+describe('TaxPayLines', () => {
   let store;
   const props = {
     employeeId: 22,
@@ -38,7 +38,7 @@ describe('TaxPayItems', () => {
     });
 
   it('Should have the expected values in row header', () => {
-    const wrapper = mountWithProvider(<TaxPayItems {...props} />);
+    const wrapper = mountWithProvider(<TaxPayLines {...props} />);
 
     const expected = 'Taxes';
 
@@ -48,7 +48,7 @@ describe('TaxPayItems', () => {
   });
 
   it('Should have three child rows', () => {
-    const wrapper = mountWithProvider(<TaxPayItems {...props} />);
+    const wrapper = mountWithProvider(<TaxPayLines {...props} />);
     expect(wrapper.find(PayDetailsTableRow).length).toEqual(1);
   });
 });

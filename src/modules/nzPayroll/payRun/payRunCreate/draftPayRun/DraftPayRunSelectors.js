@@ -67,16 +67,16 @@ export const getTotals = createSelector(getEmployeePayLines, (lines) => {
   };
 });
 
-export const isPayItemLineDirty = createSelector(
+export const isPayLineDirty = createSelector(
   getDraftPayRun,
-  (pays) => pays.isPayItemLineDirty
+  (pays) => pays.isPayLineDirty
 );
 
-const isWagePayItem = (payItemType) =>
-  ['SalaryWage', 'HourlyWage'].includes(payItemType);
-const isTaxPayItem = (payItemType) => ['Tax'].includes(payItemType);
-const isKiwiSaverPayItem = (payItemType) =>
-  ['KiwiSaverEmployee', 'KiwiSaverEmployers', 'ESCT'].includes(payItemType);
+const isWagePayLine = (payLineType) =>
+  ['SalaryWage', 'HourlyWage'].includes(payLineType);
+const isTaxPayLine = (payLineType) => ['Tax'].includes(payLineType);
+const isKiwiSaverPayLine = (payLineType) =>
+  ['KiwiSaverEmployee', 'KiwiSaverEmployers', 'ESCT'].includes(payLineType);
 
 const getEmployeeLineByEmployeeId = (state, employeeId) =>
   state.draftPayRun.lines.find((line) => line.employeeId === employeeId);
@@ -88,87 +88,74 @@ const getBaseSalaryWagePayItemId = (state) =>
 
 const SMALLER = -1;
 const BIGGER = 1;
-const wagePayItemComparator = (a, b, baseWageIds) => {
-  if (baseWageIds.includes(b.payrollCategoryId)) {
+const wagePayLineComparator = (a, b, baseWageIds) => {
+  if (baseWageIds.includes(b.payItemId)) {
     return BIGGER;
   }
-  if (baseWageIds.includes(a.payrollCategoryId)) {
+  if (baseWageIds.includes(a.payItemId)) {
     return SMALLER;
   }
 
-  if (
-    a.payrollCategoryType === 'HourlyWage' &&
-    b.payrollCategoryType === 'SalaryWage'
-  )
-    return SMALLER;
-  if (
-    b.payrollCategoryType === 'HourlyWage' &&
-    a.payrollCategoryType === 'SalaryWage'
-  )
-    return BIGGER;
+  if (a.type === 'HourlyWage' && b.type === 'SalaryWage') return SMALLER;
+  if (b.type === 'HourlyWage' && a.type === 'SalaryWage') return BIGGER;
 
-  return a.payrollCategoryName.localeCompare(b.payrollCategoryName);
+  return a.name.localeCompare(b.name);
 };
 
-export const getWagePayItemEntries = createSelector(
+export const getWagePayLineEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   getBaseHourlyWagePayItemId,
   getBaseSalaryWagePayItemId,
   (line, baseHourlyWagePayItemId, baseSalaryWagePayItemId) =>
-    line.payItems
-      .filter((payItem) => isWagePayItem(payItem.payrollCategoryType))
+    line.payLines
+      .filter((payLine) => isWagePayLine(payLine.type))
       .sort((a, b) =>
-        wagePayItemComparator(a, b, [
+        wagePayLineComparator(a, b, [
           baseHourlyWagePayItemId,
           baseSalaryWagePayItemId,
         ])
       )
-      .map((payItem) => ({
-        ...payItem,
-        shouldShowQuantity: payItem.payrollCategoryType === 'HourlyWage',
+      .map((payLine) => ({
+        ...payLine,
+        shouldShowQuantity: payLine.type === 'HourlyWage',
       }))
 );
 
-export const getTaxPayItemEntries = createSelector(
+export const getTaxPayLineEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (line) =>
-    line.payItems
-      .filter((payItem) => isTaxPayItem(payItem.payrollCategoryType))
-      .map((payItem) => ({
-        ...payItem,
+    line.payLines
+      .filter((payLine) => isTaxPayLine(payLine.type))
+      .map((payLine) => ({
+        ...payLine,
         shouldShowQuantity: false,
       }))
 );
 
-export const getKiwiSaverPayItemEntries = createSelector(
+export const getKiwiSaverPayLineEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (line) =>
-    line.payItems
-      .filter((payItem) => isKiwiSaverPayItem(payItem.payrollCategoryType))
-      .map((payItem) => ({
-        ...payItem,
+    line.payLines
+      .filter((payLine) => isKiwiSaverPayLine(payLine.type))
+      .map((payLine) => ({
+        ...payLine,
         shouldShowQuantity: false,
       }))
 );
 
-export const getShouldShowWagePayItems = createSelector(
+export const getShouldShowWagePayLines = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) =>
-    line.payItems.some((payItem) => isWagePayItem(payItem.payrollCategoryType))
+  (line) => line.payLines.some((payLine) => isWagePayLine(payLine.type))
 );
 
-export const getShouldShowTaxPayItems = createSelector(
+export const getShouldShowTaxPayLines = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) =>
-    line.payItems.some((payItem) => isTaxPayItem(payItem.payrollCategoryType))
+  (line) => line.payLines.some((payLine) => isTaxPayLine(payLine.type))
 );
 
-export const getShouldShowKiwiSaverPayItems = createSelector(
+export const getShouldShowKiwiSaverPayLines = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
-  (line) =>
-    line.payItems.some((payItem) =>
-      isKiwiSaverPayItem(payItem.payrollCategoryType)
-    )
+  (line) => line.payLines.some((payLine) => isKiwiSaverPayLine(payLine.type))
 );
 
 export const getUpdateEmployeePayRequest = ({ state, employeeId }) => {

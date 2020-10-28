@@ -21,11 +21,11 @@ describe('Employee pay list integrator', () => {
         kiwiSaver: '40.00',
         paye: '110.00',
         isSelected: true,
-        payItems: [
+        payLines: [
           {
-            payrollCategoryId: 22,
-            payrollCategoryName: 'Salary Wage',
-            payrollCategoryType: 'SalaryWage',
+            payItemId: 22,
+            name: 'Salary Wage',
+            type: 'SalaryWage',
             amount: '100000.00',
             quantity: '0.00',
             id: 16,
@@ -79,11 +79,11 @@ describe('Employee pay list integrator', () => {
             kiwiSaver: '40.00',
             paye: '110.00',
             isSelected: true,
-            payItems: [
+            payLines: [
               {
-                payrollCategoryId: 22,
-                payrollCategoryName: 'Salary Wage',
-                payrollCategoryType: 'SalaryWage',
+                payItemId: 22,
+                name: 'Salary Wage',
+                type: 'SalaryWage',
                 amount: '100000.00',
                 quantity: '0.00',
                 id: 16,

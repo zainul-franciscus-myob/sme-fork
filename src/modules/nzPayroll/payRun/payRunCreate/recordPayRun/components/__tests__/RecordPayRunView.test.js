@@ -45,12 +45,12 @@ describe('RecordPayRunView', () => {
           {
             employeeId: '21',
             isSelected: true,
-            payItems: [],
+            payLines: [],
           },
           {
             employeeId: '22',
             isSelected: true,
-            payItems: [],
+            payLines: [],
           },
         ],
       };
@@ -74,7 +74,7 @@ describe('RecordPayRunView', () => {
           {
             employeeId: '21',
             isSelected: true,
-            payItems: [],
+            payLines: [],
           },
         ],
       };

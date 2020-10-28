@@ -2,18 +2,18 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getShouldShowTaxPayItems,
-  getTaxPayItemEntries,
+  getShouldShowTaxPayLines,
+  getTaxPayLineEntries,
 } from '../../../DraftPayRunSelectors';
 import PayDetailsTableRows from '../PayDetailsTableRows';
 
-const TaxPayItems = ({
+const TaxPayLines = ({
   tableConfig,
   employeeId,
   employeeName,
   entries,
-  onEmployeePayItemChange,
-  onEmployeePayItemBlur,
+  onEmployeePayLineChange,
+  onEmployeePayLineBlur,
   shouldShowTableRows,
 }) => (
   <PayDetailsTableRows
@@ -23,16 +23,16 @@ const TaxPayItems = ({
     employeeId={employeeId}
     employeeName={employeeName}
     entries={entries}
-    onChange={onEmployeePayItemChange}
-    onBlur={onEmployeePayItemBlur}
+    onChange={onEmployeePayLineChange}
+    onBlur={onEmployeePayLineBlur}
     shouldShowTableRows={shouldShowTableRows}
     disableAmountInput
   />
 );
 
 const mapStateToProps = (state, props) => ({
-  entries: getTaxPayItemEntries(state, props),
-  shouldShowTableRows: getShouldShowTaxPayItems(state, props),
+  entries: getTaxPayLineEntries(state, props),
+  shouldShowTableRows: getShouldShowTaxPayLines(state, props),
 });
 
-export default connect(mapStateToProps)(TaxPayItems);
+export default connect(mapStateToProps)(TaxPayLines);

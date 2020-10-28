@@ -1,8 +1,8 @@
 [
   {
-    "payrollCategoryId": 22,
-    "payrollCategoryName": "Salary Wage",
-    "payrollCategoryType": "SalaryWage",
+    "payItemId": 22,
+    "name": "Salary Wage",
+    "type": "SalaryWage",
     "amount": "100000.00",
     "quantity": "0.00",
     "id": 16,
@@ -11,9 +11,9 @@
     "shouldShowQuantity": false
   },
   {
-    "payrollCategoryId": 21,
-    "payrollCategoryName": "Hourly Wage",
-    "payrollCategoryType": "HourlyWage",
+    "payItemId": 21,
+    "name": "Hourly Wage",
+    "type": "HourlyWage",
     "amount": "0.00",
     "quantity": "38.50",
     "id": 26,

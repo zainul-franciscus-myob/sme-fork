@@ -68,8 +68,8 @@ const EmployeesPayTable = ({
   numberOfSelected,
   onSelectRow,
   onSelectAllRows,
-  onEmployeePayItemChange,
-  onEmployeePayItemBlur,
+  onEmployeePayLineChange,
+  onEmployeePayLineBlur,
   onDaysPaidChange,
 }) => (
   <Card>
@@ -163,8 +163,8 @@ const EmployeesPayTable = ({
                   employeeId={line.employeeId}
                   employeeName={line.name}
                   daysPaid={line.daysPaid}
-                  onEmployeePayItemChange={onEmployeePayItemChange}
-                  onEmployeePayItemBlur={onEmployeePayItemBlur}
+                  onEmployeePayLineChange={onEmployeePayLineChange}
+                  onEmployeePayLineBlur={onEmployeePayLineBlur}
                   onDaysPaidChange={onDaysPaidChange}
                 />
               </Table.CollapsibleRow>
