@@ -50,7 +50,7 @@ const RecurringTransactionListView = ({
   const recurringTransactionListView = (
     <StandardTemplate
       alert={alertComponent}
-      pageHead={<PageHead title="Recurring Transactions" />}
+      pageHead={<PageHead title="Recurring transactions" />}
       filterBar={filterBar}
       tableHeader={
         <RecurringTransactionListTableHeader
