@@ -29,3 +29,11 @@
   border-right: 0.5rem solid transparent;
   border-top: 0.5rem solid #343e47;
 }
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.textAlignRight {
+  text-align: right;
+}

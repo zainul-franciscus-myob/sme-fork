@@ -63,7 +63,8 @@ describe('TaxTableCalculationModalModule', () => {
       taxTableModalModule.open();
       const view = mount(taxTableModalModule.render());
       const taxFreeThresholdField = view.findWhere(
-        (c) => c.prop('testid') === 'hasTaxFreeThreshold'
+        (c) =>
+          c.name() === 'Checkbox' && c.prop('testid') === 'hasTaxFreeThreshold'
       );
 
       taxFreeThresholdField.prop('onChange')({

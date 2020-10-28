@@ -11,6 +11,10 @@
   z-index: 1010;
 }
 
+.navigation :global(.flx-navbar .flx-container) {
+  align-items: center;
+}
+
 @media (min-width: 768px){
   .add,
   .help {

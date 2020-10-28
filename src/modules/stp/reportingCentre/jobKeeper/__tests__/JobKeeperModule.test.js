@@ -88,7 +88,7 @@ describe('jobKeeperModule', () => {
 
     const panel = wrapper.find({ testid: 'jobKeeperReportsPanel' });
     panel.find('select').simulate('change', { target: { value: 3 } });
-    const button = panel.find('.btn');
+    const button = panel.find('Button');
     button.simulate('click');
     expect(read.mock.calls[1][0].urlParams.month).toBe(3);
   });

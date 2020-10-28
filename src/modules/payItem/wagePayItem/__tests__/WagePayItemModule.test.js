@@ -54,7 +54,10 @@ describe('WagePayItemModule', () => {
         },
       });
 
-      const jobKeeperCheckbox = wrapper.find({ testid: 'jobKeeperCheckbox' });
+      const jobKeeperCheckbox = wrapper.findWhere(
+        (c) =>
+          c.name() === 'Checkbox' && c.prop('testid') === 'jobKeeperCheckbox'
+      );
 
       expect(jobKeeperCheckbox).toHaveLength(1);
     });

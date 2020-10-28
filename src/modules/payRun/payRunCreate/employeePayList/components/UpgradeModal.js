@@ -1,4 +1,4 @@
-import { Modal } from '@myob/myob-widgets';
+import { Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -26,20 +26,12 @@ const UpgradeModal = ({
         <p>Upgrade your subscription to pay additional employees.</p>
       </Modal.Body>
       <Modal.Footer>
-        <button
-          type="button"
-          className="btn btn-default"
-          onClick={onUpgradeModalDismiss}
-        >
+        <Button type="secondary" onClick={onUpgradeModalDismiss}>
           Go back
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={onUpgradeModalUpgradeButtonClick}
-        >
+        </Button>
+        <Button type="primary" onClick={onUpgradeModalUpgradeButtonClick}>
           Upgrade now
-        </button>
+        </Button>
       </Modal.Footer>
     </Modal>
   ) : null;

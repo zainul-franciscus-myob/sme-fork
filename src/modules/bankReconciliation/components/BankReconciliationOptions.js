@@ -60,7 +60,7 @@ const BankReconciliationOptions = ({
           requiredLabel="This is required"
         />
       </div>
-      <div className="form-group">
+      <div className={styles.lastReconciledGroup}>
         <Label>
           {`Date last reconciled ${
             hasReconciled ? lastReconcileDate : 'Never'

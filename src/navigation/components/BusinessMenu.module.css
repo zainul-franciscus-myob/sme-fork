@@ -50,10 +50,16 @@
   font-size: var(--flx-font-size-text-small);
   margin: 0 var(--flx-spacing-tiny);
   padding: var(--flx-spacing-x-tiny) var(--flx-spacing-tiny);
+
+  color: var(--flx-color-text);
+  font-weight: var(--dropdown-font-weight);
+  display: block;
+  text-decoration: none;
 }
 
 .businessMenu .userDetails a:hover {
   background: var(--flx-palette-storm-06);
+  color: var(--flx-color-text);
 }
 
 .businessMenu .userEmail a {

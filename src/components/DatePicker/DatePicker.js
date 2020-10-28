@@ -1,5 +1,5 @@
 import {
-  DatePicker as FeelixDatePicker,
+  DatePickerBox as FeelixDatePicker,
   Field,
   Tooltip,
 } from '@myob/myob-widgets';

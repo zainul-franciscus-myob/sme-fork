@@ -46,15 +46,13 @@ describe('AutoCompleteCombobox', () => {
 
   const clickOnMenuDropdown = (wrapper) => {
     const comboboxBox = wrapper.find('ComboboxBox');
-    const dropdownButton = comboboxBox.find(
-      '.input-group-btn > a[type="button"]'
-    );
+    const dropdownButton = comboboxBox.find('.input-group-btn').find('Box');
     dropdownButton.simulate('click');
     wrapper.update();
   };
 
   const selectItem = (wrapper, itemPosition) => {
-    const rows = wrapper.find('ComboboxBox').find('table > tbody > tr');
+    const rows = wrapper.find('ComboboxBox').find('table > tbody > Box');
     const selectedItem = rows.at(itemPosition);
     selectedItem.simulate('click');
     wrapper.update();
@@ -79,7 +77,8 @@ describe('AutoCompleteCombobox', () => {
 
           const renderedRows = autoCompleteWrapper
             .find('ComboboxBox')
-            .find('table > tbody > tr');
+            .find('table > tbody > Box');
+
           expect(renderedRows.length).toBe(3);
           expect(renderedRows.at(2).find('LoadMoreButton').length).toBe(1);
         });
@@ -96,7 +95,7 @@ describe('AutoCompleteCombobox', () => {
 
           const renderedRows = autoCompleteWrapper
             .find('ComboboxBox')
-            .find('table > tbody > tr');
+            .find('table > tbody > Box');
           expect(renderedRows.length).toBe(4);
           expect(renderedRows.at(0).find('Button').length).toBe(1); // add new button
           expect(renderedRows.at(3).find('LoadMoreButton').length).toBe(1);
@@ -159,7 +158,7 @@ describe('AutoCompleteCombobox', () => {
 
           const renderedRows = autoCompleteWrapper
             .find('ComboboxBox')
-            .find('table > tbody > tr');
+            .find('table > tbody > Box');
           expect(renderedRows.length).toBe(2);
         });
       });
@@ -187,7 +186,7 @@ describe('AutoCompleteCombobox', () => {
         autoCompleteWrapper.update();
         const renderedRows = autoCompleteWrapper
           .find('ComboboxBox')
-          .find('table > tbody > tr');
+          .find('table > tbody > Box');
 
         expect(renderedRows.length).toBe(3);
         expect(onSearch).toHaveBeenCalled();
@@ -214,7 +213,7 @@ describe('AutoCompleteCombobox', () => {
 
         const renderedRows = autoCompleteWrapper
           .find('ComboboxBox')
-          .find('table > tbody > tr');
+          .find('table > tbody > Box');
         expect(renderedRows.length).toBe(2);
 
         done();
@@ -235,7 +234,7 @@ describe('AutoCompleteCombobox', () => {
       clickOnMenuDropdown(autoCompleteWrapper);
       const renderedRows = autoCompleteWrapper
         .find('ComboboxBox')
-        .find('table > tbody > tr');
+        .find('table > tbody > Box');
       expect(renderedRows.length).toBe(2);
     });
   });

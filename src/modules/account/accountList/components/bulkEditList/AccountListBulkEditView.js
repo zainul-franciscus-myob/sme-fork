@@ -3,6 +3,7 @@ import {
   Button,
   ButtonRow,
   PageHead,
+  StandardTemplate,
   Tooltip,
   TotalsHeader,
 } from '@myob/myob-widgets';
@@ -26,7 +27,6 @@ import AccountListModalType from '../AccountListModalType';
 import AccountListTable from '../AccountListTable';
 import CancelModal from '../../../../../components/modal/CancelModal';
 import PageView from '../../../../../components/PageView/PageView';
-import StandardTemplate from '../../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import UnsavedModal from '../../../../../components/modal/UnsavedModal';
 import formatCurrency from '../../../../../common/valueFormatters/formatCurrency';
 import styles from '../AccountListTable.module.css';

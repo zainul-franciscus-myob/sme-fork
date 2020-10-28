@@ -24,6 +24,7 @@ const renderItems = (label, items, requiredLabel, onKeyDown) => ({
         renderField={() => (
           <div className={styles.item}>
             <Input
+              containerClassName={styles.emailInput}
               label=""
               name="emailItem"
               value={item}

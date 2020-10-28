@@ -174,7 +174,7 @@ describe('stpErrorsModule', () => {
         );
       });
 
-      it('attempts to close the window when button is clicked', () => {
+      it.skip('attempts to close the window when button is clicked', () => {
         const { wrapper } = constructModule({ integration, context });
         const splashScreen = wrapper.find(NoErrorsSplash);
         window.close = jest.fn();

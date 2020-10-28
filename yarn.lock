@@ -2055,18 +2055,17 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@6.2.0":
-  version "6.2.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.2.0/styles-6.2.0.tgz#31c595a83f960d5529e362ab4d84d2f21882535d"
-  integrity sha512-6OnXH2v9EF4XLcGbCTZnvj6i0UJRH/eZlGR/B4da7zGe3P1E7ECAmrGv+22E5RjdTflewvRCu3qoWIJhfajWoQ==
+"@myob/myob-styles@6.4.0":
+  version "6.4.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.4.0/styles-6.4.0.tgz#ac56c56c48acdcae36ff96cf246cc00f0bbb9149"
+  integrity sha512-MRmykilcurlQUbJBLpLlA3ADgQN5vU2TnvGfy0EDa5hbycWPbgEEF94zcOy8tGTfAHB3hrcSX2/1pkyIi5D1sA==
 
-"@myob/myob-widgets@6.2.0":
-  version "6.2.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.2.0/widgets-6.2.0.tgz#16b4214e24e9149b759a9237cb0446ae68b00175"
-  integrity sha512-5WaZP330n2nglVTbtdBHfHqJ3WuHkx9BKwU7w6Go6MIr8aCFoMcLwEBWx9mUX1NEM799s4BCxPQ1x5OlKt7sAA==
+"@myob/myob-widgets@6.4.0":
+  version "6.4.0"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.4.0/widgets-6.4.0.tgz#04084236343ee0620b60e42d9ca02ff5ac7c7ce1"
+  integrity sha512-N0yl6upxycqe8w5z2POt2Y8jNUCnY2PP3nXiygG5MKy6vhgqFU8GNgjsngmkOaMF+oCcM9x/ei9+/R6EVtYhQw==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@styled-system/prop-types" "^5.1.5"
     accounting "0.4.1"
     classnames "2.2.5"
     downshift "3.2.12"
@@ -2100,12 +2099,10 @@
     react-dnd-html5-backend "^3.0.2"
     react-popover "0.5.5"
     react-sticky-el "1.0.20"
-    react-transition-group "2.2.1"
-    react-with-direction "1.3.0"
     resize-observer-polyfill "^1.5.1"
     shortid "2.2.8"
     store2 "2.7.0"
-    treat "^1.4.1"
+    treat "^1.5.1"
     validate.js "0.11.1"
 
 "@myob/tax-calculator@0.0.16":
@@ -2160,13 +2157,6 @@
     utfx "1.0.1"
   optionalDependencies:
     eventsource "^1.0.7"
-
-"@styled-system/prop-types@^5.1.5":
-  version "5.1.5"
-  resolved "https://registry.yarnpkg.com/@styled-system/prop-types/-/prop-types-5.1.5.tgz#f813b78c583f9a3a9693d5eb185c2fd3dd0448a8"
-  integrity sha512-D/0d0ltp8QGhwrRifivQeIdoKkQDpFIGi98DXdpRXOaJStYXLx6aBSfS/YYIijbF1nZs1hWlAgXxYvDhCxHLSA==
-  dependencies:
-    prop-types "^15.7.2"
 
 "@stylelint/postcss-css-in-js@^0.37.1":
   version "0.37.1"
@@ -2785,7 +2775,7 @@ aggregate-error@^3.0.0:
     clean-stack "^2.0.0"
     indent-string "^4.0.0"
 
-airbnb-prop-types@^2.10.0, airbnb-prop-types@^2.15.0, airbnb-prop-types@^2.8.1:
+airbnb-prop-types@^2.10.0, airbnb-prop-types@^2.15.0:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/airbnb-prop-types/-/airbnb-prop-types-2.15.0.tgz#5287820043af1eb469f5b0af0d6f70da6c52aaef"
   integrity sha512-jUh2/hfKsRjNFC4XONQrxo/n/3GG4Tn6Hl0WlFQN5PY9OMC9loSCoAYKnZsWaP8wEfd5xcrPloK0Zg6iS1xwVA==
@@ -3950,11 +3940,6 @@ ccount@^1.0.0:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-1.0.4.tgz#9cf2de494ca84060a2a8d2854edd6dfb0445f386"
   integrity sha512-fpZ81yYfzentuieinmGnphk0pLkOTMm6MZdVqwd77ROvhko6iujLNGrHH5E7utq3ygWklwfmwuG+A7P+NpqT6w==
 
-chain-function@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/chain-function/-/chain-function-1.0.1.tgz#c63045e5b4b663fb86f1c6e186adaf1de402a1cc"
-  integrity sha512-SxltgMwL9uCko5/ZCLiyG2B7R9fY4pDZUw7hJ4MhirdjBLosoDqkWABi3XMucddHdLiFJMb7PD2MZifZriuMTg==
-
 chalk@2.4.2, chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
@@ -5043,7 +5028,7 @@ deep-is@~0.1.3:
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
 
-deepmerge@^1.5.1, deepmerge@^1.5.2:
+deepmerge@^1.5.2:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-1.5.2.tgz#10499d868844cdad4fee0842df8c7f6f0c95a753"
   integrity sha512-95k0GDqvBjZavkuvzx/YqVLv/6YYa17fz6ILMSf7neqQITCPbnfEnQvEgMPNjH4kgobe7+WIL0yJEHku+H3qtQ==
@@ -5201,7 +5186,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-direction@^1.0.1, direction@^1.0.2:
+direction@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/direction/-/direction-1.0.3.tgz#5030e1e091e923904067d015dbaafd08f4d27d26"
   integrity sha512-8bHRqMt4w/kND19KBksE4NOJo+gIOPuiZfxQvbd6xikfKbuNBYBdLIw0hA/4lWzBaDpwpW+Olmg1BjD9+0LU2w==
@@ -7118,7 +7103,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
+hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
   integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
@@ -11993,18 +11978,6 @@ react-test-renderer@^16.0.0-0:
     react-is "^16.8.6"
     scheduler "^0.18.0"
 
-react-transition-group@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.2.1.tgz#e9fb677b79e6455fd391b03823afe84849df4a10"
-  integrity sha512-q54UBM22bs/CekG8r3+vi9TugSqh0t7qcEVycaRc9M0p0aCEu+h6rp/RFiW7fHfgd1IKpd9oILFTl5QK+FpiPA==
-  dependencies:
-    chain-function "^1.0.0"
-    classnames "^2.2.5"
-    dom-helpers "^3.2.0"
-    loose-envify "^1.3.1"
-    prop-types "^15.5.8"
-    warning "^3.0.0"
-
 react-transition-group@^2.0.0, react-transition-group@^2.2.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
@@ -12014,20 +11987,6 @@ react-transition-group@^2.0.0, react-transition-group@^2.2.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
-
-react-with-direction@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/react-with-direction/-/react-with-direction-1.3.0.tgz#9885f5941aa986be753db95a41e8f3d8f8de97ff"
-  integrity sha512-2TflEebNckTNUybw3Rzqjg4BwM/H380ZL5lsbZ5f4UTY2JyE5uQdQZK5T2w+BDJSAMcqoA2RDJYa4e7Cl6C2Kg==
-  dependencies:
-    airbnb-prop-types "^2.8.1"
-    brcast "^2.0.2"
-    deepmerge "^1.5.1"
-    direction "^1.0.1"
-    hoist-non-react-statics "^2.3.1"
-    object.assign "^4.1.0"
-    object.values "^1.0.4"
-    prop-types "^15.6.0"
 
 react-with-direction@^1.3.0:
   version "1.3.1"
@@ -14045,7 +14004,7 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
-treat@^1.4.1:
+treat@^1.5.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/treat/-/treat-1.6.0.tgz#13342719ea215e36ded3433d1c940e2efda3b1b6"
   integrity sha512-H0Iww0XYXywtRNHbsHL60USxyuLDG+KGifGRLqExV3yB4ZdhaZrxj06v9LYhhPQxwpG+s+6hkqQFjoDCkmD1Ew==

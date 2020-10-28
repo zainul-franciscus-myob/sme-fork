@@ -1,4 +1,10 @@
-import { Alert, Button, PageHead, Table } from '@myob/myob-widgets';
+import {
+  Alert,
+  Button,
+  PageHead,
+  StandardTemplate,
+  Table,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,7 +17,6 @@ import { getResponsiveConfig } from './getResponsiveConfig';
 import JobListFilterOptions from './JobListFilterOptions';
 import JobListTable from './JobListTable';
 import PageView from '../../../../components/PageView/PageView';
-import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import style from './JobListView.module.css';
 
 const statusColumnHeader = ({ tableConfig }) => (

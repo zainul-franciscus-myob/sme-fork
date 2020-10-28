@@ -1,8 +1,7 @@
-import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import { Button, Combobox, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/AmountInput';
-import Combobox from '../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollLeaveDetailTable.module.css';
 
 const tableConfig = {
@@ -175,7 +174,7 @@ const PayrollLeaveDetailTable = ({
           items={items}
           selected={{}}
           onChange={handleComboboxChange(onAddAllocatedLeaveItem)}
-          initialIsOpen
+          defaultIsOpen
           onBlur={onAddPayItemComboBlur}
           onInputChange={() => {}}
           addNewItem={{

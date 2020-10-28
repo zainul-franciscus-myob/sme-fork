@@ -3,6 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import ComboboxCore from './ComboboxCore';
+import styles from './Combobox.module.css';
 
 /**
  * Combobox
@@ -97,7 +98,7 @@ const Combobox = ({
       getItemProps,
       inputValue,
     }) => (
-      <table className="table-bordered">
+      <table className={styles.comboboxTable}>
         <colgroup>
           {
             // Metadata should be constant so it is fine to use index as key

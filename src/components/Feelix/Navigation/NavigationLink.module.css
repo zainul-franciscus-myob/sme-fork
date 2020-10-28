@@ -1,0 +1,12 @@
+.customMenuItem :global(.flx-navbar__menu-link) {
+  padding: 1.2rem 0;
+  display: flex;
+}
+
+:global(.flx-navbar--more) .customMenuItem :global(.flx-navbar__menu-link) {
+  padding: 0.6rem 3.2rem 0.6rem 1.6rem;
+}
+
+:global(.flx-navbar--more) .customMenuItem :global(.flx-navbar__menu-link:hover) {
+ background-color: #e8eaec;
+}

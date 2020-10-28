@@ -1,0 +1,30 @@
+.comboboxTable {
+  border: none;
+  table-layout: fixed;
+  background-color: var(--flx-palette-white);
+  margin-bottom: var(--flx-spacing-clear);
+  color: var(--flx-palette-thunder);
+  width: 100%;
+  max-width: 100%;
+}
+.comboboxTable :global(tr) :global(td) {
+  padding: var(--flx-spacing-x-tiny) var(--flx-spacing-xx-tiny);
+  border-left-width: 0;
+  border-right-color: transparent;
+}
+
+.comboboxTable :global(tr) :global(td:first-child) {
+  padding-left: var(--flx-spacing-tiny);
+}
+
+.comboboxTable :global(tr) :global(td:last-child) {
+  padding-right: var(--flx-spacing-tiny);
+}
+
+.comboboxTable :global(.combobox-menu-__cell--align-right) {
+  text-align: right;
+}
+
+.comboboxTable :global(.combobox-menu-__cell--align-left) {
+  text-align: left;
+}

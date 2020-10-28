@@ -1,4 +1,10 @@
-import { Alert, ButtonRow, PageHead, Separator } from '@myob/myob-widgets';
+import {
+  Alert,
+  ButtonRow,
+  PageHead,
+  Separator,
+  StandardTemplate,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -20,7 +26,6 @@ import AccountListTableHeader from './AccountListTableHeader';
 import Button from '../../../../../components/Button/Button';
 import DeleteModal from '../../../../../components/modal/DeleteModal';
 import PageView from '../../../../../components/PageView/PageView';
-import StandardTemplate from '../../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import Tabs from '../../../../../components/Tabs/Tabs';
 import styles from '../AccountListTable.module.css';
 import uuid from '../../../../../common/uuid/uuid';

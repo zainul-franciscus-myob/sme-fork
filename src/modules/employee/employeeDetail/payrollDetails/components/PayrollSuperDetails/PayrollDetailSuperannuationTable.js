@@ -1,4 +1,11 @@
-import { Button, FieldGroup, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import {
+  Button,
+  Combobox,
+  FieldGroup,
+  Icons,
+  Table,
+  Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,7 +14,6 @@ import {
   getFilteredSuperPayItemOptions,
 } from '../../selectors/PayrollSuperSelectors';
 import { getShowAddPayItemButton } from '../../../EmployeeDetailSelectors';
-import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollDetailSuperannuationTable.module.css';
 
 const tableConfig = {
@@ -90,7 +96,7 @@ const PayrollDetailSuperannuationTable = ({
       hintText="Add superannuation pay item"
       metaData={comboboxMetaData}
       items={superPayItemsOptions}
-      initialIsOpen
+      defaultIsOpen
       selected={{}}
       onBlur={onAddPayItemComboBlur}
       onInputChange={() => {}}

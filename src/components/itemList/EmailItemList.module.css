@@ -6,3 +6,7 @@
   border-color: transparent;
   background: none;
 }
+
+.emailInput {
+  margin-bottom: 0;
+}

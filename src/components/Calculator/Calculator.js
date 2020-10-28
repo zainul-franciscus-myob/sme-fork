@@ -226,6 +226,8 @@ const Calculator = ({
             className={classnames('form-control', className, {
               'text-align-center': textAlign === 'center',
               'text-align-right': textAlign === 'right',
+              [styles.textAlignCenter]: textAlign === 'center',
+              [styles.textAlignRight]: textAlign === 'right',
             })}
             disabled={disabled}
           />

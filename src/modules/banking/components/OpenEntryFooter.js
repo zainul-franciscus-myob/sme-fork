@@ -96,12 +96,9 @@ const OpenEntryFooter = ({
         <FileBrowser
           buttonType="link"
           buttonLabel={
-            <>
-              <span className="btn__icon">
-                <Icons.File />
-              </span>
-              <span className="btn__content">Attach files</span>
-            </>
+            <Button type="link" as="span" icon={<Icons.File />}>
+              Attach files
+            </Button>
           }
           onFileSelected={onAddAttachments}
           className={styles.attachFileButton}

@@ -22,8 +22,8 @@ Future iterations of Popover will come under careful consideration by the feelix
 
 import { Popover as FeelixPopover } from '@myob/myob-widgets';
 // eslint-disable-next-line no-restricted-imports
-import PopWrapper from '@myob/myob-widgets/lib/components/Popover/PopWrapper';
 import React from 'react';
+import ReactPopover from 'react-popover';
 import classnames from 'classnames';
 
 const {
@@ -101,7 +101,7 @@ export default class Popover extends React.Component {
     if (this.props.closeOnOuterAction) {
       popoverProps.onOuterAction = () => this.togglePopover(false);
     }
-    return <PopWrapper {...popoverProps}>{target}</PopWrapper>;
+    return <ReactPopover {...popoverProps}>{target}</ReactPopover>;
   }
 }
 

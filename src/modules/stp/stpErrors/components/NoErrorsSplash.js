@@ -1,7 +1,11 @@
-import { Button, PageHead, PageState } from '@myob/myob-widgets';
+import {
+  Button,
+  PageHead,
+  PageState,
+  StandardTemplate,
+} from '@myob/myob-widgets';
 import React from 'react';
 
-import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import successDoneCompleteImage from './success-done-complete.svg';
 
 const StpSplash = ({ onGetStartedClick }) => (

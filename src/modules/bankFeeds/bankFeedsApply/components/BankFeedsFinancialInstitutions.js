@@ -65,20 +65,12 @@ const NoFinancialInstitution = ({
         </Modal.Body>
 
         <Modal.Footer>
-          <button
-            type="button"
-            className="btn btn-default"
-            onClick={setModalState}
-          >
+          <Button type="secondary" onClick={setModalState}>
             Go back
-          </button>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={redirectToImportStatements}
-          >
+          </Button>
+          <Button type="primary" onClick={redirectToImportStatements}>
             Import statements
-          </button>
+          </Button>
         </Modal.Footer>
       </Modal>
     ) : null}

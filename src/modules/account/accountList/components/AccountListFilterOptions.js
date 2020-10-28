@@ -1,9 +1,10 @@
-import { Checkbox, FilterBar } from '@myob/myob-widgets';
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../AccountListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import ShowInactiveCheckbox from '../../../../components/ShowInactiveCheckbox/ShowInactiveCheckbox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -24,7 +25,7 @@ const AccountListFilterOptions = (props) => {
         onChange={handleInputChange(onUpdateFilterOptions)}
       />
       <FilterBar.Item>
-        <Checkbox
+        <ShowInactiveCheckbox
           id="showInactive"
           name="showInactive"
           label="Show inactive"

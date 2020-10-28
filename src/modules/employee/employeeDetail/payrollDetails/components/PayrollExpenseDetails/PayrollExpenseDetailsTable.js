@@ -1,7 +1,6 @@
-import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import { Button, Combobox, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
-import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './PayrollExpenseDetailsTable.module.css';
 
 const tableConfig = {
@@ -85,7 +84,7 @@ const PayrollExpenseDetailsTable = ({
           hintText="Add expense pay item"
           metaData={comboboxMetaData}
           items={items}
-          initialIsOpen
+          defaultIsOpen
           selected={{}}
           onBlur={onAddPayItemComboBlur}
           onInputChange={() => {}}

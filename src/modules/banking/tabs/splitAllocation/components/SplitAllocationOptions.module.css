@@ -19,3 +19,7 @@
   height: 3rem;
   margin-top: 2.7rem;
 }
+
+.formGroup {
+  margin-bottom: var(--flx-spacing-small);
+}

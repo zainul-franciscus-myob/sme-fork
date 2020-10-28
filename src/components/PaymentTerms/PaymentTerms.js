@@ -1,4 +1,4 @@
-import { Button, Field, Select, Tooltip } from '@myob/myob-widgets';
+import { Button, FieldSet, Select, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../autoFormatter/AmountInput/AmountInput';
@@ -114,7 +114,7 @@ const PaymentTerms = ({
   const view = disabled ? triggerButton : popoverContainer;
 
   return (
-    <Field
+    <FieldSet
       label={label}
       requiredLabel={requiredLabel}
       renderField={() => <div className={styles.popover}>{view}</div>}

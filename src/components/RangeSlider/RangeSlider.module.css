@@ -26,6 +26,7 @@
   box-sizing: border-box;
   height: 2.7rem;
   background-color: rgba(0,0,0,0);
+  display: block;
 }
 
 .rangeSlide::-moz-focus-outer {

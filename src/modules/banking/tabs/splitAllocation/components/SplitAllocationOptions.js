@@ -74,7 +74,7 @@ const SplitAllocationOptions = (props) => {
       {showIsReportable && (
         <div
           className={classNames(
-            'form-group',
+            styles.formGroup,
             styles.checkbox,
             styles.filterInput
           )}

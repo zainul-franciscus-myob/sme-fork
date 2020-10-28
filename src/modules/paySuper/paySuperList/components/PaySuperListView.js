@@ -1,4 +1,4 @@
-import { Alert, Button, PageHead } from '@myob/myob-widgets';
+import { Alert, Button, PageHead, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,7 +9,6 @@ import {
 } from '../paySuperListSelector';
 import PageView from '../../../../components/PageView/PageView';
 import PaySuperListTable from './PaySuperListTable';
-import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import UnregisteredPageState from './UnregisteredPageState';
 
 const PaySuperListView = ({

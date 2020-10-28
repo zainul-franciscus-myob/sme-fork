@@ -1,10 +1,10 @@
-import { Checkbox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions } from '../jobListSelector';
 import FilterBar from '../../../../components/Feelix/FilterBar/FilterBar';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import ShowInactiveCheckbox from '../../../../components/ShowInactiveCheckbox/ShowInactiveCheckbox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -21,7 +21,7 @@ const JobListFilterOptions = ({
       onChange={handleInputChange(onUpdateFilters)}
     />
     <FilterBar.Item>
-      <Checkbox
+      <ShowInactiveCheckbox
         name="showInactive"
         label="Show inactive"
         checked={showInactive}

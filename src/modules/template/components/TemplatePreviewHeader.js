@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/label-has-for */
-import { RadioButtonGroup } from '@myob/myob-widgets';
+import { Label, RadioButtonGroup } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -13,9 +13,9 @@ const TemplatePreviewHeader = ({ previewType, onPreviewTypeChange }) => (
   <div className={styles.header}>
     <span className={styles.headerTitle}>PDF preview</span>
     <div className={styles.headerOptions}>
-      <label className={styles.headerLabel} aria-hidden="true">
+      <Label className={styles.headerLabel} aria-hidden="true">
         Preview template as
-      </label>
+      </Label>
       <RadioButtonGroup
         id="previewType"
         name="previewType"

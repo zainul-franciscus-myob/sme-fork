@@ -1,4 +1,4 @@
-import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import { Button, Combobox, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,7 +7,6 @@ import {
   getSelectedWagePayItems,
 } from '../../selectors/PayrollWageSelectors';
 import { getShowAddPayItemButton } from '../../../EmployeeDetailSelectors';
-import Combobox from '../../../../../../components/Feelix/Combobox/Combobox';
 import styles from './AddWagePayItemTable.module.css';
 
 const tableConfig = {
@@ -126,7 +125,7 @@ const AddWagePayItemTable = ({
           items={filteredWagePayItemOptions}
           onChange={handleComboboxChange(onAddWagePayItem)}
           onInputChange={() => {}}
-          initialIsOpen
+          defaultIsOpen
           addNewItem={{
             label: 'Create wage pay item',
             onAddNew: onPayItemSelect(onOpenWagePayItemModal, 'new'),

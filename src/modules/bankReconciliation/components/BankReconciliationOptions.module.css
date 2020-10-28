@@ -28,14 +28,18 @@
 }
 
 /* @FEELIX */
-.closingBankStatementBalance :global(.form-group) {
+.lastReconciledGroup {
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.closingBankStatementBalance :global(.field-message-popup-form-group) {
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 0;
 }
 
-.closingBankStatementBalance :global(.form-group__label-group) {
+.closingBankStatementBalance :global(.field-message-popup-form-group__label-group) {
   flex: 2 2 0;
   justify-content: flex-end;
   text-align: right;
@@ -43,11 +47,11 @@
   padding-right: var(--flx-spacing-small);
 }
 
-.closingBankStatementBalance :global(.form-group__input-group) {
+.closingBankStatementBalance :global(.field-message-popup-form-group-input-group) {
   flex: 1 1 0;
 }
 
-.closingBankStatementBalance :global(.form-group__label-group) label {
+.closingBankStatementBalance :global(.field-message-popup-form-group__label-group) label {
   font-weight: 500;
   color: var(--flx-color-text)
 }
@@ -69,7 +73,7 @@
   */
   .options :global(.flx-detail-header__primary) {
     width: 45rem;
-    max-width: 45rem;  
+    max-width: 45rem;
   }
 }
 
@@ -104,8 +108,12 @@
     flex: 1 1 auto;
     margin-right: var(--flx-spacing-tiny);
   }
-  
+
   .accountInfo :global .form-group:last-child {
     flex: 0 0 13rem;
+  }
+
+  .lastReconciledGroup {
+    margin-bottom: 0;
   }
 }

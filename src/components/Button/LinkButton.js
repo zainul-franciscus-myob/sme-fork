@@ -1,8 +1,7 @@
+import { Button } from '@myob/myob-widgets';
 import React from 'react';
-import classNames from 'classnames';
 
-// @FEELIX
-// We are mimicking a feelix button, but using an `<a>`
+// Rendering a Feelix Button as an `<a>`
 const LinkButton = ({
   href,
   isOpenInNewTab,
@@ -11,20 +10,17 @@ const LinkButton = ({
   children,
   className,
 }) => (
-  <a
+  <Button
+    as="a"
+    type="link"
+    icon={icon}
+    iconRight={iconRight}
     href={href}
     target={isOpenInNewTab ? '_blank' : undefined}
-    className={classNames('btn', 'btn-link', className)}
+    className={className}
   >
-    <div
-      className={classNames('btn__container', {
-        'btn--reverse': iconRight,
-      })}
-    >
-      <span className="btn__icon">{icon}</span>
-      <span className="btn__content">{children}</span>
-    </div>
-  </a>
+    {children}
+  </Button>
 );
 
 export default LinkButton;

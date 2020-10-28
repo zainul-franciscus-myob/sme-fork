@@ -133,12 +133,14 @@ class FieldMessagePopup extends React.Component {
       <div
         className={classnames(
           { 'sr-only': hideLabel },
-          'form-group__label-group'
+          'field-message-popup-form-group__label-group'
         )}
       >
         {labelContent}
         {labelAccessory && (
-          <span className="form-group__label-accessory">{labelAccessory}</span>
+          <span className="field-message-popup-form-group__label-accessory">
+            {labelAccessory}
+          </span>
         )}
         {
           /* For Accessibility Purpose.
@@ -173,7 +175,7 @@ class FieldMessagePopup extends React.Component {
     } = this.props;
     return (
       <div
-        className={classnames('form-group', {
+        className={classnames('field-message-popup-form-group', {
           'has-error': errorMessage,
           'has-error--inline': errorMessage && errorMessageInline,
           [styles.warning]: !!warningBody && !errorMessage,
@@ -184,8 +186,8 @@ class FieldMessagePopup extends React.Component {
       >
         {this.renderLabel()}
         <div
-          className={classnames('form-group__input-group', {
-            [`form-group__input-group--${width}`]: width,
+          className={classnames('field-message-popup-form-group-input-group', {
+            [`field-message-popup-form-group-input-group--${width}`]: width,
           })}
         >
           {renderField({

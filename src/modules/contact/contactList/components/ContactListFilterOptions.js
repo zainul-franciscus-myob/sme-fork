@@ -1,9 +1,10 @@
-import { Checkbox, FilterBar, Select } from '@myob/myob-widgets';
+import { FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getFilterOptions, getTypeFilterOptions } from '../contactListSelector';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import ShowInactiveCheckbox from '../../../../components/ShowInactiveCheckbox/ShowInactiveCheckbox';
 
 class ContactListFilterOptions extends React.Component {
   onSearchBoxChange = (e) => {
@@ -58,7 +59,7 @@ class ContactListFilterOptions extends React.Component {
           onChange={this.onSearchBoxChange}
         />
         <FilterBar.Item>
-          <Checkbox
+          <ShowInactiveCheckbox
             id="Check_Box"
             name="showInactive"
             label="Show inactive"
