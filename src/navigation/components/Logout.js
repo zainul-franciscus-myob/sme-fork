@@ -1,4 +1,4 @@
-import { Icons } from '@myob/myob-widgets';
+import { SignOutIcon } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -12,7 +12,7 @@ const Logout = ({ onMenuLinkClick }) => (
         className="flx-navbar__menu-link"
         onClick={onMenuLinkClick}
       >
-        Log out <Icons.SignOut />
+        Log out <SignOutIcon />
       </button>
     </li>
   </div>

@@ -1,4 +1,14 @@
-import { Icons, Label, Navigation, Tooltip } from '@myob/myob-widgets';
+import {
+  AddIcon,
+  CaretIcon,
+  EditIcon,
+  Label,
+  Navigation,
+  SignOutIcon,
+  SwitchIcon,
+  Tooltip,
+  WalletIcon,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -49,7 +59,7 @@ const manageMyClientsMenuItem = (onMenuLinkClick) =>
   getMenuLinkWithIcon(
     'https://partner.myob.com/ledgers/live',
     'Manage my clients',
-    <Icons.Switch />,
+    <SwitchIcon />,
     onMenuLinkClick,
     '_blank'
   );
@@ -57,7 +67,7 @@ const switchBusinessMenuItem = (onMenuLinkClick) =>
   getMenuLinkWithIcon(
     '#/businesses',
     'Switch business',
-    <Icons.Switch />,
+    <SwitchIcon />,
     onMenuLinkClick,
     undefined
   );
@@ -108,14 +118,14 @@ const getItems = ({
       getMenuLinkWithIcon(
         urls.productManagementDetail,
         'Manage my product',
-        <Icons.Edit />,
+        <EditIcon />,
         onManageMyProductClick
       ),
     shouldShowPaymentDetail
       ? getMenuLinkWithIcon(
           urls.paymentDetail,
           'Billing and payments',
-          <Icons.Wallet />,
+          <WalletIcon />,
           onMenuLinkClick,
           '_blank'
         )
@@ -127,10 +137,10 @@ const getItems = ({
       getMenuLinkWithIcon(
         '',
         'Create new business',
-        <Icons.Add />,
+        <AddIcon />,
         onCreateBusinessClick
       ),
-    getMenuLinkWithIcon('', 'Log out', <Icons.SignOut />, onLogoutLinkClick),
+    getMenuLinkWithIcon('', 'Log out', <SignOutIcon />, onLogoutLinkClick),
     userEmail && (
       <UnlinkedMenuLink
         label={userEmail}
@@ -185,7 +195,7 @@ const BusinessMenu = ({
             {businessName}
             {isReadOnly && <ReadonlyStatus />}
             <div className={styles.caret}>
-              <Icons.Caret />
+              <CaretIcon />
             </div>
           </span>
         </div>

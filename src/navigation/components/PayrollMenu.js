@@ -1,4 +1,8 @@
-import { Icons, Navigation } from '@myob/myob-widgets';
+import {
+  CaretIcon,
+  Navigation,
+  OpenExternalLinkIcon,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -56,7 +60,7 @@ const getItems = (urls, onMenuLinkClick) =>
       getMenuLinkWithIcon(
         urls.myobTeamLink,
         'MYOB Team',
-        <Icons.OpenExternalLink />,
+        <OpenExternalLinkIcon />,
         onMenuLinkClick,
         '_blank'
       ),
@@ -81,7 +85,7 @@ const getItems = (urls, onMenuLinkClick) =>
 const PayrollMenu = ({ urls, onMenuSelect, onMenuLinkClick, activeNav }) => (
   <Navigation.Menu
     label="Payroll"
-    icon={<Icons.Caret />}
+    icon={<CaretIcon />}
     onSelect={onMenuSelect}
     items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'payroll'}

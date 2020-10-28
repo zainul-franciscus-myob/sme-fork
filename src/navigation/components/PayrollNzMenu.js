@@ -1,4 +1,4 @@
-import { Icons, Navigation } from '@myob/myob-widgets';
+import { CaretIcon, Navigation } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -26,7 +26,7 @@ const getItems = (urls, onMenuLinkClick) =>
 const PayrollNzMenu = ({ urls, onMenuSelect, onMenuLinkClick, activeNav }) => (
   <Navigation.Menu
     label="Payroll"
-    icon={<Icons.Caret />}
+    icon={<CaretIcon />}
     onSelect={onMenuSelect}
     items={getItems(urls, onMenuLinkClick)}
     active={activeNav === 'payroll'}
