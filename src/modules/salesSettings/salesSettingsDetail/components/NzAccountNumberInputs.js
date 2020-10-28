@@ -4,6 +4,7 @@ import React from 'react';
 
 import { getTabData } from '../SalesSettingsDetailSelectors';
 import AutoFormatter from '../../../../components/autoFormatter/AutoFormatterCore/AutoFormatter';
+import NzBankAccountNumberCharacterLimits from './NzBankAccountNumberCharacterLimits';
 import buildAmountInputChangeEvent from '../../../../components/autoFormatter/AmountInput/buildAmountInputChangeEvent';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import styles from './NzAccountNumberInputs.module.css';
@@ -49,7 +50,7 @@ const NzAccountNumberInputs = ({
             name="bankNumber"
             label="Bank"
             value={bankNumber}
-            maxLength={2}
+            maxLength={NzBankAccountNumberCharacterLimits.bankNumber}
             onChange={handleAmountInputChange(onChange)}
           />
         </div>
@@ -58,7 +59,7 @@ const NzAccountNumberInputs = ({
             name="branch"
             label="Branch"
             value={branch}
-            maxLength={4}
+            maxLength={NzBankAccountNumberCharacterLimits.branch}
             onChange={handleAmountInputChange(onChange)}
           />
         </div>
@@ -67,7 +68,7 @@ const NzAccountNumberInputs = ({
             name="accountNumber"
             label="Acc no"
             value={accountNumber}
-            maxLength={8}
+            maxLength={NzBankAccountNumberCharacterLimits.accountNumber}
             onChange={handleAmountInputChange(onChange)}
           />
         </div>
@@ -76,7 +77,7 @@ const NzAccountNumberInputs = ({
             name="suffix"
             label="Suffix"
             value={suffix}
-            maxLength={3}
+            maxLength={NzBankAccountNumberCharacterLimits.suffix}
             onChange={handleAmountInputChange(onChange)}
           />
         </div>
