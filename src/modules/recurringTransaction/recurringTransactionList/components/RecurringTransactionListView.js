@@ -1,4 +1,4 @@
-import { Alert, PageHead } from '@myob/myob-widgets';
+import { Alert, PageHead, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -11,7 +11,6 @@ import PageView from '../../../../components/PageView/PageView';
 import RecurringTransactionListFilterOptions from './RecurringTransactionListFilterOptions';
 import RecurringTransactionListTableBody from './RecurringTransactionListTableBody';
 import RecurringTransactionListTableHeader from './RecurringTransactionListTableHeader';
-import StandardTemplate from '../../../../components/Feelix/StandardTemplate/StandardTemplate';
 import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
 
 const tableConfig = {
