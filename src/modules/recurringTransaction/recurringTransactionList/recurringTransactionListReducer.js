@@ -9,6 +9,7 @@ import {
   UPDATE_FILTER_OPTIONS,
 } from '../RecurringTransactionIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import TransactionTypes from './TransationTypes';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -40,9 +41,30 @@ const setLoadingState = (state, action) => ({
   isLoading: action.isLoading,
 });
 
-const setInitialState = (state, action) => ({
+const isValidTransactionType = (type) => {
+  const validNavTypes = Object.values(TransactionTypes).map((navType) =>
+    navType.toLowerCase()
+  );
+  return validNavTypes.includes(type.toLowerCase());
+};
+
+const getValidTransactionType = (type) =>
+  Object.values(TransactionTypes).find(
+    (navType) => navType.toLowerCase() === type.toLowerCase()
+  );
+
+const setInitialState = (state, { context }) => ({
   ...state,
-  ...action.context,
+  isRecurringTransactionEnabled: context.isRecurringTransactionEnabled,
+  businessId: context.businessId,
+  region: context.region,
+  filterOptions:
+    context.type && isValidTransactionType(context.type)
+      ? {
+          ...state.filterOptions,
+          type: getValidTransactionType(context.type),
+        }
+      : state.filterOptions,
 });
 
 const setSortOrder = (state, action) => ({

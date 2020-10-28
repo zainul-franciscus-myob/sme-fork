@@ -2,6 +2,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_LOADING_STATE,
+  SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
 } from './NavigationIntents';
@@ -65,12 +66,21 @@ const loadConfig = (
   myobTeamUrl,
 });
 
+const setRecurringTransactionFeatureToggle = (
+  state,
+  { isRecurringTransactionEnabled }
+) => ({
+  ...state,
+  isRecurringTransactionEnabled,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
   [SET_ROUTE_INFO]: setRouteInfo,
   [SET_URLS]: setUrls,
   [LOAD_CONFIG]: loadConfig,
+  [SET_RECURRING_TRANSACTION_FEATURE_TOGGLE]: setRecurringTransactionFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);

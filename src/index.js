@@ -41,6 +41,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
     integration,
     router,
     startLeanEngage,
+    featureToggles,
   });
 
   const container = Object.freeze({

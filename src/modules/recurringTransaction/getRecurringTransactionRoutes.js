@@ -4,6 +4,7 @@ import RouteName from '../../router/RouteName';
 const getRecurringTransactionRoutes = ({
   integration,
   setRootView,
+  replaceURLParams,
   featureToggles,
   isToggleOn,
 }) => {
@@ -11,9 +12,11 @@ const getRecurringTransactionRoutes = ({
     {
       name: RouteName.RECURRING_TRANSACTION_LIST,
       path: '/:region/:businessId/recurringTransaction/',
+      allowedParams: ['type'],
       module: new RecurringTransactionListModule({
         integration,
         setRootView,
+        replaceURLParams,
         featureToggles,
         isToggleOn,
       }),

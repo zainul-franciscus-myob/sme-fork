@@ -101,16 +101,25 @@ export const getMenuLogoUrl = createSelector(
   }
 );
 
-export const getSalesUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
-  quoteList: enabledUrls.quoteList,
-  quoteCreate: enabledUrls.quoteCreate,
-  invoiceList: enabledUrls.invoiceList,
-  invoiceCreate: enabledUrls.invoiceCreate,
-  invoicePaymentCreate: enabledUrls.invoicePaymentCreate,
-  customerReturnList: enabledUrls.customerReturnList,
-  itemList: enabledUrls.itemList,
-  customerStatementList: enabledUrls.customerStatementList,
-}));
+const getIsRecurringTransactionEnabled = (state) =>
+  state.isRecurringTransactionEnabled;
+export const getSalesUrls = createSelector(
+  getEnabledUrls,
+  getIsRecurringTransactionEnabled,
+  (enabledUrls, isRecurringTransactionEnabled) => ({
+    quoteList: enabledUrls.quoteList,
+    quoteCreate: enabledUrls.quoteCreate,
+    invoiceList: enabledUrls.invoiceList,
+    invoiceCreate: enabledUrls.invoiceCreate,
+    invoicePaymentCreate: enabledUrls.invoicePaymentCreate,
+    recurringTransactionSalesList: isRecurringTransactionEnabled
+      ? enabledUrls.recurringTransactionSalesList
+      : undefined,
+    customerReturnList: enabledUrls.customerReturnList,
+    itemList: enabledUrls.itemList,
+    customerStatementList: enabledUrls.customerStatementList,
+  })
+);
 export const getShouldDisplaySalesMenu = createSelector(
   getIsLoading,
   getSalesUrls,

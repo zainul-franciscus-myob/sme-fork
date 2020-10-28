@@ -51,6 +51,8 @@ describe('Navigation Module', () => {
     navigateTo: jest.fn(),
     toggleHelp: jest.fn(),
     toggleTasks: jest.fn(),
+    featureToggles: {},
+    isToggleOn: () => true,
   });
 
   const store = new TestStore(navReducer);

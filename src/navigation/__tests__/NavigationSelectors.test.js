@@ -61,6 +61,38 @@ describe('NavigationSelectors', () => {
         expect(actual[key]).toEqual(undefined);
       });
     });
+
+    it('should not return recurring transaction sales list url if feature toggle is off', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: false,
+        enabledFeatures: ['recurringTransactionSalesList'],
+        urls: { recurringTransactionSalesList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getSalesUrls(state);
+      expect(actual.recurringTransactionSalesList).toBeUndefined();
+    });
+
+    it('should return recurring transaction sales list url if feature toggle is on and feature is returned as enabled from bff', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: true,
+        enabledFeatures: ['recurringTransactionSalesList'],
+        urls: { recurringTransactionSalesList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getSalesUrls(state);
+      expect(actual.recurringTransactionSalesList).toBeDefined();
+    });
   });
 
   describe('getMenuLogoUrl', () => {

@@ -40,7 +40,7 @@ export default class RootModule {
     this.store = new Store(RootReducer);
   }
 
-  init = ({ integration, router, startLeanEngage }) => {
+  init = ({ integration, router, startLeanEngage, featureToggles }) => {
     const {
       constructPath,
       replaceURLParamsAndReload,
@@ -85,6 +85,7 @@ export default class RootModule {
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
       isToggleOn: this.isToggleOn,
+      featureToggles,
       navigateTo: this.navigateTo,
     });
 

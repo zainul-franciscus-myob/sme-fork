@@ -8,6 +8,7 @@ export const activeMapping = {
   [RouteName.INVOICE_LIST]: 'sales',
   [RouteName.INVOICE_DETAIL]: 'sales',
   [RouteName.INVOICE_PAYMENT_DETAIL]: 'sales',
+  [RouteName.RECURRING_TRANSACTION_LIST]: 'sales',
   [RouteName.CUSTOMER_RETURN_LIST]: 'sales',
   [RouteName.CUSTOMER_RETURN_PAY_REFUND]: 'sales',
   [RouteName.CUSTOMER_RETURN_APPLY_TO_SALE]: 'sales',
@@ -91,6 +92,10 @@ export const featuresConfig = {
     params: { quoteId: 'new' },
   },
   invoiceList: { routeName: RouteName.INVOICE_LIST },
+  recurringTransactionSalesList: {
+    routeName: RouteName.RECURRING_TRANSACTION_LIST,
+    params: { type: 'Invoice' },
+  },
   invoiceCreate: {
     routeName: RouteName.INVOICE_DETAIL,
     params: { invoiceId: 'new' },

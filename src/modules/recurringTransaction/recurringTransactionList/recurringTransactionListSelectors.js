@@ -27,6 +27,9 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
 });
 
 export const getFilterOptions = ({ filterOptions }) => filterOptions;
+export const getUrlParams = createSelector(getFilterOptions, ({ type }) => ({
+  type,
+}));
 
 export const getSortOrder = ({ sortOrder }) => sortOrder;
 

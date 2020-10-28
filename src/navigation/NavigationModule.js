@@ -5,6 +5,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_LOADING_STATE,
+  SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
 } from './NavigationIntents';
@@ -22,10 +23,12 @@ import {
 } from './NavigationSelectors';
 import { logout } from '../Auth';
 import { recordPageVisit, trackUserEvent } from '../telemetry';
+import FeatureToggles from '../FeatureToggles';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationBar from './components/NavigationBar';
 import RouteName from '../router/RouteName';
 import Store from '../store/Store';
+import isFeatureEnabled from '../common/feature/isFeatureEnabled';
 import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
 import navReducer from './navReducer';
 
@@ -36,6 +39,8 @@ export default class NavigationModule {
     replaceURLParamsAndReload,
     config,
     toggleHelp,
+    featureToggles,
+    isToggleOn,
     toggleTasks,
     navigateTo,
   }) {
@@ -45,6 +50,8 @@ export default class NavigationModule {
     this.replaceURLParamsAndReload = replaceURLParamsAndReload;
     this.onPageTransition = undefined;
     this.config = config;
+    this.featureToggles = featureToggles;
+    this.isToggleOn = isToggleOn;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
     this.navigateTo = navigateTo;
@@ -253,6 +260,18 @@ export default class NavigationModule {
     this.onPageTransition = onPageTransition;
   };
 
+  setRecurringTransactionFeatureToggle = () => {
+    const isRecurringTransactionEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
+      isEarlyAccess: this.isToggleOn(FeatureToggles.RecurringTransactions),
+    });
+
+    this.store.dispatch({
+      intent: SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
+      isRecurringTransactionEnabled,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -260,6 +279,7 @@ export default class NavigationModule {
     this.loadConfig();
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.setOnPageTransition(onPageTransition);
+    this.setRecurringTransactionFeatureToggle();
 
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();

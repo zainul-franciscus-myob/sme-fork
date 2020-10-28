@@ -9,6 +9,7 @@
     "invoiceList",
     "invoiceCreate",
     "invoicePaymentCreate",
+    "recurringTransactionSalesList",
     "customerReturnList",
     "itemList",
     "customerStatementList",

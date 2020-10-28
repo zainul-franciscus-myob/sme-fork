@@ -40,6 +40,12 @@ const getItems = (urls, onMenuLinkClick) =>
         'Create invoice payment',
         onMenuLinkClick
       ),
+    urls.recurringTransactionSalesList &&
+      getMenuLink(
+        urls.recurringTransactionSalesList,
+        'Recurring transactions',
+        onMenuLinkClick
+      ),
     isInvoiceSeparatorRequired(urls) && (
       <Navigation.Separator key="separator-invoice" />
     ),

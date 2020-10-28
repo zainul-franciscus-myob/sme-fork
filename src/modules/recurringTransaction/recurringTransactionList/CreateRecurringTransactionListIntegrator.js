@@ -12,13 +12,17 @@ import {
 const CreateRecurringTransactionListIntegrator = (store, integration) => ({
   loadRecurringTransactionList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
+    const filterOptions = getFilterOptions(state);
+
     const urlParams = {
       businessId: getBusinessId(state),
     };
+    const params = { ...filterOptions };
 
     integration.read({
       intent: LOAD_RECURRING_TRANSACTION_LIST,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });

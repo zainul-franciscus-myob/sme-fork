@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getUrlParams } from './recurringTransactionListSelectors';
 import CreateRecurringTransactionListDispatcher from './CreateRecurringTransactionListDispatcher';
 import CreateRecurringTransactionListIntegrator from './CreateRecurringTransactionListIntegrator';
 import FeatureToggles from '../../../FeatureToggles';
@@ -10,10 +11,17 @@ import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import recurringTransactionListReducer from './recurringTransactionListReducer';
 
 export default class RecurringTransactionModule {
-  constructor({ integration, setRootView, featureToggles, isToggleOn }) {
+  constructor({
+    integration,
+    setRootView,
+    replaceURLParams,
+    featureToggles,
+    isToggleOn,
+  }) {
     this.integration = integration;
     this.store = new Store(recurringTransactionListReducer);
     this.setRootView = setRootView;
+    this.replaceURLParams = replaceURLParams;
     this.dispatcher = CreateRecurringTransactionListDispatcher(this.store);
     this.integrator = CreateRecurringTransactionListIntegrator(
       this.store,
@@ -62,6 +70,15 @@ export default class RecurringTransactionModule {
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.updateFilterOptions({ key, value });
     this.sortAndFilterRecurringTransactionList();
+
+    if (key === 'type') {
+      this.updateUrlWithType();
+    }
+  };
+
+  updateUrlWithType = () => {
+    const state = this.store.getState();
+    this.replaceURLParams(getUrlParams(state));
   };
 
   resetFilterOptions = () => {

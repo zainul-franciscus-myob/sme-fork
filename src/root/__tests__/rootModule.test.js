@@ -27,6 +27,7 @@ const setup = () => {
     },
     trackUserEvent: jest.fn(),
     startLeanEngage: jest.fn(),
+    featureToggles: {},
   });
   module.store = store;
   module.dispatcher = createRootDispatcher(store);
