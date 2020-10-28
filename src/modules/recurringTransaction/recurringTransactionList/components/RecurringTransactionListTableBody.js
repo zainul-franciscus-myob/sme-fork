@@ -21,7 +21,7 @@ const RecurringTransactionListTableBody = ({
             {entry.transactionName}
           </Table.RowItem>
           <Table.RowItem {...tableConfig.transactionType}>
-            {entry.transactionType}
+            {entry.displayTransactionType}
           </Table.RowItem>
           <Table.RowItem {...tableConfig.amount}>{entry.amount}</Table.RowItem>
         </Table.Row>
