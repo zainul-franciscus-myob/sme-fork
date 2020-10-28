@@ -21,7 +21,6 @@ const UserDetailDetailsGroup = ({
       requiredLabel={isCreating ? 'This is required' : ''}
       value={userName}
       onChange={handleInputChange(onUserDetailsChange)}
-      disabled={!isCreating}
       width="lg"
     />
     <Input

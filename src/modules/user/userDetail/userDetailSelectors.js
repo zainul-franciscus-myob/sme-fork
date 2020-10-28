@@ -66,7 +66,7 @@ export const getUserForCreate = (state) => {
 };
 
 export const getUserForUpdate = (state) => {
-  const { roles, userName, ...strippedUser } = state.user;
+  const { roles, ...strippedUser } = state.user;
   return {
     ...strippedUser,
     roleIds: state.user.roles
