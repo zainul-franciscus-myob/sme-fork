@@ -35,6 +35,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   alertMessage: '',
+  serialNumber: '',
 });
 
 const resetState = () => getDefaultState();
@@ -65,13 +66,17 @@ const closeModal = (state) => ({
   modal: undefined,
 });
 
-const loadUserDetail = (state, { user, isCurrentUserOnlineAdmin }) => ({
+const loadUserDetail = (
+  state,
+  { user, isCurrentUserOnlineAdmin, serialNumber }
+) => ({
   ...state,
   user: {
     ...state.user,
     ...user,
   },
   isCurrentUserOnlineAdmin,
+  serialNumber,
 });
 
 const updateUserRoles = (state, action) => {

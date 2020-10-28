@@ -14,6 +14,7 @@ const NEW_ADVISOR_PATH_COMPONENT = 'new-advisor';
 export const getModal = (state) => state.modal;
 export const isPageEdited = (state) => state.isPageEdited;
 export const getBusinessId = (state) => state.businessId;
+export const getSerialNumber = (state) => state.serialNumber;
 export const getRegion = (state) => state.region;
 export const getUser = (state) => state.user;
 export const getUserId = (state) => state.userId;
@@ -116,3 +117,11 @@ export const getOpenedModalType = (state) => {
 
   return modal.type;
 };
+
+export const getMyDotMyobLink = createSelector(
+  getBusinessId,
+  getSerialNumber,
+  (businessId, serialNumber) => {
+    return `https://my.myob.com/pages/CloudServiceAdministrationRedirector.aspx?Action=ARLADMIN&serialnumber=${serialNumber}&CdfId=${businessId}`;
+  }
+);
