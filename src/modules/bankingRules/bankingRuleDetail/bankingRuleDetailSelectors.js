@@ -168,7 +168,18 @@ export const getIsInputField = (state, { index }) => {
   return isLast;
 };
 
-export const getIsPaymentReportable = (state) => state.isPaymentReportable;
+export const getIsPaymentReportable = (state) => {
+  if (
+    state.ruleType === RuleTypes.spendMoney &&
+    state.contactType === ContactType.SUPPLIER &&
+    state.isPaymentReportable === undefined
+  ) {
+    return false;
+  }
+
+  return state.isPaymentReportable;
+};
+
 export const getIsPaymentReportableCheckboxDisabled = (state) =>
   state.contactType !== ContactType.SUPPLIER;
 

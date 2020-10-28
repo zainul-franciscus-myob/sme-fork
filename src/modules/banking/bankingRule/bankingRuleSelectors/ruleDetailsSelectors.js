@@ -21,6 +21,27 @@ export const getBankTransactionDetails = (state) => state.transaction;
 export const getIsNoConditionRuleAllowed = (state) =>
   state.isNoConditionRuleAllowed;
 
+export const getIsPaymentReportableForBankRule = (state) => {
+  if (
+    state.bankingRule.ruleType === RuleTypes.spendMoney &&
+    state.contactType === ContactType.SUPPLIER &&
+    state.bankingRule.isPaymentReportable === undefined
+  ) {
+    return false;
+  }
+
+  return state.bankingRule.isPaymentReportable;
+};
+
+export const getBankingRuleSaveContent = createSelector(
+  getBankingRule,
+  getIsPaymentReportableForBankRule,
+  (bankingRule, isPaymentReportable) => ({
+    ...bankingRule,
+    isPaymentReportable,
+  })
+);
+
 export const getIsWithdrawal = createSelector(
   getBankTransactionDetails,
   ({ withdrawal }) => Boolean(withdrawal)

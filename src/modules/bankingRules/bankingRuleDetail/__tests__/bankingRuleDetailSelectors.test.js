@@ -2,6 +2,7 @@ import {
   getAllocationAccounts,
   getIsInputField,
   getIsNoConditionRuleAllowed,
+  getIsPaymentReportable,
   getIsPaymentReportableCheckboxDisabled,
   getRemainingPercentage,
 } from '../bankingRuleDetailSelectors';
@@ -191,6 +192,44 @@ describe('bankingRuleDetailSelectors', () => {
 
         expect(actual).toEqual(expected);
       });
+    });
+  });
+
+  describe('getIsPaymentReportable', () => {
+    it('supplier without paymentReport', () => {
+      const state = {
+        contactType: 'Supplier',
+        ruleType: 'SpendMoney',
+        isPaymentReportable: undefined,
+      };
+
+      const actual = getIsPaymentReportable(state);
+
+      expect(actual).toEqual(false);
+    });
+
+    it('supplier with paymentReport', () => {
+      const state = {
+        contactType: 'Supplier',
+        ruleType: 'SpendMoney',
+        isPaymentReportable: true,
+      };
+
+      const actual = getIsPaymentReportable(state);
+
+      expect(actual).toEqual(true);
+    });
+
+    it('Customer with paymentReport', () => {
+      const state = {
+        contactType: 'Customer',
+        ruleType: 'SpendMoney',
+        isPaymentReportable: undefined,
+      };
+
+      const actual = getIsPaymentReportable(state);
+
+      expect(actual).toEqual(undefined);
     });
   });
 });

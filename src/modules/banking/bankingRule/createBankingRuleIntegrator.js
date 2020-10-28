@@ -5,7 +5,7 @@ import {
   CREATE_BANKING_RULE_SPEND_MONEY,
 } from './BankingRuleIntents';
 import {
-  getBankingRule,
+  getBankingRuleSaveContent,
   getBusinessId,
   getIsNoConditionRuleAllowed,
   getRuleType,
@@ -28,7 +28,7 @@ const createBankingRuleIntegrator = (store, integration) => ({
       isNoConditionRuleAllowed: getIsNoConditionRuleAllowed(state),
     };
     const ruleType = getRuleType(state);
-    const content = getBankingRule(state);
+    const content = getBankingRuleSaveContent(state);
     const intent = ruleIntentMap[ruleType];
 
     integration.write({
