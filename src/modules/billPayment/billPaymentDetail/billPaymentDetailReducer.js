@@ -238,6 +238,7 @@ const loadBillPayment = (state, action) => ({
     ...state.remittanceAdviceDetails,
     ...action.remittanceAdviceDefaults,
   },
+  isPageEdited: false,
 });
 
 const updateHeaderOption = (state, action) => ({
