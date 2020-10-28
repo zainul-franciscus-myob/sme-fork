@@ -2055,15 +2055,15 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@6.4.0":
-  version "6.4.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.4.0/styles-6.4.0.tgz#ac56c56c48acdcae36ff96cf246cc00f0bbb9149"
-  integrity sha512-MRmykilcurlQUbJBLpLlA3ADgQN5vU2TnvGfy0EDa5hbycWPbgEEF94zcOy8tGTfAHB3hrcSX2/1pkyIi5D1sA==
+"@myob/myob-styles@6.4.1":
+  version "6.4.1"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.4.1/styles-6.4.1.tgz#1b4d629f171b1ba7a230bd3b45cae948ec42e849"
+  integrity sha512-2zrUjRb5gIWJCZLFYY8EXhR/nBsnxiaS1Ph3/PBEeEYyLeOFmA6LokM+mi/tS6cpE2KfirgC7gdBalR8TJFolQ==
 
-"@myob/myob-widgets@6.4.0":
-  version "6.4.0"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.4.0/widgets-6.4.0.tgz#04084236343ee0620b60e42d9ca02ff5ac7c7ce1"
-  integrity sha512-N0yl6upxycqe8w5z2POt2Y8jNUCnY2PP3nXiygG5MKy6vhgqFU8GNgjsngmkOaMF+oCcM9x/ei9+/R6EVtYhQw==
+"@myob/myob-widgets@6.4.1":
+  version "6.4.1"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.4.1/widgets-6.4.1.tgz#556f7f3ff05a22891ef1b2cabcc0a7029e388b3b"
+  integrity sha512-5S+RyZ3CotSUm0Cq2ErnLwY1CouWoXCgCIYzN6wYzc2zJzgGfDiOXF9W8wXgF7/fuixiTU0AZv7XRagyzkWCKw==
   dependencies:
     "@babel/runtime" "^7.10.3"
     accounting "0.4.1"
@@ -2097,7 +2097,7 @@
     react-dates "18.1.0"
     react-dnd "^3.0.2"
     react-dnd-html5-backend "^3.0.2"
-    react-popover "0.5.5"
+    react-popover "^0.5.10"
     react-sticky-el "1.0.20"
     resize-observer-polyfill "^1.5.1"
     shortid "2.2.8"
@@ -3888,27 +3888,7 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981:
-  version "1.0.30001148"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001148.tgz"
-  integrity sha512-E66qcd0KMKZHNJQt9hiLZGE3J4zuTqE1OnU53miEVtylFbwOEmeA5OsRu90noZful+XGSQOni1aT2tiqu/9yYw==
-
-caniuse-lite@^1.0.30001012, caniuse-lite@^1.0.30001015:
-  version "1.0.30001148"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001148.tgz"
-  integrity sha512-E66qcd0KMKZHNJQt9hiLZGE3J4zuTqE1OnU53miEVtylFbwOEmeA5OsRu90noZful+XGSQOni1aT2tiqu/9yYw==
-
-caniuse-lite@^1.0.30001023:
-  version "1.0.30001148"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001148.tgz"
-  integrity sha512-E66qcd0KMKZHNJQt9hiLZGE3J4zuTqE1OnU53miEVtylFbwOEmeA5OsRu90noZful+XGSQOni1aT2tiqu/9yYw==
-
-caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039:
-  version "1.0.30001148"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001148.tgz"
-  integrity sha512-E66qcd0KMKZHNJQt9hiLZGE3J4zuTqE1OnU53miEVtylFbwOEmeA5OsRu90noZful+XGSQOni1aT2tiqu/9yYw==
-
-caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001131:
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001012, caniuse-lite@^1.0.30001015, caniuse-lite@^1.0.30001023, caniuse-lite@^1.0.30001035, caniuse-lite@^1.0.30001038, caniuse-lite@^1.0.30001039, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001131:
   version "1.0.30001148"
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001148.tgz"
   integrity sha512-E66qcd0KMKZHNJQt9hiLZGE3J4zuTqE1OnU53miEVtylFbwOEmeA5OsRu90noZful+XGSQOni1aT2tiqu/9yYw==
@@ -11848,10 +11828,10 @@ react-overlays@^0.8.0:
     react-transition-group "^2.2.0"
     warning "^3.0.0"
 
-react-popover@0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/react-popover/-/react-popover-0.5.5.tgz#71fe97c243f8c0cb327bfa491e83e9c855e42d46"
-  integrity sha512-ES7yOZgtMgq0hPzQp1NpWwkYYBKCRnxW5Z13//9kPdnMevbkCFVOkmAg+5rD28RvA0Dpkd8s/ezLGalIoaXEfw==
+react-popover@0.5.10, react-popover@^0.5.10:
+  version "0.5.10"
+  resolved "https://registry.yarnpkg.com/react-popover/-/react-popover-0.5.10.tgz#40d5e854300a96722ffc1620e49d840cb1ad5db6"
+  integrity sha512-5SYDTfncywSH00I70oHd4gFRUR8V0rJ4sRADSI/P6G0RVXp9jUgaWloJ0Bk+SFnjpLPuipTKuzQNNd2CTs5Hrw==
   dependencies:
     css-vendor "^0.3.1"
     debug "^2.6.8"
