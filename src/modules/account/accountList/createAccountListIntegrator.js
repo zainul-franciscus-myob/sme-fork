@@ -1,6 +1,8 @@
 import {
   DELETE_ACCOUNTS,
   LOAD_ACCOUNT_LIST,
+  MOVE_ACCOUNT_DOWN,
+  MOVE_ACCOUNT_UP,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNTS,
 } from '../AccountIntents';
@@ -9,6 +11,7 @@ import {
   getAccountsForBulkUpdate,
   getBusinessId,
   getFilterOptions,
+  getSelectedSingleAccount,
 } from './AccountListSelectors';
 
 const createAccountListIntegrator = (store, integration) => ({
@@ -90,6 +93,36 @@ const createAccountListIntegrator = (store, integration) => ({
       intent: UPDATE_ACCOUNTS,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+  moveUp: (onSuccess, onFailure) => {
+    const state = store.getState();
+    const selectedAccount = getSelectedSingleAccount(state);
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      accountId: selectedAccount.id,
+    };
+    integration.write({
+      intent: MOVE_ACCOUNT_UP,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+  moveDown: (onSuccess, onFailure) => {
+    const state = store.getState();
+    const selectedAccount = getSelectedSingleAccount(state);
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      accountId: selectedAccount.id,
+    };
+    integration.write({
+      intent: MOVE_ACCOUNT_DOWN,
+      urlParams,
       onSuccess,
       onFailure,
     });

@@ -3,6 +3,8 @@ import * as localStorageDriver from '../../../../store/localStorageDriver';
 import {
   DELETE_ACCOUNTS,
   LOAD_ACCOUNT_LIST,
+  MOVE_ACCOUNT_DOWN,
+  MOVE_ACCOUNT_UP,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
@@ -782,6 +784,62 @@ describe('AccountListModule', () => {
       module.padAccountNumber(action);
 
       expect(store.getState().entries[0].accountNumber).toEqual('1-1');
+    });
+  });
+
+  describe('move accounts', () => {
+    it('moves account up and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 0, value: true });
+
+      const selectedId = store.getState().entries[0].id;
+
+      module.moveUpAccount();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: MOVE_ACCOUNT_UP,
+          urlParams: expect.objectContaining({
+            accountId: selectedId,
+          }),
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('moves account down and reloads list', () => {
+      const { module, integration, store } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 0, value: true });
+
+      const selectedId = store.getState().entries[0].id;
+
+      module.moveDownAccount();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: MOVE_ACCOUNT_DOWN,
+          urlParams: expect.objectContaining({
+            accountId: selectedId,
+          }),
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
     });
   });
 });

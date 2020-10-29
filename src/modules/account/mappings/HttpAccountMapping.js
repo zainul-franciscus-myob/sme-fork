@@ -7,6 +7,8 @@ import {
   LOAD_ACCOUNT_LIST,
   LOAD_NEW_ACCOUNT,
   LOAD_NEW_ACCOUNT_MODAL,
+  MOVE_ACCOUNT_DOWN,
+  MOVE_ACCOUNT_UP,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
   UPDATE_ACCOUNTS,
@@ -61,6 +63,16 @@ const HttpAccountMapping = {
   [UPDATE_ACCOUNTS]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/account/update_accounts`,
+  },
+  [MOVE_ACCOUNT_UP]: {
+    method: 'POST',
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/accounts/${accountId}/movements/Up`,
+  },
+  [MOVE_ACCOUNT_DOWN]: {
+    method: 'POST',
+    getPath: ({ businessId, accountId }) =>
+      `/${businessId}/accounts/${accountId}/movements/Down`,
   },
 };
 

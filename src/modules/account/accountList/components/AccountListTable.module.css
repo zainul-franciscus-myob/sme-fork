@@ -36,6 +36,14 @@
   padding-bottom: var(--flx-spacing-tiny);
 }
 
+.moveButton {
+  margin-right: 8px;
+}
+
+.deleteBar button {
+  margin-right: 8px;
+}
+
 .bulkUpdateButtonRow {
   padding-top: 1rem;
 }

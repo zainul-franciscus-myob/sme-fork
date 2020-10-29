@@ -34,7 +34,8 @@ export const getOpeningBalanceDate = (state) => state.openingBalanceDate;
 export const getRemainingHistoricalBalance = (state) =>
   state.remainingHistoricalBalance;
 
-const getHasFlexibleAccountNumbers = (state) => state.hasFlexibleAccountNumbers;
+export const getHasFlexibleAccountNumbers = (state) =>
+  state.hasFlexibleAccountNumbers;
 
 export const getAccountClassifications = (state) =>
   state.accountClassifications;
@@ -164,3 +165,54 @@ export const getAccountsForCalcHistoricalBalance = (state) => {
       entry.id !== equityAccountCurrentEarningsAccount.accountId
   );
 };
+
+const getSelectedAccounts = (state) => {
+  return state.entries.filter((acc) => acc.selected) || [];
+};
+
+export const getSelectedSingleAccount = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    return selectedAccounts[0];
+  }
+);
+
+export const getAccountAllowedToMoveUp = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    return (
+      selectedAccounts.length === 1 && selectedAccounts[0].isAllowedToMoveUp
+    );
+  }
+);
+
+export const getAccountAllowedToMoveDown = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    return (
+      selectedAccounts.length === 1 && selectedAccounts[0].isAllowedToMoveDown
+    );
+  }
+);
+
+export const getCannotMoveAccountUpMessage = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    if (selectedAccounts.length > 1) {
+      return 'You can only move one account at a time.';
+    }
+
+    return 'You cannot move the selected account up one level.';
+  }
+);
+
+export const getCannotMoveAccountDownMessage = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    if (selectedAccounts.length > 1) {
+      return 'You can only move one account at a time.';
+    }
+
+    return 'You cannot move the selected account down one level.';
+  }
+);

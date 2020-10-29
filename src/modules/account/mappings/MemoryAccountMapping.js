@@ -7,6 +7,8 @@ import {
   LOAD_ACCOUNT_LIST,
   LOAD_NEW_ACCOUNT,
   LOAD_NEW_ACCOUNT_MODAL,
+  MOVE_ACCOUNT_DOWN,
+  MOVE_ACCOUNT_UP,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNT,
   UPDATE_ACCOUNTS,
@@ -35,6 +37,8 @@ const MemoryAccountMapping = {
     onSuccess(createAccountModalResponse),
   [DELETE_ACCOUNTS]: ({ onSuccess }) => onSuccess(),
   [UPDATE_ACCOUNTS]: ({ onSuccess }) => onSuccess(bulkUpdateSuccess),
+  [MOVE_ACCOUNT_UP]: ({ onSuccess }) => onSuccess(success),
+  [MOVE_ACCOUNT_DOWN]: ({ onSuccess }) => onSuccess(success),
 };
 
 export default MemoryAccountMapping;

@@ -1,9 +1,14 @@
 import {
+  getAccountAllowedToMoveDown,
+  getAccountAllowedToMoveUp,
   getAccountNumberCounts,
   getAccountsForBulkDelete,
   getAccountsForBulkUpdate,
   getAccountsForCalcHistoricalBalance,
+  getCannotMoveAccountDownMessage,
+  getCannotMoveAccountUpMessage,
   getImportChartOfAccountsUrl,
+  getSelectedSingleAccount,
   getTableEntries,
 } from '../AccountListSelectors';
 
@@ -170,6 +175,207 @@ describe('AccountListSelectors', () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getSelectedAccounts', () => {
+    it('should return selected dirty accounts', () => {
+      const state = {
+        entries: [
+          { id: 1, dirty: false },
+          { id: 2, openingBalance: 111, selected: true },
+        ],
+      };
+      const actual = getSelectedSingleAccount(state);
+      const expected = {
+        id: 2,
+        openingBalance: 111,
+        selected: true,
+      };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getAccountAllowedToMoveUp', () => {
+    describe('return true when', () => {
+      it('allowed to move up for selected account', () => {
+        const state = {
+          entries: [
+            { id: 1 },
+            {
+              id: 2,
+              selected: true,
+              isAllowedToMoveUp: true,
+            },
+          ],
+        };
+        const actual = getAccountAllowedToMoveUp(state);
+
+        expect(actual).toBeTruthy();
+      });
+    });
+
+    describe('return false when', () => {
+      it('does not allowed to move up for selected account', () => {
+        const state = {
+          entries: [
+            { id: 1 },
+            {
+              id: 2,
+              selected: true,
+              isAllowedToMoveUp: false,
+            },
+          ],
+        };
+        const actual = getAccountAllowedToMoveUp(state);
+
+        expect(actual).toBeFalsy();
+      });
+
+      it('selected more than one account', () => {
+        const state = {
+          entries: [
+            { id: 1, selected: false },
+            { id: 2, selected: true, isAllowedToMoveUp: true },
+            { id: 3, selected: true, isAllowedToMoveUp: true },
+          ],
+        };
+        const actual = getAccountAllowedToMoveUp(state);
+
+        expect(actual).toBeFalsy();
+      });
+    });
+  });
+
+  describe('getAccountAllowedToMoveDown', () => {
+    describe('return true when', () => {
+      it('allowed to move down for selected account', () => {
+        const state = {
+          entries: [
+            { id: 1 },
+            {
+              id: 2,
+              selected: true,
+              isAllowedToMoveDown: true,
+            },
+          ],
+        };
+        const actual = getAccountAllowedToMoveDown(state);
+
+        expect(actual).toBeTruthy();
+      });
+    });
+
+    describe('return false when', () => {
+      it('does not allowed to move down for selected account', () => {
+        const state = {
+          entries: [
+            { id: 1 },
+            {
+              id: 2,
+              selected: true,
+              isAllowedToMoveDown: false,
+            },
+          ],
+        };
+        const actual = getAccountAllowedToMoveDown(state);
+
+        expect(actual).toBeFalsy();
+      });
+
+      it('selected more than one account', () => {
+        const state = {
+          entries: [
+            { id: 1, selected: false },
+            { id: 2, selected: true, isAllowedToMoveDown: true },
+            { id: 3, selected: true, isAllowedToMoveDOwn: true },
+          ],
+        };
+        const actual = getAccountAllowedToMoveDown(state);
+
+        expect(actual).toBeFalsy();
+      });
+    });
+  });
+
+  describe('getCannotMoveAccountUpMessage', () => {
+    it('when selected multiple account', () => {
+      const state = {
+        entries: [
+          { id: 1 },
+          {
+            id: 2,
+            selected: true,
+            isAllowedToMoveUp: true,
+          },
+          {
+            id: 3,
+            selected: true,
+            isAllowedToMoveUp: true,
+          },
+        ],
+      };
+      const actual = getCannotMoveAccountUpMessage(state);
+
+      expect(actual).toBe('You can only move one account at a time.');
+    });
+
+    it('does not allowed to move up for selected account', () => {
+      const state = {
+        entries: [
+          { id: 1 },
+          {
+            id: 2,
+            selected: true,
+            isAllowedToMoveUp: false,
+          },
+        ],
+      };
+      const actual = getCannotMoveAccountUpMessage(state);
+
+      expect(actual).toBe('You cannot move the selected account up one level.');
+    });
+  });
+
+  describe('getCannotMoveAccountDownMessage', () => {
+    it('when selected multiple account', () => {
+      const state = {
+        entries: [
+          { id: 1 },
+          {
+            id: 2,
+            selected: true,
+            isAllowedToMoveDown: true,
+          },
+          {
+            id: 3,
+            selected: true,
+            isAllowedToMoveDown: true,
+          },
+        ],
+      };
+      const actual = getCannotMoveAccountDownMessage(state);
+
+      expect(actual).toBe('You can only move one account at a time.');
+    });
+
+    it('does not allowed to move down for selected account', () => {
+      const state = {
+        entries: [
+          { id: 1 },
+          {
+            id: 2,
+            selected: true,
+            isAllowedToMoveUp: false,
+          },
+        ],
+      };
+      const actual = getCannotMoveAccountDownMessage(state);
+
+      expect(actual).toBe(
+        'You cannot move the selected account down one level.'
+      );
     });
   });
 });

@@ -321,6 +321,54 @@ export default class AccountListModule {
     this.dispatcher.setRemainingHistoricalBalance(remainingHistoricalBalance);
   };
 
+  moveUpAccount = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+
+      const onMoveUpSuccess = () => {
+        this.dispatcher.setAlert({
+          type: 'success',
+          message,
+        });
+      };
+
+      this.filterAccountList(onMoveUpSuccess);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.moveUp(onSuccess, onFailure);
+  };
+
+  moveDownAccount = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+
+      const onMoveDownSuccess = () => {
+        this.dispatcher.setAlert({
+          type: 'success',
+          message,
+        });
+      };
+
+      this.filterAccountList(onMoveDownSuccess);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.moveDown(onSuccess, onFailure);
+  };
+
   render = () => {
     const accountView = (
       <AccountListRootView
@@ -343,6 +391,8 @@ export default class AccountListModule {
         onBulkUpdateCancelClick={this.clickBulkUpdateCancel}
         onBulkUpdateSaveClick={this.clickBulkUpdateSave}
         onBulkUpdateDiscardClick={this.clickBulkUpdateModalDiscard}
+        onAccountMoveUpClick={this.moveUpAccount}
+        onAccountMoveDownClick={this.moveDownAccount}
         calculateRemainingHistoricalBalance={
           this.calculateRemainingHistoricalBalance
         }

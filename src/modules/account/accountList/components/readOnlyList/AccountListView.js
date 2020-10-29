@@ -4,12 +4,18 @@ import {
   PageHead,
   Separator,
   StandardTemplate,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAccountAllowedToMoveDown,
+  getAccountAllowedToMoveUp,
   getAlert,
+  getCannotMoveAccountDownMessage,
+  getCannotMoveAccountUpMessage,
+  getHasFlexibleAccountNumbers,
   getLoadingState,
   getModalType,
   getRawEntries,
@@ -31,9 +37,13 @@ import styles from '../AccountListTable.module.css';
 import uuid from '../../../../../common/uuid/uuid';
 
 const AccountListView = ({
+  accountAllowedToMoveUp,
+  accountAllowedToMoveDown,
   alert,
   loadingState,
   selectedTab,
+  cannotMoveAccountUpMessage,
+  cannotMoveAccountDownMessage,
   onDismissAlert,
   onUpdateFilterOptions,
   onResetFilterOptions,
@@ -42,6 +52,8 @@ const AccountListView = ({
   onCreateAccountButtonClick,
   onImportChartOfAccountsClick,
   onAccountSelected,
+  onAccountMoveUpClick,
+  onAccountMoveDownClick,
   onAllAccountsSelected,
   entries,
   onDeleteConfirmButtonClick,
@@ -51,6 +63,7 @@ const AccountListView = ({
   onDeleteClick,
   onBulkUpdateModalCancelClick,
   modalType,
+  hasFlexibleAccountNumbers,
 }) => {
   const alertComponents =
     alert &&
@@ -103,12 +116,52 @@ const AccountListView = ({
     <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelect} />
   );
 
+  const moveUpButton = accountAllowedToMoveUp ? (
+    <Button type="secondary" onClick={onAccountMoveUpClick}>
+      Move up a level
+    </Button>
+  ) : (
+    <Tooltip
+      className={styles.moveButton}
+      triggerContent={
+        <Button type="secondary" as="a" disabled>
+          Move up a level
+        </Button>
+      }
+    >
+      {cannotMoveAccountUpMessage}
+    </Tooltip>
+  );
+
+  const moveDownButton = accountAllowedToMoveDown ? (
+    <Button type="secondary" onClick={onAccountMoveDownClick}>
+      Move down a level
+    </Button>
+  ) : (
+    <Tooltip
+      className={styles.moveButton}
+      triggerContent={
+        <Button type="secondary" as="a" disabled>
+          Move down a level
+        </Button>
+      }
+    >
+      {cannotMoveAccountDownMessage}
+    </Tooltip>
+  );
+
   const numSelected = entries.filter((entry) => entry.selected).length;
   const deleteBar = numSelected > 0 && (
     <div className={styles.deleteBar}>
       <Button type="secondary" onClick={onDeleteClick}>
         Delete accounts
       </Button>
+      {!hasFlexibleAccountNumbers && (
+        <>
+          {moveUpButton}
+          {moveDownButton}
+        </>
+      )}
       <span className={styles.deleteAccountsText}>
         {numSelected} Items selected
       </span>
@@ -180,6 +233,11 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
+  cannotMoveAccountUpMessage: getCannotMoveAccountUpMessage(state),
+  cannotMoveAccountDownMessage: getCannotMoveAccountDownMessage(state),
+  accountAllowedToMoveUp: getAccountAllowedToMoveUp(state),
+  accountAllowedToMoveDown: getAccountAllowedToMoveDown(state),
+  hasFlexibleAccountNumbers: getHasFlexibleAccountNumbers(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);
