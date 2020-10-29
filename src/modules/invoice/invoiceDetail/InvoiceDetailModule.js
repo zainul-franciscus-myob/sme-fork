@@ -415,9 +415,8 @@ export default class InvoiceDetailModule {
   };
 
   updateHeaderOptions = ({ key, value }) => {
+    const state = this.store.getState();
     if (key === 'isTaxInclusive') {
-      const state = this.store.getState();
-
       const isLineAmountDirty = getIsLineAmountDirty(state);
 
       if (!isLineAmountDirty) {
@@ -436,6 +435,12 @@ export default class InvoiceDetailModule {
           this.loadCustomerQuotes();
         }
       }
+      if (key === 'canApplySurcharge' && !getIsCreating(state))
+        this.dispatcher.setAlert({
+          type: 'warning',
+          message:
+            'Your surcharge settings have changed since this invoice was last emailed. Email the invoice again to apply the changes.',
+        });
     }
   };
 
