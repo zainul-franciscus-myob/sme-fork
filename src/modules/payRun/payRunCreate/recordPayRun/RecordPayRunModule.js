@@ -51,7 +51,10 @@ export default class RecordPayRunModule {
   trackRecordPayment = () =>
     trackUserEvent({
       eventName: 'recordPayment',
-      customProperties: { action: 'record_payment' },
+      customProperties: {
+        action: 'record_payment',
+        page: 'Record pay run',
+      },
     });
 
   saveDraftAndRedirect = () => {

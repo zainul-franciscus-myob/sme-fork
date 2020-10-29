@@ -1091,7 +1091,10 @@ export default class InvoiceDetailModule {
       this.dispatcher.setViewedAccountToolTip(true);
       trackUserEvent({
         eventName: 'viewedAccountToolTip',
-        customProperties: { action: 'viewed_accountToolTip' },
+        customProperties: {
+          action: 'viewed_accountToolTip',
+          page: 'Invoice',
+        },
       });
     }
   };

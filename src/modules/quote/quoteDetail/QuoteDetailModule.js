@@ -759,7 +759,10 @@ export default class QuoteDetailModule {
       this.dispatcher.setViewedAccountToolTip(true);
       trackUserEvent({
         eventName: 'viewedAccountToolTip',
-        customProperties: { action: 'viewed_accountToolTip' },
+        customProperties: {
+          action: 'viewed_accountToolTip',
+          page: 'Quote',
+        },
       });
     }
   };

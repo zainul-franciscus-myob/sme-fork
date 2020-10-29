@@ -145,7 +145,10 @@ describe('RecordPayRunModule', () => {
       const parameters = trackUserEvent.mock.calls[0];
       expect(parameters[0]).toEqual({
         eventName: 'recordPayment',
-        customProperties: { action: 'record_payment' },
+        customProperties: {
+          action: 'record_payment',
+          page: 'Record pay run',
+        },
       });
     });
   });

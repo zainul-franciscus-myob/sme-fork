@@ -22,7 +22,6 @@ export default class PayRunModule {
     pushMessage,
     subscribeOrUpgrade,
     featureToggles,
-    trackUserEvent,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -50,7 +49,6 @@ export default class PayRunModule {
         store: this.store,
         pushMessage,
         featureToggles: this.featureToggles,
-        trackUserEvent,
       }),
       preparePaySlipModule: new PreparePaySlipsModule({
         integration,
