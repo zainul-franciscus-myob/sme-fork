@@ -41,7 +41,6 @@ export const getShowPaidBills = (state) => state.showPaidBills;
 const getDescription = (state) => state.description;
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getModalType = (state) => state.modalType;
-export const getRedirectUrl = (state) => state.redirectUrl;
 export const getArePaymentDetailsComplete = (state) =>
   state.arePaymentDetailsComplete;
 export const getIsCreating = (state) => state.billPaymentId === 'new';
@@ -182,6 +181,20 @@ export const getSupplierLink = createSelector(
   getSupplierId,
   (businessId, region, supplierId) =>
     `/#/${region}/${businessId}/contact/${supplierId}`
+);
+
+export const getRedirectUrl = createSelector(
+  (state) => state.redirectUrl,
+  getBusinessId,
+  getRegion,
+  getApplyPaymentToBillId,
+  getIsCreating,
+  (redirectUrl, businessId, region, billId, isCreating) => {
+    if (redirectUrl) return redirectUrl;
+    if (billId) return `/#/${region}/${businessId}/bill/${billId}`;
+    if (isCreating) return `/#/${region}/${businessId}/bill`;
+    return `/#/${region}/${businessId}/transactionList`;
+  }
 );
 
 export const getShouldShowSupplierPopover = createSelector(

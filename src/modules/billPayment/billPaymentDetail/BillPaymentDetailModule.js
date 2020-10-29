@@ -7,18 +7,14 @@ import {
   SUCCESSFULLY_SAVED_BILL_PAYMENT,
 } from '../../../common/types/MessageTypes';
 import {
-  getApplyPaymentToBillId,
-  getBusinessId,
   getContactComboboxContext,
   getDefaultAccountId,
   getIsActionsDisabled,
-  getIsCreating,
   getIsPageEdited,
   getIsReferenceIdDirty,
   getModalType,
   getRedirectUrl,
   getReferenceId,
-  getRegion,
   getShouldSendRemittanceAdvice,
 } from './BillPaymentDetailSelectors';
 import BillPaymentView from './components/BillPaymentDetailView';
@@ -164,30 +160,6 @@ export default class BillPaymentModule {
     this.integrator.updateReferenceId({ onSuccess, onFailure });
   };
 
-  redirectToTransactionList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    this.navigateTo(`/#/${region}/${businessId}/transactionList`);
-  };
-
-  redirectToBillList = () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    this.navigateTo(`/#/${region}/${businessId}/bill`);
-  };
-
-  redirectToBillDetail = (billId) => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    const region = getRegion(state);
-
-    this.navigateTo(`/#/${region}/${businessId}/bill/${billId}`);
-  };
-
   reloadSavedBillPayment = ({ id, message }) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.dispatcher.updateBillPaymentId(id);
@@ -203,34 +175,27 @@ export default class BillPaymentModule {
     this.dispatcher.setAlertMessage({ message: '', type: '' });
 
   saveBillPayment = () => {
-    const state = this.store.getState();
-    if (getIsActionsDisabled(state)) return;
+    if (getIsActionsDisabled(this.store.getState())) return;
 
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = (response) => {
+      const state = this.store.getState();
       this.dispatcher.setSubmittingState(false);
       this.pushMessage({
         type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
         content: response.message,
       });
 
+      const url = getRedirectUrl({ ...state, applyPaymentToBillId: '' });
       if (getShouldSendRemittanceAdvice(state)) {
+        this.dispatcher.setRedirectUrl(url);
         const id = response.id || state.billPaymentId;
         this.reloadSavedBillPayment({ ...response, id });
         return;
       }
-      const url = getRedirectUrl(state);
-      if (url) {
-        this.navigateTo(url);
-      } else {
-        const isCreating = getIsCreating(state);
-        if (isCreating) {
-          this.redirectToBillList();
-        } else {
-          this.redirectToTransactionList();
-        }
-      }
+
+      this.navigateTo(url);
     };
 
     const onFailure = ({ message }) => {
@@ -280,6 +245,9 @@ export default class BillPaymentModule {
         message: response.message,
         type: 'success',
       });
+      const state = this.store.getState();
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
     };
 
     const onFailure = ({ message }) => {
@@ -314,6 +282,9 @@ export default class BillPaymentModule {
         filename: `RemittanceAdvice-${referenceId}.pdf`,
         shouldDownload: true,
       });
+
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
     };
 
     const onFailure = ({ message }) => {
@@ -338,7 +309,9 @@ export default class BillPaymentModule {
         type: SUCCESSFULLY_DELETED_BILL_PAYMENT,
         content: response.message,
       });
-      this.redirectToTransactionList();
+      const state = this.store.getState();
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
     };
 
     const onFailure = ({ message }) => {
@@ -351,13 +324,8 @@ export default class BillPaymentModule {
 
   cancelBillPayment = () => {
     const state = this.store.getState();
-    const isCreating = getIsCreating(state);
-    if (isCreating) {
-      const billId = getApplyPaymentToBillId(state);
-      this.redirectToBillDetail(billId);
-    } else {
-      this.redirectToTransactionList();
-    }
+    const url = getRedirectUrl(state);
+    this.navigateTo(url);
   };
 
   loadContactCombobox = () => {
@@ -447,7 +415,8 @@ export default class BillPaymentModule {
 
   discardAndRedirect = () => {
     this.dispatcher.closeModal();
-    const url = getRedirectUrl(this.store.getState());
+    const state = this.store.getState();
+    const url = getRedirectUrl(state);
     this.navigateTo(url);
   };
 

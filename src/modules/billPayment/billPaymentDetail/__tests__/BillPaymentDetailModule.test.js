@@ -222,7 +222,7 @@ describe('BillPaymentDetailModule', () => {
         type: SUCCESSFULLY_DELETED_BILL_PAYMENT,
         content: expect.any(String),
       });
-      expect(module.redirectToTransactionList).toHaveBeenCalled();
+      expect(module.navigateTo).toHaveBeenCalled();
     });
 
     it('fails to delete', () => {
