@@ -4,6 +4,10 @@
   margin-bottom: var(--flx-spacing-tiny);
 }
 
+input[name="bankStatementText"] {
+  text-transform: uppercase;
+}
+
 .maximiseContactCombobox :global(.form-group) {
   width: 100%;
 }

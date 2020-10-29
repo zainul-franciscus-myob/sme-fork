@@ -265,7 +265,7 @@ const changeBankStatementText = (state, { bankStatementText }) => {
   return {
     ...state,
     ...pageEdited,
-    bankStatementText: formatBankStatementText(bankStatementText),
+    bankStatementText,
   };
 };
 
