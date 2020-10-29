@@ -1032,7 +1032,7 @@ describe('BillPaymentDetailModule', () => {
         {
           intent: EXPORT_PDF,
           urlParams: { businessId: '33', billPaymentId: '1' },
-          params: { formName: '' },
+          params: { formName: 'c' },
         },
       ]);
 

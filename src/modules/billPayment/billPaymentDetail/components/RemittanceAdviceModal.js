@@ -100,7 +100,7 @@ const RemittanceAdviceModal = ({
         emailView(onKeyDown)}
       <Select
         label="Template"
-        name="selectedTemplate"
+        name="templateName"
         value={remittanceAdviceDetails.templateName}
         onChange={handleSelectChange(onRemittanceAdviceDetailsChange)}
       >

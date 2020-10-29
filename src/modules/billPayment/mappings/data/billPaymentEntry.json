@@ -57,7 +57,7 @@
       "xa@myob.com",
       "xa1@myob.com"
     ],
-    "defaultTemplate": "c"
+    "templateName": "c"
   },
   "electronicClearingAccountId": "789",
   "startOfFinancialYearDate": "2019-07-01T00:00:00",
