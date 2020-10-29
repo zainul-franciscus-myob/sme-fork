@@ -132,6 +132,7 @@ const getSettings = ({
   onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
+  onAppMarketplaceClick,
   hasTasks,
   businessName,
 }) =>
@@ -168,6 +169,7 @@ const getSettings = ({
         onLogoutLinkClick={onLogoutLinkClick}
         onCreateBusinessClick={onCreateBusinessClick}
         onManageMyProductClick={onManageMyProductClick}
+        onAppMarketplaceClick={onAppMarketplaceClick}
       />
     ),
     !shouldDisplayBusinessMenu && (
@@ -190,6 +192,7 @@ const NavigationBar = ({
   onMenuSelect,
   onSubscribeNowClick,
   onTasksLinkClick,
+  onAppMarketplaceClick,
   region,
   serialNumber,
   shouldDisplayAccountingMenu,
@@ -233,6 +236,7 @@ const NavigationBar = ({
     onSubscribeNowClick,
     onCreateBusinessClick,
     onManageMyProductClick,
+    onAppMarketplaceClick,
     region,
     shouldDisplayBusinessMenu,
     shouldDisplayAddMenu,

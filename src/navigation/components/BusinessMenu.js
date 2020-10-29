@@ -4,6 +4,7 @@ import {
   EditIcon,
   Label,
   Navigation,
+  PurchasesIcon,
   SignOutIcon,
   SwitchIcon,
   Tooltip,
@@ -33,7 +34,8 @@ const isSeparatorRequired = (urls) =>
   urls.payrollSettings ||
   urls.reportSettings ||
   urls.userList ||
-  urls.dataImportExport;
+  urls.dataImportExport ||
+  urls.appMarketplace;
 
 const getMenuLink = (url, label, onMenuLinkClick, target) => (
   <Navigation.MenuLink
@@ -89,6 +91,7 @@ const getItems = ({
   onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
+  onAppMarketplaceClick,
 }) =>
   [
     urls.businessDetails &&
@@ -140,6 +143,14 @@ const getItems = ({
         <AddIcon />,
         onCreateBusinessClick
       ),
+    urls.appMarketplace &&
+      getMenuLinkWithIcon(
+        urls.appMarketplace,
+        'App marketplace',
+        <PurchasesIcon />,
+        onAppMarketplaceClick
+      ),
+    isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
     getMenuLinkWithIcon('', 'Log out', <SignOutIcon />, onLogoutLinkClick),
     userEmail && (
       <UnlinkedMenuLink
@@ -184,6 +195,7 @@ const BusinessMenu = ({
   onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
+  onAppMarketplaceClick,
   isReadOnly,
 }) => (
   <div className={styles.businessMenu}>
@@ -210,6 +222,7 @@ const BusinessMenu = ({
         onLogoutLinkClick,
         onCreateBusinessClick,
         onManageMyProductClick,
+        onAppMarketplaceClick,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}

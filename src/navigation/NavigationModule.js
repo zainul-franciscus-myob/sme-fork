@@ -12,6 +12,7 @@ import {
 import { RESET_STATE } from '../SystemIntents';
 import { featuresConfig } from './navConfig';
 import {
+  getAppMarketplaceUrl,
   getBusinessId,
   getCreateNewBusinessUrl,
   getMyobTeamUrl,
@@ -104,6 +105,7 @@ export default class NavigationModule {
     const paymentDetailUrl = getPaymentDetailUrl(state);
     const productManagementUrl = getProductManagementUrl(state);
     const myobTeamUrl = getMyobTeamUrl(state);
+    const appMarketplaceUrl = getAppMarketplaceUrl(state);
 
     const urls = Object.entries(featuresConfig).reduce(
       (acc, [key, feature]) => {
@@ -114,6 +116,7 @@ export default class NavigationModule {
           paymentDetailUrl,
           productManagementUrl,
           myobTeamUrl,
+          appMarketplaceUrl,
         });
         return acc;
       },
@@ -133,6 +136,7 @@ export default class NavigationModule {
     paymentDetailUrl,
     productManagementUrl,
     myobTeamUrl,
+    appMarketplaceUrl,
   }) => {
     switch (key) {
       case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
@@ -155,6 +159,8 @@ export default class NavigationModule {
         return productManagementUrl;
       case RouteName.MYOB_TEAM_LINK:
         return myobTeamUrl;
+      case RouteName.APP_MARKETPLACE:
+        return appMarketplaceUrl;
       default:
         return `/#${this.constructPath(feature.routeName, feature.params)}`;
     }
@@ -224,6 +230,13 @@ export default class NavigationModule {
     this.navigateTo(productManagementUrl, true);
   };
 
+  redirectToAppMarketplace = () => {
+    const state = this.store.getState();
+    const appMarketplaceUrl = getAppMarketplaceUrl(state);
+
+    this.navigateTo(appMarketplaceUrl, true);
+  };
+
   render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {
     const {
       createBusiness,
@@ -234,6 +247,7 @@ export default class NavigationModule {
       toggleHelp,
       toggleTasks,
       manageMyProduct,
+      redirectToAppMarketplace,
     } = this;
 
     return (
@@ -251,6 +265,7 @@ export default class NavigationModule {
           onTasksLinkClick={toggleTasks}
           serialNumber={serialNumber}
           onManageMyProductClick={manageMyProduct}
+          onAppMarketplaceClick={redirectToAppMarketplace}
         />
       </Provider>
     );

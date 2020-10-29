@@ -70,7 +70,8 @@
     "dataImportExport",
     "paymentDetail",
     "productManagementDetail",
-    "subscription"
+    "subscription",
+    "appMarketplace"
   ],
   "isTrial": false,
   "isReadOnly": true,

@@ -1,4 +1,5 @@
 const RouteName = {
+  APP_MARKETPLACE: 'appMarketplace',
   BUSINESS_LIST: 'businessList/businessList',
   GENERAL_JOURNAL_DETAIL: 'generalJournal/generalJournalDetail',
   SPEND_MONEY_DETAIL: 'spendMoney/spendMoneyDetail',

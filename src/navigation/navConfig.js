@@ -199,4 +199,5 @@ export const featuresConfig = {
   dataImportExport: { routeName: RouteName.DATA_IMPORT_EXPORT },
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
   productManagementDetail: { routeName: RouteName.PRODUCT_MANAGEMENT_DETAIL },
+  appMarketplace: { routeName: RouteName.APP_MARKETPLACE },
 };

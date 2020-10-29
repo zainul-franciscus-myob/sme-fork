@@ -62,7 +62,8 @@
     "myMyobAccount",
     "paymentDetail",
     "productManagementDetail",
-    "subscription"
+    "subscription",
+    "appMarketplace"
   ],
   "isReadOnly": false,
   "isCurrentUserAdvisor": true

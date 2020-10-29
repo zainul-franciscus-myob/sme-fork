@@ -42,6 +42,13 @@ export const getProductManagementUrl = createSelector(
     `${myobUrl}/manage-my-product?businessId=${businessId}`
 );
 
+export const getAppMarketplaceUrl = createSelector(
+  getMyobUrl,
+  getRegion,
+  (myobUrl, region) =>
+    `${myobUrl}/${region}/apps/category/products?category=essentials`
+);
+
 export const getReportsUrl = createSelector(
   (state) => state.myReportsUrl,
   getRegion,
@@ -223,6 +230,7 @@ export const getBusinessUrls = createSelector(
     paymentDetail: enabledUrls.paymentDetail,
     productManagementDetail: enabledUrls.productManagementDetail,
     subscription: enabledUrls.subscription,
+    appMarketplace: enabledUrls.appMarketplace,
   })
 );
 

@@ -168,6 +168,16 @@ describe('Navigation Module', () => {
         );
       });
 
+      it('builds a URL for appMarketplace', () => {
+        navigationModule.run({ routeProps: baseData });
+
+        const state = navigationModule.store.getState();
+
+        expect(state.urls[RouteName.APP_MARKETPLACE]).toEqual(
+          'myob.url/🇦🇺/apps/category/products?category=essentials'
+        );
+      });
+
       it('builds a URL for myobTeamLink', () => {
         navigationModule.run({ routeProps: baseData });
 
