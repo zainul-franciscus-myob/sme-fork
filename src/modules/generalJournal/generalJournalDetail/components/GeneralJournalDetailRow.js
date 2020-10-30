@@ -12,7 +12,6 @@ import {
 } from '../generalJournalDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
-import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 
 const onAmountInputChange = (name, onChange) => (e) => {
@@ -33,6 +32,15 @@ const onComboboxChange = (name, onChange) => (item) => {
   });
 };
 
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
+    },
+  });
+};
+
 const GeneralJournalDetailRow = ({
   index,
   isNewLineRow,
@@ -44,7 +52,7 @@ const GeneralJournalDetailRow = ({
   onRowInputBlur,
   onChange,
   onCreateAccountButtonClick,
-  onCreateJobButtonClick,
+  renderJobCombobox,
   isSystem,
   ...feelixInjectedProps
 }) => {
@@ -60,7 +68,6 @@ const GeneralJournalDetailRow = ({
     accountId,
     jobId,
     taxCodeId,
-    lineJobOptions,
   } = data;
 
   return (
@@ -113,18 +120,15 @@ const GeneralJournalDetailRow = ({
         onChange={onChange}
         disabled={isTableDisabled || isSystem}
       />
-      <JobCombobox
-        label="Job"
-        onChange={onComboboxChange('jobId', onChange)}
-        addNewJob={() =>
-          onCreateJobButtonClick(onComboboxChange('jobId', onChange))
-        }
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={isTableDisabled || isSystem}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isTableDisabled || isSystem,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         label="Tax codes"
         items={taxCodeOptions}

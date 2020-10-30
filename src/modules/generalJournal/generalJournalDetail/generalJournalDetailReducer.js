@@ -6,12 +6,10 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_GENERAL_JOURNAL,
   OPEN_MODAL,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
-  SET_CREATED_JOB_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -49,7 +47,6 @@ const getDefaultState = () => ({
     quantity: '',
     description: '',
     jobId: '',
-    lineJobOptions: [],
     taxCodeId: '',
     taxAmount: '',
     lineTypeId: '',
@@ -68,12 +65,10 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isSubmitting: false,
   isCreatedAccountLoading: false,
-  isCreatedJobLoading: false,
   isPageEdited: false,
   businessId: '',
   region: '',
   accountOptions: [],
-  jobOptions: [],
   taxCodeOptions: [],
   startOfFinancialYearDate: '',
 });
@@ -123,30 +118,20 @@ const getReportingMethodForCreate = (
   return reportingMethod;
 };
 
-const buildLineJobOptions = ({ action, jobId }) =>
-  action.jobs
-    ? action.jobs.filter((job) => job.isActive || job.id === jobId)
-    : [];
-
 const loadGeneralJournalDetail = (state, action) => ({
   ...state,
   generalJournal: {
     ...state.generalJournal,
     ...action.generalJournal,
     originalReferenceId: action.generalJournal.referenceId,
-    lines: action.generalJournal.lines.map((line) => ({
-      ...line,
-      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
-    })),
+    lines: action.generalJournal.lines,
   },
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildLineJobOptions({ action }),
   },
   totals: action.totals,
   pageTitle: action.pageTitle,
-  jobOptions: action.jobOptions,
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
@@ -247,7 +232,6 @@ const loadNewGeneralJournal = (state, action) => ({
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildLineJobOptions({ action }),
   },
   pageTitle: action.pageTitle,
   jobOptions: action.jobOptions,
@@ -269,11 +253,6 @@ const setSubmittingState = (state, action) => ({
 const setCreatedAccountLoadingState = (state, action) => ({
   ...state,
   isCreatedAccountLoading: action.isCreatedAccountLoading,
-});
-
-const setCreatedJobLoadingState = (state, action) => ({
-  ...state,
-  isCreatedJobLoading: action.isCreatedJobLoading,
 });
 
 const setAlert = (state, action) => ({
@@ -341,22 +320,6 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  generalJournal: {
-    ...state.generalJournal,
-    lines: state.generalJournal.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
-});
-
 const setDuplicateId = (state, action) => ({
   ...state,
   duplicateId: action.duplicateId,
@@ -374,14 +337,12 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_CREATED_ACCOUNT_LOADING_STATE]: setCreatedAccountLoadingState,
-  [SET_CREATED_JOB_LOADING_STATE]: setCreatedJobLoadingState,
   [SET_ALERT]: setAlert,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [SET_DUPLICATE_ID]: setDuplicateId,
 };
 const generalJournalReducer = createReducer(getDefaultState(), handlers);

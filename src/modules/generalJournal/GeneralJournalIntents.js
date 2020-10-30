@@ -9,11 +9,7 @@ export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_CREATED_ACCOUNT_LOADING_STATE = Symbol(
   'Set created account loading state'
 );
-export const SET_CREATED_JOB_LOADING_STATE = Symbol(
-  'Set created job loading state'
-);
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol('Load account after create');
-export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
 export const DELETE_GENERAL_JOURNAL = Symbol('Delete a general journal entry');
 export const UPDATE_GENERAL_JOURNAL_HEADER = Symbol(
   'Update general journal header'

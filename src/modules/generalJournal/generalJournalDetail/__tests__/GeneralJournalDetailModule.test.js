@@ -56,6 +56,17 @@ export const setup = () => {
   };
 };
 
+const setUpWithJobComboboxModule = () => {
+  const toolbox = setup();
+
+  toolbox.module.jobComboboxModule = {
+    run: jest.fn(),
+    load: jest.fn(),
+  };
+
+  return toolbox;
+};
+
 export const setupWithExisting = () => {
   const { store, module, integration, pushMessage, popMessages } = setup();
   module.run({ generalJournalId: '1', businessId: 'bizId', region: 'au' });
@@ -128,7 +139,7 @@ export const setupEditedPage = () => {
 describe('GeneralJournalDetailModule', () => {
   describe('run', () => {
     it('should successfully load new', () => {
-      const { store, module, integration } = setup();
+      const { store, module, integration } = setUpWithJobComboboxModule();
       module.run({ generalJournalId: 'new' });
 
       expect(integration.requests).toEqual([
@@ -151,10 +162,13 @@ describe('GeneralJournalDetailModule', () => {
         },
         expect.objectContaining({ intent: LOAD_NEW_GENERAL_JOURNAL }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).not.toHaveBeenCalled();
     });
 
     it('should fail to load new', () => {
-      const { store, module, integration } = setup();
+      const { store, module, integration } = setUpWithJobComboboxModule();
       integration.mapFailure(LOAD_NEW_GENERAL_JOURNAL);
       module.run({ generalJournalId: 'new' });
 
@@ -177,10 +191,13 @@ describe('GeneralJournalDetailModule', () => {
           loadingState: LoadingState.LOADING_FAIL,
         },
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).not.toHaveBeenCalled();
     });
 
     it('should successfully load existing', () => {
-      const { store, module, integration } = setup();
+      const { store, module, integration } = setUpWithJobComboboxModule();
       module.run({ generalJournalId: '1' });
 
       expect(integration.requests).toEqual([
@@ -203,10 +220,13 @@ describe('GeneralJournalDetailModule', () => {
         },
         expect.objectContaining({ intent: LOAD_GENERAL_JOURNAL_DETAIL }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).toHaveBeenCalledWith(['2']);
     });
 
     it('should fail to load ', () => {
-      const { store, module, integration } = setup();
+      const { store, module, integration } = setUpWithJobComboboxModule();
       integration.mapFailure(LOAD_GENERAL_JOURNAL_DETAIL);
       module.run({ generalJournalId: '1' });
 
@@ -229,10 +249,13 @@ describe('GeneralJournalDetailModule', () => {
           loadingState: LoadingState.LOADING_FAIL,
         },
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).not.toHaveBeenCalled();
     });
 
     it('should successfully load with duplicate', () => {
-      const { store, integration, module } = setup();
+      const { store, integration, module } = setUpWithJobComboboxModule();
       module.popMessages = () => [
         {
           type: DUPLICATE_GENERAL_JOURNAL,
@@ -276,6 +299,9 @@ describe('GeneralJournalDetailModule', () => {
           },
         }),
       ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+      expect(module.jobComboboxModule.load).toHaveBeenCalledWith(['2']);
     });
   });
 

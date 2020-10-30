@@ -236,11 +236,27 @@ export const getAccountModalContext = (state) => {
   return { businessId, region };
 };
 
-export const getJobModalContext = (state) => {
+export const getJobComboboxContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
 
   return { businessId, region };
+};
+
+export const getUniqueSelectedJobIds = (state) => {
+  const lines = getGeneralJournalLines(state);
+
+  if (lines.length > 0) {
+    const selectedJobIds = lines.reduce((jobIds, line) => {
+      if (line.jobId) {
+        jobIds.push(line.jobId);
+      }
+      return jobIds;
+    }, []);
+    return [...new Set([...selectedJobIds])];
+  }
+
+  return [];
 };
 
 export const getDuplicateId = (state) => state.duplicateId;
@@ -306,11 +322,6 @@ export const getLoadGeneralJournalRequest = createSelector(
 export const getLoadAccountAfterCreateUrlParams = (state, accountId) => {
   const businessId = getBusinessId(state);
   return { businessId, accountId };
-};
-
-export const getLoadJobAfterCreateUrlParams = (state, jobId) => {
-  const businessId = getBusinessId(state);
-  return { businessId, jobId };
 };
 
 export const getCreateGeneralJournalUrl = (state) => {

@@ -10,6 +10,7 @@ import {
   getIsOutOfBalanced,
   getLoadGeneralJournalRequest,
   getSaveGeneralJournalRequest,
+  getUniqueSelectedJobIds,
 } from '../generalJournalDetailSelectors';
 
 describe('generalJournalSelectors', () => {
@@ -183,5 +184,24 @@ describe('generalJournalSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getUniqueSelectedJobIds', () => {
+    it('returns a list of unique selected job ids excluding empty ids', () => {
+      const state = {
+        generalJournal: {
+          lines: [
+            { jobId: '1' },
+            { jobId: '2' },
+            { jobId: '' },
+            { jobId: '1' },
+          ],
+        },
+      };
+
+      const actual = getUniqueSelectedJobIds(state);
+
+      expect(actual).toEqual(['1', '2']);
+    });
   });
 });

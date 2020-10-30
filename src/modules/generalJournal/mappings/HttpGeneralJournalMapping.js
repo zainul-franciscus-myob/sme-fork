@@ -4,7 +4,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_DUPLICATE_GENERAL_JOURNAL,
   LOAD_GENERAL_JOURNAL_DETAIL,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_GENERAL_JOURNAL,
   UPDATE_GENERAL_JOURNAL,
 } from '../GeneralJournalIntents';
@@ -39,11 +38,6 @@ const HttpGeneralJournalMapping = {
     method: 'GET',
     getPath: ({ businessId, accountId }) =>
       `/${businessId}/generalJournal/load_account/${accountId}`,
-  },
-  [LOAD_JOB_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, jobId }) =>
-      `/${businessId}/generalJournal/load_job/${jobId}`,
   },
   [LOAD_DUPLICATE_GENERAL_JOURNAL]: {
     method: 'GET',

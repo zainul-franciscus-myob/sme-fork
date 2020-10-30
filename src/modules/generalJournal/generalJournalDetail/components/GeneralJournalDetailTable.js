@@ -25,7 +25,7 @@ const GeneralJournalDetailTable = ({
   onRowInputBlur,
   onRemoveRow,
   onCreateAccountButtonClick,
-  onCreateJobButtonClick,
+  renderJobCombobox,
   isSystem,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
@@ -40,7 +40,7 @@ const GeneralJournalDetailTable = ({
         onChange={onChange}
         onRowInputBlur={onRowInputBlur}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
-        onCreateJobButtonClick={onCreateJobButtonClick}
+        renderJobCombobox={renderJobCombobox}
       />
     );
   };

@@ -85,26 +85,6 @@
       "reportingMethod": "purchase"
     }
   ],
-  "jobs": [
-    {
-      "id": "1",
-      "jobNumber": "100",
-      "jobName": "Job 1",
-      "isActive": false
-    },
-    {
-      "id": "2",
-      "jobNumber": "200",
-      "jobName": "Job 2 with a long name",
-      "isActive": true
-    },
-    {
-      "id": "3",
-      "jobNumber": "12345678901234",
-      "jobName": "Job 3 with an even longer name",
-      "isActive": true
-    }
-  ],
   "taxCodes": [
     {
       "id": "1",
