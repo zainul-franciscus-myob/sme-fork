@@ -1,4 +1,4 @@
-import { Button, Icons, PageState } from '@myob/myob-widgets';
+import { AddIcon, Button, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -50,7 +50,7 @@ const DashboardPurchaseCard = ({
       <DashboardCardHeader title="Purchases">
         <Button
           type="link"
-          icon={<Icons.Add />}
+          icon={<AddIcon />}
           onClick={handleLinkClick(onLinkClick, createBillLink)}
         >
           Create bill
@@ -77,7 +77,7 @@ const DashboardPurchaseCard = ({
       actions={[
         <Button
           type="link"
-          icon={<Icons.Add />}
+          icon={<AddIcon />}
           onClick={handleLinkClick(onLinkClick, createBillLink)}
         >
           Create bill

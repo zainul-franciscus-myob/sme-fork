@@ -1,4 +1,4 @@
-import { Dropdown, Icons, Table } from '@myob/myob-widgets';
+import { Dropdown, MoreIcon, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -59,7 +59,7 @@ const DashboardPurchaseTable = ({ entries, onLinkClick }) => {
             onSelect={onLinkClick}
             toggle={
               <Dropdown.Toggle size="xs">
-                <Icons.More />
+                <MoreIcon />
               </Dropdown.Toggle>
             }
           />

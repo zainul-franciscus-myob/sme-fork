@@ -1,4 +1,4 @@
-import { Icons } from '@myob/myob-widgets';
+import { ArrowRightIcon } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,7 +16,7 @@ const DashboardUnallocations = ({ count, bankingLink }) => (
     <div>
       <h4 className={styles.title}>Unallocated transactions</h4>
       <h1 className={styles.transactionCount}>{count}</h1>
-      <LinkButton icon={<Icons.ArrowRight />} href={bankingLink}>
+      <LinkButton icon={<ArrowRightIcon />} href={bankingLink}>
         Allocate transactions
       </LinkButton>
     </div>

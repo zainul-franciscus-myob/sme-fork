@@ -1,4 +1,4 @@
-import { Icons } from '@myob/myob-widgets';
+import { StarIcon } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
@@ -10,7 +10,7 @@ const ReportLine = ({ isFavourite, url, children }) => (
       [styles.favouriteLine]: isFavourite,
     })}
   >
-    <Icons.Star />
+    <StarIcon />
     <a href={url}>{children}</a>
   </div>
 );

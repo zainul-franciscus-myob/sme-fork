@@ -1,4 +1,10 @@
-import { Button, Icons, PageState } from '@myob/myob-widgets';
+import {
+  AddIcon,
+  ArrowRightIcon,
+  Button,
+  PageState,
+  TickIcon,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -58,7 +64,7 @@ const DashboardPayrollPayrunsCard = ({
             <div className={styles.tag}>Draft</div>
           ) : (
             <div className={styles.tick}>
-              <Icons.Tick />
+              <TickIcon />
             </div>
           )}
         </div>
@@ -67,7 +73,7 @@ const DashboardPayrollPayrunsCard = ({
           {entry.isDraft ? (
             <Button
               type="link"
-              icon={<Icons.ArrowRight />}
+              icon={<ArrowRightIcon />}
               onClick={() => onLinkClick(entry.payRunLink)}
             >
               Continue pay run
@@ -92,7 +98,7 @@ const DashboardPayrollPayrunsCard = ({
   ) : (
     <Button
       type="link"
-      icon={<Icons.Add />}
+      icon={<AddIcon />}
       onClick={() => {
         onLinkClick(createPayrunLink);
       }}

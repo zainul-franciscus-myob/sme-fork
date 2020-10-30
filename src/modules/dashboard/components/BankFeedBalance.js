@@ -1,4 +1,4 @@
-import { Icons, Spinner } from '@myob/myob-widgets';
+import { CloudDisconnectedIcon, Spinner } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,7 +9,7 @@ const BankFeedBalanceAndImage = ({ bankFeedBalance, isLoading }) => {
   const balance = bankFeedBalance ? (
     <h1>{bankFeedBalance}</h1>
   ) : (
-    <Icons.CloudDisconnected />
+    <CloudDisconnectedIcon />
   );
 
   return (

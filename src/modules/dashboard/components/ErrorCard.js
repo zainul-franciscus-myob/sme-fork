@@ -1,4 +1,4 @@
-import { Button, Card, Icons, PageState } from '@myob/myob-widgets';
+import { Button, Card, PageState, RefreshIcon } from '@myob/myob-widgets';
 import React from 'react';
 
 import Icon from '../../../components/Icon/Icon';
@@ -10,7 +10,7 @@ export default ({ onTry }) => (
       <PageState
         title="We are unable to load your content at this time"
         actions={[
-          <Button type="link" icon={<Icons.Refresh />} onClick={onTry}>
+          <Button type="link" icon={<RefreshIcon />} onClick={onTry}>
             Try again
           </Button>,
         ]}

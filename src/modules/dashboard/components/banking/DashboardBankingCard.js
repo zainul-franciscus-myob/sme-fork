@@ -1,4 +1,4 @@
-import { Icons, PageState, Tooltip } from '@myob/myob-widgets';
+import { AddIcon, PageState, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -44,7 +44,7 @@ const DashboardBankingCard = ({
     <PageState
       title="Manage your day-to-day"
       actions={[
-        <LinkButton href={addBankFeedUrl} isOpenInNewTab icon={<Icons.Add />}>
+        <LinkButton href={addBankFeedUrl} isOpenInNewTab icon={<AddIcon />}>
           Add bank feed
         </LinkButton>,
       ]}
