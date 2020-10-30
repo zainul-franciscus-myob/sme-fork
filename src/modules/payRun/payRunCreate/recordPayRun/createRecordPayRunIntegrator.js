@@ -22,10 +22,10 @@ const createRecordPayRunIntegrator = (store, integration) => ({
     });
   },
 
-  saveDraft: ({ onSuccess, onFailure }) => {
+  saveDraft: ({ onSuccess, onFailure, isAllowNegativesInPayRuns }) => {
     const state = store.getState();
     const urlParams = { businessId: getBusinessId(state) };
-    const content = getSaveDraftContent(state);
+    const content = getSaveDraftContent(state, isAllowNegativesInPayRuns);
 
     integration.write({
       intent: SAVE_DRAFT,
