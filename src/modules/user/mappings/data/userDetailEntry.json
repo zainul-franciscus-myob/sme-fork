@@ -7,14 +7,14 @@
     "roles": [
       {
         "id": "1",
-        "type": "AccountantBookkeeper",
-        "name": "Accountant/BookKeeper",
+        "type": "Administrator",
+        "name": "Administrator",
         "selected": false
       },
       {
         "id": "2",
-        "type": "Administrator",
-        "name": "Administrator",
+        "type": "AccountantBookkeeper",
+        "name": "Accountant/BookKeeper",
         "selected": false
       },
       {
@@ -37,7 +37,7 @@
       }
     ],
     "isAdmin": false,
-    "isAdvisor": false,
+    "isAdvisor": true,
     "isOnlineAdministrator": true
   },
   "isCurrentUserOnlineAdmin": true

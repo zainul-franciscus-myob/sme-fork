@@ -1,4 +1,5 @@
 import {
+  getShowAdvisorRoleAlert,
   getTitle,
   getUserDetails,
   getUserForCreate,
@@ -156,6 +157,60 @@ describe('User Detail Selectors', () => {
           type: RoleTypes.ADMINISTRATOR,
         },
       ]);
+    });
+  });
+
+  describe('getShowAdvisorRoleAlert', () => {
+    const defaultState = {
+      userId: '1',
+      user: {
+        isAdvisor: true,
+        roles: [
+          { type: RoleTypes.INVENTORY_MANAGEMENT, selected: false },
+          { type: RoleTypes.ADMINISTRATOR, selected: true },
+        ],
+      },
+    };
+    it('returns false on creating user', () => {
+      const state = {
+        ...defaultState,
+        userId: 'new',
+      };
+      const actual = getShowAdvisorRoleAlert(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false on editing non-advisor user', () => {
+      const state = {
+        ...defaultState,
+        user: {
+          ...defaultState.user,
+          isAdvisor: false,
+        },
+      };
+      const actual = getShowAdvisorRoleAlert(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false on editing advisor user with admin role selected', () => {
+      const actual = getShowAdvisorRoleAlert(defaultState);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns true on editing advisor user with admin role deselected', () => {
+      const roles = [
+        { type: RoleTypes.INVENTORY_MANAGEMENT, selected: true },
+        { type: RoleTypes.ADMINISTRATOR, selected: false },
+      ];
+      const state = {
+        ...defaultState,
+        user: {
+          ...defaultState.user,
+          roles,
+        },
+      };
+      const actual = getShowAdvisorRoleAlert(state);
+      expect(actual).toEqual(true);
     });
   });
 });

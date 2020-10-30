@@ -21,6 +21,7 @@ export const getUserId = (state) => state.userId;
 export const getIsAdvisor = (state) => state.user.isAdvisor;
 export const getIsInactive = (state) => state.user.isInactive;
 export const getLoadingState = (state) => state.loadingState;
+export const getShowAccessMessage = (state) => state.showAccessMessage;
 export const getIsCurrentUserOnlineAdmin = (state) =>
   state.isCurrentUserOnlineAdmin;
 
@@ -123,5 +124,20 @@ export const getMyDotMyobLink = createSelector(
   getSerialNumber,
   (businessId, serialNumber) => {
     return `https://my.myob.com/pages/CloudServiceAdministrationRedirector.aspx?Action=ARLADMIN&serialnumber=${serialNumber}&CdfId=${businessId}`;
+  }
+);
+
+export const getShowAdvisorRoleAlert = createSelector(
+  getIsCreating,
+  getIsAdvisor,
+  getUser,
+  (isCreating, isAdvisor, user) => {
+    return (
+      !isCreating &&
+      isAdvisor &&
+      !user.roles.some(
+        (role) => role.selected && role.type === RoleTypes.ADMINISTRATOR
+      )
+    );
   }
 );

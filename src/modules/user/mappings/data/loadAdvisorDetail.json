@@ -3,25 +3,26 @@
     "roles": [
       {
         "id": "1",
-        "type": "AccountantBookkeeper",
-        "name": "Accountant/BookKeeper",
+        "type": "Administrator",
+        "name": "Administrator",
         "selected": true
       },
       {
         "id": "2",
-        "type": "Administrator",
-        "name": "Administrator",
+        "type": "AccountantBookkeeper",
+        "name": "Accountant/BookKeeper",
         "selected": false
       },
       {
         "id": "3",
         "type": "Custom",
         "name": "Custom role",
-        "selected": true
+        "selected": false
       }
     ],
-    "isOnlineAdministrator": false,
+    "isOnlineAdministrator": true,
     "isAdvisor": true
   },
-  "isCurrentUserOnlineAdmin": true
+  "isCurrentUserOnlineAdmin": true,
+  "showAccessMessage": true
 }

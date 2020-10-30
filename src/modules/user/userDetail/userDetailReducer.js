@@ -36,6 +36,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   alertMessage: '',
   serialNumber: '',
+  showAccessMessage: false,
 });
 
 const resetState = () => getDefaultState();
@@ -68,7 +69,7 @@ const closeModal = (state) => ({
 
 const loadUserDetail = (
   state,
-  { user, isCurrentUserOnlineAdmin, serialNumber }
+  { user, isCurrentUserOnlineAdmin, serialNumber, showAccessMessage }
 ) => ({
   ...state,
   user: {
@@ -77,6 +78,7 @@ const loadUserDetail = (
   },
   isCurrentUserOnlineAdmin,
   serialNumber,
+  showAccessMessage,
 });
 
 const updateUserRoles = (state, action) => {
