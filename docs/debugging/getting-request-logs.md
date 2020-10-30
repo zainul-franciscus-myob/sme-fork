@@ -217,4 +217,16 @@ AND _sourceName = *sme.production-sme-web-bff*
 | where statusCode > 404
 ```
 
+Find errors related to Prometheus alerts (that notify Slack and VictorOps)
+```
+_sourceCategory = /aws/ex-cluster-production
+AND _sourceName = *sme.production-sme-web-bff*
+| json field=_raw "log" as k8s_log
+| json field=k8s_log "message" as app_log
+| json field=k8s_log "level" as level
+| json field=app_log "type" as type
+| fields app_log, k8s_log, level, type
+| where level >= 50
+| where type != "HttpError"
+```
 
