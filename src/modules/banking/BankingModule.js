@@ -15,6 +15,8 @@ import {
   G,
   L,
   M,
+  NUMPAD_PLUS,
+  NUMPAD_SLASH,
   OPTION,
   R,
   SHIFT,
@@ -1588,6 +1590,10 @@ export default class BankingModule {
         action: this.confirmBefore(this.expandTransactionWithHotkey),
       },
       {
+        key: NUMPAD_SLASH,
+        action: this.confirmBefore(this.expandTransactionWithHotkey),
+      },
+      {
         key: [OPTION, A],
         action: (eventDetail) =>
           this.confirmBefore(this.expandTransactionWithHotkey)(
@@ -1685,6 +1691,25 @@ export default class BankingModule {
       },
     ];
 
+    const hotkeysToOpenHelpPanel = [
+      {
+        key: [COMMAND, FORWARD_SLASH],
+        action: this.openHelpPanelForKeyboardShortcuts,
+      },
+      {
+        key: [CTRL, FORWARD_SLASH],
+        action: this.openHelpPanelForKeyboardShortcuts,
+      },
+      {
+        key: [COMMAND, NUMPAD_SLASH],
+        action: this.openHelpPanelForKeyboardShortcuts,
+      },
+      {
+        key: [CTRL, NUMPAD_SLASH],
+        action: this.openHelpPanelForKeyboardShortcuts,
+      },
+    ];
+
     return {
       [HotkeyLocations.GLOBAL]: [
         {
@@ -1695,18 +1720,7 @@ export default class BankingModule {
           key: [OPTION, G],
           action: this.setFocusToFirstUnmatchedLine,
         },
-        {
-          key: [COMMAND, FORWARD_SLASH],
-          action: () => {
-            this.openHelpPanelForKeyboardShortcuts();
-          },
-        },
-        {
-          key: [CTRL, FORWARD_SLASH],
-          action: () => {
-            this.openHelpPanelForKeyboardShortcuts();
-          },
-        },
+        ...hotkeysToOpenHelpPanel,
         ...hotkeysAccessibleInAccordion,
       ],
       [HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR]: [
@@ -1719,6 +1733,10 @@ export default class BankingModule {
       [HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX]: [
         {
           key: [SHIFT, EQUALS],
+          action: this.allocateToLastAllocatedAccount,
+        },
+        {
+          key: NUMPAD_PLUS,
           action: this.allocateToLastAllocatedAccount,
         },
         {

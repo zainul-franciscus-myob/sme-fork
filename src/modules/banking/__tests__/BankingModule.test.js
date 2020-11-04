@@ -14,6 +14,8 @@ import {
   G,
   L,
   M,
+  NUMPAD_PLUS,
+  NUMPAD_SLASH,
   OPTION,
   R,
   SHIFT,
@@ -1906,78 +1908,81 @@ describe('BankingModule', () => {
     describe(`${HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX}`, () => {
       const location = HotkeyLocations.UNMATCHED_ACCOUNT_COMBOBOX;
 
-      it('shift = allocates transaction to last allocated account', () => {
-        const {
-          module,
-          store,
-          integration,
-          index,
-        } = setUpWithBankTransactionEntry(entry);
+      it.each([[NUMPAD_PLUS], [[SHIFT, EQUALS]]])(
+        '%s allocates transaction to last allocated account',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
 
-        // Set up
-        const selectedAccount = store.getState().depositAccounts[0];
-        module.allocateTransaction(index, selectedAccount);
-        integration.resetRequests();
-        store.resetActions();
+          // Set up
+          const selectedAccount = store.getState().depositAccounts[0];
+          module.allocateTransaction(index, selectedAccount);
+          integration.resetRequests();
+          store.resetActions();
 
-        // Action
-        const event = { index: 1 };
-        const hotkeyHandler = getHotkeyHandler(module, location, [
-          SHIFT,
-          EQUALS,
-        ]);
-        hotkeyHandler.action(event);
+          // Action
+          const event = { index: 1 };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
 
-        // Assertion
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: SET_LAST_ALLOCATED_ACCOUNT,
+                selectedAccount,
+              }),
+            ])
+          );
+          expect(integration.getRequests()).toEqual([
             expect.objectContaining({
-              intent: SET_LAST_ALLOCATED_ACCOUNT,
-              selectedAccount,
+              intent: ALLOCATE_TRANSACTION,
             }),
-          ])
-        );
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: ALLOCATE_TRANSACTION,
-          }),
-        ]);
-      });
+          ]);
+        }
+      );
 
-      it('/ expands accordian to default tab (split allocation)', () => {
-        const {
-          module,
-          store,
-          integration,
-          index,
-        } = setUpWithBankTransactionEntry(entry);
+      it.each([FORWARD_SLASH, NUMPAD_SLASH])(
+        '%s expands accordian to default tab (split allocation)',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
 
-        // Action
-        const event = { index };
-        const hotkeyHandler = getHotkeyHandler(module, location, FORWARD_SLASH);
-        hotkeyHandler.action(event);
+          // Action
+          const event = { index };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
 
-        // Assertion
-        expect(store.getActions()).toEqual(
-          expect.arrayContaining([
-            {
-              intent: SET_FOCUS,
-              index: 0,
-              location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
-              isFocused: true,
-            },
-            {
-              intent: LOAD_NEW_SPLIT_ALLOCATION,
-              index,
-            },
-          ])
-        );
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_ATTACHMENTS,
-          }),
-        ]);
-      });
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              {
+                intent: SET_FOCUS,
+                index: 0,
+                location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
+                isFocused: true,
+              },
+              {
+                intent: LOAD_NEW_SPLIT_ALLOCATION,
+                index,
+              },
+            ])
+          );
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: LOAD_ATTACHMENTS,
+            }),
+          ]);
+        }
+      );
     });
 
     describe(`${HotkeyLocations.SPLIT_ALLOCATION_CALCULATOR}`, () => {
@@ -2001,21 +2006,18 @@ describe('BankingModule', () => {
     describe(`${HotkeyLocations.GLOBAL}`, () => {
       const location = HotkeyLocations.GLOBAL;
 
-      test.each([
+      it.each([
         [[OPTION, A]],
         [[OPTION, M]],
         [[OPTION, T]],
         [[COMMAND, ENTER]],
         [[CTRL, ENTER]],
       ])('%s should do nothing if accordion is not open', (hotkey) => {
-        // Setup
         const { module, store } = setUpWithBankTransactionEntry(entry);
 
-        // Action
         const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
         hotkeyHandler.action();
 
-        // Assertion
         expect(store.getActions()).toEqual([]);
       });
 
@@ -2052,20 +2054,20 @@ describe('BankingModule', () => {
         }
       );
 
-      it.each([[[COMMAND, FORWARD_SLASH]], [[CTRL, FORWARD_SLASH]]])(
-        '%s should open the help panel',
-        (hotkey) => {
-          const { module } = setUpWithBankTransactionEntries([]);
+      it.each([
+        [[COMMAND, FORWARD_SLASH]],
+        [[CTRL, FORWARD_SLASH]],
+        [[COMMAND, NUMPAD_SLASH]],
+        [[CTRL, NUMPAD_SLASH]],
+      ])('%s should open the help panel', (hotkey) => {
+        const { module } = setUpWithBankTransactionEntries([]);
+        module.loadHelpContentBasedOnRoute = jest.fn();
 
-          module.loadHelpContentBasedOnRoute = jest.fn();
+        const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+        hotkeyHandler.action();
 
-          // Action
-          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
-          hotkeyHandler.action();
-
-          expect(module.loadHelpContentBasedOnRoute).toHaveBeenCalled();
-        }
-      );
+        expect(module.loadHelpContentBasedOnRoute).toHaveBeenCalled();
+      });
     });
 
     describe(`${HotkeyLocations.POSSIBLE_MATCHED_BUTTON}`, () => {
@@ -2075,25 +2077,27 @@ describe('BankingModule', () => {
         type: BankTransactionStatusTypes.matched,
       };
 
-      it('/ expands accordian to default tab (match transaction)', () => {
-        const { module, integration, index } = setUpWithBankTransactionEntry(
-          possibleMatchEntry
-        );
+      it.each([FORWARD_SLASH, NUMPAD_SLASH])(
+        '%s expands accordian to default tab (match transaction)',
+        (hotkey) => {
+          const { module, integration, index } = setUpWithBankTransactionEntry(
+            possibleMatchEntry
+          );
 
-        // Action
-        const event = { index };
-        const hotkeyHandler = getHotkeyHandler(module, location, FORWARD_SLASH);
-        hotkeyHandler.action(event);
+          // Action
+          const event = { index };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
 
-        // Assertion
-        expect(integration.getRequests()).toEqual([
-          expect.objectContaining({
-            intent: LOAD_ATTACHMENTS,
-          }),
-        ]);
-
-        expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
-      });
+          // Assertion
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: LOAD_ATTACHMENTS,
+            }),
+          ]);
+          expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
+        }
+      );
     });
 
     describe.each([
@@ -2122,6 +2126,7 @@ describe('BankingModule', () => {
         [F4],
         [[OPTION, R]],
         [FORWARD_SLASH],
+        [NUMPAD_SLASH],
       ])(
         '%s should throw unsaved changes modal for an edited and toggled accordion when open another accordion',
         (hotkey) => {
@@ -2245,7 +2250,6 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
-
         expect(module.matchTransactionsSubModule.run).toHaveBeenCalled();
       });
 
@@ -2510,7 +2514,7 @@ describe('BankingModule', () => {
         }
       );
 
-      test.each([
+      it.each([
         [[OPTION, A], 'split allocation'],
         [[OPTION, T], 'transfer money'],
       ])('%s should do nothing if %s is disabled', (hotkey) => {
@@ -2565,7 +2569,7 @@ describe('BankingModule', () => {
         }
       );
 
-      test.each([
+      it.each([
         [
           [COMMAND, ENTER],
           'split allocation',
@@ -2625,7 +2629,7 @@ describe('BankingModule', () => {
         }
       );
 
-      test.each([
+      it.each([
         [
           [COMMAND, ENTER],
           'match transaction',
@@ -2665,6 +2669,38 @@ describe('BankingModule', () => {
           ])
         );
       });
+
+      it.each([[[COMMAND, ENTER]], [[CTRL, ENTER]]])(
+        '%s should create banking rule and apply it to selected transaction when modal is open',
+        (hotkey) => {
+          // Setup
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
+          module.toggleLine(index);
+          module.openBankingRuleModal();
+          store.resetActions();
+          integration.resetRequests();
+
+          // Mock banking rule module
+          module.bankingRuleModule = {
+            getIsBankingRuleOpen: () => true,
+            createBankingRule: jest.fn(),
+          };
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(
+            module.bankingRuleModule.createBankingRule
+          ).toHaveBeenCalledWith(module.applyRuleToTransaction);
+        }
+      );
     });
 
     describe.each(Object.values(HotkeyLocations))('%s', (location) => {
