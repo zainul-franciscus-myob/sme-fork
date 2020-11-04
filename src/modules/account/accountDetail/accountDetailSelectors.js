@@ -45,7 +45,7 @@ export const getAccountName = createSelector(
 );
 
 export const getNotes = createSelector(getAccount, (account) => account.notes);
-export const getParentAccount = createSelector(
+export const getParentAccountId = createSelector(
   getAccount,
   (account) => account.parentAccountId
 );
@@ -280,6 +280,15 @@ export const getParentHeaderAccountId = createSelector(
     }
 
     return parentHeaderAccount ? parentHeaderAccount.id : '';
+  }
+);
+
+export const getParentAccountName = createSelector(
+  getAccount,
+  getHeaderAccounts,
+  (account, headers) => {
+    const parent = headers.filter((ha) => ha.id === account.parentAccountId)[0];
+    return parent ? parent.displayName : '-';
   }
 );
 
