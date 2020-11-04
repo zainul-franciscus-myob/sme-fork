@@ -90,7 +90,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 22,
                   name: 'Salary Wage',
-                  type: 'SalaryWage',
+                  type: 'Earnings',
                   amount: '100000.00',
                   quantity: '0.00',
                   id: 16,
@@ -118,7 +118,7 @@ describe('draftPayRunReducer', () => {
           {
             payItemId: 22,
             name: 'Salary Wage',
-            type: 'SalaryWage',
+            type: 'Earnings',
             amount: '22.00',
             quantity: '0.00',
             id: 16,
@@ -150,7 +150,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 22,
                   name: 'Salary Wage',
-                  type: 'SalaryWage',
+                  type: 'Earnings',
                   amount: '22.00',
                   quantity: '0.00',
                   id: 16,
@@ -190,7 +190,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 22,
                   name: 'Base Hourly',
-                  type: 'HourlyWage',
+                  type: 'Earnings',
                   amount: '0.00',
                   quantity: '0.00',
                   id: 16,
@@ -201,7 +201,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 33,
                   name: 'Not base hourly',
-                  type: 'HourlyWage',
+                  type: 'Earnings',
                   amount: '-20.00',
                   quantity: '-2.00',
                   id: 16,
@@ -230,7 +230,7 @@ describe('draftPayRunReducer', () => {
           {
             payItemId: 22,
             name: 'Base Hourly',
-            type: 'HourlyWage',
+            type: 'Earnings',
             amount: '-20.00',
             quantity: '-1.00',
             id: 16,
@@ -240,7 +240,7 @@ describe('draftPayRunReducer', () => {
           {
             payItemId: 33,
             name: 'Not base hourly',
-            type: 'HourlyWage',
+            type: 'Earnings',
             amount: '-20.00',
             quantity: '-2.00',
             id: 16,
@@ -274,7 +274,7 @@ describe('draftPayRunReducer', () => {
         {
           payItemId: 22,
           name: 'Tax item',
-          type: 'Tax',
+          type: 'Taxes',
           amount: '-10.00',
           quantity: '-1.00',
           id: 16,
@@ -414,7 +414,7 @@ describe('draftPayRunReducer', () => {
               {
                 payItemId: 22,
                 name: 'Base Hourly',
-                type: 'HourlyWage',
+                type: 'Earnings',
                 amount: '-200.00',
                 quantity: '-10.00',
                 id: 16,
@@ -424,7 +424,7 @@ describe('draftPayRunReducer', () => {
               {
                 payItemId: 1,
                 name: 'Base Salary',
-                type: 'SalaryWage',
+                type: 'Earnings',
                 amount: '-20.00',
                 quantity: '-1.00',
                 id: 16,
@@ -434,7 +434,7 @@ describe('draftPayRunReducer', () => {
               {
                 payItemId: 33,
                 name: 'Not base hourly',
-                type: 'HourlyWage',
+                type: 'Earnings',
                 amount: '-20.00',
                 quantity: '-2.00',
                 id: 16,
@@ -608,7 +608,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 22,
                   name: 'Salary Wage',
-                  type: 'SalaryWage',
+                  type: 'Earnings',
                   amount: '100000.00',
                   quantity: '0.00',
                   id: 16,
@@ -647,7 +647,7 @@ describe('draftPayRunReducer', () => {
                 {
                   payItemId: 22,
                   name: 'Salary Wage',
-                  type: 'SalaryWage',
+                  type: 'Earnings',
                   amount: '100000.00',
                   quantity: '10.00',
                   id: 16,

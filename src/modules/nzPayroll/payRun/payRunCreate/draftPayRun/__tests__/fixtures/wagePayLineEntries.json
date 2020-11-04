@@ -2,7 +2,7 @@
   {
     "payItemId": 22,
     "name": "Salary Wage",
-    "type": "SalaryWage",
+    "type": "Earnings",
     "amount": "100000.00",
     "quantity": "0.00",
     "id": 16,
@@ -13,7 +13,7 @@
   {
     "payItemId": 21,
     "name": "Hourly Wage",
-    "type": "HourlyWage",
+    "type": "Earnings",
     "amount": "0.00",
     "quantity": "38.50",
     "id": 26,

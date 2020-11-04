@@ -25,7 +25,7 @@ describe('Employee pay list integrator', () => {
           {
             payItemId: 22,
             name: 'Salary Wage',
-            type: 'SalaryWage',
+            type: 'Earnings',
             amount: '100000.00',
             quantity: '0.00',
             id: 16,
@@ -83,7 +83,7 @@ describe('Employee pay list integrator', () => {
               {
                 payItemId: 22,
                 name: 'Salary Wage',
-                type: 'SalaryWage',
+                type: 'Earnings',
                 amount: '100000.00',
                 quantity: '0.00',
                 id: 16,

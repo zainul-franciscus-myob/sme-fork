@@ -58,9 +58,9 @@ const HoursInputField = ({
   </FormHorizontal>
 );
 
-const typeAmountInputDisabled = (type) =>
-  type === 'HourlyWage' ||
-  type === 'KiwiSaverEmployers' ||
+const shouldDisableAmountInput = ({ type, calculationType }) =>
+  calculationType === 'Rate' ||
+  type === 'KiwiSaverEmployer' ||
   type === 'KiwiSaverEmployee';
 
 const PayDetailsTableRow = ({
@@ -95,7 +95,7 @@ const PayDetailsTableRow = ({
       isDisabled={
         entry.isSubmitting ||
         disableAmountInput ||
-        typeAmountInputDisabled(entry.type)
+        shouldDisableAmountInput(entry)
       }
     />
   );

@@ -73,10 +73,12 @@ export const isPayLineDirty = createSelector(
 );
 
 const isWagePayLine = (payLineType) =>
-  ['SalaryWage', 'HourlyWage'].includes(payLineType);
-const isTaxPayLine = (payLineType) => ['Tax'].includes(payLineType);
+  ['Earnings', 'Wages'].includes(payLineType);
+const isTaxPayLine = (payLineType) => ['Taxes'].includes(payLineType);
 const isKiwiSaverPayLine = (payLineType) =>
-  ['KiwiSaverEmployee', 'KiwiSaverEmployers', 'ESCT'].includes(payLineType);
+  ['KiwiSaverEmployee', 'KiwiSaverEmployer', 'ESCT', 'Esct'].includes(
+    payLineType
+  );
 
 const getEmployeeLineByEmployeeId = (state, employeeId) =>
   state.draftPayRun.lines.find((line) => line.employeeId === employeeId);
@@ -96,8 +98,10 @@ const wagePayLineComparator = (a, b, baseWageIds) => {
     return SMALLER;
   }
 
-  if (a.type === 'HourlyWage' && b.type === 'SalaryWage') return SMALLER;
-  if (b.type === 'HourlyWage' && a.type === 'SalaryWage') return BIGGER;
+  if (a.calculationType === 'Rate' && b.calculationType === 'Amount')
+    return SMALLER;
+  if (b.calculationType === 'Rate' && a.calculationType === 'Amount')
+    return BIGGER;
 
   return a.name.localeCompare(b.name);
 };
@@ -117,7 +121,7 @@ export const getWagePayLineEntries = createSelector(
       )
       .map((payLine) => ({
         ...payLine,
-        shouldShowQuantity: payLine.type === 'HourlyWage',
+        shouldShowQuantity: payLine.calculationType === 'Rate',
       }))
 );
 

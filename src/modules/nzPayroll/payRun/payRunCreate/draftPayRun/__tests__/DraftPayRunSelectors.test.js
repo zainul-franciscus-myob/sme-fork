@@ -163,7 +163,7 @@ describe('draftPayRunSelectors', () => {
               employeeId: 21,
               payLines: [
                 {
-                  type: 'Tax',
+                  type: 'Taxes',
                 },
               ],
             },
@@ -226,7 +226,7 @@ describe('draftPayRunSelectors', () => {
               employeeId: 21,
               payLines: [
                 {
-                  type: 'Tax',
+                  type: 'Taxes',
                 },
                 {
                   type: 'Expense',

@@ -15,7 +15,7 @@
         {
           "payItemId": 38,
           "name": "Hourly Wage",
-          "type": "HourlyWage",
+          "type": "Earnings",
           "amount": "0.70",
           "quantity": "12.30",
           "rate": "20.00",
@@ -26,7 +26,7 @@
           "payItemId": 39,
           "name": "Salary Wage",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "type": "Earnings",
           "rate": "0.00",
           "calculationType": "Amount"
         },
@@ -35,7 +35,7 @@
           "payItemId": 40,
           "name": "B Hourly Wage",
           "quantity": "0.00",
-          "type": "HourlyWage",
+          "type": "Earnings",
           "rate": "20.00",
           "calculationType": "Rate"
         },
@@ -44,7 +44,7 @@
           "payItemId": 6,
           "name": "Base Salary",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "type": "Earnings",
           "rate": "0.00",
           "calculationType": "Amount"
         },
@@ -62,7 +62,7 @@
           "payItemId": 662,
           "name": "Employer Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployers",
+          "type": "KiwiSaverEmployer",
           "rate": "0.00",
           "calculationType": "Amount"
         },
@@ -80,7 +80,7 @@
           "payItemId": 77,
           "name": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "type": "Taxes",
           "rate": "0.00",
           "calculationType": "Amount"
         }
@@ -103,7 +103,7 @@
           "payItemId": 38,
           "name": "Hourly Wage",
           "quantity": "13.00",
-          "type": "HourlyWage",
+          "type": "Earnings",
           "rate": "20.00",
           "calculationType": "Rate"
         },
@@ -112,7 +112,7 @@
           "payItemId": 39,
           "name": "Salary Wage",
           "quantity": "0.00",
-          "type": "SalaryWage",
+          "type": "Earnings",
           "rate": "0.00",
           "calculationType": "Amount"
         },
@@ -130,7 +130,7 @@
           "payItemId": 662,
           "name": "Employer Contribution 3%",
           "quantity": "0.00",
-          "type": "KiwiSaverEmployers",
+          "type": "KiwiSaverEmployer",
           "rate": "0.00",
           "calculationType": "Amount"
         },
@@ -148,7 +148,7 @@
           "payItemId": 77,
           "name": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "type": "Taxes",
           "rate": "0.00",
           "calculationType": "Amount"
         }
