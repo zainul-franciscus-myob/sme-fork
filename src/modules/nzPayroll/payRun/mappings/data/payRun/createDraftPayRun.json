@@ -36,7 +36,7 @@
           "payItemId": 40,
           "name": "B Hourly Wage",
           "quantity": "0.00",
-          "type": "Earnings",
+          "type": "Wages",
           "rate": "20.00",
           "calculationType": "Rate"
         },
@@ -81,7 +81,7 @@
           "payItemId": 77,
           "name": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "type": "Taxes",
           "rate": "0.00",
           "calculationType": "Amount"
         }
@@ -149,7 +149,7 @@
           "payItemId": 77,
           "name": "PAYE Tax",
           "quantity": "0.00",
-          "type": "Tax",
+          "type": "Taxes",
           "rate": "0.00",
           "calculationType": "Amount"
         }

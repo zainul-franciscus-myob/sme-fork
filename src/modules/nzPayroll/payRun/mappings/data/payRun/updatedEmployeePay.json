@@ -103,7 +103,7 @@
     {
       "payItemId": 11,
       "name": "PayGWithholding",
-      "type": "Tax",
+      "type": "Taxes",
       "amount": "222.00",
       "quantity": "0.00",
       "id": 116,
