@@ -2,6 +2,7 @@ import {
   LOAD_BUSINESS_SETTINGS,
   SAVE_BUSINESS_DETAILS,
   SAVE_GST_SETTINGS,
+  SAVE_PREFERENCES,
   START_NEW_FINANCIAL_YEAR,
 } from '../BusinessIntents';
 import {
@@ -9,6 +10,7 @@ import {
   getBusinessId,
   getGstSettingsForUpdate,
   getLastMonthInNewFinancialYear,
+  getPreferences,
 } from './businessSettingsSelectors';
 
 const createBusinessSettingsIntegrator = (store, integration) => ({
@@ -34,6 +36,19 @@ const createBusinessSettingsIntegrator = (store, integration) => ({
         businessId: getBusinessId(state),
       },
       content: getGstSettingsForUpdate(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+  savePreferences: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: SAVE_PREFERENCES,
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      content: getPreferences(state),
       onSuccess,
       onFailure,
     });

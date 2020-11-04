@@ -13,6 +13,7 @@ export const OPEN_MODAL = Symbol('Open modal');
 
 export const SAVE_BUSINESS_DETAILS = Symbol('Save business details');
 export const SAVE_GST_SETTINGS = Symbol('Save GST settings');
+export const SAVE_PREFERENCES = Symbol('Save Preferences');
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
 export const SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE = Symbol(
   'Set is financial year settings changed state'
@@ -40,6 +41,7 @@ export const UPDATE_FINANCIAL_YEAR_SETTINGS = Symbol(
   'Update financial year settings'
 );
 export const UPDATE_GST_SETTINGS = Symbol('Update GST settings');
+export const UPDATE_PREFERENCES = Symbol('Update Preferences');
 export const UPDATE_KEYWORD = Symbol('Update keyword');
 export const UPDATE_LOCK_DATE_DETAIL = Symbol('Update lock date detail');
 export const UPDATE_SORT_ORDER = Symbol('Update sort order');

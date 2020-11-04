@@ -311,6 +311,50 @@ describe('businessDetailReducer', () => {
       });
     });
 
+    it('sets preferences as tabData when switch to preferences', () => {
+      const state = {
+        gstSettings: {
+          gstRegistered: 'No',
+          accountingBasis: 'Cash',
+        },
+        selectedTab: 'businessDetails',
+        pendingTab: 'gstSettings',
+        tabData: { previous: 'tab' },
+        isFinancialYearSettingsChanged: false,
+        isPageEdited: true,
+        preferences: {
+          fromName: 'F L',
+          fromEmail: 'reply@myob.com',
+        },
+      };
+
+      const action = {
+        intent: SET_TAB,
+        selectedTab: 'preferences',
+      };
+
+      const actual = businessSettingsReducer(state, action);
+
+      expect(actual).toEqual({
+        gstSettings: {
+          gstRegistered: 'No',
+          accountingBasis: 'Cash',
+        },
+        selectedTab: 'preferences',
+        pendingTab: '',
+        isPageEdited: false,
+        isFinancialYearSettingsChanged: false,
+        preferences: {
+          fromName: 'F L',
+          fromEmail: 'reply@myob.com',
+        },
+        tabData: {
+          fromName: 'F L',
+          fromEmail: 'reply@myob.com',
+        },
+      });
+    });
+
     it('sets businessDetails as tabData when switch to businessDetails', () => {
       const state = {
         businessDetails: { clientCode: 'Test' },

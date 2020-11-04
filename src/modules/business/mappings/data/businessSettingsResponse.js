@@ -42,6 +42,10 @@ export default {
       { value: 'Annually', displayValue: 'Annually' },
     ],
   },
+  preferences: {
+    fromName: 'Dr. Clear Water',
+    fromEmail: 'clearwater@myob.com',
+  },
   financialYearOptions: [
     '2014',
     '2015',

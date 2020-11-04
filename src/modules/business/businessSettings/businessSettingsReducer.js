@@ -19,6 +19,7 @@ import {
   UPDATE_FINANCIAL_YEAR_SETTINGS,
   UPDATE_GST_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
+  UPDATE_PREFERENCES,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
@@ -67,6 +68,10 @@ const getDefaultState = () => ({
     accountingBasisOptions: [],
     reportingFrequencyOptions: [],
     gstRegisteredOptions: [],
+  },
+  preferences: {
+    fromName: '',
+    fromEmail: '',
   },
   isLockDateAutoPopulated: false,
   loadingState: LoadingState.LOADING,
@@ -126,6 +131,7 @@ const getTabData = (selectedTab, state) =>
   ({
     businessDetails: state.businessDetails,
     gstSettings: state.gstSettings,
+    preferences: state.preferences,
   }[selectedTab]);
 
 const setTab = (state, action) => ({
@@ -141,6 +147,7 @@ const getDataType = (selectedTab) =>
   ({
     businessDetails: 'businessDetails',
     gstSettings: 'gstSettings',
+    preferences: 'preferences',
   }[selectedTab]);
 
 const discardTabData = (state) => ({
@@ -178,6 +185,10 @@ const loadBusinessSettings = (state, action) => {
       ...getTabData(state.selectedTab, action),
       ...(state.selectedTab === mainTabIds.businessDetails &&
         financialYearSettings),
+    },
+    preferences: {
+      ...state.preferences,
+      ...action.preferences,
     },
     pageTitle: action.pageTitle,
     financialYearOptions: action.financialYearOptions,
@@ -322,6 +333,14 @@ const updateGstSettings = (state, action) => ({
   },
 });
 
+const updatePreferences = (state, action) => ({
+  ...state,
+  preferences: {
+    ...state.preferences,
+    [action.key]: action.value,
+  },
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_BUSINESS_SETTINGS]: loadBusinessSettings,
@@ -329,6 +348,7 @@ const handlers = {
   [SET_IS_FINANCIAL_YEAR_SETTINGS_CHANGED_STATE]: setIsFinancialYearSettingsChangedState,
   [UPDATE_BUSINESS_DETAILS]: updateBusinessDetail,
   [UPDATE_GST_SETTINGS]: updateGstSettings,
+  [UPDATE_PREFERENCES]: updatePreferences,
   [UPDATE_FINANCIAL_YEAR_SETTINGS]: updateFinancialYearSettings,
   [UPDATE_LOCK_DATE_DETAIL]: updateLockDateDetail,
   [SET_ALERT_MESSAGE]: setAlert,

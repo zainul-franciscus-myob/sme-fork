@@ -86,6 +86,11 @@ export default class BusinessSettingsModule {
     this.dispatcher.updateGstSettings({ key, value });
   };
 
+  updatePreferencesField = ({ key, value }) => {
+    this.dispatcher.setPageEditedState(true);
+    this.dispatcher.updatePreferences({ key, value });
+  };
+
   updateFinancialYearSettingsField = ({ key, value }) => {
     this.dispatcher.setPageEditedState(true);
     this.dispatcher.updateFinancialYearSettings({ key, value });
@@ -121,6 +126,33 @@ export default class BusinessSettingsModule {
     };
 
     this.integrator.saveGstSettings({ onSuccess, onFailure });
+  };
+
+  updatePreferences = () => {
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setPageEditedState(false);
+      this.dispatcher.setAlertMessage({ message, type: 'success' });
+      this.loadBusinessSettings();
+    };
+
+    this.savePreferences(onSuccess);
+  };
+
+  savePreferences = (onSuccess) => {
+    if (getIsSubmitting(this.store.getState())) return;
+
+    this.dispatcher.setSubmittingState(true);
+
+    const onFailure = (error) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlertMessage({
+        message: error.message,
+        type: 'danger',
+      });
+    };
+
+    this.integrator.savePreferences({ onSuccess, onFailure });
   };
 
   updateBusinessDetails = () => {
@@ -214,11 +246,13 @@ export default class BusinessSettingsModule {
         onDismissAlert={this.dismissAlert}
         onFinancialYearSettingsChange={this.updateFinancialYearSettingsField}
         onGstSettingsSave={this.updateGstSettings}
+        onPreferencesSave={this.updatePreferences}
         onLockDateDetailChange={this.updateLockDateDetail}
         onOpenFinancialYearModal={this.dispatcher.openFinancialYearModal}
         onStartNewFinancialYear={this.startNewFinancialYear}
         onTabSelect={this.switchTab}
         onUpdateGstSettings={this.updateGstSettingsField}
+        onUpdatePreferences={this.updatePreferencesField}
       />
     );
 
@@ -238,6 +272,7 @@ export default class BusinessSettingsModule {
     const handler = {
       [mainTabIds.businessDetails]: this.updateBusinessDetails,
       [mainTabIds.gstSettings]: this.updateGstSettings,
+      [mainTabIds.preferences]: this.updatePreferences,
     }[selectTab];
 
     if (handler) {
@@ -266,8 +301,8 @@ export default class BusinessSettingsModule {
     const handler = {
       [mainTabIds.businessDetails]: () => this.saveBusinessDetails(onSuccess),
       [mainTabIds.gstSettings]: () => this.saveGstSettings(onSuccess),
+      [mainTabIds.preferences]: () => this.savePreferences(onSuccess),
     }[selectedTab];
-
     if (handler) {
       handler();
     }

@@ -21,6 +21,7 @@ import BusinessDetailView from './BusinessDetailView';
 import BusinessSettingsModal from './BusinessSettingsModal';
 import GstSettingsView from './GstSettingsView';
 import PageView from '../../../../components/PageView/PageView';
+import PreferencesView from './PreferencesView';
 
 const BusinessSettingsView = ({
   alert,
@@ -38,6 +39,7 @@ const BusinessSettingsView = ({
   onDismissAlert,
   onFinancialYearSettingsChange,
   onGstSettingsSave,
+  onPreferencesSave,
   onLockDateDetailChange,
   onOpenFinancialYearModal,
   onStartNewFinancialYear,
@@ -45,10 +47,12 @@ const BusinessSettingsView = ({
   onUpdateGstSettings,
   pageTitle,
   selectedTab,
+  onUpdatePreferences,
 }) => {
   const Content = {
     [mainTabIds.businessDetails]: BusinessDetailView,
     [mainTabIds.gstSettings]: GstSettingsView,
+    [mainTabIds.preferences]: PreferencesView,
   }[selectedTab];
 
   const contentProps = {
@@ -61,11 +65,13 @@ const BusinessSettingsView = ({
       onStartNewFinancialYear,
     },
     [mainTabIds.gstSettings]: { onUpdateGstSettings },
+    [mainTabIds.preferences]: { onUpdatePreferences },
   }[selectedTab];
 
   const saveHandler = {
     [mainTabIds.businessDetails]: onBusinessDetailsSave,
     [mainTabIds.gstSettings]: onGstSettingsSave,
+    [mainTabIds.preferences]: onPreferencesSave,
   }[selectedTab];
 
   const subHeadTabs = (

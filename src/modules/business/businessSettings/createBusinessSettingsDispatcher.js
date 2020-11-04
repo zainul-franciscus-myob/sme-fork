@@ -19,6 +19,7 @@ import {
   UPDATE_FINANCIAL_YEAR_SETTINGS,
   UPDATE_GST_SETTINGS,
   UPDATE_LOCK_DATE_DETAIL,
+  UPDATE_PREFERENCES,
 } from '../BusinessIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -98,6 +99,13 @@ const createBusinessSettingsDispatcher = (store) => ({
       value,
     });
   },
+  updatePreferences: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_PREFERENCES,
+      key,
+      value,
+    });
+  },
   updateFinancialYearSettings: ({ key, value }) => {
     store.dispatch({
       intent: UPDATE_FINANCIAL_YEAR_SETTINGS,
@@ -118,6 +126,7 @@ const createBusinessSettingsDispatcher = (store) => ({
     pageTitle,
     financialYearOptions,
     openingBalanceYearOptions,
+    preferences,
   }) => {
     store.dispatch({
       intent: LOAD_BUSINESS_SETTINGS,
@@ -126,6 +135,7 @@ const createBusinessSettingsDispatcher = (store) => ({
       pageTitle,
       financialYearOptions,
       openingBalanceYearOptions,
+      preferences,
     });
   },
   openFinancialYearModal: () => {

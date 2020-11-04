@@ -193,3 +193,5 @@ export const getDashboardUrl = createSelector(
 export const getPendingTab = (state) => state.pendingTab;
 
 export const getGstSettings = (state) => state.gstSettings;
+
+export const getPreferences = (state) => state.preferences;

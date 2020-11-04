@@ -3,6 +3,7 @@ import {
   LOAD_BUSINESS_SETTINGS,
   SAVE_BUSINESS_DETAILS,
   SAVE_GST_SETTINGS,
+  SAVE_PREFERENCES,
   START_NEW_FINANCIAL_YEAR,
 } from '../BusinessIntents';
 
@@ -24,6 +25,10 @@ const HttpBusinessMapping = {
   [SAVE_GST_SETTINGS]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/business/update_gst_settings`,
+  },
+  [SAVE_PREFERENCES]: {
+    method: 'PUT',
+    getPath: ({ businessId }) => `/${businessId}/business/update_preferences`,
   },
   [START_NEW_FINANCIAL_YEAR]: {
     method: 'POST',
