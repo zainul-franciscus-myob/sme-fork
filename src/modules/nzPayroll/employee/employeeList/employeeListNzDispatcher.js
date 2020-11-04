@@ -17,6 +17,11 @@ const employeeListNzDispatcher = ({ store }) => ({
     store.dispatch({ intent, ...response });
   },
 
+  loadEmployeeListNextPage: (response) => {
+    const intent = intents.LOAD_EMPLOYEE_LIST_NEXT_PAGE;
+    store.dispatch({ intent, ...response });
+  },
+
   loadEmployeeListFailed: () => {
     const intent = intents.LOAD_EMPLOYEE_LIST_FAILED;
     store.dispatch({ intent });

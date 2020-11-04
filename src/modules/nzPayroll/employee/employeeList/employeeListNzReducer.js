@@ -6,6 +6,10 @@ import createReducer from '../../../../store/createReducer';
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   entries: [],
+  pagination: {
+    hasNextPage: false,
+    offset: 0,
+  },
 });
 
 const resetState = getDefaultState;
@@ -19,7 +23,22 @@ const loadEmployeeList = (state, { ...employeeListResponse }) => ({
   ...state,
   loadingState: LoadingState.LOADING_SUCCESS,
   entries: employeeListResponse.entries,
+  pagination: employeeListResponse.pagination,
 });
+
+const loadEmployeeListNextPage = (state, { ...employeeListResponse }) => {
+  const allEmployeeIds = state.entries.map((employee) => employee.id);
+  const entries = employeeListResponse.entries.filter(
+    (employee) => !allEmployeeIds.includes(employee.id)
+  );
+
+  return {
+    ...state,
+    loadingState: LoadingState.LOADING_SUCCESS,
+    entries,
+    pagination: employeeListResponse.pagination,
+  };
+};
 
 const loadEmployeeListFailed = (state) => ({
   ...state,
@@ -40,6 +59,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [intents.LOAD_EMPLOYEE_LIST]: loadEmployeeList,
+  [intents.LOAD_EMPLOYEE_LIST_NEXT_PAGE]: loadEmployeeListNextPage,
   [intents.SET_ALERT]: setAlert,
   [intents.DISMISS_ALERT]: dismissAlert,
   [intents.LOAD_EMPLOYEE_LIST_FAILED]: loadEmployeeListFailed,

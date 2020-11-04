@@ -56,6 +56,10 @@ describe('employeeListNzReducer', () => {
       const expectedState = {
         loadingState: LoadingState.LOADING,
         entries: [],
+        pagination: {
+          hasNextPage: false,
+          offset: 0,
+        },
       };
       const action = {
         intent: RESET_STATE,

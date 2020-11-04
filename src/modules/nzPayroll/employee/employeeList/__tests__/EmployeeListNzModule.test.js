@@ -98,9 +98,22 @@ describe('EmployeeListNzModule', () => {
       module.run({ businessId: 'id' });
       wrapper.update();
 
-      wrapper.find('Button').props().onClick();
+      wrapper.find({ name: 'createEmployee' }).find('Button').props().onClick();
 
       expect(window.location.href.endsWith('/new')).toBe(true);
+    });
+
+    it('Load more employees button should make request with offset parameter', () => {
+      const { module, wrapper, integration } = setup();
+      module.run({ businessId: 'id' });
+      wrapper.update();
+
+      wrapper.find({ name: 'loadMore' }).find('Button').props().onClick();
+
+      expect(integration.getRequests()).toHaveLength(2);
+      const loadNextPageRequest = integration.getRequests()[1];
+      expect(loadNextPageRequest.intent).toEqual(LOAD_EMPLOYEE_LIST);
+      expect(loadNextPageRequest.params.offset).toBeGreaterThan(0);
     });
   });
 });

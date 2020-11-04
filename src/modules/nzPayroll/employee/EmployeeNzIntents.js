@@ -21,6 +21,7 @@ export const DELETE_EMPLOYEE_FAILED = Symbol('Delete employee failed');
 
 // Loading employee list intents
 export const LOAD_EMPLOYEE_LIST = Symbol('Load employee list');
+export const LOAD_EMPLOYEE_LIST_NEXT_PAGE = Symbol('Load next employee list');
 export const LOADING_EMPLOYEE_DETAIL = Symbol('Loading employee detail');
 export const LOAD_EMPLOYEE_LIST_FAILED = Symbol('Load employee list failed');
 

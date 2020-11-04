@@ -1,20 +1,29 @@
-import { Alert, Button, PageHead, StandardTemplate } from '@myob/myob-widgets';
+import { Alert, Button, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getAlert, getLoadingState } from '../EmployeeListNzSelector';
+import {
+  getAlert,
+  getLoadMoreButtonStatus,
+  getLoadingState,
+} from '../EmployeeListNzSelector';
 import EmployeeListNzTable from './EmployeeListNzTable';
 import PageView from '../../../../../components/PageView/PageView';
+import PaginatedListTemplate from '../../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 
 const EmployeeListNzView = ({
   loadingState,
   alert,
   onDismissAlert,
   onEmployeeCreateButtonClick,
+  loadMoreButtonStatus,
+  onLoadMoreButtonClick,
 }) => {
   const pageHead = (
     <PageHead title="Employees">
-      <Button onClick={onEmployeeCreateButtonClick}>Create employee</Button>
+      <Button name="createEmployee" onClick={onEmployeeCreateButtonClick}>
+        Create employee
+      </Button>
     </PageHead>
   );
 
@@ -27,9 +36,13 @@ const EmployeeListNzView = ({
   const employeeListNzTable = <EmployeeListNzTable />;
 
   const view = (
-    <StandardTemplate pageHead={pageHead} alert={alertComponent}>
-      {employeeListNzTable}
-    </StandardTemplate>
+    <PaginatedListTemplate
+      alert={alertComponent}
+      pageHead={pageHead}
+      listTable={employeeListNzTable}
+      onLoadMoreButtonClick={onLoadMoreButtonClick}
+      loadMoreButtonStatus={loadMoreButtonStatus}
+    />
   );
 
   return <PageView loadingState={loadingState} view={view} />;
@@ -38,6 +51,7 @@ const EmployeeListNzView = ({
 const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   alert: getAlert(state),
+  loadMoreButtonStatus: getLoadMoreButtonStatus(state),
 });
 
 export default connect(mapStateToProps)(EmployeeListNzView);

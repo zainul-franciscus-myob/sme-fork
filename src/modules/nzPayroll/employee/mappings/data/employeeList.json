@@ -20,5 +20,9 @@
     "email": "zebra@madagascar.com",
     "phone": "+23 23232 1232",
     "isActive": true
-  }]
+  }],
+  "pagination": {
+    "offset": 50,
+    "hasNextPage": true
+  }
 }

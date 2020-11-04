@@ -7,6 +7,8 @@ import success from './data/success';
 import updatedEmployeeDetailResponse from './data/updateEmployeeDetailResponse';
 
 const loadEmployeeList = ({ onSuccess }) => onSuccess(employeeListResponse);
+const loadEmployeeListNextPage = ({ onSuccess }) =>
+  onSuccess(employeeListResponse);
 const loadEmployeeDetail = ({ onSuccess }) => onSuccess(employeeDetailResponse);
 const updateEmployee = ({ onSuccess }) => {
   onSuccess(updatedEmployeeDetailResponse);
@@ -23,6 +25,7 @@ const createEmployee = ({ onSuccess }) => {
 
 const EmployeeListNzMapping = {
   [intents.LOAD_EMPLOYEE_LIST]: loadEmployeeList,
+  [intents.LOAD_EMPLOYEE_LIST_NEXT_PAGE]: loadEmployeeListNextPage,
   [intents.LOAD_EMPLOYEE_DETAIL]: loadEmployeeDetail,
   [intents.UPDATE_EMPLOYEE]: updateEmployee,
   [intents.DELETE_EMPLOYEE]: deleteEmployee,

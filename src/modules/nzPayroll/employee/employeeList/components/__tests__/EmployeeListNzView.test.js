@@ -30,6 +30,10 @@ describe('<EmployeeListNzView />', () => {
     const wrapper = mountWithProvider(<EmployeeListNzView />);
     const response = {
       entries: [],
+      pagination: {
+        hasNextPage: false,
+        offset: 0,
+      },
     };
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     wrapper.update();
@@ -58,6 +62,10 @@ describe('<EmployeeListNzView />', () => {
           id: '1',
         },
       ],
+      pagination: {
+        hasNextPage: false,
+        offset: 50,
+      },
     };
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     wrapper.update();
@@ -71,9 +79,39 @@ describe('<EmployeeListNzView />', () => {
     expect(wrapper.text()).toContain('0424345464');
   });
 
+  it('should render `load more` button', () => {
+    const wrapper = mountWithProvider(<EmployeeListNzView />);
+
+    const response = {
+      entries: [
+        {
+          name: 'uncle bob',
+          email: 'j@gmail.com',
+          phone: '0424345464',
+          id: '1',
+        },
+      ],
+      pagination: {
+        hasNextPage: true,
+        offset: 50,
+      },
+    };
+    store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
+    wrapper.update();
+
+    expect(wrapper.find({ name: 'loadMore' }).find('Button')).toHaveLength(1);
+    expect(wrapper.find('Button')).toHaveLength(2);
+  });
+
   it('should display alert Component ', () => {
     const wrapper = mountWithProvider(<EmployeeListNzView />);
-    const response = { entries: [] };
+    const response = {
+      entries: [],
+      pagination: {
+        hasNextPage: false,
+        offset: 50,
+      },
+    };
     store.dispatch({ intent: LOAD_EMPLOYEE_LIST, ...response });
     const alert = { type: 'success', message: 'alert message' };
 

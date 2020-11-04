@@ -41,6 +41,18 @@ export default class EmployeeListNzModule {
     this.integrator.loadEmployeeList({ onSuccess, onFailure });
   };
 
+  loadEmployeeListNextPage = () => {
+    const onSuccess = (response) => {
+      this.dispatcher.loadEmployeeListNextPage(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.loadEmployeeListFailed();
+    };
+
+    this.integrator.loadEmployeeListNextPage({ onSuccess, onFailure });
+  };
+
   resetState = () => this.dispatcher.resetState();
 
   render() {
@@ -48,6 +60,7 @@ export default class EmployeeListNzModule {
       <EmployeeListNzView
         onDismissAlert={this.dismissAlert}
         onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
+        onLoadMoreButtonClick={this.loadEmployeeListNextPage}
       />
     );
     const wrappedView = <Provider store={this.store}>{view}</Provider>;
