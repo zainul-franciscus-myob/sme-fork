@@ -32,6 +32,10 @@ export default class DraftPayRunSubModule {
     });
   };
 
+  openPreviousStepModal = () => {
+    this.dispatcher.openPreviousStepModal();
+  };
+
   updateEmployeePay = ({ employeeId, payItemId, key, value }) => {
     const state = this.store.getState();
     const payLineDirty = isPayLineDirty(state);
@@ -109,6 +113,7 @@ export default class DraftPayRunSubModule {
         onEmployeePayLineBlur={this.updateEmployeePay}
         onNextButtonClick={this.nextStep}
         onDaysPaidChange={this.updateDaysPaid}
+        onPreviousButtonClick={this.openPreviousStepModal}
       />
     );
   }

@@ -2,7 +2,12 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { LOAD_DRAFT_PAY_RUN } from '../../PayRunIntents';
+import {
+  LOAD_DRAFT_PAY_RUN,
+  NEXT_STEP,
+  OPEN_PREVIOUS_STEP_MODAL,
+  SET_TOTAL_TAKE_HOME_PAY,
+} from '../../PayRunIntents';
 import DraftPayRunSubModule from '../DraftPayRunSubModule';
 import PayRunModule from '../../PayRunModule';
 import TestIntegration from '../../../../../../integration/TestIntegration';
@@ -68,6 +73,40 @@ describe('DraftPayRunSubModule', () => {
         (x) => x.employeeId === 21
       );
       expect(employee.employeeId).toEqual(21);
+    });
+  });
+
+  describe('Draft pay run module props', () => {
+    it('should dispatch open previous state modal when previous button is clicked', () => {
+      const { wrapper, store } = constructdraftPayRunSubModule();
+
+      const previousButton = wrapper.find({ name: 'previous' }).find('button');
+
+      previousButton.simulate('click');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: OPEN_PREVIOUS_STEP_MODAL,
+        },
+      ]);
+    });
+
+    it('should dispatch next step action when next button is clicked', () => {
+      const { wrapper, store } = constructdraftPayRunSubModule();
+
+      const nextButton = wrapper.find({ name: 'save' }).find('button');
+
+      nextButton.simulate('click');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TOTAL_TAKE_HOME_PAY,
+          totalTakeHomePay: '0.00',
+        },
+        {
+          intent: NEXT_STEP,
+        },
+      ]);
     });
   });
 });

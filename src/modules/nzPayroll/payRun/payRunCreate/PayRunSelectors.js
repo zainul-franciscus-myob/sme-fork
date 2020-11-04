@@ -122,3 +122,6 @@ export const getDashboardUrl = createSelector(
 );
 
 export const getDraftPayRunId = (state) => state.draftPayRunId;
+
+export const getPreviousStepModalIsOpen = (state) =>
+  state.previousStepModalIsOpen;

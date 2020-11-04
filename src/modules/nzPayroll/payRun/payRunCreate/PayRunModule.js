@@ -69,6 +69,15 @@ export default class PayRunModule {
     this.integrator.startNewPayRun({ onSuccess, onFailure });
   };
 
+  discardDraftAndStartNewPayRun = () => {
+    this.dispatcher.restartPayRun();
+    this.startNewPayRun();
+  };
+
+  closePreviousStepModal = () => {
+    this.dispatcher.closePreviousStepModal();
+  };
+
   render() {
     const stepViews = {};
     Object.keys(this.subModules).map((subModuleKey) => {
@@ -76,7 +85,13 @@ export default class PayRunModule {
       return null;
     });
 
-    const payRunView = <PayRunView stepViews={stepViews} />;
+    const payRunView = (
+      <PayRunView
+        stepViews={stepViews}
+        onClosePreviousStepModal={this.closePreviousStepModal}
+        onDiscardDraft={this.discardDraftAndStartNewPayRun}
+      />
+    );
 
     const wrappedView = <Provider store={this.store}>{payRunView}</Provider>;
     this.setRootView(wrappedView);

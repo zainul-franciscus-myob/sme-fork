@@ -1,28 +1,43 @@
+const startPayRunKey = 'startPayRun';
+const draftPayRunKey = 'draftPayRun';
+const recordAndReportKey = 'recordAndReport';
+const preparePaySlipsKey = 'preparePaySlips';
+const doneKey = 'done';
+
 export const DONE = {
-  key: 'done',
+  key: doneKey,
   index: 4,
 };
 
 export const PREPARE_PAYSLIPS = {
-  key: 'preparePaySlips',
+  key: preparePaySlipsKey,
   index: 3,
-  nextStep: DONE,
+  nextStepKey: doneKey,
 };
 
 export const RECORD_AND_REPORT = {
-  key: 'recordAndReport',
+  key: recordAndReportKey,
   index: 2,
-  nextStep: PREPARE_PAYSLIPS,
+  nextStepKey: preparePaySlipsKey,
 };
 
 export const DRAFT_PAY_RUN = {
-  key: 'draftPayRun',
+  key: draftPayRunKey,
   index: 1,
-  nextStep: RECORD_AND_REPORT,
+  nextStepKey: recordAndReportKey,
+  previousStepKey: startPayRunKey,
 };
 
 export const START_PAY_RUN = {
-  key: 'startPayRun',
+  key: startPayRunKey,
   index: 0,
-  nextStep: DRAFT_PAY_RUN,
+  nextStepKey: draftPayRunKey,
 };
+
+export const PAY_RUN_STEPS = [
+  DONE,
+  PREPARE_PAYSLIPS,
+  RECORD_AND_REPORT,
+  DRAFT_PAY_RUN,
+  START_PAY_RUN,
+];

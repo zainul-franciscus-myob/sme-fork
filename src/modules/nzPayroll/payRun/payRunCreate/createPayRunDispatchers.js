@@ -1,5 +1,9 @@
 import {
+  CLOSE_PREVIOUS_STEP_MODAL,
   NEXT_STEP,
+  OPEN_PREVIOUS_STEP_MODAL,
+  PREVIOUS_STEP,
+  RESTART_PAY_RUN,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -44,6 +48,11 @@ const createPayRunDispatchers = (store) => ({
     store.dispatch({ intent });
   },
 
+  previousStep: () => {
+    const intent = PREVIOUS_STEP;
+    store.dispatch({ intent });
+  },
+
   setTotalTakeHomePay: (totalTakeHomePay) => {
     const intent = SET_TOTAL_TAKE_HOME_PAY;
     store.dispatch({
@@ -55,6 +64,27 @@ const createPayRunDispatchers = (store) => ({
   setSubmittingState: (isSubmitting) => {
     const intent = SET_SUBMITTING_STATE;
     store.dispatch({ intent, isSubmitting });
+  },
+
+  openPreviousStepModal: () => {
+    const intent = OPEN_PREVIOUS_STEP_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  closePreviousStepModal: () => {
+    const intent = CLOSE_PREVIOUS_STEP_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  restartPayRun: () => {
+    const intent = RESTART_PAY_RUN;
+    store.dispatch({
+      intent,
+    });
   },
 });
 

@@ -1,11 +1,15 @@
-import { DRAFT_PAY_RUN, START_PAY_RUN } from '../payRunSteps';
 import {
+  CLOSE_PREVIOUS_STEP_MODAL,
   NEXT_STEP,
+  OPEN_PREVIOUS_STEP_MODAL,
+  PREVIOUS_STEP,
+  RESTART_PAY_RUN,
   SET_DRAFT_PAY_RUN_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
 } from '../PayRunIntents';
+import { DRAFT_PAY_RUN, START_PAY_RUN } from '../payRunSteps';
 import { RESET_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import payRunReducer from '../payRunReducer';
@@ -89,6 +93,113 @@ describe('NZ Payrun reducer', () => {
 
       const actual = payRunReducer(state, action);
 
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Previous step', () => {
+    it('should return the previous expected step', () => {
+      const state = {
+        step: DRAFT_PAY_RUN,
+      };
+
+      const action = {
+        intent: PREVIOUS_STEP,
+      };
+
+      const expected = {
+        step: START_PAY_RUN,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Open previous step modal', () => {
+    it('should set previousStepModalIsOpen to true ', () => {
+      const state = {
+        previousStepModalIsOpen: false,
+      };
+
+      const action = {
+        intent: OPEN_PREVIOUS_STEP_MODAL,
+      };
+
+      const expected = {
+        previousStepModalIsOpen: true,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Close previous step modal', () => {
+    it('should set previousStepModalIsOpen to false ', () => {
+      const state = {
+        previousStepModalIsOpen: true,
+      };
+
+      const action = {
+        intent: CLOSE_PREVIOUS_STEP_MODAL,
+      };
+
+      const expected = {
+        previousStepModalIsOpen: false,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Discard pay run from previous step modal', () => {
+    it('should restart the pay run and maintain the context', () => {
+      const state = {
+        draftPayRunId: 7,
+        businessId: 123,
+        region: 'NZ',
+      };
+
+      const action = {
+        intent: RESTART_PAY_RUN,
+      };
+
+      const expected = {
+        businessId: 123,
+        draftPayRun: {
+          baseHourlyWagePayItemId: null,
+          baseSalaryWagePayItemId: null,
+          isPayLineDirty: false,
+          lines: [],
+          payPeriodEmployeeLimit: {},
+        },
+        draftPayRunId: -1,
+        isSubmitting: false,
+        loadingState: 'LOADING',
+        previousStepModalIsOpen: false,
+        region: 'NZ',
+        startPayRun: {
+          currentEditingPayRun: {
+            payPeriodEnd: '',
+            payPeriodStart: '',
+            paymentDate: '',
+            paymentFrequency: 'Weekly',
+            regularPayCycleOptions: [],
+          },
+        },
+        step: {
+          index: 0,
+          key: 'startPayRun',
+          nextStepKey: 'draftPayRun',
+        },
+      };
+
+      const actual = payRunReducer(state, action);
       expect(actual).toEqual(expected);
     });
   });

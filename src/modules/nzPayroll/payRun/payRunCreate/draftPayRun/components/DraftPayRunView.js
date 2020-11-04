@@ -14,6 +14,7 @@ const DraftPayRunView = ({
   onEmployeePayLineChange,
   onEmployeePayLineBlur,
   onNextButtonClick,
+  onPreviousButtonClick,
   stepNumber,
   payRunSteps,
   onDaysPaidChange,
@@ -31,7 +32,10 @@ const DraftPayRunView = ({
       onEmployeePayLineBlur={onEmployeePayLineBlur}
       onDaysPaidChange={onDaysPaidChange}
     />
-    <EmployeePayActions onNextButtonClick={onNextButtonClick} />
+    <EmployeePayActions
+      onPreviousButtonClick={onPreviousButtonClick}
+      onNextButtonClick={onNextButtonClick}
+    />
   </React.Fragment>
 );
 

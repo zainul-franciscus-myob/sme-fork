@@ -1,12 +1,16 @@
-import { DRAFT_PAY_RUN, START_PAY_RUN } from './payRunSteps';
 import {
+  CLOSE_PREVIOUS_STEP_MODAL,
   NEXT_STEP,
+  OPEN_PREVIOUS_STEP_MODAL,
+  PREVIOUS_STEP,
+  RESTART_PAY_RUN,
   SET_ALERT,
   SET_DRAFT_PAY_RUN_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
 } from './PayRunIntents';
+import { DRAFT_PAY_RUN, PAY_RUN_STEPS, START_PAY_RUN } from './payRunSteps';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   draftPayRunHandlers,
@@ -27,9 +31,17 @@ const getDefaultState = () => ({
   isSubmitting: false,
   [START_PAY_RUN.key]: getStartPayRunDefaultState(),
   [DRAFT_PAY_RUN.key]: getDraftPayRunDefaultState(),
+  previousStepModalIsOpen: false,
+  totalTakeHomePay: undefined,
+  alert: undefined,
 });
 
 const resetState = () => ({ ...getDefaultState() });
+
+const restartPayRun = (state) => ({
+  ...state,
+  ...getDefaultState(),
+});
 
 const setLoadingState = (state, { loadingState }) => ({
   ...state,
@@ -43,7 +55,7 @@ const setInitialState = (state, { context }) => ({
 
 const nextStep = (state) => ({
   ...state,
-  step: state.step.nextStep,
+  step: PAY_RUN_STEPS.find((step) => step.key === state.step.nextStepKey),
 });
 
 const setTotalTakeHomePay = (state, { totalTakeHomePay }) => ({
@@ -66,6 +78,21 @@ const setDraftPayRunId = (state, { createdDraftPayRun }) => ({
   draftPayRunId: createdDraftPayRun.draftPayRunId,
 });
 
+const previousStep = (state) => ({
+  ...state,
+  step: PAY_RUN_STEPS.find((step) => step.key === state.step.previousStepKey),
+});
+
+const openPreviousStepModal = (state) => ({
+  ...state,
+  previousStepModalIsOpen: true,
+});
+
+const closePreviousStepModal = (state) => ({
+  ...state,
+  previousStepModalIsOpen: false,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -75,6 +102,10 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [SET_DRAFT_PAY_RUN_ID]: setDraftPayRunId,
+  [PREVIOUS_STEP]: previousStep,
+  [OPEN_PREVIOUS_STEP_MODAL]: openPreviousStepModal,
+  [CLOSE_PREVIOUS_STEP_MODAL]: closePreviousStepModal,
+  [RESTART_PAY_RUN]: restartPayRun,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
 };

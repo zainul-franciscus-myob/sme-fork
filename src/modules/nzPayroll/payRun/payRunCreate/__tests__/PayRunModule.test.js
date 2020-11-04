@@ -1,11 +1,16 @@
 import { mount } from 'enzyme';
 
+import {
+  RESTART_PAY_RUN,
+  SET_LOADING_STATE,
+  START_NEW_PAY_RUN,
+} from '../PayRunIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import { SET_LOADING_STATE, START_NEW_PAY_RUN } from '../PayRunIntents';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import PayRunModule from '../PayRunModule';
 import PayRunView from '../components/PayRunView';
+import PreviousStepModal from '../components/PreviousStepModal';
 import StartPayrunView from '../startPayRun/components/StartPayRunView';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
@@ -165,6 +170,37 @@ describe('PayRunModule', () => {
       wrapper.update();
       expect(wrapper.find(StartPayrunView).exists()).toBe(true);
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(false);
+    });
+
+    it('should reset payrun and start new pay run when draft payrun is discarded', () => {
+      const { store, integration, module, wrapper } = setup();
+
+      // Arrange
+      integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
+      store.setState({
+        ...store.getState(),
+        previousStepModalIsOpen: true,
+      });
+      module.run(context);
+      wrapper.update();
+      const discardButton = wrapper
+        .find(PreviousStepModal)
+        .find({ name: 'discard' })
+        .find('button');
+
+      // Act
+      discardButton.simulate('click');
+
+      // Assert
+      expect(store.getActions()).toContainEqual(
+        {
+          intent: RESTART_PAY_RUN,
+        },
+        {
+          intent: START_NEW_PAY_RUN,
+          newPayRunDetails: startNewPayRunResponse.newPayRunDetails,
+        }
+      );
     });
   });
 });

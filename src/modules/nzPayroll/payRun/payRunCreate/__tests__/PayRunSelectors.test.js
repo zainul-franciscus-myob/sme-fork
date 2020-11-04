@@ -6,6 +6,7 @@ import {
   getIsSubmitting,
   getLoadingState,
   getPayOnDate,
+  getPreviousStepModalIsOpen,
   getRegion,
   getStepIndex,
   getStepKey,
@@ -301,6 +302,18 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getDraftPayRunId(state)).toEqual(expected);
+    });
+  });
+
+  describe('getPreviousStepModalIsOpen', () => {
+    it('should get the previous step modal flag', () => {
+      const expected = true;
+
+      const state = {
+        previousStepModalIsOpen: expected,
+      };
+
+      expect(getPreviousStepModalIsOpen(state)).toEqual(expected);
     });
   });
 });

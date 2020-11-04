@@ -4,9 +4,22 @@ import React from 'react';
 
 import { getIsSubmitting } from '../../PayRunSelectors';
 
-const EmployeePayActions = ({ onNextButtonClick, isSubmitting }) => (
+const EmployeePayActions = ({
+  onPreviousButtonClick,
+  onNextButtonClick,
+  isSubmitting,
+}) => (
   <ButtonRow
     primary={[
+      <Button
+        key="previous"
+        name="previous"
+        type="secondary"
+        disabled={isSubmitting}
+        onClick={onPreviousButtonClick}
+      >
+        Previous
+      </Button>,
       <Button
         key="save"
         name="save"
