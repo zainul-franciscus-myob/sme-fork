@@ -5,6 +5,7 @@ import LoadingState from '../../../../../components/PageView/LoadingState';
 import RecordPayRunView from './components/RecordPayRunView';
 import createRecordPayRunDispatchers from './createRecordPayRunDispatchers';
 import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
+import openBlob from '../../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunSubModule {
   constructor({ integration, store }) {
@@ -31,6 +32,21 @@ export default class RecordPayRunSubModule {
     this.integrator.recordPayments({ onSuccess, onFailure });
   };
 
+  payrollVerificationReport = () => {
+    this.dispatcher.loadPayrollVerificationReport();
+
+    const onSuccess = (blob) => {
+      this.dispatcher.loadPayrollVerificationReportSuccess();
+      openBlob({ blob });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.loadPayrollVerificationReportFailed();
+    };
+
+    this.integrator.loadPayrollVerificationReport({ onSuccess, onFailure });
+  };
+
   onNext = () => {
     this.recordPayments();
   };
@@ -45,6 +61,7 @@ export default class RecordPayRunSubModule {
       <>
         <RecordPayRunView
           recordPayments={this.onNext}
+          onViewPayrollVerifyReportClick={this.payrollVerificationReport}
           onPreviousButtonClick={this.goToPreviousStep}
         />
       </>

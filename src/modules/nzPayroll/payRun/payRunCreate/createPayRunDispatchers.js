@@ -1,5 +1,8 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  LOAD_PAYROLL_VERIFICATION_REPORT,
+  LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
+  LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -82,6 +85,27 @@ const createPayRunDispatchers = (store) => ({
 
   restartPayRun: () => {
     const intent = RESTART_PAY_RUN;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  loadPayrollVerificationReport: () => {
+    const intent = LOAD_PAYROLL_VERIFICATION_REPORT;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  loadPayrollVerificationReportSuccess: () => {
+    const intent = LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  loadPayrollVerificationReportFailed: () => {
+    const intent = LOAD_PAYROLL_VERIFICATION_REPORT_FAILED;
     store.dispatch({
       intent,
     });

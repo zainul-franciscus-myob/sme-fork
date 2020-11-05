@@ -11,6 +11,7 @@ describe('RecordPayRunActions', () => {
   const props = {
     onPreviousButtonClick: jest.fn(),
     onRecordButtonClick: jest.fn(),
+    onViewPayrollVerifyReportClick: jest.fn(),
   };
 
   beforeEach(() => {
@@ -29,6 +30,10 @@ describe('RecordPayRunActions', () => {
     [
       { buttonName: 'save', expectedHandler: props.onRecordButtonClick },
       { buttonName: 'previous', expectedHandler: props.onPreviousButtonClick },
+      {
+        buttonName: 'payrollVerificationReport',
+        expectedHandler: props.onViewPayrollVerifyReportClick,
+      },
     ].forEach(({ buttonName, expectedHandler }) => {
       it(`Clicking ${buttonName} button should call expected handler`, () => {
         // Arrange

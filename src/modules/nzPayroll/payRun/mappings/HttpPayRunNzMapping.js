@@ -1,5 +1,6 @@
 import {
   CREATE_DRAFT_PAY_RUN,
+  LOAD_PAYROLL_VERIFICATION_REPORT,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
   UPDATE_DRAFT_PAY_RUN,
@@ -29,6 +30,11 @@ const PayRunMapping = {
     method: 'POST',
     getPath: ({ businessId, draftPayRunId }) =>
       `/${businessId}/nz-payroll/payRun/${draftPayRunId}`,
+  },
+  [LOAD_PAYROLL_VERIFICATION_REPORT]: {
+    method: 'GET',
+    getPath: ({ businessId, draftPayRunId }) =>
+      `/${businessId}/nz-payroll/payRun/payrollVerificationReport/${draftPayRunId}`,
   },
 };
 

@@ -2,11 +2,21 @@ import { Button, ButtonRow } from '@myob/myob-widgets';
 import React from 'react';
 
 const RecordPayRunActions = ({
-  onPreviousButtonClick,
   onRecordButtonClick,
+  onViewPayrollVerifyReportClick,
+  onPreviousButtonClick,
 }) => (
   <ButtonRow
     primary={[
+      <Button
+        key="payrollVerificationReport"
+        name="payrollVerificationReport"
+        type="secondary"
+        testid="payrollVerificationReport"
+        onClick={onViewPayrollVerifyReportClick}
+      >
+        View payroll verification report
+      </Button>,
       <Button
         key="previous"
         name="previous"

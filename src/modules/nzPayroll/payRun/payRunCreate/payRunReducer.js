@@ -1,5 +1,8 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  LOAD_PAYROLL_VERIFICATION_REPORT,
+  LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
+  LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -20,6 +23,7 @@ import {
   getStartPayRunDefaultState,
   startPayRunHandlers,
 } from './startPayRun/startPayRunReducer';
+import AlertType from './types/AlertType';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
 import wrapHandlers from '../../../../store/wrapHandlers';
@@ -93,6 +97,25 @@ const closePreviousStepModal = (state) => ({
   previousStepModalIsOpen: false,
 });
 
+const loadPayrollVerificationReport = (state) => ({
+  ...state,
+  loadingState: LoadingState.LOADING,
+});
+
+const loadPayrollVerificationReportSuccess = (state) => ({
+  ...state,
+  loadingState: LoadingState.LOADING_SUCCESS,
+});
+
+const loadPayrollVerificationReportFailed = (state) => ({
+  ...state,
+  loadingState: LoadingState.LOADING_SUCCESS,
+  alert: {
+    type: AlertType.ERROR,
+    message: 'Failed to load payroll verification report',
+  },
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -106,6 +129,9 @@ const handlers = {
   [OPEN_PREVIOUS_STEP_MODAL]: openPreviousStepModal,
   [CLOSE_PREVIOUS_STEP_MODAL]: closePreviousStepModal,
   [RESTART_PAY_RUN]: restartPayRun,
+  [LOAD_PAYROLL_VERIFICATION_REPORT]: loadPayrollVerificationReport,
+  [LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS]: loadPayrollVerificationReportSuccess,
+  [LOAD_PAYROLL_VERIFICATION_REPORT_FAILED]: loadPayrollVerificationReportFailed,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
 };

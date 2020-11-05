@@ -32,3 +32,13 @@ export const SET_DRAFT_PAY_RUN_ID = Symbol('Set draft pay run id');
 export const OPEN_PREVIOUS_STEP_MODAL = Symbol('Open previous step modal');
 export const CLOSE_PREVIOUS_STEP_MODAL = Symbol('Close previous step modal');
 export const RESTART_PAY_RUN = Symbol('Restart pay run');
+
+export const LOAD_PAYROLL_VERIFICATION_REPORT = Symbol(
+  'Load payroll verification report'
+);
+export const LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS = Symbol(
+  'Payroll verification report loaded'
+);
+export const LOAD_PAYROLL_VERIFICATION_REPORT_FAILED = Symbol(
+  'Failed to load payroll verification report'
+);

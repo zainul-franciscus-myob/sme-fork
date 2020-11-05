@@ -13,6 +13,7 @@ const RecordPayRunView = ({
   recordPayments,
   stepNumber,
   payRunSteps,
+  onViewPayrollVerifyReportClick,
   onPreviousButtonClick,
 }) => (
   <>
@@ -28,13 +29,12 @@ const RecordPayRunView = ({
         }?`}
         testid="testFieldGroup"
       >
-        Once you’ve recorded these payments, you&apos;ll need to authorise MYOB
-        to send this information to Inland Revenue (IR) as part of Payday
-        Filing.
+        View the payroll verification report to check everything is correct.
       </FieldGroup>
     </Card>
     <RecordPayRunActions
       onRecordButtonClick={recordPayments}
+      onViewPayrollVerifyReportClick={onViewPayrollVerifyReportClick}
       onPreviousButtonClick={onPreviousButtonClick}
     />
   </>
