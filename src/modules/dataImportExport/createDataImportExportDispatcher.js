@@ -25,12 +25,13 @@ const createDataImportExportDispatcher = (store) => ({
     });
   },
 
-  setAlert: ({ message, type }) => {
+  setAlert: ({ message, type, dismissAfter }) => {
     store.dispatch({
       intent: SET_ALERT,
       alert: {
         message,
         type,
+        dismissAfter,
       },
     });
   },

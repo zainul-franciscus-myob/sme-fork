@@ -12,3 +12,7 @@
   position: relative;
   top: 0.4rem;
 }
+
+.alertLink {
+  color: #8241AA !important;
+}

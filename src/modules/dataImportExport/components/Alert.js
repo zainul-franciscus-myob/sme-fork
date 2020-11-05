@@ -5,7 +5,11 @@ import React from 'react';
 import { getAlert } from '../selectors/DataImportExportSelectors';
 
 const Alert = ({ alert, onDismissAlert }) => (
-  <FeelixAlert type={alert.type} onDismiss={onDismissAlert}>
+  <FeelixAlert
+    type={alert.type}
+    onDismiss={onDismissAlert}
+    dismissAfter={alert.dismissAfter}
+  >
     {alert.message}
   </FeelixAlert>
 );

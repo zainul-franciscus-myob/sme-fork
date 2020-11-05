@@ -26,6 +26,7 @@ import dataImportExportReducer from './dataImportExportReducer';
 import keyMap from '../../hotKeys/keyMap';
 import openBlob from '../../common/blobOpener/openBlob';
 import setupHotKeys from '../../hotKeys/setupHotKeys';
+import styles from './components/DataImportExportView.module.css';
 
 export default class DataImportExportModule {
   constructor({ integration, setRootView, replaceURLParams }) {
@@ -195,7 +196,13 @@ export default class DataImportExportModule {
           this.dispatcher.updateExportDataType(ImportExportDataType.NONE);
           this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
           this.displaySuccessMessage(
-            'Export successful! A file has been downloaded.'
+            [
+              "Export successful! A file has been downloaded. Can't find it? ",
+              <a className={styles.alertLink} href={fileUrl}>
+                Download again
+              </a>,
+            ],
+            300000 // 5mins
           );
           window.open(fileUrl, '_blank');
           break;
@@ -221,10 +228,11 @@ export default class DataImportExportModule {
     this.integrator.exportCompanyFileResult({ jobId, onSuccess, onFailure });
   };
 
-  displaySuccessMessage = (successMessage) =>
+  displaySuccessMessage = (successMessage, dismissAfter) =>
     this.dispatcher.setAlert({
       message: successMessage,
       type: 'success',
+      dismissAfter,
     });
 
   displayFailureAlert = (errorMessage) =>
