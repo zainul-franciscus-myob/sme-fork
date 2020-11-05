@@ -104,13 +104,14 @@ const BillView = ({
   onClosePrefillInfo,
   onUpgradeModalDismiss,
   onUpgradeModalUpgradeButtonClick,
-  onCreatePaymentClick,
+  onRecordPaymentClick,
   onConfirmSaveAndRedirect,
   onDiscardAndRedirect,
   preConversionModalListeners,
   showPreConversionAlert,
   onDismissPreConversionAlert,
   isPreConversion,
+  recordBillPaymentModalListeners,
 }) => {
   const tableLayoutOption = isPreConversion || (
     <BillLayoutPopover
@@ -148,7 +149,7 @@ const BillView = ({
           }}
         />
       )}
-      <BillHeader onCreatePaymentClick={onCreatePaymentClick} />
+      <BillHeader onRecordPaymentClick={onRecordPaymentClick} />
     </div>
   );
 
@@ -192,6 +193,7 @@ const BillView = ({
           onConfirmSaveAndRedirect={onConfirmSaveAndRedirect}
           onDiscardAndRedirect={onDiscardAndRedirect}
           preConversionModalListeners={preConversionModalListeners}
+          recordBillPaymentModalListeners={recordBillPaymentModalListeners}
         />
       )}
       {shouldShowInTrayDocument && !isSplitViewShown && (
@@ -248,7 +250,7 @@ const BillView = ({
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
           onExportPdfButtonClick={onExportPdfButtonClick}
-          onCreatePaymentClick={onCreatePaymentClick}
+          onRecordPaymentClick={onRecordPaymentClick}
         />
       }
       subHeadChildren={subHeaderChildren}

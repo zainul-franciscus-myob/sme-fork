@@ -1,0 +1,28 @@
+.status {
+  display: grid;
+  grid-template-columns: var(--flx-spacing-medium) auto;
+  grid-gap: var(--flx-spacing-x-tiny);
+  align-items: center;
+  min-width: 12rem;
+  margin-bottom: var(--flx-spacing-small);
+}
+
+.popoverLink {
+  cursor: pointer;
+}
+
+.icon {
+  display: flex;
+}
+
+.iconInvalid :global(svg) {
+  fill: var(--flx-background-color-alert-error-icon);
+}
+
+.iconActive :global(svg) {
+  fill: var(--flx-background-color-alert-success-icon);
+}
+
+.popoverLinkText {
+  color: var(--flx-color-link);
+}

@@ -1,10 +1,12 @@
 import {
   CREATE_BILL,
+  CREATE_BILL_PAYMENT,
   CREATE_PRE_CONVERSION_BILL_DETAIL,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
+  GET_REFERENCE_ID,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -12,6 +14,7 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -110,6 +113,18 @@ const HttpBillDetailMapping = {
     method: 'DELETE',
     getPath: ({ businessId, billId }) =>
       `/${businessId}/bill/delete_pre_conversion_bill/${billId}`,
+  },
+  [LOAD_NEW_BILL_PAYMENT]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bill/load_new_bill_payment`,
+  },
+  [GET_REFERENCE_ID]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/bill/get_reference_id`,
+  },
+  [CREATE_BILL_PAYMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/bill/create_bill_payment`,
   },
 };
 

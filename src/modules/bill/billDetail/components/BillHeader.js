@@ -17,16 +17,16 @@ const BillHeader = ({
   amountPaid,
   totals: { totalAmount },
   amountDue,
-  onCreatePaymentClick,
+  onRecordPaymentClick,
 }) => {
   const actions = [
     <Button
-      key="createPayment"
+      key="recordPayment"
       type="link"
       icon={<Icons.Dollar />}
-      onClick={onCreatePaymentClick}
+      onClick={onRecordPaymentClick}
     >
-      Create payment
+      Record payment
     </Button>,
   ];
 

@@ -29,7 +29,7 @@ const BillActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onExportPdfButtonClick,
-  onCreatePaymentClick,
+  onRecordPaymentClick,
   isPreConversion,
 }) => {
   const exportPdfButton = (
@@ -109,15 +109,15 @@ const BillActions = ({
     </Button>
   );
 
-  const createPaymentButton = (
+  const recordPaymentButton = (
     <Button
-      key="createPayment"
-      name="createPayment"
+      key="recordPayment"
+      name="recordPayment"
       type="secondary"
-      onClick={onCreatePaymentClick}
+      onClick={onRecordPaymentClick}
       disabled={isBlocking}
     >
-      Create payment
+      Record payment
     </Button>
   );
 
@@ -138,7 +138,7 @@ const BillActions = ({
       <ButtonRow
         primary={[backButton]}
         secondary={[
-          !isCreating && !isForeignCurrency && createPaymentButton,
+          !isCreating && !isForeignCurrency && recordPaymentButton,
           showExportPdfButton && exportPdfButton,
         ]}
       />
@@ -152,7 +152,7 @@ const BillActions = ({
         secondary={[
           !isCreating && deleteButton,
           !isCreating && separator,
-          !isCreating && createPaymentButton,
+          !isCreating && recordPaymentButton,
         ]}
       />
     );
@@ -164,7 +164,7 @@ const BillActions = ({
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
-        !isCreating && createPaymentButton,
+        !isCreating && recordPaymentButton,
         exportPdfButton,
       ]}
     />

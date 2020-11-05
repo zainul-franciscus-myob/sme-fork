@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getModalType } from '../selectors/billSelectors';
 import BillDetailPreConversionModal from './BillDetailPreConversionModal';
+import BillRecordPaymentModal from './BillRecordPaymentModal';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import ExportPdfModal from './ExportPdfModal';
@@ -17,15 +18,16 @@ const BillModal = ({
   modalType,
   onModalClose,
   onCancelModalConfirm,
-  onDeleteModalConfirm,
   onConfirmSaveAmountDueWarningButtonClick,
   onConfirmSaveAndDuplicateButtonClick,
   onConfirmSaveAndCreateNewButtonClick,
   onConfirmSaveAndRedirect,
+  onDeleteModalConfirm,
   onDiscardAndRedirect,
   onUnlinkDocumentConfirm,
   exportPdfModalListeners,
   preConversionModalListeners,
+  recordBillPaymentModalListeners,
 }) =>
   ({
     [ModalType.CancelModal]: (
@@ -82,6 +84,30 @@ const BillModal = ({
       <BillDetailPreConversionModal
         onConfirm={preConversionModalListeners.onConfirm}
         onCancel={preConversionModalListeners.onCancel}
+      />
+    ),
+    [ModalType.RecordPayment]: (
+      <BillRecordPaymentModal
+        onCancel={recordBillPaymentModalListeners.onCancel}
+        onEditSupplierClick={
+          recordBillPaymentModalListeners.onEditSupplierClick
+        }
+        onRecordPaymentModalOpen={
+          recordBillPaymentModalListeners.onRecordPaymentModalOpen
+        }
+        onRecordMultiplePayments={
+          recordBillPaymentModalListeners.onRecordMultiplePayments
+        }
+        onSaveBillPayment={recordBillPaymentModalListeners.onSaveBillPayment}
+        onUpdateHeaderOption={
+          recordBillPaymentModalListeners.onUpdateHeaderOption
+        }
+        onUpdateIsElectronicPayment={
+          recordBillPaymentModalListeners.onUpdateIsElectronicPayment
+        }
+        onUpdateBillPaymentAmountFields={
+          recordBillPaymentModalListeners.onUpdateBillPaymentAmountFields
+        }
       />
     ),
   }[modalType]);

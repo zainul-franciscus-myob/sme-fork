@@ -9,4 +9,5 @@ export default {
   None: '',
   Unsaved: 'unsaved',
   PreConversionBill: 'preConversionBill',
+  RecordPayment: 'recordPayment',
 };

@@ -1,34 +1,31 @@
-import { Icons, Popover } from '@myob/myob-widgets';
+import { Button, Icons, Popover } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getArePaymentDetailsComplete,
-  getIsSupplierLoading,
-  getSupplierLink,
-} from '../BillPaymentDetailSelectors';
-import LinkButton from '../../../../components/Button/LinkButton';
+import { getArePaymentDetailsComplete } from '../selectors/BillRecordPaymentSelectors';
 import styles from './SupplierPaymentDetailsStatus.module.css';
 
 const SupplierPaymentDetailsStatus = ({
-  editSupplierUrl,
+  onEditSupplierClick,
   arePaymentDetailsComplete,
 }) => {
   const popoverChild = (
     <>
-      <p>
+      <div>
         Supplier bank details are required to
         <br />
         record an electronic payment
-      </p>
-      <LinkButton href={editSupplierUrl} iconRight>
+      </div>
+      <br />
+      <Button type="link" onClick={onEditSupplierClick}>
         Edit supplier
-      </LinkButton>
+      </Button>
     </>
   );
 
   const invalidStatus = (
     <Popover
+      appendTarget=".payment-modal"
       closeOnOuterAction
       body={<Popover.Body child={popoverChild} />}
       place="below"
@@ -38,19 +35,21 @@ const SupplierPaymentDetailsStatus = ({
           <Icons.Warning />
         </span>
 
-        <span className={styles.popoverLinkText}>Missing bank details</span>
+        <span className={styles.popoverLinkText}>
+          Missing supplier bank details
+        </span>
       </div>
     </Popover>
   );
 
   const validStatus = (
-    <div className={styles.statusWrapper}>
+    <div>
       <div className={styles.status}>
         <span className={`${styles.icon} ${styles.iconActive}`}>
           <Icons.Success />
         </span>
 
-        <span>Valid bank details</span>
+        <span>Valid supplier bank details</span>
       </div>
     </div>
   );
@@ -59,9 +58,7 @@ const SupplierPaymentDetailsStatus = ({
 };
 
 const mapStateToProps = (state) => ({
-  editSupplierUrl: getSupplierLink(state),
   arePaymentDetailsComplete: getArePaymentDetailsComplete(state),
-  isSupplierLoading: getIsSupplierLoading(state),
 });
 
 export default connect(mapStateToProps)(SupplierPaymentDetailsStatus);

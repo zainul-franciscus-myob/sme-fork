@@ -37,6 +37,7 @@ import {
   getRedirectUrl,
   getShouldShowAbn,
   getSupplierId,
+  getSupplierLink,
   getTaxCodeOptions,
   getUniqueSelectedItemIds,
   getViewedAccountToolTip,
@@ -47,6 +48,10 @@ import {
   getCreateNewBillUrl,
   getInTrayUrl,
 } from './selectors/BillRedirectSelectors';
+import {
+  getDefaultAccountId,
+  getIsActionsDisabled,
+} from './selectors/BillRecordPaymentSelectors';
 import {
   getExportPdfFilename,
   getShouldSaveAndReload,
@@ -125,6 +130,8 @@ class BillModule {
       integration,
       onAlert: this.openAlert,
     });
+    this.isElectronicPaymentEnabled =
+      featureToggles?.isElectronicPaymentEnabled || false;
   }
 
   openAccountModal = (onChange) => {
@@ -826,6 +833,12 @@ class BillModule {
     });
   };
 
+  openRecordPaymentModal = () => {
+    this.dispatcher.openModal({
+      modalType: ModalType.RecordPayment,
+    });
+  };
+
   unlinkInTrayDocument = () => {
     const state = this.store.getState();
     this.dispatcher.closeModal();
@@ -879,6 +892,13 @@ class BillModule {
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
+
+    this.navigateTo(url);
+  };
+
+  redirectToContactDetail = () => {
+    const state = this.store.getState();
+    const url = getSupplierLink(state);
 
     this.navigateTo(url);
   };
@@ -962,6 +982,76 @@ class BillModule {
     }
   };
 
+  loadNewBillPayment = () => {
+    this.dispatcher.setBillPaymentModalLoadingState(true);
+    const onSuccess = (response) => {
+      this.dispatcher.setBillPaymentModalLoadingState(false);
+      this.dispatcher.loadBillPayment({
+        ...response,
+        isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBillPaymentModalLoadingState(false);
+      this.dispatcher.setBillPaymentModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadBillPayment({ onSuccess, onFailure });
+  };
+
+  saveBillPayment = () => {
+    const state = this.store.getState();
+    if (getIsActionsDisabled(state)) return;
+
+    this.dispatcher.setBillPaymentModalSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.reloadBill({
+        onSuccess: () => {
+          this.dispatcher.setBillPaymentModalSubmittingState(false);
+          this.dispatcher.closeModal();
+          this.dispatcher.openSuccessAlert({ message });
+        },
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBillPaymentModalSubmittingState(false);
+      this.dispatcher.setBillPaymentModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.saveBillPayment({ onSuccess, onFailure });
+  };
+
+  updateHeaderOption = ({ key, value }) => {
+    this.dispatcher.updateHeaderOption({ key, value });
+
+    if (key === 'accountId') this.updateReferenceId();
+  };
+
+  updateIsElectronicPayment = ({ value }) => {
+    const state = this.store.getState();
+
+    const accountId = value
+      ? state.recordBillPayment.electronicClearingAccountId
+      : getDefaultAccountId(state);
+
+    this.updateHeaderOption({ key: 'accountId', value: accountId });
+  };
+
+  updateReferenceId = () => {
+    const onSuccess = ({ referenceId }) => {
+      this.dispatcher.updateReferenceId(referenceId);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setBillPaymentModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.getReferenceId({ onSuccess, onFailure });
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
@@ -1028,7 +1118,18 @@ class BillModule {
           onClosePrefillInfo={this.dispatcher.hidePrefillInfo}
           onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
           onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}
-          onCreatePaymentClick={this.redirectToBillPayment}
+          onRecordPaymentClick={this.openRecordPaymentModal}
+          recordBillPaymentModalListeners={{
+            onCancel: this.closeModal,
+            onEditSupplierClick: this.redirectToContactDetail,
+            onRecordMultiplePayments: this.redirectToBillPayment,
+            onRecordPaymentModalOpen: this.loadNewBillPayment,
+            onUpdateHeaderOption: this.updateHeaderOption,
+            onUpdateIsElectronicPayment: this.updateIsElectronicPayment,
+            onUpdateBillPaymentAmountFields: this.dispatcher
+              .updateBillPaymentAmountFields,
+            onSaveBillPayment: this.saveBillPayment,
+          }}
           preConversionModalListeners={{
             onCancel: this.dismissPreConversionModal,
             onConfirm: this.convertToPreConversionBill,

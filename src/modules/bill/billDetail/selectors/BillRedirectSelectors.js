@@ -49,3 +49,11 @@ export const getBillPaymentUrl = (state) => {
 
   return `${baseUrl}/billPayment/new${urlParams}`;
 };
+
+export const getSupplierLink = createSelector(
+  getBusinessId,
+  getRegion,
+  getSupplierId,
+  (businessId, region, supplierId) =>
+    `/#/${region}/${businessId}/contact/${supplierId}`
+);

@@ -16,6 +16,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
+  LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -28,6 +29,9 @@ import {
   SET_DOCUMENT_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_ID,
+  SET_PAYMENT_MODAL_ALERT,
+  SET_PAYMENT_MODAL_LOADING_STATE,
+  SET_PAYMENT_MODAL_SUBMITTING_STATE,
   SET_REDIRECT_URL,
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SHOW_SPLIT_VIEW,
@@ -44,9 +48,12 @@ import {
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
+  UPDATE_BILL_PAYMENT_AMOUNT_FIELDS,
   UPDATE_EXPORT_PDF_DETAIL,
+  UPDATE_HEADER_OPTION,
   UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
+  UPDATE_REFERENCE_ID,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
@@ -65,6 +72,15 @@ import {
   getDefaultState,
 } from './getDefaultState';
 import { getHasInTrayDocumentId } from '../selectors/BillInTrayDocumentSelectors';
+import {
+  loadNewBillPayment,
+  setPaymentModalAlert,
+  setPaymentModalLoadingState,
+  setPaymentModalSubmittingState,
+  updateBillPaymentAmountFields,
+  updateHeaderOption,
+  updateReferenceId,
+} from './billRecordPaymentReducer';
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
@@ -184,7 +200,10 @@ const reloadBill = (state, action) => {
   return loadBill(initialState, action);
 };
 
-const setInitialState = (state, action) => ({ ...state, ...action.context });
+const setInitialState = (state, action) => ({
+  ...state,
+  ...action.context,
+});
 
 const resetState = () => getDefaultState();
 
@@ -733,11 +752,13 @@ const handlers = {
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
+  [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,
   [DOWNLOAD_IN_TRAY_DOCUMENT]: loadInTrayDocumentUrl,
   [UNLINK_IN_TRAY_DOCUMENT]: unlinkInTrayDocument,
   [SET_DOCUMENT_LOADING_STATE]: setDocumentLoadingState,
+  [SET_PAYMENT_MODAL_LOADING_STATE]: setPaymentModalLoadingState,
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [SET_ATTACHMENT_ID]: setAttachmentId,
   [SET_DUPLICATE_ID]: setDuplicateId,
@@ -746,6 +767,11 @@ const handlers = {
   [SET_ABN_LOADING_STATE]: setAbnLoadingState,
   [LOAD_ABN_FROM_SUPPLIER]: loadAbnFromSupplier,
   [UPDATE_ISSUE_DATE]: updateIssueDate,
+  [UPDATE_HEADER_OPTION]: updateHeaderOption,
+  [UPDATE_REFERENCE_ID]: updateReferenceId,
+  [UPDATE_BILL_PAYMENT_AMOUNT_FIELDS]: updateBillPaymentAmountFields,
+  [SET_PAYMENT_MODAL_ALERT]: setPaymentModalAlert,
+  [SET_PAYMENT_MODAL_SUBMITTING_STATE]: setPaymentModalSubmittingState,
   [CONVERT_TO_PRE_CONVERSION_BILL]: convertToPreConversionBill,
   [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,

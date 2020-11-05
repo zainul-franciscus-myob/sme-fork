@@ -72,6 +72,22 @@ export const DELETE_PRE_CONVERSION_BILL_DETAIL = Symbol(
   'Delete a pre conversion bill'
 );
 
+export const GET_REFERENCE_ID = Symbol('Get referenceId');
+export const UPDATE_HEADER_OPTION = Symbol('Update header option');
+export const UPDATE_REFERENCE_ID = Symbol('Update referenceId');
+export const UPDATE_BILL_PAYMENT_AMOUNT_FIELDS = Symbol(
+  'Update bill payment amount fields'
+);
+export const SET_PAYMENT_MODAL_ALERT = Symbol('Set payment modal alert');
+export const SET_PAYMENT_MODAL_SUBMITTING_STATE = Symbol(
+  'Set payment modal submitting state'
+);
+export const LOAD_NEW_BILL_PAYMENT = Symbol('Load new bill payment');
+export const SET_PAYMENT_MODAL_LOADING_STATE = Symbol(
+  'Set record bill payment modal loading state'
+);
+export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
+
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );

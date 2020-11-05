@@ -202,6 +202,9 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
+        recordBillPayment: {
+          isElectronicPaymentEnabled: false,
+        },
       };
       module.run(context);
 
@@ -227,6 +230,9 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
+        recordBillPayment: {
+          isElectronicPaymentEnabled: false,
+        },
       };
       module.run(context);
 
@@ -267,6 +273,9 @@ describe('BillModule', () => {
           billId: test.billId,
           businessId: '🐷',
           region: 'au',
+          recordBillPayment: {
+            isElectronicPaymentEnabled: false,
+          },
         };
         module.run(context);
 
@@ -303,6 +312,9 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        recordBillPayment: {
+          isElectronicPaymentEnabled: false,
+        },
       };
       module.run(context);
 
@@ -355,6 +367,9 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        recordBillPayment: {
+          isElectronicPaymentEnabled: false,
+        },
       };
 
       module.run(context);
@@ -456,6 +471,9 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          recordBillPayment: {
+            isElectronicPaymentEnabled: false,
+          },
         };
         module.run(context);
 
@@ -505,6 +523,9 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          recordBillPayment: {
+            isElectronicPaymentEnabled: false,
+          },
         };
         module.run(context);
 
@@ -554,6 +575,9 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        recordBillPayment: {
+          isElectronicPaymentEnabled: false,
+        },
       };
 
       const expectedActionsWithoutPrefillAndTaxCalc = [

@@ -1,10 +1,12 @@
 import {
   CREATE_BILL,
+  CREATE_BILL_PAYMENT,
   CREATE_PRE_CONVERSION_BILL_DETAIL,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
+  GET_REFERENCE_ID,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
@@ -12,6 +14,7 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -19,6 +22,7 @@ import {
   UPDATE_BILL,
   UPDATE_PRE_CONVERSION_BILL_DETAIL,
 } from '../BillIntents';
+import billPaymentReferenceId from './data/billPaymentReferenceId.json';
 import createBillResponse from './data/createBillResponse';
 import loadAbnDetail from './data/loadAbnDetail';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
@@ -26,6 +30,7 @@ import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemAndServiceBillWithFreight from './data/loadItemAndServiceBillWithFreight';
 import loadNewBill from './data/loadNewBill';
+import loadNewBillPaymentWithSupplier from './data/loadNewBillPaymentWithSupplier.json';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadPreConversionBill from './data/loadPreConversionBill';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
@@ -99,6 +104,10 @@ const MemoryBillDetailMapping = {
     onSuccess(successResponse),
   [DELETE_PRE_CONVERSION_BILL_DETAIL]: ({ onSuccess }) =>
     onSuccess(successResponse),
+  [LOAD_NEW_BILL_PAYMENT]: ({ onSuccess }) =>
+    onSuccess(loadNewBillPaymentWithSupplier),
+  [CREATE_BILL_PAYMENT]: ({ onSuccess }) => onSuccess(successResponse),
+  [GET_REFERENCE_ID]: ({ onSuccess }) => onSuccess(billPaymentReferenceId),
 };
 
 export default MemoryBillDetailMapping;

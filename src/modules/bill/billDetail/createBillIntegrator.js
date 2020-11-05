@@ -1,13 +1,16 @@
 import {
+  CREATE_BILL_PAYMENT,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
   EXPORT_BILL_PDF,
+  GET_REFERENCE_ID,
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
+  LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -35,6 +38,13 @@ import {
   getUnlinkInTrayDocumentParams,
   getUnlinkInTrayDocumentUrlParams,
 } from './selectors/BillIntegratorSelectors';
+import {
+  getCreateBillPaymentPayload,
+  getLoadBillPaymentParams,
+  getLoadBillPaymentUrlParams,
+  getUpdateReferenceIdParams,
+  getUpdateReferenceIdUrlParams,
+} from './selectors/BillRecordPaymentSelectors';
 import {
   getExportPdfQueryParams,
   getExportPdfUrlParams,
@@ -236,6 +246,42 @@ const createBillIntegrator = (store, integration) => ({
       urlParams: {
         businessId: getBusinessId(state),
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  getReferenceId: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: GET_REFERENCE_ID,
+      urlParams: getUpdateReferenceIdUrlParams(state),
+      params: getUpdateReferenceIdParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadBillPayment: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: LOAD_NEW_BILL_PAYMENT,
+      urlParams: getLoadBillPaymentUrlParams(state),
+      params: getLoadBillPaymentParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveBillPayment: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.write({
+      intent: CREATE_BILL_PAYMENT,
+      urlParams: getLoadBillPaymentUrlParams(state),
+      content: getCreateBillPaymentPayload(state),
       onSuccess,
       onFailure,
     });

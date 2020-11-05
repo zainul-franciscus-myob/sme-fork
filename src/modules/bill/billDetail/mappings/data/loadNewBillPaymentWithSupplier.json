@@ -1,0 +1,34 @@
+{
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
+    }
+  ],
+  "accountId": "123",
+  "referenceId": "BP0000002",
+  "showPaidBills": false,
+  "electronicClearingAccountId": "789",
+  "supplierId": "1000000",
+  "supplierName": "Scoober Steve",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "supplierStatementText": "WAWA",
+  "arePaymentDetailsComplete": true
+}

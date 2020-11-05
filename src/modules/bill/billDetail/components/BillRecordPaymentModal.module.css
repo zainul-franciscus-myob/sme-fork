@@ -1,0 +1,52 @@
+.rightSubHeading {
+  text-align: right;
+}
+
+.rightSubHeading > div {
+  justify-content: flex-end;
+}
+
+.fieldGroup {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fieldGroup > button {
+  padding-left: 2rem;
+}
+
+.modalFooter > div {
+  flex-grow: 1;
+}
+
+.bankAccount {
+  flex-grow: 1;
+}
+
+@media only screen and (min-width: 500px) {
+  .fieldGroup {
+    flex-wrap: unset;
+  }
+
+  .fieldGroup > div:not(:first-of-type):not(:last-of-type) {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .fieldGroup > div:not(:first-of-type) {
+    padding-left: 1rem;
+  }
+
+  .fieldGroup > div:not(:last-of-type) {
+    padding-right: 1rem;
+  }
+
+  .bankAccount {
+    flex-basis: 66.67%;
+  }
+
+  .paymentDate {
+    flex-basis: 33.33%;
+  }
+}
