@@ -15,6 +15,7 @@ describe('SpendMoneyView', () => {
         <SpendMoneyDetailView
           isCreating
           renderContactCombobox={() => {}}
+          renderJobCombobox={() => {}}
           onUpdateHeaderOptions={() => {}}
           onSaveButtonClick={() => {}}
           onCancelButtonClick={() => {}}

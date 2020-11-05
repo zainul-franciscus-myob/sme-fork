@@ -12,7 +12,6 @@ import {
   HIDE_PREFILL_INFO,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -31,7 +30,6 @@ import {
   SET_CONTACT_TYPE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PREFILL_INTRAY_DOCUMENT_ID,
@@ -101,7 +99,6 @@ const getDefaultState = () => ({
     taxCodeId: '',
     taxAmount: '',
     jobId: '',
-    lineJobOptions: [],
   },
   accounts: [],
   taxCodes: [],
@@ -128,7 +125,6 @@ const getDefaultState = () => ({
   prefillStatus: defaultPrefillStatus,
   showPrefillInfo: false,
   startOfFinancialYearDate: '',
-  isJobLoading: false,
   contactType: undefined,
   viewedAccountToolTip: false,
 });
@@ -256,11 +252,6 @@ const getBankStatementText = (state, referenceId) => {
   return shouldSetBankstatementText ? `Payment ${referenceId}` : '';
 };
 
-const buildLineJobOptions = ({ action, jobId }) =>
-  action.jobs
-    ? action.jobs.filter((job) => job.isActive || job.id === jobId)
-    : [];
-
 const loadNewSpendMoney = (state, action) => {
   const newState = {
     ...state,
@@ -272,11 +263,9 @@ const loadNewSpendMoney = (state, action) => {
     },
     accounts: action.accounts,
     taxCodes: action.taxCodes,
-    jobs: action.jobs,
     newLine: {
       ...state.newLine,
       ...action.newLine,
-      lineJobOptions: buildLineJobOptions({ action }),
     },
     isLoading: false,
     pageTitle: action.pageTitle,
@@ -306,18 +295,13 @@ const loadSpendMoneyDetail = (state, action) => ({
     ...action.spendMoney,
     originalReferenceId: action.spendMoney.referenceId,
     originalBankStatementText: action.spendMoney.bankStatementText,
-    lines: action.spendMoney.lines.map((line) => ({
-      ...line,
-      lineJobOptions: buildLineJobOptions({ action, jobId: line.jobId }),
-    })),
+    lines: action.spendMoney.lines,
   },
   accounts: action.accounts,
   taxCodes: action.taxCodes,
-  jobs: action.jobs,
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildLineJobOptions({ action }),
   },
   isLoading: false,
   pageTitle: action.pageTitle,
@@ -713,27 +697,6 @@ const clearAbn = (state) => ({
   abn: undefined,
 });
 
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  spendMoney: {
-    ...state.spendMoney,
-    lines: state.spendMoney.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
-});
-
-const setJobLoadingState = (state, { isJobLoading }) => ({
-  ...state,
-  isJobLoading,
-});
-
 const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
   ...state,
   viewedAccountToolTip,
@@ -775,8 +738,6 @@ const handlers = {
   [HIDE_PREFILL_INFO]: hidePrefillInfo,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [PREFILL_SPEND_MONEY_ON_CONTACT]: prefillSpendMoneyOnContact,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [RESET_BANK_STATEMENT_TEXT]: resetBankStatementText,
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
   [SET_CONTACT_TYPE]: setContactType,

@@ -23,8 +23,8 @@ const SpendMoneyDetailTable = ({
   onRowInputBlur,
   onUpdateRow,
   onAddAccount,
-  onAddJob,
   onViewedAccountToolTip,
+  renderJobCombobox,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -32,13 +32,13 @@ const SpendMoneyDetailTable = ({
     return (
       <SpendMoneyDetailRow
         index={index}
+        renderJobCombobox={renderJobCombobox}
         key={index}
         labels={labels}
         onChange={onChange}
         isNewLineRow={isNewLineRow}
         onRowInputBlur={onRowInputBlur}
         onAddAccount={onAddAccount}
-        onAddJob={onAddJob}
       />
     );
   };

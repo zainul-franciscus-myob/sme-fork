@@ -44,7 +44,6 @@ export const getAbn = (state) => state.abn;
 export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getStartOfFinancialYearDate = (state) =>
   state.startOfFinancialYearDate;
-export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
 export const getContactType = (state) => state.contactType;
 
 const getHeadersProperties = createStructuredSelector({
@@ -386,6 +385,29 @@ export const getJobModalContext = (state) => {
   return { businessId, region };
 };
 
+export const getJobComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getUniqueSelectedJobIds = (state) => {
+  const lines = getLines(state);
+
+  if (lines.length > 0) {
+    const selectedJobIds = lines.reduce((jobIds, line) => {
+      if (line.jobId) {
+        jobIds.push(line.jobId);
+      }
+      return jobIds;
+    }, []);
+    return [...new Set([...selectedJobIds])];
+  }
+
+  return [];
+};
+
 export const getContactComboboxContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -459,10 +481,5 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
     startOfFinancialYearDate &&
     isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );
-
-export const getLoadAddedJobUrlParams = (state, jobId) => {
-  const businessId = getBusinessId(state);
-  return { businessId, jobId };
-};
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;

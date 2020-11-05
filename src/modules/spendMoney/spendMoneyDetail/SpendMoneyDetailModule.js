@@ -29,7 +29,7 @@ import {
   getIsSubmitting,
   getIsTableEmpty,
   getIsTaxInclusive,
-  getJobModalContext,
+  getJobComboboxContext,
   getLinesForTaxCalculation,
   getLinkInTrayContentWithoutSpendMoneyId,
   getModal,
@@ -43,6 +43,7 @@ import {
   getSpendMoneyId,
   getTaxCodeOptions,
   getTransactionListUrl,
+  getUniqueSelectedJobIds,
   getViewedAccountToolTip,
   isPageEdited,
   isReferenceIdDirty,
@@ -51,7 +52,7 @@ import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
-import JobModalModule from '../../job/jobModal/JobModalModule';
+import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import SaveActionType from './components/SaveActionType';
@@ -82,11 +83,15 @@ export default class SpendMoneyDetailModule {
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
     this.accountModalModule = new AccountModalModule({ integration });
-    this.jobModalModule = new JobModalModule({ integration });
     this.contactComboboxModule = new ContactComboboxModule({
       integration,
       featureToggles,
     });
+    this.jobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
+    this.trackUserEvent = trackUserEvent;
   }
 
   openAccountModal = (onChange) => {
@@ -117,36 +122,6 @@ export default class SpendMoneyDetailModule {
     };
 
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
-  };
-
-  openJobModal = (onChange) => {
-    const state = this.store.getState();
-    const context = getJobModalContext(state);
-
-    this.jobModalModule.run({
-      context,
-      onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
-    });
-  };
-
-  loadJobAfterCreate = ({ message, id }, onChange) => {
-    this.jobModalModule.resetState();
-    this.dispatcher.setAlert({ type: 'success', message });
-    this.dispatcher.setJobLoadingState(true);
-
-    const onSuccess = (payload) => {
-      const job = { ...payload, id };
-      this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(job);
-      onChange(job);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setJobLoadingState(false);
-    };
-
-    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   loadContact = (onChange) => {
@@ -191,6 +166,7 @@ export default class SpendMoneyDetailModule {
       });
 
       this.updateContactCombobox();
+      this.updateJobCombobox();
     };
 
     const onFailure = ({ message }) => {
@@ -234,6 +210,7 @@ export default class SpendMoneyDetailModule {
       }
 
       this.updateContactCombobox();
+      this.updateJobCombobox();
     };
 
     const onFailure = () => {
@@ -260,6 +237,7 @@ export default class SpendMoneyDetailModule {
         this.openSplitView();
       } else {
         this.updateContactCombobox();
+        this.updateJobCombobox();
       }
     };
 
@@ -703,6 +681,24 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobComboboxContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
+  updateJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.jobComboboxModule.load(selectedJobIds);
+    }
+  };
+
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
   loadContactCombobox = () => {
     const state = this.store.getState();
     const context = getContactComboboxContext(state);
@@ -739,13 +735,12 @@ export default class SpendMoneyDetailModule {
   render = () => {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
-    const jobModal = this.jobModalModule.render();
 
     const spendMoneyView = (
       <SpendMoneyDetailView
+        renderJobCombobox={this.renderJobCombobox}
         renderContactCombobox={this.renderContactCombobox}
         accountModal={accountModal}
-        jobModal={jobModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveSpendMoney}
         onSaveAndButtonClick={this.handleSaveAndAction}
@@ -762,7 +757,6 @@ export default class SpendMoneyDetailModule {
         onAddRow={this.addSpendMoneyLine}
         onRemoveRow={this.deleteSpendMoneyLine}
         onAddAccount={this.openAccountModal}
-        onAddJob={this.openJobModal}
         onRowInputBlur={this.formatAndCalculateTotals}
         onAddAttachments={this.addAttachments}
         onRemoveAttachment={this.openDeleteAttachmentModal}
@@ -901,6 +895,11 @@ export default class SpendMoneyDetailModule {
       return;
     }
 
+    if (this.jobComboboxModule.isCreateJobModalOpened()) {
+      this.jobComboboxModule.createJob();
+      return;
+    }
+
     if (this.contactComboboxModule.isContactModalOpened()) {
       this.contactComboboxModule.createContact();
       return;
@@ -966,12 +965,14 @@ export default class SpendMoneyDetailModule {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadSpendMoney();
     this.loadContactCombobox();
+    this.loadJobCombobox();
   }
 
   resetState() {
     this.dispatcher.resetState();
     this.accountModalModule.resetState();
     this.contactComboboxModule.resetState();
+    this.jobComboboxModule.resetState();
   }
 
   handlePageTransition = (url) => {

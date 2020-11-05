@@ -12,7 +12,6 @@ import {
   HIDE_PREFILL_INFO,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
@@ -28,7 +27,6 @@ import {
   SET_CONTACT_TYPE,
   SET_DUPLICATE_ID,
   SET_IN_TRAY_DOCUMENT_URL,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_OPERATION_IN_PROGRESS_STATE,
   SET_PREFILL_INTRAY_DOCUMENT_ID,
@@ -62,18 +60,6 @@ const createSpendMoneyDispatcher = (store) => ({
     const intent = SET_LOADING_STATE;
     store.dispatch({ intent, isLoading });
   },
-
-  loadJobAfterCreate: (payload) =>
-    store.dispatch({
-      intent: LOAD_JOB_AFTER_CREATE,
-      ...payload,
-    }),
-
-  setJobLoadingState: (isJobLoading) =>
-    store.dispatch({
-      intent: SET_JOB_LOADING_STATE,
-      isJobLoading,
-    }),
 
   loadSpendMoney: (intent, response) => {
     store.dispatch({

@@ -6,7 +6,6 @@ import {
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
   LOAD_REFERENCE_ID,
@@ -96,11 +95,6 @@ const HttpSpendMoneyMapping = {
     method: 'GET',
     getPath: ({ businessId, contactId }) =>
       `/${businessId}/spendMoney/load_contact/${contactId}`,
-  },
-  [LOAD_JOB_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, jobId }) =>
-      `/${businessId}/spendMoney/load_job/${jobId}`,
   },
   [LOAD_ABN_FROM_CONTACT]: {
     method: 'GET',

@@ -26,10 +26,10 @@ import SpendMoneyModal from './SpendMoneyModal';
 import styles from './SpendMoneyDetailView.module.css';
 
 const SpendMoneyDetailView = ({
+  renderJobCombobox,
   renderContactCombobox,
   accountModal,
   contactModal,
-  jobModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -49,7 +49,6 @@ const SpendMoneyDetailView = ({
   onConfirmDeleteButtonClick,
   modal,
   onAddAccount,
-  onAddJob,
   onUpdateRow,
   onAddRow,
   onRemoveRow,
@@ -112,11 +111,11 @@ const SpendMoneyDetailView = ({
   const table = (
     <SpendMoneyDetailTable
       onUpdateRow={onUpdateRow}
+      renderJobCombobox={renderJobCombobox}
       onAddRow={onAddRow}
       onRemoveRow={onRemoveRow}
       onRowInputBlur={onRowInputBlur}
       onAddAccount={onAddAccount}
-      onAddJob={onAddJob}
       onViewedAccountToolTip={onViewedAccountToolTip}
     />
   );
@@ -130,7 +129,6 @@ const SpendMoneyDetailView = ({
       {inTrayDocumentView}
       {accountModal}
       {contactModal}
-      {jobModal}
       {modal && (
         <SpendMoneyModal
           modal={modal}

@@ -13,6 +13,7 @@ import {
   getShowBankStatementText,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
+  getUniqueSelectedJobIds,
 } from '../spendMoneyDetailSelectors';
 import spendMoneyDetail from './fixtures/spendMoneyDetail';
 
@@ -429,5 +430,25 @@ describe('spendMoneySelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getUniqueSelectedJobIds', () => {
+    it('should return unique ids only', () => {
+      const state = {
+        spendMoney: { lines: [{ jobId: 123 }, { jobId: 123 }, { jobId: 1 }] },
+      };
+      const uniqueIds = getUniqueSelectedJobIds(state);
+
+      expect(uniqueIds).toEqual([123, 1]);
+    });
+
+    it('should return empty when no lines', () => {
+      const state = {
+        spendMoney: { lines: [] },
+      };
+      const uniqueIds = getUniqueSelectedJobIds(state);
+
+      expect(uniqueIds).toEqual([]);
+    });
   });
 });

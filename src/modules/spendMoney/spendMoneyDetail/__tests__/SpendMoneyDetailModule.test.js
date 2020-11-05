@@ -240,6 +240,11 @@ describe('SpendMoneyDetailModule', () => {
           load: jest.fn(),
         };
 
+        module.jobComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
         module.run({ spendMoneyId: 'new', businessId: '👺' });
 
         expect(store.getActions()).toEqual([
@@ -253,7 +258,6 @@ describe('SpendMoneyDetailModule', () => {
             intent: SET_IN_TRAY_DOCUMENT_URL,
           },
         ]);
-
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({
             intent: LOAD_NEW_SPEND_MONEY,
@@ -289,6 +293,10 @@ describe('SpendMoneyDetailModule', () => {
           })
         );
         expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
+        expect(module.jobComboboxModule.run).toHaveBeenCalledWith({
+          businessId: '👺',
+          region: '',
+        });
       });
 
       it('fail to download in tray document', () => {
@@ -302,6 +310,11 @@ describe('SpendMoneyDetailModule', () => {
         ];
 
         module.contactComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
+        module.jobComboboxModule = {
           run: jest.fn(),
           load: jest.fn(),
         };
@@ -362,6 +375,10 @@ describe('SpendMoneyDetailModule', () => {
           })
         );
         expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
+        expect(module.jobComboboxModule.run).toHaveBeenCalledWith({
+          businessId: '👺',
+          region: '',
+        });
       });
 
       it('fail to prefill in tray document', () => {
@@ -375,6 +392,11 @@ describe('SpendMoneyDetailModule', () => {
         ];
 
         module.contactComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
+        module.jobComboboxModule = {
           run: jest.fn(),
           load: jest.fn(),
         };
@@ -512,6 +534,11 @@ describe('SpendMoneyDetailModule', () => {
         run: jest.fn(),
       };
 
+      module.jobComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
@@ -577,6 +604,11 @@ describe('SpendMoneyDetailModule', () => {
         run: jest.fn(),
       };
 
+      module.jobComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
@@ -635,6 +667,11 @@ describe('SpendMoneyDetailModule', () => {
         load: jest.fn(),
       };
 
+      module.jobComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
 
       expect(store.getActions()).toEqual([
@@ -684,6 +721,7 @@ describe('SpendMoneyDetailModule', () => {
         })
       );
       expect(module.contactComboboxModule.load).toHaveBeenCalledWith('2');
+      expect(module.jobComboboxModule.load).toHaveBeenCalled();
     });
 
     it('fails to load duplicate', () => {
@@ -698,6 +736,11 @@ describe('SpendMoneyDetailModule', () => {
 
       module.contactComboboxModule = {
         run: jest.fn(),
+      };
+
+      module.jobComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
       };
 
       module.run({ businessId: '👺', region: 'au', spendMoneyId: 'new' });
@@ -755,6 +798,11 @@ describe('SpendMoneyDetailModule', () => {
       });
 
       module.contactComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
+      module.jobComboboxModule = {
         run: jest.fn(),
         load: jest.fn(),
       };
@@ -841,6 +889,11 @@ describe('SpendMoneyDetailModule', () => {
       const { integration, module } = setup();
 
       module.contactComboboxModule = {
+        run: jest.fn(),
+        load: jest.fn(),
+      };
+
+      module.jobComboboxModule = {
         run: jest.fn(),
         load: jest.fn(),
       };
