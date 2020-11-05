@@ -2,8 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
   SUCCESSFULLY_DELETED_BILL_PAYMENT,
+  SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
+  SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
   SUCCESSFULLY_SAVED_BILL_PAYMENT,
 } from '../../../common/types/MessageTypes';
 import {
@@ -182,10 +183,6 @@ export default class BillPaymentModule {
     const onSuccess = (response) => {
       const state = this.store.getState();
       this.dispatcher.setSubmittingState(false);
-      this.pushMessage({
-        type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
-        content: response.message,
-      });
 
       const url = getRedirectUrl({ ...state, applyPaymentToBillId: '' });
       if (getShouldSendRemittanceAdvice(state)) {
@@ -194,6 +191,11 @@ export default class BillPaymentModule {
         this.reloadSavedBillPayment({ ...response, id });
         return;
       }
+
+      this.pushMessage({
+        type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
+        content: response.message,
+      });
 
       this.navigateTo(url);
     };
@@ -232,18 +234,14 @@ export default class BillPaymentModule {
   };
 
   sendRemittanceAdviceEmail = () => {
-    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.closeRemittanceAdviceModal();
 
     const onSuccess = (response) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.pushMessage({
-        type: SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
+        type: SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
         content: response.message,
-      });
-      this.dispatcher.setAlertMessage({
-        message: response.message,
-        type: 'success',
       });
       const state = this.store.getState();
       const url = getRedirectUrl(state);
@@ -267,12 +265,8 @@ export default class BillPaymentModule {
     const onSuccess = (data) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.pushMessage({
-        type: SUCCESSFULLY_CREATED_REMITTANCE_ADVICE,
-      });
-
-      this.dispatcher.setAlertMessage({
-        message: 'Remittance advice has been downloaded',
-        type: 'success',
+        type: SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
+        content: 'PDF downloaded successfully.',
       });
 
       const referenceId = getReferenceId(state);

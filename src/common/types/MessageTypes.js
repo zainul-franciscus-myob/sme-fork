@@ -69,8 +69,11 @@ export const PREFILL_INTRAY_DOCUMENT_FOR_BILL = Symbol(
 );
 
 // Remittance Advice
-export const SUCCESSFULLY_CREATED_REMITTANCE_ADVICE = Symbol(
-  'Successfully created remittance advice'
+export const SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE = Symbol(
+  'Successfully emailed remittance advice'
+);
+export const SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE = Symbol(
+  'Successfully downloaded remittance advice'
 );
 
 // Bill payment

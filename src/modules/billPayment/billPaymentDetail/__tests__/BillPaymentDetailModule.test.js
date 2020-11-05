@@ -439,11 +439,6 @@ describe('BillPaymentDetailModule', () => {
         ])
       );
 
-      expect(module.pushMessage).toHaveBeenCalledWith({
-        type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
-        content: expect.any(String),
-      });
-
       expect(module.replaceURLParams).toHaveBeenCalledWith({
         billPaymentId: 1,
       });
@@ -964,8 +959,8 @@ describe('BillPaymentDetailModule', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           {
-            intent: SET_SUBMITTING_STATE,
-            isSubmitting: true,
+            intent: SET_LOADING_STATE,
+            loadingState: LoadingState.LOADING_SUCCESS,
           },
           {
             intent: SET_ALERT_MESSAGE,
@@ -974,10 +969,6 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: CLOSE_MODAL,
-          },
-          {
-            intent: SET_SUBMITTING_STATE,
-            isSubmitting: false,
           },
           expect.objectContaining({
             intent: SET_ALERT_MESSAGE,
@@ -1018,10 +1009,6 @@ describe('BillPaymentDetailModule', () => {
           },
           {
             intent: CLOSE_MODAL,
-          },
-          {
-            intent: SET_LOADING_STATE,
-            loadingState: LoadingState.LOADING_SUCCESS,
           },
           expect.objectContaining({
             intent: SET_ALERT_MESSAGE,
