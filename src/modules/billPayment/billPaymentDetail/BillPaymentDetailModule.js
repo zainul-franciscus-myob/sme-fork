@@ -249,7 +249,7 @@ export default class BillPaymentModule {
     };
 
     const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlertMessage({ message, type: 'danger' });
     };
 
