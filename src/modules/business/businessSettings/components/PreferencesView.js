@@ -17,7 +17,8 @@ const PreferencesView = ({
       <FieldGroup label="Email settings">
         <p>
           These email settings apply to all email sent on your behalf from MYOB.
-          This includes remittance.
+          This includes invoices, quotes, remittance advice and pay slips
+          (payroll).
         </p>
         <Input
           name="fromName"
