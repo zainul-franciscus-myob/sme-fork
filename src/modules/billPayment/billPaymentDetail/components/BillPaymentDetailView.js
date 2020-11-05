@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAlertMessage,
+  getAreEmailSettingsSet,
   getCanSendRemittanceAdvice,
   getIsCreating,
   getIsRemittanceAdviceEnabled,
@@ -55,6 +56,7 @@ const BillPaymentDetailView = ({
   onDownloadRemittanceAdvicePdf,
   canSendRemittanceAdvice,
   onConfirmSaveAndRedirect,
+  areEmailSettingsSet,
   onDiscardAndRedirect,
   onCloseUnsaveModal,
   onCancelModal,
@@ -106,6 +108,7 @@ const BillPaymentDetailView = ({
         remittanceAdviceDetails={remittanceAdviceDetails}
         onRemittanceAdviceDetailsChange={onRemittanceAdviceDetailsChange}
         templateOptions={templateOptions}
+        areEmailSettingsSet={areEmailSettingsSet}
       />
     );
   }
@@ -200,6 +203,7 @@ const mapStateToProps = (state) => ({
   remittanceAdviceType: getRemittanceAdviceType(state),
   templateOptions: getTemplateOptions(state),
   canSendRemittanceAdvice: getCanSendRemittanceAdvice(state),
+  areEmailSettingsSet: getAreEmailSettingsSet(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);

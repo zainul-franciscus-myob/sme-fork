@@ -1,8 +1,10 @@
 import {
   Alert,
+  Box,
   Button,
   Checkbox,
   CheckboxGroup,
+  FieldGroup,
   Input,
   Modal,
   RadioButtonGroup,
@@ -40,9 +42,46 @@ const RemittanceAdviceModal = ({
   onUpdateRemittanceAdviceType,
   onDismissAlert,
   templateOptions,
+  areEmailSettingsSet,
 }) => {
+  const emailSettingsView = (onKeyDown) => (
+    <>
+      <FieldGroup label="Email Settings">
+        <Alert type="info">
+          We need you to fill out some information before we can send emails
+          from MYOB. You can change these settings later from
+          <span className={styles.bold}>
+            &nbsp;Business Settings &gt; Preferences
+          </span>
+        </Alert>
+        <Box display="flex">
+          <Input
+            containerClassName={styles.padRight}
+            label="From name"
+            name="fromName"
+            value={remittanceAdviceDetails.fromName}
+            onChange={handleInputChange(onRemittanceAdviceDetailsChange)}
+            requiredLabel="The name that will display when your clients receive the remittance advice. This could be your business name or contact person"
+            onKeyDown={onKeyDown}
+          />
+          <Input
+            label="Reply-To email address"
+            type="email"
+            name="fromEmail"
+            value={remittanceAdviceDetails.fromEmail}
+            onChange={handleInputChange(onRemittanceAdviceDetailsChange)}
+            requiredLabel="The email address used when your clients reply to an emailed remittance advice"
+            maxLength={255}
+            onKeyDown={onKeyDown}
+          />
+        </Box>
+      </FieldGroup>
+    </>
+  );
+
   const emailView = (onKeyDown) => (
     <div className={styles.itemList}>
+      {!areEmailSettingsSet && emailSettingsView(onKeyDown)}
       <EmailItemList
         label="To"
         items={remittanceAdviceDetails.toAddresses}

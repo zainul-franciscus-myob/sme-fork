@@ -1,6 +1,7 @@
 import {
   CHANGE_REFERENCE_ID,
   LOAD_BILL_LIST,
+  LOAD_BILL_PAYMENT,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_DETAILS,
   UPDATE_BANK_STATEMENT_TEXT,
@@ -85,26 +86,6 @@ describe('billPaymentDetailReducer', () => {
     });
   });
 
-  describe('UPDATE_REFERENCE_ID', () => {
-    it('should set the bankStatementText to referenceId when no supplier default', () => {
-      const state = {
-        accountId: '1',
-        electronicClearingAccountId: '1',
-        supplierStatementText: '',
-        referenceId: '1',
-      };
-
-      const action = {
-        intent: UPDATE_REFERENCE_ID,
-        referenceId: '123',
-      };
-
-      const actual = billPaymentDetailReducer(state, action);
-
-      expect(actual.bankStatementText).toEqual('PAYMENT 123');
-    });
-  });
-
   describe('CHANGE_REFERENCE_ID', () => {
     it('should set the bankStatementText to reference when referenceId changes and no supplier default', () => {
       const state = {
@@ -168,6 +149,7 @@ describe('billPaymentDetailReducer', () => {
         accountId: '1',
         electronicClearingAccountId: '1',
         supplierStatementText: '',
+        referenceId: '1',
       };
 
       const action = {
@@ -252,6 +234,7 @@ describe('billPaymentDetailReducer', () => {
 
       expect(actual.bankStatementText).toEqual('MY TEXT');
     });
+
     it('should not set the bankStatementText when modified', () => {
       const state = {
         bankStatementText: 'MY TEXT',
@@ -266,6 +249,44 @@ describe('billPaymentDetailReducer', () => {
       const actual = billPaymentDetailReducer(state, action);
 
       expect(actual.bankStatementText).toEqual('MY TEXT');
+    });
+  });
+
+  describe('LOAD_BILL_PAYMENT', () => {
+    [
+      {
+        fromName: 'someone',
+        fromEmail: 'some@email.com',
+        expected: true,
+      },
+      {
+        fromName: '',
+        fromEmail: 'some@email.com',
+        expected: false,
+      },
+      {
+        fromName: 'someone',
+        fromEmail: '',
+        expected: false,
+      },
+    ].forEach(({ fromName, fromEmail, expected }) => {
+      it('emailSettingsSet should be true when fromName or fromEmail are not set', () => {
+        const state = {
+          areEmailSettingsSet: false,
+        };
+
+        const action = {
+          intent: LOAD_BILL_PAYMENT,
+          entries: [],
+          remittanceAdviceDefaults: {
+            fromName,
+            fromEmail,
+          },
+        };
+
+        const actual = billPaymentDetailReducer(state, action);
+        expect(actual.areEmailSettingsSet).toBe(expected);
+      });
     });
   });
 

@@ -956,25 +956,29 @@ describe('BillPaymentDetailModule', () => {
 
       module.sendRemittanceAdviceEmail();
 
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([
-          {
-            intent: SET_LOADING_STATE,
-            loadingState: LoadingState.LOADING_SUCCESS,
-          },
-          {
-            intent: SET_ALERT_MESSAGE,
-            message: '',
-            type: '',
-          },
-          {
-            intent: CLOSE_MODAL,
-          },
-          expect.objectContaining({
-            intent: SET_ALERT_MESSAGE,
-          }),
-        ])
-      );
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_ALERT_MESSAGE,
+          message: '',
+          type: '',
+        },
+        {
+          intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
+          shouldSendRemittanceAdvice: false,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+      ]);
+
       expect(integration.getRequests()).toEqual([
         {
           intent: SEND_EMAIL,
@@ -996,25 +1000,29 @@ describe('BillPaymentDetailModule', () => {
 
       module.downloadRemittanceAdvicePdf();
 
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([
-          {
-            intent: SET_LOADING_STATE,
-            loadingState: LoadingState.LOADING_SUCCESS,
-          },
-          {
-            intent: SET_ALERT_MESSAGE,
-            message: '',
-            type: '',
-          },
-          {
-            intent: CLOSE_MODAL,
-          },
-          expect.objectContaining({
-            intent: SET_ALERT_MESSAGE,
-          }),
-        ])
-      );
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_ALERT_MESSAGE,
+          message: '',
+          type: '',
+        },
+        {
+          intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
+          shouldSendRemittanceAdvice: false,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+      ]);
+
       expect(integration.getRequests()).toEqual([
         {
           intent: EXPORT_PDF,

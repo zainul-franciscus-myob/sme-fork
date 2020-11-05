@@ -64,10 +64,13 @@ const getDefaultState = () => ({
   shouldSendRemittanceAdvice: false,
   isRemittanceAdviceEnabled: false,
   remittanceAdviceType: remittanceAdviceTypes.email,
+  areEmailSettingsSet: false,
   templateOptions: [''],
   remittanceAdviceDetails: {
     toAddresses: [''],
     ccAddresses: [''],
+    fromName: '',
+    fromEmail: '',
     subject: '',
     isEmailMeACopy: false,
     messageBody: '',
@@ -105,7 +108,7 @@ const setSubmittingState = (state, action) => ({
 });
 
 const formatBankStatementText = (bankStatementText) => {
-  if (!bankStatementText.trim()) return '';
+  if (!bankStatementText?.trim()) return '';
 
   const maxLengthAu = 18;
   const pattern = `^(?=.{0,${maxLengthAu}}$)^[a-zA-Z0-9 \\&\\*\\.\\/\\-]*`;
@@ -234,6 +237,10 @@ const loadBillPayment = (state, action) => ({
   startOfFinancialYearDate: action.startOfFinancialYearDate,
   arePaymentDetailsComplete: action.arePaymentDetailsComplete,
   templateOptions: action.templateOptions,
+  areEmailSettingsSet: Boolean(
+    action.remittanceAdviceDefaults.fromEmail &&
+      action.remittanceAdviceDefaults.fromName
+  ),
   remittanceAdviceDetails: {
     ...state.remittanceAdviceDetails,
     ...action.remittanceAdviceDefaults,

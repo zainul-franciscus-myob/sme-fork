@@ -25,6 +25,7 @@ export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 export const getBillPaymentId = (state) => state.billPaymentId;
 export const getApplyPaymentToBillId = (state) => state.applyPaymentToBillId;
+export const getAreEmailSettingsSet = (state) => state.areEmailSettingsSet;
 const getAccounts = (state) => state.accounts;
 const getAccountId = (state) => state.accountId;
 const getElectronicClearingAccountId = (state) =>
