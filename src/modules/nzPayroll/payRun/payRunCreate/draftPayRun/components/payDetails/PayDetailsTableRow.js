@@ -46,7 +46,7 @@ const HoursInputField = ({
 }) => (
   <FormHorizontal>
     <HoursInput
-      name="hours"
+      name="quantity"
       label="Hours"
       numeralPositiveOnly
       textAlign="right"
