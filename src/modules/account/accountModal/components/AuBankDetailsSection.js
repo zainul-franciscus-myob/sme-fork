@@ -59,7 +59,7 @@ const AuBankDetailsSection = ({
       onChange={handleFormattedInputChange(onChange)}
       name="accountNameAu"
       label="Bank account name"
-      maxLength={32}
+      maxLength={31}
       value={accountName}
       options={{
         uppercase: true,
