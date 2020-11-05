@@ -35,10 +35,18 @@ export default class RecordPayRunSubModule {
     this.recordPayments();
   };
 
+  goToPreviousStep = () => {
+    this.dispatcher.setTotalTakeHomePay(null);
+    this.dispatcher.previousStep();
+  };
+
   render() {
     return (
       <>
-        <RecordPayRunView recordPayments={this.onNext} />
+        <RecordPayRunView
+          recordPayments={this.onNext}
+          onPreviousButtonClick={this.goToPreviousStep}
+        />
       </>
     );
   }

@@ -19,6 +19,7 @@ export const RECORD_AND_REPORT = {
   key: recordAndReportKey,
   index: 2,
   nextStepKey: preparePaySlipsKey,
+  previousStepKey: draftPayRunKey,
 };
 
 export const DRAFT_PAY_RUN = {

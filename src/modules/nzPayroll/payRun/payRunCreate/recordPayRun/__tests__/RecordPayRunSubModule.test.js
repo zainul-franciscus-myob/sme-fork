@@ -4,10 +4,13 @@ import React from 'react';
 
 import {
   NEXT_STEP,
+  PREVIOUS_STEP,
   RECORD_PAYMENTS,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_TOTAL_TAKE_HOME_PAY,
 } from '../../PayRunIntents';
+import { RECORD_AND_REPORT } from '../../payRunSteps';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import AlertType from '../../types/AlertType';
 import LoadingState from '../../../../../../components/PageView/LoadingState';
@@ -107,6 +110,34 @@ describe('RecordPayRunSubModule', () => {
           params: undefined,
         })
       );
+    });
+  });
+
+  describe('Previous button', () => {
+    it('returns to the previous page and resets total take home pay to null', () => {
+      const { store, wrapper } = constructRecordPayRunSubModule();
+
+      store.setState({
+        ...store.getState(),
+        step: RECORD_AND_REPORT,
+        totalTakeHomePay: 10,
+      });
+
+      const previousButton = findButtonWithTestId(wrapper, 'previousButton');
+
+      previousButton.simulate('click');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TOTAL_TAKE_HOME_PAY,
+          totalTakeHomePay: null,
+        },
+        {
+          intent: PREVIOUS_STEP,
+        },
+      ]);
+      expect(store.getState().totalTakeHomePay).toBeNull();
+      expect(store.getState().step.key).toEqual('draftPayRun');
     });
   });
 });

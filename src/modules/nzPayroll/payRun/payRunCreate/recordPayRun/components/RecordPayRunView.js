@@ -13,6 +13,7 @@ const RecordPayRunView = ({
   recordPayments,
   stepNumber,
   payRunSteps,
+  onPreviousButtonClick,
 }) => (
   <>
     <PageHead title="Record and report" />
@@ -32,7 +33,10 @@ const RecordPayRunView = ({
         Filing.
       </FieldGroup>
     </Card>
-    <RecordPayRunActions onRecordButtonClick={recordPayments} />
+    <RecordPayRunActions
+      onRecordButtonClick={recordPayments}
+      onPreviousButtonClick={onPreviousButtonClick}
+    />
   </>
 );
 
