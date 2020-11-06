@@ -1,4 +1,6 @@
 import { LOAD_NEW_BILL_PAYMENT, UPDATE_REFERENCE_ID } from '../BillIntents';
+import { getDefaultState } from '../reducer/getDefaultState';
+import BillLineType from '../types/BillLineType';
 import billReducer from '../reducer/billReducer';
 
 describe('billRecordPaymentReducer', () => {
@@ -25,8 +27,42 @@ describe('billRecordPaymentReducer', () => {
   });
 
   describe('LOAD_NEW_BILL_PAYMENT', () => {
+    it('should set paid amount equal to balance due', () => {
+      const state = {
+        ...getDefaultState(),
+        bill: {
+          billNumber: '000005',
+          amountPaid: '0',
+          isTaxInclusive: true,
+          lines: [
+            {
+              type: BillLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: BillLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
+          ],
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
+        },
+      };
+
+      const action = {
+        intent: LOAD_NEW_BILL_PAYMENT,
+        response: {},
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.recordBillPayment.paidAmount).toEqual('10');
+    });
+
     it('should set the bankStatementText if the initially set account is electronics clearing account', () => {
-      const state = {};
+      const state = getDefaultState();
 
       const action = {
         intent: LOAD_NEW_BILL_PAYMENT,
@@ -40,10 +76,11 @@ describe('billRecordPaymentReducer', () => {
       const actual = billReducer(state, action);
 
       expect(actual.recordBillPayment.bankStatementText).toEqual('PAYMENT 123');
+      expect(actual.recordBillPayment.paidAmount).toEqual('0');
     });
 
     it('should set the bankStatementText to supplier default text', () => {
-      const state = {};
+      const state = getDefaultState();
 
       const action = {
         intent: LOAD_NEW_BILL_PAYMENT,
@@ -61,7 +98,7 @@ describe('billRecordPaymentReducer', () => {
     });
 
     it('should set the bankStatementText using reference when empty', () => {
-      const state = {};
+      const state = getDefaultState();
 
       const action = {
         intent: LOAD_NEW_BILL_PAYMENT,

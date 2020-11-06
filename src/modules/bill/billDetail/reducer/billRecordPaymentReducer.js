@@ -1,3 +1,4 @@
+import { getAmountDue } from '../selectors/billSelectors';
 import { getDefaultState } from './getDefaultState';
 
 const formatBankStatementText = (bankStatementText) => {
@@ -35,6 +36,7 @@ export const loadNewBillPayment = (state, action) => ({
       action.response.supplierStatementText,
       action.response.referenceId
     ),
+    paidAmount: getAmountDue(state),
   },
 });
 

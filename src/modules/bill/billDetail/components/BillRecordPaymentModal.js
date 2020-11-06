@@ -17,7 +17,6 @@ import {
   getAlert,
   getBillPaymentOptions,
   getIsActionsDisabled,
-  getIsAmountPaidApplied,
   getIsPaymentModalLoading,
 } from '../selectors/BillRecordPaymentSelectors';
 import { getSupplierId } from '../selectors/billSelectors';
@@ -66,7 +65,6 @@ const BillRecordPaymentModal = ({
   isElectronicPayment,
   isModalLoading,
   issueDate,
-  isAmountPaidApplied,
   onCancel,
   onEditSupplierClick,
   onUpdateBillPaymentAmountFields,
@@ -105,22 +103,16 @@ const BillRecordPaymentModal = ({
       <Modal.Body>
         {alert && <Alert type={alert.type}>{alert.message}</Alert>}
         <Box display="flex">
-          <Box display="flex" flexWrap="wrap">
-            <Box paddingRight="xl">
-              <SubHeadingGroup size="md" subHeading="Issue Date">
-                {issueDate}
-              </SubHeadingGroup>
-            </Box>
-            <Box paddingRight="xl">
-              <SubHeadingGroup size="md" subHeading="Bill number">
-                {billNumber}
-              </SubHeadingGroup>
-            </Box>
-            <Box paddingRight="xl">
-              <SubHeadingGroup size="md" subHeading="Supplier">
-                {supplierName}
-              </SubHeadingGroup>
-            </Box>
+          <Box className={styles.subHeadingGroup}>
+            <SubHeadingGroup size="md" subHeading="Issue Date">
+              {issueDate}
+            </SubHeadingGroup>
+            <SubHeadingGroup size="md" subHeading="Bill number">
+              {billNumber}
+            </SubHeadingGroup>
+            <SubHeadingGroup size="md" subHeading="Supplier">
+              {supplierName}
+            </SubHeadingGroup>
           </Box>
           <Box flex="auto"></Box>
           <Box flexGrow="1" flexShrink="0">
@@ -135,7 +127,7 @@ const BillRecordPaymentModal = ({
             </SubHeadingGroup>
           </Box>
         </Box>
-        <Separator />
+        <Separator className={styles.divider} />
         <Box display="flex" flexWrap="wrap">
           {showElectronicPayments && (
             <Box paddingRight="md">
@@ -231,6 +223,12 @@ const BillRecordPaymentModal = ({
             numeralDecimalScaleMin={2}
             numeralDecimalScaleMax={2}
             label="Amount paid ($)"
+            requiredLabel={requiredLabel}
+            errorMessage={
+              !paidAmount || Number(paidAmount) === 0
+                ? 'Amount paid is required'
+                : null
+            }
           />
           {!showDiscount && (
             <Button type="link" onClick={() => setShowDiscount(true)}>
@@ -254,7 +252,7 @@ const BillRecordPaymentModal = ({
         <Button
           type="primary"
           onClick={onSaveBillPayment}
-          disabled={isActionsDisabled || !isAmountPaidApplied}
+          disabled={isActionsDisabled}
         >
           Save
         </Button>
@@ -268,7 +266,6 @@ const mapStateToProps = (state) => ({
   supplierId: getSupplierId(state),
   alert: getAlert(state),
   isModalLoading: getIsPaymentModalLoading(state),
-  isAmountPaidApplied: getIsAmountPaidApplied(state),
   isActionsDisabled: getIsActionsDisabled(state),
 });
 

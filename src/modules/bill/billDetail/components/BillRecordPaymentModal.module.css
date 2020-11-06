@@ -1,3 +1,17 @@
+.subHeadingGroup {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.subHeadingGroup > div {
+  padding-bottom: var(--flx-spacing-tiny);
+  padding-right: var(--flx-spacing-large);
+}
+
+.divider {
+  margin-top: var(--flx-spacing-tiny);
+}
+
 .rightSubHeading {
   text-align: right;
 }
@@ -13,7 +27,11 @@
 }
 
 .fieldGroup > button {
-  padding-left: 2rem;
+  padding-left: var(--flx-spacing-medium);
+}
+
+.fieldGroup > div {
+  flex-basis: 55%;
 }
 
 .modalFooter > div {
@@ -29,6 +47,10 @@
     flex-wrap: unset;
   }
 
+  .fieldGroup > div {
+    flex-basis: unset;
+  }
+
   .fieldGroup > div:not(:first-of-type):not(:last-of-type) {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -42,11 +64,11 @@
     padding-right: 1rem;
   }
 
-  .bankAccount {
+  .fieldGroup > .bankAccount {
     flex-basis: 66.67%;
   }
 
-  .paymentDate {
+  .fieldGroup > .paymentDate {
     flex-basis: 33.33%;
   }
 }
