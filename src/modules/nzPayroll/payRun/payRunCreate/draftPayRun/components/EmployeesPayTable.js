@@ -71,6 +71,7 @@ const EmployeesPayTable = ({
   onEmployeePayLineChange,
   onEmployeePayLineBlur,
   onDaysPaidChange,
+  onDaysPaidBlur,
 }) => (
   <Card>
     <div className={styles.employeePayTable}>
@@ -166,6 +167,7 @@ const EmployeesPayTable = ({
                   onEmployeePayLineChange={onEmployeePayLineChange}
                   onEmployeePayLineBlur={onEmployeePayLineBlur}
                   onDaysPaidChange={onDaysPaidChange}
+                  onDaysPaidBlur={onDaysPaidBlur}
                 />
               </Table.CollapsibleRow>
             ))}

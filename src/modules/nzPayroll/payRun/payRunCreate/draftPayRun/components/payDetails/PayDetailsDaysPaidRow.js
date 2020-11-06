@@ -35,13 +35,14 @@ const QuantityInputField = ({
 const PayDetailsDaysPaidRow = ({
   tableConfig,
   onDaysPaidChange,
+  onDaysPaidBlur,
   employeeId,
   daysPaid,
 }) => {
   const daysPaidInputField = (
     <QuantityInputField
       onChange={onDaysPaidChange}
-      onBlur={onDaysPaidChange}
+      onBlur={onDaysPaidBlur}
       value={daysPaid}
       employeeId={employeeId}
     />

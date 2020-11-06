@@ -77,7 +77,25 @@ export default class DraftPayRunSubModule {
     });
   };
 
-  updateDaysPaid = ({ employeeId, daysPaid }) => {
+  updateDaysPaid = ({ employeeId }) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.updateEmployeePay({
+      employeeId,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  changeDaysPaid = ({ employeeId, daysPaid }) => {
     this.dispatcher.updateEmployeeDaysPaid(employeeId, daysPaid);
   };
 
@@ -112,7 +130,8 @@ export default class DraftPayRunSubModule {
         onEmployeePayLineChange={this.changeEmployeePayLine}
         onEmployeePayLineBlur={this.updateEmployeePay}
         onNextButtonClick={this.nextStep}
-        onDaysPaidChange={this.updateDaysPaid}
+        onDaysPaidChange={this.changeDaysPaid}
+        onDaysPaidBlur={this.updateDaysPaid}
         onPreviousButtonClick={this.openPreviousStepModal}
       />
     );

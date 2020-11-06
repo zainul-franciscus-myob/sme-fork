@@ -18,6 +18,7 @@ const DraftPayRunView = ({
   stepNumber,
   payRunSteps,
   onDaysPaidChange,
+  onDaysPaidBlur,
 }) => (
   <React.Fragment>
     <PageHead title="Calculate pays" />
@@ -31,6 +32,7 @@ const DraftPayRunView = ({
       onEmployeePayLineChange={onEmployeePayLineChange}
       onEmployeePayLineBlur={onEmployeePayLineBlur}
       onDaysPaidChange={onDaysPaidChange}
+      onDaysPaidBlur={onDaysPaidBlur}
     />
     <EmployeePayActions
       onPreviousButtonClick={onPreviousButtonClick}

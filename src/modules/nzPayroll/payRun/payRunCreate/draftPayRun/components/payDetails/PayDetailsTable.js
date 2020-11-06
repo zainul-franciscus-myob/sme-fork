@@ -14,6 +14,7 @@ const PayDetailsTable = ({
   onEmployeePayLineChange,
   onEmployeePayLineBlur,
   onDaysPaidChange,
+  onDaysPaidBlur,
 }) => (
   <Table>
     <Table.Header>
@@ -24,6 +25,7 @@ const PayDetailsTable = ({
     <Table.Body>
       <DaysPaidRow
         onDaysPaidChange={onDaysPaidChange}
+        onDaysPaidBlur={onDaysPaidBlur}
         tableConfig={tableConfig}
         employeeId={employeeId}
         daysPaid={daysPaid}
