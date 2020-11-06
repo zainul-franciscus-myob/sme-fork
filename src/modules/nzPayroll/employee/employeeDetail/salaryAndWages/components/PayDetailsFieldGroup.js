@@ -41,6 +41,7 @@ const PayDetailsFieldGroup = ({
         width="sm"
         onChange={onInputChange}
         onBlur={onInputChange}
+        requiredLabel="Hourly rate is required"
       />
       <Select
         label="Pay cycle"
