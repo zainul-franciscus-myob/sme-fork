@@ -16,7 +16,7 @@ Experiments such as A/B testing allow us to get quick feedback on how we can imp
 * **Experiment Duration:** An experiment should be reviewed at least every two weeks and removed if it has reached statistical significance.
 * **Cleaning up:** Cleaning up a Split must be part of launching a feature or concluding an experiment.
 * **Frontend only:** Splits should only be included in the `sme-web` project.
-* **Naming:** Splits must be prefixed with `essentials` and use `snake_case`(eg `essentials_feature_name`).
+* **Naming:** Splits must be prefixed with `essentials` and use `kebab-case`(eg `essentials-feature-name`).
 * **Tagging:** Splits must be tagged with an owner (eg `owner_team_name`) and with either `experiment` or `preview`. Tags must use `snake_case`.
 
 ---
