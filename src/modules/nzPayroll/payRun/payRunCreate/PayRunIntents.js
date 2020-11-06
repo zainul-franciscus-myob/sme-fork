@@ -9,6 +9,7 @@ export const SET_PAY_LINE_DIRTY = Symbol('Set pay item line dirty');
 export const UPDATE_EMPLOYEE_PAY_LINE = Symbol('Update employee pay item');
 export const UPDATE_EMPLOYEE_PAY = Symbol('Recalculate pay');
 export const UPDATE_DRAFT_PAY_RUN = Symbol('Update draft pay run');
+export const DELETE_DRAFT_PAY_RUN = Symbol('Delete draft pay run');
 export const UPDATE_IS_EMPLOYEE_SELECTED = Symbol(
   'Update is employee selected'
 );

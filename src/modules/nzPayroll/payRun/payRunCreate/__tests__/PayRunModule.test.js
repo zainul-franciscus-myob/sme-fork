@@ -1,6 +1,7 @@
 import { mount } from 'enzyme';
 
 import {
+  DELETE_DRAFT_PAY_RUN,
   RESTART_PAY_RUN,
   SET_LOADING_STATE,
   START_NEW_PAY_RUN,
@@ -172,14 +173,16 @@ describe('PayRunModule', () => {
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(false);
     });
 
-    it('should reset payrun and start new pay run when draft payrun is discarded', () => {
+    it('should delete draft pay run and start new pay run when draft pay run is discarded', () => {
       const { store, integration, module, wrapper } = setup();
 
       // Arrange
+      integration.mapSuccess(DELETE_DRAFT_PAY_RUN);
       integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
       store.setState({
         ...store.getState(),
         previousStepModalIsOpen: true,
+        draftPayRunId: 7,
       });
       module.run(context);
       wrapper.update();
@@ -194,6 +197,14 @@ describe('PayRunModule', () => {
       // Assert
       expect(store.getActions()).toContainEqual(
         {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
           intent: RESTART_PAY_RUN,
         },
         {
@@ -201,6 +212,21 @@ describe('PayRunModule', () => {
           newPayRunDetails: startNewPayRunResponse.newPayRunDetails,
         }
       );
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: START_NEW_PAY_RUN,
+          urlParams: { ...context },
+        }),
+        expect.objectContaining({
+          intent: DELETE_DRAFT_PAY_RUN,
+          urlParams: { ...context, draftPayRunId: 7 },
+        }),
+        expect.objectContaining({
+          intent: START_NEW_PAY_RUN,
+          urlParams: { ...context },
+        }),
+      ]);
     });
   });
 });

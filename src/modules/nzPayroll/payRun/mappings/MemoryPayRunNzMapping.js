@@ -1,5 +1,6 @@
 import {
   CREATE_DRAFT_PAY_RUN,
+  DELETE_DRAFT_PAY_RUN,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
@@ -16,6 +17,7 @@ const PayRunMapping = {
   [UPDATE_EMPLOYEE_PAY]: ({ onSuccess }) => onSuccess(updatedEmployeePay),
   [RECORD_PAYMENTS]: ({ onSuccess }) => onSuccess({}),
   [UPDATE_DRAFT_PAY_RUN]: () => {},
+  [DELETE_DRAFT_PAY_RUN]: () => {},
   [LOAD_PAYROLL_VERIFICATION_REPORT]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
 };

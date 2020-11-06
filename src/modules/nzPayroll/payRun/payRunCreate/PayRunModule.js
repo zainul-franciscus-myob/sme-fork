@@ -70,8 +70,17 @@ export default class PayRunModule {
   };
 
   discardDraftAndStartNewPayRun = () => {
-    this.dispatcher.restartPayRun();
-    this.startNewPayRun();
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const handleResponse = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.restartPayRun();
+      this.startNewPayRun();
+    };
+    this.integrator.deleteDraftPayRun({
+      onSuccess: handleResponse,
+      onFailure: handleResponse,
+    });
   };
 
   closePreviousStepModal = () => {

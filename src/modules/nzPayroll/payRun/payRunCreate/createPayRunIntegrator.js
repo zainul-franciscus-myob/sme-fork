@@ -1,5 +1,5 @@
-import { START_NEW_PAY_RUN } from './PayRunIntents';
-import { getBusinessId } from './PayRunSelectors';
+import { DELETE_DRAFT_PAY_RUN, START_NEW_PAY_RUN } from './PayRunIntents';
+import { getBusinessId, getDraftPayRunId } from './PayRunSelectors';
 
 const createPayRunIntegrator = (store, integration) => ({
   startNewPayRun: ({ onSuccess, onFailure }) => {
@@ -11,6 +11,21 @@ const createPayRunIntegrator = (store, integration) => ({
     const urlParams = { businessId };
 
     integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+  deleteDraftPayRun: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = DELETE_DRAFT_PAY_RUN;
+    const urlParams = {
+      businessId: getBusinessId(state),
+      draftPayRunId: getDraftPayRunId(state),
+    };
+
+    integration.write({
       intent,
       urlParams,
       onSuccess,

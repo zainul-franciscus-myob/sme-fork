@@ -1,5 +1,6 @@
 import {
   CREATE_DRAFT_PAY_RUN,
+  DELETE_DRAFT_PAY_RUN,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
@@ -23,6 +24,11 @@ const PayRunMapping = {
   },
   [UPDATE_DRAFT_PAY_RUN]: {
     method: 'PUT',
+    getPath: ({ businessId, draftPayRunId }) =>
+      `/${businessId}/nz-payroll/payRun/draft/${draftPayRunId}`,
+  },
+  [DELETE_DRAFT_PAY_RUN]: {
+    method: 'DELETE',
     getPath: ({ businessId, draftPayRunId }) =>
       `/${businessId}/nz-payroll/payRun/draft/${draftPayRunId}`,
   },
