@@ -1,4 +1,4 @@
-import { Checkbox, FieldGroup, Input, TextArea } from '@myob/myob-widgets';
+import { FieldGroup, Input, TextArea } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -109,7 +109,7 @@ describe('<ContactDetailsNzTab />', () => {
       name: 'isInactive',
       label: 'Inactive employee',
     });
-    expect(inactiveEmpCheckbox.type()).toBe(Checkbox);
+    expect(inactiveEmpCheckbox.exists()).toBe(false);
 
     const addressField = wrapper.find({
       label: 'Address',
@@ -190,7 +190,7 @@ describe('<ContactDetailsNzTab />', () => {
         checked: response.contactDetail.isInactive,
       });
 
-      expect(inactiveEmpCheckbox.exists()).toBe(true);
+      expect(inactiveEmpCheckbox.exists()).toBe(false);
     });
   });
 
@@ -214,7 +214,7 @@ describe('<ContactDetailsNzTab />', () => {
         checked: response.contactDetail.isInactive,
       });
 
-      expect(inactiveEmpCheckbox.exists()).toBe(true);
+      expect(inactiveEmpCheckbox.exists()).toBe(false);
     });
   });
 });

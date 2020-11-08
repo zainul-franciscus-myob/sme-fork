@@ -16,6 +16,8 @@ import {
 import CountryCombobox from '../../../../../../components/combobox/CountryCombobox';
 import PhoneNumberList from '../../../../../../components/phoneNumberList/PhoneNumberList';
 
+const isEap = true;
+
 const onInputChange = (handler) => (e) => {
   const { name, value } = e.target;
   handler({ key: name, value });
@@ -65,18 +67,20 @@ const ContactDetailsNzTabView = ({
           onChange={onInputChange(onContactDetailsChange)}
           width="sm"
         />
-        <CheckboxGroup
-          label="Inactive employee"
-          hideLabel
-          renderCheckbox={() => (
-            <Checkbox
-              name="isInactive"
-              label="Inactive employee"
-              checked={contactDetail.isInactive}
-              onChange={onCheckBoxChange(onContactDetailsChange)}
-            />
-          )}
-        />
+        {isEap === false && (
+          <CheckboxGroup
+            label="Inactive employee"
+            hideLabel
+            renderCheckbox={() => (
+              <Checkbox
+                name="isInactive"
+                label="Inactive employee"
+                checked={contactDetail.isInactive}
+                onChange={onCheckBoxChange(onContactDetailsChange)}
+              />
+            )}
+          />
+        )}
       </FieldGroup>
       <FieldGroup label="Address">
         <CountryCombobox
