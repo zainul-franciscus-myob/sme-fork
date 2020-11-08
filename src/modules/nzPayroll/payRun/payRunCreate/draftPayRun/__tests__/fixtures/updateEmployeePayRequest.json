@@ -31,6 +31,16 @@
       "rate": "20.00"
     },
     {
+      "payItemId": 2,
+      "name": "Holiday pay",
+      "type": "Earnings",
+      "amount": "97.280",
+      "quantity": "0.00",
+      "id": 51,
+      "rate": "8.00",
+      "calculationType": "Percentage"
+    },
+    {
       "payItemId": 3,
       "name": "Child support deduction",
       "type": "Deduction",

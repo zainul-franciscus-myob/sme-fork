@@ -21,6 +21,15 @@
       "rate": 0
     },
     {
+      "payItemId": 2,
+      "name": "Holiday pay",
+      "type": "Wages",
+      "amount": "97.280",
+      "quantity": "0.00",
+      "rate": "8.00",
+      "calculationType": "Percentage"
+    },
+    {
       "payItemId": 21,
       "name": "Hourly Wage",
       "type": "Earnings",

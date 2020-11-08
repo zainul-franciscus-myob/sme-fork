@@ -20,5 +20,16 @@
     "calculationType": "Rate",
     "rate": "20.00",
     "shouldShowQuantity": true
+  },
+  {
+    "payItemId": 2,
+    "name": "Holiday pay",
+    "type": "Earnings",
+    "amount": "97.280",
+    "quantity": "0.00",
+    "rate": "8.00",
+    "id": 51,
+    "calculationType": "Percentage",
+    "shouldShowQuantity": false
   }
 ]
