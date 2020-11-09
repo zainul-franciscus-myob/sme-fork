@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import shortid from 'shortid';
 
 import { addCommasInPlace, addDecimalPlaces, removeCommas } from './formatter';
+import { trackUserEvent } from '../../telemetry';
 import FieldMessagePopup from '../FieldMessagePopup/FieldMessagePopup';
 import copyEventWithValue from '../autoFormatter/AmountInput/copyEventWithValue';
 import createValidator from './validate';
@@ -29,7 +30,8 @@ const CalculatorTooltip = ({ value, width }) => {
 const onWrappedBlur = ({
   setCurrValue,
   onBlur,
-  setIsActive,
+  setIsCalculable,
+  isCalculable,
   numeralDecimalScaleMin,
   numeralDecimalScaleMax,
 }) => (e) => {
@@ -45,7 +47,14 @@ const onWrappedBlur = ({
 
   // Trigger setCurrValue to update value visible to user
   setCurrValue(valueWithDecimalPlaces);
-  setIsActive(false);
+
+  if (isCalculable) {
+    trackUserEvent({
+      eventName: 'usedInlineCalculator',
+    });
+  }
+
+  setIsCalculable(false);
 
   if (onBlur) {
     const event = copyEventWithValue(e, valueWithDecimalPlaces);
@@ -56,7 +65,7 @@ const onWrappedBlur = ({
 const onWrappedOnChange = ({
   setCurrValue,
   setEvaluatedValue,
-  setIsActive,
+  setIsCalculable,
   setNewCursorPosition,
   onChange,
   validate,
@@ -81,7 +90,7 @@ const onWrappedOnChange = ({
 
     setCurrValue(valueWithoutCommas);
     setEvaluatedValue(valueWithDecimalPlaces);
-    setIsActive(isCalculable);
+    setIsCalculable(isCalculable);
     setNewCursorPosition(value);
 
     if (onChange) {
@@ -123,7 +132,7 @@ const Calculator = ({
 
   // State associated with tooltip
   const [target, setTarget] = useState(null);
-  const [isActive, setIsActive] = useState(false);
+  const [isCalculable, setIsCalculable] = useState(false);
 
   // State associated with cursor positioning
   const [cursorPosition, setCursorPosition] = useState(0);
@@ -175,7 +184,7 @@ const Calculator = ({
   const onCalculatorChange = onWrappedOnChange({
     setCurrValue,
     setEvaluatedValue,
-    setIsActive,
+    setIsCalculable,
     setNewCursorPosition,
     onChange,
     validate,
@@ -185,7 +194,8 @@ const Calculator = ({
 
   const onCalculatorBlur = onWrappedBlur({
     setCurrValue,
-    setIsActive,
+    setIsCalculable,
+    isCalculable,
     onBlur,
     numeralDecimalScaleMin,
     numeralDecimalScaleMax,
@@ -198,7 +208,7 @@ const Calculator = ({
 
   return (
     <>
-      {isActive && (
+      {isCalculable && (
         <CalculatorTooltip value={evaluatedValue} width={elementWidth} />
       )}
       <FieldMessagePopup

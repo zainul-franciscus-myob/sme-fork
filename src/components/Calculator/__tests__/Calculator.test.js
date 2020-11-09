@@ -1,7 +1,10 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { trackUserEvent } from '../../../telemetry';
 import Calculator from '../Calculator';
+
+jest.mock('../../../telemetry');
 
 const mockConsoleMethod = (realConsoleMethod) => {
   const ignoredMessages = ['test was not wrapped in act(...)'];
@@ -126,6 +129,28 @@ describe('Calculator', () => {
 
       // Asert
       expect(onBlurValue).toEqual(value);
+    });
+
+    describe.each([
+      ['1 + 5', 1],
+      ['1 - 5', 1],
+      ['1 * 5', 1],
+      ['1 / 5', 1],
+      ['15', 0],
+      ['', 0],
+    ])('trackUserEvent', (input, expected) => {
+      it('should trigger trackUserEvent when value is evaluated with operators', () => {
+        const wrapper = setUp({});
+
+        // Execute
+        triggerOnChangeForInput({ wrapper, name: 'amount', value: input });
+        triggerOnBlurForInput({ wrapper, name: 'amount', value: input });
+
+        // Asert
+        expect(trackUserEvent).toHaveBeenCalledTimes(expected);
+
+        trackUserEvent.mockClear();
+      });
     });
 
     it('should not trigger an onBlur if onBlur is not provided', () => {
