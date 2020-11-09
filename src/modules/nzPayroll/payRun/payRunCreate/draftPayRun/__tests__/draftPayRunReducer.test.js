@@ -347,7 +347,7 @@ describe('draftPayRunReducer', () => {
       employeeId,
       payItemId,
       key: 'amount',
-      value: '3',
+      value: 3,
     };
 
     it('should format the amount field of a particular pay item to 2 decimal places', () => {
@@ -649,7 +649,7 @@ describe('draftPayRunReducer', () => {
                   name: 'Salary Wage',
                   type: 'Earnings',
                   amount: '100000.00',
-                  quantity: '10.00',
+                  quantity: 10,
                   id: 16,
                   calculationType: 'Amount',
                   rate: 0,

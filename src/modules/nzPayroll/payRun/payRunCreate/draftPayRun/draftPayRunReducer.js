@@ -133,7 +133,7 @@ const setPayLineDirty = (state, action) => ({
 
 const updatePayLine = (payLine, key, value) => ({
   ...payLine,
-  [key]: formatNumberWithDecimalScaleRange(value, 2, 3),
+  [key]: value,
 });
 
 const updateEmployeeLinePayLine = (employeeLine, payItemId, key, value) => ({
