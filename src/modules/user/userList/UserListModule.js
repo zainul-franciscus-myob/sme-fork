@@ -17,9 +17,11 @@ import {
 import {
   getBusinessId,
   getFlipSortOrder,
+  getMyDotMyobLink,
   getOrderBy,
   getRegion,
 } from './userListSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import UserListView from './components/UserListView';
@@ -69,6 +71,19 @@ export default class UserListModule {
       urlParams,
       onSuccess,
       onFailure,
+    });
+  };
+
+  onMyMyobClick = () => {
+    const state = this.store.getState();
+    const myDotMyobLink = getMyDotMyobLink(state);
+    window.open(myDotMyobLink, '_blank', 'noopener noreferrer');
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_mydotlink',
+        page: 'user/userList',
+      },
     });
   };
 
@@ -179,6 +194,7 @@ export default class UserListModule {
         onCreateUser={this.redirectToCreateUser}
         onDismissAlert={this.dismissAlert}
         onSort={this.sortUserList}
+        onMyMyobClick={this.onMyMyobClick}
       />
     );
 

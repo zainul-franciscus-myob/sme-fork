@@ -13,7 +13,6 @@ import {
   getAlert,
   getIsCurrentUserOnlineAdmin,
   getLoadingState,
-  getMyDotMyobLink,
 } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import UserListTable from './UserListTable';
@@ -29,11 +28,11 @@ export const tableConfig = {
 const UserListView = (props) => {
   const {
     alert,
-    myDotMyobLink,
     loadingState,
     onCreateUser,
     onDismissAlert,
     onSort,
+    onMyMyobClick,
   } = props;
 
   const alertComponent = alert && (
@@ -42,16 +41,12 @@ const UserListView = (props) => {
     </Alert>
   );
 
-  const openMyMyob = () => {
-    window.open(myDotMyobLink, '_blank', 'noopener noreferrer');
-  };
-
   const pageHead = (
     <PageHead title="Users">
       <Button
         type="link"
         icon={<Icons.OpenExternalLink />}
-        onClick={openMyMyob}
+        onClick={onMyMyobClick}
         iconRight
       >
         Manage user access via my.MYOB
@@ -86,7 +81,6 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   isCurrentUserOnlineAdmin: getIsCurrentUserOnlineAdmin(state),
-  myDotMyobLink: getMyDotMyobLink(state),
 });
 
 export default connect(mapStateToProps)(UserListView);

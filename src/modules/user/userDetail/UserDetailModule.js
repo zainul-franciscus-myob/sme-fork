@@ -8,10 +8,12 @@ import {
 import {
   getIsActionsDisabled,
   getIsCreating,
+  getMyDotMyobLink,
   getOpenedModalType,
   getRedirectUrl,
   isPageEdited,
 } from './userDetailSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
 import Store from '../../../store/Store';
@@ -75,6 +77,7 @@ export default class UserDetailModule {
         onSaveButtonClick={this.createOrUpdateUser}
         onDeleteButtonClick={this.openDeleteModal}
         onDismissAlert={this.dismissAlert}
+        onMyMyobClick={this.onMyMyobClick}
       />
     );
 
@@ -141,6 +144,19 @@ export default class UserDetailModule {
 
   dismissAlert = () => {
     this.dispatcher.setAlertMessage('');
+  };
+
+  onMyMyobClick = () => {
+    const state = this.store.getState();
+    const myDotMyobLink = getMyDotMyobLink(state);
+    window.open(myDotMyobLink, '_blank', 'noopener noreferrer');
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_mydotlink',
+        page: 'user/userDetail',
+      },
+    });
   };
 
   redirectToUrl = (url) => {

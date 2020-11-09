@@ -14,7 +14,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getMyDotMyobLink,
   getShowAccessMessage,
   getShowAdvisorRoleAlert,
   getUserDetails,
@@ -37,13 +36,10 @@ const UserDetailAccessGroup = ({
   showReadOnly,
   onUserDetailsChange,
   onUserRolesChange,
-  myDotMyobLink,
+  onMyMyobClick,
   showAccessMessage,
   showAdvisorRoleAlert,
 }) => {
-  const openMyMyob = () =>
-    window.open(myDotMyobLink, '_blank', 'noopener noreferrer');
-
   const rolesAndPermsField = (
     <div className={styles.roles}>
       <CheckboxGroup
@@ -176,7 +172,7 @@ const UserDetailAccessGroup = ({
           type="link"
           icon={<Icons.OpenExternalLink />}
           iconRight
-          onClick={openMyMyob}
+          onClick={onMyMyobClick}
         >
           Manage user access via my.MYOB
         </Button>
@@ -198,7 +194,6 @@ const UserDetailAccessGroup = ({
 
 const mapStateToProps = (state) => ({
   ...getUserDetails(state),
-  myDotMyobLink: getMyDotMyobLink(state),
   showAccessMessage: getShowAccessMessage(state),
   showAdvisorRoleAlert: getShowAdvisorRoleAlert(state),
 });

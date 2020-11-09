@@ -28,6 +28,7 @@ const UserDetailView = ({
   loadingState,
   alertMessage,
   onDismissAlert,
+  onMyMyobClick,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -61,6 +62,7 @@ const UserDetailView = ({
         <UserDetailAccessGroup
           onUserDetailsChange={onUserDetailsChange}
           onUserRolesChange={onUserRolesChange}
+          onMyMyobClick={onMyMyobClick}
         />
       </FormCard>
     </FormTemplate>
