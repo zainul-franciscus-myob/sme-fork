@@ -8,6 +8,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
 
 const getDefaultState = () => ({
+  shouldDisplayCustomTemplateList: false,
   defaultRemittanceAdviceEmailSettings: {},
   alert: {},
   templateList: [],
@@ -27,22 +28,15 @@ const setLoadingState = (state, { loadingState }) => ({
 
 const loadPurchaseSettings = (
   state,
-  {
-    intent,
-    emailSettings,
-    templateList,
-    getShouldDisplayCustomTemplateList,
-    ...rest
-  }
+  { shouldDisplayCustomTemplateList, templateList, emailSettings }
 ) => ({
   ...state,
-  ...rest,
+  shouldDisplayCustomTemplateList,
+  templateList,
   defaultRemittanceAdviceEmailSettings: {
     ...state.defaultRemittanceAdviceEmailSettings,
     ...emailSettings,
   },
-  templateList,
-  getShouldDisplayCustomTemplateList,
 });
 
 const updateDefaultRemittanceAdviceEmailField = (state, { key, value }) => ({

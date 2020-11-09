@@ -87,35 +87,35 @@ const PurchaseSettingsView = ({
                 </Button>,
               ]}
             />
+            {shouldDisplayCustomTemplateList ? (
+              <Card>
+                <FieldGroup label="MYOB AccountRight desktop templates">
+                  {
+                    "You can still use templates created in the desktop version of AccountRight. To edit these templates, you'll need to open them in the desktop version of AccountRight."
+                  }
+                </FieldGroup>
+                <Table>
+                  <Table.Header>
+                    <Table.HeaderItem>Name</Table.HeaderItem>
+                  </Table.Header>
+                  {templateRows}
+                </Table>
+              </Card>
+            ) : (
+              <Card>
+                <FieldGroup label="Preview remittance advice">
+                  {
+                    'Preview the remittance advice PDF that gets sent to your payees.'
+                  }
+                </FieldGroup>
+                <br />
+                <Button type="link" onClick={exportPdf}>
+                  Download preview (PDF)
+                </Button>
+              </Card>
+            )}
           </div>
         </>
-        {shouldDisplayCustomTemplateList ? (
-          <Card>
-            <FieldGroup label="MYOB AccountRight desktop templates">
-              {
-                "You can access all the same templates as you can in the AccountRight desktop version, but you won't be able to edit them. If something's changed, you'll need to edit in AccountRight."
-              }
-            </FieldGroup>
-            <Table>
-              <Table.Header>
-                <Table.HeaderItem>Name</Table.HeaderItem>
-              </Table.Header>
-              {templateRows}
-            </Table>
-          </Card>
-        ) : (
-          <Card>
-            <FieldGroup label="Preview remittance advice">
-              {
-                'See what your remittance advice will look like to customers by downloading an example.'
-              }
-            </FieldGroup>
-            <br />
-            <Button type="link" onClick={exportPdf}>
-              Download preview (PDF)
-            </Button>
-          </Card>
-        )}
       </FormTemplate>
     </>
   );

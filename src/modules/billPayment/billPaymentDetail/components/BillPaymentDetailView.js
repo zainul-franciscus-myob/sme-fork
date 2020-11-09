@@ -133,15 +133,14 @@ const BillPaymentDetailView = ({
       <br />
       {shouldSendRemittanceAdvice && (
         <Alert type="info">
-          {
-            "You'll have the option to send by email or export a PDF when you save this payment."
-          }
+          You&#39;ll have the option to send by email or export a PDF when you
+          save this payment.&nbsp;
           <a
             href="https://help.myob.com/wiki/x/TA5XAw"
             target="_blank"
             rel="noopener noreferrer"
           >
-            &nbsp;Learn more
+            Learn more
           </a>
         </Alert>
       )}
