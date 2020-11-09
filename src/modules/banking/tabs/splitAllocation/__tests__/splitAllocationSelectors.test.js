@@ -4,6 +4,7 @@ import {
   getLinesForTaxCalculation,
   getShowIsReportableCheckbox,
   getSplitAllocationPayload,
+  getSplitAllocationUniqueSelectedJobIds,
   getTotalDollarAmount,
   getTotals,
 } from '../splitAllocationSelectors';
@@ -410,6 +411,38 @@ describe('splitAllocationSelectors', () => {
       });
 
       expect(actual[0].lineTypeId).toEqual(DefaultLineTypeId.RECEIVE_MONEY);
+    });
+  });
+
+  describe('getSplitAllocationUniqueSelectedJobIds', () => {
+    it('returns a list of unique selected job ids excluding empty ids', () => {
+      const state = {
+        openPosition: 0,
+        filterOptions: {
+          bankAccount: '123',
+          transactionType: 'approved',
+        },
+        entries: [
+          {
+            transactionId: '1',
+            note: 'foo',
+          },
+        ],
+        openEntry: {
+          allocate: {
+            lines: [
+              { jobId: '1' },
+              { jobId: '2' },
+              { jobId: '' },
+              { jobId: '1' },
+            ],
+          },
+        },
+      };
+
+      const actual = getSplitAllocationUniqueSelectedJobIds(state);
+
+      expect(actual).toEqual(['1', '2']);
     });
   });
 });

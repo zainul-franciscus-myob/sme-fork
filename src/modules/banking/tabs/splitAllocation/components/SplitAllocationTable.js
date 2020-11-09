@@ -32,8 +32,8 @@ const onAddRow = (handler) => ({ id, ...partialLine }) => handler(partialLine);
 const renderRow = (
   indexOfLastLine,
   onAddAccount,
-  onAddJob,
   onBlur,
+  renderJobCombobox,
   disabled
 ) => (index, data, onChange, labels) => {
   const isNewLineRow = indexOfLastLine < index;
@@ -46,8 +46,8 @@ const renderRow = (
       disabled={disabled}
       onChange={onChange}
       onAddAccount={onAddAccount}
-      onAddJob={onAddJob}
       onBlur={onBlur}
+      renderJobCombobox={renderJobCombobox}
       isNewLineRow={isNewLineRow}
     />
   );
@@ -64,8 +64,8 @@ const SplitAllocationTable = (props) => {
     onUpdateSplitAllocationLine,
     onDeleteSplitAllocationLine,
     onAddAccount,
-    onAddJob,
     onBlur,
+    renderJobCombobox,
     isLoading,
     isLoadingAccount,
     onViewedAccountToolTip,
@@ -150,8 +150,8 @@ const SplitAllocationTable = (props) => {
       renderRow={renderRow(
         indexOfLastLine,
         onAddAccount,
-        onAddJob,
         onBlur,
+        renderJobCombobox,
         isLoading || isLoadingAccount
       )}
       onAddRow={onAddRow(onAddSplitAllocationLine)}

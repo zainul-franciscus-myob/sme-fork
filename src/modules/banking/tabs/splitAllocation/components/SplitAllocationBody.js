@@ -5,6 +5,7 @@ import SplitAllocationTable from './SplitAllocationTable';
 
 const SplitAllocationBody = ({
   renderSplitAllocationContactCombobox,
+  renderSplitAllocationJobCombobox,
   renderReceiveMoneyBankingRuleCombobox,
   renderSpendMoneyBankingRuleCombobox,
   onUpdateSplitAllocationHeader,
@@ -13,7 +14,6 @@ const SplitAllocationBody = ({
   onUpdateSplitAllocationLine,
   onDeleteSplitAllocationLine,
   onAddAccount,
-  onAddJob,
   onBlur,
   onViewedAccountToolTip,
 }) => (
@@ -36,9 +36,9 @@ const SplitAllocationBody = ({
       onUpdateSplitAllocationLine={onUpdateSplitAllocationLine}
       onDeleteSplitAllocationLine={onDeleteSplitAllocationLine}
       onAddAccount={onAddAccount}
-      onAddJob={onAddJob}
       onBlur={onBlur}
       onViewedAccountToolTip={onViewedAccountToolTip}
+      renderJobCombobox={renderSplitAllocationJobCombobox}
     />
   </React.Fragment>
 );

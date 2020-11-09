@@ -1,16 +1,12 @@
 import { allocateTransaction } from '../../reducers/allocateHandlers';
 import {
-  getActiveJobs,
-  getDepositAccounts,
-  getWithdrawalAccounts,
-} from '../../selectors';
-import {
   getDefaultTaxCodeId,
   getNewLineData,
   getTotalAmount,
   getTotalDollarAmount,
   getTotalPercentageAmount,
 } from './splitAllocationSelectors';
+import { getDepositAccounts, getWithdrawalAccounts } from '../../selectors';
 import { loadOpenEntry } from '../../reducers/openEntryHandlers';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import TabItems from '../../types/TabItems';
@@ -177,11 +173,6 @@ export const deleteSplitAllocationLine = (state, action) => {
   return updateState;
 };
 
-const buildLineJobOptions = ({ state, jobId }) =>
-  state.jobs
-    ? state.jobs.filter((job) => job.isActive || job.id === jobId)
-    : [];
-
 export const loadSplitAllocation = (state, action) => {
   const openedEntry = state.entries[action.index];
 
@@ -198,16 +189,12 @@ export const loadSplitAllocation = (state, action) => {
     ...getDefaultState().openEntry.allocate.newLine,
     accounts,
     taxCodes: state.taxCodes,
-    lineJobOptions: getActiveJobs(state),
   };
 
   const updatedLines = lines.map((line) => {
-    const lineJobOptions = buildLineJobOptions({ state, jobId: line.jobId });
-
     return {
       ...line,
       amountPercent: calculateLineAmountPercent(totalAmount, line.amount),
-      lineJobOptions,
     };
   });
 
@@ -241,7 +228,6 @@ export const loadNewSplitAllocation = (state, action) => {
     ...defaultState.openEntry.allocate.newLine,
     accounts,
     taxCodes: state.taxCodes,
-    lineJobOptions: getActiveJobs(state),
   };
 
   const allocate = {
@@ -265,7 +251,7 @@ export const loadNewSplitAllocation = (state, action) => {
 
 export const loadPrefillSplitAllocation = (state, action) => {
   const newLine = getNewLineData(state);
-  const { accounts, taxCodes, lineJobOptions } = newLine;
+  const { accounts, taxCodes } = newLine;
 
   return {
     ...state,
@@ -282,9 +268,6 @@ export const loadPrefillSplitAllocation = (state, action) => {
             : '',
           taxCodeId: taxCodes.some((option) => option.id === line.taxCodeId)
             ? line.taxCodeId
-            : '',
-          jobId: lineJobOptions.some((option) => option.id === line.jobId)
-            ? line.jobId
             : '',
         })),
       },

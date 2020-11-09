@@ -56,6 +56,8 @@ import {
   getReceiveMoneyBankingRuleComboboxContext,
   getSpendMoneyBankingRuleComboboxContext,
   getSplitAllocateContactComboboxContext,
+  getSplitAllocationJobComboboxContext,
+  getSplitAllocationUniqueSelectedJobIds,
   getViewedAccountToolTip,
 } from './tabs/splitAllocation/splitAllocationSelectors';
 import {
@@ -82,6 +84,7 @@ import HelpPageRoutes from '../../drawer/help/HelpPageRoutes';
 import HotkeyLocations from './hotkeys/HotkeyLocations';
 import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
+import JobComboboxModule from '../job/jobCombobox/JobComboboxModule';
 import JobModalModule from '../job/jobModal/JobModalModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import MatchTransactionsModule from './tabs/matchTransaction/MatchTransactionsModule';
@@ -140,6 +143,10 @@ export default class BankingModule {
       integration,
       setAlert: this.dispatcher.setAlert,
     });
+    this.splitAllocationJobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
   }
 
   updateFilterOptions = ({ filterName, value }) => {
@@ -190,6 +197,12 @@ export default class BankingModule {
         : null;
     };
 
+    const renderSplitAllocationJobCombobox = (props) => {
+      return this.splitAllocationJobComboboxModule
+        ? this.splitAllocationJobComboboxModule.render(props)
+        : null;
+    };
+
     const renderReceiveMoneyBankingRuleCombobox = (props) => {
       const state = this.store.getState();
       const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
@@ -218,6 +231,7 @@ export default class BankingModule {
 
     const splitAllocationContentProps = {
       renderSplitAllocationContactCombobox,
+      renderSplitAllocationJobCombobox,
       renderReceiveMoneyBankingRuleCombobox,
       renderSpendMoneyBankingRuleCombobox,
       onUpdateSplitAllocationHeader: this.updateSplitAllocationHeader,
@@ -226,7 +240,6 @@ export default class BankingModule {
       onAddSplitAllocationLine: this.addSplitAllocationLine,
       onUpdateSplitAllocationLine: this.updateSplitAllocationLine,
       onDeleteSplitAllocationLine: this.deleteSplitAllocationLine,
-      onAddJob: this.openJobModal,
       onAddAccount: this.openAccountModal,
       onBlur: this.dispatcher.blurEntry,
       onViewedAccountToolTip: this.viewedAccountToolTip,
@@ -758,6 +771,7 @@ export default class BankingModule {
     } else {
       this.dispatcher.loadNewSplitAllocation(index);
       this.loadSplitAllocationContactCombobox();
+      this.loadSplitAllocationJobCombobox();
     }
   };
 
@@ -768,6 +782,9 @@ export default class BankingModule {
       this.loadSplitAllocationContactCombobox();
       this.calculateSplitAllocationTax();
       this.updateSplitAllocationBankingRuleCombobox();
+
+      this.loadSplitAllocationJobCombobox();
+      this.updateSplitAllocationJobCombobox();
     });
 
     const onFailure = ({ message }) => {
@@ -850,6 +867,9 @@ export default class BankingModule {
       this.dispatcher.loadPrefillSplitAllocation(payload);
       this.loadSplitAllocationContactCombobox();
       this.calculateSplitAllocationTax();
+
+      this.loadSplitAllocationJobCombobox();
+      this.updateSplitAllocationJobCombobox();
     });
 
     const onFailure = ({ message }) => {
@@ -1462,6 +1482,20 @@ export default class BankingModule {
       } else {
         this.receiveMoneyBankingRuleComboboxModule.load(bankingRuleId);
       }
+    }
+  };
+
+  loadSplitAllocationJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getSplitAllocationJobComboboxContext(state);
+    this.splitAllocationJobComboboxModule.run(context);
+  };
+
+  updateSplitAllocationJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getSplitAllocationUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.splitAllocationJobComboboxModule.load(selectedJobIds);
     }
   };
 

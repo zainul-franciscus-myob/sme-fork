@@ -3,7 +3,6 @@ import Decimal from 'decimal.js';
 import {
   CALCULATE_SPLIT_ALLOCATION_TAX,
   LOAD_PREFILL_SPLIT_ALLOCATION,
-  LOAD_SPLIT_ALLOCATION,
   POPULATE_REMAINING_AMOUNT,
   UPDATE_SPLIT_ALLOCATION_CONTACT,
   UPDATE_SPLIT_ALLOCATION_HEADER,
@@ -13,78 +12,6 @@ import ContactType from '../../../../contact/contactCombobox/types/ContactType';
 import bankingReducer from '../../../reducers/index';
 
 describe('splitAllocationHandlers', () => {
-  describe('LOAD_SPLIT_ALLOCATION', () => {
-    const response = {
-      accountId: '3',
-      contactId: '8389',
-      date: '2020-05-05T00:00:00',
-      description: 'DEBIT CARD - DISRUPTION',
-      id: '220495',
-      isReportable: false,
-      isSpendMoney: true,
-      lines: [{ jobId: '1' }, { jobId: '2' }, { jobId: '3' }],
-    };
-
-    const state = {
-      entries: [
-        {
-          withdrawal: 311.85,
-        },
-      ],
-      openEntry: {
-        attachments: [],
-      },
-      jobs: [
-        { id: '1', isActive: false },
-        { id: '2', isActive: false },
-        { id: '3', isActive: true },
-        { id: '4', isActive: true },
-      ],
-    };
-
-    describe('lineJobOptions', () => {
-      const action = {
-        intent: LOAD_SPLIT_ALLOCATION,
-        index: 0,
-        allocate: {
-          ...response,
-        },
-      };
-
-      const actual = bankingReducer(state, action);
-
-      it('updates lines with lineJobOptions', () => {
-        const lineOneExpectedOptions = state.jobs.filter(
-          (job) => job.id !== '2'
-        );
-        const lineTwoExpectedOptions = state.jobs.filter(
-          (job) => job.id !== '1'
-        );
-        const lineThreeExpectedOptions = state.jobs.filter(
-          (job) => job.id !== '1' && job.id !== '2'
-        );
-
-        expect(actual.openEntry.allocate.lines[0].lineJobOptions).toEqual(
-          lineOneExpectedOptions
-        );
-        expect(actual.openEntry.allocate.lines[1].lineJobOptions).toEqual(
-          lineTwoExpectedOptions
-        );
-        expect(actual.openEntry.allocate.lines[2].lineJobOptions).toEqual(
-          lineThreeExpectedOptions
-        );
-      });
-
-      it('shows active selected jobs against new line', () => {
-        const expectedJobOptions = state.jobs.filter((job) => job.isActive);
-
-        expect(actual.openEntry.allocate.newLine.lineJobOptions).toEqual(
-          expectedJobOptions
-        );
-      });
-    });
-  });
-
   describe('LOAD_PREFILL_SPLIT_ALLOCATION', () => {
     const getState = () => {
       const newLine = {
@@ -96,7 +23,6 @@ describe('splitAllocationHandlers', () => {
         quantity: '',
         accounts: [{ id: '128' }],
         taxCodes: [{ id: '123' }],
-        lineJobOptions: [{ id: '1' }],
       };
 
       return {
@@ -156,27 +82,25 @@ describe('splitAllocationHandlers', () => {
           lines: [
             {
               accountId: '',
-              amount: '500.00',
-              amountPercent: '50.00',
-              quantity: '',
-              description: '',
               jobId: '1',
               taxCodeId: '123',
+              description: '',
+              amount: '500.00',
+              quantity: '',
               accounts: [{ id: '128' }],
               taxCodes: [{ id: '123' }],
-              lineJobOptions: [{ id: '1' }],
+              amountPercent: '50.00',
             },
             {
               accountId: '128',
-              amount: '500.00',
-              amountPercent: '50.00',
-              quantity: '',
-              description: '',
-              jobId: '',
+              jobId: '2',
               taxCodeId: '123',
+              description: '',
+              amount: '500.00',
+              quantity: '',
               accounts: [{ id: '128' }],
               taxCodes: [{ id: '123' }],
-              lineJobOptions: [{ id: '1' }],
+              amountPercent: '50.00',
             },
           ],
         })

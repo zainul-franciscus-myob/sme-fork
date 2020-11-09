@@ -87,6 +87,8 @@ import bankTransactions from '../mappings/data/loadBankTransactions';
 import bankingReducer from '../reducers';
 import createBankingDispatcher from '../BankingDispatcher';
 import createBankingIntegrator from '../BankingIntegrator';
+import receiveMoneyResponse from '../mappings/data/loadReceiveMoney';
+import spendMoneyResponse from '../mappings/data/loadSpendMoney';
 
 describe('BankingModule', () => {
   const setUp = () => {
@@ -146,6 +148,11 @@ describe('BankingModule', () => {
     module.splitAllocationContactComboboxModule = {
       resetState: jest.fn(),
       run: jest.fn(),
+    };
+
+    module.splitAllocationJobComboboxModule = {
+      run: jest.fn(),
+      load: jest.fn(),
     };
 
     return toolbox;
@@ -600,6 +607,10 @@ describe('BankingModule', () => {
         expect(
           module.splitAllocationContactComboboxModule.run
         ).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationJobComboboxModule.load
+        ).not.toHaveBeenCalled();
       });
 
       it('it fails', () => {
@@ -628,6 +639,11 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationJobComboboxModule.load
+        ).not.toHaveBeenCalled();
       });
     });
 
@@ -847,6 +863,11 @@ describe('BankingModule', () => {
           taxCalculations,
         } = setupWithAllocatedWithdrawal();
 
+        module.splitAllocationJobComboboxModule = {
+          run: jest.fn(),
+          load: jest.fn(),
+        };
+
         module.toggleLine(index);
 
         expect(store.getActions()).toEqual([
@@ -900,6 +921,87 @@ describe('BankingModule', () => {
         expect(
           module.splitAllocationContactComboboxModule.run
         ).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationJobComboboxModule.load
+        ).not.toHaveBeenCalled();
+      });
+
+      it('successfully loads withdrawal with selected job', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+          taxCalculations,
+        } = setupWithAllocatedWithdrawal();
+
+        integration.mapSuccess(LOAD_SPLIT_ALLOCATION, {
+          ...spendMoneyResponse,
+          allocate: {
+            ...spendMoneyResponse.allocate,
+            lines: spendMoneyResponse.allocate.lines.map((line) => ({
+              ...line,
+              jobId: '1',
+            })),
+          },
+        });
+
+        module.toggleLine(index);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+          }),
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+            urlParams: expect.objectContaining({
+              type: 'spend_money',
+            }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+            params: {
+              spendMoneyUid: '123e4567-e89b-12d3-a456-426655440000',
+              transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+            },
+          }),
+        ]);
+
+        expect(
+          module.splitAllocationContactComboboxModule.run
+        ).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.load).toHaveBeenCalled();
       });
 
       it('successfully loads deposit', () => {
@@ -964,6 +1066,87 @@ describe('BankingModule', () => {
         expect(
           module.splitAllocationContactComboboxModule.run
         ).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.load).toHaveBeenCalled();
+      });
+
+      it('successfully loads deposit without selected jobs', () => {
+        const {
+          module,
+          store,
+          integration,
+          index,
+          taxCalculations,
+        } = setupWithAllocatedDeposit();
+
+        integration.mapSuccess(LOAD_SPLIT_ALLOCATION, {
+          ...receiveMoneyResponse,
+          allocate: {
+            ...receiveMoneyResponse.allocate,
+            lines: receiveMoneyResponse.allocate.lines.map((line) => ({
+              ...line,
+              jobId: '',
+            })),
+          },
+        });
+
+        module.toggleLine(index);
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: true,
+          },
+          {
+            intent: SET_OPEN_ENTRY_POSITION,
+            index,
+          },
+          {
+            intent: SET_OPEN_ENTRY_LOADING_STATE,
+            isLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+          }),
+          {
+            intent: CALCULATE_SPLIT_ALLOCATION_TAX,
+            taxCalculations,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: true,
+          },
+          {
+            intent: SET_ATTACHMENTS_LOADING_STATE,
+            isAttachmentsLoading: false,
+          },
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+          }),
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_SPLIT_ALLOCATION,
+            urlParams: expect.objectContaining({
+              type: 'receive_money',
+            }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_ATTACHMENTS,
+            params: {
+              spendMoneyUid: undefined,
+              transactionUid: '123e4567-e89b-12d3-a456-789123456790',
+            },
+          }),
+        ]);
+
+        expect(
+          module.splitAllocationContactComboboxModule.run
+        ).toHaveBeenCalled();
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationJobComboboxModule.load
+        ).not.toHaveBeenCalled();
       });
     });
 
@@ -1879,6 +2062,11 @@ describe('BankingModule', () => {
           intent: LOAD_ATTACHMENTS,
         }),
       ]);
+
+      expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+      expect(
+        module.splitAllocationJobComboboxModule.load
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -1981,6 +2169,13 @@ describe('BankingModule', () => {
               intent: LOAD_ATTACHMENTS,
             }),
           ]);
+
+          expect(
+            module.splitAllocationJobComboboxModule.run
+          ).toHaveBeenCalled();
+          expect(
+            module.splitAllocationJobComboboxModule.load
+          ).not.toHaveBeenCalled();
         }
       );
     });
@@ -2232,6 +2427,11 @@ describe('BankingModule', () => {
             intent: LOAD_ATTACHMENTS,
           }),
         ]);
+
+        expect(module.splitAllocationJobComboboxModule.run).toHaveBeenCalled();
+        expect(
+          module.splitAllocationJobComboboxModule.load
+        ).not.toHaveBeenCalled();
       });
 
       it('option m expands accordian to match transaction tab', () => {

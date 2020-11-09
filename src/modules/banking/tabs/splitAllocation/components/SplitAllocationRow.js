@@ -12,7 +12,6 @@ import Calculator from '../../../../../components/Calculator/Calculator';
 import FocusLocations from '../../../types/FocusLocations';
 import HotkeyLocations from '../../../hotkeys/HotkeyLocations';
 import HotkeyWrapper from '../../../hotkeys/HotkeyWrapper';
-import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 
 const handleComboBoxChange = (name, onChange) => (item) =>
@@ -32,11 +31,19 @@ const handleAmountChange = (onChange) => (e) => {
   });
 };
 
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
+    },
+  });
+};
+
 const SplitAllocationRow = (props) => {
   const {
     index,
     onAddAccount,
-    onAddJob,
     onBlur,
     onChange,
     isNewLineRow,
@@ -46,6 +53,7 @@ const SplitAllocationRow = (props) => {
     newLineData,
     isJobComboboxDisabled,
     isAccountComboboxFocused,
+    renderJobCombobox,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -60,7 +68,6 @@ const SplitAllocationRow = (props) => {
     jobId,
     taxCodeId,
     quantity = '',
-    lineJobOptions = [],
     taxAmount,
   } = data;
 
@@ -133,16 +140,15 @@ const SplitAllocationRow = (props) => {
         onChange={onChange}
         autoSize
       />
-      <JobCombobox
-        label="Job"
-        onChange={handleComboBoxChange('jobId', onChange)}
-        items={lineJobOptions}
-        selectedId={jobId}
-        disabled={disabled || isJobComboboxDisabled}
-        addNewJob={() => onAddJob(handleComboBoxChange('jobId', onChange))}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: disabled || isJobComboboxDisabled,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         disabled={disabled}
         items={taxCodes}
