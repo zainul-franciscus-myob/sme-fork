@@ -213,7 +213,9 @@ export const getAccountingUrls = createSelector(
 export const getShouldDisplayAccountingMenu = createSelector(
   getIsLoading,
   getAccountingUrls,
-  (isLoading, urls) => !isLoading && Object.values(urls).some(Boolean)
+  getRegion,
+  (isLoading, urls, region) =>
+    !isLoading && region === Region.au && Object.values(urls).some(Boolean)
 );
 
 export const getBusinessUrls = createSelector(

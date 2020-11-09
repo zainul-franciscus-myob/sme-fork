@@ -1,6 +1,7 @@
 import {
   getMenuLogoUrl,
   getSalesUrls,
+  getShouldDisplayAccountingMenu,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
@@ -225,6 +226,33 @@ describe('NavigationSelectors', () => {
         routeParams: { region: '🇦🇺' },
       };
       const actual = getShouldDisplayPayrollNzMenu(updatedState);
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getShouldDisplayAccountingMenu', () => {
+    const state = {
+      routeParams: {
+        region: 'au',
+      },
+      enabledFeatures: ['generalJournalCreate'],
+      urls: {
+        generalJournalCreate: 'general-journal-create',
+      },
+      isLoading: false,
+    };
+
+    it('true when region is au', () => {
+      const actual = getShouldDisplayAccountingMenu(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when region is not au', () => {
+      const updatedState = {
+        ...state,
+        routeParams: { region: 'nz' },
+      };
+      const actual = getShouldDisplayAccountingMenu(updatedState);
       expect(actual).toEqual(false);
     });
   });
