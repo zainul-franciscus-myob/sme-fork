@@ -4,6 +4,7 @@ import React from 'react';
 
 import { getWelcomeVideoId } from '../../TasksSelectors';
 import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
+import playIconImg from './assets/icon-play.svg';
 import styles from './index.module.css';
 
 const Welcome = ({
@@ -19,6 +20,10 @@ const Welcome = ({
     e.preventDefault();
     closeTasks({ closeEvent: 'welcomeViewed' });
   };
+
+  const PlayIcon = ({ size }) => (
+    <img src={playIconImg} height={size} width={size} alt="Play Icon" />
+  );
 
   return (
     <div className={styles.spotlight}>
@@ -50,12 +55,12 @@ const Welcome = ({
 
       <Button
         type="link"
-        icon={<Icons.Hints />}
+        icon={<PlayIcon size="18px" />}
         onClick={() => {
           openIntroModal();
         }}
       >
-        Take a short tour
+        Watch an intro video
       </Button>
     </div>
   );
