@@ -214,9 +214,9 @@ export const getAccountingUrls = createSelector(
 export const getShouldDisplayAccountingMenu = createSelector(
   getIsLoading,
   getAccountingUrls,
-  getRegion,
-  (isLoading, urls, region) =>
-    !isLoading && region === Region.au && Object.values(urls).some(Boolean)
+  getShouldDisplayPayrollNzMenu,
+  (isLoading, urls, isNzPayrollUser) =>
+    !isLoading && !isNzPayrollUser && Object.values(urls).some(Boolean)
 );
 
 export const getBusinessUrls = createSelector(

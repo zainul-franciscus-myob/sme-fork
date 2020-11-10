@@ -264,10 +264,20 @@ describe('NavigationSelectors', () => {
       expect(actual).toEqual(true);
     });
 
-    it('false when region is not au', () => {
+    it('true when region is nz', () => {
       const updatedState = {
         ...state,
         routeParams: { region: 'nz' },
+      };
+      const actual = getShouldDisplayAccountingMenu(updatedState);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when nz payroll user', () => {
+      const updatedState = {
+        ...state,
+        routeParams: { region: 'nz' },
+        enabledFeatures: ['employeeListNz'],
       };
       const actual = getShouldDisplayAccountingMenu(updatedState);
       expect(actual).toEqual(false);
