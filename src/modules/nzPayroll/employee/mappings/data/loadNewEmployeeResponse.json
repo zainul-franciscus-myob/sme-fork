@@ -57,11 +57,11 @@
     { "key": 1, "value": "Active member" }
   ],
   "kiwiSaverEmployeeContributionOptions": [
-    { "key": "3", "value": 3 },
-    { "key": "4", "value": 4 },
-    { "key": "6", "value": 6 },
-    { "key": "8", "value": 8 },
-    { "key": "10", "value": 10 }
+    { "key": "3.00", "value": 3 },
+    { "key": "4.00", "value": 4 },
+    { "key": "6.00", "value": 6 },
+    { "key": "8.00", "value": 8 },
+    { "key": "10.00", "value": 10 }
   ],
   "employerSuperannuationContributionTaxOptions": [
     {

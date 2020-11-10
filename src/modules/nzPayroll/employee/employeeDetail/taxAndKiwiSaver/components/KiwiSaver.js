@@ -32,8 +32,8 @@ const KiwiSaver = ({
       onChange={handleSelectChange(onKiwiSaverInputChange)}
       value={kiwiSaver.employeeContributionRate}
     >
-      {employeeContributionOptions.map(({ key, value }) => (
-        <Select.Option key={key} value={key} label={value} />
+      {employeeContributionOptions.map(({ key }) => (
+        <Select.Option key={key} value={key} label={key} />
       ))}
     </Select>
 
