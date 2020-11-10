@@ -152,6 +152,11 @@ const BillPaymentOptions = ({
         autoSize
         disabled={electronicPaymentReference}
         width="xl"
+        labelAccessory={
+          <Tooltip placement="right">
+            This will appear on your remittance advice
+          </Tooltip>
+        }
       />
     </>
   );
