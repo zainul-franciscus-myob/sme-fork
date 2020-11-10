@@ -102,6 +102,7 @@ describe('NavigationSelectors', () => {
         currentRouteName: noOpRouteNames[0],
         routeParams: {
           businessId: 'businessId',
+          region: 'au',
         },
       };
       const currentUrl = 'currentUrl';
@@ -116,11 +117,27 @@ describe('NavigationSelectors', () => {
         currentRouteName,
         routeParams: {
           businessId,
+          region: 'au',
         },
       };
       const currentUrl = 'currentUrl';
       const actual = getMenuLogoUrl(state)(currentUrl);
       expect(actual).toEqual(`#/au/${businessId}/dashboard`);
+    });
+
+    it('should return nz url if in nz region', () => {
+      const businessId = 'businessId';
+      const currentRouteName = 'bills';
+      const state = {
+        currentRouteName,
+        routeParams: {
+          businessId,
+          region: 'nz',
+        },
+      };
+      const currentUrl = 'currentUrl';
+      const actual = getMenuLogoUrl(state)(currentUrl);
+      expect(actual).toEqual(`#/nz/${businessId}/dashboard`);
     });
   });
 

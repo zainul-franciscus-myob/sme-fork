@@ -99,12 +99,13 @@ export const noOpRouteNames = [
 export const getMenuLogoUrl = createSelector(
   getCurrentRouteName,
   getBusinessId,
-  (currentRouteName, businessId) => (currentUrl) => {
+  getRegion,
+  (currentRouteName, businessId, region) => (currentUrl) => {
     const shouldNavigate = noOpRouteNames.every(
       (routeName) => routeName !== currentRouteName
     );
 
-    return shouldNavigate ? `#/au/${businessId}/dashboard` : currentUrl;
+    return shouldNavigate ? `#/${region}/${businessId}/dashboard` : currentUrl;
   }
 );
 
