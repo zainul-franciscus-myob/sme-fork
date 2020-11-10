@@ -91,7 +91,6 @@ const getItems = ({
   onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
-  onAppMarketplaceClick,
 }) =>
   [
     urls.businessDetails &&
@@ -148,7 +147,8 @@ const getItems = ({
         urls.appMarketplace,
         'App marketplace',
         <PurchasesIcon />,
-        onAppMarketplaceClick
+        onMenuLinkClick,
+        '_blank'
       ),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
     getMenuLinkWithIcon('', 'Log out', <SignOutIcon />, onLogoutLinkClick),

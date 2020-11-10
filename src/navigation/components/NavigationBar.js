@@ -132,7 +132,6 @@ const getSettings = ({
   onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
-  onAppMarketplaceClick,
   hasTasks,
   businessName,
 }) =>
@@ -169,7 +168,6 @@ const getSettings = ({
         onLogoutLinkClick={onLogoutLinkClick}
         onCreateBusinessClick={onCreateBusinessClick}
         onManageMyProductClick={onManageMyProductClick}
-        onAppMarketplaceClick={onAppMarketplaceClick}
       />
     ),
     !shouldDisplayBusinessMenu && (

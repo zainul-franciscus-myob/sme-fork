@@ -230,13 +230,6 @@ export default class NavigationModule {
     this.navigateTo(productManagementUrl, true);
   };
 
-  redirectToAppMarketplace = () => {
-    const state = this.store.getState();
-    const appMarketplaceUrl = getAppMarketplaceUrl(state);
-
-    this.navigateTo(appMarketplaceUrl, true);
-  };
-
   render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {
     const {
       createBusiness,
@@ -247,7 +240,6 @@ export default class NavigationModule {
       toggleHelp,
       toggleTasks,
       manageMyProduct,
-      redirectToAppMarketplace,
     } = this;
 
     return (
@@ -265,7 +257,6 @@ export default class NavigationModule {
           onTasksLinkClick={toggleTasks}
           serialNumber={serialNumber}
           onManageMyProductClick={manageMyProduct}
-          onAppMarketplaceClick={redirectToAppMarketplace}
         />
       </Provider>
     );
