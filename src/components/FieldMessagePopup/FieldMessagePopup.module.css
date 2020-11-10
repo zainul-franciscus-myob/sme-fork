@@ -212,23 +212,23 @@
 }
 
 :global(.field-message-popup-form-group-input-group--xs) {
-	width: 100%;
+	max-width: 10.6rem;
 }
 
 :global(.field-message-popup-form-group-input-group--sm) {
-	width: 100%;
+	max-width: 16.8rem;
 }
 
 :global(.field-message-popup-form-group-input-group--md) {
-	width: 100%;
+	max-width: 22.9rem;
 }
 
 :global(.field-message-popup-form-group-input-group--lg) {
-	width: 100%;
+	max-width: 29rem;
 }
 
 :global(.field-message-popup-form-group-input-group--xl) {
-	width: 100%;
+	max-width: 35.2rem;
 }
 
 :global(.line-item__data) :global(.field-message-popup-form-group__label-group) {
