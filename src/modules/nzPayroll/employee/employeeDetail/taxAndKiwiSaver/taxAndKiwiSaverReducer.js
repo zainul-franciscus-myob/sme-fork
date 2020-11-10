@@ -39,8 +39,12 @@ const updateIrdNumberOnBlur = (state) => ({
   },
 });
 
-const resetIrdNumberIfTaxCodeND = (state, taxCode) =>
-  taxCode === 'ND' ? '000000000' : state.payrollDetails.tax.irdNumber;
+const resetIrdNumberIfTaxCodeND = (state, taxCode) => {
+  if (taxCode === 'ND') return '000000000';
+  if (state.payrollDetails.tax.irdNumber === '000000000') return '';
+
+  return state.payrollDetails.tax.irdNumber;
+};
 
 const updateTaxCode = (state, action) => ({
   ...state,
