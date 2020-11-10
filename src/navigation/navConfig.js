@@ -94,7 +94,6 @@ export const featuresConfig = {
   invoiceList: { routeName: RouteName.INVOICE_LIST },
   recurringTransactionSalesList: {
     routeName: RouteName.RECURRING_TRANSACTION_LIST,
-    params: { type: 'Invoice' },
   },
   invoiceCreate: {
     routeName: RouteName.INVOICE_DETAIL,
