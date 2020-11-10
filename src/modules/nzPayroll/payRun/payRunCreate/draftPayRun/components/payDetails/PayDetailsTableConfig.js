@@ -3,7 +3,7 @@ const tableConfig = {
   quantity: {
     width: 'flex-1',
     valign: 'middle',
-    align: 'right',
+    align: 'center',
   },
   amount: {
     width: 'flex-1',
