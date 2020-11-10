@@ -20,7 +20,7 @@
       "holidayPayRate": "8.00"
     },
     "tax": {
-      "irdNumber": "000 000 000",
+      "irdNumber": "000000000",
       "taxCode": "ND"
     },
     "kiwiSaver": {
