@@ -97,6 +97,7 @@ export default class PayRunModule {
     const payRunView = (
       <PayRunView
         stepViews={stepViews}
+        onDismissAlert={this.dispatcher.dismissAlert}
         onClosePreviousStepModal={this.closePreviousStepModal}
         onDiscardDraft={this.discardDraftAndStartNewPayRun}
       />

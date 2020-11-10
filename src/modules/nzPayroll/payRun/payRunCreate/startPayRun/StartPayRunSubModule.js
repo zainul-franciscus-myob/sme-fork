@@ -17,13 +17,13 @@ export default class StartPayRunSubModule {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (createdDraftPayRun) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.createdDraftPayRunSuccess();
       this.dispatcher.loadDraftPayRun(createdDraftPayRun);
       this.dispatcher.nextStep();
     };
 
-    const onFailure = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    const onFailure = (message) => {
+      this.dispatcher.createdDraftPayRunFailed(message);
     };
 
     this.integrator.createDraftPayRun({ onSuccess, onFailure });

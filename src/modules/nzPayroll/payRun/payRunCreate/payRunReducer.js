@@ -1,5 +1,7 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  CREATE_DRAFT_PAY_RUN_FAILED,
+  CREATE_DRAFT_PAY_RUN_SUCCESS,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
   LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
@@ -116,6 +118,21 @@ const loadPayrollVerificationReportFailed = (state) => ({
   },
 });
 
+const createDraftPayrunFailed = (state, { message }) => ({
+  ...state,
+  loadingState: LoadingState.LOADING_SUCCESS,
+  alert: {
+    type: AlertType.ERROR,
+    message,
+  },
+});
+
+const createDraftPayrunSuccess = (state) => ({
+  ...state,
+  loadingState: LoadingState.LOADING_SUCCESS,
+  alert: undefined,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -132,6 +149,8 @@ const handlers = {
   [LOAD_PAYROLL_VERIFICATION_REPORT]: loadPayrollVerificationReport,
   [LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS]: loadPayrollVerificationReportSuccess,
   [LOAD_PAYROLL_VERIFICATION_REPORT_FAILED]: loadPayrollVerificationReportFailed,
+  [CREATE_DRAFT_PAY_RUN_SUCCESS]: createDraftPayrunSuccess,
+  [CREATE_DRAFT_PAY_RUN_FAILED]: createDraftPayrunFailed,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
 };

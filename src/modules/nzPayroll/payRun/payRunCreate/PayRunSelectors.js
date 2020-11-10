@@ -125,3 +125,5 @@ export const getDraftPayRunId = (state) => state.draftPayRunId;
 
 export const getPreviousStepModalIsOpen = (state) =>
   state.previousStepModalIsOpen;
+
+export const getAlert = (state) => state.alert;

@@ -1,5 +1,7 @@
 import {
   CLOSE_PREVIOUS_STEP_MODAL,
+  CREATE_DRAFT_PAY_RUN_FAILED,
+  CREATE_DRAFT_PAY_RUN_SUCCESS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
@@ -11,6 +13,7 @@ import {
 } from '../PayRunIntents';
 import { DRAFT_PAY_RUN, START_PAY_RUN } from '../payRunSteps';
 import { RESET_STATE } from '../../../../../SystemIntents';
+import AlertType from '../types/AlertType';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import payRunReducer from '../payRunReducer';
 
@@ -240,6 +243,51 @@ describe('NZ Payrun reducer', () => {
 
       const expected = {
         draftPayRunId: 1234,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Create draft payrun succeeded', () => {
+    it('should set the loading state to success and unset alert', () => {
+      const state = {
+        loadingState: LoadingState.LOADING,
+        alert: 'hey',
+      };
+
+      const action = {
+        intent: CREATE_DRAFT_PAY_RUN_SUCCESS,
+      };
+
+      const expected = {
+        loadingState: LoadingState.LOADING_SUCCESS,
+        alert: undefined,
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Create draft payrun failed', () => {
+    it('should set the loading state to success and set the alert', () => {
+      const state = {
+        loadingState: LoadingState.LOADING,
+        alert: undefined,
+      };
+
+      const action = {
+        intent: CREATE_DRAFT_PAY_RUN_FAILED,
+        message: 'Create draft payrun failed',
+      };
+
+      const expected = {
+        loadingState: LoadingState.LOADING_SUCCESS,
+        alert: { type: AlertType.ERROR, message: 'Create draft payrun failed' },
       };
 
       const actual = payRunReducer(state, action);
