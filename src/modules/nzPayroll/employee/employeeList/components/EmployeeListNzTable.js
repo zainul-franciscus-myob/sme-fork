@@ -1,8 +1,9 @@
-import { Table } from '@myob/myob-widgets';
+import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsTableEmpty } from '../EmployeeListNzSelector';
+import { getIsTableEmpty, getOrder } from '../EmployeeListNzSelector';
+import { getIsTableLoading } from '../../../../employee/employeeList/EmployeeListSelectors';
 import EmployeeListTableBody from './EmployeeListNzTableBody';
 import TableView from '../../../../../components/TableView/TableView';
 
@@ -12,17 +13,37 @@ const tableConfig = {
   email: { columnName: 'Email', width: 'flex-1', valign: 'top' },
 };
 
-const EmployeeListNzTable = ({ isTableEmpty }) => {
+const EmployeeListNzTable = ({
+  isTableEmpty,
+  isTableLoading,
+  order,
+  onSort,
+}) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.name}>
-        {tableConfig.name.columnName}
+        <HeaderSort
+          title="Name"
+          sortName="Name"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.phoneNumber}>
-        {tableConfig.phoneNumber.columnName}
+        <HeaderSort
+          title="Phone"
+          sortName="Phone"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.email}>
-        {tableConfig.email.columnName}
+        <HeaderSort
+          title="Email"
+          sortName="Email"
+          activeSort={order}
+          onSort={onSort}
+        />
       </Table.HeaderItem>
     </Table.Header>
   );
@@ -31,6 +52,7 @@ const EmployeeListNzTable = ({ isTableEmpty }) => {
     <TableView
       header={header}
       isEmpty={isTableEmpty}
+      isLoading={isTableLoading}
       emptyMessage="There are no employees."
     >
       <EmployeeListTableBody tableConfig={tableConfig} />
@@ -40,6 +62,8 @@ const EmployeeListNzTable = ({ isTableEmpty }) => {
 
 const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
+  isTableLoading: getIsTableLoading(state),
+  order: getOrder(state),
 });
 
 export default connect(mapStateToProps)(EmployeeListNzTable);

@@ -48,6 +48,10 @@ describe('<EmployeeListNzView />', () => {
     expect(wrapper.text()).toContain('Name');
     expect(wrapper.text()).toContain('Email');
     expect(wrapper.text()).toContain('Phone');
+
+    const filterBar = wrapper.find('FilterBar');
+    expect(filterBar).toHaveLength(1);
+    expect(filterBar.find('ShowInactiveCheckbox')).toHaveLength(0);
   });
 
   it('should render passed in employee list data', () => {

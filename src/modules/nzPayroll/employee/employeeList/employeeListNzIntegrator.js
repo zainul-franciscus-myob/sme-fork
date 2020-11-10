@@ -1,6 +1,10 @@
-import { LOAD_EMPLOYEE_LIST } from '../EmployeeNzIntents';
+import {
+  LOAD_EMPLOYEE_LIST,
+  SORT_AND_FILTER_EMPLOYEE_LIST,
+} from '../EmployeeNzIntents';
 import {
   getBusinessId,
+  getFilterEmployeeListNextPageParams,
   getLoadEmployeeListNextPageParams,
 } from './EmployeeListNzSelector';
 
@@ -38,6 +42,23 @@ const employeeListNzIntegrator = ({ store, integration }) => ({
       onSuccess,
       onFailure,
       params,
+    });
+  },
+
+  sortAndFilterEmployeeList: ({ onSuccess, onFailure }) => {
+    const intent = SORT_AND_FILTER_EMPLOYEE_LIST;
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+    const params = getFilterEmployeeListNextPageParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
+      params,
+      onSuccess,
+      onFailure,
     });
   },
 });

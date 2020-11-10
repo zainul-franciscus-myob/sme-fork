@@ -1,0 +1,31 @@
+{
+  "sortOrder": "asc",
+  "orderBy": "Name",
+  "pagination": {
+    "hasNextPage": false,
+    "offset": 50
+  },
+  "entries": [
+    {
+      "id": "124",
+      "name": "Stark, Ned 1",
+      "email": "ned@afterlife.com",
+      "phone": "0423 1231 231",
+      "isActive": false
+    },
+    {
+      "id": "123",
+      "name": "Mr Pig, Pumba",
+      "email": "pumba@mrpig.com",
+      "phone": "06343 2343 23",
+      "isActive": true
+    },
+    {
+      "id": "125",
+      "name": "Afterlife, Mufasa",
+      "email": "mufasa@afterlife.com",
+      "phone": "+92 2322 322323",
+      "isActive": false
+    }
+  ]
+}

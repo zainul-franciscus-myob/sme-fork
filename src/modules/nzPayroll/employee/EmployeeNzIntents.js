@@ -38,3 +38,14 @@ export const UPDATE_CONTACT_DETAIL = Symbol('Update employee contact detail');
 // Update tabs intents
 export const SET_MAIN_TAB = Symbol('Set main tab');
 export const SET_SUB_TAB = Symbol('Set sub tab');
+
+// Sort and Filter Intents
+export const SET_EMPLOYEE_LIST_TABLE_LOADING = Symbol(
+  'Set employee list table loading'
+);
+export const SET_SORT_ORDER = Symbol('Set sort order');
+export const UPDATE_FILTER_BAR_OPTIONS = Symbol('Update filter bar options');
+export const RESET_FILTER_BAR_OPTIONS = Symbol('Reset filter bar options');
+export const SORT_AND_FILTER_EMPLOYEE_LIST = Symbol(
+  'Sort and filter employee list'
+);

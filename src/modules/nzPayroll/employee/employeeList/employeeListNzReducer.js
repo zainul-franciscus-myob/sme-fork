@@ -5,6 +5,13 @@ import createReducer from '../../../../store/createReducer';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
+  isTableLoading: false,
+  filterOptions: {
+    keywords: '',
+    showInactive: false,
+  },
+  sortOrder: '',
+  orderBy: '',
   entries: [],
   pagination: {
     hasNextPage: false,
@@ -55,6 +62,39 @@ const dismissAlert = (state) => ({
   alert: undefined,
 });
 
+const updateFilterBarOptions = (state, action) => ({
+  ...state,
+  filterOptions: {
+    ...state.filterOptions,
+    [action.key]: action.value,
+  },
+});
+
+const resetFilterBarOptions = (state) => ({
+  ...state,
+  filterOptions: getDefaultState().filterOptions,
+});
+
+const sortAndFilterEmployeeList = (state, action) => ({
+  ...state,
+  entries: action.entries,
+  pagination: {
+    hasNextPage: action.pagination.hasNextPage,
+    offset: action.pagination.offset,
+  },
+});
+
+const setSortOrder = (state, action) => ({
+  ...state,
+  orderBy: action.orderBy,
+  sortOrder: action.sortOrder,
+});
+
+const setEmployeeListTableLoading = (state, action) => ({
+  ...state,
+  isTableLoading: action.isTableLoading,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -63,6 +103,11 @@ const handlers = {
   [intents.SET_ALERT]: setAlert,
   [intents.DISMISS_ALERT]: dismissAlert,
   [intents.LOAD_EMPLOYEE_LIST_FAILED]: loadEmployeeListFailed,
+  [intents.SORT_AND_FILTER_EMPLOYEE_LIST]: sortAndFilterEmployeeList,
+  [intents.SET_SORT_ORDER]: setSortOrder,
+  [intents.UPDATE_FILTER_BAR_OPTIONS]: updateFilterBarOptions,
+  [intents.RESET_FILTER_BAR_OPTIONS]: resetFilterBarOptions,
+  [intents.SET_EMPLOYEE_LIST_TABLE_LOADING]: setEmployeeListTableLoading,
 };
 
 const employeeListNzReducer = createReducer(getDefaultState(), handlers);

@@ -7,6 +7,7 @@ import {
   getLoadMoreButtonStatus,
   getLoadingState,
 } from '../EmployeeListNzSelector';
+import EmployeeListNzFilterOptions from './EmployeeListNzFilterOptions';
 import EmployeeListNzTable from './EmployeeListNzTable';
 import PageView from '../../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../../components/PaginatedListTemplate/PaginatedListTemplate';
@@ -18,6 +19,9 @@ const EmployeeListNzView = ({
   onEmployeeCreateButtonClick,
   loadMoreButtonStatus,
   onLoadMoreButtonClick,
+  onUpdateFilterBarOptions,
+  onResetFilterBarOptions,
+  onSort,
 }) => {
   const pageHead = (
     <PageHead title="Employees">
@@ -33,13 +37,21 @@ const EmployeeListNzView = ({
     </Alert>
   );
 
-  const employeeListNzTable = <EmployeeListNzTable />;
+  const filterBar = (
+    <EmployeeListNzFilterOptions
+      onUpdateFilterBarOptions={onUpdateFilterBarOptions}
+      onResetFilterBarOptions={onResetFilterBarOptions}
+    />
+  );
+
+  const employeeListNzTable = <EmployeeListNzTable onSort={onSort} />;
 
   const view = (
     <PaginatedListTemplate
       alert={alertComponent}
       pageHead={pageHead}
       listTable={employeeListNzTable}
+      filterBar={filterBar}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       loadMoreButtonStatus={loadMoreButtonStatus}
     />

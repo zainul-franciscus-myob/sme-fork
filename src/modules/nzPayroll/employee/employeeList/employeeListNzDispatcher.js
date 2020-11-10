@@ -36,6 +36,34 @@ const employeeListNzDispatcher = ({ store }) => ({
     const intent = intents.DISMISS_ALERT;
     store.dispatch({ intent });
   },
+
+  setTableLoading: (isTableLoading) => {
+    const intent = intents.SET_EMPLOYEE_LIST_TABLE_LOADING;
+    store.dispatch({ intent, isTableLoading });
+  },
+
+  updateFilterBarOptions: ({ key, value }) => {
+    store.dispatch({ intent: intents.UPDATE_FILTER_BAR_OPTIONS, key, value });
+  },
+
+  sortAndFilterEmployeeList: (response) => {
+    store.dispatch({
+      intent: intents.SORT_AND_FILTER_EMPLOYEE_LIST,
+      ...response,
+    });
+  },
+
+  resetFilterBarOptions: () => {
+    store.dispatch({ intent: intents.RESET_FILTER_BAR_OPTIONS });
+  },
+
+  setSortOrder: (orderBy, sortOrder) => {
+    store.dispatch({
+      intent: intents.SET_SORT_ORDER,
+      orderBy,
+      sortOrder,
+    });
+  },
 });
 
 export default employeeListNzDispatcher;

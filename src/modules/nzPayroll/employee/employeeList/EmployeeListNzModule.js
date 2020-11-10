@@ -5,8 +5,10 @@ import {
   SUCCESSFULLY_DELETED_NZ_EMPLOYEE,
   SUCCESSFULLY_SAVED_NZ_EMPLOYEE,
 } from '../../../../common/types/MessageTypes';
+import { getNewSortOrder } from './EmployeeListNzSelector';
 import EmployeeListNzView from './components/EmployeeListNzView';
 import Store from '../../../../store/Store';
+import debounce from '../../../../common/debounce/debounce';
 import employeeListNzDispatcher from './employeeListNzDispatcher';
 import employeeListNzIntegrator from './employeeListNzIntegrator';
 import employeeListNzReducer from './employeeListNzReducer';
@@ -61,6 +63,9 @@ export default class EmployeeListNzModule {
         onDismissAlert={this.dismissAlert}
         onEmployeeCreateButtonClick={this.redirectToCreateEmployee}
         onLoadMoreButtonClick={this.loadEmployeeListNextPage}
+        onUpdateFilterBarOptions={this.updateFilterBarOptions}
+        onResetFilterBarOptions={this.resetFilterBarOptions}
+        onSort={this.sortEmployeeList}
       />
     );
     const wrappedView = <Provider store={this.store}>{view}</Provider>;
@@ -99,5 +104,47 @@ export default class EmployeeListNzModule {
     const state = this.store.getState();
     const { businessId, region } = state;
     window.location.href = `/#/${region}/${businessId}/employee/new`;
+  };
+
+  sortAndFilterEmployeeList = () => {
+    this.dispatcher.setTableLoading(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setTableLoading(false);
+      this.dispatcher.sortAndFilterEmployeeList(response);
+    };
+
+    const onFailure = (error) => {
+      this.dispatcher.setTableLoading(false);
+      this.setAlert({ message: error.message, type: 'danger' });
+    };
+
+    this.integrator.sortAndFilterEmployeeList({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  updateFilterBarOptions = ({ key, value }) => {
+    this.dispatcher.updateFilterBarOptions({ key, value });
+
+    if (key === 'keywords') {
+      debounce(this.sortAndFilterEmployeeList)();
+    } else {
+      this.sortAndFilterEmployeeList();
+    }
+  };
+
+  resetFilterBarOptions = () => {
+    this.dispatcher.resetFilterBarOptions();
+    this.sortAndFilterEmployeeList();
+  };
+
+  sortEmployeeList = (orderBy) => {
+    const state = this.store.getState();
+    const newSortOrder = getNewSortOrder(orderBy)(state);
+    this.dispatcher.setSortOrder(orderBy, newSortOrder);
+
+    this.sortAndFilterEmployeeList();
   };
 }

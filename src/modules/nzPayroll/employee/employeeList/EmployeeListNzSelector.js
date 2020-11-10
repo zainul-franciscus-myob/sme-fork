@@ -58,3 +58,28 @@ export const getEmployeeList = createSelector(
       return { ...entry, link };
     })
 );
+
+export const getOrder = (state) => ({
+  column: getOrderBy(state),
+  descending: getSortOrder(state) === 'desc',
+});
+
+const flipSortOrder = ({ sortOrder }) =>
+  sortOrder === 'desc' ? 'asc' : 'desc';
+
+export const getNewSortOrder = (orderBy) => (state) =>
+  orderBy === getOrderBy(state) ? flipSortOrder(state) : 'asc';
+
+export const getFilterEmployeeListNextPageParams = createSelector(
+  getFilterOptions,
+  getSortOrder,
+  getOrderBy,
+  (filterOptions, sortOrder, orderBy) => {
+    return {
+      ...filterOptions,
+      sortOrder,
+      orderBy,
+      offset: 0,
+    };
+  }
+);

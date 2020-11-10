@@ -2,6 +2,7 @@ import {
   LOAD_EMPLOYEE_LIST,
   LOAD_EMPLOYEE_LIST_FAILED,
   SET_ALERT,
+  SORT_AND_FILTER_EMPLOYEE_LIST,
 } from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
@@ -56,10 +57,17 @@ describe('employeeListNzReducer', () => {
       const expectedState = {
         loadingState: LoadingState.LOADING,
         entries: [],
+        filterOptions: {
+          keywords: '',
+          showInactive: false,
+        },
         pagination: {
           hasNextPage: false,
           offset: 0,
         },
+        orderBy: '',
+        sortOrder: '',
+        isTableLoading: false,
       };
       const action = {
         intent: RESET_STATE,
@@ -124,6 +132,44 @@ describe('employeeListNzReducer', () => {
       const result = employeeListNzReducer(state, action);
 
       expect(result).toEqual(expectedState);
+    });
+  });
+
+  describe('sortAndFilterEmployeeList', () => {
+    it('sets pagination.hasNextPage to true when action.hasNextPage is true', () => {
+      const action = {
+        intent: SORT_AND_FILTER_EMPLOYEE_LIST,
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+      const state = {
+        pagination: {
+          hasNextPage: false,
+        },
+      };
+
+      const actual = employeeListNzReducer(state, action);
+
+      expect(actual.pagination.hasNextPage).toEqual(true);
+    });
+
+    it('sets pagination.hasNextPage to false when action.hasNextPage is false', () => {
+      const action = {
+        intent: SORT_AND_FILTER_EMPLOYEE_LIST,
+        pagination: {
+          hasNextPage: false,
+        },
+      };
+      const state = {
+        pagination: {
+          hasNextPage: true,
+        },
+      };
+
+      const actual = employeeListNzReducer(state, action);
+
+      expect(actual.pagination.hasNextPage).toEqual(false);
     });
   });
 });

@@ -31,6 +31,11 @@ const HttpEmployeeNzMapping = {
     getPath: ({ businessId }) =>
       `/${businessId}/nz-payroll/employee/create_employee/`,
   },
+  [intents.SORT_AND_FILTER_EMPLOYEE_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) =>
+      `/${businessId}/nz-payroll/employee/filter_employee_list`,
+  },
 };
 
 export default HttpEmployeeNzMapping;
