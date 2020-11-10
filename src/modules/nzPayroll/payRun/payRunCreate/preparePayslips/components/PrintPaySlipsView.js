@@ -2,6 +2,7 @@ import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import TableView from '../../../../../../components/TableView/TableView';
+import formatAmount from '../../../../../../common/valueFormatters/formatAmount';
 
 const tableConfig = {
   employee: { width: '30rem', columnName: 'Employee' },
@@ -33,7 +34,7 @@ const PrintPaySlipsView = ({ employees }) => {
       <Table.RowItem {...tableConfig.employee}>{employee.name}</Table.RowItem>
       <Table.RowItem {...tableConfig.padding}></Table.RowItem>
       <Table.RowItem {...tableConfig.takeHomePay}>
-        {employee.takeHomePay}
+        {formatAmount(employee.takeHomePay)}
       </Table.RowItem>
     </Table.Row>
   ));
