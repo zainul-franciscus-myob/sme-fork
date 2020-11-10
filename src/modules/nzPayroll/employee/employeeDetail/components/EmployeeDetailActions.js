@@ -38,6 +38,8 @@ const EmployeeDetailActions = ({
         type="secondary"
         onClick={onDeleteButtonClick}
         disabled={isActionsDisabled}
+        // todo: removed until delete is implemented
+        style={{ display: 'none' }}
       >
         Delete
       </Button>,
