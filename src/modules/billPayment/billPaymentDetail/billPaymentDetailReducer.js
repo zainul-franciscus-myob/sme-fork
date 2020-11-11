@@ -66,6 +66,7 @@ const getDefaultState = () => ({
   remittanceAdviceType: remittanceAdviceTypes.email,
   areEmailSettingsSet: false,
   templateOptions: [''],
+  areEmailsEnabled: false,
   remittanceAdviceDetails: {
     toAddresses: [''],
     ccAddresses: [''],
@@ -237,6 +238,7 @@ const loadBillPayment = (state, action) => ({
   startOfFinancialYearDate: action.startOfFinancialYearDate,
   arePaymentDetailsComplete: action.arePaymentDetailsComplete,
   templateOptions: action.templateOptions,
+  areEmailsEnabled: action.areEmailsEnabled,
   areEmailSettingsSet: Boolean(
     action.remittanceAdviceDefaults.fromEmail &&
       action.remittanceAdviceDefaults.fromName

@@ -7,13 +7,23 @@ import {
   FieldGroup,
   Input,
   Modal,
+  RadioButton,
   RadioButtonGroup,
   Select,
   Separator,
   TextArea,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getAreEmailSettingsSet,
+  getAreEmailsEnabled,
+  getCanSendRemittanceAdvice,
+  getRemittanceAdviceDetails,
+  getRemittanceAdviceType,
+  getTemplateOptions,
+} from '../BillPaymentDetailSelectors';
 import EmailItemList from '../../../../components/itemList/EmailItemList';
 import EnterKeyFocusableWrapper from '../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -33,16 +43,17 @@ const handleItemChange = (handler, key) => (emails) => {
 
 const RemittanceAdviceModal = ({
   alertMessage,
-  remittanceAdviceDetails,
-  canSendRemittanceAdvice,
   onCancel,
   onConfirm,
   onRemittanceAdviceDetailsChange,
-  remittanceAdviceType,
   onUpdateRemittanceAdviceType,
   onDismissAlert,
+  remittanceAdviceType,
+  remittanceAdviceDetails,
+  canSendRemittanceAdvice,
   templateOptions,
   areEmailSettingsSet,
+  areEmailsEnabled,
 }) => {
   const emailSettingsView = (onKeyDown) => (
     <>
@@ -158,6 +169,17 @@ const RemittanceAdviceModal = ({
             {alertMessage.message}
           </Alert>
         )}
+        {!areEmailsEnabled && (
+          <Alert type="danger">
+            Your AccountRight file is not setup to send emails from MYOB. To
+            send remittance advice by email, you&apos;ll need to go to
+            <span className={styles.bold}>
+              &nbsp;Preferences &gt; Emailing&nbsp;
+            </span>
+            in the AccountRight desktop app, and tick the box to &apos;Send
+            emails using AccountRight&apos;
+          </Alert>
+        )}
         <RadioButtonGroup
           label="Email or Download"
           name="remittanceAdviceType"
@@ -167,7 +189,20 @@ const RemittanceAdviceModal = ({
             'remittanceAdviceType',
             onUpdateRemittanceAdviceType
           )}
-          options={Object.values(remittanceAdviceTypes)}
+          renderRadios={({ id, value, ...props }) => {
+            return Object.values(remittanceAdviceTypes).map((label) => (
+              <RadioButton
+                {...props}
+                disabled={
+                  !areEmailsEnabled && remittanceAdviceTypes.email === label
+                }
+                checked={value === label}
+                key={label}
+                value={label}
+                label={label}
+              />
+            ));
+          }}
         />
         <Separator />
         <EnterKeyFocusableWrapper renderContent={view} />
@@ -190,4 +225,13 @@ const RemittanceAdviceModal = ({
   );
 };
 
-export default RemittanceAdviceModal;
+const mapStateToProps = (state) => ({
+  remittanceAdviceDetails: getRemittanceAdviceDetails(state),
+  remittanceAdviceType: getRemittanceAdviceType(state),
+  canSendRemittanceAdvice: getCanSendRemittanceAdvice(state),
+  templateOptions: getTemplateOptions(state),
+  areEmailSettingsSet: getAreEmailSettingsSet(state),
+  areEmailsEnabled: getAreEmailsEnabled(state),
+});
+
+export default connect(mapStateToProps)(RemittanceAdviceModal);

@@ -45,11 +45,17 @@ export const getModalType = (state) => state.modalType;
 export const getArePaymentDetailsComplete = (state) =>
   state.arePaymentDetailsComplete;
 export const getIsCreating = (state) => state.billPaymentId === 'new';
+export const getAreEmailsEnabled = (state) => state.areEmailsEnabled !== false;
 export const getShouldSendRemittanceAdvice = (state) =>
   state.shouldSendRemittanceAdvice;
 export const getRemittanceAdviceDetails = (state) =>
   state.remittanceAdviceDetails;
-export const getRemittanceAdviceType = (state) => state.remittanceAdviceType;
+export const getRemittanceAdviceType = createSelector(
+  (state) => state.remittanceAdviceType,
+  getAreEmailsEnabled,
+  (remittanceAdviceType, areEmailsEnabled) =>
+    areEmailsEnabled ? remittanceAdviceType : remittanceAdviceTypes.export
+);
 export const getTemplateOptions = (state) => state.templateOptions;
 export const getIsActionsDisabled = (state) => state.isSubmitting;
 

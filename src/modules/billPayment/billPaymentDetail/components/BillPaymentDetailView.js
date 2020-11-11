@@ -4,17 +4,10 @@ import React from 'react';
 
 import {
   getAlertMessage,
-  getAreEmailSettingsSet,
-  getCanSendRemittanceAdvice,
   getIsCreating,
-  getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
-  getRemittanceAdviceDetails,
-  getRemittanceAdviceType,
-  getShouldSendRemittanceAdvice,
   getShouldShowAlertMessage,
-  getTemplateOptions,
   getTitle,
 } from '../BillPaymentDetailSelectors';
 import BillPaymentActions from './BillPaymentDetailActions';
@@ -32,7 +25,6 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import remittanceAdviceTypes from '../remittanceAdviceTypes';
 
 const BillPaymentDetailView = ({
-  remittanceAdviceDetails,
   loadingState,
   modalType,
   title,
@@ -54,9 +46,7 @@ const BillPaymentDetailView = ({
   onSaveButtonClick,
   onSendRemittanceAdviceEmail,
   onDownloadRemittanceAdvicePdf,
-  canSendRemittanceAdvice,
   onConfirmSaveAndRedirect,
-  areEmailSettingsSet,
   onDiscardAndRedirect,
   onCloseUnsaveModal,
   onCancelModal,
@@ -68,7 +58,6 @@ const BillPaymentDetailView = ({
   shouldSendRemittanceAdvice,
   shouldShowAlertMessage,
   onShouldSendRemittanceAdviceChange,
-  templateOptions,
 }) => {
   let modal;
   if (modalType === billPaymentModalTypes.cancel) {
@@ -102,13 +91,8 @@ const BillPaymentDetailView = ({
         }
         onCancel={onCloseRemittanceAdviceModal}
         onDismissAlert={onDismissAlert}
-        canSendRemittanceAdvice={canSendRemittanceAdvice}
-        remittanceAdviceType={remittanceAdviceType}
         onUpdateRemittanceAdviceType={onUpdateRemittanceAdviceType}
-        remittanceAdviceDetails={remittanceAdviceDetails}
         onRemittanceAdviceDetailsChange={onRemittanceAdviceDetailsChange}
-        templateOptions={templateOptions}
-        areEmailSettingsSet={areEmailSettingsSet}
       />
     );
   }
@@ -195,14 +179,7 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),
-  shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
-  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
-  remittanceAdviceDetails: getRemittanceAdviceDetails(state),
-  remittanceAdviceType: getRemittanceAdviceType(state),
-  templateOptions: getTemplateOptions(state),
-  canSendRemittanceAdvice: getCanSendRemittanceAdvice(state),
-  areEmailSettingsSet: getAreEmailSettingsSet(state),
 });
 
 export default connect(mapStateToProps)(BillPaymentDetailView);
