@@ -42,6 +42,7 @@ const loadPurchaseSettings = (
   { shouldDisplayCustomTemplateList, templateList, emailSettings }
 ) => ({
   ...state,
+  isPageEdited: false,
   shouldDisplayCustomTemplateList,
   templateList,
   defaultRemittanceAdviceEmailSettings: {
