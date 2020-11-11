@@ -17,6 +17,10 @@ import { mockCreateObjectUrl, setUpWithRun } from './BillModule.test';
 import ModalType from '../types/ModalType';
 import loadNewBillPaymentResponse from '../mappings/data/loadNewBillPaymentWithSupplier';
 
+jest.mock('../../../../telemetry', () => ({
+  trackUserEvent: jest.fn(),
+}));
+
 describe('BillModule_RecordBillPaymentModal', () => {
   mockCreateObjectUrl();
 

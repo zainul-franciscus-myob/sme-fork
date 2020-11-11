@@ -837,6 +837,13 @@ class BillModule {
     this.dispatcher.openModal({
       modalType: ModalType.RecordPayment,
     });
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'open_bill_payment_modal_clicked',
+        page: 'Bill',
+      },
+    });
   };
 
   unlinkInTrayDocument = () => {
@@ -892,6 +899,14 @@ class BillModule {
   redirectToBillPayment = () => {
     const state = this.store.getState();
     const url = getBillPaymentUrl(state);
+
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'pay_multiple_bills_clicked',
+        page: 'Bill',
+      },
+    });
 
     this.navigateTo(url);
   };
