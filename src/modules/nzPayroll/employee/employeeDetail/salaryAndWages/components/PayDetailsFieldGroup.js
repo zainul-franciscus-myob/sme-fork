@@ -41,7 +41,6 @@ const PayDetailsFieldGroup = ({
         width="sm"
         onChange={onInputChange}
         onBlur={onInputChange}
-        requiredLabel="Hourly rate is required"
       />
       <Select
         label="Pay cycle"
@@ -65,7 +64,6 @@ const PayDetailsFieldGroup = ({
         value={payPeriodHours}
         width="sm"
         textAlign="right"
-        requiredLabel="Hours in pay cycle is required"
         onChange={onInputChange}
         onBlur={onInputChange}
         labelAccessory={<Tooltip>{payPeriodHoursToolTips}</Tooltip>}

@@ -38,7 +38,7 @@ const getDefaultState = () => ({
   payrollDetails: {
     employmentDetails: {
       dateOfBirth: '',
-      gender: '',
+      gender: 'NotSet',
       startDate: '',
       terminationDate: '',
       employmentBasis: '',

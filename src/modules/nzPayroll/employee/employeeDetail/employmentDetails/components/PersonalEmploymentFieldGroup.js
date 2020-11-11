@@ -26,7 +26,6 @@ const PersonalEmploymentFieldGroup = ({
       value={gender}
       width="sm"
       onChange={onSelectChange}
-      requiredLabel="Gender is required"
     >
       {genderOptions.map(({ value, name }) => (
         <Select.Option key={value} value={value} label={name} />
