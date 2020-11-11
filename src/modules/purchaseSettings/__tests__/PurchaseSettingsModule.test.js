@@ -1,8 +1,11 @@
 import {
+  CLOSE_MODAL,
   EXPORT_SAMPLE_PDF,
   LOAD_PURCHASE_SETTINGS,
+  OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   UPDATE_EMAIL_SETTINGS,
 } from '../purchaseSettingsIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -12,6 +15,7 @@ import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
 import createPurchaseSettingsDispatcher from '../createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from '../createPurchaseSettingsIntegrator';
+import modalTypes from '../modalTypes';
 import openBlob from '../../../common/blobOpener/openBlob';
 import purchaseSettingsDetailReducer from '../purchaseSettingsReducer';
 import successResponse from '../mappings/data/success';
@@ -46,6 +50,19 @@ describe('PurchaseSettingsDetailModule', () => {
     });
     store.resetActions();
     integration.resetRequests();
+
+    return toolbox;
+  };
+
+  const setupWithEditedPage = () => {
+    const toolbox = setupWithRun();
+    const { module, store } = toolbox;
+
+    module.updateRemittanceAdviceEmailField({
+      remittanceAdviceEmailBody: 'woot',
+    });
+
+    store.resetActions();
 
     return toolbox;
   };
@@ -178,6 +195,62 @@ describe('PurchaseSettingsDetailModule', () => {
         expect.objectContaining({
           intent: EXPORT_SAMPLE_PDF,
         }),
+      ]);
+    });
+  });
+
+  describe('handlePageTransition', () => {
+    it('opens unsaved modal when page is edited', () => {
+      const { module, store } = setupWithEditedPage();
+
+      module.handlePageTransition('/#/foo');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_REDIRECT_URL,
+          redirectUrl: '/#/foo',
+        },
+        {
+          intent: OPEN_MODAL,
+          modalType: modalTypes.UNSAVED,
+        },
+      ]);
+    });
+
+    it('redirect when page is not edited', () => {
+      const { module } = setupWithRun();
+      module.navigateTo = jest.fn();
+      module.handlePageTransition('/#/foo');
+
+      expect(module.navigateTo).toBeCalledWith('/#/foo');
+    });
+  });
+
+  describe('unsavedModal', () => {
+    it('navigates without saving when discarded', () => {
+      const { module, integration } = setupWithEditedPage();
+      module.navigateTo = jest.fn();
+
+      module.handlePageTransition('/#/bar');
+      module.discardAndRedirect();
+
+      expect(integration.getRequests()).toHaveLength(0);
+
+      expect(module.navigateTo).toBeCalledWith('/#/bar');
+    });
+
+    it('should not navigate on cancel', () => {
+      const { module, store } = setupWithEditedPage();
+      module.closeUnsavedModal();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_REDIRECT_URL,
+          redirectUrl: '',
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
       ]);
     });
   });

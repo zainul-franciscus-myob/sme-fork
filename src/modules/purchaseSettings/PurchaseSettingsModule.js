@@ -1,20 +1,23 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getIsPageEdited, getRedirectUrl } from './purchaseSettingsSelector';
 import LoadingState from '../../components/PageView/LoadingState';
 import PurchaseSettingsView from './components/PurchaseSettingsView';
 import Store from '../../store/Store';
 import createPurchaseSettingsDispatcher from './createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from './createPurchaseSettingsIntegrator';
+import modalTypes from './modalTypes';
 import openBlob from '../../common/blobOpener/openBlob';
 import purchaseSettingsReducer from './purchaseSettingsReducer';
 
 export default class PurchaseSettingsModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, navigateTo }) {
     this.setRootView = setRootView;
     this.store = new Store(purchaseSettingsReducer);
     this.dispatcher = createPurchaseSettingsDispatcher(this.store);
     this.integrator = createPurchaseSettingsIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   resetState = () => {
@@ -57,12 +60,9 @@ export default class PurchaseSettingsModule {
     this.integrator.loadSamplePdf({ onSuccess, onFailure });
   };
 
-  run(context) {
-    this.dispatcher.setInitialState(context);
-    this.loadPurchaseSettings();
-
-    this.render();
-  }
+  updateRemittanceAdviceEmailField = ({ key, value }) => {
+    this.dispatcher.updateDefaultRemittanceAdviceEmailField({ key, value });
+  };
 
   saveEmailSettings = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
@@ -80,15 +80,46 @@ export default class PurchaseSettingsModule {
     this.integrator.saveEmailSettings({ onSuccess, onFailure });
   };
 
+  closeUnsavedModal = () => {
+    this.dispatcher.setRedirectUrl('');
+    this.dispatcher.closeModal();
+  };
+
+  handlePageTransition = (url) => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      this.dispatcher.setRedirectUrl(url);
+      this.dispatcher.openModal(modalTypes.UNSAVED);
+    } else {
+      this.navigateTo(url);
+    }
+  };
+
+  discardAndRedirect = () => {
+    this.dispatcher.closeModal();
+    const state = this.store.getState();
+    const url = getRedirectUrl(state);
+    this.navigateTo(url);
+  };
+
+  run(context) {
+    this.dispatcher.setInitialState(context);
+    this.loadPurchaseSettings();
+
+    this.render();
+  }
+
   render = () => {
     const view = (
       <PurchaseSettingsView
         onDefaultRemittanceAdviceEmailFieldChange={
-          this.dispatcher.updateDefaultRemittanceAdviceEmailField
+          this.updateRemittanceAdviceEmailField
         }
         saveEmailSettings={this.saveEmailSettings}
         onDismissAlert={this.dispatcher.dismissAlert}
         exportPdf={this.exportPdf}
+        onUnsavedModalCancel={this.closeUnsavedModal}
+        onUnsavedModalConfirm={this.discardAndRedirect}
       />
     );
 

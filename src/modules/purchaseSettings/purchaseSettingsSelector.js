@@ -1,13 +1,11 @@
 export const getDefaultRemittanceAdviceEmailSettings = (state) =>
   state.defaultRemittanceAdviceEmailSettings;
-
 export const getBusinessId = (state) => state.businessId;
-
 export const getLoadingState = (state) => state.loadingState;
-
 export const getAlert = (state) => state.alert;
-
+export const getModalType = (state) => state.modalType;
+export const getIsPageEdited = (state) => state.isPageEdited;
+export const getRedirectUrl = (state) => state.redirectUrl;
 export const getTemplateList = (state) => state.templateList;
-
 export const getShouldDisplayCustomTemplateList = (state) =>
   state.shouldDisplayCustomTemplateList;
