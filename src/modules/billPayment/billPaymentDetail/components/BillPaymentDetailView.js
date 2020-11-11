@@ -8,6 +8,7 @@ import {
   getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
+  getRemittanceAdviceType,
   getShouldSendRemittanceAdvice,
   getShouldShowAlertMessage,
   getTitle,
@@ -183,6 +184,7 @@ const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
+  remittanceAdviceType: getRemittanceAdviceType(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
 });
 
