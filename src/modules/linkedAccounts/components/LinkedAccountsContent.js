@@ -11,6 +11,7 @@ import TabItem from '../TabItem';
 
 const LinkedAccountsContent = ({
   onAccountChange,
+  onAccountBlur,
   onCreateAccountButtonClick,
   onHasAccountOptionChange,
   selectedTab,
@@ -21,12 +22,14 @@ const LinkedAccountsContent = ({
         [TabItem.ACCOUNTS_AND_BANKING]: (
           <AccountsAndBankingTabContent
             onAccountChange={onAccountChange}
+            onAccountBlur={onAccountBlur}
             onCreateAccountButtonClick={onCreateAccountButtonClick}
           />
         ),
         [TabItem.SALES]: (
           <SalesTabContent
             onAccountChange={onAccountChange}
+            onAccountBlur={onAccountBlur}
             onCreateAccountButtonClick={onCreateAccountButtonClick}
             onHasAccountOptionChange={onHasAccountOptionChange}
           />
@@ -34,6 +37,7 @@ const LinkedAccountsContent = ({
         [TabItem.PURCHASES]: (
           <PurchasesTabContent
             onAccountChange={onAccountChange}
+            onAccountBlur={onAccountBlur}
             onCreateAccountButtonClick={onCreateAccountButtonClick}
             onHasAccountOptionChange={onHasAccountOptionChange}
           />
@@ -41,6 +45,7 @@ const LinkedAccountsContent = ({
         [TabItem.PAYROLL]: (
           <PayrollTabContent
             onAccountChange={onAccountChange}
+            onAccountBlur={onAccountBlur}
             onCreateAccountButtonClick={onCreateAccountButtonClick}
           />
         ),

@@ -137,6 +137,14 @@ class LinkedAccountsModule {
     this.accountModalModule.resetState();
   };
 
+  resetAccountIfEmpty = (accountField) => {
+    const state = this.store.getState();
+    const accountFieldEmpty =
+      state.linkedAccounts[accountField].accountId === undefined;
+    if (accountFieldEmpty)
+      this.dispatcher.resetAccountToSavedValue(accountField);
+  };
+
   run(context) {
     this.dispatcher.setInitialState(context);
     setupHotKeys(keyMap, this.handlers);
@@ -151,6 +159,7 @@ class LinkedAccountsModule {
         <LinkedAccountsView
           accountModal={this.accountModalModule.render()}
           onAccountChange={this.updateAccount}
+          onAccountBlur={this.resetAccountIfEmpty}
           onCreateAccountButtonClick={this.openAccountModal}
           onDismissAlert={this.dismissAlert}
           onHasAccountOptionChange={this.updateHasAccountOption}

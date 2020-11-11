@@ -34,6 +34,7 @@ const ToggleableAccountCombobox = ({
         label={comboboxLabel}
         onChange={comboboxHandler}
         selectedId={comboboxSelectedId}
+        allowClear
         {...otherProps}
       />
     )}

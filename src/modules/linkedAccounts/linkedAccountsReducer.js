@@ -1,6 +1,7 @@
 import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_LINKED_ACCOUNTS,
+  RESET_ACCOUNT_TO_SAVED_VALUE,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
   SET_IS_SUBMITTING,
@@ -133,6 +134,30 @@ const getDefaultState = () => ({
       selectedAccountId: '',
     },
   },
+  savedLinkedAccounts: {
+    equityAccountCurrentEarnings: 0,
+    equityAccountRetainedEarnings: 0,
+    equityHistoricalBalancing: 0,
+    bankAccountElectronicPayments: 0,
+    bankAccountUndepositedFunds: 0,
+    assetAccountTrackingReceivables: 0,
+    bankAccountCustomerReceipts: 0,
+    incomeAccountFreight: 0,
+    liabilityAccountCustomerDeposits: 0,
+    incomeAccountLateCharges: 0,
+    liabilityAccountTrackingPayables: 0,
+    bankAccountPayingBills: 0,
+    liabilityAccountItemReceipts: 0,
+    expenseSalesAccountFreight: 0,
+    assetAccountSupplierDeposits: 0,
+    expenseAccountDiscounts: 0,
+    expenseAccountLaterCharges: 0,
+    bankAccountCashPayments: 0,
+    bankAccountChequePayments: 0,
+    employmentExpenseAccount: 0,
+    wagesExpenseAccount: 0,
+    taxDeductionsPayableAccount: 0,
+  },
 });
 
 const resetState = () => getDefaultState();
@@ -208,6 +233,36 @@ const loadLinkedAccounts = (state, action) => ({
     employmentExpenseAccount: action.employmentExpenseAccount,
     wagesExpenseAccount: action.wagesExpenseAccount,
     taxDeductionsPayableAccount: action.taxDeductionsPayableAccount,
+  },
+  savedLinkedAccounts: {
+    equityAccountCurrentEarnings: action.equityAccountCurrentEarnings.accountId,
+    equityAccountRetainedEarnings:
+      action.equityAccountRetainedEarnings.accountId,
+    equityHistoricalBalancing: action.equityHistoricalBalancing.accountId,
+    bankAccountElectronicPayments:
+      action.bankAccountElectronicPayments.accountId,
+    bankAccountUndepositedFunds: action.bankAccountUndepositedFunds.accountId,
+    assetAccountTrackingReceivables:
+      action.assetAccountTrackingReceivables.accountId,
+    bankAccountCustomerReceipts: action.bankAccountCustomerReceipts.accountId,
+    incomeAccountFreight: action.incomeAccountFreight.accountId,
+    liabilityAccountCustomerDeposits:
+      action.liabilityAccountCustomerDeposits.accountId,
+    expenseSalesAccountDiscounts: action.expenseSalesAccountDiscounts.accountId,
+    incomeAccountLateCharges: action.incomeAccountLateCharges.accountId,
+    liabilityAccountTrackingPayables:
+      action.liabilityAccountTrackingPayables.accountId,
+    bankAccountPayingBills: action.bankAccountPayingBills.accountId,
+    liabilityAccountItemReceipts: action.liabilityAccountItemReceipts.accountId,
+    expenseSalesAccountFreight: action.expenseSalesAccountFreight.accountId,
+    assetAccountSupplierDeposits: action.assetAccountSupplierDeposits.accountId,
+    expenseAccountDiscounts: action.expenseAccountDiscounts.accountId,
+    expenseAccountLaterCharges: action.expenseAccountLaterCharges.accountId,
+    bankAccountCashPayments: action.bankAccountCashPayments.accountId,
+    bankAccountChequePayments: action.bankAccountChequePayments.accountId,
+    employmentExpenseAccount: action.employmentExpenseAccount.accountId,
+    wagesExpenseAccount: action.wagesExpenseAccount.accountId,
+    taxDeductionsPayableAccount: action.taxDeductionsPayableAccount.accountId,
   },
 });
 
@@ -376,6 +431,17 @@ const updateAccount = (state, action) => ({
   },
 });
 
+const resetAccountToSavedValue = (state, { accountField }) => ({
+  ...state,
+  linkedAccounts: {
+    ...state.linkedAccounts,
+    [accountField]: {
+      ...state.linkedAccounts[accountField],
+      accountId: state.savedLinkedAccounts[accountField],
+    },
+  },
+});
+
 const updateHasAccountOption = (state, action) => ({
   ...state,
   linkedAccounts: {
@@ -408,6 +474,7 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [UPDATE_ACCOUNT]: updateAccount,
   [UPDATE_HAS_ACCOUNT_OPTION]: updateHasAccountOption,
+  [RESET_ACCOUNT_TO_SAVED_VALUE]: resetAccountToSavedValue,
 };
 
 const linkedAccountsReducer = createReducer(getDefaultState(), handlers);

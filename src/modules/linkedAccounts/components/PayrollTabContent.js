@@ -21,6 +21,7 @@ const PayrollTabContent = ({
   employmentExpenseAccount,
   isDisabled,
   onAccountChange,
+  onAccountBlur,
   onCreateAccountButtonClick,
   taxDeductionsPayableAccount,
   wagesExpenseAccount,
@@ -35,11 +36,13 @@ const PayrollTabContent = ({
         'bankAccountCashPayments',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('bankAccountCashPayments')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('bankAccountCashPayments', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -50,11 +53,13 @@ const PayrollTabContent = ({
         'bankAccountChequePayments',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('bankAccountChequePayments')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('bankAccountChequePayments', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -65,11 +70,13 @@ const PayrollTabContent = ({
         'bankAccountElectronicPayments',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('bankAccountElectronicPayments')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('bankAccountElectronicPayments', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -80,11 +87,13 @@ const PayrollTabContent = ({
         'employmentExpenseAccount',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('employmentExpenseAccount')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('employmentExpenseAccount', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -92,11 +101,13 @@ const PayrollTabContent = ({
       items={wagesExpenseAccount.accounts}
       selectedId={wagesExpenseAccount.accountId}
       onChange={handleComboboxChange('wagesExpenseAccount', onAccountChange)}
+      onBlur={() => onAccountBlur('wagesExpenseAccount')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('wagesExpenseAccount', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -107,11 +118,13 @@ const PayrollTabContent = ({
         'taxDeductionsPayableAccount',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('taxDeductionsPayableAccount')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('taxDeductionsPayableAccount', onAccountChange)
         )
       }
+      allowClear
     />
   </FieldGroup>
 );

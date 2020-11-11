@@ -21,6 +21,7 @@ const AccountsAndBankingTabContent = ({
   equityHistoricalBalancing,
   isDisabled,
   onAccountChange,
+  onAccountBlur,
   onCreateAccountButtonClick,
 }) => (
   <FieldGroup label="Accounting and banking" hideLabel>
@@ -39,11 +40,13 @@ const AccountsAndBankingTabContent = ({
         'equityHistoricalBalancing',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('equityHistoricalBalancing')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('equityHistoricalBalancing', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -54,11 +57,13 @@ const AccountsAndBankingTabContent = ({
         'bankAccountElectronicPayments',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('bankAccountElectronicPayments')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('bankAccountElectronicPayments', onAccountChange)
         )
       }
+      allowClear
     />
     <AccountCombobox
       disabled={isDisabled}
@@ -69,11 +74,13 @@ const AccountsAndBankingTabContent = ({
         'bankAccountUndepositedFunds',
         onAccountChange
       )}
+      onBlur={() => onAccountBlur('bankAccountUndepositedFunds')}
       addNewAccount={() =>
         onCreateAccountButtonClick(
           handleComboboxChange('bankAccountUndepositedFunds', onAccountChange)
         )
       }
+      allowClear
     />
   </FieldGroup>
 );

@@ -27,6 +27,7 @@ const PurchasesTabContent = ({
   liabilityAccountItemReceipts,
   liabilityAccountTrackingPayables,
   onAccountChange,
+  onAccountBlur,
   onCreateAccountButtonClick,
   onHasAccountOptionChange,
 }) => (
@@ -41,6 +42,7 @@ const PurchasesTabContent = ({
           'liabilityAccountTrackingPayables',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('liabilityAccountTrackingPayables')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange(
@@ -49,6 +51,7 @@ const PurchasesTabContent = ({
             )
           )
         }
+        allowClear
       />
       <AccountCombobox
         disabled={isDisabled}
@@ -59,11 +62,13 @@ const PurchasesTabContent = ({
           'bankAccountPayingBills',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('bankAccountPayingBills')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange('bankAccountPayingBills', onAccountChange)
           )
         }
+        allowClear
       />
     </FieldGroup>
     <FieldGroup label="Liability account for item receipt" hideLabel>
@@ -80,6 +85,7 @@ const PurchasesTabContent = ({
           'liabilityAccountItemReceipts',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('liabilityAccountItemReceipts')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange(
@@ -104,6 +110,7 @@ const PurchasesTabContent = ({
           'expenseSalesAccountFreight',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('expenseSalesAccountFreight')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange('expenseSalesAccountFreight', onAccountChange)
@@ -125,6 +132,7 @@ const PurchasesTabContent = ({
           'assetAccountSupplierDeposits',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('assetAccountSupplierDeposits')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange(
@@ -149,6 +157,7 @@ const PurchasesTabContent = ({
           'expenseAccountDiscounts',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('expenseAccountDiscounts')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange('expenseAccountDiscounts', onAccountChange)
@@ -170,6 +179,7 @@ const PurchasesTabContent = ({
           'expenseAccountLaterCharges',
           onAccountChange
         )}
+        onBlur={() => onAccountBlur('expenseAccountLaterCharges')}
         addNewAccount={() =>
           onCreateAccountButtonClick(
             handleComboboxChange('expenseAccountLaterCharges', onAccountChange)

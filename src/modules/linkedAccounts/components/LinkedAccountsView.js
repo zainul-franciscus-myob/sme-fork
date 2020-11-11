@@ -14,6 +14,7 @@ const LinkedAccountsView = ({
   alert,
   loadingState,
   onAccountChange,
+  onAccountBlur,
   onCancelButtonClick,
   onCreateAccountButtonClick,
   onDismissAlert,
@@ -42,6 +43,7 @@ const LinkedAccountsView = ({
       <LinkedAccountsTabs onSelectTab={onSelectTab} />
       <LinkedAccountsContent
         onAccountChange={onAccountChange}
+        onAccountBlur={onAccountBlur}
         onHasAccountOptionChange={onHasAccountOptionChange}
         onCreateAccountButtonClick={onCreateAccountButtonClick}
       />

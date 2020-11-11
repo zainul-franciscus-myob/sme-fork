@@ -24,3 +24,7 @@ export const SET_SHOULD_DISPLAY_PURCHASES_TAB = Symbol(
 );
 export const UPDATE_ACCOUNT = Symbol('Update account');
 export const UPDATE_HAS_ACCOUNT_OPTION = Symbol('Update has account option');
+
+export const RESET_ACCOUNT_TO_SAVED_VALUE = Symbol(
+  'Reset account to saved value'
+);

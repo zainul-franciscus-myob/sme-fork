@@ -1,6 +1,7 @@
 import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_LINKED_ACCOUNTS,
+  RESET_ACCOUNT_TO_SAVED_VALUE,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
   SET_IS_SUBMITTING,
@@ -94,6 +95,13 @@ const createLinkedAccountsDispatcher = ({ store }) => ({
       intent: UPDATE_ACCOUNT,
       key,
       value,
+    });
+  },
+
+  resetAccountToSavedValue: (accountField) => {
+    store.dispatch({
+      intent: RESET_ACCOUNT_TO_SAVED_VALUE,
+      accountField,
     });
   },
 
