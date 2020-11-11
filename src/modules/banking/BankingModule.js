@@ -932,12 +932,20 @@ export default class BankingModule {
     const taxCalculator = getIsOpenTransactionWithdrawal(state)
       ? this.spendMoneyTaxCalculator
       : this.receiveMoneyTaxCalculator;
-    const taxCalculations = taxCalculator({
-      isTaxInclusive: true,
-      taxCodes,
-      lines,
-      isLineAmountsTaxInclusive: true,
-    });
+
+    let taxCalculations;
+
+    // SMEP-2466 add logs for tracing a tax-calculator error.
+    try {
+      taxCalculations = taxCalculator({
+        isTaxInclusive: true,
+        taxCodes,
+        lines,
+        isLineAmountsTaxInclusive: true,
+      });
+    } catch (error) {
+      console.error(JSON.stringify({ lines, taxCodes }));
+    }
 
     this.dispatcher.calculateSplitAllocationTax({ taxCalculations });
   };
