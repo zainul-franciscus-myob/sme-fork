@@ -5,8 +5,10 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
+  getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
+  getShouldSendRemittanceAdvice,
   getShouldShowAlertMessage,
   getTitle,
 } from '../BillPaymentDetailSelectors';
@@ -179,6 +181,8 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   title: getTitle(state),
   isCreating: getIsCreating(state),
+  shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
+  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
 });
 
