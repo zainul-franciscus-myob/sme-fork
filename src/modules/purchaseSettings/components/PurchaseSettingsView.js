@@ -4,7 +4,6 @@ import {
   ButtonRow,
   Card,
   FieldGroup,
-  FormHorizontal,
   FormTemplate,
   Input,
   Table,
@@ -61,70 +60,67 @@ const PurchaseSettingsView = ({
           onCancel={onUnsavedModalCancel}
         />
       )}
-      <div className={styles.templateContainer}>
+      <div>
         <Card>
-          <FormHorizontal layout="primary">
-            <FieldGroup label="Default Remittance Advice email">
-              <Input
-                label="Subject"
-                width="xl"
-                value={emailSettings.remittanceAdviceEmailSubject}
-                name="remittanceAdviceEmailSubject"
-                maxLength={256}
-                onChange={handleInputChange(
-                  onDefaultRemittanceAdviceEmailFieldChange
-                )}
-              />
-              <TextArea
-                label="Message"
-                width="xl"
-                value={emailSettings.remittanceAdviceEmailBody}
-                name="remittanceAdviceEmailBody"
-                autoSize
-                resize="vertical"
-                maxLength={4000}
-                onChange={handleInputChange(
-                  onDefaultRemittanceAdviceEmailFieldChange
-                )}
-              />
-            </FieldGroup>
-          </FormHorizontal>
+          <FieldGroup label="Default Remittance Advice email">
+            <Input
+              label="Subject"
+              width="xl"
+              value={emailSettings.remittanceAdviceEmailSubject}
+              name="remittanceAdviceEmailSubject"
+              maxLength={256}
+              onChange={handleInputChange(
+                onDefaultRemittanceAdviceEmailFieldChange
+              )}
+            />
+            <TextArea
+              label="Message"
+              width="xl"
+              value={emailSettings.remittanceAdviceEmailBody}
+              name="remittanceAdviceEmailBody"
+              autoSize
+              resize="vertical"
+              maxLength={4000}
+              onChange={handleInputChange(
+                onDefaultRemittanceAdviceEmailFieldChange
+              )}
+            />
+          </FieldGroup>
         </Card>
-        <ButtonRow
-          primary={[
-            <Button key="SaveButton" onClick={saveEmailSettings}>
-              Save
-            </Button>,
-          ]}
-        />
-        {shouldDisplayCustomTemplateList ? (
-          <Card>
-            <FieldGroup label="MYOB AccountRight desktop templates">
-              {
-                "You can still use templates created in the desktop version of AccountRight. To edit these templates, you'll need to open them in the desktop version of AccountRight."
-              }
-            </FieldGroup>
-            <Table>
-              <Table.Header>
-                <Table.HeaderItem>Name</Table.HeaderItem>
-              </Table.Header>
-              {templateRows}
-            </Table>
-          </Card>
-        ) : (
-          <Card>
-            <FieldGroup label="Preview remittance advice">
-              {
-                'Preview the remittance advice PDF that gets sent to your payees.'
-              }
-            </FieldGroup>
-            <br />
-            <Button type="link" onClick={exportPdf}>
-              Download preview (PDF)
-            </Button>
-          </Card>
-        )}
       </div>
+      <ButtonRow
+        className={styles.buttonMargin}
+        primary={[
+          <Button key="SaveButton" onClick={saveEmailSettings}>
+            Save
+          </Button>,
+        ]}
+      />
+      {shouldDisplayCustomTemplateList ? (
+        <Card>
+          <FieldGroup label="MYOB AccountRight desktop templates">
+            {
+              "You can still use templates created in the desktop version of AccountRight. To edit these templates, you'll need to open them in the desktop version of AccountRight."
+            }
+          </FieldGroup>
+          <Table>
+            <Table.Header>
+              <Table.HeaderItem>Name</Table.HeaderItem>
+            </Table.Header>
+            {templateRows}
+          </Table>
+        </Card>
+      ) : (
+        <Card>
+          <FieldGroup label="Preview remittance advice">
+            {'Preview the remittance advice PDF that gets sent to your payees.'}
+          </FieldGroup>
+          <br />
+          <Button type="link" onClick={exportPdf}>
+            Download preview (PDF)
+          </Button>
+        </Card>
+      )}
     </FormTemplate>
   );
 

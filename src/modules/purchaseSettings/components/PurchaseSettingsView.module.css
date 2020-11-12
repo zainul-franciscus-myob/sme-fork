@@ -1,3 +1,4 @@
-.templateContainer > * {
-  margin-bottom: var(--flx-spacing-tiny);
+.buttonMargin {
+  margin-top: var(--flx-spacing-tiny);
+  margin-bottom: var(--flx-spacing-x-large);
 }
