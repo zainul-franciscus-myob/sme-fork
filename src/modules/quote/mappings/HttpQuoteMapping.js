@@ -5,7 +5,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_ITEM_SELLING_DETAILS,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_QUOTE_DETAIL,
   LOAD_NEW_QUOTE_DETAIL,
   LOAD_QUOTE_DETAIL,
@@ -68,10 +67,6 @@ const HttpQuoteMapping = {
     method: 'GET',
     getPath: ({ businessId, accountId }) =>
       `/${businessId}/quote/load_account/${accountId}`,
-  },
-  [LOAD_JOB_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, jobId }) => `/${businessId}/bill/load_job/${jobId}`,
   },
   [EXPORT_QUOTE_PDF]: {
     method: 'GET',

@@ -9,7 +9,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_ITEM_SELLING_DETAILS,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
@@ -22,7 +21,6 @@ import {
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -157,12 +155,6 @@ const createQuoteDetailDispatcher = (store) => ({
     store.dispatch({ intent: RESET_CONTACT });
   },
 
-  loadJobAfterCreate: (payload) =>
-    store.dispatch({
-      intent: LOAD_JOB_AFTER_CREATE,
-      ...payload,
-    }),
-
   setContactLoadingState: (isContactLoading) =>
     store.dispatch({
       intent: SET_CONTACT_LOADING_STATE,
@@ -179,12 +171,6 @@ const createQuoteDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_ACCOUNT_LOADING_STATE,
       isAccountLoading,
-    }),
-
-  setJobLoadingState: (isJobLoading) =>
-    store.dispatch({
-      intent: SET_JOB_LOADING_STATE,
-      isJobLoading,
     }),
 
   updateEmailQuoteDetail: ({ key, value }) =>

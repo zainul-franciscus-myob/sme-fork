@@ -11,7 +11,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT_ADDRESS,
   LOAD_ITEM_SELLING_DETAILS,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_QUOTE_DETAIL,
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
@@ -24,7 +23,6 @@ import {
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
   SET_DUPLICATE_ID,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -114,11 +112,6 @@ const getLoadQuoteDetailEmailQuote = (emailQuote, quoteNumber) =>
       }
     : {};
 
-const buildJobOptions = ({ action, jobId }) => {
-  const { jobOptions = [] } = action;
-  return jobOptions.filter(({ isActive, id }) => isActive || id === jobId);
-};
-
 const loadQuoteDetail = (state, action) => ({
   ...state,
   pageTitle: action.pageTitle,
@@ -126,8 +119,6 @@ const loadQuoteDetail = (state, action) => ({
     ...state.quote,
     ...action.quote,
     lines: action.quote.lines.map((line) => {
-      const lineJobOptions = buildJobOptions({ action, jobId: line.jobId });
-
       if (
         [
           QuoteLineType.SERVICE,
@@ -143,17 +134,15 @@ const loadQuoteDetail = (state, action) => ({
           ...line,
           amount,
           displayAmount: formatAmount(amount),
-          lineJobOptions,
         };
       }
 
-      return { ...line, lineJobOptions };
+      return line;
     }),
   },
   newLine: {
     ...state.newLine,
     ...action.newLine,
-    lineJobOptions: buildJobOptions({ action }),
   },
   expirationTermOptions: action.expirationTermOptions,
   commentOptions: action.commentOptions,
@@ -360,30 +349,9 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  quote: {
-    ...state.quote,
-    lines: state.quote.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
-});
-
 const setAccountLoadingState = (state, { isAccountLoading }) => ({
   ...state,
   isAccountLoading,
-});
-
-const setJobLoadingState = (state, { isJobLoading }) => ({
-  ...state,
-  isJobLoading,
 });
 
 const changeExportPdfForm = (state, action) => ({
@@ -486,8 +454,6 @@ const handlers = {
   [CALCULATE_LINES]: calculateLines,
   [LOAD_CONTACT_ADDRESS]: loadCustomerAddress,
   [RESET_CONTACT]: resetContact,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [SET_CONTACT_LOADING_STATE]: setCustomerLoadingState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_ACCOUNT_LOADING_STATE]: setAccountLoadingState,

@@ -34,7 +34,6 @@ export const getModalAlert = (state) => state.modalAlert;
 export const getIsModalActionDisabled = (state) => state.isModalSubmitting;
 const getIsContactLoading = (state) => state.isContactLoading;
 export const getIsAccountComboboxDisabled = (state) => state.isAccountLoading;
-export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
 export const getIsCalculating = (state) => state.isCalculating;
 export const getIsLineAmountInputDirty = (state) =>
   state.isLineAmountInputDirty;
@@ -172,6 +171,22 @@ export const getJobModalContext = (state) => {
   const region = getRegion(state);
 
   return { businessId, region };
+};
+
+export const getUniqueSelectedJobIds = (state) => {
+  const lines = getLines(state);
+
+  if (lines.length > 0) {
+    const selectedJobIds = lines.reduce((jobIds, line) => {
+      if (line.jobId) {
+        jobIds.push(line.jobId);
+      }
+      return jobIds;
+    }, []);
+    return [...new Set([...selectedJobIds])];
+  }
+
+  return [];
 };
 
 export const getIsTaxCalculationRequired = (state) =>

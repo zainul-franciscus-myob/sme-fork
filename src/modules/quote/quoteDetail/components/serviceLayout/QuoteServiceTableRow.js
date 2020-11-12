@@ -6,14 +6,12 @@ import {
   getAccountOptions,
   getIsAccountComboboxDisabled,
   getIsCalculating,
-  getIsJobComboboxDisabled,
   getIsReadOnly,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import Calculator from '../../../../../components/Calculator/Calculator';
-import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import QuoteLineType from '../../QuoteLineType';
 import QuoteTableReadOnlyRowItem from '../QuoteTableReadOnlyRowItem';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
@@ -40,6 +38,15 @@ const handleAmountInputBlur = (handler, index) => (e) => {
   handler(index, key, value);
 };
 
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
+    },
+  });
+};
+
 const QuoteServiceTableRow = ({
   quoteLine,
   index,
@@ -51,9 +58,9 @@ const QuoteServiceTableRow = ({
   onAddAccount,
   onAddJob,
   isAccountComboboxDisabled,
-  isJobComboboxDisabled,
   isCalculating,
   isReadOnly,
+  renderJobCombobox,
   ...feelixInjectedProps
 }) => {
   const {
@@ -64,7 +71,6 @@ const QuoteServiceTableRow = ({
     taxCodeId,
     amount,
     displayAmount,
-    lineJobOptions,
   } = quoteLine;
 
   if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
@@ -118,15 +124,15 @@ const QuoteServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(onComboboxChange('jobId', onChange))}
-        onChange={onComboboxChange('jobId', onChange)}
-        disabled={isJobComboboxDisabled || isCalculating || isReadOnly}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isCalculating || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         label="Tax code"
         onChange={onComboboxChange('taxCodeId', onChange)}
@@ -143,7 +149,6 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isAccountComboboxDisabled: getIsAccountComboboxDisabled(state),
-  isJobComboboxDisabled: getIsJobComboboxDisabled(state),
   isCalculating: getIsCalculating(state),
   isReadOnly: getIsReadOnly(state),
 });

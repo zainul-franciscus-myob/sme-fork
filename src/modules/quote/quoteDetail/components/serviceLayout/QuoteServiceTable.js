@@ -33,6 +33,7 @@ const QuoteServiceTable = ({
     onViewedAccountToolTip,
   },
   taxCodeLabel,
+  renderJobCombobox,
 }) => {
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
@@ -91,6 +92,7 @@ const QuoteServiceTable = ({
       onAddJob={onAddJob}
       onRowInputBlur={onRowInputBlur}
       labels={labels}
+      renderJobCombobox={renderJobCombobox}
     />
   );
 

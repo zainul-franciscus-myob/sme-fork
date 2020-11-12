@@ -55,11 +55,6 @@ export const getCreateOrUpdateQuoteUrlParams = (state) => {
   return { businessId, quoteId };
 };
 
-export const getLoadAddedJobUrlParams = (state, jobId) => {
-  const businessId = getBusinessId(state);
-  return { businessId, jobId };
-};
-
 export const getCreateOrUpdateQuotePayload = (state) => {
   const quote = getQuote(state);
   const lines = quote.lines.map((line) => {

@@ -23,7 +23,6 @@ const getDefaultState = () => ({
   isCalculating: false,
   isAccountLoading: false,
   isContactLoading: false,
-  isJobLoading: false,
   pageTitle: '',
   quote: {
     id: '',
@@ -62,7 +61,6 @@ const getDefaultState = () => ({
     itemId: '',
     unitPrice: '',
     discount: '',
-    lineJobOptions: [],
   },
   expirationTermOptions: [],
   commentOptions: [],

@@ -34,6 +34,7 @@ const QuoteItemAndServiceTable = ({
     onViewedAccountToolTip,
   },
   taxCodeLabel,
+  renderJobCombobox,
 }) => {
   const headerItems = [
     <LineItemTable.HeaderItem>{itemIdLabel}</LineItemTable.HeaderItem>,
@@ -127,6 +128,7 @@ const QuoteItemAndServiceTable = ({
       onAddJob={onAddJob}
       labels={labels}
       renderItemCombobox={renderItemCombobox}
+      renderJobCombobox={renderJobCombobox}
     />
   );
 

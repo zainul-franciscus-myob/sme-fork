@@ -31,6 +31,7 @@ const QuoteDetailView = ({
   renderItemCombobox,
   accountModal,
   jobModal,
+  renderJobCombobox,
   loadingState,
   alert,
   modal,
@@ -80,12 +81,17 @@ const QuoteDetailView = ({
   const footer = <QuoteDetailFooter onUpdateNote={onUpdateHeaderOptions} />;
 
   const serviceTable = (
-    <QuoteServiceTable listeners={serviceLayoutListeners} footer={footer} />
+    <QuoteServiceTable
+      renderJobCombobox={renderJobCombobox}
+      listeners={serviceLayoutListeners}
+      footer={footer}
+    />
   );
 
   const itemAndServiceTable = (
     <QuoteItemAndServiceTable
       renderItemCombobox={renderItemCombobox}
+      renderJobCombobox={renderJobCombobox}
       listeners={itemAndServiceLayoutListeners}
       footer={footer}
     />

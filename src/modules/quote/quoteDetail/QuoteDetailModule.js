@@ -36,6 +36,7 @@ import {
   getShouldSaveAndReload,
   getTaxCalculations,
   getUniqueSelectedItemIds,
+  getUniqueSelectedJobIds,
   getViewedAccountToolTip,
 } from './selectors/QuoteDetailSelectors';
 import {
@@ -53,6 +54,7 @@ import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
+import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './ModalType';
@@ -87,6 +89,10 @@ export default class QuoteDetailModule {
     this.integrator = createQuoteDetailIntegrator(this.store, integration);
     this.accountModalModule = new AccountModalModule({ integration });
     this.jobModalModule = new JobModalModule({ integration });
+    this.jobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
     this.contactComboboxModule = new ContactComboboxModule({ integration });
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
@@ -102,6 +108,7 @@ export default class QuoteDetailModule {
       this.dispatcher.loadQuote(payload);
       this.updateContactCombobox();
       this.updateItemCombobox();
+      this.updateJobCombobox();
     };
 
     const onFailure = () => {
@@ -501,34 +508,15 @@ export default class QuoteDetailModule {
     this.navigateTo(url, true);
   };
 
-  openJobModal = (onChange) => {
+  openJobModal = () => {
     const state = this.store.getState();
     const context = getJobModalContext(state);
 
     this.jobModalModule.run({
       context,
       onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
+      onSaveSuccess: (message) => this.displaySuccessAlert(message),
     });
-  };
-
-  loadJobAfterCreate = ({ message, id }, onChange) => {
-    this.jobModalModule.resetState();
-    this.displaySuccessAlert(message);
-    this.dispatcher.setJobLoadingState(true);
-
-    const onSuccess = (payload) => {
-      const job = { ...payload, id };
-      this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(job);
-      onChange(job);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setJobLoadingState(false);
-    };
-
-    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   openDeleteModal = () => this.dispatcher.openModal({ type: ModalType.DELETE });
@@ -767,6 +755,24 @@ export default class QuoteDetailModule {
     }
   };
 
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
+  updateJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.jobComboboxModule.load(selectedJobIds);
+    }
+  };
+
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
@@ -788,6 +794,7 @@ export default class QuoteDetailModule {
           renderItemCombobox={this.renderItemCombobox}
           accountModal={accountModal}
           jobModal={jobModal}
+          renderJobCombobox={this.renderJobCombobox}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateHeaderOptions={this.updateQuoteDetailHeaderOptions}
           onUpdateLayout={this.updateLayout}
@@ -917,5 +924,6 @@ export default class QuoteDetailModule {
     this.loadQuote();
     this.loadContactCombobox();
     this.loadItemCombobox();
+    this.loadJobCombobox();
   }
 }
