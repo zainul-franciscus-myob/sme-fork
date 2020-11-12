@@ -18,7 +18,14 @@ export default class StartPayRunSubModule {
 
     const onSuccess = (createdDraftPayRun) => {
       this.dispatcher.createdDraftPayRunSuccess();
-      this.dispatcher.loadDraftPayRun(createdDraftPayRun);
+      const createdDraftPayRunTemp = {
+        ...createdDraftPayRun,
+        employeePays: createdDraftPayRun.employeePays.map((pay) => ({
+          ...pay,
+          daysPaid: '',
+        })),
+      };
+      this.dispatcher.loadDraftPayRun(createdDraftPayRunTemp);
       this.dispatcher.nextStep();
     };
 
