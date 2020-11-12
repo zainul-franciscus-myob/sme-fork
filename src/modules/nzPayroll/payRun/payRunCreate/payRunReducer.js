@@ -1,4 +1,5 @@
 import {
+  CLOSE_DISCARD_MODAL,
   CLOSE_PREVIOUS_STEP_MODAL,
   CREATE_DRAFT_PAY_RUN_FAILED,
   CREATE_DRAFT_PAY_RUN_SUCCESS,
@@ -6,12 +7,14 @@ import {
   LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
   LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
   NEXT_STEP,
+  OPEN_DISCARD_AND_REDIRECT_MODAL,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_ALERT,
   SET_DRAFT_PAY_RUN_ID,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
 } from './PayRunIntents';
@@ -84,9 +87,24 @@ const setDraftPayRunId = (state, { createdDraftPayRun }) => ({
   draftPayRunId: createdDraftPayRun.draftPayRunId,
 });
 
+const setRedirectUrl = (state, { redirectUrl }) => ({
+  ...state,
+  redirectUrl,
+});
+
 const previousStep = (state) => ({
   ...state,
   step: PAY_RUN_STEPS.find((step) => step.key === state.step.previousStepKey),
+});
+
+const openDiscardModal = (state) => ({
+  ...state,
+  discardModalIsOpen: true,
+});
+
+const closeDiscardModal = (state) => ({
+  ...state,
+  discardModalIsOpen: false,
 });
 
 const openPreviousStepModal = (state) => ({
@@ -138,11 +156,14 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TOTAL_TAKE_HOME_PAY]: setTotalTakeHomePay,
+  [SET_REDIRECT_URL]: setRedirectUrl,
   [NEXT_STEP]: nextStep,
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_ALERT]: setAlert,
   [SET_DRAFT_PAY_RUN_ID]: setDraftPayRunId,
   [PREVIOUS_STEP]: previousStep,
+  [OPEN_DISCARD_AND_REDIRECT_MODAL]: openDiscardModal,
+  [CLOSE_DISCARD_MODAL]: closeDiscardModal,
   [OPEN_PREVIOUS_STEP_MODAL]: openPreviousStepModal,
   [CLOSE_PREVIOUS_STEP_MODAL]: closePreviousStepModal,
   [RESTART_PAY_RUN]: restartPayRun,

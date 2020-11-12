@@ -111,7 +111,13 @@ export const getStepNumber = createSelector(getStepIndex, (index) =>
   String(index + 1)
 );
 
+export const isPayrunStarted = (state) =>
+  getStepNumber(state) > 1 &&
+  getStepNumber(state) < initialStepperSteps.length - 1;
+
 export const getRegion = (state) => state.region;
+
+export const getRedirectUrl = (state) => state.redirectUrl;
 
 export const getIsSubmitting = (state) => state.isSubmitting;
 
@@ -126,4 +132,9 @@ export const getDraftPayRunId = (state) => state.draftPayRunId;
 export const getPreviousStepModalIsOpen = (state) =>
   state.previousStepModalIsOpen;
 
+export const getDiscardModalIsOpen = (state) => state.discardModalIsOpen;
+
 export const getAlert = (state) => state.alert;
+
+export const isNavigationToSelf = (state) =>
+  window.location.href.endsWith(state.redirectUrl);

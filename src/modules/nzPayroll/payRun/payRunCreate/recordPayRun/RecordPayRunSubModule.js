@@ -56,6 +56,10 @@ export default class RecordPayRunSubModule {
     this.dispatcher.previousStep();
   };
 
+  tryToNavigate() {
+    this.dispatcher.openDiscardAndRedirectModal();
+  }
+
   render() {
     return (
       <>

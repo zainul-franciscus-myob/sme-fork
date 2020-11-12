@@ -35,9 +35,14 @@ export const SET_TOTAL_TAKE_HOME_PAY = Symbol(
   'Sets amount for total take home pay'
 );
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_REDIRECT_URL = Symbol('Set redirect url');
 export const SET_DRAFT_PAY_RUN_ID = Symbol('Set draft pay run id');
+export const OPEN_DISCARD_AND_REDIRECT_MODAL = Symbol(
+  'Open discard and redirect modal'
+);
 export const OPEN_PREVIOUS_STEP_MODAL = Symbol('Open previous step modal');
 export const CLOSE_PREVIOUS_STEP_MODAL = Symbol('Close previous step modal');
+export const CLOSE_DISCARD_MODAL = Symbol('Close discard step modal');
 export const RESTART_PAY_RUN = Symbol('Restart pay run');
 
 export const LOAD_PAYROLL_VERIFICATION_REPORT = Symbol(

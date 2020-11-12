@@ -1,14 +1,17 @@
 import {
+  CLOSE_DISCARD_MODAL,
   CLOSE_PREVIOUS_STEP_MODAL,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
   LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
   NEXT_STEP,
+  OPEN_DISCARD_AND_REDIRECT_MODAL,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
   START_NEW_PAY_RUN,
@@ -67,6 +70,25 @@ const createPayRunDispatchers = (store) => ({
   setSubmittingState: (isSubmitting) => {
     const intent = SET_SUBMITTING_STATE;
     store.dispatch({ intent, isSubmitting });
+  },
+
+  setRedirectUrl: (redirectUrl) => {
+    const intent = SET_REDIRECT_URL;
+    store.dispatch({ intent, redirectUrl });
+  },
+
+  openDiscardAndRedirectModal: () => {
+    const intent = OPEN_DISCARD_AND_REDIRECT_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  closeDiscardModal: () => {
+    const intent = CLOSE_DISCARD_MODAL;
+    store.dispatch({
+      intent,
+    });
   },
 
   openPreviousStepModal: () => {

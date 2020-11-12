@@ -2,10 +2,10 @@ import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
 
+import DiscardDraftModal from '../DiscardDraftModal';
 import LoadingState from '../../../../../../components/PageView/LoadingState';
 import PageView from '../../../../../../components/PageView/PageView';
 import PayRunView from '../PayRunView';
-import PreviousStepModal from '../PreviousStepModal';
 import TestStore from '../../../../../../store/TestStore';
 import payRunReducer from '../../payRunReducer';
 
@@ -47,7 +47,7 @@ describe('PayRunView', () => {
       });
 
       const wrapper = mountWithProvider(<PayRunView {...props} />);
-      expect(wrapper.exists(PreviousStepModal)).toEqual(true);
+      expect(wrapper.exists(DiscardDraftModal)).toEqual(true);
     });
 
     it('should not display the modal when previousStepModalIsOpen is false', () => {
@@ -58,7 +58,7 @@ describe('PayRunView', () => {
       });
 
       const wrapper = mountWithProvider(<PayRunView {...props} />);
-      expect(wrapper.exists(PreviousStepModal)).toEqual(false);
+      expect(wrapper.exists(DiscardDraftModal)).toEqual(false);
     });
   });
 });

@@ -4,9 +4,9 @@ import { getDashboardUrl } from '../PayRunSelectors';
 import PayRunDoneView from './components/PayRunDoneView';
 
 export default class PayRunDoneSubModule {
-  constructor({ integration, store }) {
-    this.integration = integration;
+  constructor({ store }, restartPayRun) {
     this.store = store;
+    this.restartPayRun = restartPayRun;
   }
 
   closePayRun = () => {

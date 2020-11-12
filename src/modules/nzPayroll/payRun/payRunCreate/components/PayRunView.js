@@ -4,13 +4,14 @@ import React from 'react';
 
 import {
   getAlert,
+  getDiscardModalIsOpen,
   getLoadingState,
   getPreviousStepModalIsOpen,
   getStepKey,
 } from '../PayRunSelectors';
 import AlertContainer from './AlertContainer';
+import DiscardDraftModal from './DiscardDraftModal';
 import PageView from '../../../../../components/PageView/PageView';
-import PreviousStepModal from './PreviousStepModal';
 
 const PayRunView = ({
   stepViews,
@@ -18,14 +19,24 @@ const PayRunView = ({
   alert,
   loadingState,
   previousStepModalIsOpen,
+  discardModalIsOpen,
   onClosePreviousStepModal,
   onDiscardDraft,
   onDismissAlert,
+  onDiscardAndRedirect,
+  onCloseDiscardAndRedirect,
 }) => {
   const previousStepModal = previousStepModalIsOpen && (
-    <PreviousStepModal
+    <DiscardDraftModal
       onGoBack={onClosePreviousStepModal}
       onDiscard={onDiscardDraft}
+    />
+  );
+
+  const discardModal = discardModalIsOpen && (
+    <DiscardDraftModal
+      onGoBack={onCloseDiscardAndRedirect}
+      onDiscard={onDiscardAndRedirect}
     />
   );
 
@@ -37,6 +48,7 @@ const PayRunView = ({
     <BaseTemplate>
       {alertComponent}
       {previousStepModal}
+      {discardModal}
       {stepViews[step]}
     </BaseTemplate>
   );
@@ -48,6 +60,7 @@ const mapStateToProps = (state) => ({
   step: getStepKey(state),
   alert: getAlert(state),
   previousStepModalIsOpen: getPreviousStepModalIsOpen(state),
+  discardModalIsOpen: getDiscardModalIsOpen(state),
 });
 
 export default connect(mapStateToProps)(PayRunView);

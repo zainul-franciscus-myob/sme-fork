@@ -122,6 +122,10 @@ export default class DraftPayRunSubModule {
     this.updateDraftPayRun();
   };
 
+  tryToNavigate() {
+    this.dispatcher.openDiscardAndRedirectModal();
+  }
+
   render() {
     return (
       <DraftPayRunView

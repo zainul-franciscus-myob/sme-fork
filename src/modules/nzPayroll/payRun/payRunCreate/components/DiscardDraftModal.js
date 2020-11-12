@@ -1,7 +1,7 @@
 import { Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
-const PreviousStepModal = ({
+const DiscardDraftModal = ({
   onGoBack,
   onDiscard,
   title = 'Discard pay run?',
@@ -20,4 +20,4 @@ const PreviousStepModal = ({
   </Modal>
 );
 
-export default PreviousStepModal;
+export default DiscardDraftModal;

@@ -8,7 +8,7 @@ import {
   RECORD_AND_REPORT,
   START_PAY_RUN,
 } from './payRunSteps';
-import { getStepKey } from './PayRunSelectors';
+import { getRedirectUrl, getStepKey } from './PayRunSelectors';
 import DraftPayRunSubModule from './draftPayRun/DraftPayRunSubModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PayRunDoneSubModule from './payRunDone/PayRunDoneSubModule';
@@ -22,8 +22,15 @@ import createPayRunIntegrator from './createPayRunIntegrator';
 import payRunReducer from './payRunReducer';
 
 export default class PayRunModule {
-  constructor({ integration, setRootView, pushMessage, subscribeOrUpgrade }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    subscribeOrUpgrade,
+    navigateTo,
+  }) {
     this.integration = integration;
+    this.navigateTo = navigateTo;
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
     this.dispatcher = createPayRunDispatchers(this.store);
@@ -54,6 +61,25 @@ export default class PayRunModule {
     };
   }
 
+  discard = (callback) => {
+    const endLoading = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    this.integrator.deleteDraftPayRun({
+      onSuccess: () => {
+        endLoading();
+        callback();
+      },
+      onFailure: endLoading,
+    });
+  };
+
+  restartPayRun = () => {
+    this.dispatcher.restartPayRun();
+    this.startNewPayRun();
+  };
+
   startNewPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -72,19 +98,27 @@ export default class PayRunModule {
   discardDraftAndStartNewPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const handleResponse = () => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.restartPayRun();
-      this.startNewPayRun();
-    };
-    this.integrator.deleteDraftPayRun({
-      onSuccess: handleResponse,
-      onFailure: handleResponse,
-    });
+    this.discard(this.restartPayRun);
+  };
+
+  redirect = () => {
+    const state = this.store.getState();
+    const redirectUrl = getRedirectUrl(state);
+    this.navigateTo(redirectUrl);
+  };
+
+  discardAndRedirect = () => {
+    this.dispatcher.closeDiscardModal();
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.discard(this.redirect);
   };
 
   closePreviousStepModal = () => {
     this.dispatcher.closePreviousStepModal();
+  };
+
+  closeDiscardModal = () => {
+    this.dispatcher.closeDiscardModal();
   };
 
   render() {
@@ -100,6 +134,8 @@ export default class PayRunModule {
         onDismissAlert={this.dispatcher.dismissAlert}
         onClosePreviousStepModal={this.closePreviousStepModal}
         onDiscardDraft={this.discardDraftAndStartNewPayRun}
+        onCloseDiscardAndRedirect={this.closeDiscardModal}
+        onDiscardAndRedirect={this.discardAndRedirect}
       />
     );
 
@@ -123,10 +159,6 @@ export default class PayRunModule {
     this.dispatcher.resetState();
   };
 
-  redirectToUrl = (url) => {
-    window.location.href = url;
-  };
-
   getCurrentSubModule = () => {
     const state = this.store.getState();
     const currentStepKey = getStepKey(state);
@@ -143,8 +175,9 @@ export default class PayRunModule {
   };
 
   handlePageTransition = (url) => {
+    this.dispatcher.setRedirectUrl(url);
     this.attemptToRoute(() => {
-      this.redirectToUrl(url);
+      this.navigateTo(url);
     });
   };
 }

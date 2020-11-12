@@ -7,11 +7,11 @@ import {
   START_NEW_PAY_RUN,
 } from '../PayRunIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import DiscardDraftModal from '../components/DiscardDraftModal';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import PayRunModule from '../PayRunModule';
 import PayRunView from '../components/PayRunView';
-import PreviousStepModal from '../components/PreviousStepModal';
 import StartPayrunView from '../startPayRun/components/StartPayRunView';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
@@ -187,7 +187,7 @@ describe('PayRunModule', () => {
       module.run(context);
       wrapper.update();
       const discardButton = wrapper
-        .find(PreviousStepModal)
+        .find(DiscardDraftModal)
         .find({ name: 'discard' })
         .find('button');
 

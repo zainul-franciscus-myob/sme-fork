@@ -5,8 +5,8 @@ import createPayRunDispatchers from '../createPayRunDispatchers';
 
 export default class PreparePaySlipsSubModule {
   constructor({ store }) {
-    this.dispatcher = createPayRunDispatchers(store);
     this.store = store;
+    this.dispatcher = createPayRunDispatchers(this.store);
   }
 
   render() {

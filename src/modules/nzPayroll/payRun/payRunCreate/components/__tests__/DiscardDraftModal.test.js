@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import PreviousStepModal from '../PreviousStepModal';
+import PreviousStepModal from '../DiscardDraftModal';
 
 describe('PreviousStepModal', () => {
   const props = {
