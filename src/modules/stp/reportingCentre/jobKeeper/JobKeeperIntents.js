@@ -28,3 +28,4 @@ export const LOAD_EMPLOYEES_BENEFIT_REPORT = Symbol(
   'Load employees benefit report'
 );
 export const SET_ALERT_MESSAGE = Symbol('Set alert message');
+export const SET_INLINE_ALERT_MESSAGE = Symbol('Set inline alert message');

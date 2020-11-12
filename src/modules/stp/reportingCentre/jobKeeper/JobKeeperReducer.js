@@ -6,6 +6,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
+  SET_INLINE_ALERT_MESSAGE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
@@ -144,9 +145,18 @@ const selectAllEmployees = (state, { isSelected }) => ({
     isSelected,
   })),
 });
+
 const setAlertMessage = (state, { alertMessage }) => ({
   ...state,
   alertMessage,
+});
+
+const setInlineAlertMessage = (state, { inlineErrors }) => ({
+  ...state,
+  employees: state.employees.map((e) => {
+    const error = inlineErrors.find((err) => e.employeeId === err.employeeId);
+    return { ...e, inlineError: error?.message };
+  }),
 });
 
 const handlers = {
@@ -167,6 +177,7 @@ const handlers = {
   [SELECT_EMPLOYEE]: selectEmployee,
   [SELECT_ALL_EMPLOYEES]: selectAllEmployees,
   [SET_ALERT_MESSAGE]: setAlertMessage,
+  [SET_INLINE_ALERT_MESSAGE]: setInlineAlertMessage,
 };
 
 const jobKeeperReducer = createReducer(getDefaultState(), handlers);

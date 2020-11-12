@@ -6,6 +6,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_FILTERED_EMPLOYEES,
   SET_INITIAL_STATE,
+  SET_INLINE_ALERT_MESSAGE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
   SET_NEW_EVENT_ID,
@@ -150,6 +151,13 @@ const createJobKeeperDispatcher = (store) => ({
     store.dispatch({
       intent: SET_ALERT_MESSAGE,
       alertMessage,
+    });
+  },
+
+  setInlineErrors: (inlineErrors) => {
+    store.dispatch({
+      intent: SET_INLINE_ALERT_MESSAGE,
+      inlineErrors,
     });
   },
 });

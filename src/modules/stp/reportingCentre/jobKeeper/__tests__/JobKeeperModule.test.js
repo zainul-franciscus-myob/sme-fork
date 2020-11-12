@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import {
   LOAD_EMPLOYEES_BENEFIT_REPORT,
   LOAD_INITIAL_JOB_KEEPER_EMPLOYEES,
+  UPDATE_JOB_KEEPER_PAYMENTS,
 } from '../JobKeeperIntents';
 import JobKeeperModule from '../JobKeeperModule';
 import loadJobKeeperInitialEmployees from '../../mappings/data/loadJobKeeperInitialEmployees';
@@ -582,6 +583,73 @@ describe('jobKeeperModule', () => {
 
         expect(openBlob).toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('updateJobKeeperPayments', () => {
+    it('should set alert when message recevied', () => {
+      const module = new JobKeeperModule({
+        integration: {
+          write: ({ intent, onFailure }) => {
+            switch (intent) {
+              case UPDATE_JOB_KEEPER_PAYMENTS:
+                onFailure({
+                  message: 'error message received',
+                });
+                break;
+              default:
+                throw new Error(`unmocked intent "${intent.toString()}"`);
+            }
+          },
+        },
+        pushMessage: () => {},
+        featureToggles: {},
+      });
+      module.setAlert = jest.fn(module.setAlert);
+      module.setInlineErrors = jest.fn(module.setInlineErrors);
+
+      module.updateJobKeeperPayments();
+
+      expect(module.setAlert).toHaveBeenCalled();
+      expect(module.setInlineErrors).not.toHaveBeenCalled();
+    });
+
+    it('should set both inline error and alert when fieldErrors and message recevied', () => {
+      const jobKeeperEmployeesInlineErrors = {
+        message: 'error message received',
+        fieldErrors: [
+          {
+            employeeId: '0228',
+            message: 'First JobKeeper fortnight should not be empty.',
+          },
+          {
+            employeeId: '002',
+            message: 'First JobKeeper fortnight should not be empty.',
+          },
+        ],
+      };
+      const module = new JobKeeperModule({
+        integration: {
+          write: ({ intent, onFailure }) => {
+            switch (intent) {
+              case UPDATE_JOB_KEEPER_PAYMENTS:
+                onFailure(jobKeeperEmployeesInlineErrors);
+                break;
+              default:
+                throw new Error(`unmocked intent "${intent.toString()}"`);
+            }
+          },
+        },
+        pushMessage: () => {},
+        featureToggles: {},
+      });
+      module.setAlert = jest.fn(module.setAlert);
+      module.setInlineErrors = jest.fn(module.setInlineErrors);
+
+      module.updateJobKeeperPayments();
+
+      expect(module.setAlert).toHaveBeenCalled();
+      expect(module.setInlineErrors).toHaveBeenCalled();
     });
   });
 

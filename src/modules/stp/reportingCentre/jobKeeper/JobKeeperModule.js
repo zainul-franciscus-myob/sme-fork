@@ -115,13 +115,17 @@ export default class JobKeeperModule {
       this.redirectToReportTab();
     };
 
-    const onFailure = ({ message }) => {
+    const onFailure = ({ message, fieldErrors }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.setAlert({ type: 'danger', message });
+      if (fieldErrors) this.setInlineErrors(fieldErrors);
     };
 
     this.integrator.updateJobKeeperPayments({ onSuccess, onFailure });
   };
+
+  setInlineErrors = (fieldErrors) =>
+    this.dispatcher.setInlineErrors(fieldErrors);
 
   openStpDeclarationModal = () => {
     this.dispatcher.setNewEventId();

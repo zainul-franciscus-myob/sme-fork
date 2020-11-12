@@ -1,6 +1,7 @@
 import {
   SELECT_ALL_EMPLOYEES,
   SELECT_EMPLOYEE,
+  SET_INLINE_ALERT_MESSAGE,
   SET_JOB_KEEPER_INITIAL,
   SET_LOADING_STATE,
   TOGGLE_EMPLOYEE_BENEFIT_REPORT_MODAL,
@@ -51,6 +52,7 @@ describe('JobKeeperReducer', () => {
       expect(result.employees[0].finalFortnight).toBe(null);
       expect(result.employees[0].tier).toBeUndefined();
     });
+
     it('update firstFortnight to another JK1 option, return correct firstFortnight for JK1', () => {
       const action = {
         intent: UPDATE_EMPLOYEE_ROW,
@@ -64,6 +66,7 @@ describe('JobKeeperReducer', () => {
       expect(result.employees[0].finalFortnight).toBe(null);
       expect(result.employees[0].tier).toBeUndefined();
     });
+
     it('update finalFortnight to JK2 option, return correct finalFortnight for JK2', () => {
       const action = {
         intent: UPDATE_EMPLOYEE_ROW,
@@ -257,6 +260,68 @@ describe('JobKeeperReducer', () => {
 
     result.employees.forEach((employee) => {
       expect(employee.isSelected).toBe(false);
+    });
+  });
+
+  it('should set inlinError for employees mapped to error response', () => {
+    const expectedErrorEmp1 = 'First JobKeeper fortnight should not be empty.';
+    const expectedErrorEmp2 = 'Final JobKeeper fortnight should not be empty.';
+    const expectedErrors = {
+      100001: expectedErrorEmp1,
+      100002: expectedErrorEmp2,
+    };
+    const action = {
+      intent: SET_INLINE_ALERT_MESSAGE,
+      inlineErrors: [
+        {
+          employeeId: '100001',
+          message: expectedErrorEmp1,
+        },
+        {
+          employeeId: '100002',
+          message: expectedErrorEmp2,
+        },
+      ],
+    };
+
+    const state = {
+      employees: [
+        {
+          employeeId: '100001',
+          payId: 'effa0c73-65c4-409d-a20c-623fbe0c8b17',
+          firstName: 'Alf',
+          lastName: 'Galang',
+          firstFortnight: '02',
+          finalFortnight: null,
+          tier: '01',
+          inlineError: 'some error from previous action',
+        },
+        {
+          employeeId: '100002',
+          payId: '73f25da3-32ef-4ad9-a5cb-74e241b0506b',
+          firstName: 'Sarah',
+          lastName: 'Boss',
+          firstFortnight: '02',
+          finalFortnight: '03',
+          tier: '02',
+        },
+        {
+          employeeId: '100003',
+          payId: '73f25da3-32ef-4ad9-a5cb-74e241b0506b',
+          firstName: 'Sarah',
+          lastName: 'Boss',
+          firstFortnight: '02',
+          finalFortnight: '14',
+          tier: '02',
+          inlineError: 'some error from previous action',
+        },
+      ],
+    };
+
+    const result = createReducer(state, action);
+
+    result.employees.forEach((employee) => {
+      expect(employee.inlineError).toBe(expectedErrors[employee.employeeId]);
     });
   });
 

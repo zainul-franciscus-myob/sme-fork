@@ -14,7 +14,7 @@ const tableConfig = {
   },
   lastName: {
     columnName: 'Surname or family name',
-    width: 'flex-2',
+    width: '20rem',
     valign: 'middle',
   },
   firstFortnight: {
@@ -35,6 +35,10 @@ const tableConfig = {
     valign: 'middle',
     textWrap: 'wrap',
     testId: 'test-employee-tier',
+  },
+  inlineError: {
+    width: 'auto',
+    valign: 'middle',
   },
 };
 
@@ -102,6 +106,11 @@ const JobKeeperTable = ({
           </div>
         </Table.HeaderItem>
       )}
+      <Table.RowItem {...tableConfig.inlineError}>
+        <span style={{ visibility: 'hidden' }}>
+          <Icons.Error />
+        </span>
+      </Table.RowItem>
     </Table.Header>
   );
 
@@ -162,6 +171,17 @@ const JobKeeperTable = ({
           />
         </Table.RowItem>
       )}
+      <Table.RowItem {...tableConfig.inlineError}>
+        <Tooltip
+          className={
+            row.inlineError ? styles.displayInlineError : styles.hideInlineError
+          }
+          triggerContent={<Icons.Error />}
+          testId="test-inline-error"
+        >
+          {row.inlineError}
+        </Tooltip>
+      </Table.RowItem>
     </Table.Row>
   ));
 
