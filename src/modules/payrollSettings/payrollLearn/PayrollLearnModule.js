@@ -19,7 +19,7 @@ const STP = () => (
   </a>
 );
 
-export default class LearnPayrollModule {
+export default class PayrollLearnModule {
   constructor({ setRootView, globalCallbacks }) {
     this.setRootView = setRootView;
     this.globalCallbacks = globalCallbacks;

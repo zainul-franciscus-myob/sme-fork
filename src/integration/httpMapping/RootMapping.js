@@ -2,7 +2,7 @@ import AccountMapping from '../../modules/account/mappings/HttpAccountMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/HttpApplyToSaleMapping';
 import BankFeedsCreateMapping from '../../modules/bankFeeds/bankFeedsApply/mappings/HttpBankFeedsCreateMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/bankFeedsManage/mappings/HttpBankFeedsMapping';
-import BankLearnMapping from '../../modules/learning/bankingLearn/mappings/HttpBankLearnMapping';
+import BankLearnMapping from '../../modules/banking/bankingLearn/mappings/HttpBankLearnMapping';
 import BankReconciliationMapping from '../../modules/bankReconciliation/mappings/HttpBankReconciliationMapping';
 import BankStatementImportMapping from '../../modules/bankStatementImport/mappings/HttpBankStatementImportMapping';
 import BankingMapping from '../../modules/banking/mappings/HttpBankingMapping';

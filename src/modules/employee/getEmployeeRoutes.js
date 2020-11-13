@@ -20,7 +20,7 @@ const getEmployeeRoutes = () => {
     {
       name: RouteName.ONBOARDING_LEARN_EMPLOYEE,
       path: '/:region/:businessId/learn/employee',
-      loadModule: () => import('../learning/employeeLearn/LearnEmployeeModule'),
+      loadModule: () => import('./employeeLearn/EmployeeLearnModule'),
       documentTitle: 'Create your first employee',
     },
   ];

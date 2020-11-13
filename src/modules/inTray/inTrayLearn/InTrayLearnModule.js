@@ -9,7 +9,7 @@ import {
   Row,
 } from '../../../components/LearnTemplate/LearnTemplate';
 
-export default class LearnInTrayModule {
+export default class InTrayLearnModule {
   constructor({ setRootView, globalCallbacks }) {
     this.setRootView = setRootView;
     this.globalCallbacks = globalCallbacks;

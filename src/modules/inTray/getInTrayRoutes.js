@@ -1,5 +1,5 @@
+import InTrayLearnModule from './inTrayLearn/InTrayLearnModule';
 import InTrayModule from './inTrayList/InTrayModule';
-import LearnInTrayModule from '../learning/inTrayLearn/LearnInTrayModule';
 import RouteName from '../../router/RouteName';
 
 const getInTrayRoutes = ({
@@ -25,7 +25,7 @@ const getInTrayRoutes = ({
     {
       name: RouteName.ONBOARDING_LEARN_IN_TRAY,
       path: '/:region/:businessId/inTray/learn',
-      module: new LearnInTrayModule({ setRootView, globalCallbacks }),
+      module: new InTrayLearnModule({ setRootView, globalCallbacks }),
       documentTitle: 'Learn the In Tray',
     },
   ];

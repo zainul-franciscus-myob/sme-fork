@@ -1,4 +1,4 @@
-import LearnPayrollModule from '../learning/payrollLearn/LearnPayrollModule';
+import PayrollLearnModule from './payrollLearn/PayrollLearnModule';
 import PayrollSettingsModule from './PayrollSettingsModule';
 import RouteName from '../../router/RouteName';
 
@@ -25,7 +25,7 @@ const getPayrollSettingsRoutes = ({
   {
     name: RouteName.ONBOARDING_LEARN_PAYROLL,
     path: '/:region/:businessId/payroll/learn',
-    module: new LearnPayrollModule({ setRootView, globalCallbacks }),
+    module: new PayrollLearnModule({ setRootView, globalCallbacks }),
     documentTitle: 'Learn payroll',
   },
 ];

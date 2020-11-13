@@ -1,8 +1,7 @@
-import BankingLearnModule from '../learning/bankingLearn/bankingLearnModule';
 import RouteName from '../../router/RouteName';
 
 /** @type {import("../module-types").RouteConfig} */
-const getBankingRoutes = (container) => [
+const getBankingRoutes = () => [
   {
     name: RouteName.BANKING_TRANSACTION_LIST,
     path: '/:region/:businessId/banking/',
@@ -19,9 +18,7 @@ const getBankingRoutes = (container) => [
   {
     name: RouteName.ONBOARDING_LEARN_BANKING,
     path: '/:region/:businessId/banking/learn',
-    /** TODO: Convert this into a dynamic import once the cross module import errors relating
-     * to it are resolved. */
-    module: new BankingLearnModule(container),
+    loadModule: () => import('./bankingLearn/bankingLearnModule'),
     documentTitle: 'Learn banking',
   },
 ];
