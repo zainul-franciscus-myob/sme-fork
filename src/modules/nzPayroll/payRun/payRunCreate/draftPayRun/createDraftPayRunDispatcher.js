@@ -4,6 +4,7 @@ import {
   SET_TOTAL_TAKE_HOME_PAY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
+  UPDATE_EMPLOYEE_DAYS_PAID_FAILED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_LINE,
   UPDATE_IS_EMPLOYEE_SELECTED,
@@ -70,6 +71,10 @@ const createDraftPayRunDispatcher = (store) => ({
       intent,
       totalTakeHomePay,
     });
+  },
+  updateDaysPaidFailed: (employeeId) => {
+    const intent = UPDATE_EMPLOYEE_DAYS_PAID_FAILED;
+    store.dispatch({ intent, employeeId });
   },
 });
 

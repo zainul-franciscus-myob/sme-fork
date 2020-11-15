@@ -4,6 +4,7 @@ import {
   SET_PAY_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
+  UPDATE_EMPLOYEE_DAYS_PAID_FAILED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_LINE,
   UPDATE_IS_EMPLOYEE_SELECTED,
@@ -126,6 +127,17 @@ const updateEmployeeDaysPaid = (state, { employeeId, daysPaid }) => ({
   ),
 });
 
+const updateEmployeeDaysPaidFailed = (state, { employeeId }) => {
+  const { daysPaid } = state.originalLines.find(
+    (item) => item.employeeId === employeeId
+  );
+
+  return updateEmployeeDaysPaid(state, {
+    employeeId,
+    daysPaid,
+  });
+};
+
 const setPayLineDirty = (state, action) => ({
   ...state,
   isPayLineDirty: action.isDirty,
@@ -162,6 +174,7 @@ export const draftPayRunHandlers = {
   [FORMAT_EMPLOYEE_PAY_LINE]: formatEmployeePayLine,
   [UPDATE_IS_EMPLOYEE_SELECTED]: updateIsEmployeeSelected,
   [UPDATE_EMPLOYEE_DAYS_PAID]: updateEmployeeDaysPaid,
+  [UPDATE_EMPLOYEE_DAYS_PAID_FAILED]: updateEmployeeDaysPaidFailed,
   [UPDATE_ARE_ALL_EMPLOYEES_SELECTED]: updateAreAllEmployeesSelected,
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
   [SET_PAY_LINE_DIRTY]: setPayLineDirty,

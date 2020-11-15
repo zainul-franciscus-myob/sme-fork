@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getTotals, isPayLineDirty } from './DraftPayRunSelectors';
+import AlertType from '../types/AlertType';
 import DraftPayRunView from './components/DraftPayRunView';
 import createDraftPayRunDispatcher from './createDraftPayRunDispatcher';
 import createDraftPayRunIntegrator from './createDraftPayRunIntegrator';
@@ -84,7 +85,12 @@ export default class DraftPayRunSubModule {
       this.dispatcher.setSubmittingState(false);
     };
 
-    const onFailure = () => {
+    const onFailure = ({ message }) => {
+      this.dispatcher.updateDaysPaidFailed(employeeId);
+      this.dispatcher.setAlert({
+        type: AlertType.INFO,
+        message,
+      });
       this.dispatcher.setSubmittingState(false);
     };
 

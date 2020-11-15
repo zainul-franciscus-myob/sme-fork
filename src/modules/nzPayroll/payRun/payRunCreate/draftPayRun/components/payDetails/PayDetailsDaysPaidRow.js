@@ -1,7 +1,7 @@
 import { FormHorizontal, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
-import HoursInput from '../../../../../../../components/autoFormatter/HoursInput/HoursInput';
+import IntegerInput from '../../../../../../../components/autoFormatter/IntegerInput/IntegerInput';
 
 const handleInputChange = (handler, employeeId) => (e) => {
   const { rawValue } = e.target;
@@ -19,8 +19,9 @@ const QuantityInputField = ({
   isSubmitting,
 }) => (
   <FormHorizontal>
-    <HoursInput
-      name="hours"
+    <IntegerInput
+      blocks="2"
+      name="DaysPaid"
       label="Days"
       numeralPositiveOnly
       textAlign="right"

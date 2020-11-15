@@ -54,3 +54,6 @@ export const LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS = Symbol(
 export const LOAD_PAYROLL_VERIFICATION_REPORT_FAILED = Symbol(
   'Failed to load payroll verification report'
 );
+export const UPDATE_EMPLOYEE_DAYS_PAID_FAILED = Symbol(
+  'Failed to update Days Paid'
+);

@@ -4,6 +4,7 @@ import {
   SET_PAY_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
+  UPDATE_EMPLOYEE_DAYS_PAID_FAILED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_EMPLOYEE_PAY_LINE,
   UPDATE_IS_EMPLOYEE_SELECTED,
@@ -514,6 +515,47 @@ describe('draftPayRunReducer', () => {
       };
 
       const expected = 1;
+
+      const actual = payRunReducer(state, action).draftPayRun.lines[0].daysPaid;
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('not update daysPaid field in store in case of failure', () => {
+      const state = {
+        draftPayRun: {
+          lines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              paye: 100,
+              takeHomePay: 700,
+              kiwiSaver: 150,
+              daysPaid: 0,
+            },
+          ],
+          originalLines: [
+            {
+              employeeId: '1',
+              name: 'Mary Jones',
+              gross: 1500,
+              paye: 100,
+              takeHomePay: 700,
+              kiwiSaver: 150,
+              daysPaid: 0,
+            },
+          ],
+        },
+      };
+
+      const action = {
+        intent: UPDATE_EMPLOYEE_DAYS_PAID_FAILED,
+        employeeId: '1',
+        daysPaid: 8,
+      };
+
+      const expected = 0;
 
       const actual = payRunReducer(state, action).draftPayRun.lines[0].daysPaid;
 

@@ -12,6 +12,11 @@ const AlertContainer = ({ alert, onDismissAlert }) =>
         {alert.message}
       </Alert>
     ),
+    [AlertType.INFO]: (
+      <Alert type="info" onDismiss={onDismissAlert}>
+        {alert.message}
+      </Alert>
+    ),
   }[alert.type]);
 
 const mapStateToProps = (state) => ({
