@@ -1,0 +1,863 @@
+{
+  "pagination": {
+    "offset": 50,
+    "hasNextPage": true
+  },
+  "entries": [
+    {
+      "id": "service-id",
+      "number": "00000086",
+      "invoiceNumber": "SERVICE",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "11/02/2020",
+      "purchaseOrderAmount": "17.00",
+      "balanceDue": 7,
+      "status": "Open",
+      "dateDue": "2020-02-11T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "item-id",
+      "number": "00000083",
+      "invoiceNumber": "ITEM",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "purchaseOrderAmount": "-540.00",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "service-readonly-id",
+      "number": "00000084",
+      "invoiceNumber": "SERVICE-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "purchaseOrderAmount": "600.00",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-02-29T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "item-readonly-id",
+      "number": "00000085",
+      "invoiceNumber": "ITEM-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "purchaseOrderAmount": "-533.42",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "miscellaneous-readonly-id",
+      "number": "00000088",
+      "invoiceNumber": "MISC-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "purchaseOrderAmount": "-533.42",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "professional-readonly-id",
+      "number": "00000089",
+      "invoiceNumber": "PROF-READONLY",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "31/01/2020",
+      "purchaseOrderAmount": "-533.42",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-31T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "1259",
+      "number": "00000087",
+      "invoiceNumber": "7903/09402775",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "28/01/2020",
+      "purchaseOrderAmount": "40,500.00",
+      "balanceDue": 40500,
+      "status": "Open",
+      "dateDue": "2020-01-28T00:00:00",
+      "hasAttachment": true
+    },
+    {
+      "id": "695",
+      "number": "00000078",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "16/01/2020",
+      "purchaseOrderAmount": "367.46",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-16T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "696",
+      "number": "00000079",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "16/01/2020",
+      "purchaseOrderAmount": "24.69",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-16T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "697",
+      "number": "00000080",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "16/01/2020",
+      "purchaseOrderAmount": "107.82",
+      "balanceDue": -892.18,
+      "status": "Debit",
+      "dateDue": "2020-01-16T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "698",
+      "number": "00000081",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "16/01/2020",
+      "purchaseOrderAmount": "26,283.06",
+      "balanceDue": 3145.29,
+      "status": "Open",
+      "dateDue": "2020-01-16T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "699",
+      "number": "00000082",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "16/01/2020",
+      "purchaseOrderAmount": "98.02",
+      "balanceDue": -121.98,
+      "status": "Debit",
+      "dateDue": "2020-01-16T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "662",
+      "number": "00000077",
+      "invoiceNumber": "abc",
+      "supplier": "Bowers Pty Ltd",
+      "dateIssued": "11/01/2020",
+      "purchaseOrderAmount": "20,000.00",
+      "balanceDue": 10000,
+      "status": "Open",
+      "dateDue": "2020-01-11T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "656",
+      "number": "00000076",
+      "invoiceNumber": "",
+      "supplier": "Amsler Pty Ltd",
+      "dateIssued": "09/01/2020",
+      "purchaseOrderAmount": "0.00",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-09T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "641",
+      "number": "00000073",
+      "invoiceNumber": "",
+      "supplier": "Smtih Pty Ltd",
+      "dateIssued": "03/01/2020",
+      "purchaseOrderAmount": "1,500.00",
+      "balanceDue": 2000,
+      "status": "Open",
+      "dateDue": "2020-01-03T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "644",
+      "number": "00000074",
+      "invoiceNumber": "",
+      "supplier": "Smtih Pty Ltd",
+      "dateIssued": "03/01/2020",
+      "purchaseOrderAmount": "-10.00",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-03T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "647",
+      "number": "00000075",
+      "invoiceNumber": "",
+      "supplier": "Smtih Pty Ltd",
+      "dateIssued": "03/01/2020",
+      "purchaseOrderAmount": "-5,000.00",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-03T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "596",
+      "number": "00000071",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "13/12/2019",
+      "purchaseOrderAmount": "872.90",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2020-01-01T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "526",
+      "number": "00000001",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "527",
+      "number": "00000002",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "528",
+      "number": "00000003",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "529",
+      "number": "00000004",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "530",
+      "number": "00000005",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "531",
+      "number": "00000006",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": 0,
+      "status": "Closed",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "532",
+      "number": "00000007",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "533",
+      "number": "00000008",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "534",
+      "number": "00000009",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "535",
+      "number": "00000010",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "536",
+      "number": "00000011",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "537",
+      "number": "00000012",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "538",
+      "number": "00000013",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "539",
+      "number": "00000014",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "540",
+      "number": "00000015",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "541",
+      "number": "00000016",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "542",
+      "number": "00000017",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "543",
+      "number": "00000018",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "544",
+      "number": "00000019",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "545",
+      "number": "00000020",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "546",
+      "number": "00000021",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "547",
+      "number": "00000022",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "548",
+      "number": "00000023",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "549",
+      "number": "00000024",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "550",
+      "number": "00000025",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "551",
+      "number": "00000026",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "552",
+      "number": "00000027",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "553",
+      "number": "00000028",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "554",
+      "number": "00000029",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "555",
+      "number": "00000030",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "556",
+      "number": "00000031",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "557",
+      "number": "00000032",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "558",
+      "number": "00000033",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    },
+    {
+      "id": "559",
+      "number": "00000034",
+      "invoiceNumber": "",
+      "supplier": "Marciano Alfonso",
+      "dateIssued": "12/12/2019",
+      "purchaseOrderAmount": "-66.58",
+      "balanceDue": -66.58,
+      "status": "Debit",
+      "dateDue": "2019-12-12T00:00:00",
+      "hasAttachment": false
+    }
+  ],
+  "statusFilters": [
+    {
+      "name": "All",
+      "value": "All"
+    },
+    {
+      "name": "Open",
+      "value": "Open"
+    },
+    {
+      "name": "Closed",
+      "value": "Closed"
+    },
+    {
+      "name": "Debit",
+      "value": "Debit"
+    }
+  ],
+  "supplierFilters": [
+    {
+      "displayName": "Amsler Pty Ltd",
+      "id": "62"
+    },
+    {
+      "displayName": "Babich Pty Ltd",
+      "id": "72"
+    },
+    {
+      "displayName": "Bednarz Pty Ltd",
+      "id": "7"
+    },
+    {
+      "displayName": "Boles Pty Ltd",
+      "id": "53"
+    },
+    {
+      "displayName": "Bowers Pty Ltd",
+      "id": "22"
+    },
+    {
+      "displayName": "Boylan Amsler",
+      "id": "23"
+    },
+    {
+      "displayName": "Briones Pty Ltd",
+      "id": "18"
+    },
+    {
+      "displayName": "Buchner Pty Ltd",
+      "id": "43"
+    },
+    {
+      "displayName": "Chivers Pty Ltd",
+      "id": "39"
+    },
+    {
+      "displayName": "Cobbins Pty Ltd",
+      "id": "65"
+    },
+    {
+      "displayName": "Coby Pty Ltd",
+      "id": "11"
+    },
+    {
+      "displayName": "Conry Pty Ltd",
+      "id": "27"
+    },
+    {
+      "displayName": "Ellis Pty Ltd",
+      "id": "21"
+    },
+    {
+      "displayName": "Fyffe Pty Ltd",
+      "id": "5"
+    },
+    {
+      "displayName": "Hee Pty Ltd",
+      "id": "50"
+    },
+    {
+      "displayName": "Huddleston Pty Ltd",
+      "id": "25"
+    },
+    {
+      "displayName": "Jacques Pty Ltd",
+      "id": "64"
+    },
+    {
+      "displayName": "Janz Pty Ltd",
+      "id": "59"
+    },
+    {
+      "displayName": "Karle Pty Ltd",
+      "id": "60"
+    },
+    {
+      "displayName": "Kennington Pty Ltd",
+      "id": "15"
+    },
+    {
+      "displayName": "Kircher Pty Ltd",
+      "id": "71"
+    },
+    {
+      "displayName": "Koerber Pty Ltd",
+      "id": "69"
+    },
+    {
+      "displayName": "Laurence Pty Ltd",
+      "id": "37"
+    },
+    {
+      "displayName": "Maner Pty Ltd",
+      "id": "42"
+    },
+    {
+      "displayName": "Marciano Pty Ltd",
+      "id": "54"
+    },
+    {
+      "displayName": "Marciano Alfonso",
+      "id": "14"
+    },
+    {
+      "displayName": "Margerum Pty Ltd",
+      "id": "8"
+    },
+    {
+      "displayName": "Mccully Pty Ltd",
+      "id": "9"
+    },
+    {
+      "displayName": "Mcduff Pty Ltd",
+      "id": "17"
+    },
+    {
+      "displayName": "Melrose Pty Ltd",
+      "id": "74"
+    },
+    {
+      "displayName": "Metayer Pty Ltd",
+      "id": "73"
+    },
+    {
+      "displayName": "Munger Pty Ltd",
+      "id": "38"
+    },
+    {
+      "displayName": "Nicks Pty Ltd",
+      "id": "4"
+    },
+    {
+      "displayName": "Noggle Pty Ltd",
+      "id": "3"
+    },
+    {
+      "displayName": "Nuno Pty Ltd",
+      "id": "66"
+    },
+    {
+      "displayName": "Orban Pty Ltd",
+      "id": "63"
+    },
+    {
+      "displayName": "Portman Pty Ltd",
+      "id": "2"
+    },
+    {
+      "displayName": "Saffell Pty Ltd",
+      "id": "1"
+    },
+    {
+      "displayName": "Shackleford Pty Ltd",
+      "id": "49"
+    },
+    {
+      "displayName": "Smtih Pty Ltd",
+      "id": "10"
+    },
+    {
+      "displayName": "Thackston Pty Ltd",
+      "id": "16"
+    },
+    {
+      "displayName": "Thao Pty Ltd",
+      "id": "24"
+    },
+    {
+      "displayName": "Tjaden Pty Ltd",
+      "id": "20"
+    },
+    {
+      "displayName": "Torbett Pty Ltd",
+      "id": "12"
+    },
+    {
+      "displayName": "Vanpelt Pty Ltd",
+      "id": "13"
+    },
+    {
+      "displayName": "Vanpelt Pty Ltd",
+      "id": "51"
+    },
+    {
+      "displayName": "Varga Pty Ltd",
+      "id": "6"
+    },
+    {
+      "displayName": "Whitehill Pty Ltd",
+      "id": "55"
+    },
+    {
+      "displayName": "Whitehorn Pty Ltd",
+      "id": "26"
+    },
+    {
+      "displayName": "Wiers Pty Ltd",
+      "id": "70"
+    },
+    {
+      "displayName": "Winchell Pty Ltd",
+      "id": "67"
+    },
+    {
+      "displayName": "Wischmeier Pty Ltd",
+      "id": "40"
+    }
+  ],
+  "total": "$79,713.51",
+  "totalDue": "$50,643.33",
+  "totalOverdue": "$50,643.33"
+}

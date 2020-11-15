@@ -17,6 +17,7 @@ export const activeMapping = {
   [RouteName.CUSTOMER_STATEMENT_LIST]: 'sales',
 
   [RouteName.BILL_LIST]: 'purchases',
+  [RouteName.PURCHASE_ORDER_LIST]: 'purchases',
   [RouteName.BILL_DETAIL]: 'purchases',
   [RouteName.BILL_PAYMENT_DETAIL]: 'purchases',
   [RouteName.SUPPLIER_RETURN_LIST]: 'purchases',
@@ -107,6 +108,7 @@ export const featuresConfig = {
   customerStatementList: { routeName: RouteName.CUSTOMER_STATEMENT_LIST },
   itemList: { routeName: RouteName.INVENTORY_LIST },
 
+  purchaseOrderList: { routeName: RouteName.PURCHASE_ORDER_LIST },
   billList: { routeName: RouteName.BILL_LIST },
   billCreate: { routeName: RouteName.BILL_DETAIL, params: { billId: 'new' } },
   billPaymentCreate: {

@@ -40,6 +40,7 @@ import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
 import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
 import getPayrollSettingsRoutes from './modules/payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './modules/permissionDenied/getPermissionDeniedRoutes';
+import getPurchaseOrderRoutes from './modules/purchaseOrder/getPurchaseOrderRoutes';
 import getPurchaseSettingsRoutes from './modules/purchaseSettings/getPurchaseSettingsRoutes';
 import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
@@ -78,6 +79,7 @@ const getRoutes = (moduleParams) => [
   ...getUserRoutes(moduleParams),
   ...getEmployeeRoutes(),
   ...getBillRoutes(moduleParams),
+  ...getPurchaseOrderRoutes(moduleParams),
   ...getCustomerReturnRoutes(moduleParams),
   ...getInvoicePaymentRoutes(moduleParams),
   ...getSalesSettingsRoutes(moduleParams),

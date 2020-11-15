@@ -245,13 +245,16 @@ export const getShouldShowPaymentDetail = createSelector(
 
 export const getPurchasesUrls = createSelector(
   getEnabledUrls,
-  (enabledUrls) => ({
-    billList: enabledUrls.billList,
-    billCreate: enabledUrls.billCreate,
-    billPaymentCreate: enabledUrls.billPaymentCreate,
-    supplierReturnList: enabledUrls.supplierReturnList,
-    itemList: enabledUrls.itemList,
-  })
+  (enabledUrls) => {
+    return {
+      purchaseOrderList: enabledUrls.purchaseOrderList,
+      billList: enabledUrls.billList,
+      billCreate: enabledUrls.billCreate,
+      billPaymentCreate: enabledUrls.billPaymentCreate,
+      supplierReturnList: enabledUrls.supplierReturnList,
+      itemList: enabledUrls.itemList,
+    };
+  }
 );
 export const getShouldDisplayPurchasesMenu = createSelector(
   getIsLoading,

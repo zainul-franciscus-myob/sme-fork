@@ -68,6 +68,17 @@ export const PREFILL_INTRAY_DOCUMENT_FOR_BILL = Symbol(
   'Prefill intray document'
 );
 
+// Purchase order
+export const SUCCESSFULLY_SAVED_PURCHASE_ORDER = Symbol(
+  'Successfully saved a purchase order'
+);
+export const SUCCESSFULLY_DELETED_PURCHASE_ORDER = Symbol(
+  'Successfully deleted a purchase order'
+);
+export const SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK = Symbol(
+  'Successfully saved a purchase order without link'
+);
+
 // Remittance Advice
 export const SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE = Symbol(
   'Successfully emailed remittance advice'

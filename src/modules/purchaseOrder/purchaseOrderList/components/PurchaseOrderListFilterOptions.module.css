@@ -1,0 +1,29 @@
+.total {
+  text-align: right;
+}
+
+.total div {
+  margin-left: var(--flx-spacing-small);
+}
+
+.total .totalAmount {
+  font-weight: bold;
+}
+
+.total .hasOverdue {
+  color: var(--flx-color-alert-error-link);
+}
+
+.supplier {
+  width: var(--flx-width-field-l);
+}
+
+.supplier :global(input[name="supplier"]::placeholder) {
+  color: var(--flx-palette-thunder);
+}
+
+@media (min-width: 768px) {
+  .total div {
+    display: inline-block;
+  }
+}
