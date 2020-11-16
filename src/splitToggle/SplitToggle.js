@@ -36,9 +36,11 @@ export default class SplitToggle {
     });
   };
 
-  isToggleOn(toggleName) {
+  isToggleOn(splitName, splitAttributes) {
     if (this.client) {
-      return this.client.getTreatment(toggleName, {}) === this.TOGGLE_ON;
+      return (
+        this.client.getTreatment(splitName, splitAttributes) === this.TOGGLE_ON
+      );
     }
 
     return false;

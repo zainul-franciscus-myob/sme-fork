@@ -123,7 +123,8 @@ export default class RootModule {
     await this.splitFeatureToggles.init({ businessId });
   };
 
-  isToggleOn = (toggleName) => this.splitFeatureToggles.isToggleOn(toggleName);
+  isToggleOn = (splitName, splitAttributes) =>
+    this.splitFeatureToggles.isToggleOn(splitName, splitAttributes);
 
   runLeanEngage = () => {
     const state = this.store.getState();
