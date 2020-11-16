@@ -1,4 +1,4 @@
-import { Button, ButtonRow, Popover } from '@myob/myob-widgets';
+import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -10,6 +10,7 @@ import {
   getSelectedText,
 } from '../findAndRecodeSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
+import Popover from '../../../../components/Feelix/Popover/Popover';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './RecodePopover.module.css';
 
