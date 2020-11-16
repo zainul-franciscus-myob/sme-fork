@@ -1,7 +1,8 @@
 import { FieldGroup, ReadOnly, Select, Tooltip } from '@myob/myob-widgets';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import handleInputChange from '../../../../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../../../../components/handlers/handleSelectChange';
 
 const PayDetailsFieldGroup = ({
@@ -11,16 +12,9 @@ const PayDetailsFieldGroup = ({
   payCycleOptions = [],
   payPeriodHours,
   onWageDetailsChange,
+  onHourlyRateBlur,
+  onPayPeriodHoursBlur,
 }) => {
-  const onInputChange = useCallback(
-    (event) =>
-      onWageDetailsChange({
-        key: event.target.name,
-        value: event.target.value,
-      }),
-    [onWageDetailsChange]
-  );
-
   const payPeriodHoursToolTips =
     'Amount of hours this employee usually works in their pay cycle. Can be overridden during the pay run. Value must be greater than 0';
 
@@ -39,8 +33,9 @@ const PayDetailsFieldGroup = ({
         numeralPositiveOnly
         textAlign="right"
         width="sm"
-        onChange={onInputChange}
-        onBlur={onInputChange}
+        onChange={handleInputChange(onWageDetailsChange)}
+        onBlur={handleInputChange(onHourlyRateBlur)}
+        requiredLabel="Hourly rate is required"
       />
       <Select
         label="Pay cycle"
@@ -64,8 +59,9 @@ const PayDetailsFieldGroup = ({
         value={payPeriodHours}
         width="sm"
         textAlign="right"
-        onChange={onInputChange}
-        onBlur={onInputChange}
+        requiredLabel="Hours in pay cycle is required"
+        onChange={handleInputChange(onWageDetailsChange)}
+        onBlur={handleInputChange(onPayPeriodHoursBlur)}
         labelAccessory={<Tooltip>{payPeriodHoursToolTips}</Tooltip>}
       />
     </FieldGroup>

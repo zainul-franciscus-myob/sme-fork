@@ -12,8 +12,8 @@
     },
     "wage": {
       "selectedPayBasis": "Hourly",
-      "hourlyRate": "",
-      "selectedPayCycle": ""
+      "hourlyRate": "0.00",
+      "selectedPayCycle": "0.00"
     },
     "leave": {
       "nextAnniversaryDate": "",

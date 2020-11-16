@@ -18,6 +18,8 @@ const SalaryAndWagesTabView = ({
   payCycleOptions,
   payPeriodHours,
   onWageDetailsChange,
+  onHourlyRateBlur,
+  onPayPeriodHoursBlur,
 }) => (
   <FormHorizontal layout="primary">
     <PayDetailsFieldGroup
@@ -27,6 +29,8 @@ const SalaryAndWagesTabView = ({
       payCycleOptions={payCycleOptions}
       payPeriodHours={payPeriodHours}
       onWageDetailsChange={onWageDetailsChange}
+      onHourlyRateBlur={onHourlyRateBlur}
+      onPayPeriodHoursBlur={onPayPeriodHoursBlur}
     />
   </FormHorizontal>
 );

@@ -10,6 +10,8 @@ export default class SalaryAndWagesModule {
     this.view = (
       <SalaryAndWagesTabView
         onWageDetailsChange={this.dispatcher.updateWageDetail}
+        onHourlyRateBlur={this.dispatcher.formatDecimalPlaces}
+        onPayPeriodHoursBlur={this.dispatcher.formatDecimalPlaces}
       />
     );
   }
