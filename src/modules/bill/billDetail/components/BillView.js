@@ -60,6 +60,7 @@ const getOptionInfo = ({
 
 const BillView = ({
   renderContactCombobox,
+  renderJobCombobox,
   serviceLayoutListeners,
   itemAndServiceLayoutListeners,
   renderItemCombobox,
@@ -125,11 +126,17 @@ const BillView = ({
   const itemAndServiceTable = (
     <BillItemAndServiceTable
       renderItemCombobox={renderItemCombobox}
+      renderJobCombobox={renderJobCombobox}
       listeners={itemAndServiceLayoutListeners}
     />
   );
 
-  const serviceTable = <BillServiceTable listeners={serviceLayoutListeners} />;
+  const serviceTable = (
+    <BillServiceTable
+      listeners={serviceLayoutListeners}
+      renderJobCombobox={renderJobCombobox}
+    />
+  );
 
   const table = {
     [BillLayout.ITEM_AND_SERVICE]: itemAndServiceTable,

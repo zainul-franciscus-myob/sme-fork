@@ -7,12 +7,12 @@ import BillLineItemTable from './BillLineItemTable';
 import BillServiceTableRow from './BillServiceTableRow';
 import LineItemTableHeader from '../../../../components/LineItemTable/LineItemTableHeader';
 
-const renderRow = (onRowInputBlur, onAddAccount, onAddJob) => (
-  index,
-  _,
-  onChange,
-  labels
-) => (
+const renderRow = (
+  onRowInputBlur,
+  onAddAccount,
+  onAddJob,
+  renderJobCombobox
+) => (index, _, onChange, labels) => (
   <BillServiceTableRow
     index={index}
     key={index}
@@ -21,6 +21,7 @@ const renderRow = (onRowInputBlur, onAddAccount, onAddJob) => (
     onAddAccount={onAddAccount}
     onAddJob={onAddJob}
     labels={labels}
+    renderJobCombobox={renderJobCombobox}
   />
 );
 
@@ -36,6 +37,7 @@ const BillServiceTable = ({
     onViewedAccountToolTip,
   },
   taxCodeLabel,
+  renderJobCombobox,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -94,7 +96,12 @@ const BillServiceTable = ({
   return (
     <BillLineItemTable
       labels={labels}
-      renderRow={renderRow(onRowInputBlur, onAddAccount, onAddJob)}
+      renderRow={renderRow(
+        onRowInputBlur,
+        onAddAccount,
+        onAddJob,
+        renderJobCombobox
+      )}
       columnConfig={columnConfig}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

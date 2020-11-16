@@ -418,3 +418,26 @@ export const getContactComboboxContext = (state) => {
 };
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getJobModalContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
+};
+
+export const getUniqueSelectedJobIds = (state) => {
+  const lines = getLines(state);
+
+  if (lines.length > 0) {
+    const selectedJobIds = lines.reduce((jobIds, line) => {
+      if (line.jobId) {
+        jobIds.push(line.jobId);
+      }
+      return jobIds;
+    }, []);
+    return [...new Set([...selectedJobIds])];
+  }
+
+  return [];
+};

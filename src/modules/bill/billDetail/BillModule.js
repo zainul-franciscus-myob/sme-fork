@@ -30,6 +30,7 @@ import {
   getIsPreConversion,
   getIsTaxInclusive,
   getItemComboboxContext,
+  getJobModalContext,
   getLinesForTaxCalculation,
   getModalContext,
   getModalType,
@@ -40,6 +41,7 @@ import {
   getSupplierLink,
   getTaxCodeOptions,
   getUniqueSelectedItemIds,
+  getUniqueSelectedJobIds,
   getViewedAccountToolTip,
 } from './selectors/billSelectors';
 import {
@@ -80,6 +82,7 @@ import BillView from './components/BillView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
+import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
 import SaveActionType from './types/SaveActionType';
@@ -129,6 +132,10 @@ class BillModule {
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.openAlert,
+    });
+    this.jobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
     });
     this.isElectronicPaymentEnabled =
       featureToggles?.isElectronicPaymentEnabled || false;
@@ -233,6 +240,7 @@ class BillModule {
       } else {
         this.updateContactCombobox();
         this.updateItemCombobox();
+        this.updateJobCombobox();
 
         const shouldShowAbn = getShouldShowAbn(state);
         if (shouldShowAbn) {
@@ -980,6 +988,24 @@ class BillModule {
       : null;
   };
 
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobModalContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
+  updateJobCombobox = () => {
+    const state = this.store.getState();
+    const selectedJobIds = getUniqueSelectedJobIds(state);
+    if (selectedJobIds.length > 0) {
+      this.jobComboboxModule.load(selectedJobIds);
+    }
+  };
+
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
   displayPreConversionAlert = () =>
     this.dispatcher.setShowPreConversionAlert(true);
 
@@ -1077,6 +1103,7 @@ class BillModule {
         <BillView
           renderItemCombobox={this.renderItemCombobox}
           renderContactCombobox={this.renderContactCombobox}
+          renderJobCombobox={this.renderJobCombobox}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
           jobModal={jobModal}
@@ -1183,6 +1210,7 @@ class BillModule {
     this.loadBill();
     this.loadContactCombobox();
     this.loadItemCombobox();
+    this.loadJobCombobox();
   }
 
   handlePageTransition = (url) => {

@@ -9,7 +9,6 @@ import {
   LOAD_ABN_FROM_SUPPLIER,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
@@ -25,7 +24,6 @@ import {
   getInTrayDocumentUrlParams,
   getLoadAbnFromSupplierUrlParams,
   getLoadAddedAccountUrlParams,
-  getLoadAddedJobUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
   getLoadSupplierDetailUrlParams,
@@ -191,19 +189,6 @@ const createBillIntegrator = (store, integration) => ({
 
     const intent = LOAD_ACCOUNT_AFTER_CREATE;
     const urlParams = getLoadAddedAccountUrlParams(state, id);
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_JOB_AFTER_CREATE;
-    const urlParams = getLoadAddedJobUrlParams(state, id);
 
     integration.read({
       intent,

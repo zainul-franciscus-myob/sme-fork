@@ -15,7 +15,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
@@ -105,11 +104,6 @@ const setOriginalAmountDue = ({
   return calculateAmountDue(totalAmount, amountPaid);
 };
 
-const buildJobOptions = ({ action, jobId }) => {
-  const { jobOptions = [] } = action.response;
-  return jobOptions.filter(({ isActive, id }) => isActive || id === jobId);
-};
-
 const getIsBeforeConversionDate = (date, conversionDate) =>
   Boolean(date) &&
   Boolean(conversionDate) &&
@@ -135,8 +129,6 @@ const loadBill = (state, action) => {
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
       lines: action.response.bill.lines.map((line) => {
-        const lineJobOptions = buildJobOptions({ action, jobId: line.jobId });
-
         if (
           [
             BillLineType.SERVICE,
@@ -148,17 +140,16 @@ const loadBill = (state, action) => {
             ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
             : new Decimal(line.taxExclusiveAmount).valueOf();
 
-          return { ...line, amount, lineJobOptions };
+          return { ...line, amount };
         }
 
-        return { ...line, lineJobOptions };
+        return line;
       }),
     },
     originalAmountDue: setOriginalAmountDue(action.response.bill),
     newLine: {
       ...state.newLine,
       ...action.response.newLine,
-      lineJobOptions: buildJobOptions({ action }),
     },
     template: action.response.template || state.template,
     subscription: action.response.subscription
@@ -551,22 +542,6 @@ export const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-export const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  bill: {
-    ...state.bill,
-    lines: state.bill.lines.map((line) => ({
-      ...line,
-      lineJobOptions: [job, ...line.lineJobOptions],
-    })),
-  },
-  newLine: {
-    ...state.newLine,
-    lineJobOptions: [job, ...state.newLine.lineJobOptions],
-  },
-  isPageEdited: true,
-});
-
 export const setShowSplitView = (state, { showSplitView }) => ({
   ...state,
   showSplitView,
@@ -751,7 +726,6 @@ const handlers = {
   [SET_UPGRADE_MODAL_SHOWING]: setUpgradeModalShowing,
   [UPDATE_EXPORT_PDF_DETAIL]: updateExportPdfDetail,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
   [LOAD_NEW_BILL_PAYMENT]: loadNewBillPayment,
   [SET_SHOW_SPLIT_VIEW]: setShowSplitView,
   [SET_IN_TRAY_DOCUMENT_ID]: setInTrayDocumentId,

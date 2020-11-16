@@ -13,6 +13,7 @@ const renderRow = ({
   onAddAccount,
   onAddJob,
   renderItemCombobox,
+  renderJobCombobox,
 }) => (index, _, onChange, labels) => (
   <BillItemAndServiceTableRow
     index={index}
@@ -20,6 +21,7 @@ const renderRow = ({
     onChange={onChange}
     onRowInputBlur={onRowInputBlur}
     renderItemCombobox={renderItemCombobox}
+    renderJobCombobox={renderJobCombobox}
     labels={labels}
     onAddItemButtonClick={onAddItemButtonClick}
     onAddAccount={onAddAccount}
@@ -40,6 +42,7 @@ const BillItemAndServiceTable = ({
     onViewedAccountToolTip,
   },
   renderItemCombobox,
+  renderJobCombobox,
   taxCodeLabel,
 }) => {
   const itemIdLabel = 'Item ID';
@@ -131,6 +134,7 @@ const BillItemAndServiceTable = ({
         onAddAccount,
         onAddJob,
         renderItemCombobox,
+        renderJobCombobox,
       })}
       onAddRow={onAddRow}
       onRowChange={onRowChange}

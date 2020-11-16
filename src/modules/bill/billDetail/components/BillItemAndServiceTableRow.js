@@ -15,7 +15,6 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import BillLineType from '../types/BillLineType';
 import BillTableReadOnlyRowItem from './BillTableReadOnlyRowItem';
 import Calculator from '../../../../components/Calculator/Calculator';
-import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
 
@@ -63,6 +62,7 @@ const BillItemAndServiceTableRow = ({
   onAddJob,
   onRowInputBlur,
   renderItemCombobox,
+  renderJobCombobox,
   ...feelixInjectedProps
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
@@ -77,7 +77,6 @@ const BillItemAndServiceTableRow = ({
     unitPrice,
     itemId,
     discount,
-    lineJobOptions,
   } = billLine;
 
   if ([BillLineType.HEADER, BillLineType.SUB_TOTAL].includes(type)) {
@@ -180,15 +179,15 @@ const BillItemAndServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
-        onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isReadOnly}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isBlocking || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         items={taxCodeOptions}
         selectedId={taxCodeId}

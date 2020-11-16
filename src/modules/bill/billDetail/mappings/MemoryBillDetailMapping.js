@@ -12,7 +12,6 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BILL,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
@@ -26,7 +25,6 @@ import billPaymentReferenceId from './data/billPaymentReferenceId.json';
 import createBillResponse from './data/createBillResponse';
 import loadAbnDetail from './data/loadAbnDetail';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadItemAndServiceBill from './data/loadItemAndServiceBill';
 import loadItemAndServiceBillWithFreight from './data/loadItemAndServiceBillWithFreight';
 import loadNewBill from './data/loadNewBill';
@@ -90,7 +88,6 @@ const MemoryBillDetailMapping = {
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>
     onSuccess(loadAddedAccountResponse),
-  [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [PREFILL_BILL_FROM_IN_TRAY]: ({ onSuccess }) =>
     onSuccess(prefillBillFromInTray),
   [DOWNLOAD_IN_TRAY_DOCUMENT]: ({ onSuccess }) =>

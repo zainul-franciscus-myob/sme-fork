@@ -16,7 +16,6 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import BillLineType from '../types/BillLineType';
 import BillTableReadOnlyRowItem from './BillTableReadOnlyRowItem';
 import Calculator from '../../../../components/Calculator/Calculator';
-import JobCombobox from '../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import styles from './BillTableRow.module.css';
 
@@ -42,6 +41,15 @@ const handleAmountInputBlur = (handler, index) => (e) => {
   handler({ index, key, value });
 };
 
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    target: {
+      name,
+      value: item ? item.id : '',
+    },
+  });
+};
+
 const BillServiceTableRow = ({
   billLine,
   index,
@@ -55,6 +63,7 @@ const BillServiceTableRow = ({
   onAddAccount,
   onAddJob,
   isPreConversion,
+  renderJobCombobox,
   ...feelixInjectedProps
 }) => {
   if ([BillLineType.HEADER, BillLineType.SUB_TOTAL].includes(billLine.type)) {
@@ -70,14 +79,7 @@ const BillServiceTableRow = ({
   }
 
   const prefillStatus = billLine.prefillStatus || {};
-  const {
-    description,
-    accountId,
-    jobId,
-    taxCodeId,
-    amount,
-    lineJobOptions,
-  } = billLine;
+  const { description, accountId, jobId, taxCodeId, amount } = billLine;
 
   return (
     <LineItemTable.Row index={index} id={index} {...feelixInjectedProps}>
@@ -111,15 +113,15 @@ const BillServiceTableRow = ({
         numeralDecimalScaleMin={2}
         numeralDecimalScaleMax={2}
       />
-      <JobCombobox
-        items={lineJobOptions}
-        selectedId={jobId}
-        addNewJob={() => onAddJob(handleComboboxChange(onChange, 'jobId'))}
-        onChange={handleComboboxChange(onChange, 'jobId')}
-        disabled={isBlocking || isReadOnly}
-        allowClear
-        left
-      />
+      {renderJobCombobox({
+        name: 'jobId',
+        label: 'Job',
+        hideLabel: true,
+        selectedId: jobId,
+        disabled: isBlocking || isReadOnly,
+        onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+        left: true,
+      })}
       <TaxCodeCombobox
         onChange={handleComboboxChange(onChange, 'taxCodeId')}
         items={taxCodeOptions}
