@@ -9,6 +9,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getEnableEInvoiceButton,
+  getShowEInvoiceButton,
+} from '../selectors/eInvoiceSelectors';
+import {
   getIsCreating,
   getIsForeignCurrency,
   getIsPreConversion,
@@ -25,11 +29,14 @@ const InvoiceDetailActions = ({
   isReadOnly,
   isPreConversion,
   showEmailButton,
+  showEInvoiceButton,
+  enableEInvoiceButton,
   showExportPdfButton,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
     onSaveAndEmailButtonClick,
+    onSaveAndSendEInvoiceClick,
     onPayInvoiceButtonClick,
     onExportPdfButtonClick,
     onCancelButtonClick,
@@ -70,6 +77,18 @@ const InvoiceDetailActions = ({
       disabled={isSubmitting}
     >
       Email invoice
+    </Button>
+  );
+
+  const saveAndSendEInvoiceButton = (
+    <Button
+      key="saveAndSendEInvoice"
+      name="saveAndSendEInvoice"
+      type="secondary"
+      onClick={onSaveAndSendEInvoiceClick}
+      disabled={isSubmitting || !enableEInvoiceButton}
+    >
+      Send e-invoice
     </Button>
   );
 
@@ -185,6 +204,7 @@ const InvoiceDetailActions = ({
         !isCreating && recordPaymentButton,
         exportPdfButton,
         saveAndEmailButton,
+        showEInvoiceButton && saveAndSendEInvoiceButton,
       ]}
     />
   );
@@ -198,6 +218,8 @@ const mapStateToProps = (state) => ({
   showEmailButton: getShowEmailButton(state),
   showExportPdfButton: getShowExportPdfButton(state),
   isForeignCurrency: getIsForeignCurrency(state),
+  showEInvoiceButton: getShowEInvoiceButton(state),
+  enableEInvoiceButton: getEnableEInvoiceButton(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

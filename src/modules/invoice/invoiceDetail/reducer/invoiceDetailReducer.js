@@ -195,6 +195,10 @@ const loadInvoiceDetail = (state, action) => {
         invoiceNumber: action.invoice.invoiceNumber,
       }),
     },
+    eInvoice: {
+      ...state.eInvoice,
+      ...action.eInvoice,
+    },
     exportPdf: {
       ...state.exportPdf,
       ...action.exportPdf,

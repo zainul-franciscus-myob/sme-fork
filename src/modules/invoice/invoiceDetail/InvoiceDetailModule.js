@@ -303,6 +303,8 @@ export default class InvoiceDetailModule {
     }
   };
 
+  saveAndSendEInvoice = () => {};
+
   saveAndRedirectToInvoicePayment = () => {
     this.closeModal();
     const onSuccess = () => {
@@ -1129,6 +1131,7 @@ export default class InvoiceDetailModule {
           onSaveButtonClick: this.handleSaveInvoice,
           onSaveAndButtonClick: this.executeSaveAndAction,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
+          onSaveAndSendEInvoiceClick: this.saveAndSendEInvoice,
           onPayInvoiceButtonClick: this.payInvoice,
           onExportPdfButtonClick: this.openExportPdfModalOrSaveAndExportPdf,
           onCancelButtonClick: this.openCancelModal,

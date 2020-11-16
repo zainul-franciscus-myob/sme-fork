@@ -84,6 +84,10 @@ const getDefaultState = () => ({
     templateName: '',
     emailDefaultSettings: {},
   },
+  eInvoice: {
+    appName: '',
+    attachments: [],
+  },
   exportPdf: {
     template: '',
   },
