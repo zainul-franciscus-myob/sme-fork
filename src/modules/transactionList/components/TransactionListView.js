@@ -2,8 +2,12 @@ import { Alert, PageHead, Tabs } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getActiveTab, getAlert } from '../selectors/transactionListSelectors';
-import { tabItemIds, tabItems } from '../tabItems';
+import {
+  getActiveTab,
+  getAlert,
+  getIsFindAndRecodeEnabled,
+} from '../selectors/transactionListSelectors';
+import { tabItemIds } from '../tabItems';
 import CreditsAndDebitsListView from './CreditsAndDebitsListView';
 import JournalTransactionListView from './JournalTransactionListView';
 
@@ -18,9 +22,28 @@ const TransactionListView = ({
   onPeriodChange,
   onSort,
   onLoadMoreButtonClick,
+  onRenderFindAndRecode,
+  isFindAndRecodeEnabled,
 }) => {
   const tabs = (
-    <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelected} />
+    <Tabs
+      items={[
+        { id: tabItemIds.debitsAndCredits, label: 'Debits and credits' },
+        { id: tabItemIds.journal, label: 'Transactions' },
+        // destructuring empty array does not add extra element
+        // undefined elements cause Tabs to crash
+        ...(isFindAndRecodeEnabled
+          ? [
+              {
+                id: tabItemIds.findAndRecode,
+                label: 'Find and Recode',
+              },
+            ]
+          : []),
+      ]}
+      selected={selectedTab}
+      onSelected={onTabSelected}
+    />
   );
 
   const alertComponent = alert && (
@@ -60,12 +83,18 @@ const TransactionListView = ({
   return {
     [tabItemIds.debitsAndCredits]: creditsAndDebitsListView,
     [tabItemIds.journal]: journalTransactionListView,
+    [tabItemIds.findAndRecode]: onRenderFindAndRecode({
+      pageHead,
+      subHead: tabs,
+      alert: alertComponent,
+    }),
   }[selectedTab];
 };
 
 const mapStateToProps = (state) => ({
   selectedTab: getActiveTab(state),
   alert: getAlert(state),
+  isFindAndRecodeEnabled: getIsFindAndRecodeEnabled(state),
 });
 
 export default connect(mapStateToProps)(TransactionListView);

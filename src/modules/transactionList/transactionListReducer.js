@@ -130,6 +130,7 @@ const setLoadingState = (state, { key, loadingState }) => ({
 const loadCreditsAndDebitsList = (state, action) => ({
   ...state,
   accountList: action.accountList,
+  taxCodeList: action.taxCodeList,
   [DEBITS_AND_CREDITS]: {
     ...state[DEBITS_AND_CREDITS],
     entries: action.entries,

@@ -12,6 +12,7 @@ const PeriodPicker = ({
   period,
   onChange,
   required,
+  className,
 }) => {
   /**
    * When user select `This month`, `period`, `dateFrom` and `dateTo` are cached in storage.
@@ -49,6 +50,7 @@ const PeriodPicker = ({
   return (
     <>
       <Select
+        className={className}
         name="Period"
         label="Period"
         value={period}
@@ -59,6 +61,7 @@ const PeriodPicker = ({
         ))}
       </Select>
       <DatePicker
+        className={className}
         label="Date from"
         name="dateFrom"
         value={dateFrom}
@@ -66,6 +69,7 @@ const PeriodPicker = ({
         {...isRequired}
       />
       <DatePicker
+        className={className}
         label="Date to"
         name="dateTo"
         value={dateTo}

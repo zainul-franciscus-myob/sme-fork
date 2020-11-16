@@ -47,15 +47,6 @@ export const getFilterOptions = createSelector(
   ({ filterOptions }) => filterOptions
 );
 
-export const getSourceJournalFilterOptions = createSelector(
-  (state) => state,
-  ({ sourceJournalFilters }) =>
-    sourceJournalFilters.map((filter) => ({
-      label: filter.name,
-      value: filter.value,
-    }))
-);
-
 export const getSettings = createSelector(
   getFilterOptions,
   getSortOrder,
@@ -83,7 +74,21 @@ export const getURLParams = createStructuredSelector({
   sourceJournal: getSourceJournal,
 });
 
-export const getAccountList = createSelector(
-  (state) => state,
-  (state) => state.accountList
+export const getAccountList = (state) => state.accountList;
+export const getTaxCodeList = (state) => state.taxCodeList;
+
+export const getFindAndRecodeContext = createSelector(
+  getBusinessId,
+  getRegion,
+  getAccountList,
+  getTaxCodeList,
+  (businessId, region, accountList, taxCodeList) => ({
+    businessId,
+    region,
+    accountList,
+    taxCodeList,
+  })
 );
+
+export const getIsFindAndRecodeEnabled = (state) =>
+  state.isFindAndRecodeEnabled;

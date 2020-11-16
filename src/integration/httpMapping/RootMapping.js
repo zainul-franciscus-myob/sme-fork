@@ -28,6 +28,7 @@ import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeeP
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
 import FeatureTogglesMapping from '../../featureToggles/mappings/HttpFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/HttpFileUnavailableMapping';
+import FindAndRecodeMapping from '../../modules/transactionList/findAndRecode/mappings/HttpFindAndRecodeMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/HttpGeneralJournalMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/HttpInTrayMapping';
@@ -179,6 +180,7 @@ const RootMapping = Object.freeze({
   ...BankingRuleModalMapping,
   ...PurchaseSettingsMapping,
   ...RecurringTransactionMapping,
+  ...FindAndRecodeMapping,
   ...PurchaseOrderMapping,
 });
 

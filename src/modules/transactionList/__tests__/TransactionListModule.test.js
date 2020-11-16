@@ -18,6 +18,7 @@ import {
   UPDATE_PERIOD_DATE_RANGE,
 } from '../TransactionListIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { tabItemIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TestIntegration from '../../../integration/TestIntegration';
@@ -29,6 +30,7 @@ import transactionListReducer from '../transactionListReducer';
 
 describe('TransactionListModule', () => {
   const businessId = 'businessId';
+  const region = 'au';
 
   const setup = () => {
     // Mock loadSettings & saveSettings from localStorage to prevent side effects
@@ -40,12 +42,14 @@ describe('TransactionListModule', () => {
     const replaceURLParams = () => {};
     const store = new TestStore(transactionListReducer);
     const integration = new TestIntegration();
+    const isToggleOn = () => true;
 
     const module = new TransactionListModule({
       integration,
       setRootView,
       popMessages,
       replaceURLParams,
+      isToggleOn,
     });
 
     module.store = store;
@@ -63,7 +67,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({ businessId });
+    module.run({ businessId, region });
     store.resetActions();
     integration.resetRequests();
 
@@ -85,7 +89,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({ businessId });
+    module.run({ businessId, region });
     module.setTab(JOURNAL_TRANSACTIONS);
     module.setTab(DEBITS_AND_CREDITS);
     store.resetActions();
@@ -106,7 +110,9 @@ describe('TransactionListModule', () => {
           settings: {
             filterOptions: {},
           },
-          context: {},
+          context: {
+            isFindAndRecodeEnabled: true,
+          },
         },
         {
           intent: SET_LAST_LOADING_TAB,
@@ -140,7 +146,9 @@ describe('TransactionListModule', () => {
           settings: {
             filterOptions: {},
           },
-          context: {},
+          context: {
+            isFindAndRecodeEnabled: true,
+          },
         },
         {
           intent: SET_LAST_LOADING_TAB,
@@ -305,6 +313,28 @@ describe('TransactionListModule', () => {
           }),
         },
       ]);
+    });
+
+    it('run findAndRecodeModule when switch to find and recode tab', () => {
+      const { module, store } = setupWithTab(JOURNAL_TRANSACTIONS);
+      module.findAndRecodeModule = {
+        run: jest.fn(),
+      };
+
+      module.setTab(tabItemIds.findAndRecode);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TAB,
+          tabId: tabItemIds.findAndRecode,
+        },
+      ]);
+      expect(module.findAndRecodeModule.run).toHaveBeenCalledWith({
+        businessId,
+        region,
+        taxCodeList: expect.any(Array),
+        accountList: expect.any(Array),
+      });
     });
   });
 

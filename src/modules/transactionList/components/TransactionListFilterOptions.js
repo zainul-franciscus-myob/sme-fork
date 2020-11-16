@@ -1,4 +1,4 @@
-import { FilterBar, Select } from '@myob/myob-widgets';
+import { FilterBar } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,15 +7,14 @@ import {
   getActiveTab,
   getFilterOptions,
   getRegion,
-  getSourceJournalFilterOptions,
 } from '../selectors/transactionListSelectors';
 import { tabItemIds } from '../tabItems';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
+import SourceJournalSelect from './SourceJournalSelect';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
-import handleSelectChange from '../../../components/handlers/handleSelectChange';
 import styles from './TransactionListFilterOptions.module.css';
 
 const TransactionListFilterOptions = ({
@@ -29,7 +28,6 @@ const TransactionListFilterOptions = ({
     accountId,
     period,
   },
-  sourceJournalFilterOptions,
   activeTab,
   onUpdateFilters,
   onResetFilters,
@@ -45,16 +43,7 @@ const TransactionListFilterOptions = ({
         onChange={onPeriodChange}
       />
     </FilterBar.Group>
-    <Select
-      name="sourceJournal"
-      label="Source journal"
-      value={sourceJournal}
-      onChange={handleSelectChange(onUpdateFilters)}
-    >
-      {sourceJournalFilterOptions.map(({ label, value }) => (
-        <Select.Option value={value} label={label} key={value} />
-      ))}
-    </Select>
+    <SourceJournalSelect value={sourceJournal} onChange={onUpdateFilters} />
     {activeTab === tabItemIds.debitsAndCredits && (
       <div className={styles.accountCombo}>
         <AccountCombobox
@@ -83,7 +72,6 @@ const TransactionListFilterOptions = ({
 
 const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
-  sourceJournalFilterOptions: getSourceJournalFilterOptions(state),
   activeTab: getActiveTab(state),
   accountList: getAccountList(state),
   region: getRegion(state),

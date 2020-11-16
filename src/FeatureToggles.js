@@ -6,4 +6,5 @@ export default Object.freeze({
   BankLinkPayee: 'banklink-payee',
   InProductBankFeeds: 'in-product-bank-feeds',
   RecurringTransactions: 'essentials-recurring-transactions',
+  FindAndRecode: 'essentials-find-and-recode',
 });

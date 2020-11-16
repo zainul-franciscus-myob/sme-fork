@@ -1,4 +1,3 @@
-import { PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,41 +6,22 @@ import {
   getIsTableEmpty,
   getIsTableLoading,
 } from '../selectors/journalTransactionSelectors';
-import Icon from '../../../components/Icon/Icon';
+import EmptyTableView from './EmptyTableView';
 import JournalTransactionListTableBody from './JournalTransactionListTableBody';
+import NoResultsView from './NoResultsView';
 import TableView from '../../../components/TableView/TableView';
-import TransactionEmptyStateIcon from './TransactionEmptyStateIcon';
-import style from './JournalTransactionListTable.module.css';
 
 const JournalTransactionListTable = ({
   isTableEmpty,
   isTableLoading,
   businessId,
   tableConfig,
-  isDefaultFilter,
+  isDefaultFilters,
 }) => {
-  const emptyTableView = isDefaultFilter ? (
-    <PageState
-      title="Record your first transaction"
-      description="Create transactions to record sales, invoices, or general journal entries."
-      image={
-        <TransactionEmptyStateIcon
-          className={style['empty-state-icon']}
-          alt="Record your first transaction."
-        />
-      }
-    />
+  const emptyTableView = isDefaultFilters ? (
+    <EmptyTableView />
   ) : (
-    <PageState
-      title="No transactions found"
-      description="Perhaps check the dates or remove the filters and try again."
-      image={
-        <Icon.NoResultState
-          className={style['no-results-icon']}
-          alt="No transactions found."
-        />
-      }
-    />
+    <NoResultsView />
   );
 
   return (
@@ -61,7 +41,7 @@ const JournalTransactionListTable = ({
 const mapStateToProps = (state) => ({
   isTableLoading: getIsTableLoading(state),
   isTableEmpty: getIsTableEmpty(state),
-  isDefaultFilter: getIsDefaultFilters(state),
+  isDefaultFilters: getIsDefaultFilters(state),
 });
 
 export default connect(mapStateToProps)(JournalTransactionListTable);

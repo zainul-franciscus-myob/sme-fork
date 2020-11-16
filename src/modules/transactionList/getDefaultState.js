@@ -2,7 +2,6 @@ import { tabItemIds } from './tabItems';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import LoadingState from '../../components/PageView/LoadingState';
 import Periods from '../../components/PeriodPicker/Periods';
-import sourceJournalMappings from './sourceJournalMappings';
 
 export const JOURNAL_TRANSACTIONS = tabItemIds.journal;
 export const DEBITS_AND_CREDITS = tabItemIds.debitsAndCredits;
@@ -21,7 +20,7 @@ export const getDefaultState = () => ({
   businessId: undefined,
   lastLoadingTab: '',
   accountList: [],
-  sourceJournalFilters: sourceJournalMappings,
+  taxCodeList: [],
   defaultFilterOptions: {
     ...defaultFilterOptions,
   },
@@ -46,4 +45,5 @@ export const getDefaultState = () => ({
     loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
     pagination: {},
   },
+  isFindAndRecodeEnabled: false,
 });

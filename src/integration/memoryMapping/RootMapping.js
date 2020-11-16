@@ -28,6 +28,7 @@ import EmployeePayMapping from '../../modules/employeePay/mappings/MemoryEmploye
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/MemoryExpensePayItemMapping';
 import FeatureTogglesMapping from '../../featureToggles/mappings/MemoryFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/MemoryFileUnavailableMapping';
+import FindAndRecodeMapping from '../../modules/transactionList/findAndRecode/mappings/MemoryFindAndRecodeMapping';
 import GeneralJournalMapping from '../../modules/generalJournal/mappings/MemoryGeneralJournalMapping';
 import HelpMapping from './HelpMapping';
 import InTrayMapping from '../../modules/inTray/mappings/MemoryInTrayMapping';
@@ -181,6 +182,7 @@ const RootMapping = Object.freeze({
   ...PurchaseOrderMapping,
   ...PurchaseSettingsMapping,
   ...RecurringTransactionMapping,
+  ...FindAndRecodeMapping,
 });
 
 export default RootMapping;

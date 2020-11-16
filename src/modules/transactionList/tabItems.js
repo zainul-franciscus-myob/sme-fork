@@ -1,9 +1,23 @@
 export const tabItemIds = {
   journal: 'journalTransaction',
   debitsAndCredits: 'debitsAndCredits',
+  findAndRecode: 'findAndRecode',
 };
 
-export const tabItems = [
-  { id: tabItemIds.debitsAndCredits, label: 'Debits and credits' },
-  { id: tabItemIds.journal, label: 'Transactions' },
-];
+export const mapTab = (
+  tab,
+  journalCallback,
+  debitsAndCreditsCallback,
+  findAndRecodeCallback
+) => {
+  switch (tab) {
+    case tabItemIds.journal:
+      return journalCallback();
+    case tabItemIds.debitsAndCredits:
+      return debitsAndCreditsCallback();
+    case tabItemIds.findAndRecode:
+      return findAndRecodeCallback();
+    default:
+      return undefined;
+  }
+};

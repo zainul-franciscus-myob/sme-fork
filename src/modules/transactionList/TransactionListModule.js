@@ -26,6 +26,7 @@ import {
 import { SUCCESSFULLY_DELETED_ELECTRONIC_PAYMENT } from '../electronicPayments/electronicPaymentMesssageTypes';
 import {
   getActiveTab,
+  getFindAndRecodeContext,
   getIsSwitchingTab,
   getNewSortOrder,
   getSettings,
@@ -33,6 +34,9 @@ import {
 } from './selectors/transactionListSelectors';
 import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
+import { mapTab } from './tabItems';
+import FeatureToggles from '../../FeatureToggles';
+import FindAndRecodeModule from './findAndRecode/FindAndRecodeModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
@@ -66,18 +70,25 @@ const messageTypes = [
 ];
 
 export default class TransactionListModule {
-  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
-    this.integration = integration;
+  constructor({
+    integration,
+    setRootView,
+    popMessages,
+    replaceURLParams,
+    isToggleOn,
+  }) {
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createTransactionListDispatcher(this.store);
-    this.integrator = createTransactionListIntegrator(
-      this.store,
-      this.integration
-    );
+    this.integrator = createTransactionListIntegrator(this.store, integration);
+    this.isToggleOn = isToggleOn;
+    this.findAndRecodeModule = new FindAndRecodeModule({
+      integration,
+      setAlert: this.setAlert,
+    });
   }
 
   /* Credits and debits */
@@ -144,10 +155,6 @@ export default class TransactionListModule {
     this.integrator.sortAndFilterCreditsAndDebitsList({ onSuccess, onFailure });
   };
 
-  debouncedSortAndFilterCreditsAndDebitsList = debounce(
-    this.sortAndFilterCreditsAndDebitsList
-  );
-
   /* Journal transactions */
   sortAndFilterTransactionList = () => {
     this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, true);
@@ -185,10 +192,6 @@ export default class TransactionListModule {
     this.integrator.loadTransactionListNextPage({ onSuccess, onFailure });
   };
 
-  debouncedSortAndFilterTransactionList = debounce(
-    this.sortAndFilterTransactionList
-  );
-
   /* Common */
   sort = (orderBy) => {
     const state = this.store.getState();
@@ -196,16 +199,16 @@ export default class TransactionListModule {
     const newSortOrder = getNewSortOrder(state, orderBy);
     this.dispatcher.setSortOrder(orderBy, newSortOrder);
 
-    if (activeTab === DEBITS_AND_CREDITS) {
-      this.sortAndFilterCreditsAndDebitsList();
-    } else {
-      this.sortAndFilterTransactionList();
-    }
+    mapTab(
+      activeTab,
+      this.sortAndFilterTransactionList,
+      this.sortAndFilterCreditsAndDebitsList
+    );
   };
 
-  sortAndFilter = (key, debouncedFunc, func) => {
+  sortAndFilter = (key, func) => {
     if (key === 'keywords') {
-      debouncedFunc();
+      debounce(func)();
     } else {
       func();
     }
@@ -220,19 +223,11 @@ export default class TransactionListModule {
       this.updateURLFromState();
     }
 
-    if (activeTab === DEBITS_AND_CREDITS) {
-      this.sortAndFilter(
-        key,
-        this.debouncedSortAndFilterCreditsAndDebitsList,
-        this.sortAndFilterCreditsAndDebitsList
-      );
-    } else {
-      this.sortAndFilter(
-        key,
-        this.debouncedSortAndFilterTransactionList,
-        this.sortAndFilterTransactionList
-      );
-    }
+    mapTab(
+      activeTab,
+      () => this.sortAndFilter(key, this.sortAndFilterTransactionList),
+      () => this.sortAndFilter(key, this.sortAndFilterCreditsAndDebitsList)
+    );
   };
 
   resetFilterOptions = () => {
@@ -266,11 +261,11 @@ export default class TransactionListModule {
     const state = this.store.getState();
     const activeTab = getActiveTab(state);
 
-    if (activeTab === DEBITS_AND_CREDITS) {
-      this.loadCreditsAndDebitsNextPage();
-    } else {
-      this.loadTransactionListNextPage();
-    }
+    mapTab(
+      activeTab,
+      this.loadTransactionListNextPage,
+      this.loadCreditsAndDebitsNextPage
+    );
   };
 
   readMessages = () => {
@@ -315,12 +310,18 @@ export default class TransactionListModule {
     }
   };
 
+  loadFindAndRecodeTab = () => {
+    const state = this.store.getState();
+    this.findAndRecodeModule.run(getFindAndRecodeContext(state));
+  };
+
   setView = (tabId) => {
-    if (tabId === DEBITS_AND_CREDITS) {
-      this.loadCreditsAndDebitsTab();
-    } else {
-      this.loadTransactionListTab();
-    }
+    mapTab(
+      tabId,
+      this.loadTransactionListTab,
+      this.loadCreditsAndDebitsTab,
+      this.loadFindAndRecodeTab
+    );
   };
 
   setLastLoadingTab = (tabId) => this.dispatcher.setLastLoadingTab(tabId);
@@ -340,6 +341,7 @@ export default class TransactionListModule {
           onPeriodChange={this.updatePeriodDateRange}
           onSort={this.sort}
           onLoadMoreButtonClick={this.loadNextPage}
+          onRenderFindAndRecode={this.findAndRecodeModule.render}
         />
       </Provider>
     );
@@ -353,7 +355,16 @@ export default class TransactionListModule {
       context.businessId,
       RouteName.TRANSACTION_LIST
     );
-    this.setInitialState(context, settings);
+    const isFindAndRecodeEnabled = this.isToggleOn(
+      FeatureToggles.FindAndRecode
+    );
+    this.setInitialState(
+      {
+        ...context,
+        isFindAndRecodeEnabled,
+      },
+      settings
+    );
     this.store.subscribe((state) => {
       saveSettings(
         context.businessId,
