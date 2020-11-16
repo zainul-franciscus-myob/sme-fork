@@ -2,7 +2,6 @@ import {
   LOAD_USER_LIST,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_USER_LIST,
 } from '../UserIntents';
@@ -18,11 +17,45 @@ const getDefaultState = () => ({
   isTableLoading: false,
   region: '',
   isCurrentUserOnlineAdmin: false,
+  sortOrder: 'asc',
+  orderBy: 'UserName',
 });
+
+const stringCompare = (a, b) => {
+  const nameA = a.toUpperCase(); // ignore upper and lowercase
+  const nameB = b.toUpperCase(); // ignore upper and lowercase
+  if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  // names must be equal
+  return 0;
+};
+
+const sort = (column) => {
+  const sortFns = {
+    Type: (a, b) => stringCompare(a.type, b.type),
+    UserName: (a, b) => stringCompare(a.name, b.name),
+    Email: (a, b) => stringCompare(a.email, b.email),
+    Status: (a, b) => stringCompare(a.status, b.status),
+  };
+  return sortFns[column];
+};
+
+const applySort = (entries, sortFn, sortOrder) => {
+  const result = entries.slice();
+  result.sort(sortFn);
+  return sortOrder === 'desc' ? result.reverse() : result;
+};
 
 const loadUserList = (state, { intent, ...data }) => ({
   ...state,
   ...data,
+  sortOrder: state.sortOrder,
+  orderBy: state.orderBy,
+  entries: applySort(data.entries, sort(state.orderBy), state.sortOrder),
 });
 
 const resetState = () => getDefaultState();
@@ -42,12 +75,6 @@ const setLoadingState = (state, { loadingState }) => ({
   loadingState,
 });
 
-const setSortOrder = (state, action) => ({
-  ...state,
-  sortOrder: action.sortOrder,
-  orderBy: action.orderBy,
-});
-
 const setTableLoadingState = (state, action) => ({
   ...state,
   isTableLoading: action.isTableLoading,
@@ -55,7 +82,9 @@ const setTableLoadingState = (state, action) => ({
 
 const sortUserList = (state, action) => ({
   ...state,
-  entries: action.entries,
+  sortOrder: action.sortOrder,
+  orderBy: action.orderBy,
+  entries: applySort(action.entries, sort(action.orderBy), action.sortOrder),
 });
 
 const handlers = {
@@ -65,7 +94,6 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
-  [SET_SORT_ORDER]: setSortOrder,
   [SORT_USER_LIST]: sortUserList,
 };
 

@@ -21,8 +21,8 @@ import UserListTableHeader from './UserListTableHeader';
 export const tableConfig = {
   name: { width: '31.2rem', valign: 'top', columnName: 'Name' },
   email: { width: 'flex-1', valign: 'top', columnName: 'Email' },
-  advisor: { width: '11rem', valign: 'top', columnName: 'User type' },
-  status: { width: '11rem', valign: 'top', columnName: 'Status' },
+  type: { width: '11rem', valign: 'top', columnName: 'User type' },
+  status: { width: '21rem', valign: 'top', columnName: 'Status' },
 };
 
 const UserListView = (props) => {

@@ -5,7 +5,6 @@ import {
   LOAD_USER_LIST,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_USER_LIST,
 } from '../UserIntents';
@@ -16,6 +15,7 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
+  getEntries,
   getFlipSortOrder,
   getMyDotMyobLink,
   getOrderBy,
@@ -135,14 +135,6 @@ export default class UserListModule {
     });
   };
 
-  setSortOrder = (orderBy, sortOrder) => {
-    this.store.dispatch({
-      intent: SET_SORT_ORDER,
-      sortOrder,
-      orderBy,
-    });
-  };
-
   setTableLoadingState = (isTableLoading) => {
     const intent = SET_TABLE_LOADING_STATE;
     this.store.dispatch({
@@ -155,36 +147,13 @@ export default class UserListModule {
     const state = this.store.getState();
     const newSortOrder =
       orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
-    this.setSortOrder(orderBy, newSortOrder);
+    const entries = getEntries(state);
 
-    const intent = SORT_USER_LIST;
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const onSuccess = ({ entries }) => {
-      this.setTableLoadingState(false);
-      this.store.dispatch({
-        intent,
-        entries,
-      });
-    };
-
-    const onFailure = ({ message }) => {
-      this.setTableLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
-    };
-
-    this.setTableLoadingState(true);
-    this.integration.read({
-      intent,
-      urlParams,
-      params: {
-        sortOrder: newSortOrder,
-        orderBy,
-      },
-      onSuccess,
-      onFailure,
+    this.store.dispatch({
+      intent: SORT_USER_LIST,
+      entries,
+      sortOrder: newSortOrder,
+      orderBy,
     });
   };
 

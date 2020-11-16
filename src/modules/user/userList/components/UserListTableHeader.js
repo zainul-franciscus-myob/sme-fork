@@ -15,10 +15,10 @@ const UserListTableHeader = ({ order, onSort, tableConfig }) => (
           onSort={onSort}
         />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.advisor}>
+      <Table.HeaderItem {...tableConfig.type}>
         <HeaderSort
-          title={tableConfig.advisor.columnName}
-          sortName="IsAdvisor"
+          title={tableConfig.type.columnName}
+          sortName="Type"
           activeSort={order}
           onSort={onSort}
         />
@@ -34,7 +34,7 @@ const UserListTableHeader = ({ order, onSort, tableConfig }) => (
       <Table.HeaderItem {...tableConfig.status}>
         <HeaderSort
           title={tableConfig.status.columnName}
-          sortName="IsActive"
+          sortName="Status"
           activeSort={order}
           onSort={onSort}
         />
