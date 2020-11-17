@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import { ALL_BANK_ACCOUNTS } from '../types/BankAccountEnums';
 import { getEntries } from './index';
 import StatusTypes, {
   isStatusUnapproved,
@@ -63,13 +64,18 @@ export const getBulkAllocationPayload = ({
   bulkAllocationOptions,
 }) => {
   const filteredEntries = filterBulkAllocationEntries(entries);
-  const { bankAccount: bankAccountId } = filterOptions;
+  const { bankAccount } = filterOptions;
+  const bankAccountId =
+    bankAccount === ALL_BANK_ACCOUNTS
+      ? filteredEntries[0].bankAccountId
+      : bankAccount;
 
   return {
     bankAccountId,
     bulkAllocationOptions,
     entries: filteredEntries.map((entry) => ({
       transactionId: entry.transactionId,
+      bankAccountId: entry.bankAccountId,
       deposit: entry.deposit,
       withdrawal: entry.withdrawal,
       date: entry.date,
@@ -83,17 +89,19 @@ const getAllocatedEntries = (entries) =>
 
 export const getBulkUnallocationPayload = ({ entries, filterOptions }) => {
   const filteredEntries = getAllocatedEntries(entries);
-  const { bankAccount: bankAccountId } = filterOptions;
+  const { bankAccount } = filterOptions;
+  const bankAccountId =
+    bankAccount === ALL_BANK_ACCOUNTS
+      ? filteredEntries[0].bankAccountId
+      : bankAccount;
 
   return {
     bankAccountId,
     entries: flat(
-      filteredEntries.map((entry) =>
-        entry.journals.map((journal) => ({
-          transactionId: entry.transactionId,
-          journalLineId: journal.journalLineId,
-        }))
-      )
+      filteredEntries.map((entry) => ({
+        transactionId: entry.transactionId,
+        bankAccountId: entry.bankAccountId,
+      }))
     ),
   };
 };

@@ -9,9 +9,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getBankAccount,
+  getBankAccountForPageHead,
   getBankAccounts,
   getDisplayBalances,
+  getHasAllBankAccounts,
 } from '../selectors';
 import { getBankReconciliationUrl } from '../selectors/redirectSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -30,6 +31,7 @@ const BankTransactionPageHead = ({
   balances: { bankBalance, myobBalance, unallocated, balanceTooltip },
   onBankAccountChange,
   onImportStatementButtonClick,
+  hasAllBankAccounts,
 }) => {
   const totalItems = [
     <Tooltip>{balanceTooltip}</Tooltip>,
@@ -50,7 +52,18 @@ const BankTransactionPageHead = ({
     />,
   ];
 
-  const actions = [
+  const accountCombobox = hasAllBankAccounts ? (
+    <AccountCombobox
+      hintText="All"
+      hasAllItem
+      items={bankAccounts}
+      selectedId={bankAccount}
+      onChange={onComboBoxChange(onBankAccountChange)}
+      label="Bank account"
+      hideLabel={false}
+      className={styles.accountCombobox}
+    />
+  ) : (
     <AccountCombobox
       items={bankAccounts}
       selectedId={bankAccount}
@@ -58,7 +71,11 @@ const BankTransactionPageHead = ({
       label="Bank account"
       hideLabel={false}
       className={styles.accountCombobox}
-    />,
+    />
+  );
+
+  const actions = [
+    accountCombobox,
     <LinkButton
       className={styles.reconcileLink}
       href={bankReconciliationUrl}
@@ -85,10 +102,11 @@ const BankTransactionPageHead = ({
 };
 
 const mapStateToProps = (state) => ({
-  bankAccount: getBankAccount(state),
+  bankAccount: getBankAccountForPageHead(state),
   bankAccounts: getBankAccounts(state),
   balances: getDisplayBalances(state),
   bankReconciliationUrl: getBankReconciliationUrl(state),
+  hasAllBankAccounts: getHasAllBankAccounts(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionPageHead);

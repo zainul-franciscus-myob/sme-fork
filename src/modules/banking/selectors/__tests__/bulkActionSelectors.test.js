@@ -58,6 +58,7 @@ describe('bulkActionSelector', () => {
             allocateOrMatch: 'Allocate me',
             selected: true,
             type: 'unmatched',
+            bankAccountId: '123',
             description: 'spend money',
           },
           {
@@ -66,6 +67,7 @@ describe('bulkActionSelector', () => {
             deposit: 33.0,
             allocateOrMatch: 'Possible match found',
             type: 'matched',
+            bankAccountId: '234',
             description: 'receive money',
           },
         ],
@@ -80,6 +82,7 @@ describe('bulkActionSelector', () => {
         entries: [
           {
             transactionId: '1',
+            bankAccountId: '123',
             date: '2019-02-11',
             withdrawal: 32.0,
             description: 'spend money',
@@ -202,30 +205,19 @@ describe('bulkActionSelector', () => {
           },
           {
             transactionId: '3',
-            journals: [
-              {
-                journalLineId: '333',
-              },
-            ],
+            journals: [],
             type: 'singleAllocation',
           },
           {
             transactionId: '4',
-            journals: [
-              {
-                journalLineId: '444',
-              },
-            ],
+            bankAccountId: '123',
+            journals: [],
             selected: true,
             type: 'singleAllocation',
           },
           {
             transactionId: '5',
-            journals: [
-              {
-                journalLineId: '555',
-              },
-            ],
+            journals: [],
             selected: true,
             type: 'splitAllocation',
           },
@@ -237,24 +229,13 @@ describe('bulkActionSelector', () => {
           },
           {
             transactionId: '7',
-            journals: [
-              {
-                journalLineId: '777',
-              },
-              {
-                journalLineId: '778',
-              },
-            ],
+            journals: [],
             selected: true,
             type: 'splitMatched',
           },
           {
             transactionId: '8',
-            journals: [
-              {
-                journalLineId: '889',
-              },
-            ],
+            journals: [],
             selected: true,
             type: 'transfer',
           },
@@ -266,23 +247,16 @@ describe('bulkActionSelector', () => {
         entries: [
           {
             transactionId: '4',
-            journalLineId: '444',
+            bankAccountId: '123',
           },
           {
             transactionId: '5',
-            journalLineId: '555',
           },
           {
             transactionId: '7',
-            journalLineId: '777',
-          },
-          {
-            transactionId: '7',
-            journalLineId: '778',
           },
           {
             transactionId: '8',
-            journalLineId: '889',
           },
         ],
       };

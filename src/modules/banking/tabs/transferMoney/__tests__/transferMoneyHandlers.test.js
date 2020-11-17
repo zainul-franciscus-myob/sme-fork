@@ -9,11 +9,10 @@ describe('transferMoneyHandlers', () => {
   describe('loadNewTransferMoney', () => {
     it('should load transfer money data in the open entry for a withdrawal transaction', () => {
       const state = {
-        entries: [{ withdrawal: '10.00' }],
+        entries: [{ withdrawal: '10.00', bankAccountId: '1' }],
         openEntry: {
           attachments: [],
         },
-        filterOptions: { bankAccount: '1' },
       };
 
       const expected = {
@@ -48,11 +47,10 @@ describe('transferMoneyHandlers', () => {
 
     it('should load transfer money data in the open entry for a deposit transaction', () => {
       const state = {
-        entries: [{ deposit: '20.00' }],
+        entries: [{ deposit: '20.00', bankAccountId: '1' }],
         openEntry: {
           attachments: [],
         },
-        filterOptions: { bankAccount: '1' },
       };
 
       const expected = {

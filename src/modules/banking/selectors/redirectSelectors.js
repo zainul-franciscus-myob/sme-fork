@@ -1,4 +1,10 @@
-import { getBalances, getBankAccount, getBusinessId, getRegion } from './index';
+import {
+  getBalances,
+  getBankAccount,
+  getBusinessId,
+  getIsAllBankAccountsSelected,
+  getRegion,
+} from './index';
 import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromParams';
 
 const getBaseUrl = (state) => {
@@ -14,11 +20,17 @@ export const getBankReconciliationUrl = (state) => {
   const balances = getBalances(state);
   const { bankBalanceDate = '', bankBalance = '' } = balances;
 
-  const params = {
-    bankAccount: getBankAccount(state),
+  const defaultParams = {
     bankBalanceDate,
     bankBalance,
   };
+
+  const params = getIsAllBankAccountsSelected(state)
+    ? defaultParams
+    : {
+        ...defaultParams,
+        bankAccount: getBankAccount(state),
+      };
 
   const urlParams = getQueryFromParams(params);
   return `${baseUrl}/bankReconciliation${urlParams}`;

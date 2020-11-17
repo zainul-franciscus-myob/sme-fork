@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getBankTableData,
+  getIsAllBankAccountsSelected,
   getIsOpenEntryLoading,
   getOpenEntryActiveTabId,
   getOpenPosition,
@@ -26,6 +27,7 @@ const BankTransactionTableBody = (props) => {
     transferMoneyProps,
     entries,
     isOpenEntryLoading,
+    isAllBankAccountsSelected,
     onHeaderClick,
     onAddAccount,
     onSplitRowItemClick,
@@ -135,6 +137,7 @@ const BankTransactionTableBody = (props) => {
       onAllocate={onAllocate}
       index={index}
       isExpanded={index === openPosition}
+      isAllBankAccountsSelected={isAllBankAccountsSelected}
       onSelectTransaction={onSelectTransaction}
       onEditNote={onEditNote}
       onPendingNoteChange={onPendingNoteChange}
@@ -152,6 +155,7 @@ const mapStateToProps = (state) => ({
   activeTabId: getOpenEntryActiveTabId(state),
   openPosition: getOpenPosition(state),
   isOpenEntryLoading: getIsOpenEntryLoading(state),
+  isAllBankAccountsSelected: getIsAllBankAccountsSelected(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTableBody);

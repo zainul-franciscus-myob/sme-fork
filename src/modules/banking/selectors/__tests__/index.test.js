@@ -483,11 +483,9 @@ describe('Bank transactions index selectors', () => {
           withdrawal,
           deposit,
           description: '🙅‍♀️',
+          bankAccountId: '1',
         },
       ],
-      filterOptions: {
-        bankAccount: '1',
-      },
       openEntry: {
         activeTabId,
       },
@@ -658,15 +656,13 @@ describe('Bank transactions index selectors', () => {
             description: 'some-description',
             note: '',
             type: BankTransactionStatusTypes.unmatched,
+            bankAccountId: '123',
           },
         ],
         taxCodes: [{ id: '2' }],
         jobs: [{ id: '1' }],
         withdrawalAccounts: [{ id: 'withdrawalAccounts' }],
         depositAccounts: [{ id: 'depositAccounts' }],
-        filterOptions: {
-          bankAccount: '123',
-        },
       };
 
       const actual = getMatchTransactionsContext(state, 0);

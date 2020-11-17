@@ -16,6 +16,7 @@
       "description": "Bob the builder",
       "withdrawal": 3300.00,
       "allocateOrMatch": "Internet",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "456",
@@ -35,6 +36,7 @@
       "description": "Join the crew",
       "withdrawal": 295.00,
       "allocateOrMatch": "Transfered from Rental income",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "789",
@@ -54,6 +56,7 @@
       "description": "Bob the gang have soo much fun",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to General Journal 573498874",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "101",
@@ -73,6 +76,7 @@
       "description": "Bob rules",
       "deposit": 1300.00,
       "allocateOrMatch": "Spit across account",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "101",
@@ -92,6 +96,7 @@
       "description": "Bill payment",
       "withdrawal": 1300.00,
       "allocateOrMatch": "Matched to Supplier Payment ABC00012",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "105",
@@ -111,6 +116,7 @@
       "description": "Receive payment",
       "deposit": 1300.00,
       "allocateOrMatch": "Matched to Customer Payment ABC00012",
+      "bankAccountId": "123",
       "journals": [
         {
           "journalId": "323",

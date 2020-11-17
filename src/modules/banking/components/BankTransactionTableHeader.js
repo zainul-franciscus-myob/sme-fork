@@ -1,8 +1,9 @@
 import { Card, Checkbox, HeaderSort } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
-import { getTitle } from '../selectors';
+import { getIsAllBankAccountsSelected, getTitle } from '../selectors';
 import styles from './BankTransactionTable.module.css';
 
 const BankTransactionTableHeaderColumn = ({
@@ -26,6 +27,7 @@ const BankTransactionTableHeader = ({
   onSelectAllTransactions,
   bulkSelectStatus,
   isBulkLoading,
+  isAllBankAccountsSelected,
   onSort,
   order,
   title,
@@ -43,7 +45,11 @@ const BankTransactionTableHeader = ({
           disabled={isBulkLoading}
         />
       </div>
-      <div className={styles.infoColumn}>
+      <div
+        className={classNames(styles.infoColumn, {
+          [styles.infoColumnWithBankAccount]: isAllBankAccountsSelected,
+        })}
+      >
         <BankTransactionTableHeaderColumn
           title="Date"
           className={styles.date}
@@ -51,6 +57,7 @@ const BankTransactionTableHeader = ({
           activeSort={order}
           onSort={onSort}
         />
+        {isAllBankAccountsSelected && <div>Account</div>}
         <div className={styles.description}>
           <BankTransactionTableHeaderColumn
             title="Bank statement description"
@@ -96,6 +103,7 @@ const BankTransactionTableHeader = ({
 
 const mapStateToProps = (state) => ({
   title: getTitle(state),
+  isAllBankAccountsSelected: getIsAllBankAccountsSelected(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionTableHeader);

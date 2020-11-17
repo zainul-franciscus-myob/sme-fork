@@ -6,7 +6,6 @@ import {
   getBusinessId,
   getDisplayName,
   getEntries,
-  getFilterOptions,
   getIsOpenEntryCreating,
   getModalAlert,
   getTransferAccounts,
@@ -152,10 +151,16 @@ export const getMatchTransferMoneyPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
 
-  const { transactionId, date, deposit, withdrawal, description } = openedEntry;
+  const {
+    transactionId,
+    date,
+    deposit,
+    withdrawal,
+    description,
+    bankAccountId,
+  } = openedEntry;
 
   const isWithdrawal = !!withdrawal;
-  const { bankAccount: accountId } = getFilterOptions(state);
   const amount = withdrawal || deposit;
 
   const matches = getMatchTransferMoneyEntries(state);
@@ -172,7 +177,7 @@ export const getMatchTransferMoneyPayload = (state, index) => {
   return {
     isWithdrawal,
     baseTransactionId: transactionId,
-    baseAccountId: accountId,
+    baseAccountId: bankAccountId,
     transferTransactionId: matchTransactionId,
     transferAccountId: matchAccountId,
     date: isWithdrawal ? date : matchDate,
@@ -185,17 +190,22 @@ export const getCreateTransferMoneyPayload = (state, index) => {
   const entries = getEntries(state);
   const openedEntry = entries[index];
 
-  const { transactionId, date, deposit, withdrawal } = openedEntry;
+  const {
+    transactionId,
+    date,
+    deposit,
+    withdrawal,
+    bankAccountId,
+  } = openedEntry;
 
   const isWithdrawal = !!withdrawal;
-  const { bankAccount: accountId } = getFilterOptions(state);
   const amount = withdrawal || deposit;
   const { transferFrom, transferTo, description } = getTransfer(state);
 
   return {
     isWithdrawal,
     baseTransactionId: transactionId,
-    baseAccountId: accountId,
+    baseAccountId: bankAccountId,
     transferAccountId: isWithdrawal ? transferTo : transferFrom,
     date,
     amount,

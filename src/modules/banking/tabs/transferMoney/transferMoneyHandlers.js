@@ -1,5 +1,4 @@
 import { allocateTransaction } from '../../reducers/allocateHandlers';
-import { getFilterOptions } from '../../selectors';
 import { loadOpenEntry } from '../../reducers/openEntryHandlers';
 import TabItems from '../../types/TabItems';
 import formatAmount from '../../../../common/valueFormatters/formatAmount';
@@ -25,25 +24,27 @@ export const loadTransferMoney = (state, action) => {
 export const loadMatchTransferMoney = (state, action) => {
   const defaultState = getDefaultState();
 
-  const openedEntry = state.entries[action.index];
+  const {
+    withdrawal,
+    deposit,
+    date,
+    description,
+    bankAccountId,
+  } = state.entries[action.index];
 
-  const isWithdrawal = !!openedEntry.withdrawal;
+  const isWithdrawal = !!withdrawal;
 
-  const { bankAccount } = getFilterOptions(state);
-
-  const amount = formatAmount(
-    Number(openedEntry.withdrawal || openedEntry.deposit)
-  );
+  const amount = formatAmount(Number(withdrawal || deposit));
 
   const transfer = {
     ...defaultState.openEntry.transfer,
     isWithdrawal,
     entries: action.entries,
-    transferFrom: isWithdrawal ? bankAccount : '',
-    transferTo: isWithdrawal ? '' : bankAccount,
+    transferFrom: isWithdrawal ? bankAccountId : '',
+    transferTo: isWithdrawal ? '' : bankAccountId,
     amount,
-    date: openedEntry.date,
-    description: openedEntry.description,
+    date,
+    description,
   };
 
   const isCreating = true;

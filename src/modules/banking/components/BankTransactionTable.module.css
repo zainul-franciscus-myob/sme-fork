@@ -70,6 +70,10 @@
   padding: var(--flx-spacing-tiny) var(--flx-spacing-x-small);
 }
 
+.descriptionWithAccount {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .mobileDescription {
   padding: 0.8rem 0.8rem 0.8rem 3.6rem;
   border-bottom: var(--flx-border-thin);
@@ -82,6 +86,12 @@
   text-overflow: ellipsis;
   text-align: left;
   outline: none;
+}
+
+.bankAccount {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .noteLink {
@@ -286,11 +296,19 @@
     padding-right: 0;
   }
 
+  .bankAccount {
+    padding: var(--flx-spacing-tiny) 0;
+  }
+
   .infoColumn {
     display: grid;
     grid-template-columns: 8.4rem 1fr;
     grid-gap: var(--flx-spacing-x-small);
     padding: var(--flx-spacing-tiny) var(--flx-spacing-x-small);
+  }
+
+  .infoColumnWithBankAccount {
+    grid-template-columns: 8.4rem 8.4rem 1fr;
   }
 
   .mobileInfoColumn {

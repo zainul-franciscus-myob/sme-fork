@@ -331,6 +331,7 @@ describe('BankingModule', () => {
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
             hasPagination: true,
+            hasAllBankAccounts: true,
           },
         },
         {
@@ -368,6 +369,7 @@ describe('BankingModule', () => {
             isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
             hasPagination: true,
+            hasAllBankAccounts: true,
           },
         },
         {

@@ -18,9 +18,9 @@ describe('transferMoneySelectors', () => {
             date: '2019-01-01',
             deposit: '50.00',
             withdrawal: '',
+            bankAccountId: '1',
           },
         ],
-        filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
           transfer: {
@@ -53,9 +53,9 @@ describe('transferMoneySelectors', () => {
             date: '2019-01-01',
             deposit: '',
             withdrawal: '20.00',
+            bankAccountId: '1',
           },
         ],
-        filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
           transfer: {
@@ -91,9 +91,9 @@ describe('transferMoneySelectors', () => {
             deposit: '',
             withdrawal: '20.00',
             description: 'BB',
+            bankAccountId: '1',
           },
         ],
-        filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
           transfer: {
@@ -133,9 +133,9 @@ describe('transferMoneySelectors', () => {
             date: '2019-01-01',
             deposit: '20.00',
             withdrawal: '',
+            bankAccountId: '1',
           },
         ],
-        filterOptions: { bankAccount: '1' },
         openPosition: 0,
         openEntry: {
           transfer: {

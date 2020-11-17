@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 
+import { ALL_BANK_ACCOUNTS } from '../types/BankAccountEnums';
 import { businessEventTypes } from '../../../common/types/BusinessEventTypeMap';
 import BankingViewCodes from '../BankingViewCodes';
 import Config from '../../../Config';
@@ -59,11 +60,16 @@ export const getBankEntryByIndexSelector = () =>
     (state, props) => state.entries[props.index],
     getWithdrawalAccounts,
     getDepositAccounts,
-    (entry, withdrawalAccounts, depositAccounts) => {
+    getBankAccounts,
+    (entry, withdrawalAccounts, depositAccounts, bankAccounts) => {
       const accountList = entry.deposit ? depositAccounts : withdrawalAccounts;
+      const bankAccount =
+        bankAccounts.find((account) => account.id === entry.bankAccountId) ||
+        {};
 
       return {
         ...entry,
+        bankAccountName: bankAccount.displayName,
         deposit: entry.deposit && formatAmount(entry.deposit),
         withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
         displayDate: formatSlashDate(new Date(entry.date)),
@@ -73,9 +79,19 @@ export const getBankEntryByIndexSelector = () =>
     }
   );
 
+export const getFilterOptions = (state) => state.filterOptions;
+
 export const getBankAccount = (state) => state.filterOptions.bankAccount;
 
-export const getFilterOptions = (state) => state.filterOptions;
+export const getBankAccountForPageHead = createSelector(
+  getBankAccount,
+  (bankAccount) => (bankAccount === ALL_BANK_ACCOUNTS ? undefined : bankAccount)
+);
+
+export const getIsAllBankAccountsSelected = createSelector(
+  getBankAccount,
+  (bankAccount) => bankAccount === ALL_BANK_ACCOUNTS
+);
 
 export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
@@ -112,12 +128,10 @@ export const getAllocationPayload = (index, selectedAccount, state) => {
   const entry = entries[index];
   const description = entry.note || entry.description;
 
-  const { bankAccount: bankAccountId } = getFilterOptions(state);
-
   const { id: accountId, taxCodeId } = selectedAccount;
 
   return {
-    bankAccountId,
+    bankAccountId: entry.bankAccountId,
     transactionId: entry.transactionId,
     deposit: entry.deposit,
     withdrawal: entry.withdrawal,
@@ -132,10 +146,8 @@ export const getUnallocationPayload = (index, state) => {
   const entries = getEntries(state);
   const entry = entries[index];
 
-  const { bankAccount: bankAccountId } = getFilterOptions(state);
-
   return {
-    bankAccountId,
+    bankAccountId: entry.bankAccountId,
     entries: entry.journals.map((journal) => ({
       transactionId: entry.transactionId,
       journalLineId: journal.journalLineId,
@@ -343,7 +355,6 @@ export const getBankingRuleModuleContext = createSelector(
   getBusinessId,
   getRegion,
   getOpenTransactionLine,
-  getFilterOptions,
   getBankAccounts,
   getOpenEntryActiveTabId,
   getJobs,
@@ -355,7 +366,6 @@ export const getBankingRuleModuleContext = createSelector(
     businessId,
     region,
     openTransactionLine,
-    filterOptions,
     bankAccounts,
     activeTabId,
     jobs,
@@ -364,8 +374,13 @@ export const getBankingRuleModuleContext = createSelector(
     depositAccounts,
     isPrefillSplitAllocationEnabled
   ) => {
-    const { date, withdrawal, deposit, description } = openTransactionLine;
-    const { bankAccount } = filterOptions;
+    const {
+      date,
+      withdrawal,
+      deposit,
+      description,
+      bankAccountId,
+    } = openTransactionLine;
     const ruleType = (() => {
       if (withdrawal) {
         if (activeTabId === TabItems.allocate) {
@@ -385,8 +400,8 @@ export const getBankingRuleModuleContext = createSelector(
       businessId,
       region,
       transaction: {
-        accountId: bankAccount,
-        accountDisplayName: getDisplayName(bankAccount, bankAccounts),
+        accountId: bankAccountId,
+        accountDisplayName: getDisplayName(bankAccountId, bankAccounts),
         date,
         description,
         withdrawal,
@@ -463,6 +478,8 @@ export const getLoadMoreButtonStatus = (state) => {
 const getIsFastModeEnabled = (state) => state.isFastModeEnabled;
 
 const getHasPagination = (state) => state.hasPagination;
+
+export const getHasAllBankAccounts = (state) => state.hasAllBankAccounts;
 
 export const getLoadBankTransactionsUrlParams = createSelector(
   getBusinessId,
@@ -606,7 +623,6 @@ const getAppliedPaymentRuleContactId = ({ appliedRule = {} }) =>
     : undefined;
 
 export const getMatchTransactionsContext = (state, index) => {
-  const { bankAccount: bankAccountId } = getFilterOptions(state);
   const bankTransaction = getBankTransactionLineByIndex(state, index);
   const isWithdrawal = !!bankTransaction.withdrawal;
   const accounts = isWithdrawal
@@ -620,7 +636,7 @@ export const getMatchTransactionsContext = (state, index) => {
     taxCodes: getTaxCodes(state),
     jobs: getJobs(state),
     accounts,
-    bankAccountId,
+    bankAccountId: bankTransaction.bankAccountId,
     showType: getShowTypeFromBankTransaction(bankTransaction),
     transaction: {
       id: bankTransaction.transactionId,

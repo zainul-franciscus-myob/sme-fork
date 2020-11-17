@@ -244,6 +244,7 @@
       "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
       "date": "2018-10-01",
       "description": "Bob the builder",
+      "bankAccountId": "123",
       "withdrawal": 2950.00,
       "allocateOrMatch": "Internet",
       "journals": [
@@ -266,6 +267,7 @@
       "transactionUid": "123e4567-e89b-12d3-a456-789123456790",
       "date": "2018-10-01",
       "description": "Bob the builder",
+      "bankAccountId": "123",
       "deposit": 2950.00,
       "allocateOrMatch": "Internet",
       "journals": [

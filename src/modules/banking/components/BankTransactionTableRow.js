@@ -130,6 +130,7 @@ const BankTransactionTableRow = ({
   shouldShowNote,
   isEditingNote,
   isSubmittingNote,
+  isAllBankAccountsSelected,
   pendingNote,
   onEditNote,
   onPendingNoteChange,
@@ -188,13 +189,22 @@ const BankTransactionTableRow = ({
   );
 
   const desktopInfoColumn = (
-    <div className={styles.infoColumn}>
-      <BankingTableRowField
-        title="Date:"
-        className={classNames(styles.column, styles.date)}
-      >
+    <div
+      className={classNames(styles.infoColumn, {
+        [styles.infoColumnWithBankAccount]: isAllBankAccountsSelected,
+      })}
+    >
+      <BankingTableRowField title="Date:" className={classNames(styles.date)}>
         {entry.displayDate}
       </BankingTableRowField>
+      {isAllBankAccountsSelected && (
+        <Tooltip
+          className={classNames(styles.bankAccount)}
+          triggerContent={entry.bankAccountName}
+        >
+          {entry.bankAccountName}
+        </Tooltip>
+      )}
       <div className={styles.description}>
         {isSubmittingNote ? spinnerView : descriptionView}
         <BankingTableRowField
@@ -227,10 +237,19 @@ const BankTransactionTableRow = ({
         pendingNote={pendingNote}
         shouldShowNote={shouldShowNote}
       />
-      <div className={styles.description}>
+      <div
+        className={classNames(styles.description, {
+          [styles.descriptionWithAccount]: isAllBankAccountsSelected,
+        })}
+      >
         <BankingTableRowField className={styles.date}>
           {entry.displayDate}
         </BankingTableRowField>
+        {isAllBankAccountsSelected && (
+          <div className={classNames(styles.bankAccount)}>
+            {entry.bankAccountName}
+          </div>
+        )}
         <BankingTableRowField className={styles.amount}>
           {amount}
         </BankingTableRowField>

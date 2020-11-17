@@ -3,7 +3,6 @@ import { createSelector } from 'reselect';
 import {
   getBusinessId,
   getEntries,
-  getFilterOptions,
   getIsOpenTransactionWithdrawal,
   getOpenPosition,
 } from '../../selectors/index';
@@ -140,9 +139,7 @@ export const getSplitAllocationPayload = (state, index) => {
   const isSupplier = getIsSupplier(state);
   const memo = getDescription(state);
   const openedEntry = entries[index];
-  const { transactionId } = openedEntry;
-
-  const { bankAccount: bankAccountId } = getFilterOptions(state);
+  const { transactionId, bankAccountId } = openedEntry;
 
   const {
     isSpendMoney: isWithdrawal,

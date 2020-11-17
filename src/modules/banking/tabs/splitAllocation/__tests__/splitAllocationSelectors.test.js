@@ -91,13 +91,13 @@ describe('splitAllocationSelectors', () => {
       const state = {
         openPosition: 0,
         filterOptions: {
-          bankAccount: '123',
           transactionType: 'approved',
         },
         entries: [
           {
             transactionId: '1',
             note: 'foo',
+            bankAccountId: '123',
           },
         ],
         openEntry: {
@@ -152,13 +152,13 @@ describe('splitAllocationSelectors', () => {
       const state = {
         openPosition: 0,
         filterOptions: {
-          bankAccount: '123',
           transactionType: 'approved',
         },
         entries: [
           {
             transactionId: '1',
             note: 'foo',
+            bankAccountId: '123',
           },
         ],
         openEntry: {

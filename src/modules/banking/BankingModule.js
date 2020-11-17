@@ -22,6 +22,7 @@ import {
   SHIFT,
   T,
 } from './hotkeys/HotkeyEnums';
+import { ALL_BANK_ACCOUNTS } from './types/BankAccountEnums';
 import {
   TaxCalculatorTypes,
   createTaxCalculator,
@@ -562,7 +563,12 @@ export default class BankingModule {
   };
 
   bankAccountChange = ({ value }) => {
-    this.dispatcher.updateFilterOptions({ filterName: 'bankAccount', value });
+    const bankAccount = value === undefined ? ALL_BANK_ACCOUNTS : value;
+
+    this.dispatcher.updateFilterOptions({
+      filterName: 'bankAccount',
+      value: bankAccount,
+    });
     this.confirmBefore(this.filterBankTransactions)();
   };
 
@@ -1831,10 +1837,15 @@ export default class BankingModule {
       isEarlyAccess: this.isToggleOn(FeatureToggle.BankLinkPayee),
     });
 
+    const hasAllBankAccounts = this.isToggleOn(
+      FeatureToggle.BankTransactionsAllBankAccounts
+    );
+
     this.dispatcher.setInitialState({
       ...rest,
       isFastModeEnabled,
       hasPagination,
+      hasAllBankAccounts,
       isPrefillSplitAllocationEnabled,
     });
 
