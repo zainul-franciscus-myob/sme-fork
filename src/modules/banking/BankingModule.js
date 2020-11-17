@@ -950,7 +950,11 @@ export default class BankingModule {
         isLineAmountsTaxInclusive: true,
       });
     } catch (error) {
-      console.error(JSON.stringify({ lines, taxCodes }));
+      if (window.newrelic) {
+        window.newrelic.noticeError(JSON.stringify({ lines, taxCodes }));
+      }
+
+      throw error;
     }
 
     this.dispatcher.calculateSplitAllocationTax({ taxCalculations });
