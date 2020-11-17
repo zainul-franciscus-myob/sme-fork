@@ -153,6 +153,7 @@ describe('BankingModule', () => {
     module.splitAllocationJobComboboxModule = {
       run: jest.fn(),
       load: jest.fn(),
+      resetState: jest.fn(),
     };
 
     return toolbox;
@@ -585,6 +586,12 @@ describe('BankingModule', () => {
         },
       ]);
       expect(integration.getRequests()).toEqual([]);
+      expect(
+        module.splitAllocationContactComboboxModule.resetState
+      ).toHaveBeenCalled();
+      expect(
+        module.splitAllocationJobComboboxModule.resetState
+      ).toHaveBeenCalled();
     });
 
     describe(`when open "${BankTransactionStatusTypes.unmatched}"`, () => {
@@ -864,11 +871,6 @@ describe('BankingModule', () => {
           index,
           taxCalculations,
         } = setupWithAllocatedWithdrawal();
-
-        module.splitAllocationJobComboboxModule = {
-          run: jest.fn(),
-          load: jest.fn(),
-        };
 
         module.toggleLine(index);
 

@@ -1402,6 +1402,8 @@ export default class BankingModule {
   collapseTransactionLine = () => {
     this.dispatcher.collapseTransactionLine();
     this.matchTransactionsSubModule.resetState();
+    this.splitAllocationContactComboboxModule.resetState();
+    this.splitAllocationJobComboboxModule.resetState();
   };
 
   resetState = () => {
@@ -1410,6 +1412,7 @@ export default class BankingModule {
     this.accountModalModule.resetState();
     this.bankingRuleModule.resetState();
     this.splitAllocationContactComboboxModule.resetState();
+    this.splitAllocationJobComboboxModule.resetState();
     this.receiveMoneyBankingRuleComboboxModule.resetState();
     this.spendMoneyBankingRuleComboboxModule.resetState();
     this.matchTransactionsSubModule.resetState();
