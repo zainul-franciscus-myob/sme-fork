@@ -97,7 +97,7 @@ const PurchaseOrderListView = (props) => {
         />
         <HeaderItem
           config={tableConfig.invoiceNumber}
-          sortName="CustomerPurchaseOrderIdentifier"
+          sortName="SupplierInvoiceNumber"
           activeSort={order}
           onSort={onSort}
         />
