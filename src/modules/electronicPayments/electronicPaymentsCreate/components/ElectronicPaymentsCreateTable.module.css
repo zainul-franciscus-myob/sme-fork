@@ -1,3 +1,21 @@
 .bulkActions {
   margin: 1.6rem;
 }
+
+.datePickerContainer {
+  display: flex;
+  justify-content: flex-end
+}
+
+.datePicker {
+  flex-grow: 1;
+}
+
+.warningIcon {
+  display: flex;
+  margin-left: 1.2rem;
+}
+
+.warningTooltip {
+  display: flex; 
+}

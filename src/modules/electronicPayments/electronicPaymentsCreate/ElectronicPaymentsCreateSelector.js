@@ -45,6 +45,7 @@ export const getTableEntries = createSelector(
     entries.map((entry) => ({
       ...entry,
       amount: formatAmount(entry.amount),
+      isNegativeSelected: entry.isSelected && entry.amount < 0,
       link: getEntryLink(entry, businessId, region),
     }))
 );

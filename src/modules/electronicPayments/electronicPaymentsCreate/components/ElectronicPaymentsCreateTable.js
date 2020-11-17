@@ -7,6 +7,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import Icons from '../../../../components/Icon/Icon';
 import TableView from '../../../../components/TableView/TableView';
 import styles from './ElectronicPaymentsCreateTable.module.css';
 
@@ -38,6 +39,20 @@ const ElectronicPaymentsCreateTable = ({
           : `${selectedCount} item selected`}
       </p>
     </>
+  );
+
+  const warningIcon = (
+    <Tooltip
+      placement="bottom"
+      className={styles.warningTooltip}
+      triggerContent={<Icons.Warning />}
+    >
+      A negative disbursement has been selected. If negative payments are
+      processed, they will be removed from the bank account for electronic
+      payments, but will not be included in the bank file or online payment.
+      This may result in bank reconciliation problems.Please review selections
+      carefully before processing payments.
+    </Tooltip>
   );
 
   const header = (
@@ -115,11 +130,17 @@ const ElectronicPaymentsCreateTable = ({
         {getRefEntryLink(row)}
       </Table.RowItem>
       <Table.RowItem columnName="Name">{row.name}</Table.RowItem>
+
       <Table.RowItem columnName="Payment type">
         {row.paymentTypeDisplay}
       </Table.RowItem>
       <Table.RowItem align="right" columnName="Amount">
-        {row.amount}
+        <div className={styles.datePickerContainer}>
+          <div>{row.amount}</div>
+          <div className={styles.warningIcon}>
+            {row.isNegativeSelected && warningIcon}
+          </div>
+        </div>
       </Table.RowItem>
     </Table.Row>
   ));

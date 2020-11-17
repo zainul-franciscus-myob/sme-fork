@@ -1,5 +1,6 @@
 import {
   getIsBeforeStartOfFinancialYear,
+  getTableEntries,
   getTotalPayment,
 } from '../ElectronicPaymentsCreateSelector';
 
@@ -88,5 +89,31 @@ describe('ElectronicPaymentsCreateSelector', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getTableEntries', () => {
+    it('true when negative value is seletecd', () => {
+      const state = { transactions: [{ isSelected: true, amount: -200 }] };
+
+      const actual = getTableEntries(state);
+
+      expect(actual[0].isNegativeSelected).toEqual(true);
+    });
+
+    it('false when positive value is seletecd', () => {
+      const state = { transactions: [{ isSelected: true, amount: 200 }] };
+
+      const actual = getTableEntries(state);
+
+      expect(actual[0].isNegativeSelected).toEqual(false);
+    });
+
+    it('false when row is not seletecd', () => {
+      const state = { transactions: [{ isSelected: false, amount: -200 }] };
+
+      const actual = getTableEntries(state);
+
+      expect(actual[0].isNegativeSelected).toEqual(false);
+    });
   });
 });
