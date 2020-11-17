@@ -30,13 +30,7 @@ export const getMatchTransactionFilterOptions = (state) => state.filterOptions;
 
 export const getTaxCodes = (state) => state.taxCodes;
 
-export const getActiveJobs = (state) =>
-  state.jobs.filter((job) => job.isActive);
-
 export const getIsLoadingAccount = (state) => state.isLoadingAccount;
-export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
-
-export const getSelectedEntries = (state) => state.selectedEntries;
 
 export const getMatchTransactionOrderBy = (state) => state.orderBy;
 
@@ -384,4 +378,11 @@ export const getMatchTransactionContactComboboxContext = (state) => {
     contactType: ContactType.ALL,
     displayMode: DisplayMode.NAME_AND_TYPE,
   };
+};
+
+export const getJobComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return { businessId, region };
 };

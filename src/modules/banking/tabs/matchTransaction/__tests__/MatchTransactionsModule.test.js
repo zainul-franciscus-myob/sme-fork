@@ -1,4 +1,5 @@
 import {
+  LOAD_MATCH_TRANSACTIONS,
   RESET_MATCH_TRANSACTION_OPTIONS,
   SET_MATCH_TRANSACTION_LOADING_STATE,
   SORT_AND_FILTER_MATCH_TRANSACTIONS,
@@ -19,7 +20,6 @@ const defaultContext = {
   region: 'au',
   contactId: 'contact-id',
   taxCodes: [{ id: 'tax-code' }],
-  jobs: [{ id: 'jobs' }],
   accounts: [{ id: 'accounts' }],
   bankAccountId: '123',
   showType: MatchTransactionShowType.CLOSE_MATCHES,
@@ -43,6 +43,15 @@ describe('MatchTransactionsModule', () => {
       setAlert: jest.fn(),
     });
 
+    module.contactComboboxModule = {
+      run: jest.fn(),
+      load: jest.fn(),
+    };
+
+    module.jobComboboxModule = {
+      run: jest.fn(),
+    };
+
     module.store = store;
     module.dispatcher = createMatchTransactionDispatcher(store);
     module.integrator = createMatchTransactionIntegrator(store, integration);
@@ -60,6 +69,35 @@ describe('MatchTransactionsModule', () => {
       integration,
     };
   };
+
+  describe('loadMatchTransactions', () => {
+    it('successfully load match transactions', () => {
+      const { module, integration, store } = setUpWithRun();
+
+      module.loadMatchTransactions(
+        () => {},
+        () => {}
+      );
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_MATCH_TRANSACTIONS,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: LOAD_MATCH_TRANSACTIONS,
+          urlParams: {
+            businessId: 'some-business',
+          },
+          params: expect.any(Object),
+        },
+      ]);
+
+      expect(module.jobComboboxModule.run).toHaveBeenCalled();
+    });
+  });
 
   describe('updateMatchTransactionOptions', () => {
     it('successfully sorts and filters', () => {

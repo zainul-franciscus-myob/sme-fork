@@ -1,5 +1,4 @@
 import {
-  LOAD_JOB_AFTER_CREATE,
   SET_ENTRY_HAS_ATTACHMENT,
   SET_FOCUS,
   SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED,
@@ -120,67 +119,6 @@ describe('bankingReducer', () => {
 
       expect(actual.filterOptions.dateFrom).toEqual(dateFrom);
       expect(actual.filterOptions.dateTo).toEqual(dateTo);
-    });
-  });
-
-  describe('LOAD_JOB_AFTER_CREATE', () => {
-    const lineJobOptions = [
-      {
-        id: '1',
-        jobNumber: '100',
-      },
-      {
-        id: '2',
-        jobNumber: '200',
-      },
-    ];
-    const state = {
-      jobs: lineJobOptions,
-      openEntry: {
-        allocate: {
-          id: '1',
-          description: 'just a description',
-          lines: [{ lineJobOptions }, { lineJobOptions }, { lineJobOptions }],
-          newLine: { lineJobOptions },
-        },
-      },
-    };
-
-    const action = {
-      intent: LOAD_JOB_AFTER_CREATE,
-      id: '3',
-      jobNumber: '300',
-    };
-
-    const actual = bankingReducer(state, action);
-
-    it('adds newly created job into the front of jobOptions on each line', () => {
-      expect(
-        actual.openEntry.allocate.lines.map((line) => line.lineJobOptions[0])
-      ).toEqual([
-        { id: '3', jobNumber: '300' },
-        { id: '3', jobNumber: '300' },
-        { id: '3', jobNumber: '300' },
-      ]);
-    });
-
-    it('adds newly created job into the front of jobOptions on new line', () => {
-      expect(actual.openEntry.allocate.newLine.lineJobOptions[0]).toEqual({
-        id: '3',
-        jobNumber: '300',
-      });
-    });
-
-    it('adds newly created job into jobs', () => {
-      expect(actual.jobs[0]).toEqual({
-        id: '3',
-        jobNumber: '300',
-      });
-    });
-
-    it('does not update other attributes in allocate', () => {
-      expect(actual.openEntry.allocate.id).toBe('1');
-      expect(actual.openEntry.allocate.description).toBe('just a description');
     });
   });
 

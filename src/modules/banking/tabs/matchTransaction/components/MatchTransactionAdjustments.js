@@ -4,15 +4,12 @@ import React from 'react';
 
 import {
   getAccounts,
-  getActiveJobs,
   getAdjustments,
-  getIsJobComboboxDisabled,
   getIsLoadingAccount,
   getTaxCodes,
 } from '../matchTransactionSelectors';
 import AccountCombobox from '../../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
-import JobCombobox from '../../../../../components/combobox/JobCombobox';
 import TaxCodeCombobox from '../../../../../components/combobox/TaxCodeCombobox';
 import getRegionToDialectText from '../../../../../dialect/getRegionToDialectText';
 import handleAmountInputChange from '../../../../../components/handlers/handleAmountInputChange';
@@ -56,10 +53,16 @@ const getResponsiveWidths = (taxCodeLabel) => [
   },
 ];
 
+const handleAutoCompleteItemChange = (handler, name) => (item) => {
+  handler({
+    key: name,
+    value: item ? item.id : '',
+  });
+};
+
 const renderRow = (
   accounts,
   taxCodes,
-  jobs,
   [
     accountColumn,
     amountColumn,
@@ -69,9 +72,8 @@ const renderRow = (
     taxColumn,
   ],
   onAddAccount,
-  onAddJob,
-  isLoadingAccount,
-  isJobComboboxDisabled
+  renderJobCombobox,
+  isLoadingAccount
 ) => (index, adjustment, onChange) => {
   const {
     id,
@@ -124,14 +126,12 @@ const renderRow = (
         />
       </BulkAdd.RowItem>
       <BulkAdd.RowItem columnName={jobColumn.label} {...jobColumn}>
-        <JobCombobox
-          onChange={handleComboboxChange('jobId', onChange)}
-          items={jobs}
-          selectedId={jobId}
-          disabled={isJobComboboxDisabled}
-          addNewJob={() => onAddJob(handleComboboxChange('jobId', onChange))}
-          allowClear
-        />
+        {renderJobCombobox({
+          hideLabel: true,
+          selectedId: jobId,
+          onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
+          left: true,
+        })}
       </BulkAdd.RowItem>
       <BulkAdd.RowItem columnName={taxColumn.label} {...taxColumn}>
         <TaxCodeCombobox
@@ -147,17 +147,15 @@ const renderRow = (
 
 const MatchTransactionAdjustments = ({
   onAddAccount,
-  onAddJob,
+  renderJobCombobox,
   onUpdateAdjustment,
   onRemoveAdjustment,
   onAddAdjustment,
   adjustments,
   accounts,
   taxCodes,
-  jobs,
   taxCodeLabel,
   isLoadingAccount,
-  isJobComboboxDisabled,
 }) => {
   const tableColumns = getTableColumns({ taxCodeLabel });
   const responsiveWidths = getResponsiveWidths(taxCodeLabel);
@@ -183,12 +181,10 @@ const MatchTransactionAdjustments = ({
         renderRow={renderRow(
           accounts,
           taxCodes,
-          jobs,
           tableColumns,
           onAddAccount,
-          onAddJob,
-          isLoadingAccount,
-          isJobComboboxDisabled
+          renderJobCombobox,
+          isLoadingAccount
         )}
         onRowChange={onUpdateAdjustment}
         onRemoveRow={onRemoveAdjustment}
@@ -202,10 +198,8 @@ const mapStateToProps = (state) => ({
   adjustments: getAdjustments(state),
   taxCodes: getTaxCodes(state),
   accounts: getAccounts(state),
-  jobs: getActiveJobs(state),
   taxCodeLabel: getRegionToDialectText(state.region)('Tax code'),
   isLoadingAccount: getIsLoadingAccount(state),
-  isJobComboboxDisabled: getIsJobComboboxDisabled(state),
 });
 
 export default connect(mapStateToProps)(MatchTransactionAdjustments);

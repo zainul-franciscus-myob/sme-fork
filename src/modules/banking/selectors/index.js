@@ -346,8 +346,6 @@ export const getDisplayName = (id, accountList) => {
 export const getTaxCodes = (state) => state.taxCodes;
 
 export const getJobs = (state) => state.jobs;
-export const getActiveJobs = (state) =>
-  state.jobs.filter((job) => job.isActive);
 
 export const getTitle = (state) => getRegionToDialectText(state.region)('Tax');
 
@@ -447,15 +445,6 @@ export const getAccountModalContext = (state) => {
 
   return { businessId, region };
 };
-
-export const getJobModalContext = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return { businessId, region };
-};
-
-export const getIsJobComboboxDisabled = (state) => state.isJobLoading;
 
 export const getOffset = (state) => state.pagination.offset;
 

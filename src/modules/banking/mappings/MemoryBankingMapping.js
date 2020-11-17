@@ -8,7 +8,6 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
@@ -34,7 +33,6 @@ import bulkUnallocatedBankTransactions from './data/bulkUnallocatedBankTransacti
 import filteredBankTransactions from './data/sortAndFilterBankTransactions';
 import linkInTrayDocumentResponse from './data/linkInTrayDocumentResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
-import loadAddedJobResponse from './data/loadAddedJobResponse';
 import loadPrefillSplitAllocationResponse from './data/loadPrefillSplitAllocation';
 import loadReceiveMoney from './data/loadReceiveMoney';
 import loadSpendMoney from './data/loadSpendMoney';
@@ -81,7 +79,6 @@ const updateNote = ({ onSuccess }) => onSuccess(updateNoteResponse);
 const linkInTrayDocument = ({ onSuccess }) =>
   onSuccess(linkInTrayDocumentResponse);
 const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
-const loadAddedJob = ({ onSuccess }) => onSuccess(loadAddedJobResponse);
 
 const MemoryBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
@@ -105,7 +102,6 @@ const MemoryBankingMapping = {
   [SAVE_PENDING_NOTE]: updateNote,
   [LINK_IN_TRAY_DOCUMENT]: linkInTrayDocument,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAddedAccount,
-  [LOAD_JOB_AFTER_CREATE]: loadAddedJob,
   ...MemoryMatchTransactionsMapping,
 };
 

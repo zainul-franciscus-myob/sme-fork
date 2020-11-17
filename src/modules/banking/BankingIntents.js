@@ -158,9 +158,6 @@ export const SET_LOADING_SINGLE_ACCOUNT_STATE = Symbol(
   'Set loading single account state'
 );
 
-export const LOAD_JOB_AFTER_CREATE = Symbol('Load job after create');
-export const SET_JOB_LOADING_STATE = Symbol('Set job loading state');
-
 export const POPULATE_REMAINING_AMOUNT = Symbol('Calculate the remainder');
 
 export const SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED = Symbol(

@@ -4,12 +4,14 @@ import React from 'react';
 import {
   getIsMatchTransactionsEdited,
   getIsMatchTransactionsTabOpen,
+  getJobComboboxContext,
   getMatchTransactionContactComboboxContext,
   getMatchTransactionFlipSortOrder,
   getMatchTransactionOrderBy,
   getShowType,
 } from './matchTransactionSelectors';
 import ContactComboboxModule from '../../../contact/contactCombobox/ContactComboboxModule';
+import JobComboboxModule from '../../../job/jobCombobox/JobComboboxModule';
 import MatchTransactionBody from './components/MatchTransactionBody';
 import MatchTransactionShowType from '../../types/MatchTransactionShowType';
 import Store from '../../../../store/Store';
@@ -29,6 +31,11 @@ export default class MatchTransactionsModule {
     this.contactComboboxModule = new ContactComboboxModule({
       integration,
     });
+
+    this.jobComboboxModule = new JobComboboxModule({
+      integration,
+      onAlert: this.dispatcher.setAlert,
+    });
   }
 
   loadMatchTransactions = (onSuccess, onFailure) => {
@@ -39,6 +46,7 @@ export default class MatchTransactionsModule {
         onSuccess();
         this.dispatcher.loadMatchTransactions(payload);
         this.loadContactCombobox();
+        this.loadJobCombobox();
       }
     };
 
@@ -130,6 +138,16 @@ export default class MatchTransactionsModule {
     this.contactComboboxModule.run(context);
   };
 
+  renderJobCombobox = (props) => {
+    return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
+  };
+
+  loadJobCombobox = () => {
+    const state = this.store.getState();
+    const context = getJobComboboxContext(state);
+    this.jobComboboxModule.run(context);
+  };
+
   render = (props) => {
     const renderContactCombobox = (contactComboboxProps) => {
       return this.contactComboboxModule
@@ -141,6 +159,7 @@ export default class MatchTransactionsModule {
       <Provider store={this.store}>
         <MatchTransactionBody
           renderContactCombobox={renderContactCombobox}
+          renderJobCombobox={this.renderJobCombobox}
           onUpdateMatchTransactionOptions={this.updateMatchTransactionOptions}
           onSortMatchTransactions={this.sortMatchTransaction}
           onResetMatchTransactionOptions={this.resetMatchTransactionOptions}
@@ -164,19 +183,15 @@ export default class MatchTransactionsModule {
   setLoadingSingleAccountState = (isLoadingAccount) =>
     this.dispatcher.setLoadingSingleAccountState(isLoadingAccount);
 
-  setJobLoadingState = (isJobLoading) =>
-    this.dispatcher.setJobLoadingState(isJobLoading);
-
   loadAccountAfterCreate = (payload) =>
     this.dispatcher.loadAccountAfterCreate(payload);
-
-  loadJobAfterCreate = (id, job) => this.dispatcher.loadJobAfterCreate(id, job);
 
   getIsEdited = () => getIsMatchTransactionsEdited(this.store.getState());
 
   resetState = () => {
     this.dispatcher.resetMatchTransactionState();
     this.contactComboboxModule.resetState();
+    this.jobComboboxModule.resetState();
   };
 
   run(context) {

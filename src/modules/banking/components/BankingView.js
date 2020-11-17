@@ -36,7 +36,6 @@ const BankingView = (props) => {
     transferMoneyProps,
     inTrayModal,
     accountModal,
-    jobModal,
     renderBankingRuleModule,
     loadingState,
     isSetupBankFeedsView,
@@ -148,7 +147,6 @@ const BankingView = (props) => {
       {modal}
       {accountModal}
       {inTrayModal}
-      {jobModal}
       <StandardTemplate
         sticky="all"
         alert={alertComponent}

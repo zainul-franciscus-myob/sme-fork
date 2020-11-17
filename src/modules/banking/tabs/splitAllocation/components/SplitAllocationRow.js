@@ -2,7 +2,7 @@ import { LineItemTable, TextArea } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsFocused, getIsJobComboboxDisabled } from '../../../selectors';
+import { getIsFocused } from '../../../selectors';
 import {
   getLineDataByIndex,
   getNewLineData,
@@ -145,7 +145,7 @@ const SplitAllocationRow = (props) => {
         label: 'Job',
         hideLabel: true,
         selectedId: jobId,
-        disabled: disabled || isJobComboboxDisabled,
+        disabled,
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
@@ -171,7 +171,6 @@ const makeMapRowStateToProps = () => {
   return (state, ownProps) => ({
     lineData: getLineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
-    isJobComboboxDisabled: getIsJobComboboxDisabled(state),
     isAccountComboboxFocused: getIsFocused(
       state,
       ownProps.index,

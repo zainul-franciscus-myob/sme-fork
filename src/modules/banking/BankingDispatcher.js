@@ -13,7 +13,6 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_JOB_AFTER_CREATE,
   OPEN_BULK_ALLOCATION,
   OPEN_MODAL,
   OPEN_REMOVE_ATTACHMENT_MODAL,
@@ -33,7 +32,6 @@ import {
   SET_ENTRY_HAS_ATTACHMENT,
   SET_ENTRY_HOVERED,
   SET_FOCUS,
-  SET_JOB_LOADING_STATE,
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
@@ -516,19 +514,6 @@ const createBankingDispatcher = (store) => ({
       isLoadingAccount,
     });
   },
-
-  loadJobAfterCreate: (jobId, payload) =>
-    store.dispatch({
-      intent: LOAD_JOB_AFTER_CREATE,
-      jobId,
-      ...payload,
-    }),
-
-  setJobLoadingState: (isJobLoading) =>
-    store.dispatch({
-      intent: SET_JOB_LOADING_STATE,
-      isJobLoading,
-    }),
 
   populateRemainingAmount: (index) =>
     store.dispatch({

@@ -8,7 +8,6 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_JOB_AFTER_CREATE,
   OPEN_ATTACHMENT,
   REMOVE_ATTACHMENT,
   SAVE_PENDING_NOTE,
@@ -181,7 +180,7 @@ const createBankingIntegrator = (store, integration) => ({
     });
   },
 
-  /* 
+  /*
     Currently split allocation and transfer money make use of this function.
     @@ TODO: Remove after split allocation and transfer money have been refactored.
   */
@@ -349,22 +348,6 @@ const createBankingIntegrator = (store, integration) => ({
     const intent = LOAD_ACCOUNT_AFTER_CREATE;
     const urlParams = {
       accountId,
-      businessId: getBusinessId(state),
-    };
-
-    integration.read({
-      intent,
-      urlParams,
-      onSuccess,
-      onFailure,
-    });
-  },
-
-  loadJobAfterCreate: ({ id, onSuccess, onFailure }) => {
-    const state = store.getState();
-    const intent = LOAD_JOB_AFTER_CREATE;
-    const urlParams = {
-      jobId: id,
       businessId: getBusinessId(state),
     };
 

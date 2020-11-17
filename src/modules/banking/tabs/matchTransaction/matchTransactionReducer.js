@@ -2,12 +2,10 @@ import {
   ADD_MATCH_TRANSACTION_ADJUSTMENT,
   EXPAND_ADJUSTMENT_SECTION,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSACTIONS,
   REMOVE_MATCH_TRANSACTION_ADJUSTMENT,
   RESET_MATCH_TRANSACTION_OPTIONS,
   RESET_MATCH_TRANSACTION_STATE,
-  SET_JOB_LOADING_STATE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_MATCH_TRANSACTION_INITIAL_STATE,
   SET_MATCH_TRANSACTION_LOADING_STATE,
@@ -53,10 +51,8 @@ export const getMatchTransactionsDefaultState = () => ({
   adjustments: [],
   accounts: [],
   taxCodes: [],
-  jobs: [],
   selectedEntries: {},
   isEdited: false,
-  isJobLoading: false,
   isLoadingAccount: false,
 });
 
@@ -311,18 +307,6 @@ const setLoadingSingleAccountState = (state, { isLoadingAccount }) => {
   };
 };
 
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  jobs: [job, ...state.jobs],
-});
-
-const setJobLoadingState = (state, { isJobLoading }) => {
-  return {
-    ...state,
-    isJobLoading,
-  };
-};
-
 const resetMatchTransactionState = (state) => ({
   ...state,
   ...getMatchTransactionsDefaultState(),
@@ -346,8 +330,6 @@ const matchTransactionHandlers = {
   [EXPAND_ADJUSTMENT_SECTION]: expandAdjustmentSection,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [RESET_MATCH_TRANSACTION_STATE]: resetMatchTransactionState,
 };
 

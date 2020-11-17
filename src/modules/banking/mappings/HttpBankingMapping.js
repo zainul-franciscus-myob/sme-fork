@@ -8,7 +8,6 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_PREFILL_SPLIT_ALLOCATION,
   LOAD_SPLIT_ALLOCATION,
@@ -39,11 +38,6 @@ const HttpBankingMapping = {
     method: 'GET',
     getPath: ({ businessId, accountId }) =>
       `/${businessId}/banking/load_account/${accountId}`,
-  },
-  [LOAD_JOB_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, jobId }) =>
-      `/${businessId}/banking/load_job/${jobId}`,
   },
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: {
     method: 'GET',

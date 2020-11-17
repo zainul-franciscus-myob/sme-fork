@@ -39,7 +39,6 @@ import {
   getIsOpenTransactionWithdrawal,
   getIsPrefillSplitAllocationEnabled,
   getIsTabDisabled,
-  getJobModalContext,
   getLastAllocatedAccount,
   getLocationOfTransactionLine,
   getMatchTransactionsContext,
@@ -86,7 +85,6 @@ import HotkeyLocations from './hotkeys/HotkeyLocations';
 import Hotkeys from './hotkeys/Hotkeys';
 import InTrayModalModule from '../inTray/inTrayModal/InTrayModalModule';
 import JobComboboxModule from '../job/jobCombobox/JobComboboxModule';
-import JobModalModule from '../job/jobModal/JobModalModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import MatchTransactionsModule from './tabs/matchTransaction/MatchTransactionsModule';
 import Store from '../../store/Store';
@@ -123,7 +121,6 @@ export default class BankingModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.jobModalModule = new JobModalModule({ integration });
     this.spendMoneyTaxCalculator = createTaxCalculator(
       TaxCalculatorTypes.spendMoney
     );
@@ -190,7 +187,6 @@ export default class BankingModule {
   render = () => {
     const inTrayModal = this.inTrayModalModule.render();
     const accountModal = this.accountModalModule.render();
-    const jobModal = this.jobModalModule.render();
 
     const renderSplitAllocationContactCombobox = (props) => {
       return this.splitAllocationContactComboboxModule
@@ -260,7 +256,6 @@ export default class BankingModule {
       the match transactions sub module until there's a bigger need for it.
     */
     const matchTransactionContentProps = {
-      onAddJob: this.openJobModal,
       onAddAccount: this.openAccountModal,
     };
 
@@ -312,7 +307,6 @@ export default class BankingModule {
           }}
           inTrayModal={inTrayModal}
           accountModal={accountModal}
-          jobModal={jobModal}
           renderBankingRuleModule={() =>
             this.bankingRuleModule.render({
               onCreateBankingRule: this.applyRuleToTransaction,
@@ -1420,47 +1414,6 @@ export default class BankingModule {
     this.receiveMoneyBankingRuleComboboxModule.resetState();
     this.spendMoneyBankingRuleComboboxModule.resetState();
     this.matchTransactionsSubModule.resetState();
-  };
-
-  openJobModal = (onChange) => {
-    const state = this.store.getState();
-    const context = getJobModalContext(state);
-
-    this.jobModalModule.run({
-      context,
-      onLoadFailure: (message) => this.setAlert({ type: 'danger', message }),
-      onSaveSuccess: (payload) => this.loadJobAfterCreate(payload, onChange),
-    });
-  };
-
-  loadJobAfterCreate = ({ id }, onChange) => {
-    this.jobModalModule.resetState();
-    this.dispatcher.setJobLoadingState(true);
-
-    // @TODO: Remove this once we've refactored the match transaction module to load jobs
-    this.matchTransactionsSubModule.setJobLoadingState(true);
-
-    const onSuccess = (payload) => {
-      const job = { ...payload, id };
-      this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.loadJobAfterCreate(id, job);
-
-      // @TODO: Remove this once we've refactored the match transaction module to load jobs
-      this.matchTransactionsSubModule.loadJobAfterCreate(id, job);
-      this.matchTransactionsSubModule.setJobLoadingState(false);
-
-      onChange(job);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setJobLoadingState(false);
-      this.dispatcher.setAlert({ type: 'danger', message });
-
-      // @TODO: Remove this once we've refactored the match transaction module to load jobs
-      this.matchTransactionsSubModule.setJobLoadingState(false);
-    };
-
-    this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
   updateURLParams = () => {

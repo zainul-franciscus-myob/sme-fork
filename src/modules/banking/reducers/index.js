@@ -16,7 +16,6 @@ import {
   LOAD_ATTACHMENTS,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
-  LOAD_JOB_AFTER_CREATE,
   LOAD_MATCH_TRANSFER_MONEY,
   LOAD_NEW_SPLIT_ALLOCATION,
   LOAD_PREFILL_SPLIT_ALLOCATION,
@@ -42,7 +41,6 @@ import {
   SET_ENTRY_HAS_ATTACHMENT,
   SET_ENTRY_HOVERED,
   SET_FOCUS,
-  SET_JOB_LOADING_STATE,
   SET_LAST_ALLOCATED_ACCOUNT,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
@@ -435,37 +433,6 @@ const loadAccountAfterCreate = (state, { account }) => ({
   depositAccounts: [account, ...state.depositAccounts],
 });
 
-// @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
-const loadJobAfterCreate = (state, { intent, ...job }) => ({
-  ...state,
-  jobs: [job, ...state.jobs],
-  openEntry: {
-    ...state.openEntry,
-    allocate: {
-      ...state.openEntry.allocate,
-      lines: state.openEntry.allocate.lines.map((line) => ({
-        ...line,
-        lineJobOptions: [job, ...line.lineJobOptions],
-      })),
-      newLine: {
-        ...state.openEntry.allocate.newLine,
-        lineJobOptions: [
-          job,
-          ...state.openEntry.allocate.newLine.lineJobOptions,
-        ],
-      },
-    },
-  },
-  isPageEdited: true,
-});
-
-const setJobLoadingState = (state, { isJobLoading }) => {
-  return {
-    ...state,
-    isJobLoading, // @To be deprecated after we've refactoring quick add into split allocation and match transaction modules
-  };
-};
-
 export const setLoadingSingleAccountState = (state, { isLoadingAccount }) => {
   return {
     ...state,
@@ -589,8 +556,6 @@ const handlers = {
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
   [APPEND_NEW_ACCOUNT_TO_ALLOCATE_TABLE]: appendAccountToAllocateTable,
   [SET_LOADING_SINGLE_ACCOUNT_STATE]: setLoadingSingleAccountState,
-  [LOAD_JOB_AFTER_CREATE]: loadJobAfterCreate,
-  [SET_JOB_LOADING_STATE]: setJobLoadingState,
   [POPULATE_REMAINING_AMOUNT]: populateRemainingAmount,
   [SET_TRANSACTION_STATUS_TYPE_TO_UNMATCHED]: setTransactionStatusTypeToUnmatched,
   [START_LOADING_OPEN_ENTRY]: startLoadingOpenEntry,

@@ -15,7 +15,7 @@ import styles from './MatchTransactionBody.module.css';
 const MatchTransactionBody = ({
   renderContactCombobox,
   onAddAccount,
-  onAddJob,
+  renderJobCombobox,
   onUpdateMatchTransactionOptions,
   onSortMatchTransactions,
   onUpdateMatchTransactionSelection,
@@ -34,7 +34,7 @@ const MatchTransactionBody = ({
       {
         <MatchTransactionAdjustments
           onAddAccount={onAddAccount}
-          onAddJob={onAddJob}
+          renderJobCombobox={renderJobCombobox}
           onAddAdjustment={onAddAdjustment}
           onUpdateAdjustment={onUpdateAdjustment}
           onRemoveAdjustment={onRemoveAdjustment}
