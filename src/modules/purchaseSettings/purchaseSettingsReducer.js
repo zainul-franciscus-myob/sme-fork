@@ -63,6 +63,7 @@ const updateDefaultRemittanceAdviceEmailField = (state, { key, value }) => ({
 const setAlert = (state, action) => ({
   ...state,
   alert: action.alert,
+  isPageEdited: action.alert.type !== 'success',
 });
 
 const openModal = (state, action) => ({
