@@ -1779,15 +1779,6 @@ export default class BankingModule {
   /* */
 
   run(context) {
-    const { fastMode = false, ...rest } = context;
-    const { isBankTransactionsFastModeEnabled = false } = this.featureToggles;
-    const isFastModeEnabledQueryParam =
-      fastMode && isBankTransactionsFastModeEnabled;
-
-    const isFastModeEnabled =
-      this.isToggleOn(FeatureToggle.FastModeLoadBankTransactions) ||
-      isFastModeEnabledQueryParam;
-
     const hasPagination = this.isToggleOn(
       FeatureToggle.BankTransactionsPagination
     );
@@ -1802,8 +1793,7 @@ export default class BankingModule {
     );
 
     this.dispatcher.setInitialState({
-      ...rest,
-      isFastModeEnabled,
+      ...context,
       hasPagination,
       hasAllBankAccounts,
       isPrefillSplitAllocationEnabled,

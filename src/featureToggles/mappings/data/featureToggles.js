@@ -16,7 +16,6 @@ export default {
   isJobKeeperCalculatorEnabled: true,
   isJobKeeperTierSuggestionEnabled: true,
   isJobKeeperTierVisualCueEnabled: true,
-  isBankTransactionsFastModeEnabled: true,
   isAllowNegativesInPayRuns: true,
   isBankLinkPayeeEnabled: true,
   isRecurringTransactionEnabled: true,

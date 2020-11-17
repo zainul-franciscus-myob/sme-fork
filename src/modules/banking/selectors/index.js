@@ -464,8 +464,6 @@ export const getLoadMoreButtonStatus = (state) => {
   return LoadMoreButtonStatuses.SHOWN;
 };
 
-const getIsFastModeEnabled = (state) => state.isFastModeEnabled;
-
 const getHasPagination = (state) => state.hasPagination;
 
 export const getHasAllBankAccounts = (state) => state.hasAllBankAccounts;
@@ -478,13 +476,11 @@ export const getLoadBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  getIsFastModeEnabled,
   getHasPagination,
-  (filterOptions, sortOrder, orderBy, isFastModeEnabled, hasPagination) => ({
+  (filterOptions, sortOrder, orderBy, hasPagination) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
-    fastMode: isFastModeEnabled,
     hasPagination,
   })
 );
@@ -498,21 +494,12 @@ export const getLoadBankTransactionsNextPageParams = createSelector(
   getSortOrder,
   getOrderBy,
   getOffset,
-  getIsFastModeEnabled,
   getHasPagination,
-  (
-    filterOptions,
-    sortOrder,
-    orderBy,
-    offset,
-    isFastModeEnabled,
-    hasPagination
-  ) => ({
+  (filterOptions, sortOrder, orderBy, offset, hasPagination) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset,
-    fastMode: isFastModeEnabled,
     hasPagination,
   })
 );
@@ -525,14 +512,12 @@ export const getFilterBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  getIsFastModeEnabled,
   getHasPagination,
-  (filterOptions, sortOrder, orderBy, isFastModeEnabled, hasPagination) => ({
+  (filterOptions, sortOrder, orderBy, hasPagination) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset: 0,
-    fastMode: isFastModeEnabled,
     hasPagination,
   })
 );
@@ -546,7 +531,6 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   sortOrder: getFlipSortOrder(state),
   orderBy,
   offset: 0,
-  fastMode: getIsFastModeEnabled(state),
   hasPagination: getHasPagination(state),
 });
 

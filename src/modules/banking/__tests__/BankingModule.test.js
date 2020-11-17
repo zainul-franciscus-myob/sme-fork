@@ -97,11 +97,7 @@ describe('BankingModule', () => {
     const popMessages = () => [];
     const isToggleOn = () => true;
     const loadHelpContentBasedOnRoute = () => {};
-
-    // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
-    const featureToggles = {
-      isBankTransactionsFastModeEnabled: true,
-    };
+    const featureToggles = {};
 
     const integration = new TestIntegration();
 
@@ -329,7 +325,6 @@ describe('BankingModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
             hasPagination: true,
             hasAllBankAccounts: true,
@@ -367,7 +362,6 @@ describe('BankingModule', () => {
         {
           intent: SET_INITIAL_STATE,
           context: {
-            isFastModeEnabled: true,
             isPrefillSplitAllocationEnabled: true,
             hasPagination: true,
             hasAllBankAccounts: true,
@@ -390,24 +384,6 @@ describe('BankingModule', () => {
           }),
         ])
       );
-    });
-
-    // @Disposable tests: Ensures our logic for setting isFastModeEnabled is correct
-    it('sets fastMode using queryParam when toggle is false', () => {
-      const { store, integration, module } = setUp();
-      module.isToggleOn = () => false;
-      integration.mapFailure(LOAD_BANK_TRANSACTIONS);
-
-      module.run({
-        fastMode: true,
-      });
-
-      expect(store.getActions()[0]).toEqual({
-        intent: SET_INITIAL_STATE,
-        context: expect.objectContaining({
-          isFastModeEnabled: true,
-        }),
-      });
     });
   });
 
