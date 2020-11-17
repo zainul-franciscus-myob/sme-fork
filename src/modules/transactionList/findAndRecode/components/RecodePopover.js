@@ -42,7 +42,7 @@ const RecodePopover = ({
   const footer = (
     <ButtonRow>
       <Button onClick={onRecode} disabled={isRecodeLoading}>
-        Edit
+        Replace
       </Button>
     </ButtonRow>
   );
@@ -62,7 +62,7 @@ const RecodePopover = ({
           onClick={onOpenRecode}
           disabled={isRecodeLoading}
         >
-          Edit
+          Replace
         </Button>
       </Popover>
       <div className={styles.selectedText}>{selectedText}</div>

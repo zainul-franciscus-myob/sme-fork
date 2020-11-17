@@ -36,7 +36,7 @@ const TransactionListView = ({
           ? [
               {
                 id: tabItemIds.findAndRecode,
-                label: 'Find and Recode',
+                label: 'Find and replace',
               },
             ]
           : []),
