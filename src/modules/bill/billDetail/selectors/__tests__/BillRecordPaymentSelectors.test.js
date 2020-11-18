@@ -298,7 +298,6 @@ describe('BillInTrayDocumentSelectors', () => {
           bankStatementText: 'WAWA',
           defaultAccountId: '1',
           electronicClearingAccountId: '2',
-          isElectronicPaymentEnabled: true,
           startOfFinancialYearDate: '2017-11-26',
           accounts: [
             {

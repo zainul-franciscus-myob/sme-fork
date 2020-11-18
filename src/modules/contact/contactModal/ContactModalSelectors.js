@@ -32,9 +32,6 @@ export const getPaymentDetails = (state) => state.contact.paymentDetails;
 
 export const getContactTypeOptions = (state) => state.contactTypeOptions;
 
-export const getIsElectronicPaymentEnabled = (state) =>
-  state.isElectronicPaymentEnabled;
-
 export const getIsPayBillRemittanceAdviceEnabled = (state) =>
   state.isPayBillRemittanceAdviceEnabled;
 
@@ -133,9 +130,7 @@ export const getContactModalShippingAddress = createSelector(
 export const getShouldShowPaymentDetails = createSelector(
   getRegion,
   getIsSupplier,
-  getIsElectronicPaymentEnabled,
-  (region, isSupplier, isElectronicPaymentEnabled) =>
-    region === 'au' && isSupplier && isElectronicPaymentEnabled
+  (region, isSupplier) => region === 'au' && isSupplier
 );
 
 export const getLoadNewContactModalUrlParams = (state) => ({

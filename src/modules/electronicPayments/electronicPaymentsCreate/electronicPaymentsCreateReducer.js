@@ -45,23 +45,7 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
 });
 
-const getEnabledValues = (featureTogglesConfig) => {
-  let values = ['PayEmployees'];
-
-  if (featureTogglesConfig.isSpendMoneyEnabled) {
-    values = ['SpendMoney', ...values];
-  }
-
-  if (featureTogglesConfig.isElectronicPaymentEnabled) {
-    values = ['All', 'PayBills', ...values];
-  }
-
-  return values;
-};
-
-const paymentTypeMappings = (featureTogglesConfig) => {
-  const enabledValues = getEnabledValues(featureTogglesConfig);
-
+const paymentTypeMappings = () => {
   return [
     {
       name: 'All',
@@ -79,19 +63,12 @@ const paymentTypeMappings = (featureTogglesConfig) => {
       name: 'Spend Money',
       value: 'SpendMoney',
     },
-  ].filter(({ value }) => enabledValues.includes(value));
+  ];
 };
 
 const setInitialState = (state, { context }) => {
-  const {
-    paymentType,
-    isSpendMoneyEnabled,
-    isElectronicPaymentEnabled,
-  } = context;
-  const paymentTypes = paymentTypeMappings({
-    isSpendMoneyEnabled,
-    isElectronicPaymentEnabled,
-  });
+  const { paymentType } = context;
+  const paymentTypes = paymentTypeMappings();
 
   return {
     ...state,
@@ -160,7 +137,7 @@ const setSortOrder = (state, action) => ({
 
 const sortAndFilterTransactions = (state, { response }) => ({
   ...state,
-  transactions: response.transactions,
+  transactions: response,
 });
 
 const selectAllTransactions = (state, action) => ({

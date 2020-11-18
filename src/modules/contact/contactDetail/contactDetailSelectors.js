@@ -142,9 +142,6 @@ export const isPageEdited = (state) => state.isPageEdited;
 
 export const getBusinessId = (state) => state.businessId;
 
-export const getIsElectronicPaymentEnabled = (state) =>
-  state.isElectronicPaymentEnabled;
-
 export const getAccountModalContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -163,7 +160,5 @@ export const getReminderLink = (state) =>
 export const getShouldShowPaymentDetails = createSelector(
   getRegion,
   getIsSupplier,
-  getIsElectronicPaymentEnabled,
-  (region, isSupplier, isElectronicPaymentEnabled) =>
-    isElectronicPaymentEnabled && region === 'au' && isSupplier
+  (region, isSupplier) => region === 'au' && isSupplier
 );

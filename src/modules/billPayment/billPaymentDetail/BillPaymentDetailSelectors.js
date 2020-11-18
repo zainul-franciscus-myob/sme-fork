@@ -177,9 +177,7 @@ export const getIsBeforeStartOfFinancialYear = (state) => {
 
 const getShowElectronicPayments = createSelector(
   getRegion,
-  (state) => state.isElectronicPaymentEnabled,
-  (region, isElectronicPaymentEnabled) =>
-    region === 'au' && isElectronicPaymentEnabled
+  (region) => region === 'au'
 );
 
 export const getSupplierLink = createSelector(

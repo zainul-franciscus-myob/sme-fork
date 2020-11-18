@@ -83,9 +83,7 @@ const getDiscountedBalance = createSelector(
 
 const getShowElectronicPayments = createSelector(
   getRegion,
-  (state) => state.recordBillPayment.isElectronicPaymentEnabled,
-  (region, isElectronicPaymentEnabled) =>
-    region === 'au' && isElectronicPaymentEnabled
+  (region) => region === 'au'
 );
 
 export const getShouldShowSupplierPopover = createSelector(

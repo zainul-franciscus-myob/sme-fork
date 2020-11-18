@@ -28,7 +28,6 @@ export const loadNewBillPayment = (state, action) => ({
     originalReferenceId: action.response.referenceId,
     electronicClearingAccountId: action.response.electronicClearingAccountId,
     startOfFinancialYearDate: action.response.startOfFinancialYearDate,
-    isElectronicPaymentEnabled: action.response.isElectronicPaymentEnabled,
     supplierName: action.response.supplierName,
     arePaymentDetailsComplete: action.response.arePaymentDetailsComplete,
     supplierStatementText: action.response.supplierStatementText,

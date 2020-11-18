@@ -50,8 +50,6 @@ export default class BillPaymentModule {
     );
     this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
-    this.isElectronicPaymentEnabled =
-      featureToggles?.isElectronicPaymentEnabled;
     this.isRemittanceAdviceEnabled =
       featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
@@ -392,7 +390,6 @@ export default class BillPaymentModule {
   run = (context) => {
     this.dispatcher.setInitialState({
       ...context,
-      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
       isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);

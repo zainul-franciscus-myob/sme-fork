@@ -23,7 +23,6 @@ export const getDefaultState = () => ({
   showBillingAddress: false,
   showShippingAddress: false,
   togglePaymentDetails: false,
-  isElectronicPaymentEnabled: false,
   contact: {
     contactType: '',
     designation: '',
@@ -118,7 +117,6 @@ const loadContactModal = (state, action) => ({
       ...action.contact.paymentDetails,
     },
   },
-  isElectronicPaymentEnabled: action.isElectronicPaymentEnabled,
   contactTypeOptions: action.contactTypeOptions,
 });
 

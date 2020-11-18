@@ -59,7 +59,6 @@ describe('BillModule_RecordBillPaymentModal', () => {
           intent: LOAD_NEW_BILL_PAYMENT,
           response: {
             ...loadNewBillPaymentResponse,
-            isElectronicPaymentEnabled: false,
           },
         },
       ]);

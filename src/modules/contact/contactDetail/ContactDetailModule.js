@@ -36,8 +36,6 @@ export default class ContactDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.isElectronicPaymentEnabled =
-      featureToggles?.isElectronicPaymentEnabled;
     this.isPayBillRemittanceAdviceEnabled =
       featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
@@ -265,7 +263,6 @@ export default class ContactDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
       isPayBillRemittanceAdviceEnabled: this.isPayBillRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);

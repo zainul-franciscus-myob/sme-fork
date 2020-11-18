@@ -37,7 +37,7 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({ setRootView, integration, replaceURLParams, featureToggles }) {
+  constructor({ setRootView, integration, replaceURLParams }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
@@ -47,8 +47,6 @@ export default class ElectronicPaymentsModule {
       this.store,
       this.integration
     );
-    this.isSpendMoneyEnabled = featureToggles.isSpendMoneyBankPaymentEnabled;
-    this.isElectronicPaymentEnabled = featureToggles.isElectronicPaymentEnabled;
   }
 
   loadAccountsAndElectronicPayments = () => {
@@ -147,8 +145,6 @@ export default class ElectronicPaymentsModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isSpendMoneyEnabled: this.isSpendMoneyEnabled,
-      isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
     });
     this.render();
     this.loadAccountsAndElectronicPayments();

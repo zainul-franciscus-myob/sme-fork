@@ -32,30 +32,16 @@ describe('ContactModalSelectors', () => {
   });
 
   describe('getShouldShowPaymentDetails', () => {
-    it('returns true when feature toggle is on and contact is au supplier', () => {
+    it('returns true when contact is au supplier', () => {
       const state = {
         contact: {
           contactType: 'Supplier',
         },
         region: 'au',
-        isElectronicPaymentEnabled: true,
       };
 
       const actual = getShouldShowPaymentDetails(state);
       expect(actual).toBe(true);
-    });
-
-    it('returns false when feature toggle is off', () => {
-      const state = {
-        contact: {
-          contactType: 'Supplier',
-        },
-        region: 'au',
-        isElectronicPaymentEnabled: false,
-      };
-
-      const actual = getShouldShowPaymentDetails(state);
-      expect(actual).toBe(false);
     });
 
     it('returns false when contact is not supplier', () => {
@@ -64,7 +50,6 @@ describe('ContactModalSelectors', () => {
           contactType: 'Customer',
         },
         region: 'au',
-        isElectronicPaymentEnabled: true,
       };
 
       const actual = getShouldShowPaymentDetails(state);
@@ -77,7 +62,6 @@ describe('ContactModalSelectors', () => {
           selectedContactType: 'Supplier',
         },
         region: 'nz',
-        isElectronicPaymentEnabled: true,
       };
 
       const actual = getShouldShowPaymentDetails(state);

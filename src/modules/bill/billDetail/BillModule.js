@@ -137,8 +137,6 @@ class BillModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
-    this.isElectronicPaymentEnabled =
-      featureToggles?.isElectronicPaymentEnabled || false;
   }
 
   openAccountModal = (onChange) => {
@@ -1029,7 +1027,6 @@ class BillModule {
       this.dispatcher.setBillPaymentModalLoadingState(false);
       this.dispatcher.loadBillPayment({
         ...response,
-        isElectronicPaymentEnabled: this.isElectronicPaymentEnabled,
       });
     };
 
