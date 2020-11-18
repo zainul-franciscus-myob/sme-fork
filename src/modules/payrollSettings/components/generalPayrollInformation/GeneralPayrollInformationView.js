@@ -78,6 +78,11 @@ const GeneralPayrollInformationView = (props) => {
                 name="withholdingPayerNumber"
                 value={withholdingPayerNumber}
                 onChange={handleInputChange(onGeneralPayrollInformationChange)}
+                labelAccessory={
+                  <Tooltip>
+                    {"Leave this empty if your business doesn't have a WPN."}
+                  </Tooltip>
+                }
               />
               <AmountInput
                 label="Cents to round net pay down to"
