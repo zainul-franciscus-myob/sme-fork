@@ -1,5 +1,6 @@
 import {
   BaseTemplate,
+  Button,
   Alert as FeelixAlert,
   Icons,
   PageHead,
@@ -40,6 +41,7 @@ const BankFeedsView = ({
   onCancelBankFeedsLogin,
   onCloseDeleteModal,
   onConfirmBankFeedsLogin,
+  onCreateBankFeedButtonClick,
   onCreditCardLinkedAccountChange,
   onDeleteBankFeedAccountClick,
   onDeleteBankFeedAccountConfirm,
@@ -107,6 +109,9 @@ const BankFeedsView = ({
         >
           Manage bank feeds via my.MYOB
         </LinkButton>
+        <Button onClick={onCreateBankFeedButtonClick} type={'secondary'}>
+          Create bank feed
+        </Button>
         {/* <Button */}
         {/*   type="secondary" */}
         {/*   disabled={isActionDisabled} */}

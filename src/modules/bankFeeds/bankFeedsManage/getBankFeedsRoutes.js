@@ -6,6 +6,7 @@ const getBankFeedsRoutes = ({
   setRootView,
   globalCallbacks,
   isToggleOn,
+  navigateTo,
 }) => {
   const routes = [
     {
@@ -16,6 +17,7 @@ const getBankFeedsRoutes = ({
         setRootView,
         globalCallbacks,
         isToggleOn,
+        navigateTo,
       }),
       documentTitle: 'Bank feeds',
     },

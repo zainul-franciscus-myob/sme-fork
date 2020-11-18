@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsSubmitting, getModalType } from './BankFeedsSelectors';
+import {
+  getCreateBankFeedsUrl,
+  getIsSubmitting,
+  getModalType,
+} from './BankFeedsSelectors';
 import BankFeedsView from './components/BankFeedsView';
 import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -14,7 +18,13 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
-  constructor({ integration, setRootView, globalCallbacks, isToggleOn }) {
+  constructor({
+    integration,
+    setRootView,
+    globalCallbacks,
+    isToggleOn,
+    navigateTo,
+  }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(bankFeedsReducer);
@@ -22,6 +32,7 @@ class BankFeedsModule {
     this.dispatcher = createBankFeedsDispatcher(this.store);
     this.globalCallbacks = globalCallbacks;
     this.isToggleOn = isToggleOn;
+    this.navigateTo = navigateTo;
   }
 
   loadBankFeeds = () => {
@@ -53,6 +64,12 @@ class BankFeedsModule {
     };
 
     this.integrator.saveBankFeeds({ onSuccess, onFailure });
+  };
+
+  redirectToCreateNewBankFeed = () => {
+    const state = this.store.getState();
+    const url = getCreateBankFeedsUrl(state);
+    this.navigateTo(url, true);
   };
 
   openDeleteModalAndSetAccountToBeDeleted = (
@@ -194,6 +211,7 @@ class BankFeedsModule {
       <Provider store={this.store}>
         <BankFeedsView
           onSaveButtonClick={this.saveBankFeeds}
+          onCreateBankFeedButtonClick={this.redirectToCreateNewBankFeed}
           onDismissAlert={this.dispatcher.dismissAlert}
           onCloseDeleteModal={this.closeDeleteModal}
           onBankAccountLinkedAccountChange={
