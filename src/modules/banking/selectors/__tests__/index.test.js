@@ -4,6 +4,7 @@ import {
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
   getIndexOfNextUnmatchedLine,
+  getIsAllocated,
   getIsFocused,
   getIsTabDisabled,
   getLoadBankTransactionsNextPageParams,
@@ -15,7 +16,7 @@ import {
   getSortBankTransactionsParams,
   getSortBankTransactionsUrlParams,
   getSpendMoneyUid,
-} from '../index';
+} from '..';
 import BankTransactionStatusTypes from '../../types/BankTransactionStatusTypes';
 import FocusLocations from '../../types/FocusLocations';
 import MatchTransactionShowType from '../../types/MatchTransactionShowType';
@@ -821,6 +822,71 @@ describe('Bank transactions index selectors', () => {
         const actual = getMatchTransactionsContext(state, 0);
 
         expect(actual.showType).toEqual(showType);
+      });
+    });
+  });
+
+  describe('getIsAllocated', () => {
+    describe('when allocated', () => {
+      [
+        {
+          type: BankTransactionStatusTypes.singleAllocation,
+        },
+        {
+          type: BankTransactionStatusTypes.splitAllocation,
+        },
+        {
+          type: BankTransactionStatusTypes.transfer,
+        },
+      ].forEach(({ type }) => {
+        it(`true when type is ${type} and has a journal`, () => {
+          const actual = getIsAllocated({
+            type,
+            journals: [
+              {
+                journalId: '1',
+              },
+            ],
+          });
+
+          expect(actual).toBeTruthy();
+        });
+
+        it(`false when type is ${type} has no journal`, () => {
+          const actual = getIsAllocated({
+            type,
+            journals: [],
+          });
+
+          expect(actual).toBeFalsy();
+        });
+      });
+    });
+
+    describe('when unallocated', () => {
+      [
+        {
+          type: BankTransactionStatusTypes.matched,
+        },
+        {
+          type: BankTransactionStatusTypes.unmatched,
+        },
+        {
+          type: BankTransactionStatusTypes.paymentRuleMatched,
+        },
+      ].forEach(({ type }) => {
+        it(`false when type is ${type}`, () => {
+          const actual = getIsAllocated({
+            type,
+            journals: [
+              {
+                journalId: '1',
+              },
+            ],
+          });
+
+          expect(actual).toBeFalsy();
+        });
       });
     });
   });

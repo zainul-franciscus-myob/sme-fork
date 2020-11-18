@@ -222,7 +222,7 @@ export const getIsAllocated = ({ type, journals }) =>
     (type === StatusTypes.singleAllocation ||
       type === StatusTypes.splitAllocation ||
       type === StatusTypes.transfer) &&
-    journals[0].journalId
+    journals[0]?.journalId
   );
 
 export const getLastAllocatedAccount = ({ lastAllocatedAccount }) =>
