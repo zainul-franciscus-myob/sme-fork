@@ -16,6 +16,8 @@ const getDefaultState = () => ({
   defaultRemittanceAdviceEmailSettings: {
     remittanceAdviceEmailBody: '',
     remittanceAdviceEmailSubject: '',
+    fromName: '',
+    fromEmail: '',
   },
   alert: {},
   templateList: [],

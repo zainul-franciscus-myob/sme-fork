@@ -8,6 +8,7 @@ import {
   Input,
   Table,
   TextArea,
+  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
@@ -60,6 +61,45 @@ const PurchaseSettingsView = ({
           onCancel={onUnsavedModalCancel}
         />
       )}
+      <Card>
+        <FieldGroup label="Email settings">
+          <p>
+            These email settings apply to all emails sent on your behalf from
+            MYOB. This includes invoices, quotes and pay slips (payroll).
+          </p>
+          <Input
+            name="fromName"
+            label="From name"
+            labelAccessory={
+              <Tooltip>
+                The name that will display when your suppliers receive a
+                remittance advice. This could be your business name or contact
+                person.
+              </Tooltip>
+            }
+            value={emailSettings.fromName}
+            maxLength={255}
+            onChange={handleInputChange(
+              onDefaultRemittanceAdviceEmailFieldChange
+            )}
+          />
+          <Input
+            name="fromEmail"
+            label="Reply-to email address"
+            labelAccessory={
+              <Tooltip>
+                The email address used when your suppliers reply to an emailed
+                remittance advice.
+              </Tooltip>
+            }
+            value={emailSettings.fromEmail}
+            maxLength={255}
+            onChange={handleInputChange(
+              onDefaultRemittanceAdviceEmailFieldChange
+            )}
+          />
+        </FieldGroup>
+      </Card>
       <div>
         <Card>
           <FieldGroup label="Default Remittance Advice email">

@@ -145,6 +145,8 @@ describe('PurchaseSettingsDetailModule', () => {
       store.setState({
         ...store.getState(),
         defaultRemittanceAdviceEmailSettings: {
+          fromName: 'name',
+          fromEmail: 'reply@to.com',
           remittanceAdviceEmailBody: 'body',
           remittanceAdviceEmailSubject: 'subject',
         },
@@ -173,6 +175,8 @@ describe('PurchaseSettingsDetailModule', () => {
         expect.objectContaining({
           intent: UPDATE_EMAIL_SETTINGS,
           content: {
+            fromName: 'name',
+            fromEmail: 'reply@to.com',
             remittanceAdviceEmailBody: 'body',
             remittanceAdviceEmailSubject: 'subject',
           },

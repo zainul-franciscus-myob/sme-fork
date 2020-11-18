@@ -1,5 +1,7 @@
 {
   "emailSettings": {
+    "fromName": "From name",
+    "fromEmail": "reply@to.com",
     "remittanceAdviceEmailBody": "Remittance advice body sample",
     "remittanceAdviceEmailSubject": "To Supplier"
   },
