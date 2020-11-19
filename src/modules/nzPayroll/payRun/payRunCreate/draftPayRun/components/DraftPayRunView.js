@@ -5,7 +5,7 @@ import React from 'react';
 import { getStepNumber, getStepperSteps } from '../../PayRunSelectors';
 import EmployeePayActions from './EmployeePayActions';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
-import EmployeePayTable from './EmployeesPayTable';
+import EmployeesPayTable from './EmployeesPayTable';
 import styles from './DraftPayRunView.module.css';
 
 const DraftPayRunView = ({
@@ -19,6 +19,10 @@ const DraftPayRunView = ({
   payRunSteps,
   onDaysPaidChange,
   onDaysPaidBlur,
+  onAddHolidayAndLeaveClick,
+  onAddHolidaysOrLeaveModalCancel,
+  onAddHolidaysOrLeaveModalContinue,
+  featureToggles,
 }) => (
   <React.Fragment>
     <PageHead title="Calculate pays" />
@@ -26,13 +30,17 @@ const DraftPayRunView = ({
       <Stepper activeStepNumber={stepNumber} steps={payRunSteps} />
     </div>
     <EmployeePayHeader />
-    <EmployeePayTable
+    <EmployeesPayTable
       onSelectRow={onSelectRow}
       onSelectAllRows={onSelectAllRows}
       onEmployeePayLineChange={onEmployeePayLineChange}
       onEmployeePayLineBlur={onEmployeePayLineBlur}
       onDaysPaidChange={onDaysPaidChange}
       onDaysPaidBlur={onDaysPaidBlur}
+      onAddHolidayAndLeaveClick={onAddHolidayAndLeaveClick}
+      onAddHolidaysOrLeaveModalCancel={onAddHolidaysOrLeaveModalCancel}
+      onAddHolidaysOrLeaveModalContinue={onAddHolidaysOrLeaveModalContinue}
+      featureToggles={featureToggles}
     />
     <EmployeePayActions
       onPreviousButtonClick={onPreviousButtonClick}

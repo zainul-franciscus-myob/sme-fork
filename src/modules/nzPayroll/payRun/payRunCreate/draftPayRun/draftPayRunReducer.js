@@ -1,6 +1,8 @@
 import {
+  CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   FORMAT_EMPLOYEE_PAY_LINE,
   LOAD_DRAFT_PAY_RUN,
+  OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   SET_PAY_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
@@ -21,6 +23,7 @@ export const getDraftPayRunDefaultState = () => ({
   selectedPayLine: undefined,
   baseHourlyWagePayItemId: null,
   baseSalaryWagePayItemId: null,
+  isAddHolidaysAndLeaveModalOpen: false,
 });
 
 const loadDraftPayRun = (state, { createdDraftPayRun }) => ({
@@ -169,6 +172,16 @@ const updateEmployeePayLine = (
   ),
 });
 
+const openAddHolidayAndLeaveModal = (state) => ({
+  ...state,
+  isAddHolidaysAndLeaveModalOpen: true,
+});
+
+const cancelAddHolidayAndLeaveModal = (state) => ({
+  ...state,
+  isAddHolidaysAndLeaveModalOpen: false,
+});
+
 export const draftPayRunHandlers = {
   [LOAD_DRAFT_PAY_RUN]: loadDraftPayRun,
   [FORMAT_EMPLOYEE_PAY_LINE]: formatEmployeePayLine,
@@ -179,4 +192,6 @@ export const draftPayRunHandlers = {
   [UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION]: updateEmployeeLineAfterRecalculation,
   [SET_PAY_LINE_DIRTY]: setPayLineDirty,
   [UPDATE_EMPLOYEE_PAY_LINE]: updateEmployeePayLine,
+  [OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL]: openAddHolidayAndLeaveModal,
+  [CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL]: cancelAddHolidayAndLeaveModal,
 };

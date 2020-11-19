@@ -18,4 +18,5 @@ export default {
   isBankLinkPayeeEnabled: true,
   isRecurringTransactionEnabled: true,
   isPayBillRemittanceAdviceEnabled: true,
+  isHolidaysAndLeaveLinesEnabled: true,
 };

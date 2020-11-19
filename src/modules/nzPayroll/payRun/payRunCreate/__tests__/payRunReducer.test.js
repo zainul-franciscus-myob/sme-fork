@@ -180,6 +180,7 @@ describe('NZ Payrun reducer', () => {
           isPayLineDirty: false,
           lines: [],
           payPeriodEmployeeLimit: {},
+          isAddHolidaysAndLeaveModalOpen: false,
         },
         draftPayRunId: -1,
         isSubmitting: false,

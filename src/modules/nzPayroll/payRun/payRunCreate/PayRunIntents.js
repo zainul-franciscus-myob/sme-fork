@@ -57,3 +57,11 @@ export const LOAD_PAYROLL_VERIFICATION_REPORT_FAILED = Symbol(
 export const UPDATE_EMPLOYEE_DAYS_PAID_FAILED = Symbol(
   'Failed to update Days Paid'
 );
+
+export const OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL = Symbol(
+  'Open add holidays and leave modal dialog'
+);
+
+export const CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL = Symbol(
+  'Cancel add holidays and leave modal dialog'
+);

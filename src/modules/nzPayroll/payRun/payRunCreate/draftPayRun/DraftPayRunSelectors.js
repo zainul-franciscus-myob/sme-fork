@@ -125,6 +125,10 @@ export const getWagePayLineEntries = createSelector(
       }))
 );
 
+export const getHolidayAndLeaveLineEntries = createSelector(() => {
+  return [];
+});
+
 export const getTaxPayLineEntries = createSelector(
   (state, props) => getEmployeeLineByEmployeeId(state, props.employeeId),
   (line) =>
@@ -180,3 +184,6 @@ export const getEmployeePayId = ({ state, employeeId }) => {
   const employeePay = getEmployeeLineByEmployeeId(state, employeeId);
   return employeePay.id;
 };
+
+export const getIsAddHolidaysAndLeaveModalOpen = (state) =>
+  state.draftPayRun.isAddHolidaysAndLeaveModalOpen;

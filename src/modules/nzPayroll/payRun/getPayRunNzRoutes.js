@@ -8,6 +8,7 @@ const getPayRunRoutes = ({
   isToggleOn,
   subscribeOrUpgrade,
   navigateTo,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -21,6 +22,7 @@ const getPayRunRoutes = ({
         isToggleOn,
         subscribeOrUpgrade,
         navigateTo,
+        featureToggles,
       }),
       documentTitle: 'Pay run',
     },

@@ -1,6 +1,8 @@
 import {
+  CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   FORMAT_EMPLOYEE_PAY_LINE,
   LOAD_DRAFT_PAY_RUN,
+  OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   SET_PAY_LINE_DIRTY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_DAYS_PAID,
@@ -700,6 +702,54 @@ describe('draftPayRunReducer', () => {
               ],
             },
           ],
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Open Holidays and leave modal', () => {
+    it('should set isAddHolidaysAndLeaveModalOpen to true ', () => {
+      const state = {
+        draftPayRun: {
+          isAddHolidaysAndLeaveModalOpen: false,
+        },
+      };
+
+      const action = {
+        intent: OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL,
+      };
+
+      const expected = {
+        draftPayRun: {
+          isAddHolidaysAndLeaveModalOpen: true,
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Cancel Holidays and leave modal', () => {
+    it('should set isAddHolidaysAndLeaveModalOpen to false ', () => {
+      const state = {
+        draftPayRun: {
+          isAddHolidaysAndLeaveModalOpen: true,
+        },
+      };
+
+      const action = {
+        intent: CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL,
+      };
+
+      const expected = {
+        draftPayRun: {
+          isAddHolidaysAndLeaveModalOpen: false,
         },
       };
 

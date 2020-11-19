@@ -1,6 +1,7 @@
 import {
   getEmployeePayId,
   getFormattedEmployeePayLines,
+  getIsAddHolidaysAndLeaveModalOpen,
   getIsAllSelected,
   getIsPartiallySelected,
   getKiwiSaverPayLineEntries,
@@ -439,6 +440,20 @@ describe('draftPayRunSelectors', () => {
       };
 
       expect(actualPayload).toEqual(expectedRequest);
+    });
+  });
+
+  describe('getIsAddHolidaysAndLeaveModalOpen', () => {
+    it('should get isAddHolidaysAndLeaveModalOpen', () => {
+      const expected = true;
+
+      const state = {
+        draftPayRun: {
+          isAddHolidaysAndLeaveModalOpen: true,
+        },
+      };
+
+      expect(getIsAddHolidaysAndLeaveModalOpen(state)).toEqual(expected);
     });
   });
 });

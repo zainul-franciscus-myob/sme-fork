@@ -2,6 +2,7 @@ import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import DaysPaidRow from './PayDetailsDaysPaidRow';
+import HolidaysAndLeaveLines from './payLines/HolidaysAndLeaveLines';
 import KiwiSaverPayLines from './payLines/KiwiSaverPayLines';
 import TaxPayLines from './payLines/TaxPayLines';
 import WagePayLines from './payLines/WagePayLines';
@@ -15,6 +16,11 @@ const PayDetailsTable = ({
   onEmployeePayLineBlur,
   onDaysPaidChange,
   onDaysPaidBlur,
+  onAddHolidayAndLeaveClick,
+  isAddHolidaysAndLeaveModalOpen,
+  onAddHolidaysOrLeaveModalCancel,
+  onAddHolidaysOrLeaveModalContinue,
+  featureToggles,
 }) => (
   <Table>
     <Table.Header>
@@ -37,6 +43,15 @@ const PayDetailsTable = ({
         onEmployeePayLineChange={onEmployeePayLineChange}
         onEmployeePayLineBlur={onEmployeePayLineBlur}
       />
+      {featureToggles?.isHolidaysAndLeaveLinesEnabled && (
+        <HolidaysAndLeaveLines
+          tableConfig={tableConfig}
+          onAddHolidayAndLeaveClick={onAddHolidayAndLeaveClick}
+          isAddHolidaysAndLeaveModalOpen={isAddHolidaysAndLeaveModalOpen}
+          onAddHolidaysOrLeaveModalCancel={onAddHolidaysOrLeaveModalCancel}
+          onAddHolidaysOrLeaveModalContinue={onAddHolidaysOrLeaveModalContinue}
+        />
+      )}
       <TaxPayLines
         tableConfig={tableConfig}
         employeeId={employeeId}

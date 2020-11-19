@@ -219,6 +219,7 @@
       }
     ],
     "baseHourlyWagePayItemId": 21,
-    "baseSalaryWagePayItemId": 22
+    "baseSalaryWagePayItemId": 22,
+    "isAddHolidaysAndLeaveModalOpen": false
   }
 }

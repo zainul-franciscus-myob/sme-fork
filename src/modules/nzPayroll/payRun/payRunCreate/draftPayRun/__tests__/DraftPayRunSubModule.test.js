@@ -23,11 +23,15 @@ describe('DraftPayRunSubModule', () => {
     const pushMessage = () => {};
     const setRootView = () => <div />;
     const isToggleOn = () => true;
+    const featureToggles = {
+      isHolidaysAndLeaveLinesEnabled: true,
+    };
     const payRunModule = new PayRunModule({
       integration,
       setRootView,
       pushMessage,
       isToggleOn,
+      featureToggles,
     });
 
     const store = new TestStore(payRunReducer);

@@ -1,5 +1,7 @@
 import {
+  CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   FORMAT_EMPLOYEE_PAY_LINE,
+  OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL,
   SET_PAY_LINE_DIRTY,
   SET_TOTAL_TAKE_HOME_PAY,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
@@ -75,6 +77,20 @@ const createDraftPayRunDispatcher = (store) => ({
   updateDaysPaidFailed: (employeeId) => {
     const intent = UPDATE_EMPLOYEE_DAYS_PAID_FAILED;
     store.dispatch({ intent, employeeId });
+  },
+
+  openAddHolidaysAndLeaveModal: () => {
+    const intent = OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  cancelAddHolidaysAndLeaveModal: () => {
+    const intent = CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL;
+    store.dispatch({
+      intent,
+    });
   },
 });
 

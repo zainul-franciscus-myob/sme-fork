@@ -8,12 +8,19 @@ import createDraftPayRunIntegrator from './createDraftPayRunIntegrator';
 import formatAmount from '../../../../../common/valueFormatters/formatAmount';
 
 export default class DraftPayRunSubModule {
-  constructor({ integration, store, pushMessage, subscribeOrUpgrade }) {
+  constructor({
+    integration,
+    store,
+    pushMessage,
+    subscribeOrUpgrade,
+    featureToggles,
+  }) {
     this.store = store;
     this.pushMessage = pushMessage;
     this.dispatcher = createDraftPayRunDispatcher(store);
     this.integrator = createDraftPayRunIntegrator(store, integration);
     this.subscribeOrUpgrade = subscribeOrUpgrade;
+    this.featureToggles = featureToggles;
   }
 
   nextStep = () => {
@@ -132,6 +139,16 @@ export default class DraftPayRunSubModule {
     this.dispatcher.openDiscardAndRedirectModal();
   }
 
+  openAddHolidaysAndLeaveModal = () => {
+    this.dispatcher.openAddHolidaysAndLeaveModal();
+  };
+
+  cancelAddHolidaysAndLeaveModal = () => {
+    this.dispatcher.cancelAddHolidaysAndLeaveModal();
+  };
+
+  continueAddHolidaysAndLeaveModal = () => {};
+
   render() {
     return (
       <DraftPayRunView
@@ -143,6 +160,12 @@ export default class DraftPayRunSubModule {
         onDaysPaidChange={this.changeDaysPaid}
         onDaysPaidBlur={this.updateDaysPaid}
         onPreviousButtonClick={this.openPreviousStepModal}
+        onAddHolidayAndLeaveClick={this.openAddHolidaysAndLeaveModal}
+        onAddHolidaysOrLeaveModalCancel={this.cancelAddHolidaysAndLeaveModal}
+        onAddHolidaysOrLeaveModalContinue={
+          this.continueAddHolidaysAndLeaveModal
+        }
+        featureToggles={this.featureToggles}
       />
     );
   }

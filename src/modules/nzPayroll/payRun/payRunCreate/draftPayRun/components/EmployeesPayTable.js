@@ -72,6 +72,10 @@ const EmployeesPayTable = ({
   onEmployeePayLineBlur,
   onDaysPaidChange,
   onDaysPaidBlur,
+  onAddHolidayAndLeaveClick,
+  onAddHolidaysOrLeaveModalCancel,
+  onAddHolidaysOrLeaveModalContinue,
+  featureToggles,
 }) => (
   <Card>
     <div className={styles.employeePayTable}>
@@ -168,6 +172,14 @@ const EmployeesPayTable = ({
                   onEmployeePayLineBlur={onEmployeePayLineBlur}
                   onDaysPaidChange={onDaysPaidChange}
                   onDaysPaidBlur={onDaysPaidBlur}
+                  onAddHolidayAndLeaveClick={onAddHolidayAndLeaveClick}
+                  onAddHolidaysOrLeaveModalCancel={
+                    onAddHolidaysOrLeaveModalCancel
+                  }
+                  onAddHolidaysOrLeaveModalContinue={
+                    onAddHolidaysOrLeaveModalContinue
+                  }
+                  featureToggles={featureToggles}
                 />
               </Table.CollapsibleRow>
             ))}

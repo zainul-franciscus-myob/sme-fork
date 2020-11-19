@@ -28,6 +28,7 @@ export default class PayRunModule {
     pushMessage,
     subscribeOrUpgrade,
     navigateTo,
+    featureToggles,
   }) {
     this.integration = integration;
     this.navigateTo = navigateTo;
@@ -35,6 +36,7 @@ export default class PayRunModule {
     this.store = new Store(payRunReducer);
     this.dispatcher = createPayRunDispatchers(this.store);
     this.integrator = createPayRunIntegrator(this.store, integration);
+    this.featureToggles = featureToggles;
     this.subModules = {
       [START_PAY_RUN.key]: new StartPayRunSubModule({
         integration,
@@ -45,6 +47,7 @@ export default class PayRunModule {
         store: this.store,
         pushMessage,
         subscribeOrUpgrade,
+        featureToggles,
       }),
       [RECORD_AND_REPORT.key]: new RecordPayRunSubModule({
         integration,
