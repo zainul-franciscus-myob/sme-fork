@@ -8,6 +8,6 @@
   }
 
   .tabs {
-    display: unset;
+    display: flex;
   }
 }

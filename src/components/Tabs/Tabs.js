@@ -1,7 +1,8 @@
-import { Tabs as FeelixTabs, Select } from '@myob/myob-widgets';
+import { Select } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
+import FeelixTabs from '../Feelix/Tabs/Tabs';
 import styles from './Tabs.module.css';
 
 const handleSelectChange = (handler) => (e) => {
