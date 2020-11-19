@@ -1,5 +1,6 @@
 .formWidth :global(.form-group) {
   max-width: 75.4rem;
+  width: 66.3732394366197%;
 }
 
 .formWidth :global(.field-message-popup-form-group-input-group) {
