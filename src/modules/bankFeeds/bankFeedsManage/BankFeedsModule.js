@@ -5,6 +5,7 @@ import {
   getCreateBankFeedsUrl,
   getIsSubmitting,
   getModalType,
+  getNewBankFeedsAccess,
 } from './BankFeedsSelectors';
 import BankFeedsView from './components/BankFeedsView';
 import FeatureToggle from '../../../FeatureToggles';
@@ -69,7 +70,9 @@ class BankFeedsModule {
   redirectToCreateNewBankFeed = () => {
     const state = this.store.getState();
     const url = getCreateBankFeedsUrl(state);
-    this.navigateTo(url, true);
+    const openInNewTab = !getNewBankFeedsAccess(state);
+
+    this.navigateTo(url, openInNewTab);
   };
 
   openDeleteModalAndSetAccountToBeDeleted = (
