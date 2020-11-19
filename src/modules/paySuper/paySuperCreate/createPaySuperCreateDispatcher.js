@@ -162,10 +162,10 @@ const createPaySuperCreateDispatcher = (store) => ({
     });
   },
 
-  setInlineErrors: (fieldErrors) => {
+  setInlineErrors: (inlineErrors) => {
     store.dispatch({
       intent: SET_INLINE_ALERT_MESSAGE,
-      fieldErrors,
+      inlineErrors,
     });
   },
 });
