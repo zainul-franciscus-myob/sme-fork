@@ -2,12 +2,15 @@ import {
   Button,
   Checkbox,
   HeaderSort,
+  Icons,
   Separator,
   Table,
 } from '@myob/myob-widgets';
 import React from 'react';
 
+import ErrorTooltip from '../../../components/ErrorTooltip/ErrorTooltip';
 import TableView from '../../../components/TableView/TableView';
+import styles from './SuperPaymentsTable.module.css';
 
 const tableConfig = {
   checkbox: { width: '5rem' },
@@ -19,6 +22,7 @@ const tableConfig = {
     sortName: 'SuperannuationFundName',
   },
   amount: { columnName: 'Amount ($)', sortName: 'Amount', align: 'right' },
+  inlineError: { columnName: 'Error', width: '5rem' },
 };
 
 const SuperPaymentsTable = ({
@@ -72,7 +76,7 @@ const SuperPaymentsTable = ({
             onSort={onSort}
           />
         ) : (
-          'Date'
+          tableConfig.date.columnName
         )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.payItemName}>
@@ -84,7 +88,7 @@ const SuperPaymentsTable = ({
             onSort={onSort}
           />
         ) : (
-          'Pay item'
+          tableConfig.payItemName.columnName
         )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.employee}>
@@ -96,7 +100,7 @@ const SuperPaymentsTable = ({
             onSort={onSort}
           />
         ) : (
-          'Employee'
+          tableConfig.employee.columnName
         )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.superannuationFund}>
@@ -108,7 +112,7 @@ const SuperPaymentsTable = ({
             onSort={onSort}
           />
         ) : (
-          'Superannuation fund'
+          tableConfig.superannuationFund.columnName
         )}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.amount}>
@@ -118,11 +122,17 @@ const SuperPaymentsTable = ({
             sortName={tableConfig.amount.sortName}
             activeSort={order}
             onSort={onSort}
+            className={styles.headerSort}
           />
         ) : (
-          'Amount ($)'
+          tableConfig.amount.columnName
         )}
       </Table.HeaderItem>
+      <Table.RowItem {...tableConfig.inlineError}>
+        <span style={{ visibility: 'hidden' }}>
+          <Icons.Error />
+        </span>
+      </Table.RowItem>
     </Table.Header>
   );
 
@@ -139,7 +149,7 @@ const SuperPaymentsTable = ({
           />
         </Table.RowItem>
       )}
-      <Table.RowItem columnName={tableConfig.date.columnName}>
+      <Table.RowItem {...tableConfig.columnName}>
         <Button
           type="link"
           onClick={() => {
@@ -149,17 +159,18 @@ const SuperPaymentsTable = ({
           {row.date}
         </Button>
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.payItemName.columnName}>
+      <Table.RowItem {...tableConfig.payItemName}>
         {row.payItemName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.employee.columnName}>
+      <Table.RowItem {...tableConfig.employee}>
         {row.employeeName}
       </Table.RowItem>
-      <Table.RowItem columnName={tableConfig.superannuationFund.columnName}>
+      <Table.RowItem {...tableConfig.superannuationFund}>
         {row.superannuationFundName}
       </Table.RowItem>
-      <Table.RowItem align="right" columnName={tableConfig.amount.columnName}>
-        {row.amount}
+      <Table.RowItem {...tableConfig.amount}>{row.amount}</Table.RowItem>
+      <Table.RowItem {...tableConfig.inlineError}>
+        <ErrorTooltip errorMessage={row.inlineError} />
       </Table.RowItem>
     </Table.Row>
   ));

@@ -6,19 +6,3 @@
   float: right;
   font-size: 1.4rem;
 }
-
-.hideInlineError {
-  visibility: hidden;
-}
-
-.displayInlineError {
-  visibility: visible;
-}
- 
-.displayInlineError svg path:first-child {
-  fill: var(--flx-fill-error-icon-outer);
-}
-
-.displayInlineError svg path:last-child {
-  fill: var(--flx-fill-error-icon-inner);
-}

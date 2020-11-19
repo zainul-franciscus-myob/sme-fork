@@ -133,14 +133,20 @@ export default class PaySuperCreateModule {
       this.openModal(ModalType.AUTHORISE);
     };
 
-    const onFailure = ({ message }) => {
+    const onFailure = ({ message, fieldErrors }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.closeModal();
-      this.dispatcher.setAlert({ type: 'danger', message });
+      this.setAlert(message);
+      if (fieldErrors) this.setInlineErrors(fieldErrors);
     };
 
     this.integrator.recordPaySuper({ onSuccess, onFailure });
   };
+
+  setInlineErrors = (fieldErrors) =>
+    this.dispatcher.setInlineErrors(fieldErrors);
+
+  setAlert = (message) => this.dispatcher.setAlert({ type: 'danger', message });
 
   openAuthoriseModal = () => {
     this.dispatcher.closeModal();

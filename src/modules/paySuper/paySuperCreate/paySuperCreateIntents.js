@@ -22,3 +22,4 @@ export const UPDATE_AUTHORISATION_INFORMATION = Symbol(
 export const OPEN_MODAL = Symbol('Open modal');
 export const CLOSE_MODAL = Symbol('Close modal');
 export const SET_ACCESS_TOKEN = Symbol('Set the access token');
+export const SET_INLINE_ALERT_MESSAGE = Symbol('Set inline alert messages');

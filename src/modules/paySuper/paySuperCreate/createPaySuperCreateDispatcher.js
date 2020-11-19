@@ -7,6 +7,7 @@ import {
   SELECT_ITEM_SUPER_PAYMENT,
   SET_ACCESS_TOKEN,
   SET_ALERT,
+  SET_INLINE_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -158,6 +159,13 @@ const createPaySuperCreateDispatcher = (store) => ({
     store.dispatch({
       intent: SET_ACCESS_TOKEN,
       accessToken,
+    });
+  },
+
+  setInlineErrors: (fieldErrors) => {
+    store.dispatch({
+      intent: SET_INLINE_ALERT_MESSAGE,
+      fieldErrors,
     });
   },
 });

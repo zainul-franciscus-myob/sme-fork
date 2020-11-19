@@ -2,6 +2,7 @@ import Adapter from 'enzyme-adapter-react-16/build';
 import Enzyme, { mount } from 'enzyme/build';
 
 import {
+  RECORD_PAY_SUPER,
   RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_SORT_ORDER,
@@ -253,6 +254,69 @@ describe('paySuperCreateModule', () => {
         { intent: SET_SORT_ORDER, sortOrder: 'asc', orderBy },
         { intent: SET_SORT_ORDER, sortOrder: 'desc', orderBy }
       );
+    });
+  });
+
+  describe('recordPaySuper', () => {
+    it('should set alert when message recevied', () => {
+      const module = new PaySuperCreateModule({
+        integration: {
+          write: ({ intent, onFailure }) => {
+            switch (intent) {
+              case RECORD_PAY_SUPER:
+                onFailure({
+                  message: 'error message received',
+                });
+                break;
+              default:
+                throw new Error(`unmocked intent "${intent.toString()}"`);
+            }
+          },
+        },
+        pushMessage: () => {},
+        featureToggles: {},
+      });
+      module.setAlert = jest.fn(module.setAlert);
+      module.setInlineErrors = jest.fn(module.setInlineErrors);
+
+      module.recordPaySuper();
+
+      expect(module.setAlert).toHaveBeenCalled();
+      expect(module.setInlineErrors).not.toHaveBeenCalled();
+    });
+
+    it('should set both inline error and alert when fieldErrors and message recevied', () => {
+      const inlineErrors = {
+        message: 'error message received',
+        fieldErrors: [
+          {
+            employeeId: 11,
+            message: 'Employee membership number is empty',
+          },
+        ],
+      };
+      const module = new PaySuperCreateModule({
+        integration: {
+          write: ({ intent, onFailure }) => {
+            switch (intent) {
+              case RECORD_PAY_SUPER:
+                onFailure(inlineErrors);
+                break;
+              default:
+                throw new Error(`unmocked intent "${intent.toString()}"`);
+            }
+          },
+        },
+        pushMessage: () => {},
+        featureToggles: {},
+      });
+      module.setAlert = jest.fn(module.setAlert);
+      module.setInlineErrors = jest.fn(module.setInlineErrors);
+
+      module.recordPaySuper();
+
+      expect(module.setAlert).toHaveBeenCalled();
+      expect(module.setInlineErrors).toHaveBeenCalled();
     });
   });
 });

@@ -1,0 +1,15 @@
+.hideError {
+  visibility: hidden;
+}
+
+.displayError {
+  visibility: visible;
+}
+ 
+.displayError svg path:first-child {
+  fill: var(--flx-fill-error-icon-outer);
+}
+
+.displayError svg path:last-child {
+  fill: var(--flx-fill-error-icon-inner);
+}

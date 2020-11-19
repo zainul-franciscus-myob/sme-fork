@@ -9,6 +9,7 @@ import {
   SELECT_ITEM_SUPER_PAYMENT,
   SET_ACCESS_TOKEN,
   SET_ALERT,
+  SET_INLINE_ALERT_MESSAGE,
   SET_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -166,6 +167,14 @@ const setAccessToken = (state, { accessToken }) => ({
   accessToken,
 });
 
+const setInlineAlertMessage = (state, { inlineErrors }) => ({
+  ...state,
+  superPayments: state.superPayments.map((p) => {
+    const error = inlineErrors.find((err) => p.employeeId === err.employeeId);
+    return { ...p, inlineError: error?.message };
+  }),
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [SET_ALERT]: setAlert,
@@ -186,6 +195,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_ACCESS_TOKEN]: setAccessToken,
+  [SET_INLINE_ALERT_MESSAGE]: setInlineAlertMessage,
 };
 
 const paySuperCreateReducer = createReducer(getDefaultState(), handlers);

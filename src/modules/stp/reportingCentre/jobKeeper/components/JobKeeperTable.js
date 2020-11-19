@@ -2,6 +2,7 @@ import { Alert, Button, Card, Icons, Table, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import EmployeeTierCombobox from './EmployeeTierCombobox';
+import ErrorTooltip from '../../../../../components/ErrorTooltip/ErrorTooltip';
 import JobKeeperFortnightCombobox from './JobKeeperFortnightCombobox';
 import TableView from '../../../../../components/TableView/TableView';
 import styles from './JobKeeperTable.module.css';
@@ -172,15 +173,7 @@ const JobKeeperTable = ({
         </Table.RowItem>
       )}
       <Table.RowItem {...tableConfig.inlineError}>
-        <Tooltip
-          className={
-            row.inlineError ? styles.displayInlineError : styles.hideInlineError
-          }
-          triggerContent={<Icons.Error />}
-          testId="test-inline-error"
-        >
-          {row.inlineError}
-        </Tooltip>
+        <ErrorTooltip errorMessage={row.inlineError} />
       </Table.RowItem>
     </Table.Row>
   ));
