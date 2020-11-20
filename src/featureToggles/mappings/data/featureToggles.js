@@ -18,6 +18,7 @@ export default {
   isBankLinkPayeeEnabled: true,
   isRecurringTransactionEnabled: true,
   isPayBillRemittanceAdviceEnabled: true,
+  isItemBuyingPriceTaxInclusiveEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,
   isNzPaydayFilingEnabled: true,
 };

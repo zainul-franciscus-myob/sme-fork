@@ -7,6 +7,7 @@ const getInventoryRoutes = ({
   setRootView,
   pushMessage,
   popMessages,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -16,6 +17,7 @@ const getInventoryRoutes = ({
         integration,
         setRootView,
         pushMessage,
+        featureToggles,
       }),
       documentTitle: 'Item',
     },

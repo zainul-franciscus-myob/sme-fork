@@ -37,6 +37,7 @@ const getDefaultState = () => ({
       buyingPrice: '',
       allocateToAccountId: '',
       taxCodeId: '',
+      isTaxInclusive: true,
     },
   },
   isEnableForSelling: false,
@@ -130,6 +131,8 @@ const updateBuyingDetails = (state, action) => {
     action.key === 'allocateToAccountId'
       ? getTaxCodeId(state.buyingAccounts, action.value)
       : state.item.buyingDetails.taxCodeId;
+  const key =
+    action.key === 'buyingPriceTaxInclusive' ? 'isTaxInclusive' : action.key;
   return {
     ...state,
     isPageEdited: true,
@@ -138,7 +141,7 @@ const updateBuyingDetails = (state, action) => {
       buyingDetails: {
         ...state.item.buyingDetails,
         taxCodeId,
-        [action.key]: action.value,
+        [key]: action.value,
       },
     },
   };

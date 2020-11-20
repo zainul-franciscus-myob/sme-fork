@@ -56,11 +56,22 @@ export const getBuyingDetails = createSelector(
   getBuyingAccounts,
   getTaxCodes,
   getTaxLabel,
-  (buyingDetails, buyingAccounts, taxCodes, taxLabel) => ({
+  getTaxExclusiveLabel,
+  getTaxInclusiveLabel,
+  (
+    buyingDetails,
+    buyingAccounts,
+    taxCodes,
+    taxLabel,
+    taxExclusiveLabel,
+    taxInclusiveLabel
+  ) => ({
     ...buyingDetails,
     buyingAccounts,
     taxCodes,
     taxLabel,
+    taxExclusiveLabel,
+    taxInclusiveLabel,
   })
 );
 

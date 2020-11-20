@@ -38,6 +38,7 @@ const InventoryDetailView = ({
   onDeleteModal,
   onCancelButtonClick,
   onCancelModal,
+  isItemBuyingPriceTaxInclusiveEnabled,
 }) => {
   let modal;
   if (modalType === 'cancel') {
@@ -92,6 +93,9 @@ const InventoryDetailView = ({
         <BuyingDetails
           onBuyingDetailsChange={onBuyingDetailsChange}
           onEnableStateChange={onEnableForBuyingChange}
+          isItemBuyingPriceTaxInclusiveEnabled={
+            isItemBuyingPriceTaxInclusiveEnabled
+          }
         />
       </FormCard>
     </FormTemplate>

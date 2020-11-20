@@ -14,6 +14,7 @@ import {
 } from '../inventoryDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -23,14 +24,18 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 const BuyingDetails = ({
   enabled,
   buyingPrice,
+  isTaxInclusive,
   unitOfMeasure,
   buyingAccounts,
   allocateToAccountId,
   taxCodes,
   taxCodeId,
   taxLabel,
+  taxInclusiveLabel,
+  taxExclusiveLabel,
   onBuyingDetailsChange,
   onEnableStateChange,
+  isItemBuyingPriceTaxInclusiveEnabled,
 }) => (
   <FieldGroup label="Buying details">
     <CheckboxGroup
@@ -60,6 +65,17 @@ const BuyingDetails = ({
       textAlign="right"
       width="sm"
     />
+    {isItemBuyingPriceTaxInclusiveEnabled && (
+      <BooleanRadioButtonGroup
+        label="Buying price is"
+        name="buyingPriceTaxInclusive"
+        value={isTaxInclusive}
+        trueLabel={taxInclusiveLabel}
+        falseLabel={taxExclusiveLabel}
+        disabled={!enabled}
+        handler={onBuyingDetailsChange}
+      />
+    )}
     <Input
       name="unitOfMeasure"
       label="Unit of measure"

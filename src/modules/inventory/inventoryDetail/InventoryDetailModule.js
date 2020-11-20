@@ -22,10 +22,11 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class InventoryDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.store = new Store(inventoryDetailReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.featureToggles = featureToggles;
 
     this.dispatcher = createInventoryDetailDispatcher(this.store);
     this.integrator = createInventoryDetailIntegrator(this.store, integration);
@@ -46,6 +47,9 @@ export default class InventoryDetailModule {
         onDeleteModal={this.deleteInventoryDetail}
         onCancelModal={this.redirectToInventoryList}
         onDismissAlert={this.dispatcher.dismissAlert}
+        isItemBuyingPriceTaxInclusiveEnabled={
+          this.featureToggles.isItemBuyingPriceTaxInclusiveEnabled
+        }
       />
     );
 

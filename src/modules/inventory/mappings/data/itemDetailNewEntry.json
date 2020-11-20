@@ -2,6 +2,9 @@
   "item": {
     "sellingDetails": {
       "isTaxInclusive": true
+    },
+    "buyingDetails": {
+      "isTaxInclusive": true
     }
   },
   "sellingAccounts": [

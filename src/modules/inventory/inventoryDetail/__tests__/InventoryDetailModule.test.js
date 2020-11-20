@@ -30,7 +30,11 @@ describe('InventoryDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
 
-    const module = new InventoryDetailModule({ integration, setRootView });
+    const module = new InventoryDetailModule({
+      integration,
+      setRootView,
+      featureToggles: { isItemBuyingPriceTaxInclusiveEnabled: true },
+    });
 
     module.store = store;
     module.dispatcher = createInventoryDetailDispatcher(store);

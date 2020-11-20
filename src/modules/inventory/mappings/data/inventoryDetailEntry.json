@@ -18,7 +18,8 @@
       "allocateToAccountId": "456",
       "buyingPrice": "40.00",
       "taxCodeId": "124",
-      "unitOfMeasure": "Ton"
+      "unitOfMeasure": "Ton",
+      "isTaxInclusive": true
     }
   },
   "sellingAccounts": [
