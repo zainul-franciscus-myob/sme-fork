@@ -19,4 +19,5 @@ export default {
   isRecurringTransactionEnabled: true,
   isPayBillRemittanceAdviceEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,
+  isNzPaydayFilingEnabled: true,
 };

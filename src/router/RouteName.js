@@ -112,6 +112,7 @@ const RouteName = {
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
   REPORT_SETTINGS: 'reportSettings',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
+  PAYDAY_FILING_ONBOARDING_NZ: 'paydayFiling/onboardingNz',
 };
 
 export default RouteName;

@@ -1,0 +1,39 @@
+.imageAndText {
+  padding: 1rem 0 1rem 2rem;
+}
+
+.pageSubHeader {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.heading {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.imageAndText > div {
+  width: 80%;
+}
+
+@media screen and (max-width: 860px) {
+  .imageAndText > div {
+    width: 100%;
+  }
+}
+
+.imageAndText > * {
+  display: inline-block;
+}
+
+.image {
+  padding-right: 2rem;
+  vertical-align: top;
+  width: 10rem;
+  padding-bottom: 2rem;
+}
+
+.list {
+  padding-bottom: 2rem;
+  margin-bottom: 0;
+}

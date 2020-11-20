@@ -38,6 +38,7 @@ import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
 import getPayRunNzRoutes from './modules/nzPayroll/payRun/getPayRunNzRoutes';
 import getPayRunRoutes from './modules/payRun/getPayRunRoutes';
 import getPaySuperRoutes from './modules/paySuper/getPaySuperRoutes';
+import getPaydayFilingRoutes from './modules/nzPayroll/paydayFiling/getPaydayFilingRoutes';
 import getPayrollSettingsRoutes from './modules/payrollSettings/getPayrollSettingsRoutes';
 import getPermissionDeniedRoutes from './modules/permissionDenied/getPermissionDeniedRoutes';
 import getPurchaseOrderRoutes from './modules/purchaseOrder/getPurchaseOrderRoutes';
@@ -125,6 +126,7 @@ const getRoutes = (moduleParams) => [
   ...getPayRunNzRoutes(moduleParams),
   ...getReportsSubscribeNowRoutes(moduleParams),
   ...getRecurringTransactionRoutes(moduleParams),
+  ...getPaydayFilingRoutes(moduleParams),
 ];
 
 export default getRoutes;
