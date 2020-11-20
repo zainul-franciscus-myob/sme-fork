@@ -1,3 +1,4 @@
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import RuleTypes from '../RuleTypes';
 
@@ -9,6 +10,7 @@ const getDefaultState = () => ({
   title: '',
   ruleType: RuleTypes.spendMoney,
   isInactiveRule: false,
+  automatedRuleType: AutomatedRuleTypes.AUTOMATED,
   applyToAllAccounts: '',
   transactionDescription: '',
   accountId: '',

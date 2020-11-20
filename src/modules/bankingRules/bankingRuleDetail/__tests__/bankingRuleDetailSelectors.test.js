@@ -1,11 +1,14 @@
 import {
   getAllocationAccounts,
+  getIsAutomatedRuleTypeEnabled,
   getIsInputField,
   getIsNoConditionRuleAllowed,
   getIsPaymentReportable,
   getIsPaymentReportableCheckboxDisabled,
   getRemainingPercentage,
+  getShowAutomatedRuleDetail,
 } from '../bankingRuleDetailSelectors';
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
 import RuleTypes from '../RuleTypes';
 
 describe('bankingRuleDetailSelectors', () => {
@@ -230,6 +233,55 @@ describe('bankingRuleDetailSelectors', () => {
       const actual = getIsPaymentReportable(state);
 
       expect(actual).toEqual(undefined);
+    });
+  });
+
+  describe('getIsAutomatedRuleTypeEnabled', () => {
+    it.each([
+      [
+        'enables automated rule type when no condition rule is allowed',
+        true,
+        true,
+        true,
+      ],
+      [
+        'disable automated rule type when no condition rule is not allowed',
+        false,
+        true,
+        false,
+      ],
+      ['enables automated rule type on new banking rule', true, true, true],
+      [
+        'disables automated rule type on existing banking rule',
+        true,
+        false,
+        false,
+      ],
+    ])('%s', (_, isNoConditionRuleAllowed, isCreating, expected) => {
+      const actual = getIsAutomatedRuleTypeEnabled.resultFunc(
+        isNoConditionRuleAllowed,
+        isCreating
+      );
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getShowAutomatedRuleDetail', () => {
+    it('shows automated rule details when banking rule is automated', () => {
+      const actual = getShowAutomatedRuleDetail.resultFunc(
+        AutomatedRuleTypes.AUTOMATED
+      );
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('hides automated rule details when banking rule is manual', () => {
+      const actual = getShowAutomatedRuleDetail.resultFunc(
+        AutomatedRuleTypes.MANUAL
+      );
+
+      expect(actual).toBeFalsy();
     });
   });
 });

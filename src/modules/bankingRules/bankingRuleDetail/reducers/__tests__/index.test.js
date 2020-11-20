@@ -2,7 +2,9 @@ import {
   LOAD_BANKING_RULE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_NEW_BANKING_RULE,
+  UPDATE_FORM,
 } from '../../BankingRuleDetailIntents';
+import AutomatedRuleTypes from '../../AutomatedRuleTypes';
 import RuleTypes from '../../RuleTypes';
 import bankingRuleDetailReducer from '..';
 
@@ -147,65 +149,6 @@ describe('bankingRuleReducer', () => {
         );
       });
     });
-
-    describe('conditions', () => {
-      const action = {
-        intent: LOAD_NEW_BANKING_RULE,
-        bankingRule: {
-          newAllocationLine: {
-            lineJobOptions: [],
-          },
-          allocations: [],
-          conditions: [],
-        },
-      };
-
-      const condition = {
-        field: 'Description',
-        predicates: [
-          {
-            matcher: 'Contains',
-            value: '',
-          },
-        ],
-      };
-
-      describe('isNoConditionRule feature toggle enabled', () => {
-        it.each([
-          ['does not prefill', RuleTypes.spendMoney, 0],
-          ['does not prefill', RuleTypes.receiveMoney, 0],
-          ['does prefill', RuleTypes.bill, 1],
-          ['does prefill', RuleTypes.invoice, 1],
-        ])('%s condition for %s', (_, ruleType, expectedConditionCount) => {
-          const state = {
-            bankingRuleId: 'new',
-            isNoConditionRuleEnabled: true,
-            ruleType,
-            conditions: [],
-          };
-
-          const actual = bankingRuleDetailReducer(state, action);
-          expect(actual.conditions.length).toEqual(expectedConditionCount);
-          if (actual.conditions.length > 0) {
-            expect(actual.conditions[0]).toEqual(condition);
-          }
-        });
-      });
-
-      describe('isNoConditionRule feature toggle disabled', () => {
-        it('always set the condition to be description', () => {
-          const state = {
-            bankingRuleId: 'new',
-            isNoConditionRuleEnabled: false,
-            conditions: [],
-          };
-
-          const actual = bankingRuleDetailReducer(state, action);
-          expect(actual.conditions.length).toEqual(1);
-          expect(actual.conditions[0]).toEqual(condition);
-        });
-      });
-    });
   });
 
   describe('LOAD_JOB_AFTER_CREATE', () => {
@@ -268,6 +211,55 @@ describe('bankingRuleReducer', () => {
 
     it('does not update other attributes in banking rule', () => {
       expect(actual.bankingRuleId).toBe('1');
+    });
+  });
+
+  describe('UPDATE_FORM', () => {
+    describe('ruleType', () => {
+      it('sets automated rule type', () => {
+        const state = {
+          isNoConditionRuleEnabled: true,
+          automatedRuleType: AutomatedRuleTypes.MANUAL,
+        };
+
+        const action = {
+          intent: UPDATE_FORM,
+          key: 'ruleType',
+          value: RuleTypes.spendMoney,
+        };
+
+        const actual = bankingRuleDetailReducer(state, action);
+
+        expect(actual.automatedRuleType).toEqual(AutomatedRuleTypes.MANUAL);
+      });
+
+      it('defaults automated rule type if early access is disabled', () => {
+        const state = { isNoConditionRuleEnabled: false };
+
+        const action = {
+          intent: UPDATE_FORM,
+          key: 'ruleType',
+          value: RuleTypes.spendMoney,
+        };
+
+        const actual = bankingRuleDetailReducer(state, action);
+
+        expect(actual.automatedRuleType).toEqual(AutomatedRuleTypes.AUTOMATED);
+      });
+
+      it('defaults automated rule type if rule type is not support', () => {
+        const state = { isNoConditionRuleEnabled: true };
+
+        const action = {
+          intent: UPDATE_FORM,
+          key: 'ruleType',
+          value: RuleTypes.bill,
+        };
+
+        const actual = bankingRuleDetailReducer(state, action);
+
+        expect(actual.automatedRuleType).toEqual(AutomatedRuleTypes.AUTOMATED);
+      });
     });
   });
 });

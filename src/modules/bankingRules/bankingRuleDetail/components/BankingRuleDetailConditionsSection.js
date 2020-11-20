@@ -50,7 +50,15 @@ const renderPredicate = (conditionIndex, field, onConditionChange) => (
   predicate,
   onPredicateChange
 ) => (
-  <BulkAdd.Row key={predicate.id} index={predicateIndex}>
+  <BulkAdd.Row
+    key={predicate.id}
+    index={predicateIndex}
+    rowClass={
+      conditionIndex === 0 && predicateIndex === 0
+        ? styles.firstConditionRow
+        : ''
+    }
+  >
     <BulkAdd.RowItem textWrap="wrap">
       {predicateIndex === 0 ? (
         <Select

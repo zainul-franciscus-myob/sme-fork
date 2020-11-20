@@ -12,7 +12,6 @@ import {
   getIsCreating,
   getNewBankingRuleUrlParams,
   getSaveBankingRuleContent,
-  getSaveBankingRuleParams,
 } from './bankingRuleDetailSelectors';
 
 const createBankingRuleDetailIntegrator = (store, integration) => ({
@@ -41,14 +40,12 @@ const createBankingRuleDetailIntegrator = (store, integration) => ({
     const urlParams = isCreating
       ? getNewBankingRuleUrlParams(state)
       : getBankingRuleUrlParams(state);
-    const params = getSaveBankingRuleParams(state);
 
     const intent = isCreating ? CREATE_BANKING_RULE : UPDATE_BANKING_RULE;
 
     integration.write({
       intent,
       urlParams,
-      params,
       content,
       onSuccess,
       onFailure,

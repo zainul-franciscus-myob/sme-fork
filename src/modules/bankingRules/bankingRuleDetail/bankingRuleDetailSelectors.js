@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import { allocationTypeOptions } from './AllocationTypes';
+import AutomatedRuleTypes from './AutomatedRuleTypes';
 import ContactType from '../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
 import ModalType from './ModalType';
@@ -52,6 +53,8 @@ export const getAllocationType = (state) => state.allocationType;
 export const getIsSelectRuleTypeDisabled = (state) => !getIsCreating(state);
 
 export const getBankingRuleType = (state) => state.ruleType;
+
+export const getAutomatedRuleType = (state) => state.automatedRuleType;
 
 export const getShowAllocationTable = createSelector(
   getBankingRuleType,
@@ -188,10 +191,28 @@ export const getIsNoConditionRuleAllowed = (state) =>
   (state.ruleType === RuleTypes.spendMoney ||
     state.ruleType === RuleTypes.receiveMoney);
 
+export const getIsAutomatedRuleTypeEnabled = createSelector(
+  getIsNoConditionRuleAllowed,
+  getIsCreating,
+  (isNoConditionRuleAllowed, isCreating) =>
+    isNoConditionRuleAllowed && isCreating
+);
+
+export const getShowAutomatedRuleType = createSelector(
+  getIsNoConditionRuleAllowed,
+  (isNoConditionRuleAllowed) => isNoConditionRuleAllowed
+);
+
+export const getShowAutomatedRuleDetail = createSelector(
+  getAutomatedRuleType,
+  (automatedRuleType) => automatedRuleType === AutomatedRuleTypes.AUTOMATED
+);
+
 export const getSaveBankingRuleContent = createStructuredSelector({
   name: getName,
   isInactiveRule: getIsInactiveRule,
   ruleType: getBankingRuleType,
+  automatedRuleType: getAutomatedRuleType,
   applyToAllAccounts: getApplyToAllAccounts,
   transactionDescription: getTransactionDescription,
   accountId: getAccountId,
@@ -209,10 +230,6 @@ export const getNewBankingRuleUrlParams = (state) => ({
 export const getBankingRuleUrlParams = (state) => ({
   businessId: getBusinessId(state),
   bankingRuleId: getBankingRuleId(state),
-});
-
-export const getSaveBankingRuleParams = (state) => ({
-  isNoConditionRuleAllowed: getIsNoConditionRuleAllowed(state),
 });
 
 export const getBankingRuleListUrl = (state) => {

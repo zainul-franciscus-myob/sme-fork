@@ -8,6 +8,7 @@ import {
   getModal,
   getPageTitle,
   getShowAllocationTable,
+  getShowAutomatedRuleDetail,
 } from '../bankingRuleDetailSelectors';
 import Actions from './BankingRuleDetailActions';
 import BankingRuleDetailAlert from './BankingRuleDetailAlert';
@@ -25,6 +26,7 @@ const BankingRuleDetailView = ({
   modal,
   jobModal,
   pageTitle,
+  showAutomatedRuleDetails,
   showAllocationTable,
   onContactChange,
   onRuleDetailsChange,
@@ -70,13 +72,17 @@ const BankingRuleDetailView = ({
           onRuleDetailsChange={onRuleDetailsChange}
           onRuleConditionsChange={onRuleConditionsChange}
         />
-        <BankingRuleDetailConditionsSection
-          onConditionChange={onConditionChange}
-          onConditionAdd={onConditionAdd}
-          onPredicateAdd={onPredicateAdd}
-          onPredicateChange={onPredicateChange}
-          onPredicateRemove={onPredicateRemove}
-        />
+        {showAutomatedRuleDetails && (
+          <BankingRuleDetailConditionsSection
+            onConditionChange={onConditionChange}
+            onConditionAdd={onConditionAdd}
+            onPredicateAdd={onPredicateAdd}
+            onPredicateChange={onPredicateChange}
+            onPredicateRemove={onPredicateRemove}
+          />
+        )}
+      </Card>
+      <Card>
         <BankingRuleDetailTransactionSection
           renderContactCombobox={renderContactCombobox}
           onContactChange={onContactChange}
@@ -109,6 +115,7 @@ const mapStateToProps = (state) => ({
   modal: getModal(state),
   pageTitle: getPageTitle(state),
   isAlertShown: getIsAlertShown(state),
+  showAutomatedRuleDetails: getShowAutomatedRuleDetail(state),
   showAllocationTable: getShowAllocationTable(state),
 });
 

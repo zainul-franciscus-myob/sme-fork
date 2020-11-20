@@ -4,6 +4,7 @@
   "ruleType": "ReceiveMoney",
   "contactType": "Customer",
   "isInactiveRule": true,
+  "automatedRuleType": "Automated",
   "applyToAllAccounts": "One bank account",
   "transactionDescription": "This is a description",
   "accountId": "123",

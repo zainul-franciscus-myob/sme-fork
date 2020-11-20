@@ -2,6 +2,7 @@
   "title": "Create bank feed rule",
   "name": "",
   "isInactiveRule": false,
+  "automatedRuleType": "Automated",
   "applyToAllAccounts": "All bank accounts",
   "transactionDescription": "",
   "accountId": "",

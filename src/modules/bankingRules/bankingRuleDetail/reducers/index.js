@@ -17,6 +17,7 @@ import {
   getIsCreating,
   getIsNoConditionRuleAllowed,
 } from '../bankingRuleDetailSelectors';
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
 import allocationHandlers from './allocationHandlers';
 import conditionHandlers from './conditionHandlers';
 import createReducer from '../../../../store/createReducer';
@@ -48,18 +49,9 @@ const buildLineJobOptions = ({ action, jobId }) =>
     ? action.bankingRule.jobs.filter((job) => job.isActive || job.id === jobId)
     : [];
 
-const getConditions = (
-  isCreating,
-  isAllowNoCondition,
-  bankingRuleConditions
-) => {
-  if (!isCreating) {
-    return bankingRuleConditions;
-  }
-
-  return isAllowNoCondition
-    ? []
-    : [
+const getConditions = (isCreating, bankingRuleConditions) =>
+  isCreating
+    ? [
         {
           field: 'Description',
           predicates: [
@@ -69,21 +61,16 @@ const getConditions = (
             },
           ],
         },
-      ];
-};
+      ]
+    : bankingRuleConditions;
 
 const loadBankingRuleDetail = (state, action) => {
   const isCreating = getIsCreating(state);
-  const isAllowNoCondition = getIsNoConditionRuleAllowed(state);
 
   return {
     ...state,
     ...action.bankingRule,
-    conditions: getConditions(
-      isCreating,
-      isAllowNoCondition,
-      action.bankingRule.conditions
-    ),
+    conditions: getConditions(isCreating, action.bankingRule.conditions),
     allocations: action.bankingRule.allocations.map((allocation) => ({
       ...allocation,
       lineJobOptions: buildLineJobOptions({ action, jobId: allocation.jobId }),
@@ -97,18 +84,28 @@ const loadBankingRuleDetail = (state, action) => {
 };
 
 const updateForm = (state, action) => {
+  const updatedStated = {
+    ...state,
+    [action.key]: action.value,
+  };
+
   if (action.key === 'allocationType') {
     return {
-      ...state,
-      [action.key]: action.value,
+      ...updatedStated,
       allocations: [],
     };
   }
 
-  return {
-    ...state,
-    [action.key]: action.value,
-  };
+  if (action.key === 'ruleType') {
+    return {
+      ...updatedStated,
+      automatedRuleType: getIsNoConditionRuleAllowed(updatedStated)
+        ? state.automatedRuleType
+        : AutomatedRuleTypes.AUTOMATED,
+    };
+  }
+
+  return updatedStated;
 };
 
 const setLoadingState = (state, { loadingState }) => ({
