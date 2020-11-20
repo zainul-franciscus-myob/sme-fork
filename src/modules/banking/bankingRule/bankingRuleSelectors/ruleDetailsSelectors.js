@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { getBusinessId, getRegion } from './sharedSelectors';
 import ApplyTypes from '../ApplyTypes';
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
 import ContactType from '../../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import RuleTypes from '../RuleTypes';
@@ -17,9 +18,6 @@ export const getIsBankingRuleOpen = (state) => state.isOpen;
 export const getBankAccounts = (state) => state.bankAccounts;
 
 export const getBankTransactionDetails = (state) => state.transaction;
-
-export const getIsNoConditionRuleAllowed = (state) =>
-  state.isNoConditionRuleAllowed;
 
 export const getIsPaymentReportableForBankRule = (state) => {
   if (
@@ -160,3 +158,29 @@ export const getSupplierComboboxContext = buildGetContactComboboxContext(
 export const getContactComboboxContext = buildGetContactComboboxContext(
   ContactType.ALL
 );
+
+export const getAutomatedRuleType = (state) =>
+  state.bankingRule.automatedRuleType;
+
+export const getIsNoConditionRuleAllowed = createSelector(
+  (state) => state.isNoConditionRuleAllowed,
+  getRuleType,
+  (isNoConditionRuleAllowed, ruleType) =>
+    isNoConditionRuleAllowed &&
+    (ruleType === RuleTypes.receiveMoney || ruleType === RuleTypes.spendMoney)
+);
+
+export const getShowAutomatedRuleType = createSelector(
+  getIsNoConditionRuleAllowed,
+  (isNoConditionRuleAllowed) => isNoConditionRuleAllowed
+);
+
+export const getShowAutomatedRuleDetail = createSelector(
+  getAutomatedRuleType,
+  (automatedRuleType) => automatedRuleType === AutomatedRuleTypes.AUTOMATED
+);
+
+export const getAutomatedRuleTypeOptions = () => [
+  { name: 'Automated rule', value: AutomatedRuleTypes.AUTOMATED },
+  { name: 'Allocation template', value: AutomatedRuleTypes.MANUAL },
+];

@@ -1,3 +1,5 @@
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
+
 const getDefaultState = () => ({
   businessId: '',
   region: '',
@@ -13,6 +15,7 @@ const getDefaultState = () => ({
     name: '',
     ruleType: '',
     isInactiveRule: false,
+    automatedRuleType: AutomatedRuleTypes.AUTOMATED,
     applyToAllAccounts: 'All bank accounts',
     transactionDescription: '',
     bankFeedAccountId: '',

@@ -22,3 +22,7 @@
 .conditionSeparator {
   padding: var(--flx-spacing-x-tiny) var(--flx-spacing-small);
 }
+
+.firstConditionRow :global(button:last-of-type) {
+  visibility: hidden;
+}

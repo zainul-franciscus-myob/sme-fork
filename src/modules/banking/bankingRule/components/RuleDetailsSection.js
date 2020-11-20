@@ -11,12 +11,16 @@ import React from 'react';
 
 import {
   getApplyToAllAccounts,
+  getAutomatedRuleType,
+  getAutomatedRuleTypeOptions,
   getBankAccounts,
   getIsInactive,
   getRuleName,
   getRuleType,
   getRuleTypeOptions,
   getShouldShowBankAccountList,
+  getShowAutomatedRuleDetail,
+  getShowAutomatedRuleType,
 } from '../bankingRuleSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import ApplyTypes from '../ApplyTypes';
@@ -36,10 +40,14 @@ const RuleDetailsSection = ({
   showShowBankAccountList,
   isInactive,
   bankAccounts,
+  automatedRuleType,
+  automatedRuleTypeOptions,
+  showAutomatedRuleType,
+  showAutomatedRuleDetail,
 }) => (
   <FieldGroup label="Rule details">
     <Select
-      label="Rule type"
+      label="Transaction type"
       name="ruleType"
       value={selectedRuleType}
       onChange={handleSelectChange(onDetailsChange)}
@@ -59,6 +67,20 @@ const RuleDetailsSection = ({
       maxLength={255}
       className={styles.ruleName}
     />
+    {showAutomatedRuleType && (
+      <Select
+        label="Rule type"
+        name="automatedRuleType"
+        value={automatedRuleType}
+        onChange={handleSelectChange(onDetailsChange)}
+        requiredLabel="This is required"
+        width="md"
+      >
+        {automatedRuleTypeOptions.map(({ name, value }) => (
+          <Select.Option key={value} value={value} label={name} />
+        ))}
+      </Select>
+    )}
     <CheckboxGroup
       label="Inactive rule"
       hideLabel
@@ -71,22 +93,29 @@ const RuleDetailsSection = ({
         />
       )}
     />
-    <RadioButtonGroup
-      name="applyToAllAccounts"
-      label="This rule applies to"
-      value={applyToAllAccounts}
-      options={[ApplyTypes.allBankAccounts, ApplyTypes.oneBankAccount]}
-      onChange={handleRadioButtonChange('applyToAllAccounts', onDetailsChange)}
-    />
-    {showShowBankAccountList && (
-      <div className={styles.bankFeedAccount}>
-        <AccountCombobox
-          name="bankFeedAccountId"
-          items={bankAccounts}
-          selectedId=""
-          onChange={handleComboboxChange('accountId', onDetailsChange)}
+    {showAutomatedRuleDetail && (
+      <>
+        <RadioButtonGroup
+          name="applyToAllAccounts"
+          label="This rule applies to"
+          value={applyToAllAccounts}
+          options={[ApplyTypes.allBankAccounts, ApplyTypes.oneBankAccount]}
+          onChange={handleRadioButtonChange(
+            'applyToAllAccounts',
+            onDetailsChange
+          )}
         />
-      </div>
+        {showShowBankAccountList && (
+          <div className={styles.bankFeedAccount}>
+            <AccountCombobox
+              name="bankFeedAccountId"
+              items={bankAccounts}
+              selectedId=""
+              onChange={handleComboboxChange('accountId', onDetailsChange)}
+            />
+          </div>
+        )}
+      </>
     )}
   </FieldGroup>
 );
@@ -99,6 +128,10 @@ const mapStateToProps = (state) => ({
   isInactive: getIsInactive(state),
   showShowBankAccountList: getShouldShowBankAccountList(state),
   bankAccounts: getBankAccounts(state),
+  automatedRuleType: getAutomatedRuleType(state),
+  automatedRuleTypeOptions: getAutomatedRuleTypeOptions(state),
+  showAutomatedRuleType: getShowAutomatedRuleType(state),
+  showAutomatedRuleDetail: getShowAutomatedRuleDetail(state),
 });
 
 export default connect(mapStateToProps)(RuleDetailsSection);

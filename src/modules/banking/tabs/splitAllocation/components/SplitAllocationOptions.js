@@ -43,7 +43,7 @@ const SplitAllocationOptions = (props) => {
   const bankingRuleComboboxProps = {
     selectedId: bankingRuleId,
     name: 'bankingRule',
-    label: 'Bank rule',
+    label: 'Apply allocation template',
     hideLabel: false,
     allowClear: true,
     onChange: handleAutoCompleteChange(

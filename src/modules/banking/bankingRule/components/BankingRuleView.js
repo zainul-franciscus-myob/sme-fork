@@ -7,6 +7,7 @@ import {
   getIsBankingRuleOpen,
   getIsLoading,
   getShouldShowAllocationSection,
+  getShowAutomatedRuleDetail,
 } from '../bankingRuleSelectors';
 import AllocationSection from './AllocationSection';
 import ConditionsSection from './ConditionsSection';
@@ -34,6 +35,7 @@ const BankingRuleView = ({
   isLoading,
   isOpen,
   alert,
+  showAutomatedRuleDetail,
   onViewedAccountToolTip,
 }) => {
   const modalBody = (
@@ -41,13 +43,15 @@ const BankingRuleView = ({
       {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <HeaderSection />
       <RuleDetailsSection onDetailsChange={onDetailsChange} />
-      <ConditionsSection
-        onConditionChange={onConditionChange}
-        onConditionAdd={onConditionAdd}
-        onPredicateAdd={onPredicateAdd}
-        onPredicateChange={onPredicateChange}
-        onPredicateRemove={onPredicateRemove}
-      />
+      {showAutomatedRuleDetail && (
+        <ConditionsSection
+          onConditionChange={onConditionChange}
+          onConditionAdd={onConditionAdd}
+          onPredicateAdd={onPredicateAdd}
+          onPredicateChange={onPredicateChange}
+          onPredicateRemove={onPredicateRemove}
+        />
+      )}
       {showShowAllocationSection && (
         <AllocationSection
           onContactChange={onContactChange}
@@ -97,6 +101,7 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isLoading: getIsLoading(state),
   isOpen: getIsBankingRuleOpen(state),
+  showAutomatedRuleDetail: getShowAutomatedRuleDetail(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleView);

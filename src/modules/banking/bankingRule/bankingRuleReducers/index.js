@@ -30,6 +30,8 @@ import {
   removeTableRow,
   updateTableRow,
 } from './allocationHandlers';
+import { getIsNoConditionRuleAllowed } from '../bankingRuleSelectors';
+import AutomatedRuleTypes from '../AutomatedRuleTypes';
 import FieldTypes from '../FieldTypes';
 import createReducer from '../../../../store/createReducer';
 import getDefaultState from './getDefaultState';
@@ -45,6 +47,15 @@ const updateRuleDetails = (state, action) => {
   if (action.key === 'allocationType') {
     newState.bankingRule.allocations = [];
   }
+
+  if (action.key === 'ruleType') {
+    newState.bankingRule.automatedRuleType = getIsNoConditionRuleAllowed(
+      newState
+    )
+      ? newState.bankingRule.automatedRuleType
+      : AutomatedRuleTypes.AUTOMATED;
+  }
+
   return newState;
 };
 
