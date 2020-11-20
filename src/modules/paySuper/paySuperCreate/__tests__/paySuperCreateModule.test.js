@@ -258,7 +258,7 @@ describe('paySuperCreateModule', () => {
   });
 
   describe('recordPaySuper', () => {
-    it('should set alert when message recevied', () => {
+    it('should set both empty inline error and alert when only message recevied', () => {
       const module = new PaySuperCreateModule({
         integration: {
           write: ({ intent, onFailure }) => {
@@ -282,7 +282,7 @@ describe('paySuperCreateModule', () => {
       module.recordPaySuper();
 
       expect(module.setAlert).toHaveBeenCalled();
-      expect(module.setInlineErrors).not.toHaveBeenCalled();
+      expect(module.setInlineErrors).toHaveBeenCalled();
     });
 
     it('should set both inline error and alert when fieldErrors and message recevied', () => {

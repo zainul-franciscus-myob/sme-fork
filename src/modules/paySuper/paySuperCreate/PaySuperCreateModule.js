@@ -137,7 +137,7 @@ export default class PaySuperCreateModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.closeModal();
       this.setAlert(message);
-      if (fieldErrors) this.setInlineErrors(fieldErrors);
+      this.setInlineErrors(fieldErrors);
     };
 
     this.integrator.recordPaySuper({ onSuccess, onFailure });

@@ -169,9 +169,9 @@ const setAccessToken = (state, { accessToken }) => ({
 
 const setInlineAlertMessage = (state, { inlineErrors }) => ({
   ...state,
-  superPayments: state.superPayments.map((p) => {
-    const error = inlineErrors.find((err) => p.employeeId === err.employeeId);
-    return { ...p, inlineError: error?.message };
+  superPayments: state.superPayments.map((e) => {
+    const error = inlineErrors?.find((err) => e.employeeId === err.employeeId);
+    return { ...e, inlineError: e.isSelected ? error?.message : undefined };
   }),
 });
 
