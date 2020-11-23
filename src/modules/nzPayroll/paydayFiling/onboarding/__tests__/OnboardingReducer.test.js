@@ -1,5 +1,5 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import { SET_CURRENT_STEP } from '../OnboardingIntents';
+import { SET_CURRENT_STEP, SET_IRD_NUMBER } from '../OnboardingIntents';
 import OnboardingSteps from '../OnboardingSteps';
 import onboardingReducer from '../OnboardingReducer';
 
@@ -51,11 +51,14 @@ describe('onboardingReducer', () => {
         currentState: OnboardingSteps.DONE,
         region: 'NZ',
         businessId: 'bizId',
+        irdNumber: '123',
         otherData: 'foobar',
       };
 
       const expectedState = {
         currentStep: OnboardingSteps.OVERVIEW,
+        businessId: '',
+        irdNumber: '',
       };
 
       const action = {
@@ -65,6 +68,25 @@ describe('onboardingReducer', () => {
       const result = onboardingReducer(state, action);
 
       expect(result).toEqual(expectedState);
+    });
+  });
+
+  describe('setIrdNumber', () => {
+    it('should set ird number', () => {
+      const state = {
+        irdNumber: '',
+      };
+
+      const action = {
+        intent: SET_IRD_NUMBER,
+        irdNumber: '123123123',
+      };
+
+      const result = onboardingReducer(state, action);
+
+      expect(result).toEqual({
+        irdNumber: '123123123',
+      });
     });
   });
 });

@@ -38,5 +38,14 @@ export const getStepperSteps = (state) => {
   );
 };
 
+const getBusinessId = (state) => state.businessId;
+
+export const getBusinessDetailsUrl = (state) => {
+  const businessId = getBusinessId(state);
+  return `/#/nz/${businessId}?selectedTab=businessDetails`;
+};
+
 export const getActiveStepNumber = (state) =>
   initialStepperSteps.find((step) => step.id === getCurrentStep(state)).number;
+
+export const getIrdNumber = (state) => state.irdNumber;

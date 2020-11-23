@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import AuthorisationStepModule from './stepModules/AuthorisationStep/AuthorisationStepModule';
 import OnboardingView from './components/OnboardingView';
 import OverviewStepModule from './stepModules/OverviewStep/OverviewStepModule';
 import Steps from './OnboardingSteps';
@@ -20,6 +21,9 @@ export default class OnboardingModule {
   setupSubModules = () => {
     this.stepModules = {
       [Steps.OVERVIEW]: new OverviewStepModule({ store: this.store }),
+      [Steps.AUTHORISE_MYOB]: new AuthorisationStepModule({
+        store: this.store,
+      }),
     };
   };
 

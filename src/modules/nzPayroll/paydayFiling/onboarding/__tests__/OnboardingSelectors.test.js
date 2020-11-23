@@ -1,6 +1,8 @@
 import {
   getActiveStepNumber,
+  getBusinessDetailsUrl,
   getCurrentStep,
+  getIrdNumber,
   getStepperSteps,
 } from '../OnboardingSelectors';
 import OnboardingSteps from '../OnboardingSteps';
@@ -15,6 +17,18 @@ describe('OnboardingSelectors', () => {
 
       const actual = getCurrentStep(state);
       expect(actual).toEqual(currentStep);
+    });
+  });
+
+  describe('getIrdNumber', () => {
+    it('should return ird number', () => {
+      const irdNumber = '123123123';
+      const state = {
+        irdNumber,
+      };
+
+      const actual = getIrdNumber(state);
+      expect(actual).toEqual(irdNumber);
     });
   });
 
@@ -60,6 +74,20 @@ describe('OnboardingSelectors', () => {
       ];
 
       const actual = getStepperSteps(state);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBusinessDetailsUrl', () => {
+    it('should return formatted url for business details', () => {
+      const businessId = '123';
+      const state = {
+        businessId,
+      };
+
+      const expected = '/#/nz/123?selectedTab=businessDetails';
+
+      const actual = getBusinessDetailsUrl(state);
       expect(actual).toEqual(expected);
     });
   });
