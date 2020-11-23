@@ -1,0 +1,62 @@
+.options :global .flx-col {
+  grid-gap: var(--flx-spacing-tiny) var(--flx-spacing-small);
+}
+
+.address {
+  white-space: pre-line;
+}
+
+.contactComboBox {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.maximiseContactCombobox :global(.form-group) {
+  width: 100%;
+}
+
+.contactComboBox :global(.flx-popover) {
+  display: flex;
+  margin-left: var(--flx-spacing-x-tiny);
+  margin-top: var(--flx-spacing-x-tiny);
+}
+
+/*
+  Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
+  To thix this, we just increase the width.
+*/
+@media (min-width: 768px) {
+  .options :global .flx-detail-header__secondary > * {
+    width: 50rem;
+  }
+
+  .contactComboBox :global(.form-group) {
+    min-width: var(--flx-width-field-l);
+  }
+
+  .address {
+    width: var(--flx-width-field-xl);
+  }
+
+  .address div {
+    margin-bottom: var(--flx-spacing-tiny);
+  }
+
+  .address div:last-child {
+    margin-bottom: auto;
+  }
+
+  .address :global(textarea) {
+    min-width: var(--flx-width-field-xl);
+    max-width: 70rem;
+  }
+}
+
+.prefilled :global(input) {
+  background-color: var(--prefill-background-color);
+}
+
+.formControlWrapper {
+  margin-bottom: var(--flx-spacing-tiny)
+}

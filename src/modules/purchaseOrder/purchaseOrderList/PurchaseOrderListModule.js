@@ -125,7 +125,7 @@ export default class PurchaseOrderListModule {
     const businessId = getBusinessId(state);
     const region = getRegion(state);
 
-    window.location.href = `/#/${region}/${businessId}/bill/new`; // TODO Replace with create new PO
+    window.location.href = `/#/${region}/${businessId}/purchaseOrder/new`;
   };
 
   readMessages = () => {

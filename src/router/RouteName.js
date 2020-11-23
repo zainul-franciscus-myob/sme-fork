@@ -28,6 +28,7 @@ const RouteName = {
   EMPLOYEE_DETAIL_NZ: 'employee/employeeDetailNz',
   EMPLOYEE_DETAIL: 'employee/employeeDetail',
   PURCHASE_ORDER_LIST: 'purchaseOrder/purchaseOrderList',
+  PURCHASE_ORDER_DETAIL: 'purchaseOrder/purchaseOrderDetail',
   BILL_LIST: 'bill/billList',
   BILL_DETAIL: 'bill/billDetail',
   CUSTOMER_RETURN_LIST: 'customerReturn/customerReturnList',

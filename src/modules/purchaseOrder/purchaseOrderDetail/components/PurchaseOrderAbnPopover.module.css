@@ -1,0 +1,7 @@
+.spinner {
+  display: flex;
+}
+
+.spinner :global(.flx-loading-spinner--fade-in) {
+  align-self: center;
+}

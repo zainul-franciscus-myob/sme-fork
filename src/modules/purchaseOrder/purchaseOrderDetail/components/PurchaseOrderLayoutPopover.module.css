@@ -1,0 +1,8 @@
+.popover {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popoverBody {
+  margin-bottom: 0;
+}

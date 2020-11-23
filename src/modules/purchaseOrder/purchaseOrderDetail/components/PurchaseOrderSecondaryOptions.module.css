@@ -1,0 +1,8 @@
+:global(input).prefilled,
+.prefilled :global(input) {
+  background-color: var(--prefill-background-color);
+}
+
+.formControlWrapper {
+  margin-bottom: var(--flx-spacing-tiny);
+}

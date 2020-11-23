@@ -39,7 +39,7 @@ describe('purchaseOrderListSelectors', () => {
         dateIssued: '01/03/2019',
         purchaseOrderAmount: '2,000.00',
         promisedDate,
-        link: '/#/au/123/bill/1',
+        link: '/#/au/123/purchaseOrder/1',
       },
     ];
 

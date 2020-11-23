@@ -248,6 +248,7 @@ export const getPurchasesUrls = createSelector(
   (enabledUrls) => {
     return {
       purchaseOrderList: enabledUrls.purchaseOrderList,
+      purchaseOrderCreate: enabledUrls.purchaseOrderCreate,
       billList: enabledUrls.billList,
       billCreate: enabledUrls.billCreate,
       billPaymentCreate: enabledUrls.billPaymentCreate,
@@ -265,6 +266,7 @@ export const getShouldDisplayPurchasesMenu = createSelector(
 export const getAddUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
   quoteCreate: enabledUrls.quoteCreate,
   invoiceCreate: enabledUrls.invoiceCreate,
+  purchaseOrderCreate: enabledUrls.purchaseOrderCreate,
   billCreate: enabledUrls.billCreate,
   payRunCreate: enabledUrls.payRunCreate,
   spendMoneyCreate: enabledUrls.spendMoneyCreate,

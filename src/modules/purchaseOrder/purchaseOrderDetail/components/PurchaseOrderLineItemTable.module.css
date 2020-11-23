@@ -1,0 +1,42 @@
+.table__hideNewRow :global(.line-item--body .line-item__row-wrapper:last-child) {
+  display: none;
+}
+
+.notesAndTotals :global(.line-item__total) {
+  border: none;
+}
+
+.notesAndTotals {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.prefill :global(textArea){
+  background-color: var(--prefill-background-color);
+}
+
+@media (min-width: 768px) {
+  .notesAndTotals {
+    flex-direction: initial;
+    justify-content: space-between;
+    padding-top: var(--flx-spacing-small);
+  }
+
+  .notes {
+    width: var(--flx-width-field-xl);
+  }
+
+  .notes div {
+    margin-bottom: var(--flx-spacing-tiny);
+  }
+
+  .notes div:last-child {
+    margin-bottom: auto;
+  }
+
+  .notes :global(textarea) {
+    min-width: var(--flx-width-field-xl);
+    max-width: 70rem;
+  }
+}
+

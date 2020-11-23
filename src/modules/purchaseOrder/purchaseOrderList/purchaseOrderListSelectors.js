@@ -45,7 +45,7 @@ export const flipSortOrder = ({ sortOrder }) =>
 const getEntryLink = (entry, businessId, region) => {
   const { id } = entry;
 
-  return `/#/${region}/${businessId}/bill/${id}`; // TODO link it to PO details page
+  return `/#/${region}/${businessId}/purchaseOrder/${id}`;
 };
 
 export const getTableEntries = createSelector(
@@ -59,7 +59,6 @@ export const getTableEntries = createSelector(
       return {
         ...entry,
         link: getEntryLink(entry, businessId, region),
-        // PromisedDate could be 'COD' or 'Prepaid'
         promisedDate: parsedPromisedDate.getDate()
           ? formatSlashDate(parsedPromisedDate)
           : entry.promisedDate,

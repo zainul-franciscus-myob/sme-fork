@@ -78,6 +78,7 @@ export const SUCCESSFULLY_DELETED_PURCHASE_ORDER = Symbol(
 export const SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK = Symbol(
   'Successfully saved a purchase order without link'
 );
+export const DUPLICATE_PURCHASE_ORDER = Symbol('Duplicate purchase order');
 
 // Remittance Advice
 export const SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE = Symbol(

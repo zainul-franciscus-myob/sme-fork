@@ -26,6 +26,10 @@ const TaxCalculatorHandlers = {
     buildTotals: calculateCreditDebitTotals,
   },
   bill: { flow: new PurchasesFlow(), buildTotals: calculateLineTotals },
+  purchaseOrder: {
+    flow: new PurchasesFlow(),
+    buildTotals: calculateLineTotals,
+  },
   quote: { flow: new QuoteFlow(), buildTotals: calculateLineTotals },
 };
 

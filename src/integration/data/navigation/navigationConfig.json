@@ -15,6 +15,7 @@
     "customerStatementList",
 
     "purchaseOrderList",
+    "purchaseOrderCreate",
 
     "billList",
     "billCreate",
