@@ -1,3 +1,4 @@
+import './components/component-css';
 import './index.css';
 import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';

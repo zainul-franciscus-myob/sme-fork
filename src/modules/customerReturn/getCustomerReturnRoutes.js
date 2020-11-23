@@ -1,50 +1,26 @@
-import ApplyToSaleModule from '../applyToSale/ApplyToSaleModule';
-import CustomerReturnListModule from './customerReturnList/CustomerReturnListModule';
-import PayRefundModule from '../payRefund/payRefund/PayRefundModule';
 import RouteName from '../../router/RouteName';
 
-const getCustomerReturnRoutes = ({
-  integration,
-  setRootView,
-  popMessages,
-  pushMessage,
-}) => {
-  const routes = [
-    {
-      name: RouteName.CUSTOMER_RETURN_LIST,
-      path: '/:region/:businessId/customerReturn/',
-      module: new CustomerReturnListModule({
-        integration,
-        setRootView,
-        popMessages,
-      }),
-      documentTitle: 'Customer returns',
-    },
-    {
-      name: RouteName.CUSTOMER_RETURN_PAY_REFUND,
-      path:
-        '/:region/:businessId/customerReturn/:customerReturnId/payRefund/new',
-      module: new PayRefundModule({
-        integration,
-        setRootView,
-        pushMessage,
-      }),
-      documentTitle: 'Pay refund',
-    },
-    {
-      name: RouteName.CUSTOMER_RETURN_APPLY_TO_SALE,
-      path:
-        '/:region/:businessId/customerReturn/:customerReturnId/applyToSale/new',
-      module: new ApplyToSaleModule({
-        integration,
-        setRootView,
-        pushMessage,
-      }),
-      documentTitle: 'Apply to sale',
-    },
-  ];
-
-  return routes;
-};
+/** @type {import('../module-types').RouteConfig} */
+const getCustomerReturnRoutes = () => [
+  {
+    name: RouteName.CUSTOMER_RETURN_LIST,
+    path: '/:region/:businessId/customerReturn/',
+    loadModule: () => import('./customerReturnList/CustomerReturnListModule'),
+    documentTitle: 'Customer returns',
+  },
+  {
+    name: RouteName.CUSTOMER_RETURN_PAY_REFUND,
+    path: '/:region/:businessId/customerReturn/:customerReturnId/payRefund/new',
+    loadModule: () => import('../payRefund/payRefund/PayRefundModule'),
+    documentTitle: 'Pay refund',
+  },
+  {
+    name: RouteName.CUSTOMER_RETURN_APPLY_TO_SALE,
+    path:
+      '/:region/:businessId/customerReturn/:customerReturnId/applyToSale/new',
+    loadModule: () => import('../applyToSale/ApplyToSaleModule'),
+    documentTitle: 'Apply to sale',
+  },
+];
 
 export default getCustomerReturnRoutes;

@@ -1,28 +1,12 @@
-import BusinessSetingsModule from './businessSettings/businessSettingsModule';
 import RouteName from '../../router/RouteName';
 
-const getBusinessRoutes = ({
-  setRootView,
-  integration,
-  globalCallbacks: { businessDetailsConfirmed },
-  isToggleOn,
-  navigateTo,
-  loadGlobalBusinessDetails,
-  replaceURLParams,
-}) => [
+/** @type {import('../module-types').RouteConfig} */
+const getBusinessRoutes = () => [
   {
     name: RouteName.BUSINESS_SETTINGS,
     path: '/:region/:businessId/',
     allowedParams: ['selectedTab'],
-    module: new BusinessSetingsModule({
-      setRootView,
-      integration,
-      businessDetailsConfirmed,
-      isToggleOn,
-      navigateTo,
-      loadGlobalBusinessDetails,
-      replaceURLParams,
-    }),
+    loadModule: () => import('./businessSettings/businessSettingsModule'),
     documentTitle: 'Business settings',
   },
 ];

@@ -42,6 +42,7 @@ describe('BusinessSettingsModule', () => {
       integration,
       setRootView,
       isToggleOn,
+      globalCallbacks: { businessDetailsConfirmed: jest.fn() },
     });
     module.store = store;
     module.dispatcher = createBusinessSettingsDispatcher(store);
