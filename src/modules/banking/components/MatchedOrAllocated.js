@@ -48,22 +48,13 @@ export default ({
     );
   }
 
-  if (type === StatusTypes.splitMatched) {
-    return (
-      <HotkeyWrapper
-        index={index}
-        location={HotkeyLocations.APPROVED_TRANSACTION_BUTTON}
-      >
-        <MatchedRowItem
-          entry={entry}
-          onClick={() => onMatchRowItemClick(index)}
-          isFocused={isFocused}
-        />
-      </HotkeyWrapper>
-    );
-  }
-
-  if ([StatusTypes.splitAllocation, StatusTypes.transfer].includes(type)) {
+  if (
+    [
+      StatusTypes.splitAllocation,
+      StatusTypes.transfer,
+      StatusTypes.splitMatched,
+    ].includes(type)
+  ) {
     return (
       <HotkeyWrapper
         index={index}
