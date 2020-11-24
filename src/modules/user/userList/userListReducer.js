@@ -22,8 +22,8 @@ const getDefaultState = () => ({
 });
 
 const stringCompare = (a, b) => {
-  const nameA = a.toUpperCase(); // ignore upper and lowercase
-  const nameB = b.toUpperCase(); // ignore upper and lowercase
+  const nameA = a ? a.toUpperCase() : ''; // ignore upper and lowercase
+  const nameB = b ? b.toUpperCase() : ''; // ignore upper and lowercase
   if (nameA < nameB) {
     return -1;
   }

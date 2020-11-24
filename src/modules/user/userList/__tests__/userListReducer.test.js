@@ -108,5 +108,33 @@ describe('userDetailReducer', () => {
         expect(actual.entries.map((e) => e.id)).toEqual(testData.expectedOrder);
       });
     });
+
+    it('should sort list when there are undefined values for the sortBy properties', () => {
+      const action = {
+        intent: SORT_USER_LIST,
+        entries: [
+          ...entries,
+          {
+            id: '5',
+            name: undefined,
+            email: 'tony@myobtest.com',
+            status: 'Inactive',
+            type: 'Advisor',
+          },
+        ],
+        sortOrder: 'asc',
+        orderBy: 'UserName',
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.entries.map((e) => e.id)).toEqual([
+        '5',
+        '3',
+        '4',
+        '2',
+        '1',
+      ]);
+    });
   });
 });
