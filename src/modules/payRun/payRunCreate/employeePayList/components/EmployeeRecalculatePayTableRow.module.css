@@ -18,3 +18,11 @@
 .errorTooltip > svg {
   fill: var(--flx-fill-error-icon-inner);
 }
+
+.immediateSpinner {
+  animation-delay: 0s !important;
+}
+
+.immediateSpinner > svg, .immediateSpinner > svg > circle  {
+  animation-delay: 0s !important;
+}

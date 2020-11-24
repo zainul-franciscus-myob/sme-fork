@@ -1,9 +1,13 @@
-import { Button, Icons, Table, Tooltip } from '@myob/myob-widgets';
+import { Button, Icons, Spinner, Table, Tooltip } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
 
 import {
   getLeaveWarning,
+  getModifyingEmployeeId,
+  getModifyingKey,
+  getModifyingPayItemId,
   getShouldShowOverAllocationError,
   getShouldShowUnderAllocationWarning,
 } from '../EmployeePayListSelectors';
@@ -181,6 +185,9 @@ const EmployeeRecalculatePayTableRow = ({
   onBlur,
   onAddJob,
   featureToggles,
+  modifyingPayItemId,
+  modifyingKey,
+  modifyingEmployeeId,
 }) => {
   const hourRowItem = (
     <HoursInputField
@@ -246,16 +253,32 @@ const EmployeeRecalculatePayTableRow = ({
       {overAllocationErrorMessage}
     </Tooltip>
   );
+  const isThisInputBeingModified = (key) =>
+    entry.isSubmitting &&
+    modifyingKey === key &&
+    modifyingEmployeeId === employeeId &&
+    modifyingPayItemId === entry.payItemId;
 
+  const smallImmediateSpinner = (
+    <Spinner className={styles.immediateSpinner} size="small" />
+  );
   return (
     <Table.Row key={entry.payItemId}>
       <Table.RowItem {...tableConfig.name} indentLevel={1}>
         {entry.payItemName}
       </Table.RowItem>
       {entry.shouldShowHours && (
-        <Table.RowItem {...tableConfig.hours}>{hourRowItem}</Table.RowItem>
+        <Table.RowItem {...tableConfig.hours}>
+          {isThisInputBeingModified('hours')
+            ? smallImmediateSpinner
+            : hourRowItem}
+        </Table.RowItem>
       )}
-      <Table.RowItem {...tableConfig.amount}>{amountRowItem}</Table.RowItem>
+      <Table.RowItem {...tableConfig.amount}>
+        {isThisInputBeingModified('amount')
+          ? smallImmediateSpinner
+          : amountRowItem}
+      </Table.RowItem>
       <Table.RowItem className={styles.jobRowItem} {...tableConfig.job}>
         {addJobRowItem}
         {shouldShowUnderAllocationWarning && underAllocationWarningTooltip}
@@ -264,5 +287,9 @@ const EmployeeRecalculatePayTableRow = ({
     </Table.Row>
   );
 };
-
-export default EmployeeRecalculatePayTableRow;
+const mapStateToProps = (state) => ({
+  modifyingPayItemId: getModifyingPayItemId(state),
+  modifyingKey: getModifyingKey(state),
+  modifyingEmployeeId: getModifyingEmployeeId(state),
+});
+export default connect(mapStateToProps)(EmployeeRecalculatePayTableRow);

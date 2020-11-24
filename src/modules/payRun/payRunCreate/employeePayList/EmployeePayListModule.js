@@ -211,10 +211,12 @@ export default class EmployeePayListModule {
   };
 
   recalculateEmployeePay = ({ employeeId, payItemId, key }) => {
+    this.dispatcher.setModifyingState({ employeeId, payItemId, key });
     this.dispatcher.setSubmittingState(true);
     const onSuccess = (recalculatedEmployeePay) => {
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.setPayItemLineDirty(false);
+      this.dispatcher.clearModifyingState();
       this.dispatcher.updateEmployeeLineAfterRecalculation({
         employeeId,
         recalculatedEmployeePay,
@@ -224,6 +226,7 @@ export default class EmployeePayListModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.clearModifyingState();
       this.dispatcher.setPayItemLineDirty(false);
       this.dispatcher.setAlert({ type: AlertType.ERROR, message });
     };

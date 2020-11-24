@@ -1,6 +1,8 @@
 export const SET_LOADING_STATE = Symbol('Set loading state');
 export const SET_IS_TABLE_LOADING = Symbol('Set table is loading value');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_MODIFYING_STATE = Symbol('Set modifying state');
+export const CLEAR_MODIFYING_STATE = Symbol('Clear modifying state');
 export const SET_ALERT = Symbol('Set alert');
 export const NEXT_STEP = Symbol('Next step');
 export const PREVIOUS_STEP = Symbol('Previous step');

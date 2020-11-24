@@ -1,4 +1,5 @@
 import {
+  CLEAR_MODIFYING_STATE,
   CLOSE_PREVIOUS_STEP_MODAL,
   DELETE_PAY_RUN_DRAFT,
   LOAD_TIMESHEETS,
@@ -8,6 +9,7 @@ import {
   SET_ALERT,
   SET_EMPLOYEE_PAYMENTS,
   SET_LOADING_STATE,
+  SET_MODIFYING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_NET_PAY,
   START_NEW_PAY_RUN,
@@ -69,6 +71,15 @@ const createPayRunDispatchers = (store) => ({
   setSubmittingState: (isSubmitting) => {
     const intent = SET_SUBMITTING_STATE;
     store.dispatch({ intent, isSubmitting });
+  },
+
+  setModifyingState: ({ employeeId, payItemId, key }) => {
+    const intent = SET_MODIFYING_STATE;
+    store.dispatch({ intent, employeeId, payItemId, key });
+  },
+  clearModifyingState: () => {
+    const intent = CLEAR_MODIFYING_STATE;
+    store.dispatch({ intent });
   },
 
   startNewPayRun: (response) => {

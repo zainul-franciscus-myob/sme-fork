@@ -1,12 +1,14 @@
 import {
   CHANGE_ETP_CODE,
   CHANGE_ETP_CODE_CATEGORY,
+  CLEAR_MODIFYING_STATE,
   CLOSE_ETP_MODAL,
   FORMAT_EMPLOYEE_PAY_ITEM,
   HIDE_WARNING_TOOLTIP,
   LOAD_EMPLOYEE_PAYS,
   OPEN_ETP_MODAL,
   SAVE_ETP,
+  SET_MODIFYING_STATE,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
   UPDATE_EMPLOYEE_LINE_AFTER_RECALCULATION,
   UPDATE_IS_EMPLOYEE_SELECTED,
@@ -37,6 +39,60 @@ describe('employeePayListReducer', () => {
             { employeeId: '2', isSelected: true },
           ],
           isPageEdited: true,
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+  describe('setModifyingState', () => {
+    it('should set modifyingPayItemId, modifyingKey, modifyingEmployeeId ', () => {
+      const state = {
+        employeePayList: {},
+      };
+      const payItemId = 1;
+      const employeeId = 25;
+      const key = 'hours';
+      const action = {
+        intent: SET_MODIFYING_STATE,
+        payItemId,
+        employeeId,
+        key,
+      };
+      const expected = {
+        employeePayList: {
+          modifyingPayItemId: payItemId,
+          modifyingKey: key,
+          modifyingEmployeeId: employeeId,
+        },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('clearModifyingState', () => {
+    it('should clear modifying modifyingPayItemId, modifyingKey, modifyingEmployeeId', () => {
+      const state = {
+        employeePayList: {
+          modifyingPayItemId: 1,
+          modifyingKey: 25,
+          modifyingEmployeeId: 'amount',
+        },
+      };
+
+      const action = {
+        intent: CLEAR_MODIFYING_STATE,
+      };
+      const expected = {
+        employeePayList: {
+          modifyingPayItemId: null,
+          modifyingKey: null,
+          modifyingEmployeeId: null,
         },
       };
 

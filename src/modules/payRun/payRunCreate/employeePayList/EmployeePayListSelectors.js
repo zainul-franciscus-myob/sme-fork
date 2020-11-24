@@ -10,9 +10,15 @@ export const getJobOptions = (state) => state.employeePayList.jobs;
 
 export const getSelectedEmployeeId = (state) =>
   state.employeePayList.selectedEmployeeId;
-
 export const getSelectedPayItem = (state) =>
   state.employeePayList.selectedPayItem;
+
+export const getModifyingEmployeeId = (state) =>
+  state.employeePayList.modifyingEmployeeId;
+export const getModifyingKey = (state) => state.employeePayList.modifyingKey;
+
+export const getModifyingPayItemId = (state) =>
+  state.employeePayList.modifyingPayItemId;
 
 export const getJobListModalLoadingState = (state) =>
   state.employeePayList.jobListModalLoadingState;

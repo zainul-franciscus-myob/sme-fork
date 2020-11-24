@@ -146,7 +146,6 @@ export default class RootModule {
     );
 
     if (!url) {
-      console.warn('"Subscription details" url has no value');
       return;
     }
 

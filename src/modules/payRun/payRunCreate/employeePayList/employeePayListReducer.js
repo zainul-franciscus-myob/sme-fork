@@ -1,6 +1,7 @@
 import {
   CHANGE_ETP_CODE,
   CHANGE_ETP_CODE_CATEGORY,
+  CLEAR_MODIFYING_STATE,
   CLOSE_ETP_MODAL,
   CLOSE_JOB_LIST_MODAL,
   EDIT_PAY_ITEM_JOBS,
@@ -14,6 +15,7 @@ import {
   SAVE_PAY_ITEM_JOBS,
   SET_EMPLOYEE_PAY_LIST_UNSAVED_MODAL,
   SET_JOB_LIST_MODAL_LOADING_STATE,
+  SET_MODIFYING_STATE,
   SET_PAY_ITEM_LINE_DIRTY,
   SET_UPGRADE_MODAL_SHOWING,
   UPDATE_ARE_ALL_EMPLOYEES_SELECTED,
@@ -45,6 +47,9 @@ export const getEmployeePayListDefaultState = () => ({
     code: undefined,
     isOpen: false,
   },
+  modifyingEmployeeId: null,
+  modifyingKey: null,
+  modifyingPayItemId: null,
   selectedEmployeeId: undefined,
   selectedPayItem: undefined,
   baseHourlyWagePayItemId: null,
@@ -261,6 +266,20 @@ const formatEmployeePayItem = (
   ),
 });
 
+const setModifyingState = (state, { employeeId, payItemId, key }) => ({
+  ...state,
+  modifyingEmployeeId: employeeId,
+  modifyingPayItemId: payItemId,
+  modifyingKey: key,
+});
+
+const clearModifyingState = (state) => ({
+  ...state,
+  modifyingEmployeeId: null,
+  modifyingPayItemId: null,
+  modifyingKey: null,
+});
+
 const updateEmployeeNote = (state, { employeeId, note }) => ({
   ...state,
   lines: state.lines.map((line) =>
@@ -273,9 +292,14 @@ const updateEmployeeNote = (state, { employeeId, note }) => ({
   ),
 });
 
-const findIgnoreWarningFromCurrentLine = (line, recalculatedPayItem) =>
-  line.payItems.find((item) => item.payItemId === recalculatedPayItem.payItemId)
-    .ignoreUnderAllocationWarning;
+const findIgnoreWarningFromCurrentLine = (line, recalculatedPayItem) => {
+  const correspondingItem = line.payItems.find(
+    (item) => item.payItemId === recalculatedPayItem.payItemId
+  );
+  return correspondingItem
+    ? correspondingItem.ignoreUnderAllocationWarning
+    : false;
+};
 
 const updateTheEditedEmployeePayItems = (
   state,
@@ -390,4 +414,6 @@ export const employeePayListHandlers = {
   [SAVE_PAY_ITEM_JOBS]: savePayItemJobs,
   [UPDATE_EMPLOYEE_NOTE]: updateEmployeeNote,
   [HIDE_WARNING_TOOLTIP]: hideWarningTooltip,
+  [SET_MODIFYING_STATE]: setModifyingState,
+  [CLEAR_MODIFYING_STATE]: clearModifyingState,
 };
