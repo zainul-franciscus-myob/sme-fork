@@ -26,14 +26,18 @@ describe('eInvoiceSelectors', () => {
 
   describe('getShowEInvoiceButton', () => {
     it.each`
-      appName     | expected
-      ${'FooBar'} | ${true}
-      ${''}       | ${false}
-      ${' '}      | ${false}
+      appName     | region  | expected
+      ${'FooBar'} | ${'au'} | ${true}
+      ${'FooBar'} | ${'nz'} | ${false}
+      ${''}       | ${'au'} | ${false}
+      ${''}       | ${'nz'} | ${false}
+      ${' '}      | ${'au'} | ${false}
+      ${' '}      | ${'nz'} | ${false}
     `(
-      'should show $expected when appName is "$appName"',
-      ({ appName, expected }) => {
+      'should show $expected when appName is "$appName" and region is "$region"',
+      ({ appName, region, expected }) => {
         const state = {
+          region,
           emailInvoice: {
             fromEmail: 'email@email.com',
           },
