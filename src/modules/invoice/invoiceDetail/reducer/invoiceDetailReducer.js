@@ -15,6 +15,7 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
@@ -490,6 +491,18 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
   viewedAccountToolTip,
 });
 
+const loadPrefillFromRecurringInvoice = (state, { invoice }) => {
+  const defaultState = getDefaultState();
+
+  return {
+    ...state,
+    invoice: {
+      ...defaultState.invoice,
+      ...invoice,
+    },
+  };
+};
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -543,6 +556,7 @@ const handlers = {
   [SELECT_CUSTOMER_QUOTE]: selectCustomerQuote,
   [RESET_CUSTOMER_QUOTE]: resetCustomerQuote,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
+  [LOAD_PREFILL_FROM_RECURRING_INVOICE]: loadPrefillFromRecurringInvoice,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

@@ -21,6 +21,7 @@ import {
 } from '../selectors/invoiceDetailSelectors';
 import { getShowEmailButton } from '../selectors/emailSelectors';
 import { getShowExportPdfButton } from '../selectors/exportPdfSelectors';
+import { getShowPrefillRecurringButton } from '../selectors/recurringInvoiceSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
@@ -32,6 +33,7 @@ const InvoiceDetailActions = ({
   showEInvoiceButton,
   enableEInvoiceButton,
   showExportPdfButton,
+  showPrefillRecurringButton,
   listeners: {
     onSaveButtonClick,
     onSaveAndButtonClick,
@@ -39,6 +41,7 @@ const InvoiceDetailActions = ({
     onSaveAndSendEInvoiceClick,
     onPayInvoiceButtonClick,
     onExportPdfButtonClick,
+    onPrefillButtonClick,
     onCancelButtonClick,
     onDeleteButtonClick,
   },
@@ -167,6 +170,18 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
+  const prefillButton = (
+    <Button
+      key="prefill"
+      name="prefill"
+      type="secondary"
+      onClick={onPrefillButtonClick}
+      disabled={isSubmitting}
+    >
+      Prefill from recurring transaction
+    </Button>
+  );
+
   const separator = <Separator direction="vertical" />;
 
   if (isReadOnly) {
@@ -205,6 +220,7 @@ const InvoiceDetailActions = ({
         exportPdfButton,
         saveAndEmailButton,
         showEInvoiceButton && saveAndSendEInvoiceButton,
+        showPrefillRecurringButton && prefillButton,
       ]}
     />
   );
@@ -220,6 +236,7 @@ const mapStateToProps = (state) => ({
   isForeignCurrency: getIsForeignCurrency(state),
   showEInvoiceButton: getShowEInvoiceButton(state),
   enableEInvoiceButton: getEnableEInvoiceButton(state),
+  showPrefillRecurringButton: getShowPrefillRecurringButton(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

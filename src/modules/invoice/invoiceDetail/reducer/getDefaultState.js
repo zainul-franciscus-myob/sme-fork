@@ -116,6 +116,7 @@ const getDefaultState = () => ({
   isLoadingCustomerQuotes: true,
   customerQuoteId: '',
   viewedAccountToolTip: false,
+  isRecurringTransactionEnabled: false,
 });
 
 export default getDefaultState;

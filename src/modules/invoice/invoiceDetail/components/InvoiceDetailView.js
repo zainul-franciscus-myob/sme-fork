@@ -33,6 +33,7 @@ import UpgradeModal from './UpgradeModal';
 import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
+  recurringListModal,
   accountModal,
   layout,
   loadingState,
@@ -176,6 +177,7 @@ const InvoiceDetailView = ({
         {accountModal}
         {upgradeModal}
         {modal}
+        {recurringListModal}
         <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>

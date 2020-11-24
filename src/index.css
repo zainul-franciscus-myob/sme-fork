@@ -55,3 +55,12 @@ textarea {
 .line-item-table > *:not(.line-item-table__inner) {
   padding-left: var(--flx-spacing-x-large);
 }
+
+/*
+ * Temporary fix Feelix table header right align bug
+ */
+@media (min-width: 768px) {
+  .table-data--header > .table-data__cell.text-right > .flx-table-header-sort__button {
+    float: right;
+  }
+}

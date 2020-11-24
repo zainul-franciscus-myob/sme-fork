@@ -128,3 +128,7 @@ export const RESET_CUSTOMER_QUOTE = Symbol('Reset customer quote');
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
+
+export const LOAD_PREFILL_FROM_RECURRING_INVOICE = Symbol(
+  'Load prefill from recurring invoice'
+);

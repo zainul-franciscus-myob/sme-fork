@@ -12,6 +12,7 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
@@ -337,6 +338,10 @@ const createInvoiceDetailDispatcher = (store) => ({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
     });
+  },
+
+  loadPrefillFromRecurringInvoice: (data) => {
+    store.dispatch({ intent: LOAD_PREFILL_FROM_RECURRING_INVOICE, ...data });
   },
 });
 

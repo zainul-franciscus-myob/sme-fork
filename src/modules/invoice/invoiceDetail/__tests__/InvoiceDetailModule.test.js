@@ -10,6 +10,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL,
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   RESET_CUSTOMER,
   SET_ABN_LOADING_STATE,
@@ -36,6 +37,7 @@ import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
+import InvoiceLayout from '../types/InvoiceLayout';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Region from '../../../../common/types/Region';
 import TestIntegration from '../../../../integration/TestIntegration';
@@ -44,6 +46,7 @@ import createInvoiceDetailDispatcher from '../createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from '../createInvoiceDetailIntegrator';
 import invoiceDetailReducer from '../reducer/invoiceDetailReducer';
 import loadInvoiceDetailResponse from '../../mappings/data/serviceLayout/invoiceServiceDetail';
+import loadPrefillFromRecurringInvoiceResponse from '../../mappings/data/loadPrefillFromRecurringInvoiceResponse';
 
 export const setup = () => {
   const store = new TestStore(invoiceDetailReducer);
@@ -55,6 +58,8 @@ export const setup = () => {
     popMessages: () => [],
     replaceURLParams: () => {},
     reload: () => {},
+    featureToggles: { isRecurringTransactionEnabled: false },
+    isToggleOn: () => {},
   });
   module.store = store;
   module.dispatcher = createInvoiceDetailDispatcher(store);
@@ -187,6 +192,15 @@ describe('InvoiceDetailModule', () => {
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
         { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
         expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+        {
+          intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+          isLoadingCustomerQuotes: true,
+        },
+        expect.objectContaining({ intent: LOAD_CUSTOMER_QUOTES }),
+        {
+          intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+          isLoadingCustomerQuotes: false,
+        },
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: true },
         { intent: SET_PAY_DIRECT_LOADING_STATE, isLoading: false },
         expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
@@ -197,6 +211,7 @@ describe('InvoiceDetailModule', () => {
             intent: LOAD_NEW_DUPLICATE_INVOICE_DETAIL,
           }),
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          expect.objectContaining({ intent: LOAD_CUSTOMER_QUOTES }),
           expect.objectContaining({ intent: LOAD_PAY_DIRECT }),
         ])
       );
@@ -1452,6 +1467,73 @@ describe('InvoiceDetailModule', () => {
           })
         );
       });
+    });
+  });
+
+  describe('loadPrefillFromRecurringInvoice', () => {
+    it('prefills invoice with recurring transaction', () => {
+      const { store, integration, module } = setupWithRun({ isCreating: true });
+
+      module.loadPrefillFromRecurringInvoice('id');
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({
+          intent: LOAD_PREFILL_FROM_RECURRING_INVOICE,
+        }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({
+          intent: LOAD_ABN_FROM_CUSTOMER,
+        }),
+        {
+          intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+          isLoadingCustomerQuotes: true,
+        },
+        expect.objectContaining({
+          intent: LOAD_CUSTOMER_QUOTES,
+        }),
+        {
+          intent: SET_CUSTOMER_QUOTES_LOADING_STATE,
+          isLoadingCustomerQuotes: false,
+        },
+      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_PREFILL_FROM_RECURRING_INVOICE,
+          }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          expect.objectContaining({ intent: LOAD_CUSTOMER_QUOTES }),
+        ])
+      );
+    });
+
+    it('does not prefill invoice if recurring transaction is read-only', () => {
+      const { store, integration, module } = setupWithRun({ isCreating: true });
+      integration.mapSuccess(LOAD_PREFILL_FROM_RECURRING_INVOICE, {
+        ...loadPrefillFromRecurringInvoiceResponse,
+        invoice: {
+          ...loadPrefillFromRecurringInvoiceResponse.invoice,
+          layout: InvoiceLayout.MISCELLANEOUS,
+        },
+      });
+
+      module.loadPrefillFromRecurringInvoice('id');
+
+      expect(store.getActions()).toEqual([
+        { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+        { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+        expect.objectContaining({ intent: SET_ALERT }),
+      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_PREFILL_FROM_RECURRING_INVOICE,
+          }),
+        ])
+      );
     });
   });
 });

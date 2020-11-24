@@ -1,3 +1,5 @@
+import { getShouldLoadCustomerQuote } from '../quickQuoteSelectors';
+
 const { getCustomerQuotes } = require('../quickQuoteSelectors');
 
 describe('quickQuoteSelector', () => {
@@ -38,6 +40,52 @@ describe('quickQuoteSelector', () => {
           url: '/#/au/businessId/quote/2',
         },
       ]);
+    });
+  });
+
+  describe('getShouldLoadCustomerQuotes', () => {
+    it('loads customer quotes', () => {
+      const state = {
+        invoiceId: 'new',
+        quoteId: undefined,
+        invoice: { customerId: '1' },
+      };
+      const actual = getShouldLoadCustomerQuote(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('does not load customer when invoice is convert from quote', () => {
+      const state = {
+        invoiceId: 'new',
+        quoteId: '2',
+        invoice: { customerId: '1' },
+      };
+      const actual = getShouldLoadCustomerQuote(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('does not load customer on existing invoice', () => {
+      const state = {
+        invoiceId: '1',
+        quoteId: undefined,
+        invoice: { customerId: '1' },
+      };
+      const actual = getShouldLoadCustomerQuote(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('does not load customer when customer is empty', () => {
+      const state = {
+        invoiceId: '1',
+        quoteId: undefined,
+        invoice: { customerId: '' },
+      };
+      const actual = getShouldLoadCustomerQuote(state);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

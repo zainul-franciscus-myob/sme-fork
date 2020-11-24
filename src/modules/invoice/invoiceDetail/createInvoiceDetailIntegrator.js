@@ -12,6 +12,7 @@ import {
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
@@ -38,6 +39,7 @@ import {
   getLoadInvoiceIntent,
   getLoadInvoiceUrlParams,
   getLoadPayDirectUrlParams,
+  getLoadPrefillFromRecurringInvoiceUrlParams,
 } from './selectors/integratorSelectors';
 import {
   getExportPdfQueryParams,
@@ -319,6 +321,22 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
     });
+  },
+
+  loadPrefillFromRecurringInvoice: ({
+    recurringTransactionId,
+    onSuccess,
+    onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = LOAD_PREFILL_FROM_RECURRING_INVOICE;
+    const urlParams = getLoadPrefillFromRecurringInvoiceUrlParams(
+      state,
+      recurringTransactionId
+    );
+
+    integration.read({ intent, urlParams, onSuccess, onFailure });
   },
 });
 

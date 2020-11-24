@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 import {
   getBusinessId,
   getCustomerId,
+  getIsCreating,
+  getIsCustomerDisabled,
   getRegion,
 } from './invoiceDetailSelectors';
 
@@ -37,3 +39,11 @@ export const getShouldEnableConvertQuote = createSelector(
   getCustomerQuoteId,
   (customerQuoteId) => !!customerQuoteId
 );
+
+export const getShouldLoadCustomerQuote = (state) => {
+  const isCreating = getIsCreating(state);
+  const isCustomerDisabled = getIsCustomerDisabled(state);
+  const customerId = getCustomerId(state);
+
+  return isCreating && !isCustomerDisabled && customerId;
+};

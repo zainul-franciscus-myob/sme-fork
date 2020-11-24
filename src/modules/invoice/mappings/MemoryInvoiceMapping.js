@@ -18,6 +18,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -46,6 +47,7 @@ import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadCustomerQuotesResponse from './data/loadCustomerQuotesResponse';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
+import loadPrefillFromRecurringInvoiceResponse from './data/loadPrefillFromRecurringInvoiceResponse';
 import payDirect from './data/loadPayDirect';
 import saveEmailSettingsSuccessResponse from './data/saveEmailSettingsSuccessResponse';
 import successResponse from './data/success';
@@ -139,6 +141,8 @@ const MemoryInvoiceMapping = {
   [LOAD_ABN_FROM_CUSTOMER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
   [LOAD_CUSTOMER_QUOTES]: ({ onSuccess }) =>
     onSuccess(loadCustomerQuotesResponse),
+  [LOAD_PREFILL_FROM_RECURRING_INVOICE]: ({ onSuccess }) =>
+    onSuccess(loadPrefillFromRecurringInvoiceResponse),
 };
 
 export default MemoryInvoiceMapping;

@@ -18,6 +18,7 @@ import {
   LOAD_NEW_INVOICE_DETAIL_FROM_QUOTE,
   LOAD_NEXT_PAGE,
   LOAD_PAY_DIRECT,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -144,6 +145,11 @@ const HttpInvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId, customerId }) =>
       `/${businessId}/invoice/load_customer_quotes/${customerId}`,
+  },
+  [LOAD_PREFILL_FROM_RECURRING_INVOICE]: {
+    method: 'GET',
+    getPath: ({ businessId, recurringTransactionId }) =>
+      `/${businessId}/invoice/load_prefill_from_recurring_invoice/${recurringTransactionId}`,
   },
 };
 

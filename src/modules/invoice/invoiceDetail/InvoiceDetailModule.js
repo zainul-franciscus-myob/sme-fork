@@ -46,25 +46,35 @@ import {
   getRedirectState,
 } from './selectors/redirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
-import { getInvoiceQuoteUrl } from './selectors/quickQuoteSelectors';
+import {
+  getInvoiceQuoteUrl,
+  getShouldLoadCustomerQuote,
+} from './selectors/quickQuoteSelectors';
+import {
+  getIsRecurringTransactionReadOnly,
+  getRecurringTransactionListModalContext,
+} from './selectors/recurringInvoiceSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import InvoiceDetailElementId from './types/InvoiceDetailElementId';
 import InvoiceDetailModalType from './types/InvoiceDetailModalType';
 import InvoiceDetailView from './components/InvoiceDetailView';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
+import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
 import createInvoiceDetailIntegrator from './createInvoiceDetailIntegrator';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
@@ -79,6 +89,8 @@ export default class InvoiceDetailModule {
     globalCallbacks,
     navigateTo,
     subscribeOrUpgrade,
+    featureToggles,
+    isToggleOn,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -102,6 +114,12 @@ export default class InvoiceDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.navigateTo = navigateTo;
+    this.isToggleOn = isToggleOn;
+    this.featureToggles = featureToggles;
+
+    this.recurringTransactionListModal = new RecurringTransactionListModalModule(
+      { integration }
+    );
   }
 
   openAccountModal = (onChange) => {
@@ -141,14 +159,7 @@ export default class InvoiceDetailModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setSubmittingState(false);
       this.dispatcher.loadInvoice(payload);
-
-      this.updateContactCombobox();
-      this.updateItemCombobox();
-      this.updateJobCombobox();
-
-      if (getShouldShowAbn(this.store.getState())) {
-        this.loadAbnFromCustomer();
-      }
+      this.updateComponentsAfterLoadInvoice();
     };
 
     const onFailure = () => {
@@ -156,6 +167,22 @@ export default class InvoiceDetailModule {
     };
 
     this.integrator.loadInvoice({ onSuccess, onFailure });
+  };
+
+  updateComponentsAfterLoadInvoice = () => {
+    const state = this.store.getState();
+
+    this.updateContactCombobox();
+    this.updateItemCombobox();
+    this.updateJobCombobox();
+
+    if (getShouldShowAbn(state)) {
+      this.loadAbnFromCustomer();
+    }
+
+    if (getShouldLoadCustomerQuote(state)) {
+      this.loadCustomerQuotes();
+    }
   };
 
   reloadInvoice = ({ onSuccess: next = () => {} }) => {
@@ -784,6 +811,54 @@ export default class InvoiceDetailModule {
     }
   };
 
+  openRecurringTransactionListModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionListModal.run({
+      context: getRecurringTransactionListModalContext(state),
+      onComplete: ({ id }) => {
+        this.recurringTransactionListModal.close();
+
+        if (id) {
+          this.loadPrefillFromRecurringInvoice(id);
+        }
+      },
+      onLoadFailure: (message) => {
+        this.recurringTransactionListModal.close();
+        this.displayFailureAlert(message);
+      },
+    });
+  };
+
+  loadPrefillFromRecurringInvoice = (recurringTransactionId) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (data) => {
+      this.dispatcher.setSubmittingState(false);
+
+      const isReadOnly = getIsRecurringTransactionReadOnly(data);
+      if (isReadOnly) {
+        this.displayFailureAlert(
+          'Unable to prefill invoice. The selected recurring transaction contains unsupported feature.'
+        );
+      } else {
+        this.dispatcher.loadPrefillFromRecurringInvoice(data);
+        this.updateComponentsAfterLoadInvoice();
+      }
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.loadPrefillFromRecurringInvoice({
+      recurringTransactionId,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   loadAbnFromCustomer = () => {
     this.dispatcher.setAbnLoadingState(true);
 
@@ -841,6 +916,7 @@ export default class InvoiceDetailModule {
     this.itemComboboxModule.resetState();
     this.jobComboboxModule.resetState();
     this.accountModalModule.resetState();
+    this.recurringTransactionListModal.resetState();
     this.dispatcher.resetState();
   };
 
@@ -867,6 +943,11 @@ export default class InvoiceDetailModule {
 
     if (this.jobComboboxModule.isCreateJobModalOpened()) {
       this.jobComboboxModule.createJob();
+      return;
+    }
+
+    if (this.recurringTransactionListModal.isOpened()) {
+      this.recurringTransactionListModal.complete();
       return;
     }
 
@@ -910,7 +991,15 @@ export default class InvoiceDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    const isRecurringTransactionEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
+      isEarlyAccess: this.isToggleOn(FeatureToggles.RecurringTransactions),
+    });
+
+    this.dispatcher.setInitialState({
+      isRecurringTransactionEnabled,
+      ...context,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
 
@@ -1103,9 +1192,11 @@ export default class InvoiceDetailModule {
 
   render = () => {
     const accountModal = this.accountModalModule.render();
+    const recurringListModal = this.recurringTransactionListModal.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
+        recurringListModal={recurringListModal}
         accountModal={accountModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
@@ -1134,6 +1225,7 @@ export default class InvoiceDetailModule {
           onSaveAndSendEInvoiceClick: this.saveAndSendEInvoice,
           onPayInvoiceButtonClick: this.payInvoice,
           onExportPdfButtonClick: this.openExportPdfModalOrSaveAndExportPdf,
+          onPrefillButtonClick: this.openRecurringTransactionListModal,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
         }}

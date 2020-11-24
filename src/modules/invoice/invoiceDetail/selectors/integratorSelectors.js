@@ -177,3 +177,12 @@ export const getInvoiceHistoryUrlParams = (state) => {
     invoiceId,
   };
 };
+
+export const getLoadPrefillFromRecurringInvoiceUrlParams = (
+  state,
+  recurringTransactionId
+) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, recurringTransactionId };
+};

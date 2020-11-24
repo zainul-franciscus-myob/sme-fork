@@ -1,0 +1,32 @@
+{
+  "invoice": {
+    "layout": "itemAndService",
+    "customerId": "1",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": 10,
+    "chargeForLatePayment": "123.12",
+    "discountForEarlyPayment": "546.34",
+    "numberOfDaysForDiscount": 10,
+    "isTaxInclusive": true,
+    "invoiceNumber": "IN00000124",
+    "isAllowOnlinePayments": true,
+    "note": "Thank you! Footloose",
+    "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
+    "lines": [
+      {
+        "id": "1",
+        "type": "item",
+        "units": "2",
+        "itemId": "3",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "taxCodeId": "2",
+        "taxAmount": "0.9111",
+        "taxExclusiveAmount": "850",
+        "accountId": "123",
+        "lineTypeId": 17
+      }
+    ]
+  }
+}
