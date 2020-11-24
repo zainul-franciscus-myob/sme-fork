@@ -7,7 +7,7 @@ const widthConfig = ({
   promisedDate,
 }) => [
   {
-    'min-width': '768px',
+    'min-width': '1160px',
     config: [
       { columnName: dateIssued.columnName, styles: { width: '18rem' } },
       { columnName: number.columnName, styles: { width: '18rem' } },
