@@ -7,6 +7,7 @@ import {
   UPDATE_DRAFT_PAY_RUN,
   UPDATE_EMPLOYEE_PAY,
 } from '../payRunCreate/PayRunIntents';
+import { SORT_AND_FILTER_PAY_RUN_LIST } from '../payRunList/PayRunListIntents';
 
 const PayRunMapping = {
   [START_NEW_PAY_RUN]: {
@@ -41,6 +42,11 @@ const PayRunMapping = {
     method: 'GET',
     getPath: ({ businessId, draftPayRunId }) =>
       `/${businessId}/nz-payroll/payRun/payrollVerificationReport/${draftPayRunId}`,
+  },
+  [SORT_AND_FILTER_PAY_RUN_LIST]: {
+    method: 'GET',
+    getPath: ({ businessId }) =>
+      `/${businessId}/nz-payroll/payRun/filter_pay_run_list`,
   },
 };
 

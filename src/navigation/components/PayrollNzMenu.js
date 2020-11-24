@@ -21,6 +21,8 @@ const getItems = (urls, onMenuLinkClick) =>
     <Navigation.Separator key="separator-employee" />,
     urls.payRunCreateNz &&
       getMenuLink(urls.payRunCreateNz, 'Create pay run', onMenuLinkClick),
+    urls.payRunListNz &&
+      getMenuLink(urls.payRunListNz, 'Pay runs', onMenuLinkClick),
   ].filter(Boolean);
 
 const PayrollNzMenu = ({ urls, onMenuSelect, onMenuLinkClick, activeNav }) => (

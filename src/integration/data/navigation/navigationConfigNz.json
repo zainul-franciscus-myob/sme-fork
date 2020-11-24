@@ -39,6 +39,7 @@
 
     "employeeListNz",
     "payRunCreateNz",
+    "payRunListNz",
 
     "contactList",
     "contactCreate",

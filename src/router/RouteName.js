@@ -64,6 +64,7 @@ const RouteName = {
   BANK_RECONCILIATION: 'bankReconciliation/bankReconciliation',
   PAY_RUN_CREATE_NZ: 'payRun/payRunCreateNz',
   PAY_RUN_CREATE: 'payRun/payRunCreate',
+  PAY_RUN_LIST_NZ: 'payRun/payRunListNz',
   PAY_RUN_LIST: 'payRun/payRunList',
   PAY_RUN_DETAIL: 'payRun/payRunDetail',
   TIMESHEET: 'timesheet',

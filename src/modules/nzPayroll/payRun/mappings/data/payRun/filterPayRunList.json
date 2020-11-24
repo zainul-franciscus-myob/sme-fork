@@ -1,0 +1,29 @@
+{
+  "sortOrder": "asc",
+  "entries": [
+    {
+      "paymentDate": "2019/11/07",
+      "payPeriodStart": "2017/02/24",
+      "payPeriodEnd": "2017/02/24",
+      "employeeCount": 3,
+      "totalTakeHomePay": 1663.59,
+      "id": "1"
+    },
+    {
+      "paymentDate": "2019/11/08",
+      "payPeriodStart": "2017/02/24",
+      "payPeriodEnd": "2017/02/24",
+      "employeeCount": 4,
+      "totalTakeHomePay": 6421.59,
+      "id": "2"
+    },
+    {
+      "paymentDate": "2019/11/09",
+      "payPeriodStart": "2017/02/24",
+      "payPeriodEnd": "2017/02/24",
+      "employeeCount": 5,
+      "totalTakeHomePay": 999.59,
+      "id": "3"
+    }
+  ]
+}

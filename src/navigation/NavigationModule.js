@@ -5,6 +5,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_LOADING_STATE,
+  SET_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -278,6 +279,17 @@ export default class NavigationModule {
     });
   };
 
+  setPayRunsViewFeatureToggle = () => {
+    const isNzPayRunsViewEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isNzPayRunsViewEnabled,
+    });
+
+    this.store.dispatch({
+      intent: SET_PAYRUNS_VIEW_FEATURE_TOGGLE,
+      isNzPayRunsViewEnabled,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -286,6 +298,7 @@ export default class NavigationModule {
     this.buildAndSetRoutingInfo({ currentRouteName, routeParams });
     this.setOnPageTransition(onPageTransition);
     this.setRecurringTransactionFeatureToggle();
+    this.setPayRunsViewFeatureToggle();
 
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
