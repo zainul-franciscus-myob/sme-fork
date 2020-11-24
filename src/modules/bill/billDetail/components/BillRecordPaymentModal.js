@@ -177,7 +177,7 @@ const BillRecordPaymentModal = ({
               value={paymentDate}
               displayWarning={isBeforeStartOfFinancialYear}
               warningMessage={'The date is set to a previous financial year'}
-              onSelect={onDateChange(onUpdateHeaderOption)('date')}
+              onSelect={onDateChange(onUpdateHeaderOption)('paymentDate')}
               requiredLabel={requiredLabel}
               width="sm"
             />
