@@ -1,4 +1,5 @@
 import {
+  COPY_CONTACT_MODAL_BILLING_ADDRESS,
   LOAD_CONTACT_MODAL,
   SET_ALERT,
   SET_CONTACT_MODAL_BILLING_ADDRESS,
@@ -10,6 +11,7 @@ import {
   SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_SUBMITTING_STATE,
+  TOGGLE_SHIPPING_ADDRESS_EDITING,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -53,6 +55,17 @@ const createContactModalDispatcher = (store) => ({
     store.dispatch({
       intent: SET_CONTACT_MODAL_BILLING_ADDRESS,
       key,
+      value,
+    }),
+
+  copyAddress: () =>
+    store.dispatch({
+      intent: COPY_CONTACT_MODAL_BILLING_ADDRESS,
+    }),
+
+  toggleShippingAddressEditing: (value) =>
+    store.dispatch({
+      intent: TOGGLE_SHIPPING_ADDRESS_EDITING,
       value,
     }),
 

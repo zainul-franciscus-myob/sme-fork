@@ -28,6 +28,8 @@ export const getLastName = (state) => state.contact.lastName;
 export const getNotes = (state) => state.contact.notes;
 const getBillingAddress = (state) => state.contact.billingAddress;
 const getShippingAddress = (state) => state.contact.shippingAddress;
+const getIsBillingAddressCopied = (state) =>
+  state.contact.isBillingAddressCopied;
 export const getPaymentDetails = (state) => state.contact.paymentDetails;
 
 export const getContactTypeOptions = (state) => state.contactTypeOptions;
@@ -95,7 +97,11 @@ const findStatesInCountry = (selectedCountry) => {
   return states;
 };
 
-const getContactModalAddress = (address, showAddress) => {
+const getContactModalAddress = (
+  address,
+  showAddress,
+  isBillingAddressCopied
+) => {
   const numberOfAddedPhoneNumbers = address.phoneNumbers.length;
   const phoneNumbers =
     numberOfAddedPhoneNumbers === 0 ? [''] : address.phoneNumbers;
@@ -112,6 +118,7 @@ const getContactModalAddress = (address, showAddress) => {
     isStateDropdown,
     stateOptions,
     showAddress,
+    isBillingAddressCopied,
   };
 };
 
@@ -124,6 +131,7 @@ export const getContactModalBillingAddress = createSelector(
 export const getContactModalShippingAddress = createSelector(
   getShippingAddress,
   getShowShippingAddress,
+  getIsBillingAddressCopied,
   getContactModalAddress
 );
 

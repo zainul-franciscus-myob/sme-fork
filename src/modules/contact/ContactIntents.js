@@ -47,6 +47,12 @@ export const SET_SHOW_CONTACT_MODAL_BILLING_ADDRESS = Symbol(
 export const SET_CONTACT_MODAL_BILLING_ADDRESS = Symbol(
   'Set contact modal  billing address input'
 );
+export const COPY_CONTACT_MODAL_BILLING_ADDRESS = Symbol(
+  'Copy Billing Address details into Shipping address details'
+);
+export const TOGGLE_SHIPPING_ADDRESS_EDITING = Symbol(
+  'Toggle Editing on Shipping Address'
+);
 export const SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS = Symbol(
   'Set show contact modal shipping address section'
 );

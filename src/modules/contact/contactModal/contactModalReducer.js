@@ -1,4 +1,5 @@
 import {
+  COPY_CONTACT_MODAL_BILLING_ADDRESS,
   LOAD_CONTACT_MODAL,
   SET_ALERT,
   SET_CONTACT_MODAL_BILLING_ADDRESS,
@@ -10,9 +11,22 @@ import {
   SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS,
   SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS,
   SET_SUBMITTING_STATE,
+  TOGGLE_SHIPPING_ADDRESS_EDITING,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
+
+const address = {
+  street: '',
+  city: '',
+  state: '',
+  postcode: '',
+  country: '',
+  phoneNumbers: [],
+  fax: '',
+  email: '',
+  website: '',
+};
 
 export const getDefaultState = () => ({
   alert: undefined,
@@ -25,7 +39,7 @@ export const getDefaultState = () => ({
   togglePaymentDetails: false,
   contact: {
     contactType: '',
-    designation: '',
+    designation: 'Company',
     referenceId: '',
     companyName: '',
     firstName: '',
@@ -34,31 +48,12 @@ export const getDefaultState = () => ({
     isInactive: false,
     isReportable: false,
     notes: '',
+    isBillingAddressCopied: false,
     shippingAddress: {
-      street: '',
-      city: '',
-      state: '',
-      postcode: '',
-      country: '',
-      phoneNumbers: [],
-      fax: '',
-      email: '',
-      website: '',
-      businessContact: '',
-      salutation: '',
+      ...address,
     },
     billingAddress: {
-      street: '',
-      city: '',
-      state: '',
-      postcode: '',
-      country: '',
-      phoneNumbers: [],
-      fax: '',
-      email: '',
-      website: '',
-      businessContact: '',
-      salutation: '',
+      ...address,
     },
     paymentDetails: {
       bankNumber: '',
@@ -133,13 +128,33 @@ const setShowContactModalBillingAddress = (state, { showBillingAddress }) => ({
   showBillingAddress,
 });
 
-const setContactModalBillingAddress = (state, { key, value }) => ({
+const setContactModalBillingAddress = (state, { key, value }) => {
+  const shippingAddress = state.contact.isBillingAddressCopied
+    ? {
+        ...state.contact.shippingAddress,
+        [key]: value,
+      }
+    : state.contact.shippingAddress;
+
+  return {
+    ...state,
+    contact: {
+      ...state.contact,
+      billingAddress: {
+        ...state.contact.billingAddress,
+        [key]: value,
+      },
+      shippingAddress,
+    },
+  };
+};
+
+const setCopyBillingAddress = (state) => ({
   ...state,
   contact: {
     ...state.contact,
-    billingAddress: {
+    shippingAddress: {
       ...state.contact.billingAddress,
-      [key]: value,
     },
   },
 });
@@ -200,6 +215,16 @@ const setContactModalPaymentDetails = (state, action) => {
   };
 };
 
+const toggleShippingAddressEditing = (state, action) => {
+  return {
+    ...state,
+    contact: {
+      ...state.contact,
+      isBillingAddressCopied: action.value,
+    },
+  };
+};
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -211,6 +236,8 @@ const handlers = {
   [SET_CONTACT_MODAL_DETAILS]: setContactModalDetails,
   [SET_SHOW_CONTACT_MODAL_BILLING_ADDRESS]: setShowContactModalBillingAddress,
   [SET_CONTACT_MODAL_BILLING_ADDRESS]: setContactModalBillingAddress,
+  [COPY_CONTACT_MODAL_BILLING_ADDRESS]: setCopyBillingAddress,
+  [TOGGLE_SHIPPING_ADDRESS_EDITING]: toggleShippingAddressEditing,
   [SET_SHOW_CONTACT_MODAL_SHIPPING_ADDRESS]: setShowContactModalShippingAddress,
   [SET_CONTACT_MODAL_SHIPPING_ADDRESS]: setContactModalShippingAddress,
   [SET_SHOW_CONTACT_MODAL_PAYMENT_DETAILS]: setShowContactModalPaymentDetails,

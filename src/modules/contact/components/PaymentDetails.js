@@ -1,4 +1,4 @@
-import { FieldGroup, Icons, Input, Tooltip } from '@myob/myob-widgets';
+import { Icons, Input, Tooltip } from '@myob/myob-widgets';
 import React from 'react';
 
 import AccountNumberInput from '../../../components/autoFormatter/BankDetailsInput/AccountNumberInput';
@@ -18,7 +18,7 @@ const PaymentDetails = ({
   onPaymentDetailsChange,
   isPayBillRemittanceAdviceEnabled,
 }) => (
-  <FieldGroup label="Payment details">
+  <>
     <BSBInput
       label="BSB number"
       labelAccessory={
@@ -75,7 +75,7 @@ const PaymentDetails = ({
         }
       />
     )}
-  </FieldGroup>
+  </>
 );
 
 export default PaymentDetails;

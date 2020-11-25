@@ -1,4 +1,4 @@
-import { FieldGroup } from '@myob/myob-widgets';
+import { Accordion } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -6,9 +6,9 @@ import { getNotes } from '../ContactModalSelectors';
 import Notes from './inputs/Notes';
 
 const ContactModalMoreDetails = ({ onChange }) => (
-  <FieldGroup label="More information">
+  <Accordion label={'Notes'}>
     <Notes onChange={onChange} />
-  </FieldGroup>
+  </Accordion>
 );
 
 const mapStateToProps = (state) => ({

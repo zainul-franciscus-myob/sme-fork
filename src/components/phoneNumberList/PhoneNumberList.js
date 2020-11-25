@@ -6,8 +6,8 @@ import styles from './PhoneNumberList.module.css';
 
 /* eslint-disable react/no-array-index-key */
 
-const RemovePhoneNumberButton = ({ onClick }) => (
-  <Button type="secondary" size="xs" onClick={onClick}>
+const RemovePhoneNumberButton = ({ onClick, disabled }) => (
+  <Button type="secondary" size="xs" disabled={disabled} onClick={onClick}>
     <Icons.Remove />
   </Button>
 );
@@ -41,7 +41,12 @@ class PhoneNumberList extends React.Component {
   };
 
   render() {
-    const { phoneNumbers, hasAddPhoneButton, inputClassName } = this.props;
+    const {
+      phoneNumbers,
+      hasAddPhoneButton,
+      inputClassName,
+      disabled,
+    } = this.props;
 
     return (
       <Fragment>
@@ -59,10 +64,12 @@ class PhoneNumberList extends React.Component {
                   hidelabel="true"
                   value={phoneNumber}
                   onChange={this.onPhoneNumbersChange(i)}
+                  disabled={disabled}
                 />
                 {i !== 0 && (
                   <RemovePhoneNumberButton
                     onClick={this.onRemovePhoneNumber(i)}
+                    disabled={disabled}
                   />
                 )}
               </div>
@@ -78,6 +85,7 @@ class PhoneNumberList extends React.Component {
                 type="link"
                 icon={<Icons.Add />}
                 onClick={this.onAddPhoneNumber}
+                disabled={disabled}
               >
                 Add another phone number
               </Button>

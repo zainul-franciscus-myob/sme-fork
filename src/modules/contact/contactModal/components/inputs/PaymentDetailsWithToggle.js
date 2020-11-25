@@ -1,4 +1,4 @@
-import { FieldGroup, Icons } from '@myob/myob-widgets';
+import { Accordion } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -7,33 +7,24 @@ import {
   getPaymentDetails,
   getShowPaymentDetails,
 } from '../../ContactModalSelectors';
-import Button from '../../../../../components/Button/Button';
 import PaymentDetails from '../../../components/PaymentDetails';
 
 const PaymentDetailsWithToggle = ({
   paymentDetails,
   onPaymentDetailsChange,
-  onToggle,
-  isToggled,
   isPayBillRemittanceAdviceEnabled,
 }) => {
-  const toggleButton = (
-    <FieldGroup label="Payment details">
-      <Button type="link" icon={<Icons.Add />} onClick={onToggle}>
-        Add payment details
-      </Button>
-    </FieldGroup>
-  );
-
   const view = (
-    <PaymentDetails
-      {...paymentDetails}
-      onPaymentDetailsChange={onPaymentDetailsChange}
-      isPayBillRemittanceAdviceEnabled={isPayBillRemittanceAdviceEnabled}
-    />
+    <Accordion label={'Payment Details'}>
+      <PaymentDetails
+        {...paymentDetails}
+        onPaymentDetailsChange={onPaymentDetailsChange}
+        isPayBillRemittanceAdviceEnabled={isPayBillRemittanceAdviceEnabled}
+      />
+    </Accordion>
   );
 
-  return isToggled ? view : toggleButton;
+  return view;
 };
 
 const mapStateToProps = (state) => ({

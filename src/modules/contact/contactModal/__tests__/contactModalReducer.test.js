@@ -1,4 +1,8 @@
-import { SET_CONTACT_MODAL_PAYMENT_DETAILS } from '../../ContactIntents';
+import {
+  COPY_CONTACT_MODAL_BILLING_ADDRESS,
+  SET_CONTACT_MODAL_BILLING_ADDRESS,
+  SET_CONTACT_MODAL_PAYMENT_DETAILS,
+} from '../../ContactIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import reducer, { getDefaultState } from '../contactModalReducer';
 
@@ -199,6 +203,72 @@ describe('contactModalReducer', () => {
       expect(actual.contact.paymentDetails.email).toEqual({
         emailInput,
       });
+    });
+  });
+
+  describe('setCopyBillingAddress', () => {
+    it('copies BillingAddress details into ShippingAddress', () => {
+      const state = {
+        ...getDefaultState(),
+        contact: {
+          billingAddress: {
+            street: 'Cremorne',
+            city: 'Richmond',
+            state: 'Vic',
+            postcode: '3000',
+            country: 'AU',
+            phoneNumbers: ['1234', '5678'],
+            fax: '123456789',
+            email: 'myob@myob.com',
+            website: 'www.myob.com',
+          },
+        },
+      };
+
+      const action = {
+        intent: COPY_CONTACT_MODAL_BILLING_ADDRESS,
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.contact.shippingAddress).toEqual(
+        state.contact.billingAddress
+      );
+    });
+  });
+
+  describe('setContactModalBillingAddress', () => {
+    it('copies changed value into shipping address when isBillingAddressCopied is checked', () => {
+      const state = {
+        ...getDefaultState(),
+        contact: {
+          billingAddress: {
+            street: 'Cremorne',
+            city: 'Richmond',
+            state: 'Vic',
+            postcode: '3000',
+            country: 'AU',
+            phoneNumbers: ['1234', '5678'],
+            fax: '123456789',
+            email: 'myob@myob.com',
+            website: 'www.myob.com',
+          },
+          isBillingAddressCopied: true,
+        },
+      };
+
+      const action = {
+        intent: SET_CONTACT_MODAL_BILLING_ADDRESS,
+        key: 'postcode',
+        value: '2000',
+      };
+
+      const actual = reducer(state, action);
+
+      expect(actual.contact.shippingAddress.postcode).toEqual('2000');
+      expect(actual.contact.shippingAddress.postcode).toEqual(
+        actual.contact.billingAddress.postcode
+      );
     });
   });
 });

@@ -70,6 +70,13 @@ export default class ContactModalModule {
     this.loadContactModal();
   };
 
+  toggleShippingAddress = ({ value }) => {
+    if (value) {
+      this.dispatcher.copyAddress();
+    }
+    this.dispatcher.toggleShippingAddressEditing(value);
+  };
+
   render() {
     return (
       <Provider store={this.store}>
@@ -93,6 +100,7 @@ export default class ContactModalModule {
           onPaymentDetailsChange={this.dispatcher.setContactModalPaymentDetails}
           onSaveButtonClick={this.save}
           onCancelButtonClick={this.dispatcher.resetState}
+          onCopyToggle={this.toggleShippingAddress}
         />
       </Provider>
     );

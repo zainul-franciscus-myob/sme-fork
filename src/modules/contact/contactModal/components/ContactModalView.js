@@ -36,6 +36,7 @@ const ContactModalView = ({
   onPaymentDetailsChange,
   onCancelButtonClick,
   onSaveButtonClick,
+  onCopyToggle,
 }) => {
   const alertComponent = alert && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -52,12 +53,15 @@ const ContactModalView = ({
     <>
       <ContactModalDetails onChange={onDetailChange} />
       <BillingAddress
+        title={'Billing Address'}
         onToggle={onBillingAddressButtonClick}
         onChange={onBillingAddressChange}
       />
       <ShippingAddress
+        title={'Shipping Address'}
         onToggle={onShippingAddressButtonClick}
         onChange={onShippingAddressChange}
+        onCopyToggle={onCopyToggle}
       />
       {shouldShowPaymentDetails && (
         <PaymentDetailsWithToggle

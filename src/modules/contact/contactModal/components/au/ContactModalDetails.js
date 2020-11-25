@@ -1,4 +1,4 @@
-import { FieldGroup } from '@myob/myob-widgets';
+import { Accordion } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,15 +21,17 @@ const ContactModalDetails = ({
   showContactType,
   onChange,
 }) => (
-  <FieldGroup label="Details">
+  <>
     {showContactType && <ContactType onChange={onChange} />}
     <Designation onChange={onChange} />
     {isCompany && <CompanyName onChange={onChange} />}
     {!isCompany && <IndividualName onChange={onChange} />}
     {isSupplier && <IsReportable onChange={onChange} />}
-    <Abn onChange={onChange} />
-    <ReferenceId onChange={onChange} />
-  </FieldGroup>
+    <Accordion label={'ABN & Contact Id'}>
+      <Abn onChange={onChange} />
+      <ReferenceId onChange={onChange} />
+    </Accordion>
+  </>
 );
 
 const mapStateToProps = (state) => ({
