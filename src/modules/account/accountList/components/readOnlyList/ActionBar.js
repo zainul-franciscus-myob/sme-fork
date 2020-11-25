@@ -100,7 +100,7 @@ const ActionBar = ({
             </Button>
           }
         >
-          You can select a maximum of 125 accounts
+          You can’t select more than 125 accounts at a time.
         </Tooltip>
       ) : (
         <Popover
