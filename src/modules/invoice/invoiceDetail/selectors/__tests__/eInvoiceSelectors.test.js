@@ -1,6 +1,7 @@
 import {
   getEInvoiceAppName,
   getEnableEInvoiceButton,
+  getSendEInvoiceUrlParams,
   getShowEInvoiceButton,
 } from '../eInvoiceSelectors';
 
@@ -85,5 +86,21 @@ describe('eInvoiceSelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
+  });
+
+  describe('getSendEInvoiceUrlParams', () => {
+    it('should return url params for send e-invoice', () => {
+      const state = {
+        businessId: 'abc',
+        invoiceId: '1',
+      };
+
+      const actual = getSendEInvoiceUrlParams(state);
+
+      expect(actual).toEqual({
+        businessId: 'abc',
+        invoiceId: '1',
+      });
+    });
   });
 });

@@ -14,6 +14,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SEND_EINVOICE,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
@@ -51,6 +52,7 @@ import {
   getSendEmailPayload,
   getSendEmailUrlParams,
 } from './selectors/emailSelectors';
+import { getSendEInvoiceUrlParams } from './selectors/eInvoiceSelectors';
 
 const createInvoiceDetailIntegrator = (store, integration) => ({
   loadInvoice: ({ onSuccess, onFailure }) => {
@@ -214,6 +216,21 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       intent,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  sendEInvoice: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = SEND_EINVOICE;
+    const urlParams = getSendEInvoiceUrlParams(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content: {},
       onSuccess,
       onFailure,
     });

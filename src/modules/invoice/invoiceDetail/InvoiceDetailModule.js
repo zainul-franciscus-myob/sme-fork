@@ -6,6 +6,7 @@ import {
   SUCCESSFULLY_DELETED_INVOICE,
   SUCCESSFULLY_EMAILED_INVOICE,
   SUCCESSFULLY_SAVED_INVOICE,
+  SUCCESSFULLY_SENT_EINVOICE,
 } from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
@@ -330,7 +331,44 @@ export default class InvoiceDetailModule {
     }
   };
 
-  saveAndSendEInvoice = () => {};
+  saveAndSendEInvoice = () => {
+    const state = this.store.getState();
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
+      const onSuccess = () => {
+        this.sendEInvoice();
+      };
+      this.saveAndReload({ onSuccess });
+    } else {
+      this.sendEInvoice();
+    }
+  };
+
+  sendEInvoice = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.globalCallbacks.invoiceSaved();
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_SENT_EINVOICE,
+        content: message,
+      });
+      this.redirectToInvoiceList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.displayFailureAlert(message);
+    };
+
+    this.integrator.sendEInvoice({
+      onSuccess,
+      onFailure,
+    });
+  };
 
   saveAndRedirectToInvoicePayment = () => {
     this.closeModal();

@@ -20,6 +20,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SEND_EINVOICE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -123,6 +124,7 @@ const MemoryInvoiceMapping = {
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [SAVE_EMAIL_SETTINGS]: ({ onSuccess }) =>
     onSuccess(saveEmailSettingsSuccessResponse),
+  [SEND_EINVOICE]: ({ onSuccess }) => onSuccess(successResponse),
   [EXPORT_INVOICE_PDF]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_ACCOUNT_AFTER_CREATE]: ({ onSuccess }) =>

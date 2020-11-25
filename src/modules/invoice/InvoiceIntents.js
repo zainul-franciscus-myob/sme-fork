@@ -132,3 +132,5 @@ export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
 export const LOAD_PREFILL_FROM_RECURRING_INVOICE = Symbol(
   'Load prefill from recurring invoice'
 );
+
+export const SEND_EINVOICE = Symbol('Send e-invoice');

@@ -120,6 +120,9 @@ export const SUCCESSFULLY_EMAILED_INVOICE = Symbol(
 );
 export const DUPLICATE_INVOICE = Symbol('Duplicate invoice');
 
+// e-invoice
+export const SUCCESSFULLY_SENT_EINVOICE = Symbol('Successfully sent e-invoice');
+
 // Invoice payment
 export const SUCCESSFULLY_SAVED_INVOICE_PAYMENT = Symbol(
   'Successfully saved invoice payment'

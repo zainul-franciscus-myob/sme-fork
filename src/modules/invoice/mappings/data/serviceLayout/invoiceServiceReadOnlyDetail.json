@@ -216,6 +216,9 @@
     "lineTypeId": 17
   },
   "serialNumber": "000000000000",
+  "eInvoice": {
+    "appName": ""
+  },
   "exportPdf": {
     "template": "a"
   },

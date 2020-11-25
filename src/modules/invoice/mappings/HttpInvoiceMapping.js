@@ -20,6 +20,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SEND_EINVOICE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
@@ -96,6 +97,11 @@ const HttpInvoiceMapping = {
   [SAVE_EMAIL_SETTINGS]: {
     method: 'PUT',
     getPath: ({ businessId }) => `/${businessId}/invoice/save_email_settings`,
+  },
+  [SEND_EINVOICE]: {
+    method: 'POST',
+    getPath: ({ businessId, invoiceId }) =>
+      `/${businessId}/invoice/send_einvoice/${invoiceId}`,
   },
   [EXPORT_INVOICE_PDF]: {
     method: 'GET',
