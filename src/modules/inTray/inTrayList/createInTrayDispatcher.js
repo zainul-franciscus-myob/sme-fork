@@ -20,6 +20,7 @@ import {
   SET_LOADING_STATE,
   SET_UPLOAD_OPTIONS_ALERT,
   SET_UPLOAD_OPTIONS_LOADING_STATE,
+  SET_UPLOAD_POPOVER_STATE,
   SORT_AND_FILTER_IN_TRAY_LIST,
   UNSET_ACTIVE_ENTRY_ROW,
   UNSET_DOCUMENT_VIEWER_URL,
@@ -185,6 +186,13 @@ const createInTrayDispatcher = (store) => ({
 
   pollIntrayList: (entries) => {
     store.dispatch({ intent: POLL_INTRAY_LIST, entries });
+  },
+
+  setUploadPopoverState: (isUploadPopoverOpen) => {
+    store.dispatch({
+      intent: SET_UPLOAD_POPOVER_STATE,
+      isUploadPopoverOpen,
+    });
   },
 });
 

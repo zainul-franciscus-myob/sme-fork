@@ -8,6 +8,7 @@ const getInTrayRoutes = ({
   popMessages,
   pushMessage,
   globalCallbacks,
+  navigateTo,
 }) => {
   const routes = [
     {
@@ -19,6 +20,7 @@ const getInTrayRoutes = ({
         popMessages,
         pushMessage,
         globalCallbacks,
+        navigateTo,
       }),
       documentTitle: 'In Tray',
     },

@@ -11,6 +11,7 @@ import {
 import {
   getIsDetailShown,
   getIsEntryLoading,
+  getIsTableEmpty,
 } from '../selectors/InTrayListSelectors';
 import InTrayDeleteModal from './InTrayDeleteModal';
 import InTrayFileBrowser from './InTrayFileBrowser';
@@ -24,31 +25,33 @@ import modalTypes from '../modalTypes';
 import styles from './InTrayView.module.css';
 
 const InTrayView = ({
-  loadingState,
   alert,
-  modalType,
   deleteModal,
+  deleteModalListeners,
   isDetailShown,
   isEntryLoading,
+  isTableEmpty,
   inTrayListeners: {
     onDismissAlert,
-    onUploadOptionsButtonClicked,
     onUploadButtonClick,
+    onUploadOptionsButtonClicked,
   },
   inTrayListListeners: {
-    onUpdateFilterOptions,
-    onSort,
-    onDownload,
-    onDelete,
-    onLinkToExistingBill,
-    onCreateBill,
-    onEntryActive,
-    onCloseDetail,
-    onAddAttachments,
     handleActionSelect,
+    onAddAttachments,
+    onCloseDetail,
+    onCreateBill,
+    onDelete,
+    onDownload,
+    onEntryActive,
+    onLinkToExistingBill,
+    onSort,
+    onUpdateFilterOptions,
   },
+  loadingState,
+  modalType,
+  emptyStateListeners,
   uploadOptionsModalListeners,
-  deleteModalListeners,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -91,7 +94,7 @@ const InTrayView = ({
       <MasterDetailTemplate
         alert={alertComponent}
         pageHead={pageHead}
-        filterBar={filterBar}
+        filterBar={isTableEmpty ? null : filterBar}
         detail={
           <InTrayListDetail
             onClose={onCloseDetail}
@@ -104,14 +107,15 @@ const InTrayView = ({
         detailMobileBreakpoint={800}
         master={
           <InTrayListTable
-            onSort={onSort}
-            onDownload={onDownload}
-            onDelete={onDelete}
-            onRowSelect={onEntryActive}
-            onLinkToExistingBill={onLinkToExistingBill}
-            onCreateBill={onCreateBill}
-            onAddAttachments={onAddAttachments}
+            emptyStateListeners={emptyStateListeners}
             handleActionSelect={handleActionSelect}
+            onAddAttachments={onAddAttachments}
+            onCreateBill={onCreateBill}
+            onDelete={onDelete}
+            onDownload={onDownload}
+            onLinkToExistingBill={onLinkToExistingBill}
+            onRowSelect={onEntryActive}
+            onSort={onSort}
           />
         }
       />
@@ -128,6 +132,7 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   deleteModal: getDeleteModal(state),
   isDetailShown: getIsDetailShown(state),
+  isTableEmpty: getIsTableEmpty(state),
 });
 
 export default connect(mapStateToProps)(InTrayView);

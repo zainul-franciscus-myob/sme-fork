@@ -52,6 +52,7 @@ export default class InTrayModule {
     popMessages,
     pushMessage,
     globalCallbacks,
+    navigateTo,
   }) {
     this.integration = integration;
     this.store = new Store(inTrayReducer);
@@ -64,6 +65,7 @@ export default class InTrayModule {
     this.globalCallbacks = globalCallbacks;
     this.dispatcher = createInTrayDispatcher(this.store);
     this.integrator = createInTrayIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   loadInTray = () => {
@@ -303,6 +305,7 @@ export default class InTrayModule {
 
   openMoreUploadOptionsDialog = () => {
     this.dispatcher.openModal(modalTypes.uploadOptions);
+    this.dispatcher.setUploadPopoverState(false);
   };
 
   showEmailGenerationConfirmation = () =>
@@ -374,21 +377,33 @@ export default class InTrayModule {
     debounce(this.sortAndFilterInTrayList)();
   };
 
+  sharedUploadListeners = () => ({
+    onConfirmEmailGenerationButtonClick: this.showEmailGenerationConfirmation,
+    onCopyEmailButtonClicked: this.copyEmail,
+    onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
+    onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
+    onGenerateNewEmailButtonClick: this.generateNewEmail,
+  });
+
+  setUploadPopoverState = () => this.dispatcher.setUploadPopoverState(true);
+
+  openInNewTab = (url) => () => this.navigateTo(url, true);
+
   render = () => {
     const inTrayView = (
       <InTrayView
         inTrayListeners={{
           onDismissAlert: this.dispatcher.dismissAlert,
-          onUploadOptionsButtonClicked: this.openMoreUploadOptionsDialog,
           onUploadButtonClick: this.uploadInTrayFiles,
+          onUploadOptionsButtonClicked: this.openMoreUploadOptionsDialog,
         }}
         inTrayListListeners={{
-          onUpdateFilterOptions: this.updateFilterOptions,
-          onSort: this.sortInTrayList,
           handleActionSelect: this.handleActionSelect,
-          onEntryActive: this.activateEntryRow,
-          onCloseDetail: this.deactivateEntryRow,
           onAddAttachments: this.uploadInTrayFiles,
+          onCloseDetail: this.deactivateEntryRow,
+          onEntryActive: this.activateEntryRow,
+          onSort: this.sortInTrayList,
+          onUpdateFilterOptions: this.updateFilterOptions,
         }}
         deleteModalListeners={{
           onConfirmClose: this.dispatcher.closeInTrayDeleteModal,
@@ -396,19 +411,28 @@ export default class InTrayModule {
         }}
         uploadOptionsModalListeners={{
           onCancel: this.onCloseUploadOptionsModal,
-          onConfirmEmailGenerationButtonClick: this
-            .showEmailGenerationConfirmation,
-          onGenerateNewEmailButtonClick: this.generateNewEmail,
-          onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
-          onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
-          onCopyEmailButtonClicked: this.copyEmail,
+          ...this.sharedUploadListeners(),
+        }}
+        emptyStateListeners={{
+          onAddAttachments: this.uploadInTrayFiles,
+          navigateToAppStore: this.openInNewTab(
+            `https://apps.apple.com/${getRegion(
+              this.store.getState()
+            )}/app/myob-capture/id1442167388`
+          ),
+          navigateToGooglePlay: this.openInNewTab(
+            'https://play.google.com/store/apps/details?id=com.myob.snap'
+          ),
+          navigateToSuppliersWiki: this.openInNewTab(
+            'https://help.myob.com/wiki/display/myob/Automating+supplier+invoices'
+          ),
+          setUploadPopoverState: () => this.setUploadPopoverState(),
+          ...this.sharedUploadListeners(),
         }}
       />
     );
 
-    const wrappedView = <Provider store={this.store}>{inTrayView}</Provider>;
-
-    this.setRootView(wrappedView);
+    this.setRootView(<Provider store={this.store}>{inTrayView}</Provider>);
   };
 
   resetState = () => {

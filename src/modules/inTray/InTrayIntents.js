@@ -60,3 +60,5 @@ export const SET_DOCUMENT_VIEWER_URL = Symbol('Set document viewer url');
 export const UNSET_DOCUMENT_VIEWER_URL = Symbol('Unset document viewer url');
 
 export const POLL_INTRAY_LIST = Symbol('Poll for OCR status');
+
+export const SET_UPLOAD_POPOVER_STATE = Symbol('Set the upload popover state');

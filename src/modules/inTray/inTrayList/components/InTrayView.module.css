@@ -1,20 +1,29 @@
+.popover { display: inline-block; }
+
+.popoverBody { max-width: 40rem; }
+
+.popoverImage { margin-right: var(--flx-spacing-x-small); }
+
+.popoverImage[alt*="App Store"],
+.popoverImage[alt*="Google Play"] { cursor: pointer; }
+
+.popoverButton { margin-top: var(--flx-spacing-small); }
+
 .fileBrowser :global(.file-browser-label-wrapper) {
-  margin-bottom: 0;
   display: block;
-}
-.fileBrowser :global(.btn) {
-  display: flex;
+  margin-bottom: 0;
 }
 
+.fileBrowser :global(.btn) { display: flex; }
+
 .submitting :global(.filter-bar__item button) {
-  cursor: progress;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
   box-shadow: none;
+  cursor: progress;
+  filter: alpha(opacity=65);
+  opacity: 0.65;
 }
 
 .submitting :global(.table-data__header button) {
-  color: #969ea7;
+  color: var(--flx-palette-storm-50);
   cursor: progress;
 }

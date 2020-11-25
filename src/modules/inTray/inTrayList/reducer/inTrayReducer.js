@@ -20,6 +20,7 @@ import {
   SET_LOADING_STATE,
   SET_UPLOAD_OPTIONS_ALERT,
   SET_UPLOAD_OPTIONS_LOADING_STATE,
+  SET_UPLOAD_POPOVER_STATE,
   SORT_AND_FILTER_IN_TRAY_LIST,
   UNSET_ACTIVE_ENTRY_ROW,
   UNSET_DOCUMENT_VIEWER_URL,
@@ -71,6 +72,7 @@ const getDefaultState = () => ({
   },
   deleteModal: undefined,
   documentViewerUrl: undefined,
+  isUploadPopoverOpen: false,
 });
 
 const loadInTray = (state, action) => ({
@@ -127,6 +129,11 @@ const unsetDocumentViewerUrl = (state) => ({
   documentViewerUrl: undefined,
 });
 
+const setUploadPopoverState = (state, { isUploadPopoverOpen }) => ({
+  ...state,
+  isUploadPopoverOpen,
+});
+
 const handlers = {
   [LOAD_IN_TRAY]: loadInTray,
   [RESET_STATE]: resetState,
@@ -159,6 +166,8 @@ const handlers = {
   [UNSET_DOCUMENT_VIEWER_URL]: unsetDocumentViewerUrl,
 
   [POLL_INTRAY_LIST]: pollInTrayList,
+
+  [SET_UPLOAD_POPOVER_STATE]: setUploadPopoverState,
 };
 
 const inTrayReducer = createReducer(getDefaultState(), handlers);
