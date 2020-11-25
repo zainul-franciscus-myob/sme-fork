@@ -27,20 +27,17 @@
   padding-top: var(--flx-spacing-tiny);
 }
 
-.deleteAccountsText {
+.actionBarText {
+  margin-top: 5px;
   margin-left: 10px;
 }
 
-.deleteBar {
+.actionBar {
   border-bottom: var(--flx-border-thin);
   padding-bottom: var(--flx-spacing-tiny);
 }
 
 .moveButton {
-  margin-right: 8px;
-}
-
-.deleteBar button {
   margin-right: 8px;
 }
 
@@ -73,6 +70,10 @@
   padding-top: 12px;
 }
 
+.disabledTaxCodeBtn {
+  opacity: 0.5;
+}
+
 @media (max-width: 767px) {
   .textAlign {
     text-align: left;
@@ -97,7 +98,7 @@
     font-weight: unset;
   }
 
-  .deleteBar {
+  .actionBar {
     border-bottom: 0;
     padding-bottom: 0;
   }

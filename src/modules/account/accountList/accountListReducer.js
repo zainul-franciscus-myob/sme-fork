@@ -17,6 +17,7 @@ import {
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
   SET_REMAINING_HISTORICAL_BALANCE,
+  SET_SELECTED_TAX_CODE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -52,6 +53,7 @@ const getDefaultState = () => ({
   accountClassifications: {},
   taxCodeList: [],
   hoveredRowIndex: null,
+  selectedTaxCodeId: null,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -201,6 +203,11 @@ const setHoveredRow = (state, { index }) => {
   };
 };
 
+const setSelectedTaxCode = (state, { taxCode }) => ({
+  ...state,
+  selectedTaxCodeId: taxCode ? taxCode.id : null,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -228,6 +235,8 @@ const handlers = {
   [SET_REMAINING_HISTORICAL_BALANCE]: setRemainingHistoricalBalance,
 
   [SET_HOVERED_ROW]: setHoveredRow,
+
+  [SET_SELECTED_TAX_CODE]: setSelectedTaxCode,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);

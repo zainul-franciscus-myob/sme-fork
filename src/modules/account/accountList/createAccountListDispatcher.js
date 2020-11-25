@@ -19,6 +19,7 @@ import {
   SET_MODAL_TYPE,
   SET_REDIRECT_URL,
   SET_REMAINING_HISTORICAL_BALANCE,
+  SET_SELECTED_TAX_CODE,
   SORT_AND_FILTER_ACCOUNT_LIST,
 } from '../AccountIntents';
 
@@ -141,6 +142,11 @@ const createAccountListDispatcher = (store) => ({
   setHoveredRow: (index) => {
     const intent = SET_HOVERED_ROW;
     store.dispatch({ intent, index });
+  },
+
+  setSelectedTaxCode: (taxCode) => {
+    const intent = SET_SELECTED_TAX_CODE;
+    store.dispatch({ intent, taxCode });
   },
 });
 

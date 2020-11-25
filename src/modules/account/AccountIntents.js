@@ -60,3 +60,7 @@ export const SET_REMAINING_HISTORICAL_BALANCE = Symbol(
 export const SET_HOVERED_ROW = Symbol('Set hovered row');
 export const MOVE_ACCOUNT_UP = Symbol('Move an account up a level');
 export const MOVE_ACCOUNT_DOWN = Symbol('Move an account down a level');
+
+export const SET_SELECTED_TAX_CODE = Symbol(
+  'Set selected tax code for bulk update'
+);

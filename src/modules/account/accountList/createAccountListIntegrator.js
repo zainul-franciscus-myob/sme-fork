@@ -8,7 +8,6 @@ import {
 } from '../AccountIntents';
 import {
   getAccountsForBulkDelete,
-  getAccountsForBulkUpdate,
   getBusinessId,
   getFilterOptions,
   getSelectedSingleAccount,
@@ -83,9 +82,9 @@ const createAccountListIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  updateAccounts: (onSuccess, onFailure) => {
+  updateAccounts: (accounts, onSuccess, onFailure) => {
     const state = store.getState();
-    const content = getAccountsForBulkUpdate(state);
+    const content = accounts;
     const urlParams = {
       businessId: getBusinessId(state),
     };

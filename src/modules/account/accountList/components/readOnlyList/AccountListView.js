@@ -4,18 +4,12 @@ import {
   PageHead,
   Separator,
   StandardTemplate,
-  Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getAccountAllowedToMoveDown,
-  getAccountAllowedToMoveUp,
   getAlert,
-  getCannotMoveAccountDownMessage,
-  getCannotMoveAccountUpMessage,
-  getHasFlexibleAccountNumbers,
   getLoadingState,
   getModalType,
   getRawEntries,
@@ -29,11 +23,11 @@ import AccountListModalType from '../AccountListModalType';
 import AccountListTable from '../AccountListTable';
 import AccountListTableBody from './AccountListTableBody';
 import AccountListTableHeader from './AccountListTableHeader';
+import ActionBar from './ActionBar';
 import Button from '../../../../../components/Button/Button';
 import DeleteModal from '../../../../../components/modal/DeleteModal';
 import PageView from '../../../../../components/PageView/PageView';
 import Tabs from '../../../../../components/Tabs/Tabs';
-import styles from '../AccountListTable.module.css';
 import uuid from '../../../../../common/uuid/uuid';
 
 const AccountListView = ({
@@ -60,10 +54,14 @@ const AccountListView = ({
   onEditAccountsClick,
   showInactive,
   taxCodeHeader,
+  taxCodeList,
   onDeleteClick,
   onBulkUpdateModalCancelClick,
   modalType,
   hasFlexibleAccountNumbers,
+  onBulkUpdateTaxCodeChange,
+  onBulkUpdateTaxCodeSaveClick,
+  onBulkUpdateTaxCodeOpen,
 }) => {
   const alertComponents =
     alert &&
@@ -116,56 +114,23 @@ const AccountListView = ({
     <Tabs items={tabItems} selected={selectedTab} onSelected={onTabSelect} />
   );
 
-  const moveUpButton = accountAllowedToMoveUp ? (
-    <Button type="secondary" onClick={onAccountMoveUpClick}>
-      Move up a level
-    </Button>
-  ) : (
-    <Tooltip
-      className={styles.moveButton}
-      triggerContent={
-        <Button type="secondary" as="a" disabled>
-          Move up a level
-        </Button>
-      }
-    >
-      {cannotMoveAccountUpMessage}
-    </Tooltip>
-  );
-
-  const moveDownButton = accountAllowedToMoveDown ? (
-    <Button type="secondary" onClick={onAccountMoveDownClick}>
-      Move down a level
-    </Button>
-  ) : (
-    <Tooltip
-      className={styles.moveButton}
-      triggerContent={
-        <Button type="secondary" as="a" disabled>
-          Move down a level
-        </Button>
-      }
-    >
-      {cannotMoveAccountDownMessage}
-    </Tooltip>
-  );
-
   const numSelected = entries.filter((entry) => entry.selected).length;
   const deleteBar = numSelected > 0 && (
-    <div className={styles.deleteBar}>
-      <Button type="secondary" onClick={onDeleteClick}>
-        Delete accounts
-      </Button>
-      {!hasFlexibleAccountNumbers && (
-        <>
-          {moveUpButton}
-          {moveDownButton}
-        </>
-      )}
-      <span className={styles.deleteAccountsText}>
-        {numSelected} Items selected
-      </span>
-    </div>
+    <ActionBar
+      accountAllowedToMoveUp={accountAllowedToMoveUp}
+      onAccountMoveUpClick={onAccountMoveUpClick}
+      cannotMoveAccountUpMessage={cannotMoveAccountUpMessage}
+      accountAllowedToMoveDown={accountAllowedToMoveDown}
+      onAccountMoveDownClick={onAccountMoveDownClick}
+      cannotMoveAccountDownMessage={cannotMoveAccountDownMessage}
+      hasFlexibleAccountNumbers={hasFlexibleAccountNumbers}
+      numSelected={numSelected}
+      taxCodeList={taxCodeList}
+      onDeleteClick={onDeleteClick}
+      onBulkUpdateTaxCodeChange={onBulkUpdateTaxCodeChange}
+      onBulkUpdateTaxCodeSaveClick={onBulkUpdateTaxCodeSaveClick}
+      onBulkUpdateTaxCodeOpen={onBulkUpdateTaxCodeOpen}
+    />
   );
 
   const tableConfig = {
@@ -233,11 +198,6 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
-  cannotMoveAccountUpMessage: getCannotMoveAccountUpMessage(state),
-  cannotMoveAccountDownMessage: getCannotMoveAccountDownMessage(state),
-  accountAllowedToMoveUp: getAccountAllowedToMoveUp(state),
-  accountAllowedToMoveDown: getAccountAllowedToMoveDown(state),
-  hasFlexibleAccountNumbers: getHasFlexibleAccountNumbers(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);

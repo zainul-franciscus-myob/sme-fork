@@ -76,8 +76,8 @@ export const getModalType = (state) => state.modalType;
 
 export const getHoveredRowIndex = (state) => state.hoveredRowIndex;
 
-export const getAccountsForBulkUpdate = (state) => ({
-  accounts: state.entries
+export const getAccountsForBulkUpdate = (state) =>
+  state.entries
     .filter((entry) => entry.dirty)
     .map(
       ({
@@ -95,8 +95,28 @@ export const getAccountsForBulkUpdate = (state) => ({
         taxCodeId,
         openingBalance,
       })
-    ),
-});
+    );
+
+export const getAccountsForBulkUpdateTaxCodes = (state) =>
+  state.entries
+    .filter((entry) => entry.selected)
+    .map(
+      ({
+        id,
+        accountName,
+        accountNumber,
+        subAccountType,
+        taxCodeId,
+        openingBalance,
+      }) => ({
+        id,
+        accountName,
+        accountNumber,
+        subAccountType,
+        taxCodeId,
+        openingBalance,
+      })
+    );
 
 export const getTableEntries = createSelector(
   getRawEntries,
@@ -216,3 +236,5 @@ export const getCannotMoveAccountDownMessage = createSelector(
     return 'You cannot move the selected account down one level.';
   }
 );
+
+export const getSelectedTaxCodeId = (state) => state.selectedTaxCodeId;

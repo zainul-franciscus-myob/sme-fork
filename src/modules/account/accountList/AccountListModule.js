@@ -11,6 +11,8 @@ import {
   SUCCESSFULLY_SAVED_ACCOUNT,
 } from '../../../common/types/MessageTypes';
 import {
+  getAccountsForBulkUpdate,
+  getAccountsForBulkUpdateTaxCodes,
   getAccountsForCalcHistoricalBalance,
   getDirtyEntries,
   getFilterOptions,
@@ -18,6 +20,7 @@ import {
   getLinkedAccountUrl,
   getNewAccountUrl,
   getRawEntries,
+  getSelectedTaxCodeId,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
 import AccountListModalType from './components/AccountListModalType';
@@ -59,16 +62,14 @@ export default class AccountListModule {
     this.integrator.loadAccountList({ onSuccess, onFailure });
   };
 
-  filterAccountList = (onBulkActionCompleted) => {
+  filterAccountList = (onActionCompleted) => {
     this.dispatcher.setAccountListTableLoadingState(true);
 
     const onSuccess = (response) => {
       this.dispatcher.setAccountListTableLoadingState(false);
       this.dispatcher.filterAccountList(response);
 
-      if (onBulkActionCompleted) {
-        onBulkActionCompleted();
-      }
+      if (onActionCompleted) onActionCompleted();
     };
 
     const onFailure = (error) => {
@@ -200,7 +201,7 @@ export default class AccountListModule {
     }
   };
 
-  clickBulkUpdateSave = () => {
+  saveBulkUpdate = (updatedAccounts) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.dispatcher.setModalType('');
     this.dispatcher.setEditMode(false);
@@ -232,7 +233,17 @@ export default class AccountListModule {
       };
       this.filterAccountList(onBulkUpdateCompleted);
     };
-    this.integrator.updateAccounts(onSuccess, onFailure);
+
+    this.integrator.updateAccounts(
+      { accounts: updatedAccounts },
+      onSuccess,
+      onFailure
+    );
+  };
+
+  clickBulkUpdateSave = () => {
+    const updateAccounts = getAccountsForBulkUpdate(this.store.getState());
+    this.saveBulkUpdate(updateAccounts);
   };
 
   changeAccountDetails = ({ index, key, value }) => {
@@ -369,6 +380,18 @@ export default class AccountListModule {
     this.integrator.moveDown(onSuccess, onFailure);
   };
 
+  clickBulkUpdateTaxCodeSave = () => {
+    const accounts = getAccountsForBulkUpdateTaxCodes(this.store.getState());
+    const selectedTaxCodeId = getSelectedTaxCodeId(this.store.getState());
+
+    const updatedAccounts = accounts.map((account) => ({
+      ...account,
+      taxCodeId: selectedTaxCodeId,
+    }));
+
+    this.saveBulkUpdate(updatedAccounts);
+  };
+
   render = () => {
     const accountView = (
       <AccountListRootView
@@ -398,6 +421,9 @@ export default class AccountListModule {
         }
         onEntryHover={this.dispatcher.setHoveredRow}
         onEntryLeave={() => this.dispatcher.setHoveredRow(null)}
+        onBulkUpdateTaxCodeChange={this.dispatcher.setSelectedTaxCode}
+        onBulkUpdateTaxCodeSaveClick={this.clickBulkUpdateTaxCodeSave}
+        onBulkUpdateTaxCodeOpen={() => this.dispatcher.setSelectedTaxCode(null)}
       />
     );
 

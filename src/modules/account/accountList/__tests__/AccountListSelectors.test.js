@@ -149,14 +149,12 @@ describe('AccountListSelectors', () => {
         ],
       };
       const actual = getAccountsForBulkUpdate(state);
-      const expected = {
-        accounts: [
-          {
-            id: 2,
-            openingBalance: 111,
-          },
-        ],
-      };
+      const expected = [
+        {
+          id: 2,
+          openingBalance: 111,
+        },
+      ];
 
       expect(actual).toEqual(expected);
     });
