@@ -28,8 +28,8 @@ const PreferencesView = ({
           width="lg"
           labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
-              The name that will display when your clients receive a remittance
-              advice. This could be your business name or contact person
+              The name that will display when your clients receive an email from
+              MYOB. This could be your business name or contact person.
             </Tooltip>
           }
         />
@@ -41,8 +41,8 @@ const PreferencesView = ({
           width="lg"
           labelAccessory={
             <Tooltip triggerContent={<Icons.Info />}>
-              The email address used when your clients reply to an emailed
-              remittance advice
+              The email address used when your clients reply to an email sent
+              from MYOB.
             </Tooltip>
           }
         />
