@@ -38,7 +38,13 @@
 }
 
 .moveButton {
-  margin-right: 8px;
+  margin-left: 8px;
+}
+
+.disabledMoveButton {
+  opacity: 0.5;
+  cursor: not-allowed;
+  margin-left: 8px;
 }
 
 .bulkUpdateButtonRow {
@@ -70,8 +76,9 @@
   padding-top: 12px;
 }
 
-.disabledTaxCodeBtn {
+.disabledBtn {
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 767px) {

@@ -35,14 +35,18 @@ const ActionBar = ({
   onBulkUpdateTaxCodeOpen,
 }) => {
   const moveUpButton = accountAllowedToMoveUp ? (
-    <Button type="secondary" onClick={onAccountMoveUpClick}>
+    <Button
+      className={styles.moveButton}
+      type="secondary"
+      onClick={onAccountMoveUpClick}
+    >
       Move up a level
     </Button>
   ) : (
     <Tooltip
-      className={styles.moveButton}
+      trigger="hover"
       triggerContent={
-        <Button type="secondary" as="a" disabled>
+        <Button className={styles.disabledMoveButton} type="secondary">
           Move up a level
         </Button>
       }
@@ -52,14 +56,18 @@ const ActionBar = ({
   );
 
   const moveDownButton = accountAllowedToMoveDown ? (
-    <Button type="secondary" onClick={onAccountMoveDownClick}>
+    <Button
+      className={styles.moveButton}
+      type="secondary"
+      onClick={onAccountMoveDownClick}
+    >
       Move down a level
     </Button>
   ) : (
     <Tooltip
-      className={styles.moveButton}
+      trigger="hover"
       triggerContent={
-        <Button type="secondary" as="a" disabled>
+        <Button className={styles.disabledMoveButton} type="secondary">
           Move down a level
         </Button>
       }
@@ -95,7 +103,7 @@ const ActionBar = ({
         <Tooltip
           trigger="hover"
           triggerContent={
-            <Button className={styles.disabledTaxCodeBtn} type="secondary">
+            <Button className={styles.disabledBtn} type="secondary">
               Edit tax code
             </Button>
           }
@@ -119,13 +127,22 @@ const ActionBar = ({
         <Separator direction="vertical" />
       </div>
 
-      <Button
-        type="secondary"
-        onClick={onDeleteClick}
-        disabled={tooManyAccountsSelected}
-      >
-        Delete accounts
-      </Button>
+      {tooManyAccountsSelected ? (
+        <Tooltip
+          trigger="hover"
+          triggerContent={
+            <Button className={styles.disabledBtn} type="secondary">
+              Delete accounts
+            </Button>
+          }
+        >
+          You can’t select more than 125 accounts at a time.
+        </Tooltip>
+      ) : (
+        <Button type="secondary" onClick={onDeleteClick}>
+          Delete accounts
+        </Button>
+      )}
       {!hasFlexibleAccountNumbers && (
         <>
           {moveUpButton}

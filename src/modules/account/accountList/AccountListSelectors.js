@@ -99,7 +99,7 @@ export const getAccountsForBulkUpdate = (state) =>
 
 export const getAccountsForBulkUpdateTaxCodes = (state) =>
   state.entries
-    .filter((entry) => entry.selected)
+    .filter((entry) => entry.selected && !entry.isHeader)
     .map(
       ({
         id,

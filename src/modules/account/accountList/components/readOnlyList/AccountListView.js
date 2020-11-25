@@ -115,7 +115,7 @@ const AccountListView = ({
   );
 
   const numSelected = entries.filter((entry) => entry.selected).length;
-  const deleteBar = numSelected > 0 && (
+  const actionBar = numSelected > 0 && (
     <ActionBar
       accountAllowedToMoveUp={accountAllowedToMoveUp}
       onAccountMoveUpClick={onAccountMoveUpClick}
@@ -176,7 +176,7 @@ const AccountListView = ({
         filterBar={filterBar}
         subHeadChildren={tabs}
         tableHeader={tableHeader}
-        bulkActions={deleteBar}
+        bulkActions={actionBar}
       >
         {modalType === AccountListModalType.DELETE && modal}
         <AccountListTable
