@@ -5,7 +5,6 @@ import {
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
   LOAD_USER_LIST,
-  SORT_USER_LIST,
   UPDATE_USER,
 } from '../UserIntents';
 
@@ -13,10 +12,6 @@ const HttpUserMapping = {
   [LOAD_USER_LIST]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/user/load_user_list`,
-  },
-  [SORT_USER_LIST]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/user/sort_user_list`,
   },
   [LOAD_NEW_USER_DETAIL]: {
     method: 'GET',
