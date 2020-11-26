@@ -139,6 +139,14 @@ const setOriginalAmountDue = ({
   return calculateAmountDue(totals.totalAmount, amountPaid);
 };
 
+const getLoadInvoiceLine = (line, isTaxInclusive) => {
+  const amount = isTaxInclusive
+    ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
+    : new Decimal(line.taxExclusiveAmount).valueOf();
+
+  return { ...line, amount };
+};
+
 const loadInvoiceDetail = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -154,23 +162,15 @@ const loadInvoiceDetail = (state, action) => {
       ...state.invoice,
       ...action.invoice,
       status: action.invoice.status || defaultState.invoice.status,
-      lines: action.invoice.lines.map((line) => {
-        if (
-          [
-            InvoiceLineType.SERVICE,
-            InvoiceLineType.ITEM,
-            InvoiceLineType.SUB_TOTAL,
-          ].includes(line.type)
-        ) {
-          const amount = action.invoice.isTaxInclusive
-            ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
-            : new Decimal(line.taxExclusiveAmount).valueOf();
-
-          return { ...line, amount };
-        }
-
-        return line;
-      }),
+      lines: action.invoice.lines.map((line) =>
+        [
+          InvoiceLineType.SERVICE,
+          InvoiceLineType.ITEM,
+          InvoiceLineType.SUB_TOTAL,
+        ].includes(line.type)
+          ? getLoadInvoiceLine(line, action.invoice.isTaxInclusive)
+          : line
+      ),
     },
     originalAmountDue: setOriginalAmountDue(action.invoice),
     newLine: {
@@ -499,6 +499,9 @@ const loadPrefillFromRecurringInvoice = (state, { invoice }) => {
     invoice: {
       ...defaultState.invoice,
       ...invoice,
+      lines: invoice.lines.map((line) =>
+        getLoadInvoiceLine(line, invoice.isTaxInclusive)
+      ),
     },
   };
 };

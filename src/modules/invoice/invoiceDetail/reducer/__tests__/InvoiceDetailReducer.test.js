@@ -4,6 +4,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CUSTOMER,
   LOAD_INVOICE_DETAIL,
+  LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   REMOVE_INVOICE_LINE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -597,5 +598,28 @@ describe('InvoiceDetailReducer', () => {
 
       expect(actual.abn).not.toBeUndefined();
     });
+  });
+
+  describe('LOAD_PREFILL_FROM_RECURRING_INVOICE', () => {
+    it.each([
+      [true, '10'],
+      [false, '9.99'],
+    ])(
+      'set invoice and calculates line amounts when tax inclusive is %s',
+      (isTaxInclusive, expected) => {
+        const state = {};
+        const action = {
+          intent: LOAD_PREFILL_FROM_RECURRING_INVOICE,
+          invoice: {
+            isTaxInclusive,
+            lines: [{ taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+          },
+        };
+
+        const actual = invoiceDetailReducer(state, action);
+
+        expect(actual.invoice.lines[0].amount).toEqual(expected);
+      }
+    );
   });
 });
