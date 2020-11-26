@@ -17,7 +17,7 @@ const widthConfig = ({
         columnName: purchaseOrderAmount.columnName,
         styles: { width: '13rem' },
       },
-      { columnName: promisedDate.columnName, styles: { width: '12rem' } },
+      { columnName: promisedDate.columnName, styles: { width: '15rem' } },
     ],
   },
 ];

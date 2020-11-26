@@ -12,9 +12,7 @@
       "dateIssued": "11/02/2020",
       "purchaseOrderAmount": "17.00",
       "balanceDue": 7,
-      "status": "Open",
-      "dateDue": "2020-02-11T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-02-11T00:00:00"
     },
     {
       "id": "item-id",
@@ -24,9 +22,7 @@
       "dateIssued": "31/01/2020",
       "purchaseOrderAmount": "-540.00",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-31T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-31T00:00:00"
     },
     {
       "id": "service-readonly-id",
@@ -36,9 +32,7 @@
       "dateIssued": "31/01/2020",
       "purchaseOrderAmount": "600.00",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-02-29T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-02-29T00:00:00"
     },
     {
       "id": "item-readonly-id",
@@ -48,9 +42,7 @@
       "dateIssued": "31/01/2020",
       "purchaseOrderAmount": "-533.42",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-31T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-31T00:00:00"
     },
     {
       "id": "miscellaneous-readonly-id",
@@ -60,9 +52,7 @@
       "dateIssued": "31/01/2020",
       "purchaseOrderAmount": "-533.42",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-31T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-31T00:00:00"
     },
     {
       "id": "professional-readonly-id",
@@ -72,9 +62,7 @@
       "dateIssued": "31/01/2020",
       "purchaseOrderAmount": "-533.42",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-31T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-31T00:00:00"
     },
     {
       "id": "1259",
@@ -84,9 +72,7 @@
       "dateIssued": "28/01/2020",
       "purchaseOrderAmount": "40,500.00",
       "balanceDue": 40500,
-      "status": "Open",
-      "dateDue": "2020-01-28T00:00:00",
-      "hasAttachment": true
+      "promisedDate": "2020-01-28T00:00:00"
     },
     {
       "id": "695",
@@ -96,9 +82,7 @@
       "dateIssued": "16/01/2020",
       "purchaseOrderAmount": "367.46",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-16T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-16T00:00:00"
     },
     {
       "id": "696",
@@ -108,9 +92,7 @@
       "dateIssued": "16/01/2020",
       "purchaseOrderAmount": "24.69",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-16T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-16T00:00:00"
     },
     {
       "id": "697",
@@ -120,9 +102,7 @@
       "dateIssued": "16/01/2020",
       "purchaseOrderAmount": "107.82",
       "balanceDue": -892.18,
-      "status": "Debit",
-      "dateDue": "2020-01-16T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-16T00:00:00"
     },
     {
       "id": "698",
@@ -132,9 +112,7 @@
       "dateIssued": "16/01/2020",
       "purchaseOrderAmount": "26,283.06",
       "balanceDue": 3145.29,
-      "status": "Open",
-      "dateDue": "2020-01-16T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-16T00:00:00"
     },
     {
       "id": "699",
@@ -144,9 +122,7 @@
       "dateIssued": "16/01/2020",
       "purchaseOrderAmount": "98.02",
       "balanceDue": -121.98,
-      "status": "Debit",
-      "dateDue": "2020-01-16T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-16T00:00:00"
     },
     {
       "id": "662",
@@ -156,9 +132,7 @@
       "dateIssued": "11/01/2020",
       "purchaseOrderAmount": "20,000.00",
       "balanceDue": 10000,
-      "status": "Open",
-      "dateDue": "2020-01-11T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-11T00:00:00"
     },
     {
       "id": "656",
@@ -168,9 +142,7 @@
       "dateIssued": "09/01/2020",
       "purchaseOrderAmount": "0.00",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-09T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-09T00:00:00"
     },
     {
       "id": "641",
@@ -180,9 +152,7 @@
       "dateIssued": "03/01/2020",
       "purchaseOrderAmount": "1,500.00",
       "balanceDue": 2000,
-      "status": "Open",
-      "dateDue": "2020-01-03T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-03T00:00:00"
     },
     {
       "id": "644",
@@ -192,9 +162,7 @@
       "dateIssued": "03/01/2020",
       "purchaseOrderAmount": "-10.00",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-03T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-03T00:00:00"
     },
     {
       "id": "647",
@@ -204,9 +172,7 @@
       "dateIssued": "03/01/2020",
       "purchaseOrderAmount": "-5,000.00",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-03T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-03T00:00:00"
     },
     {
       "id": "596",
@@ -216,9 +182,7 @@
       "dateIssued": "13/12/2019",
       "purchaseOrderAmount": "872.90",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2020-01-01T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2020-01-01T00:00:00"
     },
     {
       "id": "526",
@@ -228,9 +192,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "527",
@@ -240,9 +202,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "528",
@@ -252,9 +212,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "529",
@@ -264,9 +222,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "530",
@@ -276,9 +232,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "531",
@@ -288,9 +242,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": 0,
-      "status": "Closed",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "532",
@@ -300,9 +252,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "533",
@@ -312,9 +262,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "534",
@@ -324,9 +272,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "535",
@@ -336,9 +282,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "536",
@@ -348,9 +292,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "537",
@@ -360,9 +302,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "538",
@@ -372,9 +312,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "539",
@@ -384,9 +322,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "540",
@@ -396,9 +332,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "541",
@@ -408,9 +342,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "542",
@@ -420,9 +352,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "543",
@@ -432,9 +362,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "544",
@@ -444,9 +372,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "545",
@@ -456,9 +382,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "546",
@@ -468,9 +392,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "547",
@@ -480,9 +402,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "548",
@@ -492,9 +412,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "549",
@@ -504,9 +422,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "550",
@@ -516,9 +432,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "551",
@@ -528,9 +442,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "552",
@@ -540,9 +452,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "553",
@@ -552,9 +462,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "554",
@@ -564,9 +472,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "555",
@@ -576,9 +482,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "556",
@@ -588,9 +492,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "557",
@@ -600,9 +502,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "558",
@@ -612,9 +512,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
+      "promisedDate": "2019-12-12T00:00:00"
     },
     {
       "id": "559",
@@ -624,27 +522,7 @@
       "dateIssued": "12/12/2019",
       "purchaseOrderAmount": "-66.58",
       "balanceDue": -66.58,
-      "status": "Debit",
-      "dateDue": "2019-12-12T00:00:00",
-      "hasAttachment": false
-    }
-  ],
-  "statusFilters": [
-    {
-      "name": "All",
-      "value": "All"
-    },
-    {
-      "name": "Open",
-      "value": "Open"
-    },
-    {
-      "name": "Closed",
-      "value": "Closed"
-    },
-    {
-      "name": "Debit",
-      "value": "Debit"
+      "promisedDate": "2019-12-12T00:00:00"
     }
   ],
   "supplierFilters": [
@@ -857,7 +735,5 @@
       "id": "40"
     }
   ],
-  "total": "$79,713.51",
-  "totalDue": "$50,643.33",
-  "totalOverdue": "$50,643.33"
+  "total": "$79,713.51"
 }

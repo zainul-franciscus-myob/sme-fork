@@ -67,7 +67,7 @@ const PurchaseOrderListView = (props) => {
   );
 
   const pageHead = (
-    <PageHead title="Purchase Order">
+    <PageHead title="Purchase Orders">
       <Button onClick={onCreateButtonClick}>Create purchase order</Button>
     </PageHead>
   );

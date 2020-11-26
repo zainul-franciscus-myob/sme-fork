@@ -14,9 +14,7 @@ export default {
       dateIssued: '01/03/2019',
       purchaseOrderAmount: '100.00',
       balanceDue: 56.34,
-      status: 'Open',
-      dateDue: '2019-04-01',
-      hasAttachment: true,
+      promisedDate: '2019-04-01',
     },
     {
       id: '4',
@@ -26,9 +24,7 @@ export default {
       dateIssued: '01/04/2040',
       purchaseOrderAmount: '2,500.00',
       balanceDue: 312,
-      status: 'Open',
-      dateDue: '2040-05-01',
-      hasAttachment: false,
+      promisedDate: '2040-05-01',
     },
   ],
 };
