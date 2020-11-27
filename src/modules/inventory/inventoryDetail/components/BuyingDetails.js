@@ -1,4 +1,5 @@
 import {
+  Alert,
   Checkbox,
   CheckboxGroup,
   FieldGroup,
@@ -36,81 +37,86 @@ const BuyingDetails = ({
   onBuyingDetailsChange,
   onEnableStateChange,
   isItemBuyingPriceTaxInclusiveEnabled,
+  isItemBuyingPriceTaxInclusiveReadOnly,
+  infoAlertText,
 }) => (
-  <FieldGroup label="Buying details">
-    <CheckboxGroup
-      hideLabel
-      label="isBuyItem"
-      renderCheckbox={(props) => (
-        <Checkbox
-          {...props}
-          onChange={handleCheckboxChange(onEnableStateChange)}
-          name="isBuyItem"
-          label="I buy this item"
-          checked={enabled}
+  <>
+    {infoAlertText !== '' && <Alert type="info">{infoAlertText}</Alert>}
+    <FieldGroup label="Buying details">
+      <CheckboxGroup
+        hideLabel
+        label="isBuyItem"
+        renderCheckbox={(props) => (
+          <Checkbox
+            {...props}
+            onChange={handleCheckboxChange(onEnableStateChange)}
+            name="isBuyItem"
+            label="I buy this item"
+            checked={enabled}
+          />
+        )}
+      />
+      <AmountInput
+        label="Buying price ($)"
+        requiredLabel="This is required"
+        name="buyingPrice"
+        value={buyingPrice}
+        onChange={handleAmountInputChange(onBuyingDetailsChange)}
+        onBlur={handleAmountInputChange(onBuyingDetailsChange)}
+        numeralIntegerScale={13}
+        numeralDecimalScaleMin={2}
+        numeralDecimalScaleMax={6}
+        disabled={!enabled}
+        textAlign="right"
+        width="sm"
+      />
+      {isItemBuyingPriceTaxInclusiveEnabled && (
+        <BooleanRadioButtonGroup
+          label="Buying price is"
+          name="buyingPriceTaxInclusive"
+          value={isTaxInclusive}
+          trueLabel={taxInclusiveLabel}
+          falseLabel={taxExclusiveLabel}
+          disabled={!enabled || isItemBuyingPriceTaxInclusiveReadOnly}
+          handler={onBuyingDetailsChange}
         />
       )}
-    />
-    <AmountInput
-      label="Buying price ($)"
-      requiredLabel="This is required"
-      name="buyingPrice"
-      value={buyingPrice}
-      onChange={handleAmountInputChange(onBuyingDetailsChange)}
-      onBlur={handleAmountInputChange(onBuyingDetailsChange)}
-      numeralIntegerScale={13}
-      numeralDecimalScaleMin={2}
-      numeralDecimalScaleMax={6}
-      disabled={!enabled}
-      textAlign="right"
-      width="sm"
-    />
-    {isItemBuyingPriceTaxInclusiveEnabled && (
-      <BooleanRadioButtonGroup
-        label="Buying price is"
-        name="buyingPriceTaxInclusive"
-        value={isTaxInclusive}
-        trueLabel={taxInclusiveLabel}
-        falseLabel={taxExclusiveLabel}
+      <Input
+        name="unitOfMeasure"
+        label="Unit of measure"
         disabled={!enabled}
-        handler={onBuyingDetailsChange}
+        value={unitOfMeasure}
+        labelAccessory={
+          <Tooltip>Eg. boxes, cans, hours, kg (max 5 characters)</Tooltip>
+        }
+        onChange={handleInputChange(onBuyingDetailsChange)}
+        maxLength={5}
+        width="xs"
       />
-    )}
-    <Input
-      name="unitOfMeasure"
-      label="Unit of measure"
-      disabled={!enabled}
-      value={unitOfMeasure}
-      labelAccessory={
-        <Tooltip>Eg. boxes, cans, hours, kg (max 5 characters)</Tooltip>
-      }
-      onChange={handleInputChange(onBuyingDetailsChange)}
-      maxLength={5}
-      width="xs"
-    />
-    <AccountCombobox
-      label="Account for tracking purchases"
-      disabled={!enabled}
-      requiredLabel="This is required"
-      items={buyingAccounts}
-      selectedId={allocateToAccountId}
-      allowClear
-      onChange={handleComboboxChange(
-        'allocateToAccountId',
-        onBuyingDetailsChange
-      )}
-    />
-    <TaxCodeCombobox
-      items={taxCodes}
-      disabled={!enabled}
-      selectedId={taxCodeId}
-      requiredLabel="This is required"
-      label={taxLabel}
-      allowClear
-      onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
-      width="sm"
-    />
-  </FieldGroup>
+      <AccountCombobox
+        label="Account for tracking purchases"
+        disabled={!enabled}
+        requiredLabel="This is required"
+        items={buyingAccounts}
+        selectedId={allocateToAccountId}
+        allowClear
+        onChange={handleComboboxChange(
+          'allocateToAccountId',
+          onBuyingDetailsChange
+        )}
+      />
+      <TaxCodeCombobox
+        items={taxCodes}
+        disabled={!enabled}
+        selectedId={taxCodeId}
+        requiredLabel="This is required"
+        label={taxLabel}
+        allowClear
+        onChange={handleComboboxChange('taxCodeId', onBuyingDetailsChange)}
+        width="sm"
+      />
+    </FieldGroup>
+  </>
 );
 
 const mapStateToProps = (state) => ({

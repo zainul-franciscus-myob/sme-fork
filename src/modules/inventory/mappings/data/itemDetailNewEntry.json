@@ -4,7 +4,9 @@
       "isTaxInclusive": true
     },
     "buyingDetails": {
-      "isTaxInclusive": true
+      "isTaxInclusive": true,
+      "isItemBuyingPriceTaxInclusiveReadOnly": true,
+      "infoAlertText": "The buying price for items created in AccountRight is tax inclusive. Please provide the tax inclusive price."
     }
   },
   "sellingAccounts": [
