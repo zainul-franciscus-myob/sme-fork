@@ -1,5 +1,10 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import { SET_CURRENT_STEP, SET_IRD_NUMBER } from '../OnboardingIntents';
+import {
+  SET_CURRENT_STEP,
+  SET_IRD_NUMBER,
+  SET_LOADING_STATE,
+} from '../OnboardingIntents';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 import OnboardingSteps from '../OnboardingSteps';
 import onboardingReducer from '../OnboardingReducer';
 
@@ -53,12 +58,14 @@ describe('onboardingReducer', () => {
         businessId: 'bizId',
         irdNumber: '123',
         otherData: 'foobar',
+        loadingState: LoadingState.LOADING_FAIL,
       };
 
       const expectedState = {
         currentStep: OnboardingSteps.OVERVIEW,
         businessId: '',
         irdNumber: '',
+        loadingState: LoadingState.LOADING_SUCCESS,
       };
 
       const action = {
@@ -86,6 +93,25 @@ describe('onboardingReducer', () => {
 
       expect(result).toEqual({
         irdNumber: '123123123',
+      });
+    });
+  });
+
+  describe('setLoadingState', () => {
+    it('should set loading state', () => {
+      const state = {
+        loadingState: LoadingState.LOADING,
+      };
+
+      const action = {
+        intent: SET_LOADING_STATE,
+        loadingState: LoadingState.LOADING_SUCCESS,
+      };
+
+      const result = onboardingReducer(state, action);
+
+      expect(result).toEqual({
+        loadingState: LoadingState.LOADING_SUCCESS,
       });
     });
   });

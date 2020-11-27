@@ -1,5 +1,10 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SET_CURRENT_STEP, SET_IRD_NUMBER } from './OnboardingIntents';
+import {
+  SET_CURRENT_STEP,
+  SET_IRD_NUMBER,
+  SET_LOADING_STATE,
+} from './OnboardingIntents';
+import LoadingState from '../../../../components/PageView/LoadingState';
 import Steps from './OnboardingSteps';
 import createReducer from '../../../../store/createReducer';
 
@@ -7,6 +12,7 @@ const getDefaultState = () => ({
   currentStep: Steps.OVERVIEW,
   irdNumber: '',
   businessId: '',
+  loadingState: LoadingState.LOADING_SUCCESS,
 });
 
 const setCurrentStep = (state, { currentStep }) => ({
@@ -24,6 +30,11 @@ const setIrdNumber = (state, { irdNumber }) => ({
   irdNumber,
 });
 
+const setLoadingState = (state, { loadingState }) => ({
+  ...state,
+  loadingState,
+});
+
 const resetState = () => getDefaultState();
 
 const handlers = {
@@ -31,6 +42,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_CURRENT_STEP]: setCurrentStep,
   [SET_IRD_NUMBER]: setIrdNumber,
+  [SET_LOADING_STATE]: setLoadingState,
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

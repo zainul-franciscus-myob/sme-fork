@@ -38,7 +38,7 @@ export const getStepperSteps = (state) => {
   );
 };
 
-const getBusinessId = (state) => state.businessId;
+export const getBusinessId = (state) => state.businessId;
 
 export const getBusinessDetailsUrl = (state) => {
   const businessId = getBusinessId(state);
@@ -49,3 +49,5 @@ export const getActiveStepNumber = (state) =>
   initialStepperSteps.find((step) => step.id === getCurrentStep(state)).number;
 
 export const getIrdNumber = (state) => state.irdNumber;
+
+export const getLoadingState = (state) => state.loadingState;

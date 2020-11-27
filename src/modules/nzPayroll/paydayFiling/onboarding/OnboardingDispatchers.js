@@ -1,5 +1,9 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SET_CURRENT_STEP } from './OnboardingIntents';
+import {
+  SET_CURRENT_STEP,
+  SET_IRD_NUMBER,
+  SET_LOADING_STATE,
+} from './OnboardingIntents';
 
 const onboardingDispatchers = (store) => ({
   setStep: (step) => {
@@ -17,6 +21,16 @@ const onboardingDispatchers = (store) => ({
   resetState: () => {
     const intent = RESET_STATE;
     store.dispatch({ intent });
+  },
+
+  setLoadingState: (loadingState) => {
+    const intent = SET_LOADING_STATE;
+    store.dispatch({ intent, loadingState });
+  },
+
+  setIrdNumber: (irdNumber) => {
+    const intent = SET_IRD_NUMBER;
+    store.dispatch({ intent, irdNumber });
   },
 });
 

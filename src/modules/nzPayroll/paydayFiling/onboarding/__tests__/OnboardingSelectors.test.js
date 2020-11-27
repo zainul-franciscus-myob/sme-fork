@@ -1,10 +1,13 @@
 import {
   getActiveStepNumber,
   getBusinessDetailsUrl,
+  getBusinessId,
   getCurrentStep,
   getIrdNumber,
+  getLoadingState,
   getStepperSteps,
 } from '../OnboardingSelectors';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 import OnboardingSteps from '../OnboardingSteps';
 
 describe('OnboardingSelectors', () => {
@@ -88,6 +91,34 @@ describe('OnboardingSelectors', () => {
       const expected = '/#/nz/123?selectedTab=businessDetails';
 
       const actual = getBusinessDetailsUrl(state);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getBusinessId', () => {
+    it('should return business id', () => {
+      const businessId = '123';
+      const state = {
+        businessId,
+      };
+
+      const expected = businessId;
+
+      const actual = getBusinessId(state);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getLoadingState', () => {
+    it('should return loading state', () => {
+      const loadingState = LoadingState.LOADING;
+      const state = {
+        loadingState,
+      };
+
+      const expected = loadingState;
+
+      const actual = getLoadingState(state);
       expect(actual).toEqual(expected);
     });
   });

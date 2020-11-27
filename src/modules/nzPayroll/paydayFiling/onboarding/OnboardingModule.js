@@ -20,7 +20,10 @@ export default class OnboardingModule {
 
   setupSubModules = () => {
     this.stepModules = {
-      [Steps.OVERVIEW]: new OverviewStepModule({ store: this.store }),
+      [Steps.OVERVIEW]: new OverviewStepModule({
+        store: this.store,
+        integration: this.integration,
+      }),
       [Steps.AUTHORISE_MYOB]: new AuthorisationStepModule({
         store: this.store,
       }),
