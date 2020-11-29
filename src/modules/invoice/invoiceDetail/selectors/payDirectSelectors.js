@@ -16,7 +16,7 @@ const getIsRegistered = (state) => state.payDirect.isRegistered;
 const getRegistrationUrl = (state) => state.payDirect.registrationUrl;
 const getIsSurchargingAvailable = (state) =>
   state.payDirect.isSurchargingAvailable && getIsAllowOnlinePayments(state);
-const getIsSurchargingRegistered = (state) =>
+export const getIsSurchargingRegistered = (state) =>
   state.payDirect.isSurchargingRegistered;
 
 export const getSetUpOnlinePaymentsLink = createSelector(

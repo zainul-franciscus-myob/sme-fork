@@ -4,6 +4,7 @@ import {
   RESET_ACCOUNT_TO_SAVED_VALUE,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_IS_LATE_CHARGE_REQUIRED,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
@@ -30,6 +31,7 @@ const getDefaultState = () => ({
   shouldDisplaySalesTab: false,
   shouldDisplayPurchasesTab: false,
   shouldDisplayPayrollTab: false,
+  isLateChargeRequired: false,
   isCreatedAccountLoading: false,
   linkedAccounts: {
     equityAccountCurrentEarnings: {
@@ -458,6 +460,11 @@ const setCreatedAccountLoadingState = (state, action) => ({
   isCreatedAccountLoading: action.isCreatedAccountLoading,
 });
 
+const setIsLateChargeRequired = (state, action) => ({
+  ...state,
+  isLateChargeRequired: action.isLateChargeRequired,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -475,6 +482,7 @@ const handlers = {
   [UPDATE_ACCOUNT]: updateAccount,
   [UPDATE_HAS_ACCOUNT_OPTION]: updateHasAccountOption,
   [RESET_ACCOUNT_TO_SAVED_VALUE]: resetAccountToSavedValue,
+  [SET_IS_LATE_CHARGE_REQUIRED]: setIsLateChargeRequired,
 };
 
 const linkedAccountsReducer = createReducer(getDefaultState(), handlers);

@@ -1,6 +1,8 @@
 {
   "payDirect": {
     "isRegistered": true,
+    "isSurchargingAvailable": true,
+    "isSurchargingRegistered": true,
     "registrationUrl": "https://www.myob.com/au/comms/invoice-payments/essentials-signup#/creditcard/abn"
   }
 }

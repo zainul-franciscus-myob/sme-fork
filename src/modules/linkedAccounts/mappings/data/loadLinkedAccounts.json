@@ -502,5 +502,6 @@
   "shouldDisplayAccountsBankingTab": true,
   "shouldDisplaySalesTab": false,
   "shouldDisplayPurchasesTab": false,
-  "shouldDisplayPayrollTab": true
+  "shouldDisplayPayrollTab": true,
+  "isLateChargeRequired": false
 }

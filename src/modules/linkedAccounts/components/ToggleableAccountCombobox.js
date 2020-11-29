@@ -12,6 +12,8 @@ const ToggleableAccountCombobox = ({
   toggleHandler,
   toggleLabel,
   toggleName,
+  allowRemoval = true,
+  checkboxLabelAccessory,
   ...otherProps
 }) => (
   <>
@@ -20,8 +22,10 @@ const ToggleableAccountCombobox = ({
       hideLabel
       renderCheckbox={() => (
         <Checkbox
+          disabled={!allowRemoval}
           checked={isChecked}
           label={toggleLabel}
+          labelAccessory={checkboxLabelAccessory}
           name={toggleName}
           onChange={toggleHandler}
         />

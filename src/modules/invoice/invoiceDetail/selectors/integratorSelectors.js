@@ -14,6 +14,7 @@ import {
   getLines,
   getQuoteIdQueryParam,
 } from './invoiceDetailSelectors';
+import { getIsSurchargingRegistered } from './payDirectSelectors';
 
 export const getLoadInvoiceIntent = (state) => {
   const isCreating = getIsCreating(state);
@@ -75,11 +76,13 @@ export const getCreateOrUpdateInvoicePayload = (state) => {
   const invoice = getInvoice(state);
   const lines = getLines(state);
   const quoteId = getQuoteIdQueryParam(state);
-
+  const { canApplySurcharge = false } = invoice;
+  const isSurchargingRegistered = getIsSurchargingRegistered(state);
   return {
     ...invoice,
     lines,
     quoteId,
+    canApplySurcharge: canApplySurcharge && isSurchargingRegistered,
   };
 };
 

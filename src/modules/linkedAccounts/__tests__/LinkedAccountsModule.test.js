@@ -2,6 +2,7 @@ import {
   LOAD_LINKED_ACCOUNTS,
   SAVE_LINKED_ACCOUNTS,
   SET_ALERT,
+  SET_IS_LATE_CHARGE_REQUIRED,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
@@ -79,6 +80,10 @@ describe('LinkedAccountsModule', () => {
         {
           intent: SET_SHOULD_DISPLAY_PAYROLL_TAB,
           shouldDisplayPayrollTab: true,
+        },
+        {
+          intent: SET_IS_LATE_CHARGE_REQUIRED,
+          isLateChargeRequired: false,
         },
         expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
       ]);

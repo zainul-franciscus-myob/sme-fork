@@ -1,8 +1,9 @@
-import { FieldGroup } from '@myob/myob-widgets';
+import { FieldGroup, Icons, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAllowRemoveLateCharge,
   getAssetAccountTrackingReceivables,
   getBankAccountCustomerReceipts,
   getExpenseSalesAccountDiscounts,
@@ -23,6 +24,7 @@ const SalesTabContent = ({
   incomeAccountFreight,
   incomeAccountLateCharges,
   isDisabled,
+  allowRemoveLateCharge,
   liabilityAccountCustomerDeposits,
   onAccountChange,
   onAccountBlur,
@@ -147,9 +149,18 @@ const SalesTabContent = ({
     <FieldGroup label="Income account for late charges" hideLabel>
       <ToggleableAccountCombobox
         disabled={isDisabled}
+        allowRemoval={allowRemoveLateCharge}
         isChecked={incomeAccountLateCharges.hasAccount}
+        checkboxLabelAccessory={
+          !allowRemoveLateCharge && (
+            <Tooltip triggerContent={<Icons.Info />}>
+              You must specify an account for late charges when online payment
+              surcharge is enabled
+            </Tooltip>
+          )
+        }
         toggleName="incomeAccountLateCharges"
-        toggleLabel="I assess charges for late payment"
+        toggleLabel="I assess charges for late payment and surcharges"
         toggleHandler={handleCheckboxChange(onHasAccountOptionChange)}
         comboboxLabel="Income account for late charges"
         comboboxSelectedId={incomeAccountLateCharges.accountId}
@@ -176,6 +187,7 @@ const mapStateToProps = (state) => ({
   incomeAccountFreight: getIncomeAccountFreight(state),
   incomeAccountLateCharges: getIncomeAccountLateCharges(state),
   isDisabled: getIsActionDisabled(state),
+  allowRemoveLateCharge: getAllowRemoveLateCharge(state),
   liabilityAccountCustomerDeposits: getLiabilityAccountCustomerDeposits(state),
 });
 

@@ -10,6 +10,7 @@ export const getShouldDisplayPurchasesTab = (state) =>
   state.shouldDisplayPurchasesTab;
 export const getShouldDisplayPayrollTab = (state) =>
   state.shouldDisplayPayrollTab;
+export const getAllowRemoveLateCharge = (state) => !state.isLateChargeRequired;
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;

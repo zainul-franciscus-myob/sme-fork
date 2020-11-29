@@ -103,6 +103,8 @@ const getDefaultState = () => ({
     isServiceAvailable: false,
     isRegistered: false,
     registrationUrl: '',
+    isSurchargingAvailable: false,
+    isSurchargingRegistered: false,
   },
   abn: undefined,
   isLineAmountDirty: false,

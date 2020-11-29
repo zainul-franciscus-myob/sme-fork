@@ -69,6 +69,7 @@ describe('integratorSelectors', () => {
         quoteId: '4354',
         invoice: {
           id: '123',
+          canApplySurcharge: true,
           layout: 'service',
           customerId: '2',
           address:
@@ -132,11 +133,15 @@ describe('integratorSelectors', () => {
             displayRate: '5%',
           },
         ],
+        payDirect: {
+          isSurchargingRegistered: true,
+        },
       };
 
       const expected = {
         id: '123',
         layout: 'service',
+        canApplySurcharge: true,
         customerId: '2',
         address:
           'Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia',
@@ -172,6 +177,7 @@ describe('integratorSelectors', () => {
     it('should return invoice for item layout', () => {
       const invoice = {
         id: '123',
+        canApplySurcharge: true,
         layout: 'item',
         customerId: '1',
         address:
@@ -202,10 +208,67 @@ describe('integratorSelectors', () => {
           },
         ],
       };
-      const state = { invoice };
+      const state = {
+        invoice,
+        payDirect: {
+          isSurchargingRegistered: true,
+        },
+      };
 
       const expected = {
         ...invoice,
+        canApplySurcharge: true,
+      };
+
+      const actual = getCreateOrUpdateInvoicePayload(state);
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should set canApplySurcharge to false when surcharge is disabled', () => {
+      const invoice = {
+        id: '123',
+        layout: 'item',
+        customerId: '1',
+        address:
+          'Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n',
+        invoiceNumber: 'IN00000123',
+        note: 'Thank you! Footloose',
+        purchaseOrderNumber: 'PO123',
+        issueDate: '2019-02-28T00:00:00',
+        isAllowOnlinePayments: false,
+        isTaxInclusive: true,
+        expirationTerm: 'OnADayOfTheMonth',
+        expirationDays: 10,
+        chargeForLatePayment: 123.12,
+        discountForEarlyPayment: 546.34,
+        numberOfDaysForDiscount: 10,
+        amountPaid: '10.00',
+        canApplySurcharge: true,
+        lines: [
+          {
+            id: '1',
+            units: '2',
+            itemId: '3',
+            description: 'Cooler Large',
+            unitPrice: '520',
+            discount: '10',
+            taxCodeId: '2',
+            amount: '850.9111',
+            accountId: '92',
+          },
+        ],
+      };
+      const state = {
+        invoice,
+        payDirect: {
+          isSurchargingRegistered: false,
+        },
+      };
+
+      const expected = {
+        ...invoice,
+        canApplySurcharge: false,
       };
 
       const actual = getCreateOrUpdateInvoicePayload(state);

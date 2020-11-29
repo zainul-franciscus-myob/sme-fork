@@ -16,6 +16,9 @@ export const SET_SHOULD_DISPLAY_ACCOUNTS_BANKING_TAB = Symbol(
 export const SET_SHOULD_DISPLAY_SALES_TAB = Symbol(
   'Set should display sales tab'
 );
+export const SET_IS_LATE_CHARGE_REQUIRED = Symbol(
+  'Set is late charge required'
+);
 export const SET_SHOULD_DISPLAY_PAYROLL_TAB = Symbol(
   'Set should display payroll tab'
 );

@@ -41,6 +41,7 @@ class LinkedAccountsModule {
       this.dispatcher.setShouldDisplayPayrollTab(
         response.shouldDisplayPayrollTab
       );
+      this.dispatcher.setIsLateChargeRequired(response.isLateChargeRequired);
       this.dispatcher.loadLinkedAccounts(response);
     };
 

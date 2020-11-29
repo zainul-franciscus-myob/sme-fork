@@ -4,6 +4,7 @@ import {
   RESET_ACCOUNT_TO_SAVED_VALUE,
   SET_ALERT,
   SET_CREATED_ACCOUNT_LOADING_STATE,
+  SET_IS_LATE_CHARGE_REQUIRED,
   SET_IS_SUBMITTING,
   SET_LOADING_STATE,
   SET_SELECTED_TAB,
@@ -116,6 +117,13 @@ const createLinkedAccountsDispatcher = ({ store }) => ({
     store.dispatch({
       intent: SET_SHOULD_DISPLAY_SALES_TAB,
       shouldDisplaySalesTab,
+    });
+  },
+
+  setIsLateChargeRequired: (isLateChargeRequired) => {
+    store.dispatch({
+      intent: SET_IS_LATE_CHARGE_REQUIRED,
+      isLateChargeRequired,
     });
   },
 
