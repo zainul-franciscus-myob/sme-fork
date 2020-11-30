@@ -1,5 +1,6 @@
 import { LOAD_SUBSCRIPTION } from '../rootIntents';
 import { recordPageVisit } from '../../telemetry';
+import { startLeanEngage } from '../../leanEngage';
 import RootModule from '../rootModule';
 import TestIntegration from '../../integration/TestIntegration';
 import TestStore from '../../store/TestStore';
@@ -14,6 +15,9 @@ jest.mock('../../Auth', () => ({
 jest.mock('../../telemetry', () => ({
   recordPageVisit: jest.fn(),
 }));
+jest.mock('../../leanEngage', () => ({
+  startLeanEngage: jest.fn(),
+}));
 
 const setup = () => {
   const store = new TestStore(rootReducer);
@@ -26,7 +30,6 @@ const setup = () => {
       constructPath: jest.fn(),
     },
     trackUserEvent: jest.fn(),
-    startLeanEngage: jest.fn(),
     featureToggles: {},
   });
   module.store = store;
@@ -68,7 +71,6 @@ describe('rootModule', () => {
         router: {
           navigateTo: jest.fn(),
         },
-        startLeanEngage: jest.fn(),
       });
       stubFunctionsOn(
         root.settingsService,
@@ -268,32 +270,24 @@ describe('rootModule', () => {
 
     describe('runLeanEngage', () => {
       it('does not run lean engage when business id is not set', async () => {
-        const root = await createAndRunModule(
-          buildRouteProps(),
-          buildModule(),
-          context
-        );
-        expect(root.startLeanEngage).toBeCalledTimes(0);
+        await createAndRunModule(buildRouteProps(), buildModule(), context);
+        expect(startLeanEngage).toBeCalledTimes(0);
       });
 
       it('runs lean engage when business id is the same', async () => {
-        const root = await createAndRunModule(
+        await createAndRunModule(
           buildRouteProps('id'),
           buildModule(),
           context,
           'id'
         );
-        expect(root.startLeanEngage).toBeCalledTimes(1);
+        expect(startLeanEngage).toBeCalledTimes(1);
       });
 
       it('runs lean engage when a different business id is set', async () => {
-        const root = await createAndRunModule(
-          buildRouteProps('id'),
-          buildModule(),
-          context
-        );
+        await createAndRunModule(buildRouteProps('id'), buildModule(), context);
 
-        expect(root.startLeanEngage).toBeCalledTimes(1);
+        expect(startLeanEngage).toBeCalledTimes(1);
       });
     });
 

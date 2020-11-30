@@ -2,6 +2,8 @@ import LeanEngageType from './LeanEngageType';
 import initializeHttpLeanEngage from './initializeHttpLeanEngage';
 import initializeNoOpLeanEngage from './initializeNoOpLeanEngage';
 
+let leanEngage = {};
+
 class BadLeanEngageTypeError extends Error {
   constructor(leanEngageType) {
     super(`"${leanEngageType}" is not a valid leanEngage type`);
@@ -9,7 +11,7 @@ class BadLeanEngageTypeError extends Error {
   }
 }
 
-const getInitializeLeanEngage = (leanEngageType) => {
+const getInitializer = (leanEngageType) => {
   switch (leanEngageType) {
     case LeanEngageType.Http:
       return initializeHttpLeanEngage;
@@ -20,4 +22,9 @@ const getInitializeLeanEngage = (leanEngageType) => {
   }
 };
 
-export default getInitializeLeanEngage;
+export const initializeLeanEngage = (telemetryType, getLeanEngageInfo) => {
+  const initializer = getInitializer(telemetryType);
+  leanEngage = initializer(getLeanEngageInfo);
+};
+
+export const startLeanEngage = () => leanEngage.startLeanEngage();

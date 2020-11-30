@@ -1,4 +1,5 @@
 import { getUser, isLoggedIn } from '../Auth';
+import Config from '../Config';
 import getLeanEnagageFields from './getLeanEngageFields';
 
 /*
@@ -41,7 +42,7 @@ const isUserInfoAvailable = ({ businessDetails, currentUser, subscription }) =>
   Object.keys(currentUser).length > 0 &&
   Object.keys(subscription).length > 0;
 
-const initializeLeanEngage = (appId) => {
+const initializeLeanEngage = (getLeanEngageInfo) => {
   init(
     window,
     document,
@@ -50,20 +51,16 @@ const initializeLeanEngage = (appId) => {
     'leanengage'
   );
 
-  const startLeanEnage = ({ businessDetails, currentUser, subscription }) => {
-    if (
-      isLoggedIn() &&
-      isUserInfoAvailable({ businessDetails, currentUser, subscription })
-    ) {
+  const startLeanEngage = () => {
+    const leanEngageInfo = getLeanEngageInfo();
+    if (isLoggedIn() && isUserInfoAvailable(leanEngageInfo)) {
       start({
-        appId,
-        businessDetails,
-        currentUser,
-        subscription,
+        appId: Config.LEAN_ENGAGE_APP_ID,
+        ...leanEngageInfo,
       });
     }
   };
-  return startLeanEnage;
+  return { startLeanEngage };
 };
 
 export default initializeLeanEngage;

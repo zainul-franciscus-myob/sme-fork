@@ -15,6 +15,7 @@ import {
   getTelemetryInfo,
 } from './rootSelectors';
 import { recordPageVisit } from '../telemetry';
+import { startLeanEngage } from '../leanEngage';
 import BusinessDetailsService from './services/businessDetails';
 import Config from '../Config';
 import CreateRootDispatcher from './createRootDispatcher';
@@ -40,7 +41,7 @@ export default class RootModule {
     this.store = new Store(RootReducer);
   }
 
-  init = ({ integration, router, startLeanEngage, featureToggles }) => {
+  init = ({ integration, router, featureToggles }) => {
     const {
       constructPath,
       replaceURLParamsAndReload,
@@ -67,7 +68,6 @@ export default class RootModule {
     );
     this.licenceService = LicenceService(integration, this.store);
     this.lastBusinessId = null;
-    this.startLeanEngage = startLeanEngage;
     this.splitFeatureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
@@ -125,12 +125,6 @@ export default class RootModule {
 
   isToggleOn = (splitName, splitAttributes) =>
     this.splitFeatureToggles.isToggleOn(splitName, splitAttributes);
-
-  runLeanEngage = () => {
-    const state = this.store.getState();
-
-    this.startLeanEngage(getLeanEngageInfo(state));
-  };
 
   subscribeOrUpgrade = async () => {
     const state = this.store.getState();
@@ -218,6 +212,8 @@ export default class RootModule {
 
   getTelemetryInfo = () => getTelemetryInfo(this.store.getState());
 
+  getLeanEngageInfo = () => getLeanEngageInfo(this.store.getState());
+
   run = async (routeProps, module, context) => {
     const {
       routeParams: { businessId, region },
@@ -248,7 +244,7 @@ export default class RootModule {
         }
       }
 
-      this.runLeanEngage();
+      startLeanEngage();
     }
 
     recordPageVisit({

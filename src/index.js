@@ -4,13 +4,13 @@ import '@myob/myob-styles/dist/design-tokens/css/design-tokens.css';
 import '@myob/myob-styles/dist/styles/myob-clean.css';
 
 import { initializeAuth } from './Auth';
+import { initializeLeanEngage } from './leanEngage';
 import { initializeTelemetry } from './telemetry';
 import Config from './Config';
 import Inbox from './inbox';
 import RootModule from './root/rootModule';
 import Router from './router/Router';
 import getCreateIntegration from './integration/getCreateIntegration';
-import getInitializeLeanEngage from './leanEngage/getInitializeLeanEngage';
 import getRoutes from './getRoutes';
 import loadFeatureToggles from './featureToggles/loadFeatureToggles';
 import stopResizeAnimation from './stopResizeAnimation';
@@ -28,8 +28,7 @@ async function main(integrationType, telemetryType, leanEngageType) {
   });
 
   initializeTelemetry(telemetryType, rootModule.getTelemetryInfo);
-  const initializeLeanEngage = getInitializeLeanEngage(leanEngageType);
-  const startLeanEngage = initializeLeanEngage(Config.LEAN_ENGAGE_APP_ID);
+  initializeLeanEngage(leanEngageType, rootModule.getLeanEngageInfo);
 
   const router = new Router({
     defaultRoute: 'businessList/businessList',
@@ -41,7 +40,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
   rootModule.init({
     integration,
     router,
-    startLeanEngage,
     featureToggles,
   });
 
