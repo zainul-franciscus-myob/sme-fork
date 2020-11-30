@@ -21,4 +21,5 @@ export default {
   isItemBuyingPriceTaxInclusiveEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,
   isNzPaydayFilingEnabled: true,
+  isNzPayrollAccountingEnabled: true,
 };

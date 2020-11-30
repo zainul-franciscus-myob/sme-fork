@@ -259,29 +259,44 @@ describe('NavigationSelectors', () => {
       isLoading: false,
     };
 
-    it('true when region is au', () => {
+    it('returns true when region is au', () => {
       const actual = getShouldDisplayAccountingMenu(state);
       expect(actual).toEqual(true);
     });
 
-    it('true when region is nz', () => {
-      const updatedState = {
-        ...state,
-        routeParams: { region: 'nz' },
-      };
-      const actual = getShouldDisplayAccountingMenu(updatedState);
-      expect(actual).toEqual(true);
-    });
+    describe.each([[true], [false]])(
+      'for nz region when isNzPayrollAccountingEnabled: %s',
+      (isNzPayrollAccountingEnabled) => {
+        it('returns true when user is not a payroll user', () => {
+          const updatedState = {
+            ...state,
+            isNzPayrollAccountingEnabled,
+            routeParams: { region: 'nz' },
+            enabledFeatures: ['generalJournalCreate'],
+            urls: {
+              generalJournalCreate: 'general-journal-create',
+            },
+          };
+          const actual = getShouldDisplayAccountingMenu(updatedState);
+          expect(actual).toEqual(true);
+        });
 
-    it('false when nz payroll user', () => {
-      const updatedState = {
-        ...state,
-        routeParams: { region: 'nz' },
-        enabledFeatures: ['employeeListNz'],
-      };
-      const actual = getShouldDisplayAccountingMenu(updatedState);
-      expect(actual).toEqual(false);
-    });
+        it(`returns ${isNzPayrollAccountingEnabled} when user is a payroll user`, () => {
+          const updatedState = {
+            ...state,
+            isNzPayrollAccountingEnabled,
+            routeParams: { region: 'nz' },
+            enabledFeatures: ['payRunCreateNz', 'generalJournalCreate'],
+            urls: {
+              generalJournalCreate: 'general-journal-create',
+              payRunCreateNz: 'pay-Run-Create-Nz',
+            },
+          };
+          const actual = getShouldDisplayAccountingMenu(updatedState);
+          expect(actual).toEqual(isNzPayrollAccountingEnabled);
+        });
+      }
+    );
   });
 
   describe('getShouldDisplayPayrollMenu', () => {

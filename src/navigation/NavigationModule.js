@@ -5,6 +5,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_LOADING_STATE,
+  SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
@@ -289,6 +290,17 @@ export default class NavigationModule {
     });
   };
 
+  setNzPayrollAccountingFeatureToggle = () => {
+    const isNzPayrollAccountingEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isNzPayrollAccountingEnabled,
+    });
+
+    this.store.dispatch({
+      intent: SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
+      isNzPayrollAccountingEnabled,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -298,7 +310,7 @@ export default class NavigationModule {
     this.setOnPageTransition(onPageTransition);
     this.setRecurringTransactionFeatureToggle();
     this.setPayRunsViewFeatureToggle();
-
+    this.setNzPayrollAccountingFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

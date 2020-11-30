@@ -214,12 +214,21 @@ export const getAccountingUrls = createSelector(
   })
 );
 
+const getIsNzPayrollAccountingEnabled = (state) =>
+  state.isNzPayrollAccountingEnabled;
+
 export const getShouldDisplayAccountingMenu = createSelector(
   getIsLoading,
   getAccountingUrls,
   getShouldDisplayPayrollNzMenu,
-  (isLoading, urls, isNzPayrollUser) =>
-    !isLoading && !isNzPayrollUser && Object.values(urls).some(Boolean)
+  getIsNzPayrollAccountingEnabled,
+  (isLoading, urls, isNzPayrollUser, isNzPayrollAccountingEnabled) => {
+    return (
+      !isLoading &&
+      Object.values(urls).some(Boolean) &&
+      (isNzPayrollUser ? isNzPayrollAccountingEnabled : true)
+    );
+  }
 );
 
 export const getBusinessUrls = createSelector(

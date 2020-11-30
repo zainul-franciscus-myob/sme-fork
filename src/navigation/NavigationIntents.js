@@ -9,3 +9,6 @@ export const SET_RECURRING_TRANSACTION_FEATURE_TOGGLE = Symbol(
 export const SET_PAYRUNS_VIEW_FEATURE_TOGGLE = Symbol(
   'Set payruns view feature toggle'
 );
+export const SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE = Symbol(
+  'Set nzpayroll accounting feature toggle'
+);
