@@ -3,21 +3,16 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getOnlinePaymentOptions } from '../SalesSettingsDetailSelectors';
-import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import LinkButton from '../../../../components/Button/LinkButton';
 import ServiceUnavailableImage from '../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
-import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import onlinePaymentMethodsImage from '../../../../common/images/OnlinePaymentMethods.png';
 import styles from './OnlinePaymentOptions.module.css';
 
 const OnlinePaymentOptions = ({
-  accountId,
-  accountOptions,
   isLoading,
   isRegistered,
   isServiceAvailable,
   isTrial,
-  onUpdateSalesSettingsItem,
   payDirectLink,
   registrationLink,
   onSubscribeNowClick,
@@ -141,30 +136,6 @@ const OnlinePaymentOptions = ({
           </>
         )}
       />
-
-      {isRegistered && (
-        <Field
-          label="Account for receiving online payments"
-          renderField={() => (
-            <div className={styles.account}>
-              <AccountCombobox
-                hideLabel
-                items={accountOptions}
-                label="Account for receiving online payments"
-                onChange={handleComboboxChange(
-                  'accountId',
-                  onUpdateSalesSettingsItem
-                )}
-                selectedId={accountId}
-              />
-              <p>
-                This account must match the bank account you chose when setting
-                up your online payments.
-              </p>
-            </div>
-          )}
-        />
-      )}
     </>
   );
 };

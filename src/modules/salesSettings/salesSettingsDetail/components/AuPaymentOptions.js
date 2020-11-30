@@ -81,10 +81,7 @@ const AuPaymentOptions = ({
 
     <hr />
 
-    <OnlinePaymentOptions
-      onSubscribeNowClick={onSubscribeNowClick}
-      onUpdateSalesSettingsItem={onUpdateSalesSettingsItem}
-    />
+    <OnlinePaymentOptions onSubscribeNowClick={onSubscribeNowClick} />
   </>
 );
 
