@@ -16,6 +16,7 @@ const TaxCodeCombobox = (props) => {
       metaData={metaData}
       disabled={disabled}
       noMatchFoundMessage="No tax code found"
+      allItemColumnName="displayName"
       {...otherProps}
     />
   );
