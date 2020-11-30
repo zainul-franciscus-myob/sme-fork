@@ -72,6 +72,7 @@ import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
 } from './tabs/transferMoney/transferMoneySelectors';
+import { isToggleOn } from '../../splitToggle';
 import { trackUserEvent } from '../../telemetry';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleComboboxModule from '../bankingRules/bankingRuleCombobox/BankingRuleComboboxModule';
@@ -100,7 +101,6 @@ export default class BankingModule {
   constructor({
     integration,
     setRootView,
-    isToggleOn,
     replaceURLParams,
     featureToggles,
     loadHelpContentBasedOnRoute,
@@ -109,7 +109,6 @@ export default class BankingModule {
     this.setRootView = setRootView;
     this.dispatcher = createBankingDispatcher(this.store);
     this.integrator = createBankingIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.loadHelpContentBasedOnRoute = loadHelpContentBasedOnRoute;
@@ -1779,16 +1778,14 @@ export default class BankingModule {
   /* */
 
   run(context) {
-    const hasPagination = this.isToggleOn(
-      FeatureToggle.BankTransactionsPagination
-    );
+    const hasPagination = isToggleOn(FeatureToggle.BankTransactionsPagination);
 
     const isPrefillSplitAllocationEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
-      isEarlyAccess: this.isToggleOn(FeatureToggle.BankLinkPayee),
+      isEarlyAccess: isToggleOn(FeatureToggle.BankLinkPayee),
     });
 
-    const hasAllBankAccounts = this.isToggleOn(
+    const hasAllBankAccounts = isToggleOn(
       FeatureToggle.BankTransactionsAllBankAccounts
     );
 

@@ -7,6 +7,7 @@ import {
   getModalType,
   getNewBankFeedsAccess,
 } from './BankFeedsSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import BankFeedsView from './components/BankFeedsView';
 import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -19,20 +20,13 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 class BankFeedsModule {
-  constructor({
-    integration,
-    setRootView,
-    globalCallbacks,
-    isToggleOn,
-    navigateTo,
-  }) {
+  constructor({ integration, setRootView, globalCallbacks, navigateTo }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.store = new Store(bankFeedsReducer);
     this.integrator = createBankFeedsIntegrator(this.store, this.integration);
     this.dispatcher = createBankFeedsDispatcher(this.store);
     this.globalCallbacks = globalCallbacks;
-    this.isToggleOn = isToggleOn;
     this.navigateTo = navigateTo;
   }
 
@@ -135,8 +129,7 @@ class BankFeedsModule {
       const canUserAccessNewFlow = response;
       dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       dispatcher.setNewBankFeedsAccess(
-        canUserAccessNewFlow &&
-          this.isToggleOn(FeatureToggle.InProductBankFeeds)
+        canUserAccessNewFlow && isToggleOn(FeatureToggle.InProductBankFeeds)
       );
     };
 

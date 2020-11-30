@@ -26,13 +26,11 @@ describe('AccountDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
     const pushMessage = () => {};
-    const isToggleOn = () => true;
 
     const module = new AccountDetailModule({
       integration,
       setRootView,
       pushMessage,
-      isToggleOn,
     });
     module.store = store;
     module.dispatcher = createAccountDetailDispatcher(store);

@@ -36,12 +36,10 @@ describe('BusinessSettingsModule', () => {
     const store = new TestStore(businessSettingsReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
-    const isToggleOn = () => true;
 
     const module = new BusinessSettingsModule({
       integration,
       setRootView,
-      isToggleOn,
       globalCallbacks: { businessDetailsConfirmed: jest.fn() },
     });
     module.store = store;

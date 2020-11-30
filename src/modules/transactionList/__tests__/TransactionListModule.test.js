@@ -28,6 +28,10 @@ import createTransactionListDispatcher from '../createTransactionListDispatcher'
 import createTransactionListIntegrator from '../createTransactionListIntegrator';
 import transactionListReducer from '../transactionListReducer';
 
+jest.mock('../../../splitToggle', () => ({
+  isToggleOn: () => true,
+}));
+
 describe('TransactionListModule', () => {
   const businessId = 'businessId';
   const region = 'au';
@@ -42,14 +46,12 @@ describe('TransactionListModule', () => {
     const replaceURLParams = () => {};
     const store = new TestStore(transactionListReducer);
     const integration = new TestIntegration();
-    const isToggleOn = () => true;
 
     const module = new TransactionListModule({
       integration,
       setRootView,
       popMessages,
       replaceURLParams,
-      isToggleOn,
     });
 
     module.store = store;

@@ -72,6 +72,7 @@ import {
 } from '../BankingIntents';
 import { LOAD_MATCH_TRANSACTIONS } from '../tabs/matchTransaction/MatchTransactionIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { isToggleOn } from '../../../splitToggle';
 import BankTransactionStatusTypes from '../types/BankTransactionStatusTypes';
 import BankingModule from '../BankingModule';
 import FocusLocations from '../types/FocusLocations';
@@ -90,14 +91,19 @@ import createBankingIntegrator from '../BankingIntegrator';
 import receiveMoneyResponse from '../mappings/data/loadReceiveMoney';
 import spendMoneyResponse from '../mappings/data/loadSpendMoney';
 
+jest.mock('../../../splitToggle', () => ({
+  isToggleOn: jest.fn(),
+}));
+
 describe('BankingModule', () => {
-  const setUp = () => {
+  const setUp = (isFastModeLoadBankTransactions = true) => {
     const setRootView = () => {};
     const pushMessage = () => {};
     const popMessages = () => [];
-    const isToggleOn = () => true;
     const loadHelpContentBasedOnRoute = () => {};
     const featureToggles = {};
+
+    isToggleOn.mockReturnValue(isFastModeLoadBankTransactions);
 
     const integration = new TestIntegration();
 
@@ -106,7 +112,6 @@ describe('BankingModule', () => {
       setRootView,
       pushMessage,
       popMessages,
-      isToggleOn,
       featureToggles,
       loadHelpContentBasedOnRoute,
     });

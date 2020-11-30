@@ -19,6 +19,7 @@ import {
   getSupplierComboboxContext,
   getViewedAccountToolTip,
 } from './bankingRuleDetailSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { trackUserEvent } from '../../../telemetry';
 import AlertType from '../../../common/types/AlertType';
 import BankingRuleDetailView from './components/BankingRuleDetailView';
@@ -37,13 +38,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class BankingRuleDetailModule {
-  constructor({
-    integration,
-    setRootView,
-    pushMessage,
-    featureToggles,
-    isToggleOn,
-  }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -58,7 +53,6 @@ export default class BankingRuleDetailModule {
       integration,
       featureToggles,
     });
-    this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
   }
 
@@ -380,7 +374,7 @@ export default class BankingRuleDetailModule {
   run = (context) => {
     const isNoConditionRuleEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
-      isEarlyAccess: this.isToggleOn(FeatureToggles.BankLinkPayee),
+      isEarlyAccess: isToggleOn(FeatureToggles.BankLinkPayee),
     });
 
     this.dispatcher.setInitialState({

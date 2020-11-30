@@ -16,14 +16,13 @@ import createDashboardIntegrator from './createDashboardIntegrator';
 import dashboardReducer from './reducers/dashboardReducer';
 
 export default class DashboardModule {
-  constructor({ integration, setRootView, navigateTo, isToggleOn }) {
+  constructor({ integration, setRootView, navigateTo }) {
     this.integration = integration;
     this.store = new Store(dashboardReducer);
     this.setRootView = setRootView;
     this.dispatcher = createDashboardDispatcher(this.store);
     this.integrator = createDashboardIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
-    this.isToggleOn = isToggleOn;
   }
 
   loadDashboard = () => {

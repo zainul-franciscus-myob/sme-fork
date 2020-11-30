@@ -22,7 +22,6 @@ describe('DraftPayRunSubModule', () => {
     const integration = new TestIntegration();
     const pushMessage = () => {};
     const setRootView = () => <div />;
-    const isToggleOn = () => true;
     const featureToggles = {
       isHolidaysAndLeaveLinesEnabled: true,
     };
@@ -30,7 +29,6 @@ describe('DraftPayRunSubModule', () => {
       integration,
       setRootView,
       pushMessage,
-      isToggleOn,
       featureToggles,
     });
 

@@ -23,6 +23,7 @@ import {
   getShowUrls,
   getUserEmail,
 } from './NavigationSelectors';
+import { isToggleOn } from '../splitToggle';
 import { logout } from '../Auth';
 import { recordPageVisit, trackUserEvent } from '../telemetry';
 import FeatureToggles from '../FeatureToggles';
@@ -42,7 +43,6 @@ export default class NavigationModule {
     config,
     toggleHelp,
     featureToggles,
-    isToggleOn,
     toggleTasks,
     navigateTo,
   }) {
@@ -53,7 +53,6 @@ export default class NavigationModule {
     this.onPageTransition = undefined;
     this.config = config;
     this.featureToggles = featureToggles;
-    this.isToggleOn = isToggleOn;
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
     this.navigateTo = navigateTo;
@@ -270,7 +269,7 @@ export default class NavigationModule {
   setRecurringTransactionFeatureToggle = () => {
     const isRecurringTransactionEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
-      isEarlyAccess: this.isToggleOn(FeatureToggles.RecurringTransactions),
+      isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
     });
 
     this.store.dispatch({

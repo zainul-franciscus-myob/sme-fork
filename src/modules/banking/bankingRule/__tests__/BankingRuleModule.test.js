@@ -14,9 +14,8 @@ describe('BankingRuleModule', () => {
   const setup = () => {
     const store = new TestStore(bankingRuleReducer);
     const integration = new TestIntegration();
-    const isToggleOn = () => true;
 
-    const module = new BankingRuleModule({ integration, isToggleOn });
+    const module = new BankingRuleModule({ integration });
     module.store = store;
     module.integrator = createBankingRuleIntegrator(store, integration);
     module.dispatcher = createBankingRuleDispatcher(store);

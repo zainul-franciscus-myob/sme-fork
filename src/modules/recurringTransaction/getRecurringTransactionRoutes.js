@@ -6,7 +6,6 @@ const getRecurringTransactionRoutes = ({
   setRootView,
   replaceURLParams,
   featureToggles,
-  isToggleOn,
 }) => {
   const routes = [
     {
@@ -18,7 +17,6 @@ const getRecurringTransactionRoutes = ({
         setRootView,
         replaceURLParams,
         featureToggles,
-        isToggleOn,
       }),
       documentTitle: 'Recurring Transactions',
     },

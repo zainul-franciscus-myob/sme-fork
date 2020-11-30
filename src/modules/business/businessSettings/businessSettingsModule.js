@@ -26,7 +26,6 @@ export default class BusinessSettingsModule {
     integration,
     setRootView,
     globalCallbacks: { businessDetailsConfirmed },
-    isToggleOn,
     navigateTo,
     loadGlobalBusinessDetails,
     replaceURLParams,
@@ -37,7 +36,6 @@ export default class BusinessSettingsModule {
     this.businessDetailsConfirmed = businessDetailsConfirmed;
     this.dispatcher = createBusinessSettingsDispatcher(this.store);
     this.integrator = createBusinessSettingsIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.navigateTo = navigateTo;
     this.loadGlobalBusinessDetails = loadGlobalBusinessDetails;
     this.replaceURLParams = replaceURLParams;

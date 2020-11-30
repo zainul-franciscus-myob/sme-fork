@@ -10,4 +10,13 @@ const getSplitToggle = () => {
   return new SplitToggle();
 };
 
-export default getSplitToggle;
+const splitFeatureToggles = getSplitToggle();
+
+export const initializeSplit = async (businessId) => {
+  await splitFeatureToggles.init({ businessId });
+};
+
+export const isToggleOn = (splitName, splitAttributes) =>
+  splitFeatureToggles.isToggleOn(splitName, splitAttributes);
+
+export const reset = () => splitFeatureToggles.reset();

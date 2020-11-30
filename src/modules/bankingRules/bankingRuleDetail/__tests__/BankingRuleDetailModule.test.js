@@ -29,13 +29,15 @@ import createBankingRuleDetailDispatcher from '../createBankingRuleDetailDispatc
 import createBankingRuleDetailIntegrator from '../createBankingRuleDetailIntegrator';
 import loadBankingRuleDetail from '../mappings/data/loadBankingRuleDetail.json';
 
+jest.mock('../../../../splitToggle', () => ({
+  isToggleOn: () => true,
+}));
+
 describe('BankingRuleDetailModule', () => {
   const setup = () => {
     const setRootView = () => {};
     const store = new TestStore(bankingRuleDetailReducer);
     const integration = new TestIntegration();
-
-    const isToggleOn = () => true;
 
     // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
     const featureToggles = {
@@ -45,7 +47,6 @@ describe('BankingRuleDetailModule', () => {
     const module = new BankingRuleDetailModule({
       integration,
       setRootView,
-      isToggleOn,
       featureToggles,
     });
 

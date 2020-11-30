@@ -56,6 +56,7 @@ import {
   getRecurringTransactionListModalContext,
 } from './selectors/recurringInvoiceSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
@@ -91,7 +92,6 @@ export default class InvoiceDetailModule {
     navigateTo,
     subscribeOrUpgrade,
     featureToggles,
-    isToggleOn,
   }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
@@ -115,7 +115,6 @@ export default class InvoiceDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.navigateTo = navigateTo;
-    this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
 
     this.recurringTransactionListModal = new RecurringTransactionListModalModule(
@@ -1031,7 +1030,7 @@ export default class InvoiceDetailModule {
   run(context) {
     const isRecurringTransactionEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
-      isEarlyAccess: this.isToggleOn(FeatureToggles.RecurringTransactions),
+      isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
     });
 
     this.dispatcher.setInitialState({

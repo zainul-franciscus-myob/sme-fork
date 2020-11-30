@@ -5,7 +5,7 @@ Root module is introduced to handle cross cutting concerns
 ## Responsibilities
 
 - Storing cross cutting data includes `tasks`, `setting`, `businessDetails`, `currentUser`, `subscription`
-- Expose cross cutting functionality to be injected into feature modules, i.e. `isToggleOn`, `subscribeOrUpgrade`, `setRootView/render`
+- Expose cross cutting functionality to be injected into feature modules, i.e. `subscribeOrUpgrade`, `setRootView/render`
 - Route change awareness, trigger handlers when
   - User on business list page
   - User switch business

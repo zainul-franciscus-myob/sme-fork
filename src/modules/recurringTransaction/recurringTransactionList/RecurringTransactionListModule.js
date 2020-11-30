@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getUrlParams } from './recurringTransactionListSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import CreateRecurringTransactionListDispatcher from './CreateRecurringTransactionListDispatcher';
 import CreateRecurringTransactionListIntegrator from './CreateRecurringTransactionListIntegrator';
 import FeatureToggles from '../../../FeatureToggles';
@@ -11,13 +12,7 @@ import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import recurringTransactionListReducer from './recurringTransactionListReducer';
 
 export default class RecurringTransactionModule {
-  constructor({
-    integration,
-    setRootView,
-    replaceURLParams,
-    featureToggles,
-    isToggleOn,
-  }) {
+  constructor({ integration, setRootView, replaceURLParams, featureToggles }) {
     this.integration = integration;
     this.store = new Store(recurringTransactionListReducer);
     this.setRootView = setRootView;
@@ -27,7 +22,6 @@ export default class RecurringTransactionModule {
       this.store,
       integration
     );
-    this.isToggleOn = isToggleOn;
     this.featureToggles = featureToggles;
   }
 
@@ -111,7 +105,7 @@ export default class RecurringTransactionModule {
   run(context) {
     const isRecurringTransactionEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
-      isEarlyAccess: this.isToggleOn(FeatureToggles.RecurringTransactions),
+      isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
     });
 
     this.dispatcher.setInitialState({

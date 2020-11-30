@@ -105,13 +105,11 @@ describe('RecordPayRunModule', () => {
       };
       const pushMessage = () => {};
       const setRootView = () => <div />;
-      const isToggleOn = () => true;
 
       const payRunModule = new PayRunModule({
         integration,
         setRootView,
         pushMessage,
-        isToggleOn,
       });
       const defaulState = payRunModule.store.getState();
       // mock get state and add businessId

@@ -14,6 +14,7 @@ import {
   getRegion,
   getTelemetryInfo,
 } from './rootSelectors';
+import { initializeSplit } from '../splitToggle';
 import { recordPageVisit } from '../telemetry';
 import { startLeanEngage } from '../leanEngage';
 import BusinessDetailsService from './services/businessDetails';
@@ -30,7 +31,6 @@ import RootView from './components/RootView';
 import SettingsService from './services/settings';
 import Store from '../store/Store';
 import buildGlobalCallbacks from './builders/buildGlobalCallbacks';
-import getSplitToggle from '../splitToggle/index.js';
 import isNotSupportedAndShowAlert from '../common/browser/isNotSupportedAndShowAlert';
 import loadChangePlanUrl from '../modules/settings/subscription/loadChangePlanUrl';
 import loadSubscriptionUrl from '../modules/settings/subscription/loadSubscriptionUrl';
@@ -68,7 +68,6 @@ export default class RootModule {
     );
     this.licenceService = LicenceService(integration, this.store);
     this.lastBusinessId = null;
-    this.splitFeatureToggles = getSplitToggle();
 
     this.drawer = new DrawerModule({
       integration,
@@ -84,7 +83,6 @@ export default class RootModule {
       config: Config,
       toggleTasks: this.drawer.toggleTasks,
       toggleHelp: this.drawer.toggleHelp,
-      isToggleOn: this.isToggleOn,
       featureToggles,
       navigateTo: this.navigateTo,
     });
@@ -116,15 +114,6 @@ export default class RootModule {
     const subscription = await this.integrator.loadSubscription();
     this.dispatcher.loadSubscription(subscription);
   };
-
-  loadSplit = async () => {
-    const state = this.store.getState();
-    const businessId = getBusinessId(state);
-    await this.splitFeatureToggles.init({ businessId });
-  };
-
-  isToggleOn = (splitName, splitAttributes) =>
-    this.splitFeatureToggles.isToggleOn(splitName, splitAttributes);
 
   subscribeOrUpgrade = async () => {
     const state = this.store.getState();
@@ -187,7 +176,7 @@ export default class RootModule {
 
   loadBusinessServices = async () => {
     await Promise.all([
-      this.loadSplit(),
+      initializeSplit(getBusinessId(this.store.getState())),
       this.loadSubscription(),
       this.loadSharedInfo(),
       this.settingsService.load(),
@@ -224,8 +213,6 @@ export default class RootModule {
 
     this.dispatcher.setBusinessId(businessId);
     this.dispatcher.setRegion(region);
-
-    this.featureToggles = await this.featureTogglesPromise;
 
     const action = getModuleAction({
       currentBusinessId: businessId,

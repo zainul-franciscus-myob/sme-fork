@@ -11,6 +11,10 @@ jest.mock('../../telemetry', () => ({
   trackUserEvent: jest.fn(),
 }));
 
+jest.mock('../../splitToggle', () => ({
+  isToggleOn: () => true,
+}));
+
 describe('Navigation Module', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -52,7 +56,6 @@ describe('Navigation Module', () => {
     toggleHelp: jest.fn(),
     toggleTasks: jest.fn(),
     featureToggles: {},
-    isToggleOn: () => true,
   });
 
   const store = new TestStore(navReducer);

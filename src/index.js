@@ -53,7 +53,6 @@ async function main(integrationType, telemetryType, leanEngageType) {
     navigateToName: router.navigateToName,
     isActiveRoute: router.isActiveRoute,
     globalCallbacks: rootModule.globalCallbacks,
-    isToggleOn: rootModule.isToggleOn,
     subscribeOrUpgrade: rootModule.subscribeOrUpgrade,
     featureToggles,
     loadGlobalBusinessDetails: rootModule.loadGlobalBusinessDetails,

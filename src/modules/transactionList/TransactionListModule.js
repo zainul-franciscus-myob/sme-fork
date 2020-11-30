@@ -33,6 +33,7 @@ import {
   getURLParams,
 } from './selectors/transactionListSelectors';
 import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
+import { isToggleOn } from '../../splitToggle';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import { mapTab } from './tabItems';
 import FeatureToggles from '../../FeatureToggles';
@@ -70,13 +71,7 @@ const messageTypes = [
 ];
 
 export default class TransactionListModule {
-  constructor({
-    integration,
-    setRootView,
-    popMessages,
-    replaceURLParams,
-    isToggleOn,
-  }) {
+  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
@@ -84,7 +79,6 @@ export default class TransactionListModule {
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createTransactionListDispatcher(this.store);
     this.integrator = createTransactionListIntegrator(this.store, integration);
-    this.isToggleOn = isToggleOn;
     this.findAndRecodeModule = new FindAndRecodeModule({
       integration,
       setAlert: this.setAlert,
@@ -355,9 +349,7 @@ export default class TransactionListModule {
       context.businessId,
       RouteName.TRANSACTION_LIST
     );
-    const isFindAndRecodeEnabled = this.isToggleOn(
-      FeatureToggles.FindAndRecode
-    );
+    const isFindAndRecodeEnabled = isToggleOn(FeatureToggles.FindAndRecode);
     this.setInitialState(
       {
         ...context,
