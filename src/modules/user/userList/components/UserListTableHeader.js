@@ -39,6 +39,14 @@ const UserListTableHeader = ({ order, onSort, tableConfig }) => (
           onSort={onSort}
         />
       </Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.action}>
+        <HeaderSort
+          title={tableConfig.action.columnName}
+          sortName="Action"
+          activeSort={order}
+          onSort={onSort}
+        />
+      </Table.HeaderItem>
     </Table.Header>
   </Table>
 );

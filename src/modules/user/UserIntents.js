@@ -17,3 +17,5 @@ export const UPDATE_USER = Symbol('Update existing user');
 export const DELETE_USER = Symbol('Delete an existing user');
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const LOAD_USER_DETAIL = Symbol('Load existing user');
+export const CANCEL_INVITATION = Symbol('Cancel invitation');
+export const RESEND_INVITATION = Symbol('Resend invitation');

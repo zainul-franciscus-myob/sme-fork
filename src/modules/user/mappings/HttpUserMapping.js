@@ -1,10 +1,12 @@
 import {
+  CANCEL_INVITATION,
   CREATE_USER,
   DELETE_USER,
   LOAD_NEW_ADVISOR_DETAIL,
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
   LOAD_USER_LIST,
+  RESEND_INVITATION,
   UPDATE_USER,
 } from '../UserIntents';
 
@@ -39,6 +41,14 @@ const HttpUserMapping = {
     method: 'GET',
     getPath: ({ businessId, userId }) =>
       `/${businessId}/user/load_user/${userId}`,
+  },
+  [CANCEL_INVITATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/invitation/cancel`,
+  },
+  [RESEND_INVITATION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/invitation/resend`,
   },
 };
 

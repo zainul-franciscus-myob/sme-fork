@@ -5,13 +5,23 @@ import { getIsTableEmpty, getIsTableLoading } from '../userListSelectors';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import UserListTableBody from './UserListTableBody';
 
-const UserListTable = ({ isTableEmpty, isTableLoading, tableConfig }) => (
+const UserListTable = ({
+  isTableEmpty,
+  isTableLoading,
+  tableConfig,
+  onResendInvitation,
+  onCancelInvitation,
+}) => (
   <StickyTableBody
     isLoading={isTableLoading}
     isEmpty={isTableEmpty}
     emptyMessage="There are no users."
   >
-    <UserListTableBody tableConfig={tableConfig} />
+    <UserListTableBody
+      tableConfig={tableConfig}
+      onResendInvitation={onResendInvitation}
+      onCancelInvitation={onCancelInvitation}
+    />
   </StickyTableBody>
 );
 

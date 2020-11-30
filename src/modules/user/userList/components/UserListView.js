@@ -23,6 +23,7 @@ export const tableConfig = {
   email: { width: 'flex-1', valign: 'top', columnName: 'Email' },
   type: { width: '11rem', valign: 'top', columnName: 'User type' },
   status: { width: '21rem', valign: 'top', columnName: 'Status' },
+  action: { width: '26.5rem', valign: 'top', columnName: 'Action' },
 };
 
 const UserListView = (props) => {
@@ -33,6 +34,8 @@ const UserListView = (props) => {
     onDismissAlert,
     onSort,
     onMyMyobClick,
+    onResendInvitation,
+    onCancelInvitation,
   } = props;
 
   const alertComponent = alert && (
@@ -70,7 +73,11 @@ const UserListView = (props) => {
       alert={alertComponent}
       tableHeader={tableHeader}
     >
-      <UserListTable tableConfig={tableConfig} />
+      <UserListTable
+        tableConfig={tableConfig}
+        onResendInvitation={onResendInvitation}
+        onCancelInvitation={onCancelInvitation}
+      />
     </StandardTemplate>
   );
 

@@ -2,7 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  CANCEL_INVITATION,
   LOAD_USER_LIST,
+  RESEND_INVITATION,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -20,6 +22,7 @@ import {
   getMyDotMyobLink,
   getOrderBy,
   getRegion,
+  getSerialNumber,
 } from './userListSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -157,6 +160,86 @@ export default class UserListModule {
     });
   };
 
+  resendInvitation = (user) => {
+    const intent = RESEND_INVITATION;
+
+    const state = this.store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const content = {
+      serialNumber: getSerialNumber(state),
+      cdfGuid: getBusinessId(state),
+      inviterIdentityId: user.inviterIdentityId,
+      inviterContactId: user.inviterContactId,
+      invitationType: user.myDotInvitationType,
+      invitationEmail: user.email,
+      userName: user.name,
+    };
+
+    const onSuccess = ({ message }) => {
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.loadUserList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  cancelInvitation = (user) => {
+    const intent = CANCEL_INVITATION;
+
+    const state = this.store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+    };
+
+    const content = {
+      serialNumber: getSerialNumber(state),
+      inviterContactId: user.inviterContactId,
+      id: user.invitationId,
+    };
+
+    const onSuccess = ({ message }) => {
+      this.setAlert({
+        type: 'success',
+        message,
+      });
+      this.loadUserList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.setAlert({
+        type: 'danger',
+        message,
+      });
+    };
+
+    this.integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   render = () => {
     const userListView = (
       <UserListView
@@ -164,6 +247,8 @@ export default class UserListModule {
         onDismissAlert={this.dismissAlert}
         onSort={this.sortUserList}
         onMyMyobClick={this.onMyMyobClick}
+        onResendInvitation={this.resendInvitation}
+        onCancelInvitation={this.cancelInvitation}
       />
     );
 

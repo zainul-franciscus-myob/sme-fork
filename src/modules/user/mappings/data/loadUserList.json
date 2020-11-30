@@ -9,7 +9,12 @@
       "email":"bob@thebuilder.com",
       "type":"Advisor",
       "status":"Active since 28-01-2020",
-      "isActive": true
+      "isActive": true,
+      "myDotInvitationSatus": "Accepted",
+      "inviterContactId": "1-EN11CO4",
+      "inviterIdentityId": "8b8d017b-a126-4015-bf33-dd8de699bed4",
+      "invitationId": "1-NE1AAO4",
+      "myDotInvitationType": "AdminUser"
     },
     {
       "id":"346",
@@ -17,14 +22,24 @@
       "email":"matt@hotmail.com",
       "type":"Advisor",
       "status":"Active since 24-01-2020",
-      "isActive": true
+      "isActive": true,
+      "myDotInvitationSatus": "Accepted",
+      "inviterContactId": "1-EN11CO5",
+      "inviterIdentityId": "8b8d017b-a126-4015-bf33-dd8de699bed5",
+      "invitationId": "1-NE1AAO5",
+      "myDotInvitationType": "AdminUser"
     },
     {
       "name": "Zohn Doe",
       "email":"jdoe@hotmail.com",
       "type":"Online admin",
       "status":"Invited on 23-03-2020",
-      "isActive": true
+      "isActive": true,
+      "myDotInvitationSatus": "Pending",
+      "inviterContactId": "1-EN11CO6",
+      "inviterIdentityId": "8b8d017b-a126-4015-bf33-dd8de699bed6",
+      "invitationId": "1-NE1AAO6",
+      "myDotInvitationType": "AdminUser"
     },
     {
       "id":"347",
@@ -32,7 +47,12 @@
       "email":"johncontad@hotmail.com",
       "type":"Online admin",
       "status":"Inactive",
-      "isActive": false
+      "isActive": false,
+      "myDotInvitationSatus": "",
+      "inviterContactId": "1-EN11CO7",
+      "inviterIdentityId": "8b8d017b-a126-4015-bf33-dd8de699bed7",
+      "invitationId": "1-NE1AAO7",
+      "myDotInvitationType": "AdminUser"
     }
   ],
   "serialNumber": "000000000000"

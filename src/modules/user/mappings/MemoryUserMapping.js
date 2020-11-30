@@ -1,10 +1,12 @@
 import {
+  CANCEL_INVITATION,
   CREATE_USER,
   DELETE_USER,
   LOAD_NEW_ADVISOR_DETAIL,
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
   LOAD_USER_LIST,
+  RESEND_INVITATION,
   UPDATE_USER,
 } from '../UserIntents';
 import loadEmptyAdvisorDetailResponse from './data/loadAdvisorDetail';
@@ -22,6 +24,8 @@ const createUser = ({ onSuccess }) => onSuccess(success);
 const updateUser = ({ onSuccess }) => onSuccess(success);
 const deleteUser = ({ onSuccess }) => onSuccess(success);
 const loadUserDetail = ({ onSuccess }) => onSuccess(userDetailResponse);
+const cancelInvitation = ({ onSuccess }) => onSuccess(success);
+const resendInvitation = ({ onSuccess }) => onSuccess(success);
 
 const MemoryUserMapping = {
   [LOAD_USER_LIST]: loadUserList,
@@ -31,6 +35,8 @@ const MemoryUserMapping = {
   [UPDATE_USER]: updateUser,
   [DELETE_USER]: deleteUser,
   [LOAD_USER_DETAIL]: loadUserDetail,
+  [CANCEL_INVITATION]: cancelInvitation,
+  [RESEND_INVITATION]: resendInvitation,
 };
 
 export default MemoryUserMapping;

@@ -1,26 +1,50 @@
-import { Badge, Table } from '@myob/myob-widgets';
+import { Badge, Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getTableEntries } from '../userListSelectors';
 
 const UserListTableBody = (props) => {
-  const { tableConfig, entries } = props;
+  const {
+    tableConfig,
+    entries,
+    onResendInvitation,
+    onCancelInvitation,
+  } = props;
 
-  const rows = entries.map(
-    ({ id, link, name, type, email, status, isActive }) => (
-      <Table.Row key={id}>
-        <Table.RowItem {...tableConfig.name}>
-          {id ? <a href={link}>{name}</a> : name}
-        </Table.RowItem>
-        <Table.RowItem {...tableConfig.type}>{type}</Table.RowItem>
-        <Table.RowItem {...tableConfig.email}>{email}</Table.RowItem>
-        <Table.RowItem {...tableConfig.status}>
-          {isActive ? status : <Badge color="light-grey">{status}</Badge>}
-        </Table.RowItem>
-      </Table.Row>
-    )
+  const ActionButtons = ({ user }) => (
+    <>
+      <Button type="link" onClick={() => onResendInvitation(user)}>
+        Resend invitation
+      </Button>
+      {' | '}
+      <Button type="link" onClick={() => onCancelInvitation(user)}>
+        Cancel invitation
+      </Button>
+    </>
   );
+
+  const rows = entries.map((user) => (
+    <Table.Row key={user.id}>
+      <Table.RowItem {...tableConfig.name}>
+        {user.id ? <a href={user.link}>{user.name}</a> : user.name}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.type}>{user.type}</Table.RowItem>
+      <Table.RowItem {...tableConfig.email}>{user.email}</Table.RowItem>
+      <Table.RowItem {...tableConfig.status}>
+        {user.isActive ? (
+          user.status
+        ) : (
+          <Badge color="light-grey">{user.status}</Badge>
+        )}
+      </Table.RowItem>
+      <Table.RowItem {...tableConfig.action}>
+        {user.myDotInvitationSatus === 'Pending' && (
+          <ActionButtons user={user} />
+        )}
+      </Table.RowItem>
+    </Table.Row>
+  ));
 
   return <Table.Body>{rows}</Table.Body>;
 };
