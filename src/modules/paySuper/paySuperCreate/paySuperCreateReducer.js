@@ -170,8 +170,20 @@ const setAccessToken = (state, { accessToken }) => ({
 const setInlineAlertMessage = (state, { inlineErrors }) => ({
   ...state,
   superPayments: state.superPayments.map((e) => {
-    const error = inlineErrors?.find((err) => e.employeeId === err.employeeId);
-    return { ...e, inlineError: e.isSelected ? error?.message : undefined };
+    if (!e.isSelected) return { ...e, inlineError: undefined };
+
+    const employeeError = inlineErrors?.find(
+      (err) => e.employeeId === err.employeeId
+    );
+    const paymentEventLineError = inlineErrors?.find(
+      (err) => e.employeePaymentEventLineId === err.employeePaymentEventLineId
+    );
+
+    const displayError = paymentEventLineError || employeeError;
+    return {
+      ...e,
+      inlineError: displayError?.message,
+    };
   }),
 });
 
