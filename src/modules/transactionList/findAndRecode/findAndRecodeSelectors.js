@@ -159,6 +159,7 @@ export const getRecodeContent = createSelector(
         businessEventType,
         businessEventId,
         accountId: recodeOptions.accountId,
+        taxCodeId: recodeOptions.taxCodeId,
       }));
   }
 );

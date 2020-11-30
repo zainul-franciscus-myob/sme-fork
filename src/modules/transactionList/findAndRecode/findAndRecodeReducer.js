@@ -50,6 +50,7 @@ const getDefaultState = () => ({
   isRecodeOpen: false,
   recodeOptions: {
     accountId: '',
+    taxCodeId: '',
   },
 });
 

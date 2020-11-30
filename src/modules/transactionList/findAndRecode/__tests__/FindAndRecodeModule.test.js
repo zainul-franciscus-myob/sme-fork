@@ -367,11 +367,13 @@ describe('FindAndRecodeModule', () => {
 
       module.dispatcher.selectItem('1');
       module.dispatcher.updateRecodeOptions('accountId', '1');
+      module.dispatcher.updateRecodeOptions('taxCodeId', '2');
       module.recode();
 
       expect(store.getActions()).toEqual([
         { intent: SELECT_ITEM, id: '1' },
         { intent: UPDATE_RECODE_OPTIONS, key: 'accountId', value: '1' },
+        { intent: UPDATE_RECODE_OPTIONS, key: 'taxCodeId', value: '2' },
         {
           intent: SET_RECODE_LOADING_STATE,
           isRecodeLoading: true,
@@ -411,6 +413,7 @@ describe('FindAndRecodeModule', () => {
           content: [
             {
               accountId: '1',
+              taxCodeId: '2',
               businessEventId: '401',
               businessEventLineId: '1',
               businessEventType: 'CashPayment',
@@ -429,11 +432,13 @@ describe('FindAndRecodeModule', () => {
 
       module.dispatcher.selectAllItems();
       module.dispatcher.updateRecodeOptions('accountId', '1');
+      module.dispatcher.updateRecodeOptions('taxCodeId', '2');
       module.recode();
 
       expect(store.getActions()).toEqual([
         { intent: SELECT_ALL_ITEMS },
         { intent: UPDATE_RECODE_OPTIONS, key: 'accountId', value: '1' },
+        { intent: UPDATE_RECODE_OPTIONS, key: 'taxCodeId', value: '2' },
         {
           intent: SET_RECODE_LOADING_STATE,
           isRecodeLoading: true,

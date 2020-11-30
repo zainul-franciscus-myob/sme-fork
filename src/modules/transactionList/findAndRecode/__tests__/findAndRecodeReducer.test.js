@@ -194,10 +194,11 @@ describe('findAndRecodeReducer', () => {
   });
 
   describe('UPDATE_RECODE_OPTIONS', () => {
-    it('updates key with value', () => {
+    it('updates accountId with value', () => {
       const state = {
         recodeOptions: {
           accountId: '1',
+          taxCodeId: '',
         },
       };
       const action = {
@@ -210,6 +211,27 @@ describe('findAndRecodeReducer', () => {
 
       expect(actual.recodeOptions).toEqual({
         accountId: '2',
+        taxCodeId: '',
+      });
+    });
+    it('updates taxCodeId with value', () => {
+      const state = {
+        recodeOptions: {
+          accountId: '1',
+          taxCodeId: '',
+        },
+      };
+      const action = {
+        intent: UPDATE_RECODE_OPTIONS,
+        key: 'taxCodeId',
+        value: '1',
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.recodeOptions).toEqual({
+        accountId: '1',
+        taxCodeId: '1',
       });
     });
   });

@@ -8,14 +8,17 @@ import {
   getIsRecodeOpen,
   getRecodeOptions,
   getSelectedText,
+  getTaxCodeList,
 } from '../findAndRecodeSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import Popover from '../../../../components/Feelix/Popover/Popover';
+import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import styles from './RecodePopover.module.css';
 
 const RecodePopover = ({
   accounts,
+  taxCodes,
   isRecodeOpen,
   recodeOptions,
   isRecodeLoading,
@@ -26,17 +29,32 @@ const RecodePopover = ({
   onRecode,
 }) => {
   const body = (
-    <AccountCombobox
-      label="Account"
-      hideLabel={false}
-      name="accountId"
-      hintText="Select an account"
-      items={accounts}
-      requiredLabel="This field is required"
-      selectedId={recodeOptions.accountId}
-      onChange={handleComboboxChange('accountId', onUpdateRecodeOptions)}
-      disabled={isRecodeLoading}
-    />
+    <>
+      <AccountCombobox
+        label="Account"
+        hideLabel={false}
+        name="accountId"
+        hintText="Select an account"
+        items={accounts}
+        requiredLabel="This field is required"
+        selectedId={recodeOptions.accountId}
+        onChange={handleComboboxChange('accountId', onUpdateRecodeOptions)}
+        disabled={isRecodeLoading}
+        allowClear
+      />
+      <TaxCodeCombobox
+        label="Tax code"
+        hideLabel={false}
+        name="taxCodeId"
+        items={taxCodes}
+        selectedId={recodeOptions.taxCodeId}
+        requiredLabel="This field is required"
+        onChange={handleComboboxChange('taxCodeId', onUpdateRecodeOptions)}
+        disabled={isRecodeLoading}
+        width="sm"
+        allowClear
+      />
+    </>
   );
 
   const footer = (
@@ -72,6 +90,7 @@ const RecodePopover = ({
 
 const mapStateToProps = (state) => ({
   accounts: getAccountList(state),
+  taxCodes: getTaxCodeList(state),
   isRecodeOpen: getIsRecodeOpen(state),
   recodeOptions: getRecodeOptions(state),
   isRecodeLoading: getIsRecodeLoading(state),

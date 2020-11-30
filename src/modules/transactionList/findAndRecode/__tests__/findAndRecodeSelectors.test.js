@@ -146,6 +146,7 @@ describe('findAndRecodeSelectors', () => {
         selectedItems: ['1', '3'],
         recodeOptions: {
           accountId: '999',
+          taxCodeId: '666',
         },
       };
 
@@ -157,12 +158,14 @@ describe('findAndRecodeSelectors', () => {
           businessEventType: 'CashReceipt',
           businessEventId: '100',
           accountId: '999',
+          taxCodeId: '666',
         },
         {
           businessEventLineId: '3',
           businessEventType: 'CashPayment',
           businessEventId: '300',
           accountId: '999',
+          taxCodeId: '666',
         },
       ]);
     });
