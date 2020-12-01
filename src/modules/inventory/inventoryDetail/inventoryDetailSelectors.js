@@ -13,6 +13,9 @@ const getTaxLabel = (state) => getRegionToDialectText(state.region)('Tax code');
 const getItemSellingDetails = (state) => state.item.sellingDetails || {};
 const getItemBuyingDetails = (state) => state.item.buyingDetails || {};
 const getItemId = (state) => state.itemId;
+const getIsItemBuyingPriceTaxInclusiveReadOnly = (state) =>
+  state.isItemBuyingPriceTaxInclusiveReadOnly;
+const getinfoAlertText = (state) => state.infoAlertText;
 
 export const getIsCreating = createSelector(
   getItemId,
@@ -58,13 +61,17 @@ export const getBuyingDetails = createSelector(
   getTaxLabel,
   getTaxExclusiveLabel,
   getTaxInclusiveLabel,
+  getIsItemBuyingPriceTaxInclusiveReadOnly,
+  getinfoAlertText,
   (
     buyingDetails,
     buyingAccounts,
     taxCodes,
     taxLabel,
     taxExclusiveLabel,
-    taxInclusiveLabel
+    taxInclusiveLabel,
+    isItemBuyingPriceTaxInclusiveReadOnly,
+    infoAlertText
   ) => ({
     ...buyingDetails,
     buyingAccounts,
@@ -72,6 +79,8 @@ export const getBuyingDetails = createSelector(
     taxLabel,
     taxExclusiveLabel,
     taxInclusiveLabel,
+    isItemBuyingPriceTaxInclusiveReadOnly,
+    infoAlertText,
   })
 );
 

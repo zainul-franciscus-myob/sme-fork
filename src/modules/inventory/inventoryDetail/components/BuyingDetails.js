@@ -41,7 +41,7 @@ const BuyingDetails = ({
   infoAlertText,
 }) => (
   <>
-    {infoAlertText !== '' && <Alert type="info">{infoAlertText}</Alert>}
+    {infoAlertText != null && <Alert type="info">{infoAlertText}</Alert>}
     <FieldGroup label="Buying details">
       <CheckboxGroup
         hideLabel
