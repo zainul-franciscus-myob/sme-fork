@@ -21,7 +21,7 @@ describe('AutoCompleteCombobox', () => {
       { columnName: 'name', showData: true, showPagination: true },
     ];
 
-    const wrapper = mount(
+    return mount(
       <AutoCompleteCombobox
         metaData={metaData}
         selectedId={selectedId}
@@ -35,8 +35,6 @@ describe('AutoCompleteCombobox', () => {
         className={testClassname}
       />
     );
-
-    return wrapper;
   };
 
   const items = [
@@ -182,7 +180,7 @@ describe('AutoCompleteCombobox', () => {
       writeToInputField(autoCompleteWrapper, 'hey');
 
       // Run callback immediately after re-render
-      setImmediate(() => {
+      setTimeout(() => {
         autoCompleteWrapper.update();
         const renderedRows = autoCompleteWrapper
           .find('ComboboxBox')
@@ -192,7 +190,7 @@ describe('AutoCompleteCombobox', () => {
         expect(onSearch).toHaveBeenCalled();
 
         done();
-      });
+      }, 1);
     });
 
     it('shows item list instead of search results if user has emptied out input field', (done) => {
