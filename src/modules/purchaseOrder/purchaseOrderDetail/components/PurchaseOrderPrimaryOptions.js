@@ -64,7 +64,7 @@ const PurchaseOrderPrimaryOptions = ({
       region={region}
       name="isReportable"
       onChange={handleCheckboxChange(onUpdatePurchaseOrderOption)}
-      disabled={isSupplierDisabled || isBlocking || isReadOnly}
+      disabled={isBlocking || isReadOnly}
       width="xl"
     />
 
