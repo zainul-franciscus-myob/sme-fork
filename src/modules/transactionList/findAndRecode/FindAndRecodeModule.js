@@ -1,8 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getRecodeItems } from './findAndRecodeSelectors';
 import FindAndRecodeView from './components/FindAndRecodeView';
-import Store from '../../../store/DebugStore';
+import Store from '../../../store/Store';
 import createFindAndRecodeDispatcher from './createFindAndRecodeDispatcher';
 import createFindAndRecodeIntegrator from './createFindAndRecodeIntegrator';
 import debounce from '../../../common/debounce/debounce';
@@ -17,6 +18,7 @@ export default class FindAndRecodeModule {
   }
 
   sortAndFilterFindAndRecodeList = () => {
+    this.dispatcher.unselectAllItems();
     this.dispatcher.setTableLoadingState(true);
 
     const onSuccess = (response) => {
@@ -33,6 +35,7 @@ export default class FindAndRecodeModule {
   };
 
   loadFindAndRecodeListNextPage = () => {
+    this.dispatcher.unselectAllItems();
     this.dispatcher.setNextPageLoadingState(true);
 
     const onSuccess = (response) => {
@@ -49,22 +52,34 @@ export default class FindAndRecodeModule {
   };
 
   recode = () => {
-    this.dispatcher.setRecodeLoadingState(true);
-    this.dispatcher.closeRecode();
+    const recursiveRecode = (items) => {
+      const [item, ...maybeRestItems] = items;
+      const restItems = maybeRestItems ?? [];
 
-    const onSuccess = ({ message }) => {
-      this.dispatcher.setRecodeLoadingState(false);
-      this.dispatcher.unselectAllItems();
-      this.setAlert({ message, type: 'success' });
-      this.sortAndFilterFindAndRecodeList();
+      if (item) {
+        const onSuccess = () => {
+          this.dispatcher.recodeItemSuccess(item.id);
+          recursiveRecode(restItems);
+        };
+        const onFailure = ({ message }) => {
+          this.dispatcher.recodeItemFailure(item.id, message);
+          recursiveRecode(restItems);
+        };
+        this.integrator.recodeItem({
+          id: item.id,
+          onSuccess,
+          onFailure,
+        });
+      } else {
+        this.dispatcher.finishRecode();
+      }
     };
 
-    const onFailure = ({ message }) => {
-      this.dispatcher.setRecodeLoadingState(false);
-      this.setAlert({ message, type: 'danger' });
-    };
+    this.dispatcher.startRecode();
+    this.dispatcher.closeRecodeOptions();
 
-    this.integrator.recode({ onSuccess, onFailure });
+    const recodeItems = getRecodeItems(this.store.getState());
+    recursiveRecode(recodeItems);
   };
 
   updateFilters = ({ key, value }) => {
@@ -118,8 +133,8 @@ export default class FindAndRecodeModule {
           onSelectAllItems={this.dispatcher.selectAllItems}
           onSelectItem={this.dispatcher.selectItem}
           onRecode={this.recode}
-          onOpenRecode={this.dispatcher.openRecode}
-          onCloseRecode={this.dispatcher.closeRecode}
+          onOpenRecodeOptions={this.dispatcher.openRecodeOptions}
+          onCloseRecodeOptions={this.dispatcher.closeRecodeOptions}
         />
       </Provider>
     );

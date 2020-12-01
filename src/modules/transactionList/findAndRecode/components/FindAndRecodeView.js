@@ -11,6 +11,7 @@ import FindAndRecodeListTable from './FindAndRecodeListTable';
 import FindAndRecodeListTableHeader from './FindAndRecodeListTableHeader';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
+import RecodeAlert from './RecodeAlert';
 import RecodePopover from './RecodePopover';
 
 export const tableConfig = {
@@ -23,6 +24,7 @@ export const tableConfig = {
   taxCode: { columnName: 'Tax code', width: '100px', valign: 'top' },
   displayDebit: { columnName: 'Debit ($)', valign: 'top', align: 'right' },
   displayCredit: { columnName: 'Credit ($)', valign: 'top', align: 'right' },
+  recodeStatus: { width: '50px' },
 };
 
 const FindAndRecodeView = ({
@@ -34,8 +36,8 @@ const FindAndRecodeView = ({
   onSelectItem,
   onSelectAllItems,
   onRecode,
-  onOpenRecode,
-  onCloseRecode,
+  onOpenRecodeOptions,
+  onCloseRecodeOptions,
   onUpdateRecodeOptions,
   loadMoreButtonStatus,
   areSomeItemsSelected,
@@ -45,7 +47,12 @@ const FindAndRecodeView = ({
 }) => {
   const transactionListView = (
     <PaginatedListTemplate
-      alert={alert}
+      alert={
+        <>
+          {alert}
+          <RecodeAlert />
+        </>
+      }
       pageHead={pageHead}
       filterBar={
         <FindAndRecodeFilterOptions
@@ -66,8 +73,8 @@ const FindAndRecodeView = ({
         areSomeItemsSelected && (
           <BulkActions>
             <RecodePopover
-              onOpenRecode={onOpenRecode}
-              onCloseRecode={onCloseRecode}
+              onOpenRecodeOptions={onOpenRecodeOptions}
+              onCloseRecodeOptions={onCloseRecodeOptions}
               onUpdateRecodeOptions={onUpdateRecodeOptions}
               onRecode={onRecode}
             />

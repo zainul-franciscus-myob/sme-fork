@@ -6,6 +6,7 @@ import {
   getActiveSort,
   getAreAllItemsSelected,
   getAreSomeItemsSelected,
+  getIsRecodeFinished,
   getIsRecodeLoading,
 } from '../findAndRecodeSelectors';
 import { getResponsiveConfig } from '../../components/getResponsiveConfig';
@@ -18,6 +19,7 @@ const FindAndRecodeListTableHeader = ({
   areAllItemsSelected,
   areSomeItemsSelected,
   isRecodeLoading,
+  isRecodeFinished,
 }) => (
   <Table responsiveWidths={getResponsiveConfig(tableConfig)}>
     <Table.Header>
@@ -96,6 +98,9 @@ const FindAndRecodeListTableHeader = ({
           onSort={onSort}
         />
       </Table.HeaderItem>
+      {(isRecodeLoading || isRecodeFinished) && (
+        <Table.HeaderItem {...tableConfig.recodeStatus} />
+      )}
     </Table.Header>
   </Table>
 );
@@ -105,6 +110,7 @@ const mapStateToProps = (state) => ({
   areAllItemsSelected: getAreAllItemsSelected(state),
   areSomeItemsSelected: getAreSomeItemsSelected(state),
   isRecodeLoading: getIsRecodeLoading(state),
+  isRecodeFinished: getIsRecodeFinished(state),
 });
 
 export default connect(mapStateToProps)(FindAndRecodeListTableHeader);

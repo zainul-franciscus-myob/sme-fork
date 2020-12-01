@@ -10,7 +10,8 @@
       "displayCredit": "1000.00",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "taxCode": "GST"
     },
     {
       "id": "2",
@@ -22,7 +23,8 @@
       "displayCredit": "",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "taxCode": "GST"
     },
     {
       "id": "3",
@@ -34,7 +36,8 @@
       "displayCredit": "1000.00",
       "displayAccountName": "1-2000 Water Expense",
       "businessEventType": "CashPayment",
-      "sourceJournal": "Cash Payments"
+      "sourceJournal": "Cash Payments",
+      "taxCode": "GST"
     }
   ],
   "pagination": {

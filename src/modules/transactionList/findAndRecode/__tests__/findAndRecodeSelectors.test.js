@@ -3,12 +3,17 @@ import {
   getActiveSort,
   getAreAllItemsSelected,
   getAreSomeItemsSelected,
+  getIsRecodeFailure,
+  getIsRecodeFinished,
+  getIsRecodeLoading,
   getLoadMoreButtonStatus,
-  getRecodeContent,
+  getRecodeFailureMessage,
+  getRecodeItemContent,
   getSelectedText,
   getTableEntries,
 } from '../findAndRecodeSelectors';
 import LoadMoreButtonStatuses from '../../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import RecodeStatus from '../types/RecodeStatus';
 
 describe('findAndRecodeSelectors', () => {
   describe('getLoadMoreButtonState', () => {
@@ -60,7 +65,7 @@ describe('findAndRecodeSelectors', () => {
           businessEventType: businessEventTypes.generalJournal,
         },
       ],
-      selectedItems: [],
+      recodeItems: [],
     };
 
     it('adds link the entry', () => {
@@ -72,15 +77,20 @@ describe('findAndRecodeSelectors', () => {
           businessEventId: '100',
           businessEventType: businessEventTypes.generalJournal,
           link: `/#/🧙‍♀️/🤖/generalJournal/100`,
-          isSelected: false,
+          recodeItem: undefined,
         },
       ]);
     });
 
-    it('isSelected is true when is one of selected items', () => {
+    it('adds recodeItem to list if exsts', () => {
       const actual = getTableEntries({
         ...state,
-        selectedItems: ['1'],
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SELECTED,
+          },
+        ],
       });
 
       expect(actual).toEqual([
@@ -89,7 +99,10 @@ describe('findAndRecodeSelectors', () => {
           businessEventId: '100',
           businessEventType: businessEventTypes.generalJournal,
           link: `/#/🧙‍♀️/🤖/generalJournal/100`,
-          isSelected: true,
+          recodeItem: {
+            id: '1',
+            status: RecodeStatus.SELECTED,
+          },
         },
       ]);
     });
@@ -125,8 +138,8 @@ describe('findAndRecodeSelectors', () => {
     });
   });
 
-  describe('getRecodeContent', () => {
-    it('builds selected items for recode', () => {
+  describe('getRecodeItemContent', () => {
+    it('builds item for recode', () => {
       const state = {
         entries: [
           {
@@ -135,35 +148,24 @@ describe('findAndRecodeSelectors', () => {
             businessEventId: '100',
           },
           {
-            id: '2',
-          },
-          {
             id: '3',
             businessEventType: 'CashPayment',
             businessEventId: '300',
           },
         ],
-        selectedItems: ['1', '3'],
         recodeOptions: {
           accountId: '999',
           taxCodeId: '666',
         },
       };
 
-      const actual = getRecodeContent(state);
+      const actual = getRecodeItemContent('1')(state);
 
       expect(actual).toEqual([
         {
           businessEventLineId: '1',
           businessEventType: 'CashReceipt',
           businessEventId: '100',
-          accountId: '999',
-          taxCodeId: '666',
-        },
-        {
-          businessEventLineId: '3',
-          businessEventType: 'CashPayment',
-          businessEventId: '300',
           accountId: '999',
           taxCodeId: '666',
         },
@@ -174,7 +176,7 @@ describe('findAndRecodeSelectors', () => {
   describe('getSelectedText', () => {
     it('nothing selected', () => {
       const state = {
-        selectedItems: [],
+        recodeItems: [],
       };
 
       const actual = getSelectedText(state);
@@ -184,7 +186,12 @@ describe('findAndRecodeSelectors', () => {
 
     it('1 selected', () => {
       const state = {
-        selectedItems: ['80'],
+        recodeItems: [
+          {
+            id: '80',
+            status: RecodeStatus.LOADING,
+          },
+        ],
       };
 
       const actual = getSelectedText(state);
@@ -194,7 +201,20 @@ describe('findAndRecodeSelectors', () => {
 
     it('many selected', () => {
       const state = {
-        selectedItems: ['80', '90', '100'],
+        recodeItems: [
+          {
+            id: '80',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '90',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '100',
+            status: RecodeStatus.LOADING,
+          },
+        ],
       };
 
       const actual = getSelectedText(state);
@@ -206,7 +226,16 @@ describe('findAndRecodeSelectors', () => {
   describe('getAreAllItemsSelected', () => {
     it('returns true when all entries selected', () => {
       const state = {
-        selectedItems: ['1', '2'],
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.LOADING,
+          },
+        ],
         entries: [
           {
             id: '1',
@@ -224,7 +253,12 @@ describe('findAndRecodeSelectors', () => {
 
     it('returns false when some entries selected', () => {
       const state = {
-        selectedItems: ['1'],
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+        ],
         entries: [
           {
             id: '1',
@@ -244,7 +278,12 @@ describe('findAndRecodeSelectors', () => {
   describe('getAreSomeItemsSelected', () => {
     it('returns true when some entries selected', () => {
       const state = {
-        selectedItems: ['1'],
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+        ],
       };
 
       const actual = getAreSomeItemsSelected(state);
@@ -254,12 +293,206 @@ describe('findAndRecodeSelectors', () => {
 
     it('returns false when no entries selected', () => {
       const state = {
-        selectedItems: [],
+        recodeItems: [],
       };
 
       const actual = getAreSomeItemsSelected(state);
 
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getIsRecodeLoading', () => {
+    it('returns true when at least one item is loading', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeLoading(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false when no items are loading', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeLoading(state);
+
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getIsRecodeFinished', () => {
+    it('returns false when at least one item is not success/failure', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeFinished(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('returns true when all items are success/failure', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.FAILURE,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeFinished(state);
+
+      expect(actual).toBeTruthy();
+    });
+  });
+
+  describe('getIsRecodeFailure', () => {
+    it('returns true when finished and there are errors', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.FAILURE,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeFailure(state);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false when all items are success', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeFailure(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('returns false when not finished', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.LOADING,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.FAILURE,
+          },
+        ],
+      };
+
+      const actual = getIsRecodeFailure(state);
+
+      expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getRecodeFailureMessage', () => {
+    it('returns nothing when no failues', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getRecodeFailureMessage(state);
+
+      expect(actual).toEqual('');
+    });
+
+    it('returns singlular message when 1 failure', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.FAILURE,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.SUCCESS,
+          },
+        ],
+      };
+
+      const actual = getRecodeFailureMessage(state);
+
+      expect(actual).toEqual('1 replacement failed.');
+    });
+
+    it('returns plural message when many failure', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.FAILURE,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.FAILURE,
+          },
+        ],
+      };
+
+      const actual = getRecodeFailureMessage(state);
+
+      expect(actual).toEqual('2 replacements failed.');
     });
   });
 });

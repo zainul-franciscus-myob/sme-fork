@@ -1,15 +1,18 @@
 import {
-  CLOSE_RECODE,
+  CLOSE_RECODE_OPTIONS,
+  FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
-  OPEN_RECODE,
+  OPEN_RECODE_OPTIONS,
+  RECODE_ITEM_FAILURE,
+  RECODE_ITEM_SUCCESS,
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SET_NEXT_PAGE_LOADING_STATE,
-  SET_RECODE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+  START_RECODE,
   UNSELECT_ALL_ITEMS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD,
@@ -19,6 +22,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { getAreAllItemsSelected } from './findAndRecodeSelectors';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Periods from '../../../components/PeriodPicker/Periods';
+import RecodeStatus from './types/RecodeStatus';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
@@ -45,13 +49,12 @@ const getDefaultState = () => ({
   },
   sortOrder: 'desc',
   orderBy: 'Date',
-  selectedItems: [],
-  isRecodeLoading: false,
-  isRecodeOpen: false,
+  isRecodeOptionsOpen: false,
   recodeOptions: {
     accountId: '',
     taxCodeId: '',
   },
+  recodeItems: [],
 });
 
 const setInitialState = (state, { context }) => ({
@@ -66,9 +69,12 @@ const setTableLoadingState = (state, { isTableLoading }) => ({
   isTableLoading,
 });
 
-const getRecodeLoadingState = (state, { isRecodeLoading }) => ({
+const startRecode = (state) => ({
   ...state,
-  isRecodeLoading,
+  recodeItems: state.recodeItems.map((item) => ({
+    ...item,
+    status: RecodeStatus.LOADING,
+  })),
 });
 
 const setNextPageLoadingState = (state, { isNextPageLoading }) => ({
@@ -127,38 +133,54 @@ const selectAllItems = (state) => {
 
   return {
     ...state,
-    selectedItems: areAllItemsSelected
+    recodeItems: areAllItemsSelected
       ? []
-      : state.entries.map((entry) => entry.id),
+      : state.entries.map((entry) => ({
+          id: entry.id,
+          status: RecodeStatus.SELECTED,
+        })),
   };
 };
 
 const selectItem = (state, { id }) => {
-  const isSelected = state.selectedItems.includes(id);
+  const isSelected = state.recodeItems.some((item) => item.id === id);
 
   return {
     ...state,
-    selectedItems: isSelected
-      ? state.selectedItems.filter((_) => _ !== id)
-      : [...state.selectedItems, id],
+    recodeItems: isSelected
+      ? state.recodeItems.filter((item) => item.id !== id)
+      : [
+          ...state.recodeItems,
+          {
+            id,
+            status: RecodeStatus.SELECTED,
+          },
+        ],
   };
 };
 
-export const unselectAllItems = (state) => {
-  return {
-    ...state,
-    selectedItems: [],
-  };
-};
-
-const openRecode = (state) => ({
+const unselectAllItems = (state) => ({
   ...state,
-  isRecodeOpen: true,
+  recodeItems: [],
 });
 
-const closeRecode = (state) => ({
+export const finishRecode = (state) => {
+  return {
+    ...state,
+    recodeItems: state.recodeItems.filter(
+      (item) => item.status === RecodeStatus.FAILURE
+    ),
+  };
+};
+
+const openRecodeOptions = (state) => ({
   ...state,
-  isRecodeOpen: false,
+  isRecodeOptionsOpen: true,
+});
+
+const closeRecodeOptions = (state) => ({
+  ...state,
+  isRecodeOptionsOpen: false,
 });
 
 const updateRecodeOptions = (state, { key, value }) => ({
@@ -167,6 +189,73 @@ const updateRecodeOptions = (state, { key, value }) => ({
     ...state.recodeOptions,
     [key]: value,
   },
+});
+
+const getRecodeAccountName = (state) => {
+  const recodeAccountId = state.recodeOptions.accountId;
+  const recodeAccount = state.accountList.find(
+    (account) => account.id === recodeAccountId
+  );
+
+  return `${recodeAccount.displayId} ${recodeAccount.displayName}`;
+};
+
+const getRecodeTaxCodeName = (state) => {
+  const recodeTaxCodeId = state.recodeOptions.taxCodeId;
+  const recodeTaxCode = state.taxCodeList.find(
+    (taxCode) => taxCode.id === recodeTaxCodeId
+  );
+
+  return `${recodeTaxCode.displayName}`;
+};
+
+const recodeItemSuccess = (state, { id }) => {
+  const isRecodeAccount = Boolean(state.recodeOptions.accountId);
+  const isRecodeTaxCode = Boolean(state.recodeOptions.taxCodeId);
+
+  return {
+    ...state,
+    entries: state.entries.map((entry) => {
+      if (entry.id === id) {
+        return {
+          ...entry,
+          displayAccountName: isRecodeAccount
+            ? getRecodeAccountName(state)
+            : entry.displayAccountName,
+          taxCode: isRecodeTaxCode
+            ? getRecodeTaxCodeName(state)
+            : entry.displayAccountName,
+        };
+      }
+
+      return entry;
+    }),
+    recodeItems: state.recodeItems.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          status: RecodeStatus.SUCCESS,
+        };
+      }
+
+      return item;
+    }),
+  };
+};
+
+const recodeItemFailure = (state, { id, error }) => ({
+  ...state,
+  recodeItems: state.recodeItems.map((item) => {
+    if (item.id === id) {
+      return {
+        ...item,
+        status: RecodeStatus.FAILURE,
+        error,
+      };
+    }
+
+    return item;
+  }),
 });
 
 const handlers = {
@@ -183,10 +272,13 @@ const handlers = {
   [SELECT_ITEM]: selectItem,
   [SELECT_ALL_ITEMS]: selectAllItems,
   [UNSELECT_ALL_ITEMS]: unselectAllItems,
-  [SET_RECODE_LOADING_STATE]: getRecodeLoadingState,
-  [OPEN_RECODE]: openRecode,
-  [CLOSE_RECODE]: closeRecode,
+  [FINISH_RECODE]: finishRecode,
+  [START_RECODE]: startRecode,
+  [OPEN_RECODE_OPTIONS]: openRecodeOptions,
+  [CLOSE_RECODE_OPTIONS]: closeRecodeOptions,
   [UPDATE_RECODE_OPTIONS]: updateRecodeOptions,
+  [RECODE_ITEM_SUCCESS]: recodeItemSuccess,
+  [RECODE_ITEM_FAILURE]: recodeItemFailure,
 };
 
 const findAndRecodeReducer = createReducer(getDefaultState(), handlers);

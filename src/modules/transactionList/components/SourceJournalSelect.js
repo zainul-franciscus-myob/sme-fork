@@ -54,6 +54,7 @@ const SourceJournalSelect = ({
   onChange,
   className,
   showSourceJournalTypes = Object.values(SourceJournalType),
+  disabled,
 }) => (
   <Select
     className={className}
@@ -61,6 +62,7 @@ const SourceJournalSelect = ({
     label="Source journal"
     value={value}
     onChange={handleSelectChange(onChange)}
+    disabled={disabled}
   >
     {sourceJournals
       .filter((_) => {

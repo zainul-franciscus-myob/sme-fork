@@ -1,15 +1,18 @@
 import {
-  CLOSE_RECODE,
+  CLOSE_RECODE_OPTIONS,
+  FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
   RECODE,
+  RECODE_ITEM_FAILURE,
+  RECODE_ITEM_SUCCESS,
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SET_NEXT_PAGE_LOADING_STATE,
-  SET_RECODE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+  START_RECODE,
   UNSELECT_ALL_ITEMS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD,
@@ -51,7 +54,11 @@ describe('FindAndRecodeModule', () => {
     module.run({
       businessId: '🦕',
       region: 'au',
-      taxCodeList: [],
+      taxCodeList: [
+        {
+          id: '2',
+        },
+      ],
       accountList: [
         {
           id: '1',
@@ -84,6 +91,9 @@ describe('FindAndRecodeModule', () => {
             taxCodeList: [],
             accountList: [],
           },
+        },
+        {
+          intent: UNSELECT_ALL_ITEMS,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -138,6 +148,9 @@ describe('FindAndRecodeModule', () => {
             taxCodeList: [],
             accountList: [],
           },
+        },
+        {
+          intent: UNSELECT_ALL_ITEMS,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
@@ -223,6 +236,9 @@ describe('FindAndRecodeModule', () => {
           expect(store.getActions()).toEqual([
             action,
             {
+              intent: UNSELECT_ALL_ITEMS,
+            },
+            {
               intent: SET_TABLE_LOADING_STATE,
               isTableLoading: true,
             },
@@ -265,6 +281,9 @@ describe('FindAndRecodeModule', () => {
           expect(store.getActions()).toEqual([
             action,
             {
+              intent: UNSELECT_ALL_ITEMS,
+            },
+            {
               intent: SET_TABLE_LOADING_STATE,
               isTableLoading: true,
             },
@@ -297,6 +316,9 @@ describe('FindAndRecodeModule', () => {
       });
 
       expect(store.getActions()).toEqual([
+        {
+          intent: UNSELECT_ALL_ITEMS,
+        },
         {
           intent: SET_NEXT_PAGE_LOADING_STATE,
           isNextPageLoading: true,
@@ -341,6 +363,9 @@ describe('FindAndRecodeModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: UNSELECT_ALL_ITEMS,
+        },
+        {
           intent: SET_NEXT_PAGE_LOADING_STATE,
           isNextPageLoading: true,
         },
@@ -363,7 +388,7 @@ describe('FindAndRecodeModule', () => {
 
   describe('recode', () => {
     it('successfully recodes', () => {
-      const { module, store, integration, setAlert } = setupWithRun();
+      const { module, store, integration } = setupWithRun();
 
       module.dispatcher.selectItem('1');
       module.dispatcher.updateRecodeOptions('accountId', '1');
@@ -375,35 +400,19 @@ describe('FindAndRecodeModule', () => {
         { intent: UPDATE_RECODE_OPTIONS, key: 'accountId', value: '1' },
         { intent: UPDATE_RECODE_OPTIONS, key: 'taxCodeId', value: '2' },
         {
-          intent: SET_RECODE_LOADING_STATE,
-          isRecodeLoading: true,
+          intent: START_RECODE,
         },
         {
-          intent: CLOSE_RECODE,
+          intent: CLOSE_RECODE_OPTIONS,
         },
         {
-          intent: SET_RECODE_LOADING_STATE,
-          isRecodeLoading: false,
+          intent: RECODE_ITEM_SUCCESS,
+          id: '1',
         },
         {
-          intent: UNSELECT_ALL_ITEMS,
+          intent: FINISH_RECODE,
         },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: true,
-        },
-        {
-          intent: SET_TABLE_LOADING_STATE,
-          isTableLoading: false,
-        },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
-        }),
       ]);
-      expect(setAlert).toHaveBeenCalledWith({
-        type: 'success',
-        message: expect.any(String),
-      });
       expect(integration.getRequests()).toEqual([
         {
           intent: RECODE,
@@ -420,17 +429,13 @@ describe('FindAndRecodeModule', () => {
             },
           ],
         },
-        expect.objectContaining({
-          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
-        }),
       ]);
     });
 
-    it('alerts when fails to recode', () => {
-      const { module, store, integration, setAlert } = setupWithRun();
-      integration.mapFailure(RECODE);
+    it('successfully recodes many', () => {
+      const { module, store, integration } = setupWithRun();
 
-      module.dispatcher.selectAllItems();
+      module.dispatcher.selectAllItems('1');
       module.dispatcher.updateRecodeOptions('accountId', '1');
       module.dispatcher.updateRecodeOptions('taxCodeId', '2');
       module.recode();
@@ -440,21 +445,104 @@ describe('FindAndRecodeModule', () => {
         { intent: UPDATE_RECODE_OPTIONS, key: 'accountId', value: '1' },
         { intent: UPDATE_RECODE_OPTIONS, key: 'taxCodeId', value: '2' },
         {
-          intent: SET_RECODE_LOADING_STATE,
-          isRecodeLoading: true,
+          intent: START_RECODE,
         },
         {
-          intent: CLOSE_RECODE,
+          intent: CLOSE_RECODE_OPTIONS,
         },
         {
-          intent: SET_RECODE_LOADING_STATE,
-          isRecodeLoading: false,
+          intent: RECODE_ITEM_SUCCESS,
+          id: '1',
+        },
+        {
+          intent: RECODE_ITEM_SUCCESS,
+          id: '2',
+        },
+        {
+          intent: RECODE_ITEM_SUCCESS,
+          id: '3',
+        },
+        {
+          intent: FINISH_RECODE,
         },
       ]);
-      expect(setAlert).toHaveBeenCalledWith({
-        type: 'danger',
-        message: expect.any(String),
-      });
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: RECODE,
+          urlParams: {
+            businessId: '🦕',
+          },
+          content: [
+            {
+              accountId: '1',
+              taxCodeId: '2',
+              businessEventId: '401',
+              businessEventLineId: '1',
+              businessEventType: 'CashPayment',
+            },
+          ],
+        },
+        {
+          intent: RECODE,
+          urlParams: {
+            businessId: '🦕',
+          },
+          content: [
+            {
+              accountId: '1',
+              taxCodeId: '2',
+              businessEventId: '402',
+              businessEventLineId: '2',
+              businessEventType: 'CashPayment',
+            },
+          ],
+        },
+        {
+          intent: RECODE,
+          urlParams: {
+            businessId: '🦕',
+          },
+          content: [
+            {
+              accountId: '1',
+              taxCodeId: '2',
+              businessEventId: '401',
+              businessEventLineId: '3',
+              businessEventType: 'CashPayment',
+            },
+          ],
+        },
+      ]);
+    });
+
+    it('fails recode', () => {
+      const { module, store, integration } = setupWithRun();
+      integration.mapFailure(RECODE);
+
+      module.dispatcher.selectItem('1');
+      module.dispatcher.updateRecodeOptions('accountId', '1');
+      module.dispatcher.updateRecodeOptions('taxCodeId', '2');
+      module.recode();
+
+      expect(store.getActions()).toEqual([
+        { intent: SELECT_ITEM, id: '1' },
+        { intent: UPDATE_RECODE_OPTIONS, key: 'accountId', value: '1' },
+        { intent: UPDATE_RECODE_OPTIONS, key: 'taxCodeId', value: '2' },
+        {
+          intent: START_RECODE,
+        },
+        {
+          intent: CLOSE_RECODE_OPTIONS,
+        },
+        {
+          intent: RECODE_ITEM_FAILURE,
+          id: '1',
+          error: expect.any(String),
+        },
+        {
+          intent: FINISH_RECODE,
+        },
+      ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: RECODE,

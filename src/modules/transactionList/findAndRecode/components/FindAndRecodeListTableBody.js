@@ -2,13 +2,19 @@ import { Checkbox, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsRecodeLoading, getTableEntries } from '../findAndRecodeSelectors';
+import {
+  getIsRecodeFinished,
+  getIsRecodeLoading,
+  getTableEntries,
+} from '../findAndRecodeSelectors';
+import RecodeStatusSymbol from './RecodeStatusSymbol';
 
 const FindAndRecodeListTableBody = ({
   onSelectItem,
   tableConfig,
   entries,
   isRecodeLoading,
+  isRecodeFinished,
 }) => {
   const rows = entries.map((entry, index) => (
     <Table.Row key={entry.id}>
@@ -18,7 +24,7 @@ const FindAndRecodeListTableBody = ({
           label={`Select item ${index}`}
           hideLabel
           onChange={() => onSelectItem(entry.id)}
-          checked={entry.isSelected}
+          checked={entry.recodeItem}
           disabled={isRecodeLoading}
         />
       </Table.RowItem>
@@ -42,6 +48,11 @@ const FindAndRecodeListTableBody = ({
       <Table.RowItem {...tableConfig.displayCredit}>
         {entry.displayCredit}
       </Table.RowItem>
+      {(isRecodeLoading || isRecodeFinished) && (
+        <Table.RowItem {...tableConfig.recodeStatus}>
+          <RecodeStatusSymbol recodeItem={entry.recodeItem} />
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 
@@ -51,6 +62,7 @@ const FindAndRecodeListTableBody = ({
 const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   isRecodeLoading: getIsRecodeLoading(state),
+  isRecodeFinished: getIsRecodeFinished(state),
 });
 
 export default connect(mapStateToProps)(FindAndRecodeListTableBody);

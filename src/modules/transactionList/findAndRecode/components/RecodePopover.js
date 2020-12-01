@@ -5,7 +5,7 @@ import React from 'react';
 import {
   getAccountList,
   getIsRecodeLoading,
-  getIsRecodeOpen,
+  getIsRecodeOptionsOpen,
   getRecodeOptions,
   getSelectedText,
   getTaxCodeList,
@@ -18,14 +18,14 @@ import styles from './RecodePopover.module.css';
 
 const RecodePopover = ({
   accounts,
+  isRecodeOptionsOpen,
   taxCodes,
-  isRecodeOpen,
   recodeOptions,
   isRecodeLoading,
   selectedText,
-  onOpenRecode,
+  onOpenRecodeOptions,
   onUpdateRecodeOptions,
-  onCloseRecode,
+  onCloseRecodeOptions,
   onRecode,
 }) => {
   const body = (
@@ -71,12 +71,12 @@ const RecodePopover = ({
         footer={<Popover.Footer child={footer} />}
         closeOnOuterAction
         preferPlace="below"
-        onOuterAction={() => isRecodeOpen && onCloseRecode()}
-        isOpen={isRecodeOpen}
+        onOuterAction={() => isRecodeOptionsOpen && onCloseRecodeOptions()}
+        isOpen={isRecodeOptionsOpen}
       >
         <Button
           type="secondary"
-          onClick={onOpenRecode}
+          onClick={onOpenRecodeOptions}
           disabled={isRecodeLoading}
         >
           Replace
@@ -89,8 +89,8 @@ const RecodePopover = ({
 
 const mapStateToProps = (state) => ({
   accounts: getAccountList(state),
+  isRecodeOptionsOpen: getIsRecodeOptionsOpen(state),
   taxCodes: getTaxCodeList(state),
-  isRecodeOpen: getIsRecodeOpen(state),
   recodeOptions: getRecodeOptions(state),
   isRecodeLoading: getIsRecodeLoading(state),
   selectedText: getSelectedText(state),

@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountList,
   getFilterOptions,
+  getIsRecodeLoading,
   getRegion,
   getTaxCodeList,
 } from '../findAndRecodeSelectors';
@@ -23,6 +24,7 @@ const FindAndRecodeFilterOptions = ({
   accountList,
   taxCodeList,
   region,
+  isRecodeLoading,
   filterOptions: {
     sourceJournal,
     dateFrom,
@@ -36,7 +38,7 @@ const FindAndRecodeFilterOptions = ({
   onResetFilters,
   onPeriodChange,
 }) => (
-  <FilterBar onReset={onResetFilters}>
+  <FilterBar onReset={isRecodeLoading ? undefined : onResetFilters}>
     <FilterBar.Group>
       <PeriodPicker
         className={styles.period}
@@ -45,6 +47,7 @@ const FindAndRecodeFilterOptions = ({
         dateFrom={dateFrom}
         dateTo={dateTo}
         onChange={onPeriodChange}
+        disabled={isRecodeLoading}
       />
     </FilterBar.Group>
     <SourceJournalSelect
@@ -59,6 +62,7 @@ const FindAndRecodeFilterOptions = ({
         SourceJournalType.CASH_RECEIPT,
         SourceJournalType.CASH_PAYMENT,
       ]}
+      disabled={isRecodeLoading}
     />
     <AccountCombobox
       className={styles.account}
@@ -70,6 +74,7 @@ const FindAndRecodeFilterOptions = ({
       hintText="All"
       allowClear
       hasAllItem
+      disabled={isRecodeLoading}
     />
     <TaxCodeCombobox
       className={styles.taxCode}
@@ -80,6 +85,7 @@ const FindAndRecodeFilterOptions = ({
       onChange={handleComboboxChange('taxCodeId', onUpdateFilters)}
       hintText="All"
       hasAllItem
+      disabled={isRecodeLoading}
     />
     <FilterBarSearch
       className={styles.search}
@@ -89,6 +95,7 @@ const FindAndRecodeFilterOptions = ({
       maxLength={255}
       value={keywords}
       onChange={handleInputChange(onUpdateFilters)}
+      disabled={isRecodeLoading}
     />
   </FilterBar>
 );
@@ -98,6 +105,7 @@ const mapStateToProps = (state) => ({
   accountList: getAccountList(state),
   taxCodeList: getTaxCodeList(state),
   region: getRegion(state),
+  isRecodeLoading: getIsRecodeLoading(state),
 });
 
 export default connect(mapStateToProps)(FindAndRecodeFilterOptions);

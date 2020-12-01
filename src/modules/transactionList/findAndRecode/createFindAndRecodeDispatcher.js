@@ -1,15 +1,18 @@
 import {
-  CLOSE_RECODE,
+  CLOSE_RECODE_OPTIONS,
+  FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
-  OPEN_RECODE,
+  OPEN_RECODE_OPTIONS,
+  RECODE_ITEM_FAILURE,
+  RECODE_ITEM_SUCCESS,
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SET_NEXT_PAGE_LOADING_STATE,
-  SET_RECODE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+  START_RECODE,
   UNSELECT_ALL_ITEMS,
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD,
@@ -102,22 +105,27 @@ const createFindAndRecodeDispatcher = (store) => ({
     });
   },
 
-  setRecodeLoadingState: (isRecodeLoading) => {
+  finishRecode: () => {
     store.dispatch({
-      intent: SET_RECODE_LOADING_STATE,
-      isRecodeLoading,
+      intent: FINISH_RECODE,
     });
   },
 
-  openRecode: () => {
+  startRecode: () => {
     store.dispatch({
-      intent: OPEN_RECODE,
+      intent: START_RECODE,
     });
   },
 
-  closeRecode: () => {
+  openRecodeOptions: () => {
     store.dispatch({
-      intent: CLOSE_RECODE,
+      intent: OPEN_RECODE_OPTIONS,
+    });
+  },
+
+  closeRecodeOptions: () => {
+    store.dispatch({
+      intent: CLOSE_RECODE_OPTIONS,
     });
   },
 
@@ -126,6 +134,21 @@ const createFindAndRecodeDispatcher = (store) => ({
       intent: UPDATE_RECODE_OPTIONS,
       key,
       value,
+    });
+  },
+
+  recodeItemSuccess: (id) => {
+    store.dispatch({
+      intent: RECODE_ITEM_SUCCESS,
+      id,
+    });
+  },
+
+  recodeItemFailure: (id, error) => {
+    store.dispatch({
+      intent: RECODE_ITEM_FAILURE,
+      id,
+      error,
     });
   },
 });

@@ -1,13 +1,18 @@
 import {
+  FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
+  RECODE_ITEM_FAILURE,
+  RECODE_ITEM_SUCCESS,
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
   SET_SORT_ORDER,
+  START_RECODE,
   UPDATE_FILTER_OPTIONS,
   UPDATE_RECODE_OPTIONS,
 } from '../FindAndRecodeIntents';
 import Periods from '../../../../components/PeriodPicker/Periods';
+import RecodeStatus from '../types/RecodeStatus';
 import findAndRecodeReducer from '../findAndRecodeReducer';
 
 describe('findAndRecodeReducer', () => {
@@ -120,10 +125,16 @@ describe('findAndRecodeReducer', () => {
   });
 
   describe('SELECT_ITEM', () => {
+    const state = {
+      recodeItems: [
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+      ],
+    };
+
     it('appends if not already selected', () => {
-      const state = {
-        selectedItems: ['1'],
-      };
       const action = {
         intent: SELECT_ITEM,
         id: '2',
@@ -131,13 +142,19 @@ describe('findAndRecodeReducer', () => {
 
       const actual = findAndRecodeReducer(state, action);
 
-      expect(actual.selectedItems).toEqual(['1', '2']);
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SELECTED,
+        },
+      ]);
     });
 
     it('removes if already selected', () => {
-      const state = {
-        selectedItems: ['1'],
-      };
       const action = {
         intent: SELECT_ITEM,
         id: '1',
@@ -145,20 +162,29 @@ describe('findAndRecodeReducer', () => {
 
       const actual = findAndRecodeReducer(state, action);
 
-      expect(actual.selectedItems).toEqual([]);
+      expect(actual.recodeItems).toEqual([]);
     });
   });
 
   describe('SELECT_ALL_ITEMS', () => {
+    const state = {
+      entries: [
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+        },
+      ],
+    };
+
     it('selects all if only some selected', () => {
-      const state = {
-        selectedItems: ['1'],
-        entries: [
+      const modifiedState = {
+        ...state,
+        recodeItems: [
           {
             id: '1',
-          },
-          {
-            id: '2',
+            status: RecodeStatus.SELECTED,
           },
         ],
       };
@@ -166,20 +192,31 @@ describe('findAndRecodeReducer', () => {
         intent: SELECT_ALL_ITEMS,
       };
 
-      const actual = findAndRecodeReducer(state, action);
+      const actual = findAndRecodeReducer(modifiedState, action);
 
-      expect(actual.selectedItems).toEqual(['1', '2']);
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SELECTED,
+        },
+      ]);
     });
 
     it('unselects all if all selected', () => {
-      const state = {
-        selectedItems: ['1', '2'],
-        entries: [
+      const modifiedState = {
+        ...state,
+        recodeItems: [
           {
             id: '1',
+            status: RecodeStatus.SELECTED,
           },
           {
             id: '2',
+            status: RecodeStatus.SELECTED,
           },
         ],
       };
@@ -187,9 +224,9 @@ describe('findAndRecodeReducer', () => {
         intent: SELECT_ALL_ITEMS,
       };
 
-      const actual = findAndRecodeReducer(state, action);
+      const actual = findAndRecodeReducer(modifiedState, action);
 
-      expect(actual.selectedItems).toEqual([]);
+      expect(actual.recodeItems).toEqual([]);
     });
   });
 
@@ -233,6 +270,243 @@ describe('findAndRecodeReducer', () => {
         accountId: '1',
         taxCodeId: '1',
       });
+    });
+  });
+
+  describe('START_RECODE', () => {
+    const state = {
+      recodeItems: [
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SELECTED,
+        },
+      ],
+    };
+
+    it('sets all items to loading', () => {
+      const action = {
+        intent: START_RECODE,
+        id: '2',
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '1',
+          status: RecodeStatus.LOADING,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.LOADING,
+        },
+      ]);
+    });
+  });
+
+  describe('RECODE_ITEM_SUCCESS', () => {
+    const state = {
+      accountList: [
+        {
+          id: '100',
+          displayId: '1-1000',
+          displayName: '🍉',
+        },
+      ],
+      taxCodeList: [
+        {
+          id: '200',
+          displayName: 'NT',
+        },
+      ],
+      recodeOptions: {
+        accountId: '100',
+        taxCodeId: '200',
+      },
+      entries: [
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+        },
+      ],
+      recodeItems: [
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SELECTED,
+        },
+      ],
+    };
+
+    it('sets item to success', () => {
+      const action = {
+        intent: RECODE_ITEM_SUCCESS,
+        id: '2',
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SUCCESS,
+        },
+      ]);
+    });
+
+    it('updates entry account name and tax code', () => {
+      const action = {
+        intent: RECODE_ITEM_SUCCESS,
+        id: '2',
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.entries).toEqual([
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+          displayAccountName: '1-1000 🍉',
+          taxCode: 'NT',
+        },
+      ]);
+    });
+
+    it('does not update tax code name when not recoding tax code', () => {
+      const modifiedState = {
+        ...state,
+        recodeOptions: {
+          ...state.recodeOptions,
+          taxCodeId: '',
+        },
+      };
+
+      const action = {
+        intent: RECODE_ITEM_SUCCESS,
+        id: '2',
+      };
+
+      const actual = findAndRecodeReducer(modifiedState, action);
+
+      expect(actual.entries).toEqual([
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+          displayAccountName: '1-1000 🍉',
+        },
+      ]);
+    });
+
+    it('does not update accont name when not recoding account', () => {
+      const modifiedState = {
+        ...state,
+        recodeOptions: {
+          ...state.recodeOptions,
+          accountId: '',
+        },
+      };
+
+      const action = {
+        intent: RECODE_ITEM_SUCCESS,
+        id: '2',
+      };
+
+      const actual = findAndRecodeReducer(modifiedState, action);
+
+      expect(actual.entries).toEqual([
+        {
+          id: '1',
+        },
+        {
+          id: '2',
+          taxCode: 'NT',
+        },
+      ]);
+    });
+  });
+
+  describe('RECODE_ITEM_FAILURE', () => {
+    const state = {
+      recodeItems: [
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.SELECTED,
+        },
+      ],
+    };
+
+    it('sets item to failure with error', () => {
+      const action = {
+        intent: RECODE_ITEM_FAILURE,
+        id: '2',
+        error: '🥬',
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '1',
+          status: RecodeStatus.SELECTED,
+        },
+        {
+          id: '2',
+          status: RecodeStatus.FAILURE,
+          error: '🥬',
+        },
+      ]);
+    });
+  });
+
+  describe('FINISH_RECODE', () => {
+    it('keeps failures selected', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SUCCESS,
+          },
+          {
+            id: '2',
+            status: RecodeStatus.FAILURE,
+            error: '🥬',
+          },
+        ],
+      };
+      const action = {
+        intent: FINISH_RECODE,
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.recodeItems).toEqual([
+        {
+          id: '2',
+          status: RecodeStatus.FAILURE,
+          error: '🥬',
+        },
+      ]);
     });
   });
 });

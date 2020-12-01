@@ -5,7 +5,7 @@ import {
 } from './FindAndRecodeIntents';
 import {
   getLoadNextPageParams,
-  getRecodeContent,
+  getRecodeItemContent,
   getSortAndFilterParams,
   getUrlParams,
 } from './findAndRecodeSelectors';
@@ -35,15 +35,16 @@ const createFindAndRecodeIntegrator = (store, integration) => ({
     });
   },
 
-  recode: ({ onSuccess, onFailure }) => {
+  recodeItem: ({ id, onSuccess, onFailure }) => {
     const state = store.getState();
 
     integration.write({
       intent: RECODE,
       urlParams: getUrlParams(state),
-      content: getRecodeContent(state),
+      content: getRecodeItemContent(id)(state),
       onSuccess,
       onFailure,
+      allowParallelRequests: true,
     });
   },
 });

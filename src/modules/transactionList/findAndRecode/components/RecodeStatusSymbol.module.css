@@ -1,0 +1,7 @@
+.success {
+  fill: var(--flx-fill-success-icon-inner);
+}
+
+.failure {
+  fill: var(--flx-fill-warning-icon-outer);
+}

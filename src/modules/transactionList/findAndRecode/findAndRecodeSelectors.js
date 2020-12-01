@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import { businessEventToFeatureMap } from '../../../common/types/BusinessEventTypeMap';
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
+import RecodeStatus from './types/RecodeStatus';
 
 const getBusinessId = (state) => state.businessId;
 
@@ -24,18 +25,18 @@ const getEntryLink = (entry, businessId, region) => {
     : undefined;
 };
 
-const getSelectedItems = (state) => state.selectedItems;
+export const getRecodeItems = (state) => state.recodeItems;
 
 export const getTableEntries = createSelector(
   getEntries,
   getBusinessId,
   getRegion,
-  getSelectedItems,
-  (entries, businessId, region, selectedItems) =>
+  getRecodeItems,
+  (entries, businessId, region, recodeItems) =>
     entries.map((entry) => ({
       ...entry,
       link: getEntryLink(entry, businessId, region),
-      isSelected: selectedItems.includes(entry.id),
+      recodeItem: recodeItems.find((item) => item.id === entry.id),
     }))
 );
 
@@ -68,33 +69,74 @@ const getSort = createSelector(
   }
 );
 
-export const getAreAllItemsSelected = (state) =>
-  state.selectedItems.length === state.entries.length;
+export const getAreAllItemsSelected = createSelector(
+  getRecodeItems,
+  getEntries,
+  (items, entries) => items.length === entries.length
+);
 
-export const getAreSomeItemsSelected = (state) =>
-  state.selectedItems.length > 0;
+export const getAreSomeItemsSelected = createSelector(
+  getRecodeItems,
+  (items) => items.length > 0
+);
 
-export const getSelectedText = (state) => {
-  const selectedCount = state.selectedItems.length;
+export const getSelectedText = createSelector(getRecodeItems, (recodeItems) => {
+  const count = recodeItems.length;
 
-  switch (selectedCount) {
+  switch (count) {
     case 0:
       return '';
     case 1:
       return '1 item selected';
     default:
-      return `${selectedCount} items selected`;
+      return `${count} items selected`;
   }
-};
+});
 
 export const getActiveSort = createSelector(getSort, (sort) => ({
   column: sort.orderBy,
   descending: sort.sortOrder === 'desc',
 }));
 
-export const getIsRecodeOpen = (state) => state.isRecodeOpen;
+export const getIsRecodeOptionsOpen = (state) => state.isRecodeOptionsOpen;
 
-export const getIsRecodeLoading = (state) => state.isRecodeLoading;
+export const getIsRecodeLoading = createSelector(getRecodeItems, (items) =>
+  items.some((item) => item.status === RecodeStatus.LOADING)
+);
+
+export const getIsRecodeFinished = createSelector(getRecodeItems, (items) =>
+  items.every(
+    (item) =>
+      item.status === RecodeStatus.SUCCESS ||
+      item.status === RecodeStatus.FAILURE
+  )
+);
+
+const getFailedRecodeItems = createSelector(getRecodeItems, (items) =>
+  items.filter((item) => item.status === RecodeStatus.FAILURE)
+);
+
+export const getIsRecodeFailure = createSelector(
+  getIsRecodeFinished,
+  getFailedRecodeItems,
+  (isRecodeFinished, failedItems) => isRecodeFinished && failedItems.length > 0
+);
+
+export const getRecodeFailureMessage = createSelector(
+  getFailedRecodeItems,
+  (failedItems) => {
+    const count = failedItems.length;
+
+    switch (count) {
+      case 0:
+        return '';
+      case 1:
+        return '1 replacement failed.';
+      default:
+        return `${count} replacements failed.`;
+    }
+  }
+);
 
 export const getRecodeOptions = (state) => state.recodeOptions;
 
@@ -147,19 +189,19 @@ export const getUrlParams = createSelector(getBusinessId, (businessId) => ({
   businessId,
 }));
 
-export const getRecodeContent = createSelector(
-  getEntries,
-  getSelectedItems,
-  getRecodeOptions,
-  (entries, selectedItems, recodeOptions) => {
-    return entries
-      .filter((entry) => selectedItems.includes(entry.id))
-      .map(({ id, businessEventType, businessEventId }) => ({
+export const getRecodeItemContent = (id) =>
+  createSelector(getEntries, getRecodeOptions, (entries, recodeOptions) => {
+    const { businessEventType, businessEventId } = entries.find(
+      (entry) => entry.id === id
+    );
+
+    return [
+      {
         businessEventLineId: id,
         businessEventType,
         businessEventId,
         accountId: recodeOptions.accountId,
         taxCodeId: recodeOptions.taxCodeId,
-      }));
-  }
-);
+      },
+    ];
+  });
