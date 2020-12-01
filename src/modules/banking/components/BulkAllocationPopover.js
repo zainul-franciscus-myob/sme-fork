@@ -45,6 +45,7 @@ const BulkAllocationPopover = ({
           label="Tax code"
           hideLabel={false}
           name="taxCodeId"
+          hintText="Select a tax code"
           items={taxCodes}
           selectedId={bulkAllocationOptions.taxCodeId}
           requiredLabel="This field is required"
