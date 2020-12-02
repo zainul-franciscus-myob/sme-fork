@@ -1,5 +1,6 @@
 import { businessEventTypes } from '../../../../common/types/BusinessEventTypeMap';
 import {
+  getActiveBankAccounts,
   getBankingRuleModuleContext,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
@@ -888,6 +889,68 @@ describe('Bank transactions index selectors', () => {
           expect(actual).toBeFalsy();
         });
       });
+    });
+  });
+
+  describe('getActiveBankAccounts', () => {
+    it('should return only the active bank accounts', () => {
+      const state = {
+        bankAccounts: [
+          {
+            accountType: 'Asset',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            id: '4',
+            taxCodeId: '4',
+            isInactive: false,
+          },
+          {
+            accountType: 'Liability',
+            displayId: '2-1120',
+            displayName: 'Kitchen Account #2',
+            id: '5',
+            taxCodeId: '4',
+            isInactive: false,
+          },
+          {
+            accountType: 'Asset',
+            displayId: '1-1160',
+            displayName: 'Kitchen Account #6',
+            id: '6',
+            taxCodeId: '4',
+            isInactive: true,
+          },
+          {
+            accountType: 'Income',
+            displayId: '4-1170',
+            displayName: 'Kitchen Account #7',
+            id: '7',
+            taxCodeId: '4',
+            isInactive: true,
+          },
+        ],
+      };
+
+      const actual = getActiveBankAccounts(state);
+
+      expect(actual).toEqual([
+        {
+          accountType: 'Asset',
+          displayId: '1-1110',
+          displayName: 'Vehicle Account #11',
+          id: '4',
+          taxCodeId: '4',
+          isInactive: false,
+        },
+        {
+          accountType: 'Liability',
+          displayId: '2-1120',
+          displayName: 'Kitchen Account #2',
+          id: '5',
+          taxCodeId: '4',
+          isInactive: false,
+        },
+      ]);
     });
   });
 });

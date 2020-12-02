@@ -231,6 +231,21 @@
   padding: 0.1rem 0.1rem 0.1rem 3.6rem;
 }
 
+.inActiveAccountNameContainer {
+  display: grid;
+  grid-template-columns: 0.35fr 1fr;
+}
+
+.accountNameWarning {
+  fill: var(--flx-fill-warning-icon-outer);
+}
+
+.inActiveAccountName {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 @media (min-width: 480px) {
   .label {
     display: inline;

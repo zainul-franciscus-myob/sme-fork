@@ -37,6 +37,10 @@ export const getModalAlert = (state) => state.modalAlert;
 
 export const getBankAccounts = (state) => state.bankAccounts;
 
+export const getActiveBankAccounts = (state) => {
+  return state.bankAccounts.filter(({ isInactive }) => !isInactive);
+};
+
 export const getEntries = (state) => state.entries;
 
 export const getBusinessId = (state) => state.businessId;
@@ -70,6 +74,7 @@ export const getBankEntryByIndexSelector = () =>
       return {
         ...entry,
         bankAccountName: bankAccount.displayName,
+        isInactive: bankAccount.isInactive,
         deposit: entry.deposit && formatAmount(entry.deposit),
         withdrawal: entry.withdrawal && formatAmount(entry.withdrawal),
         displayDate: formatSlashDate(new Date(entry.date)),

@@ -1,4 +1,11 @@
-import { Button, Checkbox, Icons, Spinner, Tooltip } from '@myob/myob-widgets';
+import {
+  Button,
+  Checkbox,
+  Icons,
+  Spinner,
+  Tooltip,
+  WarningIcon,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classNames from 'classnames';
@@ -174,6 +181,21 @@ const BankTransactionTableRow = ({
 
   const spinnerView = <Spinner size="small" />;
 
+  const bankAccountNameToolTipContent = entry.isInactive
+    ? `${entry.bankAccountName} is inactive. Please re-activate or cancel bank feed.`
+    : entry.bankAccountName;
+
+  const bankAccountNameContent = entry.isInactive ? (
+    <div className={styles.inActiveAccountNameContainer}>
+      <WarningIcon className={styles.accountNameWarning} />
+      <span className={styles.inActiveAccountName}>
+        {entry.bankAccountName}
+      </span>
+    </div>
+  ) : (
+    entry.bankAccountName
+  );
+
   const descriptionView = (
     <BankingTableDescription
       isExpanded={isExpanded}
@@ -199,10 +221,10 @@ const BankTransactionTableRow = ({
       </BankingTableRowField>
       {isAllBankAccountsSelected && (
         <Tooltip
-          className={classNames(styles.bankAccount)}
-          triggerContent={entry.bankAccountName}
+          className={styles.bankAccount}
+          triggerContent={bankAccountNameContent}
         >
-          {entry.bankAccountName}
+          {bankAccountNameToolTipContent}
         </Tooltip>
       )}
       <div className={styles.description}>
@@ -247,7 +269,7 @@ const BankTransactionTableRow = ({
         </BankingTableRowField>
         {isAllBankAccountsSelected && (
           <div className={classNames(styles.bankAccount)}>
-            {entry.bankAccountName}
+            {bankAccountNameContent}
           </div>
         )}
         <BankingTableRowField className={styles.amount}>

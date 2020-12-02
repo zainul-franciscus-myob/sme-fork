@@ -9,8 +9,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getActiveBankAccounts,
   getBankAccountForPageHead,
-  getBankAccounts,
   getDisplayBalances,
   getHasAllBankAccounts,
 } from '../selectors';
@@ -103,7 +103,7 @@ const BankTransactionPageHead = ({
 
 const mapStateToProps = (state) => ({
   bankAccount: getBankAccountForPageHead(state),
-  bankAccounts: getBankAccounts(state),
+  bankAccounts: getActiveBankAccounts(state),
   balances: getDisplayBalances(state),
   bankReconciliationUrl: getBankReconciliationUrl(state),
   hasAllBankAccounts: getHasAllBankAccounts(state),
