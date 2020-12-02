@@ -14,7 +14,7 @@ const getItemSellingDetails = (state) => state.item.sellingDetails || {};
 const getItemBuyingDetails = (state) => state.item.buyingDetails || {};
 const getItemId = (state) => state.itemId;
 const getIsItemBuyingPriceTaxInclusiveReadOnly = (state) =>
-  state.isItemBuyingPriceTaxInclusiveReadOnly;
+  state.item.isItemBuyingPriceTaxInclusiveReadOnly;
 const getinfoAlertText = (state) => state.infoAlertText;
 
 export const getIsCreating = createSelector(
