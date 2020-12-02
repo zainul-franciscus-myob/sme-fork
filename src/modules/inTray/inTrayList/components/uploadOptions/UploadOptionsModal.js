@@ -1,9 +1,11 @@
 import {
   Alert,
   Button,
+  Columns,
   Icons,
   Input,
   Modal,
+  OpenExternalLinkIcon,
   Spinner,
   Tooltip,
 } from '@myob/myob-widgets';
@@ -16,45 +18,55 @@ import {
   getIsUploadOptionsLoading,
   getUploadOptionsAlert,
 } from '../../selectors/UploadOptionsSelectors';
+import App from '../assets/App.svg';
+import AppStore from '../assets/AppStore.svg';
+import Email from '../assets/Email.svg';
+import Feeds from '../assets/Feeds.svg';
+import GooglePlay from '../assets/GooglePlay.svg';
 import style from './UploadOptionsModal.module.css';
 
 const UploadOptionsModal = ({
   listeners: {
+    navigateToAppStore,
+    navigateToGooglePlay,
+    navigateToSuppliersWiki,
     onCancel,
     onConfirmEmailGenerationButtonClick,
-    onGenerateNewEmailButtonClick,
+    onCopyEmailButtonClicked,
     onDismissAlert,
     onDismissConfirmEmailGeneration,
-    onCopyEmailButtonClicked,
+    onGenerateNewEmailButtonClick,
   },
   email,
   isConfirmingEmailGeneration,
   isUploadOptionsLoading,
   uploadOptionsAlert,
 }) => {
-  const confirmEmailGenerationButtonIcon = (
-    <Tooltip placement="right" triggerContent={<Icons.Info />}>
-      Use if you&apos;re having problems, such as irrelevant documents being
-      added
-    </Tooltip>
-  );
-
   const confirmEmailGenerationButton = (
     <Button
-      type="link"
-      onClick={onConfirmEmailGenerationButtonClick}
-      icon={confirmEmailGenerationButtonIcon}
+      className={style.inTrayGenerationEmail}
+      icon={
+        <Tooltip placement="right" triggerContent={<Icons.Info />}>
+          Use if you&apos;re having problems, such as irrelevant documents being
+          added
+        </Tooltip>
+      }
       iconRight
-      className={style.generateEmailAddress}
+      onClick={onConfirmEmailGenerationButtonClick}
+      type="link"
     >
       Generate new email address
     </Button>
   );
 
   const emailGenerationInfoAlert = (
-    <Alert type="info" onDismiss={onDismissConfirmEmailGeneration}>
+    <Alert
+      className={style.inTrayGenerationEmailAlert}
+      onDismiss={onDismissConfirmEmailGeneration}
+      type="info"
+    >
       Are you sure you want to generate a new email address? New documents sent
-      to the old address will no longer appear here.&nbsp;
+      to the old address will no longer appear here.{' '}
       <Button type="link" onClick={onGenerateNewEmailButtonClick}>
         Generate new email address
       </Button>
@@ -62,70 +74,130 @@ const UploadOptionsModal = ({
   );
 
   const modalBody = (
-    <Modal.Body>
-      {uploadOptionsAlert && (
-        <Alert type={uploadOptionsAlert.type} onDismiss={onDismissAlert}>
-          {uploadOptionsAlert.message}
-        </Alert>
-      )}
+    <Modal.Body className={style.uploadModal}>
+      <Columns type="three">
+        <div className={style.inTrayUpload}>
+          {uploadOptionsAlert && (
+            <Alert type={uploadOptionsAlert.type} onDismiss={onDismissAlert}>
+              {uploadOptionsAlert.message}
+            </Alert>
+          )}
 
-      <h3>Email</h3>
-      <p>
-        Send documents to the email address below and they&apos;ll automatically
-        appear in the In Tray. You can share the email address with your
-        suppliers too.
-      </p>
+          <img
+            alt="Upload via email"
+            className={style.inTrayImages}
+            height="110"
+            src={Email}
+            width="94"
+          />
 
-      <h3>Your In Tray email address:</h3>
-      <div className={style.inTrayEmailAddress}>
-        <Input
-          disabled
-          hideLabel
-          label="Email"
-          name="email"
-          value={email}
-          data-copy
-        />
-        <Button type="secondary" onClick={onCopyEmailButtonClicked}>
-          Copy
-        </Button>
-      </div>
-      {isConfirmingEmailGeneration
-        ? emailGenerationInfoAlert
-        : confirmEmailGenerationButton}
+          <h3>Upload via email</h3>
 
-      <h3>Supplier feeds</h3>
-      <p>
-        We&apos;ve partnered with a number of large suppliers to have their
-        invoices automatically sent to you.&nbsp;
-        <a
-          href="https://help.myob.com/wiki/x/qp5qAg"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn more
-        </a>
-      </p>
+          <p>
+            Send documents to the email address below and they&apos;ll
+            automatically appear in your In tray. You can share the email
+            address with your suppliers too.
+          </p>
 
-      <h3>Scan from your mobile</h3>
-      <p>Use the MYOB Capture app to scan and send documents to In Tray.</p>
+          <h4>Your In tray email address</h4>
+
+          <div className={style.inTrayEmailAddress}>
+            <Input
+              data-copy
+              disabled
+              hideLabel
+              label="Email"
+              name="email"
+              value={email}
+            />
+            <Button type="secondary" onClick={onCopyEmailButtonClicked}>
+              Copy
+            </Button>
+          </div>
+
+          {isConfirmingEmailGeneration
+            ? emailGenerationInfoAlert
+            : confirmEmailGenerationButton}
+        </div>
+
+        <div>
+          <img
+            alt="Scan with your phone"
+            className={style.inTrayImages}
+            height="110"
+            src={App}
+            width="80"
+          />
+
+          <h3>Scan with your phone</h3>
+
+          <p>
+            Use the MYOB Capture app to scan and send documents to your In tray.
+            The app is included in your subscription.
+          </p>
+
+          <img
+            alt="Download on the App Store"
+            className={style.inTrayApps}
+            height="38"
+            onClick={navigateToAppStore}
+            role="presentation"
+            src={AppStore}
+          />
+
+          <img
+            alt="Get it on Google Play"
+            className={style.inTrayApps}
+            height="38"
+            onClick={navigateToGooglePlay}
+            role="presentation"
+            src={GooglePlay}
+          />
+        </div>
+
+        <div>
+          <img
+            alt="Automated supplier receipts"
+            className={style.inTrayImages}
+            height="110"
+            src={Feeds}
+            width="118"
+          />
+
+          <h3>Automated supplier receipts</h3>
+
+          <p>
+            We&apos;ve partnered with a number of large suppliers to have their
+            invoices automatically sent to your In tray.
+          </p>
+
+          <Button
+            icon={<OpenExternalLinkIcon />}
+            iconRight
+            onClick={navigateToSuppliersWiki}
+            type="link"
+          >
+            All partners and how to connect
+          </Button>
+        </div>
+      </Columns>
     </Modal.Body>
   );
 
-  const spinner = (
-    <div className={style.uploadOptionsSpinner}>
-      <Spinner />
-    </div>
-  );
+  const spinner = <Spinner className={style.inTraySpinner} />;
 
   return (
-    <Modal title="More ways to upload documents" onCancel={onCancel}>
+    <Modal
+      onCancel={onCancel}
+      size="large"
+      title="More ways to upload documents"
+    >
       {isUploadOptionsLoading ? spinner : modalBody}
       <Modal.Footer>
         <Button
           disabled={isUploadOptionsLoading}
-          type="secondary"
           onClick={onCancel}
+          type="secondary"
         >
           Close
         </Button>

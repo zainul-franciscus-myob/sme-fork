@@ -74,7 +74,7 @@ const UploadViaEmail = ({
 
               <p>
                 Send documents to the email address below and they&apos;ll
-                automatically appear in the In tray. You can share the email
+                automatically appear in your In tray. You can share the email
                 address with your suppliers too.
               </p>
 

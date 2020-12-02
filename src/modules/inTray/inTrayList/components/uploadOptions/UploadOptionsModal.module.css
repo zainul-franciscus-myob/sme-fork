@@ -1,24 +1,49 @@
-.inTrayEmailAddress {
-  margin-bottom: 0.8rem;
-  display: flex;
-  align-items: flex-start;
-}
+.inTraySpinner :global(.loadingSpinner) { margin: var(--flx-spacing-large) auto; }
+
+.inTrayUpload { overflow: hidden; }
+
+.inTrayImages,
+.inTrayEmailAddress :global(.sr-only) { display: none; }
 
 .inTrayEmailAddress :global(.form-group) {
   flex: 1;
-  margin-right: 0.8rem;
   margin-bottom: 0;
+  margin-right: var(--flx-spacing-tiny);
 }
 
-.inTrayEmailAddress button {
-  flex: 0 0 auto;
+.inTrayEmailAddress {
+  align-items: flex-start;
+  display: flex;
+  margin-bottom: var(--flx-spacing-tiny);
 }
 
-.generateEmailAddress {
-  margin-bottom: 0.8rem;
+.inTrayEmailAddress button { flex: 0 0 auto; }
+
+.inTrayApps {
+  cursor: pointer;
+  margin: 0 var(--flx-spacing-small) var(--flx-spacing-small) 0;
 }
 
-.uploadOptionsSpinner :global(.loadingSpinner) {
-  margin-top: 2.4rem;
-  margin-bottom: 2.4rem;
+.inTrayApps:last-of-type { margin-right: 0; }
+
+@media screen and (min-width: 864px) {
+  .inTrayImages {
+    display: block;
+    margin: 0 auto var(--flx-spacing-large);
+  }
+
+  .inTrayGenerationEmailAlert { margin-bottom: 0; }
+
+  .inTrayGenerationEmailAlert :global(.alert-btn--close) {
+    position: relative;
+    right: var(--flx-spacing-small);
+  }
+}
+
+@media screen and (max-width: 863px) {
+  .uploadModal :global(.flx-col--3) { grid-template-columns: none; }
+
+  .inTrayApps { margin-bottom: var(--flx-spacing-x-large); }
+
+  .inTrayGenerationEmail { margin-bottom: var(--flx-spacing-large); }
 }

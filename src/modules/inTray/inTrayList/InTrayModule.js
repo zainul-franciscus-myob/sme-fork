@@ -383,6 +383,17 @@ export default class InTrayModule {
     onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
     onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
     onGenerateNewEmailButtonClick: this.generateNewEmail,
+    navigateToAppStore: this.openInNewTab(
+      `https://apps.apple.com/${getRegion(
+        this.store.getState()
+      )}/app/myob-capture/id1442167388`
+    ),
+    navigateToGooglePlay: this.openInNewTab(
+      'https://play.google.com/store/apps/details?id=com.myob.snap'
+    ),
+    navigateToSuppliersWiki: this.openInNewTab(
+      'https://help.myob.com/wiki/display/myob/Automating+supplier+invoices'
+    ),
   });
 
   setUploadPopoverState = () => this.dispatcher.setUploadPopoverState(true);
@@ -415,17 +426,6 @@ export default class InTrayModule {
         }}
         emptyStateListeners={{
           onAddAttachments: this.uploadInTrayFiles,
-          navigateToAppStore: this.openInNewTab(
-            `https://apps.apple.com/${getRegion(
-              this.store.getState()
-            )}/app/myob-capture/id1442167388`
-          ),
-          navigateToGooglePlay: this.openInNewTab(
-            'https://play.google.com/store/apps/details?id=com.myob.snap'
-          ),
-          navigateToSuppliersWiki: this.openInNewTab(
-            'https://help.myob.com/wiki/display/myob/Automating+supplier+invoices'
-          ),
           setUploadPopoverState: () => this.setUploadPopoverState(),
           ...this.sharedUploadListeners(),
         }}
