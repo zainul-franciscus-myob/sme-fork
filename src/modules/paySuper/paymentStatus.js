@@ -35,6 +35,10 @@ const paymentStatus = {
     display: 'Reversal required',
     color: 'red',
   },
+  ReversalCompleted: {
+    display: 'Reversal completed',
+    color: 'green',
+  },
 };
 
 export default paymentStatus;

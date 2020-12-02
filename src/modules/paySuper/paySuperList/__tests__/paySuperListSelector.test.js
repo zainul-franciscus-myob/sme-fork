@@ -67,21 +67,65 @@ describe('paySuperListSelector', () => {
   });
 
   describe('getSuperPayments', () => {
-    it("maps string payment status' to paymentStatus objects", () => {
-      const state = {
-        superPayments: [{ status: 'Created' }],
-      };
+    const testCases = [
+      {
+        input: 'Created',
+        expected: { display: 'Pending authorisation', color: 'orange' },
+      },
+      {
+        input: 'PartiallyAuthorised',
+        expected: { display: 'Partially Authorised', color: 'orange' },
+      },
+      {
+        input: 'Authorised',
+        expected: { display: 'Authorised', color: 'light-grey' },
+      },
+      {
+        input: 'RequestFunds',
+        expected: { display: 'Funds requested', color: 'light-grey' },
+      },
+      {
+        input: 'FundsPaid',
+        expected: { display: 'Processing payment', color: 'light-grey' },
+      },
+      {
+        input: 'FundsUnavailable',
+        expected: { display: 'Withdrawal failed', color: 'red' },
+      },
+      {
+        input: 'FundsTransferError',
+        expected: { display: 'Payment failed', color: 'red' },
+      },
+      {
+        input: 'Completed',
+        expected: { display: 'Completed', color: 'green' },
+      },
+      {
+        input: 'PaymentDispersmentError',
+        expected: { display: 'Reversal required', color: 'red' },
+      },
+      {
+        input: 'ReversalCompleted',
+        expected: { display: 'Reversal completed', color: 'green' },
+      },
+    ];
 
-      const superPayments = getSuperPayments(state);
+    testCases.forEach((test) => {
+      it(`maps string payment status: ${test.input} to paymentStatus object: ${test.expected.display}, color: ${test.expected.color}`, () => {
+        const state = {
+          superPayments: [{ status: test.input }],
+        };
 
-      expect(superPayments).toEqual([
-        {
-          status: {
-            display: 'Pending authorisation',
-            color: 'orange',
+        const superPayments = getSuperPayments(state);
+
+        expect(superPayments).toEqual([
+          {
+            status: {
+              ...test.expected,
+            },
           },
-        },
-      ]);
+        ]);
+      });
     });
   });
 
