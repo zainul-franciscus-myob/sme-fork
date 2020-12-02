@@ -27,3 +27,8 @@ export const getPaySuperListUrl = (state) => {
 };
 export const getModalType = (state) => state.modalType;
 export const getAlert = (state) => state.alert;
+export const getAccessTokenContent = (state) => ({
+  accessToken: state.accessToken,
+});
+export const getSuperPaymentListUrl = (state) =>
+  `/#/${state.region}/${state.businessId}/paySuper`;

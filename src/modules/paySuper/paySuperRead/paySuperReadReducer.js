@@ -1,6 +1,7 @@
 import {
   LOAD_PAY_SUPER_READ,
   PREPARE_UI_FOR_REVERSE,
+  SET_ACCESS_TOKEN,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
@@ -71,6 +72,11 @@ const setStatus = (state, { status }) => ({
   status,
 });
 
+const setAccessToken = (state, { accessToken }) => ({
+  ...state,
+  accessToken,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -80,6 +86,7 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [PREPARE_UI_FOR_REVERSE]: prepareUiForReverse,
   [SET_STATUS]: setStatus,
+  [SET_ACCESS_TOKEN]: setAccessToken,
 };
 
 const paySuperReadReducer = createReducer(getDefaultState(), handlers);

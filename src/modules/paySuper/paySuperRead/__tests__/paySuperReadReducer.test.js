@@ -1,4 +1,7 @@
-import { PREPARE_UI_FOR_REVERSE } from '../paySuperReadIntents';
+import {
+  PREPARE_UI_FOR_REVERSE,
+  SET_ACCESS_TOKEN,
+} from '../paySuperReadIntents';
 import paySuperReadReducer from '../paySuperReadReducer';
 
 describe('paySuperReadReducer', () => {
@@ -26,5 +29,20 @@ describe('paySuperReadReducer', () => {
 
       expect(actual).toEqual(expected);
     });
+  });
+
+  it('sets access token', () => {
+    const state = {};
+    const action = {
+      intent: SET_ACCESS_TOKEN,
+      accessToken: 'accessToken',
+    };
+    const expected = {
+      accessToken: 'accessToken',
+    };
+
+    const actual = paySuperReadReducer(state, action);
+
+    expect(actual).toEqual(expected);
   });
 });

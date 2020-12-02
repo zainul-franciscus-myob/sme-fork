@@ -8,3 +8,4 @@ export const PREPARE_UI_FOR_REVERSE = Symbol(
   'Prepare UI for transaction reversal'
 );
 export const SET_STATUS = Symbol('Set status');
+export const SET_ACCESS_TOKEN = Symbol('Set the access token');

@@ -5,6 +5,7 @@ import {
   LOAD_PAY_SUPER_READ,
   PREPARE_UI_FOR_REVERSE,
   REVERSE_PAY_SUPER,
+  SET_ACCESS_TOKEN,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
@@ -13,11 +14,13 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import { SUCCESSFULLY_REVERSED_TRANSACTION } from '../../../common/types/MessageTypes';
 import {
+  getAccessTokenContent,
   getBatchPaymentId,
   getBusinessEventId,
   getBusinessId,
   getPaySuperListUrl,
   getRegion,
+  getSuperPaymentListUrl,
 } from './paySuperReadSelector';
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -25,6 +28,7 @@ import ModalType from './ModalType';
 import PaySuperAuthorisationModalModule from '../paySuperAuthorisationModal/PaySuperAuthorisationModalModule';
 import PaySuperReadView from './components/PaySuperReadView';
 import Store from '../../../store/Store';
+import StsLoginModule from '../../stsLogin/StsLoginModule';
 import paySuperReadReducer from './paySuperReadReducer';
 
 export default class PaySuperReadModule {
@@ -44,6 +48,11 @@ export default class PaySuperReadModule {
         onAuthoriseSuccess: this.onAuthoriseSuccess,
       }),
     };
+    this.stsLoginModal = new StsLoginModule({
+      integration,
+      onLoggedIn: this.onLoggedIn,
+      onCancel: this.goToSuperPaymentList,
+    });
     this.pushMessage = pushMessage;
   }
 
@@ -53,6 +62,20 @@ export default class PaySuperReadModule {
       message,
     });
     this.loadPaySuperRead();
+  };
+
+  onLoggedIn = (accessToken) => {
+    this.store.dispatch({
+      intent: SET_ACCESS_TOKEN,
+      accessToken,
+    });
+    this.dispatcher.setAccessToken(accessToken);
+    this.loadPaySuperRead();
+  };
+
+  goToSuperPaymentList = () => {
+    const state = this.store.getState();
+    window.location.href = getSuperPaymentListUrl(state);
   };
 
   setAlert = (alert) => {
@@ -120,12 +143,15 @@ export default class PaySuperReadModule {
   reversePaySuper = () => {
     const intent = REVERSE_PAY_SUPER;
     const state = this.store.getState();
+    this.stsLoginModal.run(getBusinessId(state));
     this.setLoadingState(LoadingState.LOADING);
 
     const urlParams = {
       businessId: getBusinessId(state),
       businessEventId: getBusinessEventId(state),
     };
+
+    const content = getAccessTokenContent(state);
 
     const onSuccess = ({ message }) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -146,6 +172,7 @@ export default class PaySuperReadModule {
     this.integration.write({
       intent,
       urlParams,
+      content,
       onSuccess,
       onFailure,
     });
