@@ -1,7 +1,10 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK } from '../../../common/types/MessageTypes';
+import {
+  SUCCESSFULLY_DELETED_PURCHASE_ORDER,
+  SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK,
+} from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
   getRegion,
@@ -16,7 +19,10 @@ import createPurchaseOrderListIntegrator from './createPurchaseOrderListIntegrat
 import debounce from '../../../common/debounce/debounce';
 import purchaseOrderListReducer from './purchaseOrderListReducer';
 
-const messageTypes = [SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK];
+const messageTypes = [
+  SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK,
+  SUCCESSFULLY_DELETED_PURCHASE_ORDER,
+];
 
 export default class PurchaseOrderListModule {
   constructor({ integration, setRootView, popMessages }) {
