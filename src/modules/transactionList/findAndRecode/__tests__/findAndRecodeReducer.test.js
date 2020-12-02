@@ -330,9 +330,13 @@ describe('findAndRecodeReducer', () => {
       entries: [
         {
           id: '1',
+          displayAccountName: 'account1',
+          taxCode: 'taxCode1',
         },
         {
           id: '2',
+          displayAccountName: 'account2',
+          taxCode: 'taxCode2',
         },
       ],
       recodeItems: [
@@ -378,6 +382,8 @@ describe('findAndRecodeReducer', () => {
       expect(actual.entries).toEqual([
         {
           id: '1',
+          displayAccountName: 'account1',
+          taxCode: 'taxCode1',
         },
         {
           id: '2',
@@ -406,15 +412,18 @@ describe('findAndRecodeReducer', () => {
       expect(actual.entries).toEqual([
         {
           id: '1',
+          displayAccountName: 'account1',
+          taxCode: 'taxCode1',
         },
         {
           id: '2',
           displayAccountName: '1-1000 🍉',
+          taxCode: 'taxCode2',
         },
       ]);
     });
 
-    it('does not update accont name when not recoding account', () => {
+    it('does not update account name when not recoding account', () => {
       const modifiedState = {
         ...state,
         recodeOptions: {
@@ -433,9 +442,12 @@ describe('findAndRecodeReducer', () => {
       expect(actual.entries).toEqual([
         {
           id: '1',
+          displayAccountName: 'account1',
+          taxCode: 'taxCode1',
         },
         {
           id: '2',
+          displayAccountName: 'account2',
           taxCode: 'NT',
         },
       ]);

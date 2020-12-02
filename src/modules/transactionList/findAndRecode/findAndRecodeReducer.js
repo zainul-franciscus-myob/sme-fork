@@ -224,7 +224,7 @@ const recodeItemSuccess = (state, { id }) => {
             : entry.displayAccountName,
           taxCode: isRecodeTaxCode
             ? getRecodeTaxCodeName(state)
-            : entry.displayAccountName,
+            : entry.taxCode,
         };
       }
 
