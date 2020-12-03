@@ -4,6 +4,7 @@ import { mount } from 'enzyme/build';
 import { findButtonWithTestId } from '../../../../common/tests/selectors';
 import PaySuperReadModule from '../PaySuperReadModule';
 import ReversalModal from '../components/ReversalModal';
+import StsLoginModal from '../../../stsLogin/components/StsLoginModal';
 import loadPaySuperReadResponse from '../mappings/data/loadPaySuperReadResponse';
 
 describe('PaySuperReadModule', () => {
@@ -17,7 +18,12 @@ describe('PaySuperReadModule', () => {
     const setRootView = (component) => {
       wrapper = mount(component);
     };
-    const module = new PaySuperReadModule({ integration, setRootView });
+    const pushMessage = jest.fn();
+    const module = new PaySuperReadModule({
+      integration,
+      setRootView,
+      pushMessage,
+    });
     module.run();
 
     return {
@@ -81,12 +87,9 @@ describe('PaySuperReadModule', () => {
         }),
     };
 
-    it('shows a failure alert when transaction is not reversed successfully', () => {
+    it('shows a sts login modal when record reversal clicked', () => {
       const { wrapper, module } = constructModule({
         ...reversalIntegration,
-        write: ({ onFailure }) => {
-          onFailure('failure message');
-        },
       });
       module.openReverseModal();
       wrapper.update();
@@ -96,9 +99,37 @@ describe('PaySuperReadModule', () => {
       findButtonWithTestId(wrapper, 'recordReversalButton').simulate('click');
 
       expect(wrapper.find(ReversalModal)).toHaveLength(0);
+      expect(wrapper.find(StsLoginModal).exists()).toBeTruthy();
+    });
+
+    it('calls return to list on successful reversal', () => {
+      const { module } = constructModule({
+        ...reversalIntegration,
+      });
+      module.returnToList = jest.fn();
+
+      module.reversePaySuper();
+
+      const state = module.store.getState();
+      expect(module.returnToList).toHaveBeenCalled();
+      expect(state.alert).toEqual(null);
+    });
+
+    it('set correct failure alert when transaction is not reversed successfully', () => {
+      const { wrapper, module } = constructModule({
+        ...reversalIntegration,
+        write: ({ onFailure }) => {
+          onFailure({ message: 'Reversal failure message' });
+        },
+      });
+
+      module.reversePaySuper();
+      wrapper.update();
+
       const alert = wrapper.find(Alert);
       expect(alert).toHaveLength(1);
       expect(alert.prop('type')).toEqual('danger');
+      expect(alert.text()).toContain('Reversal failure message');
     });
   });
 });

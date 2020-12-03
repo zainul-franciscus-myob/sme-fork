@@ -30,5 +30,3 @@ export const getAlert = (state) => state.alert;
 export const getAccessTokenContent = (state) => ({
   accessToken: state.accessToken,
 });
-export const getSuperPaymentListUrl = (state) =>
-  `/#/${state.region}/${state.businessId}/paySuper`;

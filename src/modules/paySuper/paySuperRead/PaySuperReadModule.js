@@ -20,7 +20,6 @@ import {
   getBusinessId,
   getPaySuperListUrl,
   getRegion,
-  getSuperPaymentListUrl,
 } from './paySuperReadSelector';
 import EmployeePayModalModule from '../../employeePay/employeePayModal/EmployeePayModalModule';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -51,7 +50,7 @@ export default class PaySuperReadModule {
     this.stsLoginModal = new StsLoginModule({
       integration,
       onLoggedIn: this.onLoggedIn,
-      onCancel: this.goToSuperPaymentList,
+      onCancel: this.returnToList,
     });
     this.pushMessage = pushMessage;
   }
@@ -62,20 +61,6 @@ export default class PaySuperReadModule {
       message,
     });
     this.loadPaySuperRead();
-  };
-
-  onLoggedIn = (accessToken) => {
-    this.store.dispatch({
-      intent: SET_ACCESS_TOKEN,
-      accessToken,
-    });
-    this.dispatcher.setAccessToken(accessToken);
-    this.loadPaySuperRead();
-  };
-
-  goToSuperPaymentList = () => {
-    const state = this.store.getState();
-    window.location.href = getSuperPaymentListUrl(state);
   };
 
   setAlert = (alert) => {
@@ -140,10 +125,22 @@ export default class PaySuperReadModule {
     this.subModules.authorisationModal.openModal(context);
   };
 
+  runStsLogin = () => {
+    const state = this.store.getState();
+    this.stsLoginModal.run({ businessId: state.businessId });
+  };
+
+  onLoggedIn = (accessToken) => {
+    this.store.dispatch({
+      intent: SET_ACCESS_TOKEN,
+      accessToken,
+    });
+    this.reversePaySuper();
+  };
+
   reversePaySuper = () => {
     const intent = REVERSE_PAY_SUPER;
     const state = this.store.getState();
-    this.stsLoginModal.run(getBusinessId(state));
     this.setLoadingState(LoadingState.LOADING);
 
     const urlParams = {
@@ -196,9 +193,11 @@ export default class PaySuperReadModule {
   render = () => {
     const employeePayModal = this.subModules.employeePayModal.getView();
     const authorisationModal = this.subModules.authorisationModal.getView();
+    const stsLoginModal = this.stsLoginModal.getView();
 
     const wrappedView = (
       <Provider store={this.store}>
+        {stsLoginModal}
         <PaySuperReadView
           employeePayModal={employeePayModal}
           authorisationModal={authorisationModal}
@@ -207,7 +206,7 @@ export default class PaySuperReadModule {
           onReverseModalConfirmClick={this.reversePaySuperModalConfirm}
           onReverseModalCancelClick={this.closeModal}
           onReverseClick={this.openReverseModal}
-          onRecordReverseClick={this.reversePaySuper}
+          onRecordReverseClick={this.runStsLogin}
           onDateLinkClick={this.openEmployeePayModal}
           onDismissAlert={this.dismissAlert}
         />
