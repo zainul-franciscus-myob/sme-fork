@@ -14,6 +14,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SAVE_INVOICE_AS_RECURRING_TRANSACTION,
   SEND_EINVOICE,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
@@ -46,6 +47,10 @@ import {
   getExportPdfQueryParams,
   getExportPdfUrlParams,
 } from './selectors/exportPdfSelectors';
+import {
+  getSaveAsRecurringPayload,
+  getSaveAsRecurringUrlParams,
+} from './selectors/recurringInvoiceSelectors';
 import {
   getSaveEmailSettingsContent,
   getSaveEmailSettingsUrlParams,
@@ -335,6 +340,21 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
         businessId,
         customerId,
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveInvoiceAsRecurringTransaction: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = SAVE_INVOICE_AS_RECURRING_TRANSACTION;
+    const urlParams = getSaveAsRecurringUrlParams(state);
+    const content = getSaveAsRecurringPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
       onSuccess,
       onFailure,
     });

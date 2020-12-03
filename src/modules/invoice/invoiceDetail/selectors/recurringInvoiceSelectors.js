@@ -8,6 +8,21 @@ import {
 } from './invoiceDetailSelectors';
 import RecurringTransactionListModalTransactionType from '../../../recurringTransaction/recurringTransactionListModal/types/RecurringTransactionListModalTransactionType';
 
+export const getRecurringTransactionName = (state) =>
+  state.recurringSchedule.recurringTransactionName;
+
+export const getShouldShowSaveAsRecurring = (state) =>
+  state.isRecurringTransactionEnabled;
+
+export const getSaveAsRecurringUrlParams = (state) => ({
+  businessId: state.businessId,
+});
+
+export const getSaveAsRecurringPayload = (state) => ({
+  invoice: state.invoice,
+  schedule: state.recurringSchedule,
+});
+
 const getIsRecurringTransactionEnabled = (state) =>
   state.isRecurringTransactionEnabled;
 

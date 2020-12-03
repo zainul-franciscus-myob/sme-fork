@@ -60,6 +60,10 @@ const getDefaultState = () => ({
     amount: '',
   },
   originalAmountDue: '0',
+  recurringSchedule: {
+    recurringTransactionName: '',
+    nextDueDate: formatIsoDate(new Date()),
+  },
   template: {
     defaultTemplate: '',
     templateOptions: [],

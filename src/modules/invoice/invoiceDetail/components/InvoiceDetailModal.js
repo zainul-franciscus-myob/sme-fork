@@ -9,12 +9,13 @@ import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './email/EmailInvoiceModal';
 import EmailSettingsModal from './email/EmailSettingsModal';
-import ExportPdfModal from './ExportPdfModal';
+import ExportPdfModal from './modal/ExportPdfModal';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
-import InvoiceDetailPreConversionModal from './InvoiceDetailPreConversionModal';
-import InvoiceDetailSaveAndConfirmModal from './InvoiceDetailSaveAndConfirmModal';
-import QuickQuoteModal from './QuickQuoteModal';
-import SaveAmountDueWarningModal from './SaveAmountDueWarningModal';
+import InvoiceDetailPreConversionModal from './modal/InvoiceDetailPreConversionModal';
+import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfirmModal';
+import QuickQuoteModal from './modal/QuickQuoteModal';
+import RecurringScheduleModal from './modal/RecurringScheduleModal';
+import SaveAmountDueWarningModal from './modal/SaveAmountDueWarningModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
@@ -34,6 +35,7 @@ const InvoiceDetailModal = ({
   exportPdfModalListeners,
   preConversionModalListeners,
   quickQuoteModalListeners,
+  recurringScheduleModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -94,6 +96,12 @@ const InvoiceDetailModal = ({
         onCancel={saveAndConfirmModalListeners.onCloseModal}
         onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndDuplicate}
       />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.SAVE_AS_RECURRING) {
+    return (
+      <RecurringScheduleModal listeners={recurringScheduleModalListeners} />
     );
   }
 

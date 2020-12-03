@@ -20,6 +20,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SAVE_INVOICE_AS_RECURRING_TRANSACTION,
   SEND_EINVOICE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -117,6 +118,8 @@ const MemoryInvoiceMapping = {
   },
   [UPDATE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
   [DELETE_INVOICE_DETAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [SAVE_INVOICE_AS_RECURRING_TRANSACTION]: ({ onSuccess }) =>
+    onSuccess(successResponse),
   [LOAD_CUSTOMER]: ({ onSuccess }) => onSuccess(customerAddress),
   [LOAD_PAY_DIRECT]: ({ onSuccess }) => onSuccess(payDirect),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>

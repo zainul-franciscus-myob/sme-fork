@@ -6,8 +6,8 @@ import {
   getCustomerQuoteId,
   getCustomerQuotes,
   getShouldEnableConvertQuote,
-} from '../selectors/quickQuoteSelectors';
-import Button from '../../../../components/Button/Button';
+} from '../../selectors/quickQuoteSelectors';
+import Button from '../../../../../components/Button/Button';
 
 const tableConfig = {
   date: {

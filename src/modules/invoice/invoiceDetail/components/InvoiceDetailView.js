@@ -22,14 +22,14 @@ import InvoiceDetailLayoutPopover from './InvoiceDetailLayoutPopover';
 import InvoiceDetailModal from './InvoiceDetailModal';
 import InvoiceDetailNotes from './InvoiceDetailNotes';
 import InvoiceDetailOptions from './InvoiceDetailOptions';
-import InvoiceDetailTotals from './InvoiceDetailTotals';
+import InvoiceDetailTotals from './modal/InvoiceDetailTotals';
 import InvoiceItemTable from './itemLayout/InvoiceItemTable';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceServiceTable from './serviceLayout/InvoiceServiceTable';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import MoreInformation from './MoreInformation';
 import PageView from '../../../../components/PageView/PageView';
-import UpgradeModal from './UpgradeModal';
+import UpgradeModal from './modal/UpgradeModal';
 import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
@@ -58,6 +58,7 @@ const InvoiceDetailView = ({
   preConversionModalListeners,
   applyPaymentUnsavedChangesListeners,
   redirectToUrlListeners,
+  recurringScheduleModalListeners,
   exportPdfModalListeners,
   renderContactCombobox,
   renderItemCombobox,
@@ -112,6 +113,7 @@ const InvoiceDetailView = ({
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
       exportPdfModalListeners={exportPdfModalListeners}
       redirectToUrlListeners={redirectToUrlListeners}
+      recurringScheduleModalListeners={recurringScheduleModalListeners}
       preConversionModalListeners={preConversionModalListeners}
       quickQuoteModalListeners={quickQuoteModalListeners}
     />

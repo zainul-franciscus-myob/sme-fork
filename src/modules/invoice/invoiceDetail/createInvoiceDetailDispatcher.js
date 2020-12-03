@@ -48,14 +48,15 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
+  UPDATE_RECURRING_SCHEDULE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../InvoiceIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createInvoiceDetailDispatcher = (store) => ({
-  setInitialState: (context) =>
-    store.dispatch({ intent: SET_INITIAL_STATE, context }),
+  setInitialState: (initialState) =>
+    store.dispatch({ intent: SET_INITIAL_STATE, initialState }),
 
   resetState: () => store.dispatch({ intent: RESET_STATE }),
 
@@ -337,6 +338,14 @@ const createInvoiceDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
+    });
+  },
+
+  updateRecurringScheduleDetail: ({ key, value }) => {
+    store.dispatch({
+      intent: UPDATE_RECURRING_SCHEDULE_DETAIL,
+      key,
+      value,
     });
   },
 

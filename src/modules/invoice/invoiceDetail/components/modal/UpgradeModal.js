@@ -5,7 +5,7 @@ import React from 'react';
 import {
   getIsUpgradeModalShowing,
   getMonthlyLimit,
-} from '../selectors/invoiceDetailSelectors';
+} from '../../selectors/invoiceDetailSelectors';
 
 const pluraliseInvoiceLimit = (limit) =>
   limit === 1 ? '1 invoice' : `${limit} invoices`;

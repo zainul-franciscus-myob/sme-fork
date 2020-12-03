@@ -2,8 +2,8 @@ import { Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsSubmitting } from '../selectors/invoiceDetailSelectors';
-import { getSaveAmountDueWarningModalBody } from '../selectors/invoiceSaveSelectors';
+import { getIsSubmitting } from '../../selectors/invoiceDetailSelectors';
+import { getSaveAmountDueWarningModalBody } from '../../selectors/invoiceSaveSelectors';
 
 const SaveAmountDueWarningModal = ({
   onConfirm,

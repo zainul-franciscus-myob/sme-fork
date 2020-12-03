@@ -2,9 +2,9 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getInvoiceDetailTotals } from '../selectors/invoiceDetailSelectors';
-import LineItemTableTotalsFormattedCurrency from '../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
-import LineItemTableTotalsInput from '../../../../components/LineItemTable/LineItemTableTotalsInput';
+import { getInvoiceDetailTotals } from '../../selectors/invoiceDetailSelectors';
+import LineItemTableTotalsFormattedCurrency from '../../../../../components/LineItemTable/LineItemTableTotalsFormattedCurrency';
+import LineItemTableTotalsInput from '../../../../../components/LineItemTable/LineItemTableTotalsInput';
 
 const onAmountInputChange = (handler) => (e) => handler(e.target.rawValue);
 

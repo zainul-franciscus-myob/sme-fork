@@ -20,6 +20,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SAVE_INVOICE_AS_RECURRING_TRANSACTION,
   SEND_EINVOICE,
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
@@ -74,6 +75,11 @@ const HttpInvoiceMapping = {
     method: 'DELETE',
     getPath: ({ businessId, invoiceId }) =>
       `/${businessId}/invoice/delete_invoice_detail/${invoiceId}`,
+  },
+  [SAVE_INVOICE_AS_RECURRING_TRANSACTION]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/invoice/save_invoice_as_recurring_transaction`,
   },
   [LOAD_CUSTOMER]: {
     method: 'GET',

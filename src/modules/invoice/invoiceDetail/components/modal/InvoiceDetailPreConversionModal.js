@@ -2,7 +2,7 @@ import { Button, Modal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getConversionMonthYear } from '../selectors/invoiceDetailSelectors';
+import { getConversionMonthYear } from '../../selectors/invoiceDetailSelectors';
 
 const InvoiceDetailPreConversionModal = ({
   onConfirm,

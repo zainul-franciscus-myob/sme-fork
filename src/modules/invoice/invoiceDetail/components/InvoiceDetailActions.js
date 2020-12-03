@@ -19,9 +19,12 @@ import {
   getIsReadOnly,
   getIsSubmitting,
 } from '../selectors/invoiceDetailSelectors';
+import {
+  getShouldShowSaveAsRecurring,
+  getShowPrefillRecurringButton,
+} from '../selectors/recurringInvoiceSelectors';
 import { getShowEmailButton } from '../selectors/emailSelectors';
 import { getShowExportPdfButton } from '../selectors/exportPdfSelectors';
-import { getShowPrefillRecurringButton } from '../selectors/recurringInvoiceSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const InvoiceDetailActions = ({
@@ -33,9 +36,11 @@ const InvoiceDetailActions = ({
   showEInvoiceButton,
   enableEInvoiceButton,
   showExportPdfButton,
+  showSaveAsRecurring,
   showPrefillRecurringButton,
   listeners: {
     onSaveButtonClick,
+    onSaveAsRecurringButtonClick,
     onSaveAndButtonClick,
     onSaveAndEmailButtonClick,
     onSaveAndSendEInvoiceClick,
@@ -134,6 +139,18 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
+  const saveAsRecurringButton = (
+    <Button
+      key="saveAsRecurring"
+      name="saveAsRecurring"
+      type="secondary"
+      onClick={onSaveAsRecurringButtonClick}
+      disabled={isSubmitting}
+    >
+      Save as recurring
+    </Button>
+  );
+
   const cancelButton = (
     <Button
       key="cancel"
@@ -178,7 +195,7 @@ const InvoiceDetailActions = ({
       onClick={onPrefillButtonClick}
       disabled={isSubmitting}
     >
-      Prefill from recurring transaction
+      Prefill from recurring
     </Button>
   );
 
@@ -220,6 +237,7 @@ const InvoiceDetailActions = ({
         exportPdfButton,
         saveAndEmailButton,
         showEInvoiceButton && saveAndSendEInvoiceButton,
+        showSaveAsRecurring && saveAsRecurringButton,
         showPrefillRecurringButton && prefillButton,
       ]}
     />
@@ -233,6 +251,7 @@ const mapStateToProps = (state) => ({
   isPreConversion: getIsPreConversion(state),
   showEmailButton: getShowEmailButton(state),
   showExportPdfButton: getShowExportPdfButton(state),
+  showSaveAsRecurring: getShouldShowSaveAsRecurring(state),
   isForeignCurrency: getIsForeignCurrency(state),
   showEInvoiceButton: getShowEInvoiceButton(state),
   enableEInvoiceButton: getEnableEInvoiceButton(state),

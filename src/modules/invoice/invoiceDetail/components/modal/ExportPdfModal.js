@@ -5,12 +5,12 @@ import React from 'react';
 import {
   getExportPdfTemplate,
   getIsExportingPDF,
-} from '../selectors/exportPdfSelectors';
+} from '../../selectors/exportPdfSelectors';
 import {
   getIsModalActionDisabled,
   getTemplateOptions,
-} from '../selectors/invoiceDetailSelectors';
-import handleSelectChange from '../../../../components/handlers/handleSelectChange';
+} from '../../selectors/invoiceDetailSelectors';
+import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 
 const ExportPdfModal = ({
   template,

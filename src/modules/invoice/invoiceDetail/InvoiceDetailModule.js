@@ -379,6 +379,26 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   };
 
+  saveInvoiceAsRecurringTransaction = () => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.closeModal();
+      this.dispatcher.setSubmittingState(false);
+      this.displaySuccessAlert(message);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.displayModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.saveInvoiceAsRecurringTransaction({
+      onSuccess,
+      onFailure,
+    });
+  };
+
   deleteInvoice = () => {
     this.dispatcher.setSubmittingState(true);
     this.closeModal();
@@ -670,6 +690,10 @@ export default class InvoiceDetailModule {
 
   openSaveAndDuplicateModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
+  };
+
+  openRecurringScheduleModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AS_RECURRING);
   };
 
   openExportPdfModal = () => {
@@ -1257,6 +1281,7 @@ export default class InvoiceDetailModule {
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.handleSaveInvoice,
+          onSaveAsRecurringButtonClick: this.openRecurringScheduleModal,
           onSaveAndButtonClick: this.executeSaveAndAction,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
           onSaveAndSendEInvoiceClick: this.saveAndSendEInvoice,
@@ -1276,6 +1301,13 @@ export default class InvoiceDetailModule {
           onConfirmSaveAndCreateNew: this.saveAndCreateNewInvoice,
           onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
           onConfirmSaveAmountDueWarning: this.saveInvoice,
+        }}
+        recurringScheduleModalListeners={{
+          onDismissAlert: this.dispatcher.dismissModalAlert,
+          onConfirm: this.saveInvoiceAsRecurringTransaction,
+          onCancel: this.closeModal,
+          onRecurringScheduleDetailChange: this.dispatcher
+            .updateRecurringScheduleDetail,
         }}
         quickQuoteModalListeners={{
           onCloseModal: this.closeQuoteModal,
