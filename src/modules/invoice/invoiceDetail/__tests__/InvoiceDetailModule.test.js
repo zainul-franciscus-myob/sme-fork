@@ -13,6 +13,7 @@ import {
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   RESET_CUSTOMER,
+  RESET_SEND_EINVOICE,
   SEND_EINVOICE,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
@@ -909,20 +910,15 @@ describe('InvoiceDetailModule', () => {
 
   describe('saveAndSendEInvoice', () => {
     describe('new invoice', () => {
-      it('save and reload invoice, send e-invoice and redirect to invoice list', () => {
+      it('save and reload invoice, open sendEInvoice modal', () => {
         const { module, integration, store } = setupWithRun({
           isCreating: true,
         });
-        const message = '🦕';
-        integration.mapSuccess(SEND_EINVOICE, { message });
-        module.pushMessage = jest.fn();
-        module.navigateTo = jest.fn();
-        module.globalCallbacks = { invoiceSaved: jest.fn() };
-        module.replaceURLParams = jest.fn();
 
         module.saveAndSendEInvoice();
 
         expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.NONE },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: UPDATE_INVOICE_ID_AFTER_CREATE, invoiceId: '1' },
@@ -933,42 +929,30 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
-          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
         ]);
-        expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
-        expect(module.pushMessage).toHaveBeenCalledWith({
-          type: SUCCESSFULLY_SENT_EINVOICE,
-          content: message,
-        });
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          expect.objectContaining({ intent: SEND_EINVOICE }),
         ]);
-        expect(module.replaceURLParams).toHaveBeenCalled();
-        expect(module.navigateTo).toHaveBeenCalledWith(
-          '/#/au/businessId/invoice'
-        );
       });
     });
 
-    describe('existing invoice that has been edited', () => {
-      it('update and reload invoice, send e-invoice and redirect to invoice list', () => {
+    describe('existing invoice', () => {
+      it('update and reload invoice, open sendEInvoice modal when invoice has been edited', () => {
         const { module, integration, store } = setupWithRun({
           isPageEdited: true,
         });
-        const message = '🦕';
-        integration.mapSuccess(SEND_EINVOICE, { message });
-        module.pushMessage = jest.fn();
-        module.navigateTo = jest.fn();
-        module.globalCallbacks = { invoiceSaved: jest.fn() };
 
         module.saveAndSendEInvoice();
 
         expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.NONE },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -976,27 +960,69 @@ describe('InvoiceDetailModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
-          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
         ]);
-        expect(module.globalCallbacks.invoiceSaved).toHaveBeenCalled();
-        expect(module.pushMessage).toHaveBeenCalledWith({
-          type: SUCCESSFULLY_SENT_EINVOICE,
-          content: message,
-        });
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
-          expect.objectContaining({ intent: SEND_EINVOICE }),
         ]);
-        expect(module.navigateTo).toHaveBeenCalledWith(
-          '/#/au/businessId/invoice'
-        );
+      });
+
+      it('open sendEInvoice modal when invoice has not been edited', () => {
+        const { module, store } = setupWithRun({
+          isCreating: false,
+        });
+
+        module.saveAndSendEInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.NONE },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
+        ]);
       });
     });
+  });
 
-    describe('existing invoice that has not been edited', () => {
+  describe('sendEInvoiceModal', () => {
+    describe('openSendEInvoiceModal', () => {
+      it('opens sendEInvoice Modal', () => {
+        const { module, store } = setupWithRun();
+
+        module.openSendEInvoiceModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
+        ]);
+      });
+
+      it('closes sendEInvoice Modal', () => {
+        const { module, store } = setupWithRun();
+
+        module.closeSendEInvoiceModal();
+
+        expect(store.getActions()).toEqual([
+          { intent: RESET_SEND_EINVOICE },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.NONE,
+          },
+        ]);
+      });
+    });
+  });
+
+  describe('sendEInvoice', () => {
+    describe('send e-invoice successfully', () => {
       it('send e-invoice and redirect to invoice list', () => {
         const { module, integration, store } = setupWithRun({
           isCreating: false,
@@ -1007,7 +1033,7 @@ describe('InvoiceDetailModule', () => {
         module.pushMessage = jest.fn();
         module.globalCallbacks = { invoiceSaved: jest.fn() };
 
-        module.saveAndSendEInvoice();
+        module.sendEInvoice();
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
@@ -1035,12 +1061,12 @@ describe('InvoiceDetailModule', () => {
         const message = '🦕';
         integration.mapFailure(SEND_EINVOICE, { message });
 
-        module.saveAndSendEInvoice();
+        module.sendEInvoice();
 
         expect(store.getActions()).toEqual([
           { intent: SET_SUBMITTING_STATE, isSubmitting: true },
           { intent: SET_SUBMITTING_STATE, isSubmitting: false },
-          { intent: SET_ALERT, alert: { type: 'danger', message } },
+          { intent: SET_MODAL_ALERT, modalAlert: { type: 'danger', message } },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: SEND_EINVOICE }),

@@ -3,6 +3,7 @@
     "id": "123",
     "layout": "itemAndService",
     "customerId": "1",
+    "customerName": "Test contact",
     "address": "Footloose Dance Studio\r\n45 Huntly Road\r\nNorth Ryde  NSW  2113\r\nAustralia\r\n",
     "invoiceNumber": "IN00000123",
     "note": "Thank you! Footloose",

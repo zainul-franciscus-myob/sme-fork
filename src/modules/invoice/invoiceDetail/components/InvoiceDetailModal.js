@@ -16,6 +16,7 @@ import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfir
 import QuickQuoteModal from './modal/QuickQuoteModal';
 import RecurringScheduleModal from './modal/RecurringScheduleModal';
 import SaveAmountDueWarningModal from './modal/SaveAmountDueWarningModal';
+import SendEInvoiceModal from './modal/SendEInvoiceModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
@@ -36,6 +37,7 @@ const InvoiceDetailModal = ({
   preConversionModalListeners,
   quickQuoteModalListeners,
   recurringScheduleModalListeners,
+  sendEInvoiceModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -137,6 +139,17 @@ const InvoiceDetailModal = ({
         onSelectCustomerQuote={quickQuoteModalListeners.onSelectCustomerQuote}
         onCloseModal={quickQuoteModalListeners.onCloseModal}
         onConvertCustomerQuote={quickQuoteModalListeners.onConvertCustomerQuote}
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.SEND_EINVOICE) {
+    return (
+      <SendEInvoiceModal
+        alert={alert}
+        onCloseModal={sendEInvoiceModalListeners.onCloseModal}
+        onDismissAlert={sendEInvoiceModalListeners.onDismissAlert}
+        onSendEInvoice={sendEInvoiceModalListeners.onSendEInvoice}
       />
     );
   }

@@ -36,6 +36,8 @@ export const getIsModalActionDisabled = (state) => state.isModalSubmitting;
 export const getInvoice = (state) => state.invoice;
 export const getLayout = (state) => state.invoice.layout;
 export const getCustomerId = (state) => state.invoice.customerId;
+export const getCustomerName = (state) => state.invoice.customerName;
+
 const getAddress = (state) => state.invoice.address;
 const getNote = (state) => state.invoice.note;
 export const getInvoiceNumber = (state) => state.invoice.invoiceNumber;

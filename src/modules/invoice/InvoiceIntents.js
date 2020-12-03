@@ -140,3 +140,4 @@ export const LOAD_PREFILL_FROM_RECURRING_INVOICE = Symbol(
 );
 
 export const SEND_EINVOICE = Symbol('Send e-invoice');
+export const RESET_SEND_EINVOICE = Symbol('Reset send e-invoice');

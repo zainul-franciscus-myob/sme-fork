@@ -1,0 +1,30 @@
+.subHeadingGroup {
+  padding: 15px 0;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-column-gap: 15px;
+}
+
+.balanceDue > * {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.balanceDue p {
+  font-weight: var(--flx-font-weight-bold);
+}
+
+@media (max-width: 767px) {
+  .subHeadingGroup {
+    grid-template-columns: auto auto;
+    grid-column-gap: 5px;
+  }
+
+  .subHeadingGroup > div {
+    padding: 7px 0;
+  }
+
+  .balanceDue > * {
+    display: block;
+  }
+}

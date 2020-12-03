@@ -1,6 +1,5 @@
 import {
   getEInvoiceAppName,
-  getEnableEInvoiceButton,
   getSendEInvoiceUrlParams,
   getShowEInvoiceButton,
 } from '../eInvoiceSelectors';
@@ -50,38 +49,6 @@ describe('eInvoiceSelectors', () => {
         };
 
         const actual = getShowEInvoiceButton(state);
-
-        expect(actual).toEqual(expected);
-      }
-    );
-  });
-
-  describe('getEnableEInvoiceButton', () => {
-    it.each`
-      appName   | isAbnLoading | abnStatus    | expected
-      ${''}     | ${false}     | ${''}        | ${false}
-      ${'test'} | ${true}      | ${''}        | ${false}
-      ${'test'} | ${false}     | ${'Invalid'} | ${false}
-      ${'test'} | ${false}     | ${'Active'}  | ${true}
-    `(
-      'should return $expected if appName is "$appName", isAvnLoading is "$isAbnLoading" and ABN status is "$abnStatus"',
-      ({ appName, isAbnLoading, abnStatus, expected }) => {
-        const state = {
-          emailInvoice: {
-            fromEmail: 'email@email.com',
-          },
-          serialNumber: 'test',
-          eInvoice: {
-            appName,
-            attachments: [],
-          },
-          isAbnLoading,
-          abn: {
-            status: abnStatus,
-          },
-        };
-
-        const actual = getEnableEInvoiceButton(state);
 
         expect(actual).toEqual(expected);
       }

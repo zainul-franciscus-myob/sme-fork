@@ -2,6 +2,7 @@
   "invoice": {
     "layout": "itemAndService",
     "customerId": "",
+    "customerName": "",
     "expirationTerm": "DayOfMonthAfterEOM",
     "expirationDays": 4,
     "isTaxInclusive": true,

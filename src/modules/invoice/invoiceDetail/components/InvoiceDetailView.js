@@ -78,6 +78,7 @@ const InvoiceDetailView = ({
   onOpenQuickQuote,
   quickQuoteModalListeners,
   redirectToSetUpOnlinePayments,
+  sendEInvoiceModalListeners,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -116,6 +117,7 @@ const InvoiceDetailView = ({
       recurringScheduleModalListeners={recurringScheduleModalListeners}
       preConversionModalListeners={preConversionModalListeners}
       quickQuoteModalListeners={quickQuoteModalListeners}
+      sendEInvoiceModalListeners={sendEInvoiceModalListeners}
     />
   );
 

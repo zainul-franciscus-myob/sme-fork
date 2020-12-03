@@ -331,20 +331,34 @@ export default class InvoiceDetailModule {
   };
 
   saveAndSendEInvoice = () => {
+    this.closeModal();
+
     const state = this.store.getState();
     const shouldSaveAndReload = getShouldSaveAndReload(state);
+
     if (shouldSaveAndReload) {
       const onSuccess = () => {
-        this.sendEInvoice();
+        this.openSendEInvoiceModal();
       };
       this.saveAndReload({ onSuccess });
     } else {
-      this.sendEInvoice();
+      this.openSendEInvoiceModal();
     }
   };
 
+  openSendEInvoiceModal = () => {
+    this.dispatcher.setModalType(InvoiceDetailModalType.SEND_EINVOICE);
+  };
+
+  closeSendEInvoiceModal = () => {
+    this.dispatcher.resetSendEInvoiceModal();
+    this.closeModal();
+  };
+
   sendEInvoice = () => {
-    if (getIsSubmitting(this.store.getState())) return;
+    const state = this.store.getState();
+
+    if (getIsSubmitting(state)) return;
 
     this.dispatcher.setSubmittingState(true);
 
@@ -360,7 +374,7 @@ export default class InvoiceDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
-      this.displayFailureAlert(message);
+      this.dispatcher.displayModalAlert({ type: 'danger', message });
     };
 
     this.integrator.sendEInvoice({
@@ -1313,6 +1327,11 @@ export default class InvoiceDetailModule {
           onCloseModal: this.closeQuoteModal,
           onSelectCustomerQuote: this.selectCustomerQuote,
           onConvertCustomerQuote: this.convertCustomerQuote,
+        }}
+        sendEInvoiceModalListeners={{
+          onCloseModal: this.closeSendEInvoiceModal,
+          onSendEInvoice: this.sendEInvoice,
+          onDismissAlert: this.dispatcher.dismissModalAlert,
         }}
         onOpenQuickQuote={this.openQuickQuote}
         emailSettingsModalListeners={{

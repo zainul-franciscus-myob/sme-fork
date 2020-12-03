@@ -22,6 +22,7 @@ import {
   RESET_CUSTOMER,
   RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
+  RESET_SEND_EINVOICE,
   SAVE_EMAIL_SETTINGS,
   SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
@@ -511,6 +512,15 @@ const loadPrefillFromRecurringInvoice = (state, { invoice }) => {
   };
 };
 
+const resetSendEInvoice = (state, { modalAlert }) => ({
+  ...state,
+  modalAlert,
+  eInvoice: {
+    ...state.eInvoice,
+    attachments: [],
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -566,6 +576,7 @@ const handlers = {
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
   [UPDATE_RECURRING_SCHEDULE_DETAIL]: updateRecurringScheduleDetail,
   [LOAD_PREFILL_FROM_RECURRING_INVOICE]: loadPrefillFromRecurringInvoice,
+  [RESET_SEND_EINVOICE]: resetSendEInvoice,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

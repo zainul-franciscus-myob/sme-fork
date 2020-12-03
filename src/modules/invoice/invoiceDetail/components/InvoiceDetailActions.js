@@ -9,10 +9,6 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getEnableEInvoiceButton,
-  getShowEInvoiceButton,
-} from '../selectors/eInvoiceSelectors';
-import {
   getIsCreating,
   getIsForeignCurrency,
   getIsPreConversion,
@@ -23,6 +19,7 @@ import {
   getShouldShowSaveAsRecurring,
   getShowPrefillRecurringButton,
 } from '../selectors/recurringInvoiceSelectors';
+import { getShowEInvoiceButton } from '../selectors/eInvoiceSelectors';
 import { getShowEmailButton } from '../selectors/emailSelectors';
 import { getShowExportPdfButton } from '../selectors/exportPdfSelectors';
 import SaveActionType from '../types/SaveActionType';
@@ -34,7 +31,6 @@ const InvoiceDetailActions = ({
   isPreConversion,
   showEmailButton,
   showEInvoiceButton,
-  enableEInvoiceButton,
   showExportPdfButton,
   showSaveAsRecurring,
   showPrefillRecurringButton,
@@ -94,7 +90,7 @@ const InvoiceDetailActions = ({
       name="saveAndSendEInvoice"
       type="secondary"
       onClick={onSaveAndSendEInvoiceClick}
-      disabled={isSubmitting || !enableEInvoiceButton}
+      disabled={isSubmitting}
     >
       Send e-invoice
     </Button>
@@ -254,7 +250,6 @@ const mapStateToProps = (state) => ({
   showSaveAsRecurring: getShouldShowSaveAsRecurring(state),
   isForeignCurrency: getIsForeignCurrency(state),
   showEInvoiceButton: getShowEInvoiceButton(state),
-  enableEInvoiceButton: getEnableEInvoiceButton(state),
   showPrefillRecurringButton: getShowPrefillRecurringButton(state),
 });
 

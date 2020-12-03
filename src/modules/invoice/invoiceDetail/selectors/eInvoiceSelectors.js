@@ -1,22 +1,23 @@
-import { createSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 
 import {
-  getAbn,
+  getAmountDue,
   getBusinessId,
+  getCustomerName,
   getInvoiceId,
-  getIsAbnLoading,
+  getInvoiceNumber,
+  getIssueDate,
   getRegion,
 } from './invoiceDetailSelectors';
-import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import Region from '../../../../common/types/Region';
+import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
+import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
+
+const getFormattedIssueDate = (state) => formatSlashDate(getIssueDate(state));
+
+const getFormattedAmountDue = (state) => formatCurrency(getAmountDue(state));
 
 export const getEInvoiceAppName = (state) => state.eInvoice.appName;
-
-export const getSendEInvoiceUrlParams = createSelector(
-  getBusinessId,
-  getInvoiceId,
-  (businessId, invoiceId) => ({ businessId, invoiceId })
-);
 
 export const getShowEInvoiceButton = createSelector(
   getEInvoiceAppName,
@@ -24,10 +25,22 @@ export const getShowEInvoiceButton = createSelector(
   (appName, region) => region !== Region.nz && Boolean(appName?.trim().length)
 );
 
-export const getEnableEInvoiceButton = createSelector(
-  getShowEInvoiceButton,
-  getIsAbnLoading,
-  getAbn,
-  (showEInvoiceButton, isAbnLoading, abn) =>
-    showEInvoiceButton && !isAbnLoading && abn?.status === AbnStatus.ACTIVE
+// TODO: will come back to these for validating ABN when 'send e-invoice' button is clicked.
+// export const getIsActiveAbn = createSelector(
+//   getIsAbnLoading,
+//   getAbn,
+//   (isAbnLoading, abn) => !isAbnLoading && abn?.status === AbnStatus.ACTIVE
+// );
+
+export const getSendEInvoiceUrlParams = createSelector(
+  getBusinessId,
+  getInvoiceId,
+  (businessId, invoiceId) => ({ businessId, invoiceId })
 );
+
+export const getSendEInvoiceOptions = createStructuredSelector({
+  amountDue: getFormattedAmountDue,
+  customerName: getCustomerName,
+  invoiceNumber: getInvoiceNumber,
+  issueDate: getFormattedIssueDate,
+});

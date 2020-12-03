@@ -2,6 +2,7 @@
   "invoice": {
     "layout": "service",
     "customerId": "2",
+    "customerName": "Test contact",
     "expirationTerm": "OnADayOfTheMonth",
     "expirationDays": "4",
     "isTaxInclusive": true,

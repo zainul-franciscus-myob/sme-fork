@@ -3,6 +3,7 @@
     "id": "123",
     "layout": "service",
     "customerId": "2",
+    "customerName": "Test contact",
     "address": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
     "note": "Thank you!",
     "invoiceNumber": "00000123",

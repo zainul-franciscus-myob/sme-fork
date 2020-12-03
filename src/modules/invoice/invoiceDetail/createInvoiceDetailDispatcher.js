@@ -19,6 +19,7 @@ import {
   RESET_CUSTOMER,
   RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
+  RESET_SEND_EINVOICE,
   SAVE_EMAIL_SETTINGS,
   SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
@@ -351,6 +352,10 @@ const createInvoiceDetailDispatcher = (store) => ({
 
   loadPrefillFromRecurringInvoice: (data) => {
     store.dispatch({ intent: LOAD_PREFILL_FROM_RECURRING_INVOICE, ...data });
+  },
+
+  resetSendEInvoiceModal: () => {
+    store.dispatch({ intent: RESET_SEND_EINVOICE });
   },
 });
 
