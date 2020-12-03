@@ -11,7 +11,7 @@ const CancelModal = ({ onCancel, onConfirm }) => (
       <Button type="secondary" onClick={onCancel}>
         Go back
       </Button>
-      <Button type="delete" onClick={onConfirm}>
+      <Button type="delete" onClick={onConfirm} autoFocus>
         Discard
       </Button>
     </Modal.Footer>
