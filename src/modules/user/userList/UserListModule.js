@@ -176,6 +176,8 @@ export default class UserListModule {
       invitationType: user.myDotInvitationType,
       invitationEmail: user.email,
       userName: user.name,
+      userId: user.id,
+      type: user.type,
     };
 
     const onSuccess = ({ message }) => {
