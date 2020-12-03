@@ -4,12 +4,9 @@ import {
   LOAD_RECEIVE_MONEY_DETAIL,
 } from '../../../ReceiveMoneyIntents';
 import {
-  getLoadContactOptionsParams,
-  getLoadContactOptionsUrlParams,
   getLoadReceiveMoneyIntent,
   getReceiveMoneyForCreatePayload,
   getReceiveMoneyForUpdatePayload,
-  getSearchContactParams,
   getUrlParams,
 } from '../integrationSelectors';
 
@@ -87,49 +84,6 @@ describe('integrationSelectors', () => {
       expect(urlParams).toEqual({
         businessId: '123',
         duplicateId: '1',
-      });
-    });
-  });
-
-  describe('contactOptions params', () => {
-    describe('getLoadContactOptionsUrlParams', () => {
-      it('returns businessId as url param', () => {
-        const state = {
-          businessId: 'bizId',
-        };
-
-        const actual = getLoadContactOptionsUrlParams(state);
-        expect(actual).toEqual({
-          businessId: 'bizId',
-        });
-      });
-    });
-
-    describe('getLoadContactOptionsParams', () => {
-      it('returns the offset value from contact options pagination', () => {
-        const state = {
-          payFromContactOptions: {
-            pagination: {
-              offset: 5,
-            },
-          },
-        };
-
-        const actual = getLoadContactOptionsParams(state);
-        expect(actual).toEqual({
-          offset: 5,
-        });
-      });
-    });
-
-    describe('getSearchContactParams', () => {
-      it('returns 0 as the offset value regardless', () => {
-        const keywords = 'keywords';
-        const actual = getSearchContactParams(keywords);
-        expect(actual).toEqual({
-          offset: 0,
-          keywords,
-        });
       });
     });
   });

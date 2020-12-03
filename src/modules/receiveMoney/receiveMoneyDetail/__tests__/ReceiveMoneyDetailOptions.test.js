@@ -11,7 +11,7 @@ describe('payRefundDetail', () => {
     const store = new Store(receiveMoneyDetailReducer);
     const wrapper = mount(
       <Provider store={store}>
-        <ReceiveMoneyDetailOptions />
+        <ReceiveMoneyDetailOptions renderContactCombobox={() => {}} />
       </Provider>
     );
     const referenceIdInput = wrapper.find({ name: 'referenceId' }).first();

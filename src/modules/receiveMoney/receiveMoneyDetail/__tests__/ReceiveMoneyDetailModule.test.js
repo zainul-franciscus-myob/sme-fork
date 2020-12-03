@@ -4,14 +4,11 @@ import {
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   SET_ALERT,
-  SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -125,10 +122,15 @@ export const setUpWithPageEdited = () => {
   return toolbox;
 };
 
-const setUpWithMockJobComboboxModule = () => {
+const setupWithMockedComboboxes = () => {
   const toolbox = setup();
 
   toolbox.module.jobComboboxModule = {
+    run: jest.fn(),
+    load: jest.fn(),
+  };
+
+  toolbox.module.contactComboboxModule = {
     run: jest.fn(),
     load: jest.fn(),
   };
@@ -138,22 +140,8 @@ const setUpWithMockJobComboboxModule = () => {
 
 describe('ReceiveMoneyDetailModule', () => {
   describe('run', () => {
-    const loadContactOptionsActions = [
-      {
-        intent: SET_CONTACT_OPTIONS_LOADING_STATE,
-        isLoading: true,
-      },
-      {
-        intent: SET_CONTACT_OPTIONS_LOADING_STATE,
-        isLoading: false,
-      },
-      expect.objectContaining({
-        intent: LOAD_CONTACT_OPTIONS,
-      }),
-    ];
-
     it('should successfully load with new receive money, followed by loading contact options', () => {
-      const { store, integration, module } = setUpWithMockJobComboboxModule();
+      const { store, integration, module } = setupWithMockedComboboxes();
 
       module.run({ receiveMoneyId: 'new' });
 
@@ -172,15 +160,11 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_NEW_RECEIVE_MONEY,
         }),
-        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_NEW_RECEIVE_MONEY,
-        }),
-        expect.objectContaining({
-          intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
 
@@ -189,7 +173,7 @@ describe('ReceiveMoneyDetailModule', () => {
     });
 
     it('should successfully load with existing, followed by loading contact options', () => {
-      const { store, integration, module } = setUpWithMockJobComboboxModule();
+      const { store, integration, module } = setupWithMockedComboboxes();
 
       module.run({ receiveMoneyId: '1' });
 
@@ -208,15 +192,11 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_RECEIVE_MONEY_DETAIL,
         }),
-        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_RECEIVE_MONEY_DETAIL,
-        }),
-        expect.objectContaining({
-          intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
 
@@ -225,7 +205,7 @@ describe('ReceiveMoneyDetailModule', () => {
     });
 
     it('should successfully load with duplicate, followed by loading contact options', () => {
-      const { store, integration, module } = setUpWithMockJobComboboxModule();
+      const { store, integration, module } = setupWithMockedComboboxes();
       module.popMessages = () => [
         {
           type: DUPLICATE_RECEIVE_MONEY,
@@ -254,7 +234,6 @@ describe('ReceiveMoneyDetailModule', () => {
         expect.objectContaining({
           intent: LOAD_DUPLICATE_RECEIVE_MONEY,
         }),
-        ...loadContactOptionsActions,
       ]);
 
       expect(integration.getRequests()).toEqual([
@@ -264,9 +243,6 @@ describe('ReceiveMoneyDetailModule', () => {
             businessId: 'bizId',
             duplicateId: '🦖',
           },
-        }),
-        expect.objectContaining({
-          intent: LOAD_CONTACT_OPTIONS,
         }),
       ]);
 
@@ -278,7 +254,7 @@ describe('ReceiveMoneyDetailModule', () => {
     });
 
     it('should fail to load receive money, and not make any request or action to load contact options', () => {
-      const { store, integration, module } = setUpWithMockJobComboboxModule();
+      const { store, integration, module } = setupWithMockedComboboxes();
       integration.mapFailure(LOAD_RECEIVE_MONEY_DETAIL);
 
       module.run({ receiveMoneyId: '1' });
@@ -767,26 +743,15 @@ describe('ReceiveMoneyDetailModule', () => {
     });
 
     it('should create contact when contact modal is open', () => {
-      const { module, store, integration } = setUpWithPageEdited();
-      module.openContactModal();
-      store.resetActions();
+      const { module } = setUpWithPageEdited();
+      module.contactComboboxModule = {
+        isContactModalOpened: () => true,
+        createContact: jest.fn(),
+      };
 
       module.saveHandler();
 
-      expect(store.getActions()).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            intent: LOAD_CONTACT_AFTER_CREATE,
-          }),
-        ])
-      );
-      expect(integration.getRequests()).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            intent: LOAD_CONTACT_AFTER_CREATE,
-          }),
-        ])
-      );
+      expect(module.contactComboboxModule.createContact).toHaveBeenCalled();
     });
 
     it('should create account when account modal is open', () => {

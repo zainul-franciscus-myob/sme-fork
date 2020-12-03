@@ -5,9 +5,10 @@ import {
   TaxCalculatorTypes,
   createTaxCalculator,
 } from '../../../../common/taxCalculator';
+import ContactType from '../../../contact/contactCombobox/types/ContactType';
+import DisplayMode from '../../../contact/contactCombobox/types/DisplayMode';
 import ModalType from '../../ModalType';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
-import getLoadMoreButtonStatus from '../../../../components/AutoComplete/helpers/getLoadMoreButtonStatus';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.receiveMoney);
@@ -20,7 +21,7 @@ export const getReceiveMoneyId = (state) => state.receiveMoneyId;
 const getReferenceId = (state) => state.receiveMoney.referenceId;
 const getSelectedDepositIntoId = (state) =>
   state.receiveMoney.selectedDepositIntoAccountId;
-const getSelectedPayFromContact = (state) =>
+export const getSelectedPayFromContact = (state) =>
   state.receiveMoney.selectedPayFromContactId;
 const getDate = (state) => state.receiveMoney.date;
 const getDescription = (state) => state.receiveMoney.description;
@@ -30,35 +31,18 @@ const getLines = (state) => state.receiveMoney.lines;
 const getStartOfFinancialYearDate = (state) => state.startOfFinancialYearDate;
 
 const getDepositIntoAccountOptions = (state) => state.depositIntoAccountOptions;
-const getPayFromContactOptions = (state) => state.payFromContactOptions.entries;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 
-export const getIsContactLoading = (state) => state.isContactLoading;
-
-const getIsContactOptionsLoading = (state) => state.isContactOptionsLoading;
-const getHasMoreContactOptions = (state) =>
-  state.payFromContactOptions.pagination.hasNextPage;
-export const getLoadContactOptionsStatus = createSelector(
-  getIsContactOptionsLoading,
-  getHasMoreContactOptions,
-  (isContactOptionsLoading, hasMore) =>
-    getLoadMoreButtonStatus(isContactOptionsLoading, hasMore)
-);
-const getIsSearchContactLoading = (state) => state.isSearchContactLoading;
 export const getHeaderOptions = createStructuredSelector({
   referenceId: getReferenceId,
   selectedDepositIntoAccountId: getSelectedDepositIntoId,
   selectedPayFromContactId: getSelectedPayFromContact,
   depositIntoAccountOptions: getDepositIntoAccountOptions,
-  payFromContactOptions: getPayFromContactOptions,
   date: getDate,
   description: getDescription,
   isReportable: getIsReportable,
   isTaxInclusive: getIsTaxInclusive,
-  isContactDisabled: getIsContactLoading,
-  loadContactOptionsStatus: getLoadContactOptionsStatus,
-  isSearchContactLoading: getIsSearchContactLoading,
 });
 
 export const getAlertMessage = (state) => state.alertMessage;
@@ -155,13 +139,6 @@ export const getAccountModalContext = createSelector(
   (businessId, region) => ({ businessId, region })
 );
 
-export const getContactModalContext = (state) => {
-  const businessId = getBusinessId(state);
-  const region = getRegion(state);
-
-  return { businessId, region };
-};
-
 export const getJobComboboxContext = (state) => {
   const businessId = getBusinessId(state);
   const region = getRegion(state);
@@ -185,16 +162,6 @@ export const getUniqueSelectedJobIds = (state) => {
   return [];
 };
 
-export const getUpdatedContactOptions = (state, updatedOption) => {
-  const contactOptions = getPayFromContactOptions(state);
-
-  return contactOptions.some((option) => option.id === updatedOption.id)
-    ? contactOptions.map((option) =>
-        option.id === updatedOption.id ? updatedOption : option
-      )
-    : [updatedOption, ...contactOptions];
-};
-
 export const getIsBeforeStartOfFinancialYear = createSelector(
   getDate,
   getStartOfFinancialYearDate,
@@ -205,3 +172,17 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
 );
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getContactComboboxContext = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const contactId = getSelectedPayFromContact(state);
+
+  return {
+    businessId,
+    region,
+    contactId,
+    contactType: ContactType.ALL,
+    displayMode: DisplayMode.NAME_AND_TYPE,
+  };
+};

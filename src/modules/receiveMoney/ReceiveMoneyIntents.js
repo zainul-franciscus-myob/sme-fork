@@ -24,13 +24,6 @@ export const RESET_TOTALS = Symbol('Reset calculated totals');
 export const LOAD_ACCOUNT_AFTER_CREATE = Symbol(
   'Load account detail after create'
 );
-export const LOAD_CONTACT_AFTER_CREATE = Symbol('Load contact after create');
-export const SET_CONTACT_LOADING_STATE = Symbol('Set contact loading state');
-export const LOAD_CONTACT_OPTIONS = Symbol('Load contact options');
-export const SET_CONTACT_OPTIONS_LOADING_STATE = Symbol(
-  'Set contact options loading state'
-);
-export const SEARCH_CONTACT = Symbol('Search contact by keyword');
 export const LOAD_DUPLICATE_RECEIVE_MONEY = Symbol(
   'Load a duplicate receive money entry'
 );

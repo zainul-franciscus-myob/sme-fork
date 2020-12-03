@@ -4,13 +4,9 @@ import {
   DELETE_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
   OPEN_MODAL,
   RESET_TOTALS,
   SET_ALERT,
-  SET_CONTACT_LOADING_STATE,
-  SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -141,26 +137,6 @@ const createReceiveMoneyDetailDispatcher = ({ store }) => ({
     store.dispatch({
       intent: LOAD_ACCOUNT_AFTER_CREATE,
       ...payload,
-    }),
-  setContactLoadingState: (isContactLoading) =>
-    store.dispatch({
-      intent: SET_CONTACT_LOADING_STATE,
-      isContactLoading,
-    }),
-  loadContactAfterCreate: (payload) =>
-    store.dispatch({
-      intent: LOAD_CONTACT_AFTER_CREATE,
-      ...payload,
-    }),
-  loadContactOptions: (payload) =>
-    store.dispatch({
-      intent: LOAD_CONTACT_OPTIONS,
-      ...payload,
-    }),
-  setContactOptionsLoadingState: (isLoading) =>
-    store.dispatch({
-      intent: SET_CONTACT_OPTIONS_LOADING_STATE,
-      isLoading,
     }),
   setDuplicateId: (duplicateId) =>
     store.dispatch({

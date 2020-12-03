@@ -49,18 +49,6 @@
       "displayId": "2-123"
     }
   ],
-  "payFromContactOptions": {
-    "preSelectedIds": [ "2" ],
-    "entries": [
-      {
-        "contactType": "Supplier",
-        "displayContactType": "Supplier",
-        "displayName": "Cow Feed",
-        "id": "2",
-        "displayId": "CUS000003"
-      }
-    ]
-  },
   "accountOptions": [
     {
       "id": "123",

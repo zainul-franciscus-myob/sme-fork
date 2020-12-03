@@ -8,7 +8,7 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
-  getContactModalContext,
+  getContactComboboxContext,
   getIndexOfLastLine,
   getIsActionsDisabled,
   getIsCreating,
@@ -19,6 +19,7 @@ import {
   getModalUrl,
   getOpenedModalType,
   getReceiveMoneyId,
+  getSelectedPayFromContact,
   getTaxCalculations,
   getUniqueSelectedJobIds,
   getViewedAccountToolTip,
@@ -31,7 +32,7 @@ import {
 } from './selectors/redirectSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import ContactModalModule from '../../contact/contactModal/ContactModalModule';
+import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../ModalType';
@@ -71,38 +72,12 @@ export default class ReceiveMoneyDetailModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
-    this.contactModalModule = new ContactModalModule({ integration });
+    this.contactComboboxModule = new ContactComboboxModule({
+      integration,
+      featureToggles,
+    });
     this.featureToggles = featureToggles || {};
   }
-
-  openContactModal = () => {
-    const state = this.store.getState();
-    const context = getContactModalContext(state);
-
-    this.contactModalModule.run({
-      context: { ...context, ...this.featureToggles },
-      onLoadFailure: (message) => this.displayFailureAlert(message),
-      onSaveSuccess: ({ id, message }) =>
-        this.loadContactAfterCreate({ id, message }),
-    });
-  };
-
-  loadContactAfterCreate = ({ id, message }) => {
-    this.contactModalModule.resetState();
-    this.displaySuccessAlert(message);
-    this.dispatcher.setContactLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setContactLoadingState(false);
-      this.dispatcher.loadContactAfterCreate(payload);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setContactLoadingState(false);
-    };
-
-    this.integrator.loadContactAfterCreate({ id, onSuccess, onFailure });
-  };
 
   openAccountModal = (onChange) => {
     const state = this.store.getState();
@@ -132,21 +107,6 @@ export default class ReceiveMoneyDetailModule {
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
 
-  loadContactOptions = () => {
-    this.dispatcher.setContactOptionsLoadingState(true);
-
-    const onSuccess = (payload) => {
-      this.dispatcher.setContactOptionsLoadingState(false);
-      this.dispatcher.loadContactOptions(payload);
-    };
-
-    const onFailure = () => {
-      this.dispatcher.setContactOptionsLoadingState(false);
-    };
-
-    this.integrator.loadContactOptions({ onSuccess, onFailure });
-  };
-
   loadJobCombobox = () => {
     const state = this.store.getState();
     const context = getJobComboboxContext(state);
@@ -165,29 +125,13 @@ export default class ReceiveMoneyDetailModule {
     return this.jobComboboxModule ? this.jobComboboxModule.render(props) : null;
   };
 
-  searchContact = ({
-    keywords,
-    onSuccess: onSearchContactSuccess,
-    onFailure: onSearchContactFailure,
-  }) => {
-    const onSuccess = ({ entries }) => {
-      onSearchContactSuccess(entries);
-    };
-
-    const onFailure = () => {
-      onSearchContactFailure();
-    };
-
-    this.integrator.searchContact({ keywords, onSuccess, onFailure });
-  };
-
   loadReceiveMoney = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadReceiveMoney(response);
 
-      this.loadContactOptions();
       this.updateJobCombobox();
+      this.updateContactCombobox();
     };
 
     const onFailure = () => {
@@ -408,14 +352,32 @@ export default class ReceiveMoneyDetailModule {
     }
   };
 
+  loadContactCombobox = () => {
+    const state = this.store.getState();
+    const context = getContactComboboxContext(state);
+    this.contactComboboxModule.run(context);
+  };
+
+  updateContactCombobox = () => {
+    const state = this.store.getState();
+    const contactId = getSelectedPayFromContact(state);
+    if (contactId) {
+      this.contactComboboxModule.load(contactId);
+    }
+  };
+
+  renderContactCombobox = (props) => {
+    return this.contactComboboxModule
+      ? this.contactComboboxModule.render(props)
+      : null;
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
-    const contactModal = this.contactModalModule.render();
 
     const receiveMoneyView = (
       <ReceiveMoneyDetailView
         accountModal={accountModal}
-        contactModal={contactModal}
         onUpdateHeaderOptions={this.updateHeaderOptions}
         onSaveButtonClick={this.saveReceiveMoney}
         onSaveAndButtonClick={this.saveAnd}
@@ -430,10 +392,8 @@ export default class ReceiveMoneyDetailModule {
         onRemoveRow={this.deleteReceiveMoneyLine}
         onRowInputBlur={this.calculateLineTotals}
         onAddAccount={this.openAccountModal}
-        onAddContact={this.openContactModal}
-        onLoadMoreContacts={this.loadContactOptions}
-        onContactSearch={this.searchContact}
         renderJobCombobox={this.renderJobCombobox}
+        renderContactCombobox={this.renderContactCombobox}
         onViewedAccountToolTip={this.viewedAccountToolTip}
       />
     );
@@ -451,8 +411,8 @@ export default class ReceiveMoneyDetailModule {
       return;
     }
 
-    if (this.contactModalModule.isOpened()) {
-      this.contactModalModule.save();
+    if (this.contactComboboxModule.isContactModalOpened()) {
+      this.contactComboboxModule.createContact();
       return;
     }
 
@@ -500,11 +460,12 @@ export default class ReceiveMoneyDetailModule {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadReceiveMoney();
     this.loadJobCombobox();
+    this.loadContactCombobox();
   }
 
   resetState() {
     this.accountModalModule.resetState();
-    this.contactModalModule.resetState();
+    this.contactComboboxModule.resetState();
     this.jobComboboxModule.resetState();
     this.dispatcher.resetState();
   }

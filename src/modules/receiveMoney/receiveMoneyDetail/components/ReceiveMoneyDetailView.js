@@ -17,7 +17,6 @@ import ReceiveMoneyDetailTable from './ReceiveMoneyDetailTable';
 
 const ReceiveMoneyDetailView = ({
   accountModal,
-  contactModal,
   onUpdateHeaderOptions,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -36,18 +35,14 @@ const ReceiveMoneyDetailView = ({
   onRemoveRow,
   onRowInputBlur,
   onAddAccount,
-  onAddContact,
-  onLoadMoreContacts,
-  onContactSearch,
   renderJobCombobox,
+  renderContactCombobox,
   onViewedAccountToolTip,
 }) => {
   const templateOptions = (
     <ReceiveMoneyDetailOptions
       onUpdateHeaderOptions={onUpdateHeaderOptions}
-      onAddContact={onAddContact}
-      onLoadMoreContacts={onLoadMoreContacts}
-      onContactSearch={onContactSearch}
+      renderContactCombobox={renderContactCombobox}
     />
   );
 
@@ -84,7 +79,6 @@ const ReceiveMoneyDetailView = ({
           />
         )}
         {accountModal}
-        {contactModal}
         <ReceiveMoneyDetailTable
           onUpdateRow={onUpdateRow}
           onAddRow={onAddRow}

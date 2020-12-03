@@ -1,5 +1,3 @@
-import { createSelector } from 'reselect';
-
 import {
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
@@ -33,12 +31,6 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
   return { businessId, accountId };
 };
 
-export const getLoadAddedContactUrlParams = (state, contactId) => {
-  const businessId = getBusinessId(state);
-
-  return { businessId, contactId };
-};
-
 export const getReceiveMoneyForCreatePayload = (state) => {
   const { referenceId, originalReferenceId, ...rest } = getReceiveMoney(state);
 
@@ -69,20 +61,3 @@ export const getUrlParams = (state) => {
     duplicateId,
   };
 };
-
-export const getLoadContactOptionsUrlParams = (state) => {
-  const businessId = getBusinessId(state);
-  return { businessId };
-};
-
-const getContactOptionsOffset = (state) =>
-  state.payFromContactOptions.pagination.offset;
-export const getLoadContactOptionsParams = createSelector(
-  getContactOptionsOffset,
-  (offset) => ({ offset })
-);
-
-export const getSearchContactParams = (keywords) => ({
-  offset: 0,
-  keywords,
-});

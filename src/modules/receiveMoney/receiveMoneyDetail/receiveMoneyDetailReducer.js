@@ -4,16 +4,12 @@ import {
   DELETE_RECEIVE_MONEY_LINE,
   GET_TAX_CALCULATIONS,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
   OPEN_MODAL,
   RESET_TOTALS,
   SET_ALERT,
-  SET_CONTACT_LOADING_STATE,
-  SET_CONTACT_OPTIONS_LOADING_STATE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
@@ -22,10 +18,7 @@ import {
   UPDATE_RECEIVE_MONEY_LINE,
 } from '../ReceiveMoneyIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import {
-  getDefaultTaxCodeId,
-  getUpdatedContactOptions,
-} from './selectors/receiveMoneyDetailSelectors';
+import { getDefaultTaxCodeId } from './selectors/receiveMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -59,22 +52,12 @@ const getDefaultState = () => ({
     totalAmount: '$0.00',
   },
   depositIntoAccountOptions: [],
-  payFromContactOptions: {
-    pagination: {
-      hasNextPage: false,
-      offset: 0,
-    },
-    preSelectedIds: [],
-    entries: [],
-  },
   accountOptions: [],
   taxCodeOptions: [],
   modal: undefined,
   alertMessage: '',
   alert: undefined,
   loadingState: LoadingState.LOADING,
-  isContactLoading: false,
-  isContactOptionsLoading: true,
   pageTitle: '',
   isSubmitting: false,
   isLineEdited: false,
@@ -104,13 +87,6 @@ const loadReceiveMoneyDetail = (state, action) => ({
   totals: action.totals,
   pageTitle: action.pageTitle,
   depositIntoAccountOptions: action.depositIntoAccountOptions,
-  payFromContactOptions: action.payFromContactOptions
-    ? {
-        ...state.payFromContactOptions,
-        preSelectedIds: action.payFromContactOptions.preSelectedIds,
-        entries: action.payFromContactOptions.entries,
-      }
-    : state.payFromContactOptions,
   accountOptions: action.accountOptions,
   taxCodeOptions: action.taxCodeOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
@@ -230,45 +206,6 @@ const loadAccountAfterCreate = (state, { intent, ...account }) => ({
   isPageEdited: true,
 });
 
-const setContactLoadingState = (state, { isContactLoading }) => ({
-  ...state,
-  isContactLoading,
-});
-
-const loadContactAfterCreate = (state, { intent, ...contact }) => ({
-  ...state,
-  receiveMoney: {
-    ...state.receiveMoney,
-    selectedPayFromContactId: contact.id,
-  },
-  payFromContactOptions: {
-    ...state.payFromContactOptions,
-    preSelectedIds: [...state.payFromContactOptions.preSelectedIds, contact.id],
-    entries: getUpdatedContactOptions(state, contact),
-  },
-  isPageEdited: true,
-});
-
-const setContactOptionsLoadingState = (state, { isLoading }) => ({
-  ...state,
-  isContactOptionsLoading: isLoading,
-});
-
-const loadContactOptions = (state, { pagination, entries }) => ({
-  ...state,
-  payFromContactOptions: {
-    ...state.payFromContactOptions,
-    pagination,
-    entries: [
-      ...state.payFromContactOptions.entries,
-      ...entries.filter(
-        (option) =>
-          !state.payFromContactOptions.preSelectedIds.includes(option.id)
-      ),
-    ],
-  },
-});
-
 const resetTotals = (state) => ({
   ...state,
   totals: getDefaultState().totals,
@@ -307,10 +244,6 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
   [LOAD_ACCOUNT_AFTER_CREATE]: loadAccountAfterCreate,
-  [SET_CONTACT_LOADING_STATE]: setContactLoadingState,
-  [LOAD_CONTACT_AFTER_CREATE]: loadContactAfterCreate,
-  [SET_CONTACT_OPTIONS_LOADING_STATE]: setContactOptionsLoadingState,
-  [LOAD_CONTACT_OPTIONS]: loadContactOptions,
   [SET_DUPLICATE_ID]: setDuplicateId,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
 };

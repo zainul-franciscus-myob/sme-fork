@@ -2,12 +2,9 @@ import {
   CREATE_RECEIVE_MONEY,
   DELETE_RECEIVE_MONEY,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
-  LOAD_CONTACT_OPTIONS,
   LOAD_DUPLICATE_RECEIVE_MONEY,
   LOAD_NEW_RECEIVE_MONEY,
   LOAD_RECEIVE_MONEY_DETAIL,
-  SEARCH_CONTACT,
   UPDATE_RECEIVE_MONEY,
 } from '../ReceiveMoneyIntents';
 
@@ -41,19 +38,6 @@ const HttpReceiveMoneyMapping = {
     method: 'GET',
     getPath: ({ businessId, accountId }) =>
       `/${businessId}/receiveMoney/load_account/${accountId}`,
-  },
-  [LOAD_CONTACT_AFTER_CREATE]: {
-    method: 'GET',
-    getPath: ({ businessId, contactId }) =>
-      `/${businessId}/receiveMoney/load_contact/${contactId}`,
-  },
-  [LOAD_CONTACT_OPTIONS]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/load_contacts`,
-  },
-  [SEARCH_CONTACT]: {
-    method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/receiveMoney/load_contacts`,
   },
   [LOAD_DUPLICATE_RECEIVE_MONEY]: {
     method: 'GET',

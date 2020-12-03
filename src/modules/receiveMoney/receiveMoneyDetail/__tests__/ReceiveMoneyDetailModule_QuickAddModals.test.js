@@ -1,8 +1,6 @@
 import {
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_CONTACT_AFTER_CREATE,
   SET_ALERT,
-  SET_CONTACT_LOADING_STATE,
   SET_SUBMITTING_STATE,
 } from '../../ReceiveMoneyIntents';
 import { setupWithNew } from './ReceiveMoneyDetailModule.test';
@@ -87,82 +85,6 @@ describe('ReceiveMoneyDetailModule_QuickAddModals', () => {
         {
           intent: LOAD_ACCOUNT_AFTER_CREATE,
           urlParams: { businessId: 'bizId', accountId: '123' },
-        },
-      ]);
-    });
-  });
-
-  describe('loadContactAfterCreate', () => {
-    it('should load the created contact from the modal', () => {
-      const onCreateContactSuccess = jest.fn();
-      const { module, store, integration } = setupWithNew();
-
-      module.loadContactAfterCreate({
-        message: 'well done',
-        id: '123',
-        onCreateContactSuccess,
-      });
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_ALERT,
-          alert: {
-            type: 'success',
-            message: 'well done',
-          },
-        },
-        {
-          intent: SET_CONTACT_LOADING_STATE,
-          isContactLoading: true,
-        },
-        {
-          intent: SET_CONTACT_LOADING_STATE,
-          isContactLoading: false,
-        },
-        expect.objectContaining({
-          intent: LOAD_CONTACT_AFTER_CREATE,
-        }),
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        {
-          intent: LOAD_CONTACT_AFTER_CREATE,
-          urlParams: { businessId: 'bizId', contactId: '123' },
-        },
-      ]);
-    });
-
-    it('should not be submitting if we cannot load the created contact', () => {
-      const { module, store, integration } = setupWithNew();
-
-      integration.mapFailure(LOAD_CONTACT_AFTER_CREATE);
-      module.loadContactAfterCreate({
-        message: 'well done',
-        id: '123',
-      });
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_ALERT,
-          alert: {
-            type: 'success',
-            message: 'well done',
-          },
-        },
-        {
-          intent: SET_CONTACT_LOADING_STATE,
-          isContactLoading: true,
-        },
-        {
-          intent: SET_CONTACT_LOADING_STATE,
-          isContactLoading: false,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        {
-          intent: LOAD_CONTACT_AFTER_CREATE,
-          urlParams: { businessId: 'bizId', contactId: '123' },
         },
       ]);
     });

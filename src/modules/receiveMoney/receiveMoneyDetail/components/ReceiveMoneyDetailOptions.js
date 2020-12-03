@@ -13,8 +13,8 @@ import {
   getIsBeforeStartOfFinancialYear,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
-import ContactAutoComplete from '../../../../components/AutoComplete/ContactAutoComplete';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
+import handleAutoCompleteChange from '../../../../components/handlers/handleAutoCompleteChange';
 
 class ReceiveMoneyDetailOptions extends Component {
   handleInputChange = (e) => {
@@ -54,16 +54,12 @@ class ReceiveMoneyDetailOptions extends Component {
         date,
         isTaxInclusive,
         description,
-        payFromContactOptions = [],
         depositIntoAccountOptions = [],
         selectedDepositIntoAccountId,
         selectedPayFromContactId,
-        isContactDisabled,
-        loadContactOptionsStatus,
       },
-      onAddContact,
-      onLoadMoreContacts,
-      onContactSearch,
+      onUpdateHeaderOptions,
+      renderContactCombobox,
       isBeforeStartOfFinancialYear,
     } = this.props;
 
@@ -77,20 +73,17 @@ class ReceiveMoneyDetailOptions extends Component {
           selectedId={selectedDepositIntoAccountId}
           onChange={this.handleComboBoxChange('selectedDepositIntoAccountId')}
         />
-        <ContactAutoComplete
-          items={payFromContactOptions}
-          selectedId={selectedPayFromContactId}
-          onChange={this.handleComboBoxChange('selectedPayFromContactId')}
-          label="Contact (payer)"
-          name="Pay From Contacts"
-          onAddNewContact={onAddContact}
-          loadMoreButtonStatus={loadContactOptionsStatus}
-          onLoadMoreItems={onLoadMoreContacts}
-          onSearch={onContactSearch}
-          hideLabel={false}
-          disabled={isContactDisabled}
-          allowClear
-        />
+        {renderContactCombobox({
+          selectedId: selectedPayFromContactId,
+          label: 'Contact (payer)',
+          hideLabel: false,
+          allowClear: true,
+          onChange: handleAutoCompleteChange(
+            'selectedPayFromContactId',
+            onUpdateHeaderOptions
+          ),
+          width: 'xl',
+        })}
         <TextArea
           name="description"
           label="Description of transaction"

@@ -1,10 +1,8 @@
 import {
   getIsBeforeStartOfFinancialYear,
-  getLoadContactOptionsStatus,
   getTaxCalculations,
   getUniqueSelectedJobIds,
 } from '../receiveMoneyDetailSelectors';
-import LoadMoreButtonStatus from '../../../../../components/AutoComplete/LoadMoreButtonStatus';
 
 describe('receiveMoneySelectors', () => {
   describe('getTaxCalculations', () => {
@@ -84,53 +82,6 @@ describe('receiveMoneySelectors', () => {
         expect(actual).toEqual(expected);
       }
     );
-  });
-
-  describe('getLoadContactOptionsStatus', () => {
-    it('returns the LOADING status if is loading', () => {
-      const state = {
-        isContactOptionsLoading: true,
-        payFromContactOptions: {
-          pagination: {
-            hasNextPage: true,
-            offset: 0,
-          },
-        },
-      };
-
-      const actual = getLoadContactOptionsStatus(state);
-      expect(actual).toEqual(LoadMoreButtonStatus.LOADING);
-    });
-
-    it('returns the SHOWN status if contact options is not loading and there is next page', () => {
-      const state = {
-        isContactOptionsLoading: false,
-        payFromContactOptions: {
-          pagination: {
-            hasNextPage: true,
-            offset: 5,
-          },
-        },
-      };
-
-      const actual = getLoadContactOptionsStatus(state);
-      expect(actual).toEqual(LoadMoreButtonStatus.SHOWN);
-    });
-
-    it('returns the SHOWN status if contact options is not loading and there is no next page', () => {
-      const state = {
-        isContactOptionsLoading: false,
-        payFromContactOptions: {
-          pagination: {
-            hasNextPage: false,
-            offset: 5,
-          },
-        },
-      };
-
-      const actual = getLoadContactOptionsStatus(state);
-      expect(actual).toEqual(LoadMoreButtonStatus.HIDDEN);
-    });
   });
 
   describe('getUniqueSelectedJobIds', () => {
