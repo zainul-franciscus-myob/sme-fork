@@ -211,7 +211,7 @@ describe('purchaseOrderReducer', () => {
   });
 
   describe('updatePurchaseOrderLine', () => {
-    it('should set lines', () => {
+    it('should set lines if updating a service line', () => {
       const state = {
         accountOptions: [
           {
@@ -243,7 +243,50 @@ describe('purchaseOrderReducer', () => {
         {
           id: 'line-1',
           type: PurchaseOrderLineType.SERVICE,
-          lineSubTypeId: '11',
+          lineSubTypeId: '5',
+          prefillStatus: true,
+          taxCodeId: '1',
+          accountId: '6',
+        },
+      ];
+
+      const actual = purchaseOrderReducer(state, action);
+      expect(actual.purchaseOrder.lines).toEqual(expected);
+    });
+
+    it('should set lines if updating an item line', () => {
+      const state = {
+        accountOptions: [
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+            taxCodeId: '1',
+          },
+        ],
+        purchaseOrder: {
+          lines: [
+            {
+              id: 'line-1',
+              type: PurchaseOrderLineType.ITEM,
+              prefillStatus: true,
+              taxCodeId: '1',
+            },
+          ],
+        },
+      };
+      const action = {
+        intent: UPDATE_PURCHASE_ORDER_LINE,
+        key: 'accountId',
+        value: '6',
+        index: 0,
+      };
+      const expected = [
+        {
+          id: 'line-1',
+          type: PurchaseOrderLineType.ITEM,
+          lineSubTypeId: '7',
           prefillStatus: true,
           taxCodeId: '1',
           accountId: '6',
