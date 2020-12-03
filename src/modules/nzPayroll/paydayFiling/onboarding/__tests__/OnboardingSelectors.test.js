@@ -5,7 +5,9 @@ import {
   getCurrentStep,
   getIrdNumber,
   getLoadingState,
+  getOnboardUserContent,
   getStepperSteps,
+  isAuthorisationComplete,
 } from '../OnboardingSelectors';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import OnboardingSteps from '../OnboardingSteps';
@@ -119,6 +121,44 @@ describe('OnboardingSelectors', () => {
       const expected = loadingState;
 
       const actual = getLoadingState(state);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('isAuthorisationComplete', () => {
+    [
+      { authorisation: 'complete#12345667', expected: true },
+      { authorisation: 'invalid call back', expected: false },
+      { authorisation: 'invalid call back#', expected: false },
+      { authorisation: 'complete#', expected: false },
+      { authorisation: '', expected: false },
+    ].forEach(({ authorisation, expected }) => {
+      it(`returns ${expected} with ${
+        expected ? 'valid' : 'invalid'
+      } authorisation callback of '${authorisation}'`, () => {
+        const state = {
+          authorisation,
+        };
+        const actual = isAuthorisationComplete(state);
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getOnboardUserContent', () => {
+    it('should return encoded callback url', () => {
+      const businessId = '123';
+      const state = {
+        businessId,
+      };
+
+      const expected = {
+        onSuccessCallbackUrl: btoa(
+          '/#/nz/123/paydayFiling/onboarding?authorisation=complete'
+        ),
+      };
+
+      const actual = getOnboardUserContent(state);
       expect(actual).toEqual(expected);
     });
   });

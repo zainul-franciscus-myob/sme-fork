@@ -45,6 +45,22 @@ export const getBusinessDetailsUrl = (state) => {
   return `/#/nz/${businessId}?selectedTab=businessDetails`;
 };
 
+const getOnSuccessCallbackUrl = (state) => {
+  const businessId = getBusinessId(state);
+  return btoa(
+    `/#/nz/${businessId}/paydayFiling/onboarding?authorisation=complete`
+  );
+};
+
+export const getOnboardUserContent = (state) => ({
+  onSuccessCallbackUrl: getOnSuccessCallbackUrl(state),
+});
+
+export const isAuthorisationComplete = (state) => {
+  const authFragment = state.authorisation.split('complete#');
+  return authFragment.length > 1 && authFragment[1].length > 0;
+};
+
 export const getActiveStepNumber = (state) =>
   initialStepperSteps.find((step) => step.id === getCurrentStep(state)).number;
 

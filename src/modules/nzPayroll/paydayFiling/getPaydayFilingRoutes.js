@@ -6,6 +6,7 @@ const getPaydayFilingRoutes = ({ featureToggles }) => {
         {
           name: RouteName.PAYDAY_FILING_ONBOARDING_NZ,
           path: '/:region/:businessId/paydayFiling/onboarding',
+          allowedParams: ['authorisation'],
           defaultParams: { region: 'nz' },
           loadModule: () => import('./onboarding/OnboardingModule'),
           documentTitle: 'Connect to Payday filing',

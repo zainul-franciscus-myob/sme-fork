@@ -66,6 +66,7 @@ describe('onboardingReducer', () => {
         businessId: '',
         irdNumber: '',
         loadingState: LoadingState.LOADING_SUCCESS,
+        authorisation: '',
       };
 
       const action = {

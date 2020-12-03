@@ -1,17 +1,32 @@
 import React from 'react';
 
+import AuthorisationStepIntegrator from './AuthorisationStepIntegrator';
 import AuthorisationStepView from './components/AuthorisationStepView';
+import LoadingState from '../../../../../../components/PageView/LoadingState';
 import Steps from '../../OnboardingSteps';
 import onboardingDispatchers from '../../OnboardingDispatchers';
 
 export default class AuthorisationStepModule {
-  constructor({ store }) {
+  constructor({ store, integration, navigateTo }) {
+    this.integration = integration;
     this.store = store;
+    this.navigateTo = navigateTo;
     this.dispatcher = onboardingDispatchers(store);
+    this.integrator = AuthorisationStepIntegrator(store, integration);
   }
 
   authoriseUser = () => {
-    // TODO: To be implemented in sub-task NZPR-1424
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = ({ onboardUrl }) => {
+      this.navigateTo(onboardUrl);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.onboardUser({ onSuccess, onFailure });
   };
 
   previousStep = () => {

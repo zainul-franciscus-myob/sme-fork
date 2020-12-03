@@ -13,6 +13,7 @@ const getDefaultState = () => ({
   irdNumber: '',
   businessId: '',
   loadingState: LoadingState.LOADING_SUCCESS,
+  authorisation: '',
 });
 
 const setCurrentStep = (state, { currentStep }) => ({
