@@ -21,15 +21,17 @@
 
 .inTrayApps {
   cursor: pointer;
-  margin: 0 var(--flx-spacing-small) var(--flx-spacing-small) 0;
+  margin-right: var(--flx-spacing-tiny);
 }
 
 .inTrayApps:last-of-type { margin-right: 0; }
 
 @media screen and (min-width: 864px) {
+  .uploadModal :global(.flx-col--3) { grid-gap: 0 var(--flx-spacing-large); }
+
   .inTrayImages {
     display: block;
-    margin: 0 auto var(--flx-spacing-large);
+    margin: var(--flx-spacing-small) auto var(--flx-spacing-large);
   }
 
   .inTrayGenerationEmailAlert { margin-bottom: 0; }
