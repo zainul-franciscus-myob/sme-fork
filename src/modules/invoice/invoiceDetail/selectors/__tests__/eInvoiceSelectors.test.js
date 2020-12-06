@@ -1,5 +1,6 @@
 import {
   getEInvoiceAppName,
+  getSendEInvoiceOptions,
   getSendEInvoiceUrlParams,
   getShowEInvoiceButton,
 } from '../eInvoiceSelectors';
@@ -68,6 +69,40 @@ describe('eInvoiceSelectors', () => {
         businessId: 'abc',
         invoiceId: '1',
       });
+    });
+  });
+
+  describe('getSendEInvoiceOptions', () => {
+    it.each([
+      [null, ''],
+      [{}, ''],
+      [{ abn: { abn: 'Test', branch: 'Blah' } }, 'Test'],
+    ])('given abn state of "%o" it should return "%s"', (abn, expectedAbn) => {
+      const state = {
+        emailInvoice: {
+          fromEmail: 'email@email.com',
+        },
+        serialNumber: 'test',
+        eInvoice: {
+          appName: 'FooBar',
+          attachments: [],
+        },
+        invoice: {
+          isTaxInclusive: false,
+          taxExclusiveFreightAmount: 0,
+          freightTaxAmount: 0,
+          freightTaxCodeId: 1,
+          lines: [],
+        },
+        ...abn,
+      };
+
+      const actual = getSendEInvoiceOptions(state);
+      const expected = {
+        abn: expectedAbn,
+      };
+
+      expect(actual).toMatchObject(expected);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
 import {
+  getAbn,
   getAmountDue,
   getBusinessId,
   getCustomerName,
@@ -38,7 +39,14 @@ export const getSendEInvoiceUrlParams = createSelector(
   (businessId, invoiceId) => ({ businessId, invoiceId })
 );
 
+const constructAbn = (state) => {
+  const abn = getAbn(state);
+
+  return abn?.abn || '';
+};
+
 export const getSendEInvoiceOptions = createStructuredSelector({
+  abn: constructAbn,
   amountDue: getFormattedAmountDue,
   customerName: getCustomerName,
   invoiceNumber: getInvoiceNumber,

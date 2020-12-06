@@ -7,6 +7,7 @@ import Button from '../../../../../components/Button/Button';
 import styles from './SendEInvoiceModal.module.css';
 
 const SendEInvoiceModal = ({
+  abn,
   alert,
   amountDue,
   customerName,
@@ -17,32 +18,46 @@ const SendEInvoiceModal = ({
   onSendEInvoice,
 }) => {
   const infoBlock = (
-    <Alert type="info">
-      You can&apos;t edit e-invoices after sending.
-      <br />
-      E-invoice delivery confirmation depends on your customer&apos;s system and
-      won&apos;t be instant.
+    <Alert type="info" className={styles.alertModal}>
+      <h4>Just a few things you should know:</h4>
+      <ul>
+        <li>You can&apos;t edit e-invoices after sending.</li>
+        <li>
+          E-invoice delivery confirmation depends on your customer&apos;s system
+          and won&apos;t be instant.
+        </li>
+      </ul>
     </Alert>
   );
 
   const invoiceDetails = (
     <div className={styles.subHeadingGroup}>
-      <SubHeadingGroup size="md" subHeading="Issue Date">
-        <p>{issueDate}</p>
-      </SubHeadingGroup>
-      <SubHeadingGroup size="md" subHeading="Invoice No.">
-        <p>{invoiceNumber}</p>
-      </SubHeadingGroup>
-      <SubHeadingGroup size="md" subHeading="Customer">
-        <p>{customerName}</p>
-      </SubHeadingGroup>
-      <SubHeadingGroup
-        size="md"
-        subHeading="Balance Due"
-        className={styles.balanceDue}
-      >
-        <p>{amountDue}</p>
-      </SubHeadingGroup>
+      <h3>Invoice details</h3>
+      <div className={styles.subHeadingContainer}>
+        <SubHeadingGroup size="md" subHeading="ABN">
+          <p>{abn}</p>
+        </SubHeadingGroup>
+        <SubHeadingGroup
+          size="md"
+          subHeading="Customer"
+          className={styles.customerName}
+        >
+          <p>{customerName}</p>
+        </SubHeadingGroup>
+        <SubHeadingGroup size="md" subHeading="Issue Date">
+          <p>{issueDate}</p>
+        </SubHeadingGroup>
+        <SubHeadingGroup size="md" subHeading="Invoice No.">
+          <p>{invoiceNumber}</p>
+        </SubHeadingGroup>
+        <SubHeadingGroup
+          size="md"
+          subHeading="Balance Due"
+          className={styles.balanceDue}
+        >
+          <p>{amountDue}</p>
+        </SubHeadingGroup>
+      </div>
     </div>
   );
 
