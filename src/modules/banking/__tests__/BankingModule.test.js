@@ -8,6 +8,7 @@ import {
   EQUALS,
   ESCAPE,
   F2,
+  F3,
   F4,
   F8,
   FORWARD_SLASH,
@@ -17,6 +18,7 @@ import {
   NUMPAD_PLUS,
   NUMPAD_SLASH,
   OPTION,
+  P,
   R,
   SHIFT,
   T,
@@ -2190,6 +2192,8 @@ describe('BankingModule', () => {
         [[OPTION, A]],
         [[OPTION, M]],
         [[OPTION, T]],
+        [[OPTION, P]],
+        [F3],
         [[COMMAND, ENTER]],
         [[CTRL, ENTER]],
       ])('%s should do nothing if accordion is not open', (hotkey) => {
@@ -2303,6 +2307,8 @@ describe('BankingModule', () => {
         [[OPTION, A]],
         [[OPTION, M]],
         [[OPTION, T]],
+        [[OPTION, P]],
+        [F3],
         [F4],
         [[OPTION, R]],
         [FORWARD_SLASH],
@@ -2469,6 +2475,44 @@ describe('BankingModule', () => {
           }),
         ]);
       });
+
+      it.each([[F3], [[OPTION, P]]])(
+        '%s expands accordian to split allocation tab and focus on banking rule combobox',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(updatedEntry);
+
+          // Action
+          const event = { index };
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action(event);
+
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              {
+                intent: SET_FOCUS,
+                index: 0,
+                location: FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX,
+                isFocused: true,
+              },
+              {
+                intent: LOAD_NEW_SPLIT_ALLOCATION,
+                index,
+              },
+            ])
+          );
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({
+              intent: LOAD_ATTACHMENTS,
+            }),
+          ]);
+        }
+      );
     });
 
     describe.each([
@@ -2673,6 +2717,42 @@ describe('BankingModule', () => {
         ]);
       });
 
+      it.each([[F3], [[OPTION, P]]])(
+        '%s switches to the split allocation tab and focus on banking rule combobox',
+        (hotkey) => {
+          const {
+            module,
+            store,
+            integration,
+            index,
+          } = setUpWithBankTransactionEntry(entry);
+          module.toggleLine(index);
+          module.changeOpenEntryTab(TabItems.match);
+          store.resetActions();
+          integration.resetRequests();
+
+          // Action
+          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+          hotkeyHandler.action();
+
+          // Assertion
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              {
+                intent: SET_FOCUS,
+                index: 0,
+                location: FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX,
+                isFocused: true,
+              },
+              {
+                intent: LOAD_NEW_SPLIT_ALLOCATION,
+                index,
+              },
+            ])
+          );
+        }
+      );
+
       it.each([[[OPTION, M]], [[OPTION, T]]])(
         '%s should throw unsaved changes modal on switch tab when has edited open transaction',
         (hotkey) => {
@@ -2701,6 +2781,8 @@ describe('BankingModule', () => {
 
       it.each([
         [[OPTION, A], 'split allocation'],
+        [F3, 'split allocation'],
+        [[OPTION, P], 'split allocation'],
         [[OPTION, T], 'transfer money'],
       ])('%s should do nothing if %s is disabled', (hotkey) => {
         // Setup

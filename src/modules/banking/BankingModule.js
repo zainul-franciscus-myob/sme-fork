@@ -9,6 +9,7 @@ import {
   EQUALS,
   ESCAPE,
   F2,
+  F3,
   F4,
   F8,
   FORWARD_SLASH,
@@ -18,6 +19,7 @@ import {
   NUMPAD_PLUS,
   NUMPAD_SLASH,
   OPTION,
+  P,
   R,
   SHIFT,
   T,
@@ -32,6 +34,7 @@ import {
   getBankTransactionLineByIndex,
   getBankingRuleModuleContext,
   getBusinessId,
+  getDefaultTabFocusLocation,
   getIndexOfNextUnmatchedLine,
   getIsAllocated,
   getIsEntryLoading,
@@ -39,6 +42,7 @@ import {
   getIsOpenTransactionWithdrawal,
   getIsPrefillSplitAllocationEnabled,
   getIsTabDisabled,
+  getIsTransactionLineTabDisabled,
   getLastAllocatedAccount,
   getLocationOfTransactionLine,
   getMatchTransactionsContext,
@@ -1484,9 +1488,29 @@ export default class BankingModule {
     }
   };
 
-  expandTransactionWithHotkey = ({ index }, tabToExpandTo) => {
-    this.setFocusTo(0, FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX);
-    this.expandTransactionLine(index, tabToExpandTo);
+  expandTransactionWithHotkey = (
+    { index },
+    tabId,
+    focusLocation,
+    focusIndex = 0
+  ) => {
+    const state = this.store.getState();
+    const line = getBankTransactionLineByIndex(state, index);
+
+    if (tabId && !getIsTransactionLineTabDisabled(line, tabId)) {
+      const focus = focusLocation
+        ? { location: focusLocation, index: focusIndex }
+        : getDefaultTabFocusLocation(tabId);
+
+      this.setFocusTo(focus.index, focus.location);
+      this.expandTransactionLine(index, tabId);
+    } else {
+      const defaultTabId = getOpenEntryDefaultTabId(line);
+      const defaultFocus = getDefaultTabFocusLocation(defaultTabId);
+
+      this.setFocusTo(defaultFocus.index, defaultFocus.location);
+      this.expandTransactionLine(index, defaultTabId);
+    }
   };
 
   expandTransactionAndBankingRuleModalWithHotkey = ({ index }) => {
@@ -1503,13 +1527,17 @@ export default class BankingModule {
     }
   };
 
-  switchToTab = (tabToSwitchTo) => {
+  switchToTab = (tabToSwitchTo, focusLocation, focusIndex = 0) => {
     const state = this.store.getState();
     const isAccordionOpen = getOpenPosition(state) >= 0;
     const shouldSwitchToTab =
       isAccordionOpen && !getIsTabDisabled(state, tabToSwitchTo);
 
     if (shouldSwitchToTab) {
+      if (focusLocation) {
+        this.setFocusTo(focusIndex, focusLocation);
+      }
+
       this.confirmBefore(this.changeOpenEntryTab)(tabToSwitchTo);
     }
   };
@@ -1624,6 +1652,24 @@ export default class BankingModule {
             TabItems.transfer
           ),
       },
+      {
+        key: F3,
+        action: (eventDetail) =>
+          this.confirmBefore(this.expandTransactionWithHotkey)(
+            eventDetail,
+            TabItems.allocate,
+            FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
+          ),
+      },
+      {
+        key: [OPTION, P],
+        action: (eventDetail) =>
+          this.confirmBefore(this.expandTransactionWithHotkey)(
+            eventDetail,
+            TabItems.allocate,
+            FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
+          ),
+      },
     ];
 
     const hotkeysToSetFocusToUnmatchedTransactionLine = [
@@ -1680,6 +1726,22 @@ export default class BankingModule {
       {
         key: [OPTION, R],
         action: this.openBankingRuleModalWithAccordionOpen,
+      },
+      {
+        key: F3,
+        action: () =>
+          this.switchToTab(
+            TabItems.allocate,
+            FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
+          ),
+      },
+      {
+        key: [OPTION, P],
+        action: () =>
+          this.switchToTab(
+            TabItems.allocate,
+            FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
+          ),
       },
       {
         key: ESCAPE,

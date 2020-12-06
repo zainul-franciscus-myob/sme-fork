@@ -13,6 +13,9 @@ import {
   getIsSpendMoney,
   getShowIsReportableCheckbox,
 } from '../splitAllocationSelectors';
+import { getIsFocused } from '../../../selectors';
+import ComboboxFocusWrapper from '../../../components/ComboboxFocusWrapper';
+import FocusLocations from '../../../types/FocusLocations';
 import handleAutoCompleteChange from '../../../../../components/handlers/handleAutoCompleteChange';
 import handleContactAutoCompleteChange from '../../../../../components/handlers/handleContactAutoCompleteChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
@@ -33,6 +36,7 @@ const SplitAllocationOptions = (props) => {
     isSpendMoney,
     showIsReportable,
     isDisabled,
+    isBankingRuleComboboxFocused,
     onUpdateSplitAllocationHeader,
     onUpdateSplitAllocationContactCombobox,
     renderSplitAllocationContactCombobox,
@@ -96,9 +100,11 @@ const SplitAllocationOptions = (props) => {
         onChange={handleInputChange(onUpdateSplitAllocationHeader)}
         disabled={isDisabled}
       />
-      {isSpendMoney
-        ? renderSpendMoneyBankingRuleCombobox(bankingRuleComboboxProps)
-        : renderReceiveMoneyBankingRuleCombobox(bankingRuleComboboxProps)}
+      <ComboboxFocusWrapper isFocused={isBankingRuleComboboxFocused}>
+        {isSpendMoney
+          ? renderSpendMoneyBankingRuleCombobox(bankingRuleComboboxProps)
+          : renderReceiveMoneyBankingRuleCombobox(bankingRuleComboboxProps)}
+      </ComboboxFocusWrapper>
     </div>
   );
 };
@@ -115,6 +121,11 @@ const mapStateToProps = (state) => ({
   showIsReportable: getShowIsReportableCheckbox(state),
   contactLabel: getContactLabel(state),
   isDisabled: getIsLoading(state),
+  isBankingRuleComboboxFocused: getIsFocused(
+    state,
+    0,
+    FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
+  ),
 });
 
 export default connect(mapStateToProps)(SplitAllocationOptions);

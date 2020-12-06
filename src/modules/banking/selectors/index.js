@@ -294,15 +294,25 @@ const getIsTransferDisabled = ({ journals, type }) => {
   );
 };
 
-export const getIsTabDisabled = (state, tabToExpandTo) => {
-  const transactionLine = getOpenTransactionLine(state);
+export const getIsTransactionLineTabDisabled = (
+  transactionLine,
+  tabToExpandTo
+) => {
   if (tabToExpandTo === TabItems.allocate) {
     return getIsAllocateDisabled(transactionLine);
   }
+
   if (tabToExpandTo === TabItems.transfer) {
     return getIsTransferDisabled(transactionLine);
   }
+
   return false;
+};
+
+export const getIsTabDisabled = (state, tabToExpandTo) => {
+  const transactionLine = getOpenTransactionLine(state);
+
+  return getIsTransactionLineTabDisabled(transactionLine, tabToExpandTo);
 };
 
 export const getTabItems = createSelector(
@@ -335,6 +345,19 @@ export const getTabItems = createSelector(
     ];
   }
 );
+
+export const getDefaultTabFocusLocation = (tabId) => {
+  switch (tabId) {
+    case TabItems.transfer:
+    case TabItems.match:
+    case TabItems.allocate:
+    default:
+      return {
+        location: FocusLocations.SPLIT_ALLOCATION_ACCOUNT_COMBOBOX,
+        index: 0,
+      };
+  }
+};
 
 export const getDisplayName = (id, accountList) => {
   const selectedAccount = accountList.find((account) => account.id === id);
