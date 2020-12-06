@@ -1,0 +1,37 @@
+.onlinePaymentMethodsImage {
+  height: 2.1rem;
+  padding-bottom: var(--flx-spacing-x-tiny);
+  width: auto;
+}
+
+.onlinePaymentMethodsImageSetUp {
+  height: 2.1rem;
+  padding-top: var(--flx-spacing-x-tiny);
+  width: auto;
+  padding-right: var(--flx-spacing-small);
+}
+
+.onlinePaymentCheckboxGroup > * {
+  display: inline-block;
+}
+
+.status {
+  padding: 0.5rem;
+}
+
+.spinner {
+  width: 1rem;
+  padding: 0.2rem;
+}
+
+.trial .onlinePaymentMethodsImageSetUp {
+  padding-right: var(--flx-spacing-tiny);
+}
+
+/*
+  @FEELIX:
+  Center tooltip with the payment method image
+*/
+.trial :global(.tooltip-icon) {
+  vertical-align: middle;
+}

@@ -1,7 +1,7 @@
 import {
   LOAD_RECURRING_TRANSACTION_LIST,
   SORT_AND_FILTER_RECURRING_TRANSACTION_LIST,
-} from '../RecurringTransactionIntents';
+} from './RecurringTransactionListIntents';
 import {
   getBusinessId,
   getFilterOptions,

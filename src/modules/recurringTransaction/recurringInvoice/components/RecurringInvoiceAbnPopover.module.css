@@ -1,0 +1,8 @@
+.spinner {
+  display: flex;
+  margin: var(--flx-spacing-tiny) 0 0 var(--flx-spacing-tiny);
+}
+
+.spinner :global(.flx-loading-spinner--fade-in) {
+  align-self: center;
+}

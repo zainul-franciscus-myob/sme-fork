@@ -18,7 +18,11 @@ const RecurringTransactionListTableBody = ({
       {entries.map((entry) => (
         <Table.Row key={`${entry.transactionType}-${entry.id}`}>
           <Table.RowItem {...tableConfig.transactionName}>
-            {entry.transactionName}
+            {entry.link ? (
+              <a href={entry.link}>{entry.transactionName}</a>
+            ) : (
+              entry.transactionName
+            )}
           </Table.RowItem>
           <Table.RowItem {...tableConfig.transactionType}>
             {entry.displayTransactionType}

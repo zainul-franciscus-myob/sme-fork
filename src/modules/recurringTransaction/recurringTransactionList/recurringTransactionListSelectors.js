@@ -1,12 +1,41 @@
 import { createSelector } from 'reselect';
 
-export const getAlert = (state) => state.alert;
+import TransactionType from '../types/TransactionType';
+import getRecurringUrl from '../common/getRecurringUrl';
+
+export const getBusinessId = (state) => state.businessId;
+
+export const getRegion = (state) => state.region;
 
 export const getIsLoading = (state) => state.isLoading;
 
-export const getTableEntries = ({ entries }) => entries;
+export const getAlert = (state) => state.alert;
 
-export const getBusinessId = (state) => state.businessId;
+const getEntries = (state) => state.entries;
+
+export const getTableEntries = createSelector(
+  getEntries,
+  getBusinessId,
+  getRegion,
+  (entries, businessId, region) =>
+    entries.map((entry) => {
+      const { id, transactionType } = entry;
+      const link =
+        transactionType === TransactionType.INVOICE
+          ? getRecurringUrl({
+              transactionType,
+              businessId,
+              region,
+              recurringTransactionId: id,
+            })
+          : undefined;
+
+      return {
+        ...entry,
+        link,
+      };
+    })
+);
 
 export const getTransactionTypeOptions = (state) =>
   state.transactionTypeOptions;
@@ -41,3 +70,16 @@ export const getTransactionTypeFilters = createSelector(
       value: option.name,
     }))
 );
+
+export const getCreateRecurringTransactionUrl = (state, transactionType) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+  const recurringTransactionId = 'new';
+
+  return getRecurringUrl({
+    businessId,
+    region,
+    recurringTransactionId,
+    transactionType,
+  });
+};

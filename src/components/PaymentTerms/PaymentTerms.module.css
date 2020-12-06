@@ -27,11 +27,17 @@
   align-content: center;
 }
 
+/* @FEELIX */
+.triggerButtonPopoverContainer :global(.btn__container) {
+  white-space: normal;
+  text-align: left;
+}
+
 .warningIcon {
   display: flex;
   margin-left: 1.2rem;
 }
 
 .warningTooltip {
-  display: flex; 
+  display: flex;
 }

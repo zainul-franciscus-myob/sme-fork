@@ -45,4 +45,21 @@ describe('getPaymentTermsPopoverLabel', () => {
 
     expect(actual).toBe(expected);
   });
+
+  it('Returns the expiration term as label is when issue date is empty', () => {
+    const actual = getPaymentTermsPopoverLabel({
+      issueDate: '',
+      expirationTerm: 'NumberOfDaysAfterEOM',
+      expirationDays: '32',
+      expirationTermOptions: [
+        {
+          value: 'NumberOfDaysAfterEOM',
+          name: 'Due in a number of days after the end of the month',
+        },
+      ],
+    });
+    const expected = 'Due in a number of days after the end of the month';
+
+    expect(actual).toBe(expected);
+  });
 });

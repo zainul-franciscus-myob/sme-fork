@@ -1,0 +1,81 @@
+import LoadingState from '../../../../components/PageView/LoadingState';
+import RecurringInvoiceModalType from '../types/RecurringInvoiceModalType';
+import formatIsoDate from '../../../../common/valueFormatters/formatDate/formatIsoDate';
+
+export const DEFAULT_UNITS = '1';
+export const DEFAULT_DISCOUNT = '0';
+
+const getDefaultState = () => ({
+  businessId: '',
+  region: '',
+  recurringTransactionId: '',
+  loadingState: LoadingState.LOADING,
+  alert: undefined,
+  modalType: RecurringInvoiceModalType.NONE,
+  isPageEdited: false,
+  isSubmitting: false,
+  isAbnLoading: false,
+  transactionType: '',
+  schedule: {
+    name: '',
+    frequency: '',
+    recurrence: '',
+    isAutomaticallyRecorded: false,
+    nextDueDate: formatIsoDate(new Date()),
+    secondDueDate: '',
+    endDate: '',
+    numberOfTimes: 0,
+    remainingTime: 0,
+    shouldNotifyUser: false,
+    notifyUserId: 0,
+    shouldUseCustomNumber: false,
+    customNumber: '',
+  },
+  invoice: {
+    layout: '',
+    customerId: '',
+    address: '',
+    note: '',
+    isAllowOnlinePayments: false,
+    isTaxInclusive: true,
+    expirationTerm: '',
+    expirationDays: 0,
+    chargeForLatePayment: 0,
+    discountForEarlyPayment: 0,
+    numberOfDaysForDiscount: 0,
+    taxExclusiveFreightAmount: '0',
+    freightTaxAmount: '0',
+    freightTaxCodeId: '0',
+    lines: [],
+  },
+  newLine: {
+    units: '',
+    itemId: '',
+    description: '',
+    unitPrice: '',
+    unitOfMeasure: '',
+    jobId: '',
+    taxCodeId: '',
+    accountId: '',
+    discount: '',
+    amount: '',
+  },
+  payDirect: {
+    isLoading: true,
+    isServiceAvailable: false,
+    isRegistered: false,
+    registrationUrl: '',
+    isTrial: false,
+    serialNumber: '',
+  },
+  expirationTermOptions: [],
+  commentOptions: [],
+  accountOptions: [],
+  taxCodeOptions: [],
+  transactionTypeOptions: [],
+  abn: undefined,
+  isLineAmountDirty: false,
+  isRecurringTransactionEnabled: false,
+});
+
+export default getDefaultState;

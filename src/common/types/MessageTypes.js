@@ -268,3 +268,12 @@ export const SUCCESSFULLY_UPDATED_JOB_KEEPER_PAYMENTS = Symbol(
 // Job
 export const SUCCESSFULLY_SAVED_JOB = Symbol('A successfully saved job');
 export const SUCCESSFULLY_DELETED_JOB = Symbol('A successfully deleted job');
+
+// Recurring transaction
+// Invoice
+export const SUCCESSFULLY_SAVED_RECURRING_TRANSACTION = Symbol(
+  'Successfully saved a recurring transaction'
+);
+export const SUCCESSFULLY_DELETED_RECURRING_TRANSACTION = Symbol(
+  'Successfully deleted a recurring transaction'
+);

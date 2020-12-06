@@ -1,0 +1,8 @@
+{
+  "payDirect": {
+    "isRegistered": true,
+    "registrationUrl": "https://www.myob.com/au/comms/invoice-payments/essentials-signup#/creditcard/abn",
+    "isTrial": false,
+    "serialNumber": "46761451346"
+  }
+}

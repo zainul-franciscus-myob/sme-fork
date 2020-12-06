@@ -1,0 +1,12 @@
+.popover {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.popover :global(.flx-popover) {
+  display: inline-block;
+}
+
+.popoverBody {
+  margin-bottom: 0;
+}

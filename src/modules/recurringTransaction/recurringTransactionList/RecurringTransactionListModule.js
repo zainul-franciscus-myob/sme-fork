@@ -1,7 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getUrlParams } from './recurringTransactionListSelectors';
+import {
+  SUCCESSFULLY_DELETED_RECURRING_TRANSACTION,
+  SUCCESSFULLY_SAVED_RECURRING_TRANSACTION,
+} from '../../../common/types/MessageTypes';
+import {
+  getCreateRecurringTransactionUrl,
+  getUrlParams,
+} from './recurringTransactionListSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import CreateRecurringTransactionListDispatcher from './CreateRecurringTransactionListDispatcher';
 import CreateRecurringTransactionListIntegrator from './CreateRecurringTransactionListIntegrator';
@@ -11,17 +18,32 @@ import Store from '../../../store/Store';
 import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import recurringTransactionListReducer from './recurringTransactionListReducer';
 
+const messageTypes = [
+  SUCCESSFULLY_DELETED_RECURRING_TRANSACTION,
+  SUCCESSFULLY_SAVED_RECURRING_TRANSACTION,
+];
+
 export default class RecurringTransactionModule {
-  constructor({ integration, setRootView, replaceURLParams, featureToggles }) {
+  constructor({
+    integration,
+    setRootView,
+    popMessages,
+    replaceURLParams,
+    navigateTo,
+    featureToggles,
+  }) {
     this.integration = integration;
     this.store = new Store(recurringTransactionListReducer);
     this.setRootView = setRootView;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = CreateRecurringTransactionListDispatcher(this.store);
     this.integrator = CreateRecurringTransactionListIntegrator(
       this.store,
       integration
     );
+    this.navigateTo = navigateTo;
     this.featureToggles = featureToggles;
   }
 
@@ -31,6 +53,7 @@ export default class RecurringTransactionModule {
         onUpdateFilter={this.updateFilterOptions}
         onResetFilter={this.resetFilterOptions}
         onSort={this.updateSort}
+        onCreateButtonClick={this.redirectToCreateRecurringTransaction}
         onDismissAlert={this.dismissAlert}
       />
     );
@@ -102,6 +125,25 @@ export default class RecurringTransactionModule {
     });
   };
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({
+        type: 'success',
+        message,
+      });
+    }
+  };
+
+  redirectToCreateRecurringTransaction = (transactionType) => {
+    const state = this.store.getState();
+    const url = getCreateRecurringTransactionUrl(state, transactionType);
+
+    this.navigateTo(url);
+  };
+
   run(context) {
     const isRecurringTransactionEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
@@ -114,6 +156,8 @@ export default class RecurringTransactionModule {
     });
 
     this.render();
+    this.readMessages();
+
     this.loadRecurringTransactionList();
   }
 

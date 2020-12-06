@@ -7,17 +7,24 @@ const getPaymentTermsPopoverLabel = ({
   expirationTerm,
   expirationTermOptions,
 }) => {
-  const expiredDate = formatSlashDate(
+  if (
+    !issueDate ||
+    expirationTerm === 'Prepaid' ||
+    expirationTerm === 'CashOnDelivery'
+  ) {
+    const selected =
+      expirationTermOptions.find((term) => term.value === expirationTerm) || {};
+
+    return selected.name;
+  }
+
+  return formatSlashDate(
     getExpiredDate({
       issueDate,
       expirationDays,
       expirationTerm,
     })
   );
-
-  return ['Prepaid', 'CashOnDelivery'].includes(expirationTerm)
-    ? expirationTermOptions.find((term) => term.value === expirationTerm).name
-    : expiredDate;
 };
 
 export default getPaymentTermsPopoverLabel;

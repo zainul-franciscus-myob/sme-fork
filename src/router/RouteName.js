@@ -115,6 +115,7 @@ const RouteName = {
   REPORT_SETTINGS: 'reportSettings',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
   PAYDAY_FILING_ONBOARDING_NZ: 'paydayFiling/onboardingNz',
+  RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
 };
 
 export default RouteName;

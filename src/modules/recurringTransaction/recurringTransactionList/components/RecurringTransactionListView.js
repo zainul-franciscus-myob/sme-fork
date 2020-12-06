@@ -1,4 +1,4 @@
-import { Alert, PageHead, StandardTemplate } from '@myob/myob-widgets';
+import { Alert, StandardTemplate } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,6 +9,7 @@ import {
 } from '../recurringTransactionListSelectors';
 import PageView from '../../../../components/PageView/PageView';
 import RecurringTransactionListFilterOptions from './RecurringTransactionListFilterOptions';
+import RecurringTransactionListPageHead from './RecurringTransactionListPageHead';
 import RecurringTransactionListTableBody from './RecurringTransactionListTableBody';
 import RecurringTransactionListTableHeader from './RecurringTransactionListTableHeader';
 import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
@@ -31,6 +32,7 @@ const RecurringTransactionListView = ({
   onUpdateFilter,
   onResetFilter,
   onSort,
+  onCreateButtonClick,
   isRecurringTransactionEnabled,
 }) => {
   const alertComponent = alert && (
@@ -48,8 +50,12 @@ const RecurringTransactionListView = ({
 
   const recurringTransactionListView = (
     <StandardTemplate
+      pageHead={
+        <RecurringTransactionListPageHead
+          onCreateButtonClick={onCreateButtonClick}
+        />
+      }
       alert={alertComponent}
-      pageHead={<PageHead title="Recurring transactions" />}
       filterBar={filterBar}
       tableHeader={
         <RecurringTransactionListTableHeader

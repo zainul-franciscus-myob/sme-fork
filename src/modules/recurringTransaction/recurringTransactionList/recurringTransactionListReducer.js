@@ -7,7 +7,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_RECURRING_TRANSACTION_LIST,
   UPDATE_FILTER_OPTIONS,
-} from '../RecurringTransactionIntents';
+} from './RecurringTransactionListIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import TransactionTypes from './TransationTypes';
 import createReducer from '../../../store/createReducer';
