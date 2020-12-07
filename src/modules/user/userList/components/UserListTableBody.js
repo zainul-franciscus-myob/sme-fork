@@ -12,19 +12,19 @@ const UserListTableBody = (props) => {
     onCancelInvitation,
   } = props;
 
-  const ActionButtons = ({ user }) => (
+  const ActionButtons = ({ userIndex }) => (
     <>
-      <Button type="link" onClick={() => onResendInvitation(user)}>
+      <Button type="link" onClick={() => onResendInvitation(userIndex)}>
         Resend invitation
       </Button>
       {' | '}
-      <Button type="link" onClick={() => onCancelInvitation(user)}>
+      <Button type="link" onClick={() => onCancelInvitation(userIndex)}>
         Cancel invitation
       </Button>
     </>
   );
 
-  const rows = entries.map((user) => (
+  const rows = entries.map((user, userIndex) => (
     <Table.Row key={user.id}>
       <Table.RowItem {...tableConfig.name}>
         {user.id ? <a href={user.link}>{user.name}</a> : user.name}
@@ -40,7 +40,7 @@ const UserListTableBody = (props) => {
       </Table.RowItem>
       <Table.RowItem {...tableConfig.action}>
         {user.myDotInvitationSatus === 'Pending' && (
-          <ActionButtons user={user} />
+          <ActionButtons userIndex={userIndex} />
         )}
       </Table.RowItem>
     </Table.Row>

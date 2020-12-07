@@ -49,3 +49,26 @@ export const getMyDotMyobLink = createSelector(
     return `https://my.myob.com/pages/CloudServiceAdministrationRedirector.aspx?Action=ARLADMIN&serialnumber=${serialNumber}&CdfId=${businessId}`;
   }
 );
+
+export const getResendInvitationDetails = (state, index) => {
+  const users = getEntries(state);
+  const selectedUser = users[index];
+
+  return selectedUser
+    ? {
+        cdfGuid: getBusinessId(state),
+        invitationType: selectedUser.myDotInvitationType,
+        invitationEmail: selectedUser.email,
+        userName: selectedUser.name,
+        userId: selectedUser.id,
+        type: selectedUser.type,
+      }
+    : {};
+};
+
+export const getCancelInvitationDetails = (state, index) => {
+  const users = getEntries(state);
+  const selectedUser = users[index];
+
+  return selectedUser ? { id: selectedUser.invitationId } : {};
+};

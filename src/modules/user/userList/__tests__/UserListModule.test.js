@@ -86,7 +86,7 @@ describe('UserListModule', () => {
   describe('resend invitation', () => {
     it('successfully sent', () => {
       const { store, integration, module } = setup();
-      module.resendInvitation({});
+      module.resendInvitation(0);
 
       expect(store.getActions()).toEqual([
         {
@@ -118,7 +118,7 @@ describe('UserListModule', () => {
     it('failed to send', () => {
       const { store, integration, module } = setup();
       integration.mapFailure(RESEND_INVITATION);
-      module.resendInvitation({});
+      module.resendInvitation(0);
 
       expect(store.getActions()).toEqual([
         {
@@ -141,7 +141,7 @@ describe('UserListModule', () => {
   describe('cancel invitation', () => {
     it('successfully cancelled', () => {
       const { store, integration, module } = setup();
-      module.cancelInvitation({});
+      module.cancelInvitation(0);
 
       expect(store.getActions()).toEqual([
         {
@@ -173,7 +173,7 @@ describe('UserListModule', () => {
     it('failed to cancel', () => {
       const { store, integration, module } = setup();
       integration.mapFailure(CANCEL_INVITATION);
-      module.cancelInvitation({});
+      module.cancelInvitation(0);
 
       expect(store.getActions()).toEqual([
         {

@@ -17,12 +17,13 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
+  getCancelInvitationDetails,
   getEntries,
   getFlipSortOrder,
   getMyDotMyobLink,
   getOrderBy,
   getRegion,
-  getSerialNumber,
+  getResendInvitationDetails,
 } from './userListSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -160,25 +161,14 @@ export default class UserListModule {
     });
   };
 
-  resendInvitation = (user) => {
+  resendInvitation = (userIndex) => {
     const intent = RESEND_INVITATION;
 
     const state = this.store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
     };
-
-    const content = {
-      serialNumber: getSerialNumber(state),
-      cdfGuid: getBusinessId(state),
-      inviterIdentityId: user.inviterIdentityId,
-      inviterContactId: user.inviterContactId,
-      invitationType: user.myDotInvitationType,
-      invitationEmail: user.email,
-      userName: user.name,
-      userId: user.id,
-      type: user.type,
-    };
+    const content = getResendInvitationDetails(state, userIndex);
 
     const onSuccess = ({ message }) => {
       this.setAlert({
@@ -204,7 +194,7 @@ export default class UserListModule {
     });
   };
 
-  cancelInvitation = (user) => {
+  cancelInvitation = (userIndex) => {
     const intent = CANCEL_INVITATION;
 
     const state = this.store.getState();
@@ -212,11 +202,7 @@ export default class UserListModule {
       businessId: getBusinessId(state),
     };
 
-    const content = {
-      serialNumber: getSerialNumber(state),
-      inviterContactId: user.inviterContactId,
-      id: user.invitationId,
-    };
+    const content = getCancelInvitationDetails(state, userIndex);
 
     const onSuccess = ({ message }) => {
       this.setAlert({
