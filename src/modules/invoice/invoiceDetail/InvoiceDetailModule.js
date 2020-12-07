@@ -51,6 +51,7 @@ import {
   getInvoiceQuoteUrl,
   getShouldLoadCustomerQuote,
 } from './selectors/quickQuoteSelectors';
+import { getIsActiveAbn } from './selectors/eInvoiceSelectors';
 import {
   getIsRecurringTransactionReadOnly,
   getRecurringTransactionListModalContext,
@@ -334,16 +335,25 @@ export default class InvoiceDetailModule {
     this.closeModal();
 
     const state = this.store.getState();
-    const shouldSaveAndReload = getShouldSaveAndReload(state);
 
-    if (shouldSaveAndReload) {
-      const onSuccess = () => {
+    if (getIsActiveAbn(state)) {
+      if (getShouldSaveAndReload(state)) {
+        const onSuccess = () => {
+          this.openSendEInvoiceModal();
+        };
+        this.saveAndReload({ onSuccess });
+      } else {
         this.openSendEInvoiceModal();
-      };
-      this.saveAndReload({ onSuccess });
+      }
     } else {
-      this.openSendEInvoiceModal();
+      this.openSendEInvoiceAbnWarningModal();
     }
+  };
+
+  openSendEInvoiceAbnWarningModal = () => {
+    this.dispatcher.setModalType(
+      InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING
+    );
   };
 
   openSendEInvoiceModal = () => {
@@ -352,6 +362,10 @@ export default class InvoiceDetailModule {
 
   closeSendEInvoiceModal = () => {
     this.dispatcher.resetSendEInvoiceModal();
+    this.closeModal();
+  };
+
+  closeInvalidAbnModal = () => {
     this.closeModal();
   };
 
@@ -1332,6 +1346,9 @@ export default class InvoiceDetailModule {
           onCloseModal: this.closeSendEInvoiceModal,
           onSendEInvoice: this.sendEInvoice,
           onDismissAlert: this.dispatcher.dismissModalAlert,
+        }}
+        invalidAbnModalListeners={{
+          onCloseModal: this.closeInvalidAbnModal,
         }}
         onOpenQuickQuote={this.openQuickQuote}
         emailSettingsModalListeners={{

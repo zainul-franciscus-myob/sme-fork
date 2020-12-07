@@ -10,6 +10,7 @@ import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmailInvoiceModal from './email/EmailInvoiceModal';
 import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './modal/ExportPdfModal';
+import InvalidAbnModal from './modal/InvalidAbnModal';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailPreConversionModal from './modal/InvoiceDetailPreConversionModal';
 import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfirmModal';
@@ -38,6 +39,7 @@ const InvoiceDetailModal = ({
   quickQuoteModalListeners,
   recurringScheduleModalListeners,
   sendEInvoiceModalListeners,
+  invalidAbnModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -150,6 +152,16 @@ const InvoiceDetailModal = ({
         onCloseModal={sendEInvoiceModalListeners.onCloseModal}
         onDismissAlert={sendEInvoiceModalListeners.onDismissAlert}
         onSendEInvoice={sendEInvoiceModalListeners.onSendEInvoice}
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING) {
+    return (
+      <InvalidAbnModal
+        onCancel={invalidAbnModalListeners.onCloseModal}
+        title="Invalid or empty ABN"
+        body="You can't send this as an e-invoice as the customer does not have a valid ABN entered."
       />
     );
   }

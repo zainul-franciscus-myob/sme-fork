@@ -1,5 +1,6 @@
 import {
   getEInvoiceAppName,
+  getIsActiveAbn,
   getSendEInvoiceOptions,
   getSendEInvoiceUrlParams,
   getShowEInvoiceButton,
@@ -50,6 +51,32 @@ describe('eInvoiceSelectors', () => {
         };
 
         const actual = getShowEInvoiceButton(state);
+
+        expect(actual).toEqual(expected);
+      }
+    );
+  });
+
+  describe('getIsActiveAbn', () => {
+    it.each`
+      isAbnLoading | abnStatus    | expected
+      ${false}     | ${''}        | ${false}
+      ${true}      | ${''}        | ${false}
+      ${false}     | ${'Invalid'} | ${false}
+      ${true}      | ${'Invalid'} | ${false}
+      ${false}     | ${'Active'}  | ${true}
+      ${true}      | ${'Active'}  | ${false}
+    `(
+      'should return $expected if isAvnLoading is "$isAbnLoading" and ABN status is "$abnStatus"',
+      ({ isAbnLoading, abnStatus, expected }) => {
+        const state = {
+          isAbnLoading,
+          abn: {
+            status: abnStatus,
+          },
+        };
+
+        const actual = getIsActiveAbn(state);
 
         expect(actual).toEqual(expected);
       }

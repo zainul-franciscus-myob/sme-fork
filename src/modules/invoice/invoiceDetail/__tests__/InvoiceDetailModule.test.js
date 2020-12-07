@@ -915,6 +915,11 @@ describe('InvoiceDetailModule', () => {
           isCreating: true,
         });
 
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.ACTIVE },
+        });
+
         module.saveAndSendEInvoice();
 
         expect(store.getActions()).toEqual([
@@ -949,6 +954,11 @@ describe('InvoiceDetailModule', () => {
           isPageEdited: true,
         });
 
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.ACTIVE },
+        });
+
         module.saveAndSendEInvoice();
 
         expect(store.getActions()).toEqual([
@@ -977,6 +987,11 @@ describe('InvoiceDetailModule', () => {
           isCreating: false,
         });
 
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.ACTIVE },
+        });
+
         module.saveAndSendEInvoice();
 
         expect(store.getActions()).toEqual([
@@ -984,6 +999,27 @@ describe('InvoiceDetailModule', () => {
           {
             intent: SET_MODAL_TYPE,
             modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
+        ]);
+      });
+    });
+
+    describe('invalid ABN', () => {
+      it('open sendEInvoiceAbnWarning modal', () => {
+        const { module, store } = setupWithRun({});
+
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.INVALID },
+        });
+
+        module.saveAndSendEInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.NONE },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
           },
         ]);
       });
@@ -1012,6 +1048,85 @@ describe('InvoiceDetailModule', () => {
 
         expect(store.getActions()).toEqual([
           { intent: RESET_SEND_EINVOICE },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.NONE,
+          },
+        ]);
+      });
+    });
+  });
+
+  describe('SendEInvoiceAbnWarningModal', () => {
+    describe('openSendEInvoiceAbnWarningModal', () => {
+      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN', () => {
+        const { module, store } = setupWithRun({
+          isCreating: true,
+        });
+
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.INVALID },
+        });
+
+        module.openSendEInvoiceAbnWarningModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
+          },
+        ]);
+      });
+
+      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN when page was edited', () => {
+        const { module, store } = setupWithRun({
+          isPageEdited: true,
+        });
+
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.INVALID },
+        });
+
+        module.openSendEInvoiceAbnWarningModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
+          },
+        ]);
+      });
+
+      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN when page unedited', () => {
+        const { module, store } = setupWithRun({
+          isPageEdited: false,
+        });
+
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.INVALID },
+        });
+
+        module.openSendEInvoiceAbnWarningModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
+          },
+        ]);
+      });
+    });
+
+    describe('closeInvalidAbnModal', () => {
+      it('closes InvalidAbn Modal', () => {
+        const { module, store } = setupWithRun();
+
+        module.closeInvalidAbnModal();
+
+        expect(store.getActions()).toEqual([
           {
             intent: SET_MODAL_TYPE,
             modalType: InvoiceDetailModalType.NONE,

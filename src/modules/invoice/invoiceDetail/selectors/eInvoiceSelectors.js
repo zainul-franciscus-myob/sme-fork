@@ -7,9 +7,11 @@ import {
   getCustomerName,
   getInvoiceId,
   getInvoiceNumber,
+  getIsAbnLoading,
   getIssueDate,
   getRegion,
 } from './invoiceDetailSelectors';
+import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import Region from '../../../../common/types/Region';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
@@ -26,12 +28,11 @@ export const getShowEInvoiceButton = createSelector(
   (appName, region) => region !== Region.nz && Boolean(appName?.trim().length)
 );
 
-// TODO: will come back to these for validating ABN when 'send e-invoice' button is clicked.
-// export const getIsActiveAbn = createSelector(
-//   getIsAbnLoading,
-//   getAbn,
-//   (isAbnLoading, abn) => !isAbnLoading && abn?.status === AbnStatus.ACTIVE
-// );
+export const getIsActiveAbn = createSelector(
+  getIsAbnLoading,
+  getAbn,
+  (isAbnLoading, abn) => !isAbnLoading && abn?.status === AbnStatus.ACTIVE
+);
 
 export const getSendEInvoiceUrlParams = createSelector(
   getBusinessId,
