@@ -186,8 +186,31 @@ export const getAccountsForCalcHistoricalBalance = (state) => {
   );
 };
 
-const getSelectedAccounts = (state) => {
+export const getSelectedAccounts = (state) => {
   return state.entries.filter((acc) => acc.selected) || [];
+};
+
+export const getSelectedAccountsWithAllChildren = (state) => {
+  const results = [];
+  let startIndex = 0;
+
+  while (startIndex < state.entries.length) {
+    const startEntry = state.entries[startIndex];
+
+    if (startEntry.selected) {
+      results.push(startEntry);
+      let i = startIndex + 1;
+      for (; i < state.entries.length; i += 1) {
+        const entry = state.entries[i];
+        const isChild = entry.level > startEntry.level;
+
+        if (isChild) results.push(entry);
+        else break;
+      }
+      startIndex = i;
+    } else startIndex += 1;
+  }
+  return results;
 };
 
 export const getSelectedSingleAccount = createSelector(
@@ -238,3 +261,48 @@ export const getCannotMoveAccountDownMessage = createSelector(
 );
 
 export const getSelectedTaxCodeId = (state) => state.selectedTaxCodeId;
+
+const getLevelRangeForSelectedAccounts = createSelector(
+  getSelectedAccounts,
+  (selectedAccounts) => {
+    const maxLevelInSelection = selectedAccounts.reduce(
+      (max, cur) => (cur.level > max ? cur.level : max),
+      selectedAccounts[0].level
+    );
+    const minLevelInSelection = selectedAccounts.reduce(
+      (min, cur) => (cur.level < min ? cur.level : min),
+      selectedAccounts[0].level
+    );
+    return maxLevelInSelection - minLevelInSelection;
+  }
+);
+
+export const getAccountMoveToTargets = createSelector(
+  getRawEntries,
+  getSelectedSingleAccount,
+  getLevelRangeForSelectedAccounts,
+  (entries, firstSelectedAccount, deltaLevel) => {
+    const MAX_LEVEL = 4;
+
+    const parentId = firstSelectedAccount.parentAccountId;
+    const selectedAccountType = firstSelectedAccount.accountType;
+
+    const vaildMoveToAccounts = entries.reduce((accounts, entry) => {
+      if (
+        entry.accountType === selectedAccountType &&
+        entry.level + deltaLevel < MAX_LEVEL &&
+        entry.isHeader &&
+        !entry.selected
+      )
+        accounts.push({
+          ...entry,
+          isParentOfSelectedAccounts: entry.id === parentId,
+        });
+      return accounts;
+    }, []);
+
+    return vaildMoveToAccounts;
+  }
+);
+
+export const getShouldDisableMoveTo = (state) => state.disableMoveTo;

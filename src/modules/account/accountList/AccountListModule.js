@@ -20,6 +20,8 @@ import {
   getLinkedAccountUrl,
   getNewAccountUrl,
   getRawEntries,
+  getSelectedAccounts,
+  getSelectedAccountsWithAllChildren,
   getSelectedTaxCodeId,
 } from './AccountListSelectors';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
@@ -114,12 +116,118 @@ export default class AccountListModule {
     window.location.href = getNewAccountUrl(this.store.getState());
   };
 
+  shouldDisableMoveTo = () => {
+    const selectedAccounts = getSelectedAccounts(this.store.getState());
+
+    // If there are any level 1 accounts selected
+    const level1AccountSelected = selectedAccounts.some(
+      (entry) => entry.level === 1
+    );
+
+    // Find primary account types (Assets, Liabilities, etc) in user's selection
+    const accountTypeMap = selectedAccounts.reduce((acc, entry) => {
+      acc[entry.accountType] = true;
+      return acc;
+    }, {});
+
+    // If there are multiple primary account types in the user's selection
+    const accountsSelectedFromMultipleTypes =
+      Object.keys(accountTypeMap).length > 1;
+
+    // If there are any level 1 accounts or multiple primary account types
+    // in the user's selection then the Move To drop down should be disabled
+    return level1AccountSelected || accountsSelectedFromMultipleTypes;
+  };
+
   selectAccount = ({ index, value }) => {
-    this.dispatcher.selectAccount({ index, value });
+    const entries = getRawEntries(this.store.getState());
+
+    // Create a map of account IDs and the index in the list of entries
+    const entriesMap = entries.reduce((acc, entry, i) => {
+      acc[entry.id] = i;
+      return acc;
+    }, {});
+
+    // Find the entry selected by the user and the parent of that entry if it exists
+    // otherwise set the selected entry's parent to null
+    const selectedEntry = { ...entries[index], selected: value };
+    const selectedEntryParentIndex = entriesMap[selectedEntry.parentAccountId];
+    const selectedEntryParent =
+      selectedEntryParentIndex != null
+        ? { ...entries[selectedEntryParentIndex] }
+        : null;
+
+    // If the selected entry has a parent
+    if (selectedEntryParent) {
+      // If the entry is being selected but it's parent is not selected
+      // then the entry's parent should be updated
+      if (value && !selectedEntryParent.selected)
+        selectedEntry.shouldUpdateParentId = true;
+
+      // If the entry is being deselected and it's parent is not selected
+      // then the entry's parent should NOT be updated
+      if (!value && !selectedEntryParent.selected)
+        selectedEntry.shouldUpdateParentId = false;
+
+      // If the entry is being selected and it's parent is selected
+      // then the entry's parent should NOT be updated as only the
+      // parent needs to be updated in the tree structure
+      if (value && selectedEntryParent.selected)
+        selectedEntry.shouldUpdateParentId = false;
+
+      // If the entry is being deselected and it's parent is selected
+      // then the entry's parent should be updated to the next unselected
+      // grandparent
+      if (!value && selectedEntryParent.selected) {
+        // Search up the tree to find the next grandparent that is selected
+        // and not a system account
+        let newParent = selectedEntryParent;
+        while (newParent.selected && !newParent.isSystem) {
+          const newParentIndex = entriesMap[newParent.parentAccountId];
+          newParent = entries[newParentIndex];
+        }
+        // The parent ID for the selected account should be
+        // updated to the new found grandparent
+        selectedEntry.shouldUpdateParentId = true;
+        selectedEntry.newParentId = newParent.id;
+      }
+    }
+
+    // The selected entry is always updated
+    const updatedAccountsMap = {
+      [index]: selectedEntry,
+    };
+
+    // If there is a parent and it is selected
+    // then the parent must also be updated
+    if (selectedEntryParent && selectedEntryParent.selected)
+      updatedAccountsMap[selectedEntryParentIndex] = selectedEntryParent;
+
+    const selectedEntryAccountLevel = entries[index].level;
+
+    // Select all children under an entry by checking that the
+    // entry's level is greater then the selected entry's
+    for (let i = index + 1; i < entries.length; i += 1) {
+      const entry = entries[i];
+      const isChild = entry.level > selectedEntryAccountLevel;
+
+      if (isChild) {
+        // Child entries don't need their parent to be updated
+        // as when the parent is moved the children follow
+        updatedAccountsMap[i] = {
+          ...entry,
+          shouldUpdateParentId: false,
+          selected: value,
+        };
+      } else break;
+    }
+    this.dispatcher.selectAccounts(updatedAccountsMap);
+    this.dispatcher.setMoveToDisabled(this.shouldDisableMoveTo());
   };
 
   selectAllAccounts = (selected) => {
     this.dispatcher.selectAllAccounts(selected);
+    this.dispatcher.setMoveToDisabled(this.shouldDisableMoveTo());
   };
 
   reselectAccountsNotDeleted = (prevSelectedAccountIds) => {
@@ -201,27 +309,51 @@ export default class AccountListModule {
     }
   };
 
-  saveBulkUpdate = (updatedAccounts) => {
+  saveBulkUpdate = (updatedAccounts, customSuccessMessage) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.dispatcher.setModalType('');
     this.dispatcher.setEditMode(false);
     this.dispatcher.setRedirectUrl('');
     this.dispatcher.dismissAllAlerts();
+
+    const orginalSelectedAccounts = getSelectedAccounts(this.store.getState());
+
     const onSuccess = ({ numAccountsUpdated, validationErrors }) => {
       const onBulkUpdateCompleted = () => {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-        const accountGrammar = numAccountsUpdated > 1 ? 'accounts' : 'account';
-        const message = `${numAccountsUpdated} ${accountGrammar} updated.`;
+
+        let message = customSuccessMessage;
+        if (!customSuccessMessage) {
+          const accountGrammar =
+            numAccountsUpdated > 1 ? 'accounts' : 'account';
+          message = `${numAccountsUpdated} ${accountGrammar} updated.`;
+        }
         this.dispatcher.setAlert({
           type: 'success',
           message,
         });
+
         if (validationErrors) {
           this.dispatcher.setAlert({
             type: 'danger',
             message: validationErrors,
           });
         }
+
+        const orginalSelectedAccountMap = orginalSelectedAccounts.reduce(
+          (acc, entry) => {
+            acc[entry.id] = entry.selected;
+            return acc;
+          },
+          {}
+        );
+
+        // Reselect accounts whose indices may be changed after bulk move
+        const newSelectedAccounts = getRawEntries(this.store.getState());
+        newSelectedAccounts.forEach((entry, i) => {
+          if (orginalSelectedAccountMap[entry.id])
+            this.selectAccount({ index: i, value: true });
+        });
       };
       this.filterAccountList(onBulkUpdateCompleted);
     };
@@ -381,15 +513,44 @@ export default class AccountListModule {
   };
 
   clickBulkUpdateTaxCodeSave = () => {
-    const accounts = getAccountsForBulkUpdateTaxCodes(this.store.getState());
-    const selectedTaxCodeId = getSelectedTaxCodeId(this.store.getState());
+    const state = this.store.getState();
+    const numSelectedAccounts = getSelectedAccounts(state).length;
+    const accounts = getAccountsForBulkUpdateTaxCodes(state);
+    const selectedTaxCodeId = getSelectedTaxCodeId(state);
 
     const updatedAccounts = accounts.map((account) => ({
       ...account,
       taxCodeId: selectedTaxCodeId,
     }));
+    const accountGrammar = numSelectedAccounts > 1 ? 'accounts' : 'account';
+    const successMessage = `${numSelectedAccounts} ${accountGrammar} tax codes updated.`;
+    this.saveBulkUpdate(updatedAccounts, successMessage);
+  };
 
-    this.saveBulkUpdate(updatedAccounts);
+  moveAccountTo = (newParentId) => {
+    const state = this.store.getState();
+    const numSelectedAccounts = getSelectedAccounts(state).length;
+    const accountsToBeMoved = getSelectedAccountsWithAllChildren(state);
+
+    const updatedAccounts = [];
+
+    accountsToBeMoved.forEach((account) => {
+      if (!account.shouldUpdateParentId) return;
+
+      if (account.newParentId)
+        updatedAccounts.push({
+          ...account,
+          parentAccountId: account.newParentId,
+        });
+      else
+        updatedAccounts.push({
+          ...account,
+          parentAccountId: newParentId,
+        });
+    });
+    const accountGrammar = numSelectedAccounts > 1 ? 'accounts' : 'account';
+    const successMessage = `${numSelectedAccounts} ${accountGrammar} moved.`;
+    this.saveBulkUpdate(updatedAccounts, successMessage);
   };
 
   render = () => {
@@ -424,6 +585,7 @@ export default class AccountListModule {
         onBulkUpdateTaxCodeChange={this.dispatcher.setSelectedTaxCode}
         onBulkUpdateTaxCodeSaveClick={this.clickBulkUpdateTaxCodeSave}
         onBulkUpdateTaxCodeOpen={() => this.dispatcher.setSelectedTaxCode(null)}
+        onMoveToChange={this.moveAccountTo}
       />
     );
 

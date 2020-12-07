@@ -42,7 +42,7 @@ export const LOAD_NEW_ACCOUNT_MODAL = Symbol(
 );
 export const SET_MODAL_TYPE = Symbol('Set modal type');
 
-export const SELECT_ACCOUNT = Symbol('Select account');
+export const SELECT_ACCOUNTS = Symbol('Select accounts');
 export const SELECT_ALL_ACCOUNTS = Symbol('Select all accounts');
 export const DELETE_ACCOUNTS = Symbol('Delete accounts');
 export const RESELECT_ACCOUNTS = Symbol('Reselect accounts');
@@ -64,3 +64,5 @@ export const MOVE_ACCOUNT_DOWN = Symbol('Move an account down a level');
 export const SET_SELECTED_TAX_CODE = Symbol(
   'Set selected tax code for bulk update'
 );
+
+export const SET_MOVE_TO_DISABLED = Symbol('Set move to disabled');

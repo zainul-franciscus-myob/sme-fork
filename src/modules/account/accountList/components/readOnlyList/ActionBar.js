@@ -2,6 +2,7 @@ import {
   Button,
   ButtonRow,
   Popover,
+  Select,
   Separator,
   Tooltip,
 } from '@myob/myob-widgets';
@@ -11,6 +12,7 @@ import React from 'react';
 import {
   getAccountAllowedToMoveDown,
   getAccountAllowedToMoveUp,
+  getAccountMoveToTargets,
   getCannotMoveAccountDownMessage,
   getCannotMoveAccountUpMessage,
   getHasFlexibleAccountNumbers,
@@ -33,6 +35,9 @@ const ActionBar = ({
   onBulkUpdateTaxCodeChange,
   onBulkUpdateTaxCodeSaveClick,
   onBulkUpdateTaxCodeOpen,
+  moveToTargets,
+  onMoveToChange,
+  shouldDisableMoveTo,
 }) => {
   const moveUpButton = accountAllowedToMoveUp ? (
     <Button
@@ -76,8 +81,6 @@ const ActionBar = ({
     </Tooltip>
   );
 
-  const tooManyAccountsSelected = numSelected > 125;
-
   const TaxCodeBody = () => (
     <TaxCodeCombobox
       name={'taxCode'}
@@ -97,11 +100,66 @@ const ActionBar = ({
     </ButtonRow>
   );
 
+  const noMoveLocations = moveToTargets.length <= 1;
+
+  const tooManyAccountsSelected = numSelected > 125;
+
   return (
     <div className={`${styles.actionBar} flex__row`}>
+      {shouldDisableMoveTo || tooManyAccountsSelected || noMoveLocations ? (
+        <Tooltip
+          trigger={['hover', 'focus']}
+          triggerContent={
+            <div className={styles.moveToSelect}>
+              <Select
+                className={styles.disabledBtn}
+                name="moveTo"
+                label=""
+                defaultValue="placeholder"
+                width="sm"
+                hideLabel
+              >
+                <Select.Option
+                  value="placeholder"
+                  label="Move to..."
+                  disabled
+                />
+              </Select>
+            </div>
+          }
+        >
+          You can’t move this selection of accounts. Please make a different
+          selection
+        </Tooltip>
+      ) : (
+        <div className={styles.moveToSelect}>
+          <Select
+            name="moveTo"
+            label=""
+            defaultValue="placeholder"
+            width="sm"
+            hideLabel
+            onChange={(e) => onMoveToChange(e.target.value)}
+          >
+            <Select.Option value="placeholder" label="Move to..." disabled />
+            {moveToTargets.map((account) => {
+              const indent = '\u00a0'.repeat((account.level - 1) * 2);
+              return (
+                <Select.Option
+                  key={account.id}
+                  value={account.id}
+                  label={indent + account.accountName}
+                  disabled={account.isParentOfSelectedAccounts}
+                />
+              );
+            })}
+          </Select>
+        </div>
+      )}
+
       {tooManyAccountsSelected ? (
         <Tooltip
-          trigger="hover"
+          trigger={['hover', 'focus']}
           triggerContent={
             <Button className={styles.disabledBtn} type="secondary">
               Edit tax code
@@ -129,7 +187,7 @@ const ActionBar = ({
 
       {tooManyAccountsSelected ? (
         <Tooltip
-          trigger="hover"
+          trigger={['hover', 'focus']}
           triggerContent={
             <Button className={styles.disabledBtn} type="secondary">
               Delete accounts
@@ -161,6 +219,7 @@ const mapStateToProps = (state) => ({
   accountAllowedToMoveDown: getAccountAllowedToMoveDown(state),
   taxCodeList: getTaxCodeList(state),
   hasFlexibleAccountNumbers: getHasFlexibleAccountNumbers(state),
+  moveToTargets: getAccountMoveToTargets(state),
 });
 
 export default connect(mapStateToProps)(ActionBar);

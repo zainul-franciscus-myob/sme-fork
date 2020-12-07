@@ -4,7 +4,7 @@ import {
   LOAD_ACCOUNT_LIST,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
-  SELECT_ACCOUNT,
+  SELECT_ACCOUNTS,
   SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_DETAILS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
@@ -15,6 +15,7 @@ import {
   SET_HOVERED_ROW,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  SET_MOVE_TO_DISABLED,
   SET_REDIRECT_URL,
   SET_REMAINING_HISTORICAL_BALANCE,
   SET_SELECTED_TAX_CODE,
@@ -54,6 +55,7 @@ const getDefaultState = () => ({
   taxCodeList: [],
   hoveredRowIndex: null,
   selectedTaxCodeId: null,
+  disableMoveTo: false,
 });
 
 const setInitialState = (state, { context, settings }) => ({
@@ -100,21 +102,13 @@ const loadAccountList = (state, action) => ({
   taxCodeList: action.taxCodeList,
 });
 
-const sortAndFilterAccountList = (state, action) => {
-  const selectedAccounts = state.entries.reduce((accumulator, entry) => {
-    accumulator[entry.id] = entry.selected;
-    return accumulator;
-  }, {});
-
-  return {
-    ...state,
-    entries: action.entries.map((entry) => ({
-      ...entry,
-      selected: selectedAccounts[entry.id],
-      dirty: false,
-    })),
-  };
-};
+const sortAndFilterAccountList = (state, action) => ({
+  ...state,
+  entries: action.entries.map((entry) => ({
+    ...entry,
+    dirty: false,
+  })),
+});
 
 const setAccountListFilterOption = (state, action) => ({
   ...state,
@@ -146,10 +140,15 @@ const setAccountListTableLoadingState = (state, { isTableLoading }) => ({
   isTableLoading,
 });
 
-const selectAccount = (state, { index, value }) => ({
+const shouldDisableMoveTo = (state, { disabled }) => ({
   ...state,
-  entries: state.entries.map((entry, id) =>
-    id === index ? { ...entry, selected: value } : entry
+  disableMoveTo: disabled,
+});
+
+const selectAccounts = (state, { updatedAccountsMap }) => ({
+  ...state,
+  entries: state.entries.map((entry, index) =>
+    updatedAccountsMap[index] ? updatedAccountsMap[index] : entry
   ),
 });
 
@@ -195,13 +194,10 @@ const setRemainingHistoricalBalance = (
   remainingHistoricalBalance,
 });
 
-const setHoveredRow = (state, { index }) => {
-  if (state.hoveredRowIndex === index) return state;
-  return {
-    ...state,
-    hoveredRowIndex: index,
-  };
-};
+const setHoveredRow = (state, { index }) =>
+  state.hoveredRowIndex === index
+    ? state
+    : { ...state, hoveredRowIndex: index };
 
 const setSelectedTaxCode = (state, { taxCode }) => ({
   ...state,
@@ -222,7 +218,7 @@ const handlers = {
   [RESET_ACCOUNT_LIST_FILTER_OPTIONS]: resetAccountListFilterOption,
   [SET_ACCOUNT_LIST_TAB]: setAccountListTab,
   [SET_ACCOUNT_LIST_TABLE_LOADING_STATE]: setAccountListTableLoadingState,
-  [SELECT_ACCOUNT]: selectAccount,
+  [SELECT_ACCOUNTS]: selectAccounts,
   [SELECT_ALL_ACCOUNTS]: selectAllAccount,
   [RESELECT_ACCOUNTS]: reselectAccounts,
 
@@ -237,6 +233,8 @@ const handlers = {
   [SET_HOVERED_ROW]: setHoveredRow,
 
   [SET_SELECTED_TAX_CODE]: setSelectedTaxCode,
+
+  [SET_MOVE_TO_DISABLED]: shouldDisableMoveTo,
 };
 
 const accountListReducer = createReducer(getDefaultState(), handlers);

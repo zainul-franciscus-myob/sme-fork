@@ -13,6 +13,7 @@ import {
   getLoadingState,
   getModalType,
   getRawEntries,
+  getShouldDisableMoveTo,
   getShowInactive,
   getTableTaxCodeHeader,
   getType,
@@ -62,6 +63,8 @@ const AccountListView = ({
   onBulkUpdateTaxCodeChange,
   onBulkUpdateTaxCodeSaveClick,
   onBulkUpdateTaxCodeOpen,
+  onMoveToChange,
+  shouldDisableMoveTo,
 }) => {
   const alertComponents =
     alert &&
@@ -124,12 +127,14 @@ const AccountListView = ({
       onAccountMoveDownClick={onAccountMoveDownClick}
       cannotMoveAccountDownMessage={cannotMoveAccountDownMessage}
       hasFlexibleAccountNumbers={hasFlexibleAccountNumbers}
-      numSelected={numSelected}
       taxCodeList={taxCodeList}
       onDeleteClick={onDeleteClick}
       onBulkUpdateTaxCodeChange={onBulkUpdateTaxCodeChange}
       onBulkUpdateTaxCodeSaveClick={onBulkUpdateTaxCodeSaveClick}
       onBulkUpdateTaxCodeOpen={onBulkUpdateTaxCodeOpen}
+      onMoveToChange={onMoveToChange}
+      shouldDisableMoveTo={shouldDisableMoveTo}
+      numSelected={numSelected}
     />
   );
 
@@ -198,6 +203,7 @@ const mapStateToProps = (state) => ({
   modalType: getModalType(state),
   showInactive: getShowInactive(state),
   taxCodeHeader: getTableTaxCodeHeader(state),
+  shouldDisableMoveTo: getShouldDisableMoveTo(state),
 });
 
 export default connect(mapStateToProps)(AccountListView);

@@ -2,7 +2,7 @@ import {
   DISMISS_ALERT,
   LOAD_ACCOUNT_LIST,
   RESELECT_ACCOUNTS,
-  SELECT_ACCOUNT,
+  SELECT_ACCOUNTS,
   SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_DETAILS,
   SET_ALERT,
@@ -63,7 +63,7 @@ describe('accountListReducer', () => {
   });
 
   describe('SORT_AND_FILTER_ACCOUNT_LIST', () => {
-    it('successfully reselect accounts', () => {
+    it('successfully updates accounts', () => {
       const action = {
         intent: SORT_AND_FILTER_ACCOUNT_LIST,
         entries: [
@@ -80,8 +80,8 @@ describe('accountListReducer', () => {
       const actual = reducer(state, action);
       const expected = {
         entries: [
-          { id: 1, openingBalance: 10, selected: true, dirty: false },
-          { id: 2, openingBalance: 10, selected: true, dirty: false },
+          { id: 1, openingBalance: 10, dirty: false },
+          { id: 2, openingBalance: 10, dirty: false },
         ],
       };
       expect(actual).toEqual(expected);
@@ -92,19 +92,67 @@ describe('accountListReducer', () => {
     it('selects single account', () => {
       const state = {
         entries: [
-          { id: 1, selected: false },
-          { id: 2, selected: false },
+          { id: '1', selected: false },
+          { id: '2', selected: false },
         ],
       };
       const action = {
-        intent: SELECT_ACCOUNT,
-        index: 1,
-        value: true,
+        intent: SELECT_ACCOUNTS,
+        updatedAccountsMap: {
+          1: expect.objectContaining({
+            id: '2',
+            selected: true,
+          }),
+        },
       };
       const actual = reducer(state, action);
       const expected = [
-        { id: 1, selected: false },
-        { id: 2, selected: true },
+        { id: '1', selected: false },
+        { id: '2', selected: true },
+      ];
+
+      expect(actual.entries).toEqual(expected);
+    });
+
+    it('selects all child accounts', () => {
+      const state = {
+        entries: [
+          { id: '1', selected: false, level: 2 },
+          { id: '2', selected: false, level: 3 },
+          { id: '3', selected: false, level: 4 },
+          { id: '4', selected: false, level: 3 },
+          { id: '5', selected: false, level: 2 },
+        ],
+      };
+
+      const action = {
+        intent: SELECT_ACCOUNTS,
+        updatedAccountsMap: {
+          0: expect.objectContaining({
+            id: '1',
+            selected: true,
+          }),
+          1: expect.objectContaining({
+            id: '2',
+            selected: true,
+          }),
+          2: expect.objectContaining({
+            id: '3',
+            selected: true,
+          }),
+          3: expect.objectContaining({
+            id: '4',
+            selected: true,
+          }),
+        },
+      };
+      const actual = reducer(state, action);
+      const expected = [
+        { id: '1', selected: true, level: 2 },
+        { id: '2', selected: true, level: 3 },
+        { id: '3', selected: true, level: 4 },
+        { id: '4', selected: true, level: 3 },
+        { id: '5', selected: false, level: 2 },
       ];
 
       expect(actual.entries).toEqual(expected);

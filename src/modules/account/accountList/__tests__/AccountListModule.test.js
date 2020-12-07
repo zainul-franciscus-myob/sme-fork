@@ -6,10 +6,13 @@ import {
   MOVE_ACCOUNT_DOWN,
   MOVE_ACCOUNT_UP,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
+  SELECT_ACCOUNTS,
+  SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
   SET_ACCOUNT_LIST_TABLE_LOADING_STATE,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_MOVE_TO_DISABLED,
   SORT_AND_FILTER_ACCOUNT_LIST,
   UPDATE_ACCOUNTS,
 } from '../../AccountIntents';
@@ -147,12 +150,197 @@ describe('AccountListModule', () => {
   });
 
   describe('bulk actions', () => {
+    it('selects all child accounts when selecting a header account', () => {
+      const { module, store } = setupWithRun();
+
+      module.loadAccountList();
+      module.selectAccount({ index: 1, value: true });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: SELECT_ACCOUNTS,
+          updatedAccountsMap: {
+            1: expect.objectContaining({
+              id: '2',
+              selected: true,
+            }),
+            2: expect.objectContaining({
+              id: '3',
+              selected: true,
+            }),
+            3: expect.objectContaining({
+              id: '4',
+              selected: true,
+            }),
+          },
+        }),
+        expect.objectContaining({
+          intent: SET_MOVE_TO_DISABLED,
+          disabled: false,
+        }),
+      ]);
+    });
+
+    it('disables action bar when all accounts selected', () => {
+      const { module, store } = setupWithRun();
+
+      module.loadAccountList();
+      module.selectAllAccounts(true);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: SELECT_ALL_ACCOUNTS,
+          selected: true,
+        }),
+        expect.objectContaining({
+          intent: SET_MOVE_TO_DISABLED,
+          disabled: true,
+        }),
+      ]);
+    });
+
+    it('disables action bar when a level 1 account is selected', () => {
+      const { module, store } = setupWithRun();
+
+      module.loadAccountList();
+      module.selectAccount({ index: 0, value: true });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: SELECT_ACCOUNTS,
+          updatedAccountsMap: {
+            0: expect.objectContaining({
+              id: '1',
+              selected: true,
+            }),
+            1: expect.objectContaining({
+              id: '2',
+              selected: true,
+            }),
+            2: expect.objectContaining({
+              id: '3',
+              selected: true,
+            }),
+            3: expect.objectContaining({
+              id: '4',
+              selected: true,
+            }),
+            4: expect.objectContaining({
+              id: '5',
+              selected: true,
+            }),
+            5: expect.objectContaining({
+              id: '6',
+              selected: true,
+            }),
+            6: expect.objectContaining({
+              id: '7',
+              selected: true,
+            }),
+            7: expect.objectContaining({
+              id: '8',
+              selected: true,
+            }),
+          },
+        }),
+        expect.objectContaining({
+          intent: SET_MOVE_TO_DISABLED,
+          disabled: true,
+        }),
+      ]);
+    });
+
+    it('disables action bar when accounts from multiple types are selected', () => {
+      const { module, store } = setupWithRun();
+
+      module.loadAccountList();
+      module.selectAccount({ index: 3, value: true });
+      module.selectAccount({ index: 14, value: true });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: SELECT_ACCOUNTS,
+          updatedAccountsMap: {
+            3: expect.objectContaining({
+              id: '4',
+              selected: true,
+            }),
+          },
+        }),
+        expect.objectContaining({
+          intent: SET_MOVE_TO_DISABLED,
+          disabled: false,
+        }),
+        expect.objectContaining({
+          intent: SELECT_ACCOUNTS,
+          updatedAccountsMap: {
+            14: expect.objectContaining({
+              id: '15',
+              selected: true,
+            }),
+          },
+        }),
+        expect.objectContaining({
+          intent: SET_MOVE_TO_DISABLED,
+          disabled: true,
+        }),
+      ]);
+    });
+
     it('deletes accounts and reloads list', () => {
       const { module, integration, store } = setupWithRun();
 
       module.loadAccountList();
-      module.selectAccount({ index: 0, value: true });
-      const selectedId = store.getState().entries[0].id;
+      module.selectAccount({ index: 1, value: true });
+      const selectedIds = [
+        store.getState().entries[1].id,
+        store.getState().entries[2].id,
+        store.getState().entries[3].id,
+      ];
 
       module.deleteAccounts();
 
@@ -162,7 +350,7 @@ describe('AccountListModule', () => {
         }),
         expect.objectContaining({
           intent: DELETE_ACCOUNTS,
-          content: { accountIds: [selectedId] },
+          content: { accountIds: selectedIds },
         }),
         expect.objectContaining({
           intent: SORT_AND_FILTER_ACCOUNT_LIST,
@@ -384,6 +572,40 @@ describe('AccountListModule', () => {
       module.clickBulkUpdateModalDiscard();
 
       expect(module.filterAccountList.mock.calls.length).toBe(1);
+    });
+
+    it('updates tax code for all selected accounts', () => {
+      const { module, integration } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 1, value: true });
+      module.dispatcher.setSelectedTaxCode({ id: '3' });
+      module.clickBulkUpdateTaxCodeSave();
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              expect.objectContaining({
+                id: '3',
+                taxCodeId: '3',
+              }),
+              expect.objectContaining({
+                id: '4',
+                taxCodeId: '3',
+              }),
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
     });
   });
 
@@ -835,6 +1057,141 @@ describe('AccountListModule', () => {
           urlParams: expect.objectContaining({
             accountId: selectedId,
           }),
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+  });
+
+  describe('bulk move flex accounts', () => {
+    it('updates parent for selected account', () => {
+      const { module, integration } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 2, value: true });
+
+      module.moveAccountTo('4');
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              expect.objectContaining({
+                id: '3',
+                parentAccountId: '4',
+              }),
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates parent for multiple selected accounts', () => {
+      const { module, integration } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 2, value: true });
+      module.selectAccount({ index: 3, value: true });
+
+      module.moveAccountTo('5');
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              expect.objectContaining({
+                id: '3',
+                parentAccountId: '5',
+              }),
+              expect.objectContaining({
+                id: '4',
+                parentAccountId: '5',
+              }),
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('only updates parent for header account if header and children selected', () => {
+      const { module, integration } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 1, value: true });
+      module.selectAccount({ index: 2, value: true });
+      module.selectAccount({ index: 3, value: true });
+
+      module.moveAccountTo('5');
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              expect.objectContaining({
+                id: '2',
+                parentAccountId: '5',
+              }),
+            ],
+          },
+        }),
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_ACCOUNT_LIST,
+        }),
+      ]);
+    });
+
+    it('updates selected account to new parent and orphaned accounts updated to grandparent', () => {
+      const { module, integration } = setupWithRun();
+
+      module.loadAccountList();
+
+      module.selectAccount({ index: 1, value: true });
+      module.selectAccount({ index: 2, value: true });
+      module.selectAccount({ index: 3, value: false });
+
+      module.moveAccountTo('8');
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ACCOUNT_LIST,
+        }),
+        expect.objectContaining({
+          intent: UPDATE_ACCOUNTS,
+          content: {
+            accounts: [
+              expect.objectContaining({
+                id: '2',
+                parentAccountId: '8',
+              }),
+              expect.objectContaining({
+                id: '4',
+                parentAccountId: '1',
+              }),
+            ],
+          },
         }),
         expect.objectContaining({
           intent: SORT_AND_FILTER_ACCOUNT_LIST,

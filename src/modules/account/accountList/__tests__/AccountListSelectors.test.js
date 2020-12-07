@@ -1,6 +1,7 @@
 import {
   getAccountAllowedToMoveDown,
   getAccountAllowedToMoveUp,
+  getAccountMoveToTargets,
   getAccountNumberCounts,
   getAccountsForBulkDelete,
   getAccountsForBulkUpdate,
@@ -8,6 +9,7 @@ import {
   getCannotMoveAccountDownMessage,
   getCannotMoveAccountUpMessage,
   getImportChartOfAccountsUrl,
+  getSelectedAccountsWithAllChildren,
   getSelectedSingleAccount,
   getTableEntries,
 } from '../AccountListSelectors';
@@ -374,6 +376,291 @@ describe('AccountListSelectors', () => {
       expect(actual).toBe(
         'You cannot move the selected account down one level.'
       );
+    });
+  });
+
+  describe('move to options', () => {
+    it('only return unselected accounts', () => {
+      const state = {
+        entries: [
+          { id: 1, level: 1, selected: false, isHeader: true },
+          { id: 2, level: 1, selected: true, isHeader: true },
+          { id: 3, level: 2, selected: true, isHeader: false },
+        ],
+      };
+
+      const actual = getAccountMoveToTargets(state);
+      const expected = [
+        {
+          id: 1,
+          level: 1,
+          selected: false,
+          isHeader: true,
+          isParentOfSelectedAccounts: false,
+        },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('only return accounts of same account type as selected accounts', () => {
+      const state = {
+        entries: [
+          {
+            id: 1,
+            level: 1,
+            selected: false,
+            accountType: 'Liability',
+            isHeader: true,
+          },
+          {
+            id: 2,
+            level: 1,
+            selected: false,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+          {
+            id: 3,
+            level: 1,
+            selected: true,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+          {
+            id: 4,
+            level: 2,
+            selected: true,
+            accountType: 'Asset',
+            isHeader: false,
+          },
+        ],
+      };
+
+      const actual = getAccountMoveToTargets(state);
+      const expected = [
+        {
+          id: 2,
+          level: 1,
+          selected: false,
+          accountType: 'Asset',
+          isHeader: true,
+          isParentOfSelectedAccounts: false,
+        },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('only return accounts where the resulting move would have a max level of 4 or less ', () => {
+      const state = {
+        entries: [
+          {
+            id: 1,
+            level: 1,
+            selected: false,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+          {
+            id: 2,
+            level: 2,
+            selected: false,
+            accountType: 'Asset',
+            isHeader: false,
+          },
+          {
+            id: 3,
+            level: 1,
+            selected: true,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+          {
+            id: 4,
+            level: 2,
+            selected: true,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+          {
+            id: 5,
+            level: 3,
+            selected: true,
+            accountType: 'Asset',
+            isHeader: false,
+          },
+          {
+            id: 6,
+            level: 1,
+            selected: false,
+            accountType: 'Asset',
+            isHeader: true,
+          },
+        ],
+      };
+
+      const actual = getAccountMoveToTargets(state);
+      const expected = [
+        {
+          id: 1,
+          level: 1,
+          selected: false,
+          accountType: 'Asset',
+          isHeader: true,
+          isParentOfSelectedAccounts: false,
+        },
+        {
+          id: 6,
+          level: 1,
+          selected: false,
+          accountType: 'Asset',
+          isHeader: true,
+          isParentOfSelectedAccounts: false,
+        },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getSelectedAccountsWithAllChildren', () => {
+    it('should selected details accounts', () => {
+      const state = {
+        entries: [
+          { id: 1, dirty: false, isHeader: true, level: 1 },
+          { id: 2, selected: false, isHeader: true, level: 1 },
+          { id: 3, parentAccountId: 2, selected: true, level: 2 },
+          { id: 4, parentAccountId: 2, selected: false, level: 2 },
+          { id: 5, parentAccountId: 1, selected: true, level: 2 },
+        ],
+      };
+      const actual = getSelectedAccountsWithAllChildren(state);
+      const expected = [
+        { id: 3, parentAccountId: 2, selected: true, level: 2 },
+        { id: 5, parentAccountId: 1, selected: true, level: 2 },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should selected details accounts at different levels', () => {
+      const state = {
+        entries: [
+          { id: 1, dirty: false, isHeader: true, level: 1 },
+          { id: 2, selected: false, isHeader: true, level: 1 },
+          { id: 3, parentAccountId: 2, selected: true, level: 2 },
+          { id: 4, parentAccountId: 2, selected: false, level: 2 },
+          {
+            id: 5,
+            parentAccountId: 1,
+            isHeader: true,
+            selected: false,
+            level: 2,
+          },
+          { id: 6, parentAccountId: 5, selected: true, level: 3 },
+        ],
+      };
+      const actual = getSelectedAccountsWithAllChildren(state);
+      const expected = [
+        { id: 3, parentAccountId: 2, selected: true, level: 2 },
+        { id: 6, parentAccountId: 5, selected: true, level: 3 },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should return all children under a selected header', () => {
+      const state = {
+        entries: [
+          { id: 1, isHeader: true, level: 1 },
+          { id: 2, selected: true, isHeader: true, level: 1 },
+          {
+            id: 3,
+            parentAccountId: 2,
+            isHeader: true,
+            selected: true,
+            level: 2,
+          },
+          {
+            id: 4,
+            parentAccountId: 2,
+            selected: false,
+            isHeader: true,
+            level: 2,
+          },
+          { id: 5, parentAccountId: 4, selected: false, level: 3 },
+          {
+            id: 6,
+            parentAccountId: 2,
+            selected: false,
+            isHeader: true,
+            level: 2,
+          },
+        ],
+      };
+      const actual = getSelectedAccountsWithAllChildren(state);
+      const expected = [
+        { id: 2, selected: true, isHeader: true, level: 1 },
+        {
+          id: 3,
+          parentAccountId: 2,
+          isHeader: true,
+          selected: true,
+          level: 2,
+        },
+        {
+          id: 4,
+          parentAccountId: 2,
+          selected: false,
+          isHeader: true,
+          level: 2,
+        },
+        { id: 5, parentAccountId: 4, selected: false, level: 3 },
+        {
+          id: 6,
+          parentAccountId: 2,
+          selected: false,
+          isHeader: true,
+          level: 2,
+        },
+      ];
+
+      expect(actual).toEqual(expected);
+    });
+
+    it('should selected header accounts and children at different levels', () => {
+      const state = {
+        entries: [
+          { id: 1, dirty: false, isHeader: true, level: 1 },
+          { id: 2, selected: false, isHeader: true, level: 1 },
+          { id: 3, parentAccountId: 2, selected: true, level: 2 },
+          { id: 4, parentAccountId: 2, selected: false, level: 2 },
+          {
+            id: 5,
+            parentAccountId: 1,
+            isHeader: true,
+            selected: false,
+            level: 2,
+          },
+          {
+            id: 6,
+            parentAccountId: 5,
+            isHeader: true,
+            selected: true,
+            level: 3,
+          },
+          { id: 7, parentAccountId: 6, selected: false, level: 4 },
+        ],
+      };
+      const actual = getSelectedAccountsWithAllChildren(state);
+      const expected = [
+        { id: 3, parentAccountId: 2, selected: true, level: 2 },
+        { id: 6, parentAccountId: 5, isHeader: true, selected: true, level: 3 },
+        { id: 7, parentAccountId: 6, selected: false, level: 4 },
+      ];
+
+      expect(actual).toEqual(expected);
     });
   });
 });

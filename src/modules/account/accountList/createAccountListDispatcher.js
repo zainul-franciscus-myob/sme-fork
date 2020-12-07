@@ -6,7 +6,7 @@ import {
   OPEN_MODAL,
   RESELECT_ACCOUNTS,
   RESET_ACCOUNT_LIST_FILTER_OPTIONS,
-  SELECT_ACCOUNT,
+  SELECT_ACCOUNTS,
   SELECT_ALL_ACCOUNTS,
   SET_ACCOUNT_DETAILS,
   SET_ACCOUNT_LIST_FILTER_OPTIONS,
@@ -17,6 +17,7 @@ import {
   SET_HOVERED_ROW,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
+  SET_MOVE_TO_DISABLED,
   SET_REDIRECT_URL,
   SET_REMAINING_HISTORICAL_BALANCE,
   SET_SELECTED_TAX_CODE,
@@ -89,9 +90,9 @@ const createAccountListDispatcher = (store) => ({
     store.dispatch({ intent, isTableLoading });
   },
 
-  selectAccount: ({ index, value }) => {
-    const intent = SELECT_ACCOUNT;
-    store.dispatch({ intent, index, value });
+  selectAccounts: (updatedAccountsMap) => {
+    const intent = SELECT_ACCOUNTS;
+    store.dispatch({ intent, updatedAccountsMap });
   },
 
   selectAllAccounts: (selected) => {
@@ -147,6 +148,11 @@ const createAccountListDispatcher = (store) => ({
   setSelectedTaxCode: (taxCode) => {
     const intent = SET_SELECTED_TAX_CODE;
     store.dispatch({ intent, taxCode });
+  },
+
+  setMoveToDisabled: (disabled) => {
+    const intent = SET_MOVE_TO_DISABLED;
+    store.dispatch({ intent, disabled });
   },
 });
 
