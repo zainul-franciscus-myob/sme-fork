@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getAccountingUrls,
   getActiveNav,
+  getIsNzPayrollOnly,
   getOnlineTaxLabel,
   getTaxCodesLabel,
 } from '../NavigationSelectors';
@@ -24,36 +25,61 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
     onClick={handleMenuLinkClick(onMenuLinkClick, url)}
   />
 );
+const getJournalMenuItems = (urls, onMenuLinkClick) => [
+  urls.generalJournalList &&
+    getMenuLink(urls.generalJournalList, 'General journals', onMenuLinkClick),
+  urls.generalJournalCreate &&
+    getMenuLink(
+      urls.generalJournalCreate,
+      'Create general journal',
+      onMenuLinkClick
+    ),
+  isJournalSeparatorRequired(urls) && (
+    <Navigation.Separator key="separator-journal" />
+  ),
+];
 
-const getItems = ({ urls, taxCodesLabel, onlineTaxLabel, onMenuLinkClick }) =>
-  [
-    urls.generalJournalList &&
-      getMenuLink(urls.generalJournalList, 'General journals', onMenuLinkClick),
-    urls.generalJournalCreate &&
-      getMenuLink(
-        urls.generalJournalCreate,
-        'Create general journal',
-        onMenuLinkClick
-      ),
-    isJournalSeparatorRequired(urls) && (
-      <Navigation.Separator key="separator-journal" />
-    ),
-    urls.accountList &&
-      getMenuLink(urls.accountList, 'Chart of accounts', onMenuLinkClick),
-    urls.linkedAccounts &&
-      getMenuLink(
-        urls.linkedAccounts,
-        'Manage linked accounts',
-        onMenuLinkClick
-      ),
-    urls.jobList && getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
-    urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
-    isAccountSeparatorRequired(urls) && (
-      <Navigation.Separator key="separator-account" />
-    ),
-    urls.onlineTax &&
-      getMenuLink(urls.onlineTax, onlineTaxLabel, onMenuLinkClick),
-  ].filter(Boolean);
+const getOnlineTaxMenuItems = (urls, onMenuLinkClick, onlineTaxLabel) => [
+  isAccountSeparatorRequired(urls) && (
+    <Navigation.Separator key="separator-account" />
+  ),
+  urls.onlineTax &&
+    getMenuLink(urls.onlineTax, onlineTaxLabel, onMenuLinkClick),
+];
+
+const getAccountingMenuItems = (urls, taxCodesLabel, onMenuLinkClick) => [
+  urls.accountList &&
+    getMenuLink(urls.accountList, 'Chart of accounts', onMenuLinkClick),
+  urls.linkedAccounts &&
+    getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
+  urls.jobList && getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
+  urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
+];
+
+const getItems = ({
+  isNzPayrollOnly,
+  urls,
+  taxCodesLabel,
+  onlineTaxLabel,
+  onMenuLinkClick,
+}) => {
+  const journalMenu = isNzPayrollOnly
+    ? []
+    : getJournalMenuItems(urls, onMenuLinkClick);
+  const onlineTaxMenu = isNzPayrollOnly
+    ? []
+    : getOnlineTaxMenuItems(urls, onMenuLinkClick, onlineTaxLabel);
+  const accountingMenu = getAccountingMenuItems(
+    urls,
+    taxCodesLabel,
+    onMenuLinkClick
+  );
+  const menu = [...journalMenu, ...accountingMenu, ...onlineTaxMenu].filter(
+    Boolean
+  );
+
+  return menu;
+};
 
 const AccountingMenu = ({
   urls,
@@ -62,12 +88,14 @@ const AccountingMenu = ({
   onlineTaxLabel,
   onMenuSelect,
   onMenuLinkClick,
+  isNzPayrollOnly,
 }) => (
   <Navigation.Menu
     label="Accounting"
     icon={<CaretIcon />}
     onSelect={onMenuSelect}
     items={getItems({
+      isNzPayrollOnly,
       urls,
       taxCodesLabel,
       onlineTaxLabel,
@@ -82,5 +110,6 @@ const mapStateToProps = (state, props) => ({
   activeNav: getActiveNav(state),
   taxCodesLabel: getTaxCodesLabel(state),
   onlineTaxLabel: getOnlineTaxLabel(state),
+  isNzPayrollOnly: getIsNzPayrollOnly(state),
 });
 export default connect(mapStateToProps)(AccountingMenu);

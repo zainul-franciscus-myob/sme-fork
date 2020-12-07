@@ -353,3 +353,12 @@ export const getCreateNewBusinessUrl = createSelector(getRegion, (region) =>
     ? Config.CREATE_BUSINESS_URL_NZ
     : Config.CREATE_BUSINESS_URL_AU
 );
+
+export const getIsNzPayrollOnly = createSelector(
+  getShouldDisplayPayrollNzMenu,
+  getShouldDisplayPurchasesMenu,
+  getShouldDisplaySalesMenu,
+  getShouldDisplayBankingMenu,
+  (hasNzPayroll, hasPurchase, hasSales, hasBanking) =>
+    hasNzPayroll && !hasPurchase && !hasSales && !hasBanking
+);

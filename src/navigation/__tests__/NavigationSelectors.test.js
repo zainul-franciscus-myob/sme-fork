@@ -1,4 +1,5 @@
 import {
+  getIsNzPayrollOnly,
   getMenuLogoUrl,
   getSalesUrls,
   getShouldDisplayAccountingMenu,
@@ -321,6 +322,54 @@ describe('NavigationSelectors', () => {
 
       const actual = getShouldDisplayPayrollMenu(updatedState);
       expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getIsNzPayrollOnly', () => {
+    const state = {
+      routeParams: {
+        region: 'au',
+      },
+      enabledFeatures: ['employeeList'],
+      urls: { employeeList: 'employee' },
+    };
+
+    it('false when region is au', () => {
+      const actual = getIsNzPayrollOnly(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('false when banking is available', () => {
+      const updatedState = {
+        ...state,
+        routeParams: {
+          region: 'nz',
+        },
+        enabledFeatures: ['bankTransactionList', 'employeeListNz'],
+        urls: {
+          bankTransactionList: 'banking transaction list',
+          employeeListNz: 'employee',
+        },
+      };
+
+      const actual = getIsNzPayrollOnly(updatedState);
+      expect(actual).toEqual(false);
+    });
+
+    it('true when only payroll is available', () => {
+      const updatedState = {
+        ...state,
+        routeParams: {
+          region: 'nz',
+        },
+        enabledFeatures: ['employeeListNz'],
+        urls: {
+          employeeListNz: 'employee',
+        },
+      };
+
+      const actual = getIsNzPayrollOnly(updatedState);
+      expect(actual).toEqual(true);
     });
   });
 });
