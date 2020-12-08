@@ -522,14 +522,16 @@ export default class AccountListModule {
       ...account,
       taxCodeId: selectedTaxCodeId,
     }));
-    const accountGrammar = numSelectedAccounts > 1 ? 'accounts' : 'account';
-    const successMessage = `${numSelectedAccounts} ${accountGrammar} tax codes updated.`;
+    const taxCodeGrammar = numSelectedAccounts > 1 ? 'tax codes' : 'tax code';
+    const successMessage = `${numSelectedAccounts} ${taxCodeGrammar} updated.`;
     this.saveBulkUpdate(updatedAccounts, successMessage);
   };
 
   moveAccountTo = (newParentId) => {
     const state = this.store.getState();
     const numSelectedAccounts = getSelectedAccounts(state).length;
+    // We need to get all children even if they aren't selected so
+    // we can move them to the grandparent as they are orphaned
     const accountsToBeMoved = getSelectedAccountsWithAllChildren(state);
 
     const updatedAccounts = [];
@@ -537,11 +539,16 @@ export default class AccountListModule {
     accountsToBeMoved.forEach((account) => {
       if (!account.shouldUpdateParentId) return;
 
+      // Orphaned child case
+      // Update parent ID to the grandparent
       if (account.newParentId)
         updatedAccounts.push({
           ...account,
           parentAccountId: account.newParentId,
         });
+      // All other cases
+      // Update the parent ID to the
+      // destination account
       else
         updatedAccounts.push({
           ...account,

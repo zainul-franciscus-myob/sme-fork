@@ -194,9 +194,11 @@ export const getSelectedAccountsWithAllChildren = (state) => {
   const results = [];
   let startIndex = 0;
 
+  // Look for a selected entry
   while (startIndex < state.entries.length) {
     const startEntry = state.entries[startIndex];
 
+    // Found a selected entry now find all children
     if (startEntry.selected) {
       results.push(startEntry);
       let i = startIndex + 1;
@@ -208,7 +210,10 @@ export const getSelectedAccountsWithAllChildren = (state) => {
         else break;
       }
       startIndex = i;
-    } else startIndex += 1;
+    }
+    // Found all children
+    // continue searching for selected entrires
+    else startIndex += 1;
   }
   return results;
 };
@@ -288,12 +293,16 @@ export const getAccountMoveToTargets = createSelector(
     const selectedAccountType = firstSelectedAccount.accountType;
 
     const vaildMoveToAccounts = entries.reduce((accounts, entry) => {
+      // Accounts can only be moved to accounts of the same type
+      // Resulting tree can not have accounts that would have a greater level than 4
+      // Only header accounts are valid options
       if (
         entry.accountType === selectedAccountType &&
         entry.level + deltaLevel < MAX_LEVEL &&
         entry.isHeader &&
         !entry.selected
       )
+        // Current parent should appear in the list but be a disabled option
         accounts.push({
           ...entry,
           isParentOfSelectedAccounts: entry.id === parentId,

@@ -39,47 +39,143 @@ const ActionBar = ({
   onMoveToChange,
   shouldDisableMoveTo,
 }) => {
-  const moveUpButton = accountAllowedToMoveUp ? (
-    <Button
-      className={styles.moveButton}
-      type="secondary"
-      onClick={onAccountMoveUpClick}
-    >
-      Move up a level
-    </Button>
-  ) : (
-    <Tooltip
-      trigger="hover"
-      triggerContent={
-        <Button className={styles.disabledMoveButton} type="secondary">
-          Move up a level
-        </Button>
-      }
-    >
-      {cannotMoveAccountUpMessage}
-    </Tooltip>
-  );
+  const noMoveLocations = moveToTargets.length <= 1;
+  const tooManyAccountsSelected = numSelected > 125;
 
-  const moveDownButton = accountAllowedToMoveDown ? (
-    <Button
-      className={styles.moveButton}
-      type="secondary"
-      onClick={onAccountMoveDownClick}
-    >
-      Move down a level
-    </Button>
-  ) : (
-    <Tooltip
-      trigger="hover"
-      triggerContent={
-        <Button className={styles.disabledMoveButton} type="secondary">
-          Move down a level
+  const MoveToDropdown = () =>
+    shouldDisableMoveTo || tooManyAccountsSelected || noMoveLocations ? (
+      <Tooltip
+        trigger={['hover', 'focus']}
+        triggerContent={
+          <div className={styles.moveToSelect}>
+            <Select
+              className={styles.disabledBtn}
+              name="moveTo"
+              label=""
+              defaultValue="placeholder"
+              width="sm"
+              hideLabel
+            >
+              <Select.Option value="placeholder" label="Move to..." disabled />
+            </Select>
+          </div>
+        }
+      >
+        You can’t move this selection of accounts. Please make a different
+        selection
+      </Tooltip>
+    ) : (
+      <div className={styles.moveToSelect}>
+        <Select
+          name="moveTo"
+          label=""
+          defaultValue="placeholder"
+          width="sm"
+          hideLabel
+          onChange={(e) => onMoveToChange(e.target.value)}
+        >
+          <Select.Option value="placeholder" label="Move to..." disabled />
+          {moveToTargets.map((account) => {
+            const indent = '\u00a0'.repeat((account.level - 1) * 2);
+            return (
+              <Select.Option
+                key={account.id}
+                value={account.id}
+                label={indent + account.accountName}
+                disabled={account.isParentOfSelectedAccounts}
+              />
+            );
+          })}
+        </Select>
+      </div>
+    );
+
+  const TaxCodesPopover = () =>
+    tooManyAccountsSelected ? (
+      <Tooltip
+        trigger={['hover', 'focus']}
+        triggerContent={
+          <Button className={styles.disabledBtn} type="secondary">
+            Edit tax code
+          </Button>
+        }
+      >
+        You can’t select more than 125 accounts at a time.
+      </Tooltip>
+    ) : (
+      <Popover
+        body={<Popover.Body child={<TaxCodeBody />} />}
+        footer={<Popover.Footer child={<TaxCodeFooter />} />}
+        preferPlace="below"
+        closeOnOuterAction
+      >
+        <Button type="secondary" onClick={onBulkUpdateTaxCodeOpen}>
+          Edit tax code
         </Button>
-      }
-    >
-      {cannotMoveAccountDownMessage}
-    </Tooltip>
-  );
+      </Popover>
+    );
+
+  const DeleteButton = () =>
+    tooManyAccountsSelected ? (
+      <Tooltip
+        trigger={['hover', 'focus']}
+        triggerContent={
+          <Button className={styles.disabledBtn} type="secondary">
+            Delete accounts
+          </Button>
+        }
+      >
+        You can’t select more than 125 accounts at a time.
+      </Tooltip>
+    ) : (
+      <Button type="secondary" onClick={onDeleteClick}>
+        Delete accounts
+      </Button>
+    );
+
+  const MoveUpButton = () =>
+    accountAllowedToMoveUp ? (
+      <Button
+        className={styles.moveButton}
+        type="secondary"
+        onClick={onAccountMoveUpClick}
+      >
+        Move up a level
+      </Button>
+    ) : (
+      <Tooltip
+        trigger="hover"
+        triggerContent={
+          <Button className={styles.disabledMoveButton} type="secondary">
+            Move up a level
+          </Button>
+        }
+      >
+        {cannotMoveAccountUpMessage}
+      </Tooltip>
+    );
+
+  const MoveDownButton = () =>
+    accountAllowedToMoveDown ? (
+      <Button
+        className={styles.moveButton}
+        type="secondary"
+        onClick={onAccountMoveDownClick}
+      >
+        Move down a level
+      </Button>
+    ) : (
+      <Tooltip
+        trigger="hover"
+        triggerContent={
+          <Button className={styles.disabledMoveButton} type="secondary">
+            Move down a level
+          </Button>
+        }
+      >
+        {cannotMoveAccountDownMessage}
+      </Tooltip>
+    );
 
   const TaxCodeBody = () => (
     <TaxCodeCombobox
@@ -100,111 +196,22 @@ const ActionBar = ({
     </ButtonRow>
   );
 
-  const noMoveLocations = moveToTargets.length <= 1;
-
-  const tooManyAccountsSelected = numSelected > 125;
-
   return (
     <div className={`${styles.actionBar} flex__row`}>
-      {shouldDisableMoveTo || tooManyAccountsSelected || noMoveLocations ? (
-        <Tooltip
-          trigger={['hover', 'focus']}
-          triggerContent={
-            <div className={styles.moveToSelect}>
-              <Select
-                className={styles.disabledBtn}
-                name="moveTo"
-                label=""
-                defaultValue="placeholder"
-                width="sm"
-                hideLabel
-              >
-                <Select.Option
-                  value="placeholder"
-                  label="Move to..."
-                  disabled
-                />
-              </Select>
-            </div>
-          }
-        >
-          You can’t move this selection of accounts. Please make a different
-          selection
-        </Tooltip>
-      ) : (
-        <div className={styles.moveToSelect}>
-          <Select
-            name="moveTo"
-            label=""
-            defaultValue="placeholder"
-            width="sm"
-            hideLabel
-            onChange={(e) => onMoveToChange(e.target.value)}
-          >
-            <Select.Option value="placeholder" label="Move to..." disabled />
-            {moveToTargets.map((account) => {
-              const indent = '\u00a0'.repeat((account.level - 1) * 2);
-              return (
-                <Select.Option
-                  key={account.id}
-                  value={account.id}
-                  label={indent + account.accountName}
-                  disabled={account.isParentOfSelectedAccounts}
-                />
-              );
-            })}
-          </Select>
-        </div>
-      )}
+      {hasFlexibleAccountNumbers && <MoveToDropdown />}
 
-      {tooManyAccountsSelected ? (
-        <Tooltip
-          trigger={['hover', 'focus']}
-          triggerContent={
-            <Button className={styles.disabledBtn} type="secondary">
-              Edit tax code
-            </Button>
-          }
-        >
-          You can’t select more than 125 accounts at a time.
-        </Tooltip>
-      ) : (
-        <Popover
-          body={<Popover.Body child={<TaxCodeBody />} />}
-          footer={<Popover.Footer child={<TaxCodeFooter />} />}
-          preferPlace="below"
-          closeOnOuterAction
-        >
-          <Button type="secondary" onClick={onBulkUpdateTaxCodeOpen}>
-            Edit tax code
-          </Button>
-        </Popover>
-      )}
+      <TaxCodesPopover />
 
       <div className="flx-pl-sm flx-pr-sm flex__row">
         <Separator direction="vertical" />
       </div>
 
-      {tooManyAccountsSelected ? (
-        <Tooltip
-          trigger={['hover', 'focus']}
-          triggerContent={
-            <Button className={styles.disabledBtn} type="secondary">
-              Delete accounts
-            </Button>
-          }
-        >
-          You can’t select more than 125 accounts at a time.
-        </Tooltip>
-      ) : (
-        <Button type="secondary" onClick={onDeleteClick}>
-          Delete accounts
-        </Button>
-      )}
+      <DeleteButton />
+
       {!hasFlexibleAccountNumbers && (
         <>
-          {moveUpButton}
-          {moveDownButton}
+          <MoveUpButton />
+          <MoveDownButton />
         </>
       )}
       <span className={styles.actionBarText}>{numSelected} Items selected</span>
