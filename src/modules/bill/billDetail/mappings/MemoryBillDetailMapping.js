@@ -13,6 +13,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_DETAIL,
@@ -105,6 +106,8 @@ const MemoryBillDetailMapping = {
     onSuccess(loadNewBillPaymentWithSupplier),
   [CREATE_BILL_PAYMENT]: ({ onSuccess }) => onSuccess(successResponse),
   [GET_REFERENCE_ID]: ({ onSuccess }) => onSuccess(billPaymentReferenceId),
+  [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: ({ onSuccess }) =>
+    onSuccess(loadItemAndServiceBill),
 };
 
 export default MemoryBillDetailMapping;

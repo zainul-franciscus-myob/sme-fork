@@ -59,6 +59,7 @@ export const getIsLineEdited = (state) => state.isLineEdited;
 export const getModalType = (state) => state.modalType;
 export const getAlertType = (state) => state.alert.type;
 export const getAlertMessage = (state) => state.alert.message;
+export const getOrderIdQueryParam = (state) => state.orderId;
 
 export const getTotalTaxLabel = (state) =>
   getRegionToDialectText(state.region)('Tax');

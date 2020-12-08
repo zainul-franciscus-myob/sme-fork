@@ -13,6 +13,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
   LOAD_SUPPLIER_DETAIL,
@@ -120,6 +121,11 @@ const HttpBillDetailMapping = {
   [CREATE_BILL_PAYMENT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/create_bill_payment`,
+  },
+  [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: {
+    method: 'GET',
+    getPath: ({ businessId, orderId }) =>
+      `/${businessId}/bill/load_new_bill_detail_from_order/${orderId}`,
   },
 };
 

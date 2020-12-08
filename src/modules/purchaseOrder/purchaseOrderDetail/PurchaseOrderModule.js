@@ -37,6 +37,7 @@ import {
   getViewedAccountToolTip,
 } from './selectors/purchaseOrderSelectors';
 import {
+  getCreateBillFromOrderUrl,
   getCreateNewPurchaseOrderUrl,
   getPurchaseOrderListUrl,
 } from './selectors/PurchaseOrderRedirectSelectors';
@@ -574,6 +575,30 @@ class PurchaseOrderModule {
     }
   };
 
+  openUnsavedModal = (url) => {
+    this.dispatcher.openModal({
+      modalType: ModalType.Unsaved,
+      redirectUrl: url,
+    });
+  };
+
+  redirectToCreateNewBill = () => {
+    const state = this.store.getState();
+    const url = getCreateBillFromOrderUrl(state);
+
+    this.navigateTo(url);
+  };
+
+  convertToBillOrOpenUnsavedModal = () => {
+    const state = this.store.getState();
+    if (getIsPageEdited(state)) {
+      const url = getCreateBillFromOrderUrl(state);
+      this.openUnsavedModal(url);
+    } else {
+      this.redirectToCreateNewBill();
+    }
+  };
+
   readMessages = () => {
     this.popMessages([
       SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
@@ -733,6 +758,7 @@ class PurchaseOrderModule {
             onConfirm: this.exportPdf,
             onChange: this.dispatcher.updateExportPdfDetail,
           }}
+          onConvertToBillButtonClick={this.convertToBillOrOpenUnsavedModal}
           onAddSupplierButtonClick={this.openSupplierModal}
           onUpgradeModalDismiss={this.dispatcher.hideUpgradeModal}
           onUpgradeModalUpgradeButtonClick={this.subscribeOrUpgrade}

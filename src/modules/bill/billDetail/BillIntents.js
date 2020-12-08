@@ -89,3 +89,7 @@ export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
+
+export const LOAD_NEW_BILL_DETAIL_FROM_ORDER = Symbol(
+  'Load a new bill from an order'
+);

@@ -3,6 +3,7 @@ import {
   CREATE_PRE_CONVERSION_BILL_DETAIL,
   LOAD_BILL,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_DUPLICATE_BILL,
   UPDATE_BILL,
   UPDATE_PRE_CONVERSION_BILL_DETAIL,
@@ -56,6 +57,15 @@ describe('IntegratorSelectors', () => {
 
       expect(actual).toEqual(LOAD_NEW_DUPLICATE_BILL);
     });
+
+    it('returns LOAD_NEW_BILL_DETAIL_FROM_ORDER when creating bill from a purchase order', () => {
+      const state = {
+        billId: 'new',
+        orderId: 1,
+      };
+      const actual = getLoadBillIntent(state);
+      expect(actual).toEqual(LOAD_NEW_BILL_DETAIL_FROM_ORDER);
+    });
   });
 
   describe('getLoadBillUrlParams', () => {
@@ -73,16 +83,18 @@ describe('IntegratorSelectors', () => {
       });
     });
 
-    it('returns LOAD_NEW_BILL when creating', () => {
+    it('returns businessId and orderId when creating without duplicate id', () => {
       const state = {
         businessId: 'a',
         billId: 'new',
+        orderId: 2,
       };
 
       const actual = getLoadBillUrlParams(state);
 
       expect(actual).toEqual({
         businessId: 'a',
+        orderId: 2,
       });
     });
 

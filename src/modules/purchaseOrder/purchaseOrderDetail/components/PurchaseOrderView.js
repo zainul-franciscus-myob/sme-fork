@@ -56,6 +56,7 @@ const PurchaseOrderView = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onExportPdfButtonClick,
+  onConvertToBillButtonClick,
   onModalClose,
   onCancelModalConfirm,
   onDeleteModalConfirm,
@@ -112,7 +113,9 @@ const PurchaseOrderView = ({
           }}
         />
       )}
-      <PurchaseOrderHeader />
+      <PurchaseOrderHeader
+        onConvertToBillButtonClick={onConvertToBillButtonClick}
+      />
     </div>
   );
 
@@ -188,6 +191,7 @@ const PurchaseOrderView = ({
           onCancelButtonClick={onCancelButtonClick}
           onDeleteButtonClick={onDeleteButtonClick}
           onExportPdfButtonClick={onExportPdfButtonClick}
+          onConvertToBillButtonClick={onConvertToBillButtonClick}
         />
       }
       subHeadChildren={subHeaderChildren}

@@ -5,6 +5,7 @@ import {
   CREATE_PRE_CONVERSION_BILL_DETAIL,
   LOAD_BILL,
   LOAD_NEW_BILL,
+  LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_DUPLICATE_BILL,
   UPDATE_BILL,
   UPDATE_PRE_CONVERSION_BILL_DETAIL,
@@ -22,6 +23,7 @@ import {
   getIsCreatingFromInTray,
   getIsTaxInclusive,
   getLines,
+  getOrderIdQueryParam,
   getSupplierId,
 } from './billSelectors';
 import {
@@ -94,8 +96,13 @@ export const getDeletePreConversionBillUrlParams = createSelector(
 export const getLoadBillIntent = createSelector(
   getIsCreating,
   getDuplicateId,
-  (isCreating, duplicateId) => {
+  getOrderIdQueryParam,
+  (isCreating, duplicateId, orderID) => {
     if (isCreating) {
+      if (orderID) {
+        return LOAD_NEW_BILL_DETAIL_FROM_ORDER;
+      }
+
       if (duplicateId) {
         return LOAD_NEW_DUPLICATE_BILL;
       }
@@ -112,7 +119,8 @@ export const getLoadBillUrlParams = createSelector(
   getBusinessId,
   getBillId,
   getDuplicateId,
-  (isCreating, businessId, billId, duplicateId) => {
+  getOrderIdQueryParam,
+  (isCreating, businessId, billId, duplicateId, orderId) => {
     if (isCreating) {
       if (duplicateId) {
         return {
@@ -123,6 +131,7 @@ export const getLoadBillUrlParams = createSelector(
 
       return {
         businessId,
+        orderId,
       };
     }
 

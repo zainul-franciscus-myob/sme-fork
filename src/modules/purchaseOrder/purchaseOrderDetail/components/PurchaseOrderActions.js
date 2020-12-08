@@ -28,6 +28,7 @@ const PurchaseOrderActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onExportPdfButtonClick,
+  onConvertToBillButtonClick,
 }) => {
   const exportPdfButton = (
     <Button
@@ -118,6 +119,18 @@ const PurchaseOrderActions = ({
     </Button>
   );
 
+  const convertToBillButton = (
+    <Button
+      key="convertToBill"
+      name="convertToBill"
+      type="secondary"
+      onClick={onConvertToBillButtonClick}
+      disabled={false}
+    >
+      Convert to bill
+    </Button>
+  );
+
   if (isReadOnly) {
     return (
       <ButtonRow
@@ -136,6 +149,7 @@ const PurchaseOrderActions = ({
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
+        convertToBillButton,
         exportPdfButton,
       ]}
     />

@@ -165,10 +165,11 @@ const createPurchaseOrderDispatcher = (store) => ({
     });
   },
 
-  openModal: ({ modalType }) => {
+  openModal: ({ modalType, redirectUrl }) => {
     store.dispatch({
       intent: OPEN_MODAL,
       modalType,
+      redirectUrl,
     });
   },
 

@@ -830,5 +830,38 @@ describe('PurchaseOrderModule', () => {
         expect(integration.getRequests().length).toBe(0);
       });
     });
+
+    describe('when click on ConvertToBill button', () => {
+      describe('when there are changes', () => {
+        it('open unsaved modal', () => {
+          const { module, store } = setUpWithRun({
+            isPageEdited: true,
+          });
+
+          module.convertToBillOrOpenUnsavedModal();
+
+          const expectedUrl = '/#/au/bizId/bill/new?orderId=purchaseOrderId';
+          expect(store.getActions()).toEqual([
+            {
+              intent: OPEN_MODAL,
+              modalType: ModalType.Unsaved,
+              redirectUrl: expectedUrl,
+            },
+          ]);
+        });
+      });
+
+      describe('when there are no changes', () => {
+        it('redirect to bill form', () => {
+          const { module, navigateTo } = setUpWithRun();
+
+          module.convertToBillOrOpenUnsavedModal();
+
+          const expectedUrl = '/#/au/bizId/bill/new?orderId=purchaseOrderId';
+
+          expect(navigateTo).toBeCalledWith(expectedUrl);
+        });
+      });
+    });
   });
 });

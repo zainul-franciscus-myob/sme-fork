@@ -1,6 +1,10 @@
 import { createSelector } from 'reselect';
 
-import { getBusinessId, getRegion } from './purchaseOrderSelectors';
+import {
+  getBusinessId,
+  getPurchaseOrderId,
+  getRegion,
+} from './purchaseOrderSelectors';
 
 export const getPurchaseOrderListUrl = createSelector(
   getRegion,
@@ -12,4 +16,16 @@ export const getCreateNewPurchaseOrderUrl = createSelector(
   getRegion,
   getBusinessId,
   (region, businessId) => `/#/${region}/${businessId}/purchaseOrder/new`
+);
+
+const getBaseUrl = createSelector(
+  getRegion,
+  getBusinessId,
+  (region, businessId) => `/#/${region}/${businessId}`
+);
+
+export const getCreateBillFromOrderUrl = createSelector(
+  getBaseUrl,
+  getPurchaseOrderId,
+  (baseUrl, orderId) => `${baseUrl}/bill/new?orderId=${orderId}`
 );

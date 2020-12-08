@@ -26,6 +26,7 @@ export const getDefaultState = () => ({
   duplicateId: '',
   openExportPdf: undefined,
   region: '',
+  orderId: undefined,
   bill: {
     uid: '',
     layout: '',

@@ -20,6 +20,7 @@ const getBillRoutes = () => [
   {
     name: RouteName.BILL_DETAIL,
     path: '/:region/:businessId/bill/:billId',
+    allowedParams: ['orderId'],
     loadModule: () => import('./billDetail/BillModule'),
     documentTitle: 'Bill',
   },

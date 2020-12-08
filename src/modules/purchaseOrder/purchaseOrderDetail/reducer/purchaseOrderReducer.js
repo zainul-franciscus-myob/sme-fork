@@ -197,6 +197,7 @@ const closeModal = (state) => ({
 const openModal = (state, action) => ({
   ...state,
   modalType: action.modalType,
+  redirectUrl: action.redirectUrl,
 });
 
 const closeAlert = (state) => ({
