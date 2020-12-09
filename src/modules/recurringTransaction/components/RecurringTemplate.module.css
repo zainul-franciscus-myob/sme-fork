@@ -1,0 +1,17 @@
+div.card:global.flx-card {
+  padding: 2rem 3rem 1.6rem;
+}
+
+.container :global(.line-item-table) {
+  margin-left: -1.2rem;
+  margin-right: -1.2rem;
+  margin-bottom: -1.2rem;
+}
+
+@media (min-width: 768px) {
+  .container :global(.line-item-table) {
+      margin-left: -1.6rem;
+      margin-right: -1.6rem;
+      margin-bottom: -1.6rem;
+  }
+}

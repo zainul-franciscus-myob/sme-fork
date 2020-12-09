@@ -1,0 +1,11 @@
+.separator {
+  display: flex;
+  flex-direction: row;
+  flex-flow: row;
+  width: 100%;
+  align-items: center;
+}
+
+.separator :global(.flx-separator) {
+  margin-right: 1rem;
+}

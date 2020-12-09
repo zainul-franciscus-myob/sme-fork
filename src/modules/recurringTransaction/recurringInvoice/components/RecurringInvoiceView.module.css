@@ -8,15 +8,6 @@
   padding: var(--flx-spacing-medium) var(--flx-spacing-tiny);
 }
 
-/**
-  @FEELIX:
-  To have the abn popover next to the contact combobox, we need to extend
-  the width of the primary header option.
-**/
-.detail :global(.flx-detail-header__primary) {
-  max-width: 42.2rem;
-}
-
 .disabledTable :global(.line-item__icon-right button) {
   display: none;
 }

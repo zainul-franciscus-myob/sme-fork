@@ -1,4 +1,4 @@
-import { Input, Select } from '@myob/myob-widgets';
+import { FieldGroup, Input, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import handleInputChange from '../../../components/handlers/handleInputChange';
@@ -14,7 +14,7 @@ const RecurringScheduleOptions = ({
   const requiredLabel = 'This is required';
 
   return (
-    <div className={styles.container}>
+    <FieldGroup label="Schedule details" className={styles.container}>
       <Select
         name="transactionType"
         label="Transaction type"
@@ -32,14 +32,14 @@ const RecurringScheduleOptions = ({
       </Select>
       <Input
         name="name"
-        label="Name"
+        label="Schedule name"
         value={name}
         onChange={handleInputChange(onUpdateScheduleOptions)}
         requiredLabel={requiredLabel}
         maxLength={30}
         disabled={isDisabled}
       />
-    </div>
+    </FieldGroup>
   );
 };
 

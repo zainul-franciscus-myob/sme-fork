@@ -15,7 +15,6 @@ import {
 } from '../selectors/RecurringInvoiceSelectors';
 import InvoiceItemTable from './itemLayout/RecurringInvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/RecurringInvoiceServiceTable';
-import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
 import PageView from '../../../../components/PageView/PageView';
 import RecurringInvoiceActions from './RecurringInvoiceActions';
 import RecurringInvoiceLayoutPopover from './RecurringInvoiceLayoutPopover';
@@ -24,6 +23,8 @@ import RecurringInvoiceNotes from './RecurringInvoiceNotes';
 import RecurringInvoiceOptions from './RecurringInvoiceOptions';
 import RecurringInvoiceScheduleOptions from './RecurringInvoiceScheduleOptions';
 import RecurringInvoiceTotals from './RecurringInvoiceTotals';
+import RecurringLineItemLayout from '../../components/RecurringLineItemLayout';
+import RecurringTemplate from '../../components/RecurringTemplate';
 import SalesLayout from '../../types/SalesLayout';
 import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
 import styles from './RecurringInvoiceView.module.css';
@@ -37,7 +38,6 @@ const RecurringInvoiceView = ({
   modalType,
   isActionsDisabled,
   isReadOnly,
-  isPreConversion,
   isFeatureAvailable,
   onDismissAlert,
   serviceLayoutListeners,
@@ -57,36 +57,41 @@ const RecurringInvoiceView = ({
     return <WrongPageState />;
   }
 
-  const options = (
-    <>
-      <RecurringInvoiceScheduleOptions
-        onUpdateScheduleOptions={onUpdateScheduleOptions}
-      />
-      <hr />
-      <RecurringInvoiceOptions
-        renderContactCombobox={renderContactCombobox}
-        onInputAlert={onInputAlert}
-        onUpdateHeaderOptions={onUpdateHeaderOptions}
-      />
-    </>
-  );
-
-  const alertComponent = alert && (
+  const alerts = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
   );
 
-  const actions = (
-    <RecurringInvoiceActions listeners={invoiceActionListeners} />
-  );
+  const pageHead = <PageHead title={title} />;
 
-  const modal = modalType && (
+  const confirmModal = modalType && (
     <RecurringInvoiceModal
       modalType={modalType}
       isActionsDisabled={isActionsDisabled}
       confirmModalListeners={confirmModalListeners}
       redirectToUrlListeners={redirectToUrlListeners}
+    />
+  );
+
+  const modals = (
+    <>
+      {accountModal}
+      {confirmModal}
+    </>
+  );
+
+  const schedule = (
+    <RecurringInvoiceScheduleOptions
+      onUpdateScheduleOptions={onUpdateScheduleOptions}
+    />
+  );
+
+  const options = (
+    <RecurringInvoiceOptions
+      renderContactCombobox={renderContactCombobox}
+      onInputAlert={onInputAlert}
+      onUpdateHeaderOptions={onUpdateHeaderOptions}
     />
   );
 
@@ -114,33 +119,44 @@ const RecurringInvoiceView = ({
     />
   );
 
-  const table = {
-    [SalesLayout.SERVICE]: serviceTable,
-    [SalesLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
-  }[layout];
-
-  const layoutPopover = isPreConversion || (
+  const tableLayoutOption = (
     <RecurringInvoiceLayoutPopover
       onUpdateInvoiceLayout={onUpdateInvoiceLayout}
     />
   );
 
+  const lineItemTable = {
+    [SalesLayout.SERVICE]: serviceTable,
+    [SalesLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
+  }[layout];
+
+  const table = (
+    <div className={classNames(isReadOnly && styles.disabledTable)}>
+      {lineItemTable}
+    </div>
+  );
+
+  const transaction = (
+    <RecurringLineItemLayout
+      options={options}
+      tableLayoutOption={tableLayoutOption}
+      table={table}
+    />
+  );
+
+  const actions = (
+    <RecurringInvoiceActions listeners={invoiceActionListeners} />
+  );
+
   const view = (
-    <React.Fragment>
-      <LineItemTemplate
-        pageHead={<PageHead title={title} />}
-        alert={alertComponent}
-        options={options}
-        separatorOptions={layoutPopover}
-        actions={actions}
-      >
-        {accountModal}
-        {modal}
-        <div className={classNames(isReadOnly && styles.disabledTable)}>
-          {table}
-        </div>
-      </LineItemTemplate>
-    </React.Fragment>
+    <RecurringTemplate
+      alerts={alerts}
+      pageHead={pageHead}
+      modals={modals}
+      schedule={schedule}
+      transaction={transaction}
+      actions={actions}
+    />
   );
 
   return <PageView loadingState={loadingState} view={view} />;

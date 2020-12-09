@@ -1,4 +1,9 @@
-import { DetailHeader, RadioButtonGroup, ReadOnly } from '@myob/myob-widgets';
+import {
+  DetailHeader,
+  FieldGroup,
+  RadioButtonGroup,
+  ReadOnly,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -98,13 +103,16 @@ const RecurringInvoiceOptions = ({
   );
 
   return (
-    <div className={styles.options}>
+    <FieldGroup
+      label="Create a transaction with this information"
+      className={styles.options}
+    >
       <DetailHeader
         primary={primary}
         secondary={secondary}
         className={styles.detail}
       />
-    </div>
+    </FieldGroup>
   );
 };
 
