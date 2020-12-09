@@ -46,4 +46,5 @@ export const getDefaultState = () => ({
     pagination: {},
   },
   isFindAndRecodeEnabled: false,
+  lastMonthInFinancialYear: undefined,
 });

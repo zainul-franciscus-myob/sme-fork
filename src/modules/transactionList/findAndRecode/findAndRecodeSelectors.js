@@ -8,6 +8,9 @@ const getBusinessId = (state) => state.businessId;
 
 export const getRegion = (state) => state.region;
 
+export const getLastMonthInFinancialYear = (state) =>
+  state.lastMonthInFinancialYear;
+
 const getOrderBy = (state) => state.orderBy;
 
 const getSortOrder = (state) => state.sortOrder;

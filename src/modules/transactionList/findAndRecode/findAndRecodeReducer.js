@@ -28,6 +28,7 @@ import createReducer from '../../../store/createReducer';
 const getDefaultState = () => ({
   region: undefined,
   businessId: undefined,
+  lastMonthInFinancialYear: undefined,
   accountList: [],
   taxCodeList: [],
   entries: [],

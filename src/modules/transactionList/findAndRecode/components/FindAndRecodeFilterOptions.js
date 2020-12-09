@@ -6,7 +6,7 @@ import {
   getAccountList,
   getFilterOptions,
   getIsRecodeLoading,
-  getRegion,
+  getLastMonthInFinancialYear,
   getTaxCodeList,
 } from '../findAndRecodeSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -23,7 +23,7 @@ import styles from './FindAndRecodeFilterOptions.module.css';
 const FindAndRecodeFilterOptions = ({
   accountList,
   taxCodeList,
-  region,
+  lastMonthInFinancialYear,
   isRecodeLoading,
   filterOptions: {
     sourceJournal,
@@ -42,7 +42,7 @@ const FindAndRecodeFilterOptions = ({
     <FilterBar.Group>
       <PeriodPicker
         className={styles.period}
-        region={region}
+        lastMonthInFinancialYear={lastMonthInFinancialYear}
         period={period}
         dateFrom={dateFrom}
         dateTo={dateTo}
@@ -101,10 +101,10 @@ const FindAndRecodeFilterOptions = ({
 );
 
 const mapStateToProps = (state) => ({
+  lastMonthInFinancialYear: getLastMonthInFinancialYear(state),
   filterOptions: getFilterOptions(state),
   accountList: getAccountList(state),
   taxCodeList: getTaxCodeList(state),
-  region: getRegion(state),
   isRecodeLoading: getIsRecodeLoading(state),
 });
 

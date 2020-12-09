@@ -12,13 +12,15 @@ import DuplicateRecordOption from '../types/DuplicateRecordOption';
 import ImportExportDataType from '../types/ImportExportDataType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import dataImportExportReducer from '../dataImportExportReducer';
-import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 
-jest.mock('../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
+jest.mock(
+  '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY'
+);
 
 describe('dataImportExportReducer', () => {
   describe('SET_INITIAL_STATE', () => {
-    getDateRangeByPeriodAndRegion.mockReturnValue({
+    getDateRangeByPeriodAndLastMonthInFY.mockReturnValue({
       dateFrom: '2019-11-01',
       dateTo: '2019-11-30',
     });

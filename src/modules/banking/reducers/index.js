@@ -145,7 +145,7 @@ import StatusTypes from '../types/BankTransactionStatusTypes';
 import TransactionTypes from '../types/TransactionTypes';
 import createReducer from '../../../store/createReducer';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
-import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 import getDefaultState from './getDefaultState';
 
 const resetState = () => getDefaultState();
@@ -174,6 +174,7 @@ const loadBankTransactions = (state, action) => ({
     ...state.defaultFilterOptions,
     bankAccount: action.bankAccount,
   },
+  lastMonthInFinancialYear: action.lastMonthInFinancialYear,
 });
 
 const loadBankTransactionsNextPage = (state, action) => {
@@ -274,8 +275,8 @@ const setInitialState = (state, action) => {
   const { bankAccount, dateFrom, dateTo, keywords } = action.context;
   const { period } = state.filterOptions;
 
-  const datesWithDefaultPeriod = getDateRangeByPeriodAndRegion(
-    action.context.region,
+  const datesWithDefaultPeriod = getDateRangeByPeriodAndLastMonthInFY(
+    state.lastMonthInFinancialYear,
     new Date(),
     period
   );

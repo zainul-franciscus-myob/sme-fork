@@ -2,6 +2,7 @@
   "viewCode": "TRANSACTIONS_VIEW",
   "sortOrder": "desc",
   "orderBy": "Date",
+  "lastMonthInFinancialYear": 6,
   "bankAccounts": [
     {
       "id": "123",

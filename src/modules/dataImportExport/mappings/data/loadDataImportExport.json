@@ -1,5 +1,6 @@
 {
   "email": "john@doe.com",
+  "lastMonthInFinancialYear": 6,
   "export": {
     "businessName": "Clearwater Pty Ltd",
     "chartOfAccounts": {

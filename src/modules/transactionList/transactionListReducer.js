@@ -25,7 +25,7 @@ import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Periods from '../../components/PeriodPicker/Periods';
 import createReducer from '../../store/createReducer';
-import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 
 const resetState = () => getDefaultState();
 
@@ -33,7 +33,11 @@ const setInitialState = (state, { context, settings, sourceJournal }) => {
   const period = settings.filterOptions.period || state.filterOptions.period;
   const filterDates =
     period !== Periods.custom
-      ? getDateRangeByPeriodAndRegion(context.region, new Date(), period)
+      ? getDateRangeByPeriodAndLastMonthInFY(
+          state.lastMonthInFinancialYear,
+          new Date(),
+          period
+        )
       : {};
 
   const filterOptions = {
@@ -131,6 +135,7 @@ const loadCreditsAndDebitsList = (state, action) => ({
   ...state,
   accountList: action.accountList,
   taxCodeList: action.taxCodeList,
+  lastMonthInFinancialYear: action.lastMonthInFinancialYear,
   [DEBITS_AND_CREDITS]: {
     ...state[DEBITS_AND_CREDITS],
     entries: action.entries,

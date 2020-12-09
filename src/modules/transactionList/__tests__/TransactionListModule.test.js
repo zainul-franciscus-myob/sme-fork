@@ -35,6 +35,7 @@ jest.mock('../../../splitToggle', () => ({
 describe('TransactionListModule', () => {
   const businessId = 'businessId';
   const region = 'au';
+  const lastMonthInFinancialYear = 6;
 
   const setup = () => {
     // Mock loadSettings & saveSettings from localStorage to prevent side effects
@@ -69,7 +70,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({ businessId, region });
+    module.run({ businessId, region, lastMonthInFinancialYear });
     store.resetActions();
     integration.resetRequests();
 
@@ -91,7 +92,7 @@ describe('TransactionListModule', () => {
     const toolbox = setup();
     const { module, store, integration } = toolbox;
 
-    module.run({ businessId, region });
+    module.run({ businessId, region, lastMonthInFinancialYear });
     module.setTab(JOURNAL_TRANSACTIONS);
     module.setTab(DEBITS_AND_CREDITS);
     store.resetActions();
@@ -334,6 +335,7 @@ describe('TransactionListModule', () => {
       expect(module.findAndRecodeModule.run).toHaveBeenCalledWith({
         businessId,
         region,
+        lastMonthInFinancialYear,
         taxCodeList: expect.any(Array),
         accountList: expect.any(Array),
       });

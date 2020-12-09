@@ -7,6 +7,8 @@ export const getAlert = (state) => state.alert;
 export const getActiveTab = (state) => state.activeTab;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const getLastMonthInFinancialYear = (state) =>
+  state.lastMonthInFinancialYear;
 
 const getLastLoadingTab = (state) => state.lastLoadingTab;
 
@@ -82,9 +84,11 @@ export const getFindAndRecodeContext = createSelector(
   getRegion,
   getAccountList,
   getTaxCodeList,
-  (businessId, region, accountList, taxCodeList) => ({
+  getLastMonthInFinancialYear,
+  (businessId, region, accountList, taxCodeList, lastMonthInFinancialYear) => ({
     businessId,
     region,
+    lastMonthInFinancialYear,
     accountList,
     taxCodeList,
   })

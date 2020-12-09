@@ -66,6 +66,7 @@ const getDefaultState = () => ({
   isJobLoading: false,
   businessId: '',
   region: '',
+  lastMonthInFinancialYear: undefined,
   openPosition: getDefaultOpenPosition(),
   editingNotePosition: undefined,
   isSubmittingNote: false,

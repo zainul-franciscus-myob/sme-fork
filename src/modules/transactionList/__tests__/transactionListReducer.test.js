@@ -13,20 +13,22 @@ import {
 } from '../TransactionListIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import Periods from '../../../components/PeriodPicker/Periods';
-import getDateRangeByPeriodAndRegion from '../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 import transactionListReducer from '../transactionListReducer';
 
-jest.mock('../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
+jest.mock(
+  '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY'
+);
 
 describe('transactionListReducer', () => {
   describe('SET_INITIAL_STATE', () => {
-    getDateRangeByPeriodAndRegion.mockReturnValue({
+    getDateRangeByPeriodAndLastMonthInFY.mockReturnValue({
       dateFrom: '2019-11-01',
       dateTo: '2019-11-30',
     });
 
-    const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion(
-      'au',
+    const { dateFrom, dateTo } = getDateRangeByPeriodAndLastMonthInFY(
+      6,
       new Date(),
       Periods.thisMonth
     );

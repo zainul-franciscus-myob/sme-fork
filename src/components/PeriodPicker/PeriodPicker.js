@@ -2,11 +2,11 @@ import { DatePicker, Select } from '@myob/myob-widgets';
 import React, { useEffect } from 'react';
 
 import Periods from './Periods';
-import getDateRangeByPeriodAndRegion from './getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from './getDateRangeByPeriodAndLastMonthInFY';
 import handleSelectChange from '../handlers/handleSelectChange';
 
 const PeriodPicker = ({
-  region,
+  lastMonthInFinancialYear,
   dateFrom,
   dateTo,
   period,
@@ -23,18 +23,28 @@ const PeriodPicker = ({
    */
   useEffect(() => {
     if (Periods.custom !== period) {
-      const dates = getDateRangeByPeriodAndRegion(region, new Date(), period);
+      const dates = getDateRangeByPeriodAndLastMonthInFY(
+        lastMonthInFinancialYear,
+        new Date(),
+        period
+      );
       if (dateFrom === dates.dateFrom || dateTo === dates.dateTo) return;
       onChange(dates);
     }
-  }, [dateFrom, dateTo, onChange, period, region]);
+  }, [dateFrom, dateTo, lastMonthInFinancialYear, onChange, period]);
 
   const onPeriodChange = handleSelectChange(({ value }) => {
     if (value === Periods.custom) {
       onChange({ period: value, dateFrom, dateTo });
       return;
     }
-    onChange(getDateRangeByPeriodAndRegion(region, new Date(), value));
+    onChange(
+      getDateRangeByPeriodAndLastMonthInFY(
+        lastMonthInFinancialYear,
+        new Date(),
+        value
+      )
+    );
   });
 
   const onDateChange = (key) => ({ value }) => {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getExportCompanyFileDetail } from '../selectors/ExportCompanyFileSelectors';
-import { getRegion } from '../selectors/DataImportExportSelectors';
+import { getLastMonthInFinancialYear } from '../selectors/DataImportExportSelectors';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleSelectChange from '../../../components/handlers/handleSelectChange';
@@ -19,12 +19,12 @@ const ExportCompanyFile = ({
     shouldShowClientCode,
   },
   onChange,
-  region,
+  lastMonthInFinancialYear,
   onPeriodChange,
 }) => (
   <>
     <PeriodPicker
-      region={region}
+      lastMonthInFinancialYear={lastMonthInFinancialYear}
       period={period}
       dateFrom={dateFrom}
       dateTo={dateTo}
@@ -59,7 +59,7 @@ const ExportCompanyFile = ({
 );
 
 const mapStateToProps = (state) => ({
-  region: getRegion(state),
+  lastMonthInFinancialYear: getLastMonthInFinancialYear(state),
   fileDetails: getExportCompanyFileDetail(state),
 });
 

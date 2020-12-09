@@ -5,14 +5,14 @@ import React from 'react';
 import {
   getFilterOptions,
   getIsEntryLoading,
-  getRegion,
+  getLastMonthInFinancialYear,
   getTransactionTypes,
 } from '../selectors';
 import FilterBarSearch from '../../../components/FilterBarSearch/FilterBarSearch';
 import PeriodPicker from '../../../components/PeriodPicker/PeriodPicker';
 
 const BankTransactionFilterOptions = ({
-  region,
+  lastMonthInFinancialYear,
   filterOptions: { transactionType, period, dateFrom, dateTo, keywords },
   transactionTypes,
   onPeriodChange,
@@ -49,7 +49,7 @@ const BankTransactionFilterOptions = ({
             ))}
           </Select>
           <PeriodPicker
-            region={region}
+            lastMonthInFinancialYear={lastMonthInFinancialYear}
             period={period}
             dateFrom={dateFrom}
             dateTo={dateTo}
@@ -68,7 +68,7 @@ const BankTransactionFilterOptions = ({
 };
 
 const mapStateToProps = (state) => ({
-  region: getRegion(state),
+  lastMonthInFinancialYear: getLastMonthInFinancialYear(state),
   filterOptions: getFilterOptions(state),
   transactionTypes: getTransactionTypes(state),
   isEntryLoading: getIsEntryLoading(state),

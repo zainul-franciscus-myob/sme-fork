@@ -26,7 +26,7 @@ import LoadingState from '../../components/PageView/LoadingState';
 import Periods from '../../components/PeriodPicker/Periods';
 import TabItem from './types/TabItem';
 import createReducer from '../../store/createReducer';
-import getDateRangeByPeriodAndRegion from '../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 
 const getDefaultState = () => ({
   settingsVersion: '2e182c2a-d781-11ea-87d0-0242ac130003',
@@ -36,6 +36,7 @@ const getDefaultState = () => ({
   isSubmitting: false,
   region: '',
   businessId: '',
+  lastMonthInFinancialYear: undefined,
   selectedTab: TabItem.IMPORT,
   email: '',
   import: {
@@ -108,7 +109,11 @@ const setInitialState = (state, { context, settings = {} }) => {
   const { period } = state.export.companyFile;
   const exportDates =
     period !== Periods.custom
-      ? getDateRangeByPeriodAndRegion(context.region, new Date(), period)
+      ? getDateRangeByPeriodAndLastMonthInFY(
+          state.lastMonthInFinancialYear,
+          new Date(),
+          period
+        )
       : {};
 
   const initialState = {
@@ -163,6 +168,7 @@ const setSelectedTab = (state, action) => ({
 const loadDataImportExport = (state, action) => ({
   ...state,
   email: action.email,
+  lastMonthInFinancialYear: action.lastMonthInFinancialYear,
   export: {
     ...state.export,
     businessName: action.export.businessName,

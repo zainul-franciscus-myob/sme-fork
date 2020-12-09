@@ -11,6 +11,8 @@ export const getTab = (state) => state.selectedTab;
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const getLastMonthInFinancialYear = (state) =>
+  state.lastMonthInFinancialYear;
 
 const getSettingsVersion = (state) => state.settingsVersion;
 const getPeriod = (state) => state.export.companyFile.period;

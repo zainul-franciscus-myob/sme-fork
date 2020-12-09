@@ -6,7 +6,7 @@ import {
   getAccountList,
   getActiveTab,
   getFilterOptions,
-  getRegion,
+  getLastMonthInFinancialYear,
 } from '../selectors/transactionListSelectors';
 import { tabItemIds } from '../tabItems';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -19,7 +19,6 @@ import styles from './TransactionListFilterOptions.module.css';
 
 const TransactionListFilterOptions = ({
   accountList,
-  region,
   filterOptions: {
     sourceJournal,
     dateFrom,
@@ -29,6 +28,7 @@ const TransactionListFilterOptions = ({
     period,
   },
   activeTab,
+  lastMonthInFinancialYear,
   onUpdateFilters,
   onResetFilters,
   onPeriodChange,
@@ -36,7 +36,7 @@ const TransactionListFilterOptions = ({
   <FilterBar onReset={onResetFilters}>
     <FilterBar.Group>
       <PeriodPicker
-        region={region}
+        lastMonthInFinancialYear={lastMonthInFinancialYear}
         period={period}
         dateFrom={dateFrom}
         dateTo={dateTo}
@@ -74,7 +74,7 @@ const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   activeTab: getActiveTab(state),
   accountList: getAccountList(state),
-  region: getRegion(state),
+  lastMonthInFinancialYear: getLastMonthInFinancialYear(state),
 });
 
 export default connect(mapStateToProps)(TransactionListFilterOptions);

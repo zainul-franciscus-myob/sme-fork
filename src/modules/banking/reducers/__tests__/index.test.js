@@ -9,18 +9,20 @@ import FocusLocations from '../../types/FocusLocations';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import TransactionTypes from '../../types/TransactionTypes';
 import bankingReducer from '../index';
-import getDateRangeByPeriodAndRegion from '../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion';
+import getDateRangeByPeriodAndLastMonthInFY from '../../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 import getDefaultState from '../getDefaultState';
 
-jest.mock('../../../../components/PeriodPicker/getDateRangeByPeriodAndRegion');
+jest.mock(
+  '../../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY'
+);
 
-getDateRangeByPeriodAndRegion.mockReturnValue({
+getDateRangeByPeriodAndLastMonthInFY.mockReturnValue({
   dateFrom: '2019-11-01',
   dateTo: '2019-11-30',
 });
 
-const { dateFrom, dateTo } = getDateRangeByPeriodAndRegion(
-  'au',
+const { dateFrom, dateTo } = getDateRangeByPeriodAndLastMonthInFY(
+  6,
   new Date(),
   Periods.thisMonth
 );

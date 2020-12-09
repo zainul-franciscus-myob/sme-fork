@@ -649,3 +649,6 @@ export const getMatchTransactionsContext = (state, index) => {
     },
   };
 };
+
+export const getLastMonthInFinancialYear = (state) =>
+  state.lastMonthInFinancialYear;
