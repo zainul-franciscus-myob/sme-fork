@@ -51,6 +51,7 @@ const InventoryModalView = ({
   onDismissAlert,
   onUpdateIsBuying,
   onUpdateIsSelling,
+  isItemBuyingPriceTaxInclusiveEnabled,
 }) => {
   const view = (
     <React.Fragment>
@@ -127,9 +128,11 @@ const InventoryModalView = ({
         {isBuying && (
           <BuyingDetails
             taxCodeLabel={taxCodeLabel}
-            onOpenBuyingDetails={onOpenBuyingDetails}
             onUpdateBuyingOption={onUpdateBuyingOption}
             onUpdateIsBuying={onUpdateIsBuying}
+            isItemBuyingPriceTaxInclusiveEnabled={
+              isItemBuyingPriceTaxInclusiveEnabled
+            }
           />
         )}
       </Modal.Body>

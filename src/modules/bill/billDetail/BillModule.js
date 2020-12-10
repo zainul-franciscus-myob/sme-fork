@@ -132,6 +132,7 @@ class BillModule {
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.openAlert,
+      featureToggles,
     });
     this.jobComboboxModule = new JobComboboxModule({
       integration,

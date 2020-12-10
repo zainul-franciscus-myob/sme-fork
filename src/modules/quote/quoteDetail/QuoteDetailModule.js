@@ -77,6 +77,7 @@ export default class QuoteDetailModule {
     popMessages,
     navigateTo,
     replaceURLParams,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -97,6 +98,7 @@ export default class QuoteDetailModule {
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.dispatcher.setAlert,
+      featureToggles,
     });
   }
 

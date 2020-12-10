@@ -106,6 +106,7 @@ class PurchaseOrderModule {
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.openAlert,
+      featureToggles,
     });
   }
 

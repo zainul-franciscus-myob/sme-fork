@@ -38,6 +38,7 @@ const getDefaultState = () => ({
     },
     buyingDetails: {
       price: '',
+      isTaxInclusive: true,
       unitOfMeasure: '',
       accountId: '',
       taxCodeId: '',
@@ -128,6 +129,10 @@ const updateSellingOption = (state, action) => {
 
 const updateBuyingOption = (state, action) => {
   const isAccountId = action.key === 'accountId';
+  const key =
+    action.key === 'isTaxInclusiveForBuyingDetails'
+      ? 'isTaxInclusive'
+      : action.key;
 
   return {
     ...state,
@@ -141,7 +146,7 @@ const updateBuyingOption = (state, action) => {
               accountId: action.value,
             })
           : state.item.buyingDetails.taxCodeId,
-        [action.key]: action.value,
+        [key]: action.value,
       },
     },
   };

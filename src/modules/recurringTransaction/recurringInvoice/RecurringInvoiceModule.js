@@ -75,6 +75,7 @@ export default class RecurringInvoiceModule {
     this.itemComboboxModule = new ItemComboboxModule({
       integration,
       onAlert: this.dispatcher.setAlert,
+      featureToggles,
     });
     this.jobComboboxModule = new JobComboboxModule({
       integration,

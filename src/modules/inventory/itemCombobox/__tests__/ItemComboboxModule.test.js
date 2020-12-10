@@ -21,7 +21,11 @@ describe('ItemComboboxModule', () => {
     const integration = new TestIntegration();
     const onAlert = jest.fn();
 
-    const module = new ItemComboboxModule({ integration, onAlert });
+    const module = new ItemComboboxModule({
+      integration,
+      onAlert,
+      featureToggles: { isItemBuyingPriceTaxInclusiveEnabled: true },
+    });
 
     const store = new TestStore(itemComboboxReducer);
     module.store = store;

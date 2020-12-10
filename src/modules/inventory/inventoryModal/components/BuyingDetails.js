@@ -12,14 +12,18 @@ import React from 'react';
 import {
   getBuyingAccountId,
   getBuyingAccountOptions,
+  getBuyingIsTaxInclusive,
   getBuyingPrice,
   getBuyingTaxCodeId,
   getBuyingUnitOfMeasure,
   getIsBuying,
   getTaxCodeOptions,
+  getTaxExclusiveLabel,
+  getTaxInclusiveLabel,
 } from '../selectors/InventoryModalSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import TaxCodeCombobox from '../../../../components/combobox/TaxCodeCombobox';
 import handleAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
@@ -28,15 +32,19 @@ import handleInputChange from '../../../../components/handlers/handleInputChange
 
 const BuyingDetails = ({
   isBuying,
+  isTaxInclusiveForBuyingDetails,
   price,
   unitOfMeasure,
   accountId,
   taxCodeId,
   taxCodeOptions,
   taxCodeLabel,
+  taxInclusiveLabel,
+  taxExclusiveLabel,
   accountOptions,
   onUpdateBuyingOption,
   onUpdateIsBuying,
+  isItemBuyingPriceTaxInclusiveEnabled,
 }) => (
   <FieldGroup label="Buying details">
     <CheckboxGroup
@@ -62,6 +70,16 @@ const BuyingDetails = ({
       numeralDecimalScaleMax={6}
       width="sm"
     />
+    {isItemBuyingPriceTaxInclusiveEnabled && (
+      <BooleanRadioButtonGroup
+        label="Buying price is"
+        name="isTaxInclusiveForBuyingDetails"
+        value={isTaxInclusiveForBuyingDetails}
+        trueLabel={taxInclusiveLabel}
+        falseLabel={taxExclusiveLabel}
+        handler={onUpdateBuyingOption}
+      />
+    )}
     <Input
       label="Unit of measure"
       name="unitOfMeasure"
@@ -103,6 +121,9 @@ const mapStateToProps = (state) => ({
   taxCodeId: getBuyingTaxCodeId(state),
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getBuyingAccountOptions(state),
+  taxInclusiveLabel: getTaxInclusiveLabel(state),
+  taxExclusiveLabel: getTaxExclusiveLabel(state),
+  isTaxInclusiveForBuyingDetails: getBuyingIsTaxInclusive(state),
 });
 
 export default connect(mapStateToProps)(BuyingDetails);

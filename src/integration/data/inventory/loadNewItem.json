@@ -13,6 +13,7 @@
     },
     "buyingDetails":{
       "price":"",
+      "isTaxInclusive":true,
       "unitOfMeasure":"",
       "accountId":"",
       "taxCodeId":""}

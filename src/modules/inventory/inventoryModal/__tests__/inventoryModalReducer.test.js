@@ -250,6 +250,32 @@ describe('inventoryModalReducer', () => {
 
       expect(actual.item.buyingDetails.taxCodeId).toEqual('3');
     });
+
+    it('updates isTaxInclusive when key is isTaxInclusiveForBuyingDetails', () => {
+      const state = {
+        item: {
+          buyingDetails: {
+            isTaxInclusive: false,
+          },
+        },
+      };
+
+      const action = {
+        intent: UPDATE_BUYING_OPTION,
+        key: 'isTaxInclusiveForBuyingDetails',
+        value: true,
+      };
+
+      const actual = inventoryModalReducer(state, action);
+
+      expect(actual).toEqual({
+        item: {
+          buyingDetails: {
+            isTaxInclusive: true,
+          },
+        },
+      });
+    });
   });
 
   describe('UPDATE_IS_BUYING', () => {
@@ -277,6 +303,7 @@ describe('inventoryModalReducer', () => {
             price: '$1.00',
             taxCodeId: '1',
             unitOfMeasure: 'a',
+            isTaxInclusive: false,
           },
         },
       };
@@ -296,6 +323,7 @@ describe('inventoryModalReducer', () => {
             price: '',
             taxCodeId: '',
             unitOfMeasure: '',
+            isTaxInclusive: true,
           },
         },
       });

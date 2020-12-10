@@ -11,7 +11,7 @@ import createItemComboboxIntegrator from './createItemComboboxIntegrator';
 import itemComboboxReducer from './itemComboboxReducer';
 
 export default class ItemComboboxModule {
-  constructor({ integration, onAlert = () => {} }) {
+  constructor({ integration, onAlert = () => {}, featureToggles }) {
     this.onAlert = onAlert;
 
     this.store = new Store(itemComboboxReducer);
@@ -21,7 +21,7 @@ export default class ItemComboboxModule {
     });
     this.dispatcher = createItemComboboxDispatcher({ store: this.store });
 
-    this.itemModalModule = new ItemModalModule({ integration });
+    this.itemModalModule = new ItemModalModule({ integration, featureToggles });
   }
 
   resetState = () => {

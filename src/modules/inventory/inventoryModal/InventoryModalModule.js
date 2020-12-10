@@ -9,10 +9,11 @@ import createInventoryModalIntegrator from './createInventoryModalIntegrator';
 import inventoryModalReducer from './inventoryModalReducer';
 
 export default class InventoryModalModule {
-  constructor({ integration }) {
+  constructor({ integration, featureToggles }) {
     this.store = new Store(inventoryModalReducer);
     this.dispatcher = createInventoryModalDispatcher(this.store);
     this.integrator = createInventoryModalIntegrator(this.store, integration);
+    this.featureToggles = featureToggles;
   }
 
   isOpened = () => getIsOpen(this.store.getState());
@@ -74,6 +75,10 @@ export default class InventoryModalModule {
           onOpenSellingDetails={this.dispatcher.openSellingDetails}
           onUpdateIsBuying={this.dispatcher.updateIsBuying}
           onUpdateIsSelling={this.dispatcher.updateIsSelling}
+          isItemBuyingPriceTaxInclusiveEnabled={
+            this.featureToggles &&
+            this.featureToggles.isItemBuyingPriceTaxInclusiveEnabled
+          }
         />
       </Provider>
     );
