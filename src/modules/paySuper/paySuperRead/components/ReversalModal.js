@@ -2,7 +2,7 @@ import { Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
 const ReversalModal = ({ onCancelButtonClick, onReverseButtonClick }) => (
-  <Modal title="Authorise payment" onCancel={onCancelButtonClick}>
+  <Modal title="Reverse transaction?" onCancel={onCancelButtonClick}>
     <Modal.Body>
       <p>
         This will only reverse the transaction in MYOB. If it&apos;s already

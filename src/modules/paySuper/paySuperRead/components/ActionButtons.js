@@ -6,6 +6,8 @@ const reverseButtonStatus = [
   'FundsUnavailable',
   'FundsTransferError',
   'PaymentDispersmentError',
+  'PartiallyAuthorised',
+  'Created',
 ];
 const recordReversalButtonStatus = ['RecordReversal'];
 const ActionButtons = ({
@@ -20,35 +22,29 @@ const ActionButtons = ({
       Cancel
     </Button>
   );
-  if (authoriseButtonStatus.includes(status)) {
-    return (
-      <ButtonRow
-        primary={[
-          CancelButton,
-          <Button key="authorize" type="primary" onClick={onAuthoriseClick}>
-            Authorise
-          </Button>,
-        ]}
-      />
-    );
-  }
-  if (reverseButtonStatus.includes(status)) {
-    return (
-      <ButtonRow
-        primary={[
-          CancelButton,
-          <Button
-            testid="reversalButton"
-            key="reverse"
-            type="primary"
-            onClick={onReverseClick}
-          >
-            Reverse transaction
-          </Button>,
-        ]}
-      />
-    );
-  }
+
+  const reverseButton = (
+    <Button
+      testid="reversalButton"
+      key="reverse"
+      type={authoriseButtonStatus.includes(status) ? 'secondary' : 'primary'}
+      onClick={onReverseClick}
+    >
+      Reverse transaction
+    </Button>
+  );
+
+  const authoriseButton = (
+    <Button
+      testid="authorizeButton"
+      key="authorize"
+      type="primary"
+      onClick={onAuthoriseClick}
+    >
+      Authorise
+    </Button>
+  );
+
   if (recordReversalButtonStatus.includes(status)) {
     return (
       <ButtonRow
@@ -66,6 +62,14 @@ const ActionButtons = ({
       />
     );
   }
-  return <ButtonRow primary={[CancelButton]} />;
+  return (
+    <ButtonRow
+      primary={[
+        CancelButton,
+        reverseButtonStatus.includes(status) && reverseButton,
+        authoriseButtonStatus.includes(status) && authoriseButton,
+      ]}
+    />
+  );
 };
 export default ActionButtons;
