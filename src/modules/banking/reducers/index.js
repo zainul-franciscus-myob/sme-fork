@@ -14,6 +14,7 @@ import {
   FINISH_LOADING_OPEN_ENTRY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSFER_MONEY,
@@ -158,7 +159,6 @@ const loadBankTransactions = (state, action) => ({
   depositAccounts: action.depositAccounts,
   transferAccounts: action.transferAccounts,
   bulkAllocationAccounts: action.bulkAllocationAccounts,
-  balances: action.balances,
   taxCodes: action.taxCodes,
   jobs: action.jobs,
   entries: action.entries.map((entry) => ({
@@ -175,6 +175,11 @@ const loadBankTransactions = (state, action) => ({
     bankAccount: action.bankAccount,
   },
   lastMonthInFinancialYear: action.lastMonthInFinancialYear,
+});
+
+const loadBankBalances = (state, action) => ({
+  ...state,
+  balances: action.balances,
 });
 
 const loadBankTransactionsNextPage = (state, action) => {
@@ -197,7 +202,6 @@ const sortAndFilterBankTransactions = (state, action) => ({
   ...state,
   viewCode: action.viewCode,
   entries: action.entries,
-  balances: action.balances,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
   pagination: {
@@ -482,6 +486,7 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
 
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
+  [LOAD_BANK_BALANCES]: loadBankBalances,
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,

@@ -6,6 +6,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSFER_MONEY,
@@ -26,6 +27,7 @@ import allocatedBankTransaction from './data/allocatedBankTransaction';
 import applyBankingRuleResponse from './data/applyBankingRuleResponse.json';
 import attachmentDetailResponse from './data/attachmentDetail';
 import attachments from './data/loadAttachmentsResponse';
+import bankBalances from './data/loadBankBalances';
 import bankTransactions from './data/loadBankTransactions';
 import bankTransactionsNextPage from './data/loadBankTransactionsNextPage';
 import bulkAllocatedBankTransaction from './data/bulkAllocatedBankTransaction';
@@ -45,6 +47,7 @@ import updateNoteResponse from './data/updateBankFeedNoteResponse';
 import uploadAttachmentResponse from './data/uploadAttachmentResponse';
 
 const loadBankTransactions = ({ onSuccess }) => onSuccess(bankTransactions);
+const loadBankBalances = ({ onSuccess }) => onSuccess(bankBalances);
 const loadBankTransactionsNextPage = ({ onSuccess }) =>
   onSuccess(bankTransactionsNextPage);
 const filterBankTransactions = ({ onSuccess }) =>
@@ -82,6 +85,7 @@ const loadAddedAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 
 const MemoryBankingMapping = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
+  [LOAD_BANK_BALANCES]: loadBankBalances,
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: filterBankTransactions,
   [ALLOCATE_TRANSACTION]: allocateBankTransaction,

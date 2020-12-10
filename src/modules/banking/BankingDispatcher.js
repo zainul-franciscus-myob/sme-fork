@@ -11,6 +11,7 @@ import {
   FINISH_LOADING_OPEN_ENTRY,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   OPEN_BULK_ALLOCATION,
@@ -143,6 +144,13 @@ const createBankingDispatcher = (store) => ({
   loadBankTransactions: (payload) => {
     store.dispatch({
       intent: LOAD_BANK_TRANSACTIONS,
+      ...payload,
+    });
+  },
+
+  loadBankBalances: (payload) => {
+    store.dispatch({
+      intent: LOAD_BANK_BALANCES,
       ...payload,
     });
   },

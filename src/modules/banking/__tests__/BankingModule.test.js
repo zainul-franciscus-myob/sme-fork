@@ -36,6 +36,7 @@ import {
   DELETE_SPLIT_ALLOCATION_LINE,
   FINISH_LOADING_OPEN_ENTRY,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSFER_MONEY,
@@ -347,6 +348,9 @@ describe('BankingModule', () => {
         },
         expect.objectContaining({
           intent: LOAD_BANK_TRANSACTIONS,
+        }),
+        expect.objectContaining({
+          intent: LOAD_BANK_BALANCES,
         }),
       ]);
 
@@ -1558,6 +1562,9 @@ describe('BankingModule', () => {
       expect.objectContaining({
         intent: SORT_AND_FILTER_BANK_TRANSACTIONS,
       }),
+      expect.objectContaining({
+        intent: LOAD_BANK_BALANCES,
+      }),
     ];
 
     const failedFilterActions = [
@@ -1607,6 +1614,9 @@ describe('BankingModule', () => {
             params: expect.objectContaining({
               [filterName]: value,
             }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_BANK_BALANCES,
           }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalledWith(
@@ -1697,6 +1707,9 @@ describe('BankingModule', () => {
               [filterName]: value,
             }),
           }),
+          expect.objectContaining({
+            intent: LOAD_BANK_BALANCES,
+          }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -1783,6 +1796,9 @@ describe('BankingModule', () => {
             params: expect.objectContaining({
               ...periodDateRange,
             }),
+          }),
+          expect.objectContaining({
+            intent: LOAD_BANK_BALANCES,
           }),
         ]);
         expect(module.replaceURLParams).toHaveBeenCalledWith(

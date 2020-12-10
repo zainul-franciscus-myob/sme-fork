@@ -6,6 +6,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   OPEN_ATTACHMENT,
@@ -23,6 +24,7 @@ import {
   getEditingNoteTransaction,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
+  getLoadBankBalancesUrlParams,
   getLoadBankTransactionsNextPageParams,
   getLoadBankTransactionsNextPageUrlParams,
   getLoadBankTransactionsParams,
@@ -55,6 +57,20 @@ const createBankingIntegrator = (store, integration) => ({
       intent,
       urlParams,
       params,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  loadBankBalances: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = LOAD_BANK_BALANCES;
+    const urlParams = getLoadBankBalancesUrlParams(state);
+
+    integration.read({
+      intent,
+      urlParams,
       onSuccess,
       onFailure,
     });

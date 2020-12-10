@@ -1,12 +1,6 @@
 {
   "sortOrder": "asc",
   "orderBy": "Date",
-  "balances": {
-    "bankBalance": 12000.55,
-    "myobBalance": 15342,
-    "unallocated": 3342.55,
-    "bankBalanceDate": "25/2/2019"
-  },
   "entries": [
     {
       "transactionId": "1",

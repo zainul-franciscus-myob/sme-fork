@@ -496,10 +496,12 @@ const getHasPagination = (state) => state.hasPagination;
 
 export const getHasAllBankAccounts = (state) => state.hasAllBankAccounts;
 
-export const getLoadBankTransactionsUrlParams = createSelector(
+export const getLoadBankBalancesUrlParams = createSelector(
   getBusinessId,
-  (businessId) => ({ businessId })
+  getBankAccount,
+  (businessId, bankAccount) => ({ businessId, bankAccount })
 );
+
 export const getLoadBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
@@ -511,6 +513,11 @@ export const getLoadBankTransactionsParams = createSelector(
     orderBy,
     hasPagination,
   })
+);
+
+export const getLoadBankTransactionsUrlParams = createSelector(
+  getBusinessId,
+  (businessId) => ({ businessId })
 );
 
 export const getLoadBankTransactionsNextPageUrlParams = createSelector(

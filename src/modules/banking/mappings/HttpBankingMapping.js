@@ -6,6 +6,7 @@ import {
   LINK_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ATTACHMENTS,
+  LOAD_BANK_BALANCES,
   LOAD_BANK_TRANSACTIONS,
   LOAD_BANK_TRANSACTIONS_NEXT_PAGE,
   LOAD_MATCH_TRANSFER_MONEY,
@@ -28,6 +29,11 @@ const HttpBankingMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/banking/load_bank_transactions`,
+  },
+  [LOAD_BANK_BALANCES]: {
+    method: 'GET',
+    getPath: ({ businessId, bankAccount }) =>
+      `/${businessId}/banking/load_bank_balance/${bankAccount}`,
   },
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: {
     method: 'GET',

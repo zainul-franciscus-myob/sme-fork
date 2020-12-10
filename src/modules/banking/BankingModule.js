@@ -528,6 +528,7 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankTransactions(payload);
+      this.loadBankBalance();
     };
 
     const onFailure = () => {
@@ -535,6 +536,19 @@ export default class BankingModule {
     };
 
     this.integrator.loadBankTransactions({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  loadBankBalance = () => {
+    const onSuccess = (payload) => {
+      this.dispatcher.loadBankBalances(payload);
+    };
+
+    const onFailure = () => {};
+
+    this.integrator.loadBankBalances({
       onSuccess,
       onFailure,
     });
@@ -582,6 +596,7 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.sortAndFilterBankTransactions(false, payload);
+      this.loadBankBalance();
     };
 
     const onFailure = ({ message }) => {

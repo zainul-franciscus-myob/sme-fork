@@ -11,6 +11,7 @@ export const START_MODAL_BLOCKING = Symbol('Start modal blocking');
 export const STOP_MODAL_BLOCKING = Symbol('Stop modal blocking');
 
 export const LOAD_BANK_TRANSACTIONS = Symbol('Load list of bank transactions');
+export const LOAD_BANK_BALANCES = Symbol('Load bank balances');
 export const LOAD_BANK_TRANSACTIONS_NEXT_PAGE = Symbol(
   'Load list of bank transactions next page'
 );
