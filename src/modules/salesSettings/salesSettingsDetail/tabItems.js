@@ -10,7 +10,7 @@ export const mainTabIds = {
 export const mainTabItems = [
   {
     id: mainTabIds.layoutAndTheme,
-    label: 'Layout and theme',
+    label: 'Layout',
     hasActions: true,
   },
   { id: mainTabIds.templates, label: 'Templates', hasActions: false },

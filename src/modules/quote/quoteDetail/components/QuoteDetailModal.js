@@ -111,7 +111,7 @@ const QuoteDetailModal = ({
         onCancel={onCloseEmailSettingButtonClick}
         onConfirm={onConfirmEmailSettingButtonClick}
         title="Enter email reply details in settings"
-        description="Looks like there are no email reply details for you business in Invoice and quote settings. You'll need to enter these details before you can send this email."
+        description="Looks like there are no email reply details for your business in Sales settings. You'll need to enter these details before you can send this email."
         alert={modalAlert}
         onDismissAlert={onDismissAlert}
       />

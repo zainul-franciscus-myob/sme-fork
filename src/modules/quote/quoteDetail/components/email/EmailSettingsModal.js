@@ -23,7 +23,7 @@ const EmailSettingsModal = ({
         Go back
       </Button>
       <Button type="primary" onClick={onConfirm}>
-        Go to Invoice and quote settings
+        Go to Sales settings
       </Button>
     </Modal.Footer>
   </Modal>

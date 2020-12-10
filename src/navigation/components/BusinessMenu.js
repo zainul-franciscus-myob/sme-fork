@@ -98,11 +98,7 @@ const getItems = ({
     urls.incomeAllocation &&
       getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
     urls.salesSettings &&
-      getMenuLink(
-        urls.salesSettings,
-        'Invoice and quote settings',
-        onMenuLinkClick
-      ),
+      getMenuLink(urls.salesSettings, 'Sales settings', onMenuLinkClick),
     urls.payrollSettings &&
       getMenuLink(urls.payrollSettings, 'Payroll settings', onMenuLinkClick),
     urls.purchaseSettings &&

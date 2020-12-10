@@ -19,7 +19,7 @@ const getSalesSettingsRoutes = ({
       replaceURLParams,
       addedPaymentDetails,
     }),
-    documentTitle: 'Invoice and quote settings',
+    documentTitle: 'Sales settings',
   },
 ];
 

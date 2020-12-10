@@ -94,7 +94,7 @@ const SalesSettingsDetailView = ({
       )}
       <FormTemplate
         alert={alertComponent}
-        pageHead="Invoice and quote settings"
+        pageHead="Sales settings"
         sticky="none"
       >
         {subHeadTabs}

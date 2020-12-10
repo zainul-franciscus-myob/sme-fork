@@ -19,7 +19,7 @@ const SalesSettingsLayoutDetails = ({
     <FieldGroup label="Layout">
       <Select
         name="defaultSaleLayout"
-        label="Field Layout"
+        label="Field layout"
         value={salesSettings.defaultSaleLayout}
         onChange={onInputChange(onUpdateSalesSettingsItem)}
       >
