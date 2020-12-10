@@ -9,6 +9,7 @@ import AccountModalModule from '../account/accountModal/AccountModalModule';
 import LinkedAccountsView from './components/LinkedAccountsView';
 import LoadingState from '../../components/PageView/LoadingState';
 import Store from '../../store/Store';
+import TabItem from './TabItem';
 import createLinkedAccountsDispatcher from './createLinkedAccountsDispatcher';
 import createLinkedAccountsIntegrator from './createLinkedAccountsIntegrator';
 import keyMap from '../../hotKeys/keyMap';
@@ -43,6 +44,15 @@ class LinkedAccountsModule {
       );
       this.dispatcher.setIsLateChargeRequired(response.isLateChargeRequired);
       this.dispatcher.loadLinkedAccounts(response);
+
+      if (
+        response.shouldDisplayAccountsBankingTab === false &&
+        response.shouldDisplayPayrollTab === true
+      ) {
+        this.dispatcher.setSelectedTab(TabItem.PAYROLL);
+      } else {
+        this.dispatcher.setSelectedTab(TabItem.ACCOUNTS_AND_BANKING);
+      }
     };
 
     const onFailure = () => this.setLoadingState(LoadingState.LOADING_FAIL);

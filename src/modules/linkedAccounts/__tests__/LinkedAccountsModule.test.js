@@ -86,6 +86,10 @@ describe('LinkedAccountsModule', () => {
           isLateChargeRequired: false,
         },
         expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
+        {
+          intent: SET_SELECTED_TAB,
+          selectedTab: 'ACCOUNTS_AND_BANKING',
+        },
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: LOAD_LINKED_ACCOUNTS }),
