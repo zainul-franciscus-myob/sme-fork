@@ -20,6 +20,7 @@ import {
   POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  RESET_BANK_BALANCES,
   RESET_BULK_ALLOCATION,
   RESET_FILTERS,
   SAVE_PENDING_NOTE,
@@ -152,6 +153,12 @@ const createBankingDispatcher = (store) => ({
     store.dispatch({
       intent: LOAD_BANK_BALANCES,
       ...payload,
+    });
+  },
+
+  resetBankBalances: () => {
+    store.dispatch({
+      intent: RESET_BANK_BALANCES,
     });
   },
 

@@ -546,7 +546,9 @@ export default class BankingModule {
       this.dispatcher.loadBankBalances(payload);
     };
 
-    const onFailure = () => {};
+    const onFailure = () => {
+      this.dispatcher.resetBankBalances();
+    };
 
     this.integrator.loadBankBalances({
       onSuccess,

@@ -28,6 +28,7 @@ import {
   POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
   REMOVE_ATTACHMENT_BY_INDEX,
+  RESET_BANK_BALANCES,
   RESET_BULK_ALLOCATION,
   RESET_FILTERS,
   SAVE_PENDING_NOTE,
@@ -180,6 +181,11 @@ const loadBankTransactions = (state, action) => ({
 const loadBankBalances = (state, action) => ({
   ...state,
   balances: action.balances,
+});
+
+const resetBankBalances = (state) => ({
+  ...state,
+  balances: getDefaultState().balances,
 });
 
 const loadBankTransactionsNextPage = (state, action) => {
@@ -487,6 +493,7 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
 const handlers = {
   [LOAD_BANK_TRANSACTIONS]: loadBankTransactions,
   [LOAD_BANK_BALANCES]: loadBankBalances,
+  [RESET_BANK_BALANCES]: resetBankBalances,
   [LOAD_BANK_TRANSACTIONS_NEXT_PAGE]: loadBankTransactionsNextPage,
   [SORT_AND_FILTER_BANK_TRANSACTIONS]: sortAndFilterBankTransactions,
   [UPDATE_FILTER_OPTIONS]: updateFilterOptions,

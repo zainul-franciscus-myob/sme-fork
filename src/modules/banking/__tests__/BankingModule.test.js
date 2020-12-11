@@ -45,6 +45,7 @@ import {
   OPEN_MODAL,
   POPULATE_REMAINING_AMOUNT,
   REMOVE_ATTACHMENT,
+  RESET_BANK_BALANCES,
   RESET_BULK_ALLOCATION,
   SAVE_SPLIT_ALLOCATION,
   SAVE_TRANSFER_MONEY,
@@ -359,6 +360,21 @@ describe('BankingModule', () => {
           expect.objectContaining({
             intent: LOAD_BANK_TRANSACTIONS,
           }),
+        ])
+      );
+    });
+
+    it('fails to load bank balances', () => {
+      const { store, integration, module } = setUp();
+      integration.mapFailure(LOAD_BANK_BALANCES);
+
+      module.run({});
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: RESET_BANK_BALANCES,
+          },
         ])
       );
     });
