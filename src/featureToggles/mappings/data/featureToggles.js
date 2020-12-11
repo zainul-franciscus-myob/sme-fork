@@ -22,4 +22,5 @@ export default {
   isHolidaysAndLeaveLinesEnabled: true,
   isNzPaydayFilingEnabled: true,
   isNzPayrollAccountingEnabled: true,
+  isEInvoicingEnabled: true,
 };

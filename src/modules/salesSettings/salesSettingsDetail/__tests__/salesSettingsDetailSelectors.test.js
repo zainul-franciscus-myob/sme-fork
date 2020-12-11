@@ -1,9 +1,14 @@
 import {
+  getIsSubscribed,
+  getMarketplaceLink,
   getReminderLink,
+  getShowActions,
   getShowDateField,
   getShowDateInput,
   getTemplates,
 } from '../SalesSettingsDetailSelectors';
+import { mainTabIds } from '../tabItems';
+import Region from '../../../../common/types/Region';
 
 describe('salesSettingsSelectors', () => {
   describe('getShowDateField', () => {
@@ -144,4 +149,65 @@ describe('salesSettingsSelectors', () => {
       expect(actual[0].link).toEqual(expected);
     });
   });
+});
+
+describe('getIsSubscribed', () => {
+  it.each([
+    ['testvalue', true],
+    ['', false],
+  ])('checks einvoice subsribed status', (appName, expected) => {
+    const state = {
+      salesSettings: {
+        eInvoicingAppName: appName,
+      },
+    };
+    expect(getIsSubscribed(state)).toEqual(expected);
+  });
+});
+
+describe('getShowActions', () => {
+  it.each([
+    [Region.au, false],
+    [
+      Region.nz,
+      new TypeError(`Cannot read property 'hasActions' of undefined`),
+    ],
+  ])(
+    'checks eInvoicing visiblity of tabs for region',
+    (testRegion, expected) => {
+      const state = {
+        region: testRegion,
+        selectedTab: mainTabIds.eInvoicing,
+        isEInvoicingEnabled: true,
+      };
+
+      try {
+        expect(getShowActions(state)).toEqual(expected);
+      } catch (e) {
+        expect(e).toEqual(expected);
+      }
+    }
+  );
+});
+
+describe('marketplaceClick', () => {
+  it.each([
+    [
+      Region.au,
+      'https://www.myob.com/au/apps/category/tasks?category=einvoicing',
+    ],
+    [
+      Region.nz,
+      'https://www.myob.com/nz/apps/category/tasks?category=einvoicing',
+    ],
+  ])(
+    'checks marketplace link is correct for region',
+    (testRegion, expected) => {
+      const state = {
+        region: testRegion,
+      };
+
+      expect(getMarketplaceLink(state)).toEqual(expected);
+    }
+  );
 });

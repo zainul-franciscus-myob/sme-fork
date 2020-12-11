@@ -11,7 +11,8 @@
       "branch": "1234",
       "accountNumber": "12345678",
       "suffix": "123",
-      "isAllowPaymentsByMail": true
+      "isAllowPaymentsByMail": true,
+      "eInvoicingAppName": "NZ APP Name"
     },
     "emailSettings": {
       "fromName": "Alex Skoufis",

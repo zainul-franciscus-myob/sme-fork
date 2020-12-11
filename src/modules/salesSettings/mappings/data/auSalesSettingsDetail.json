@@ -9,7 +9,8 @@
     "accountName": "Alex Skoufis",
     "bsbNumber": "123456",
     "accountNumber": "123456789",
-    "isAllowPaymentsByMail": true
+    "isAllowPaymentsByMail": true,
+    "eInvoicingAppName": "AU APP Name"
   },
   "emailSettings": {
     "fromName": "Alex Skoufis",

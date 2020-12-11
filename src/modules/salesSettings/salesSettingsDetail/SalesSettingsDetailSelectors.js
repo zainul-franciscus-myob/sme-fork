@@ -24,7 +24,10 @@ const getPayDirectUrl = (state) => state.payDirect.url;
 const getPayDirectRegistrationUrl = (state) => state.payDirect.registrationUrl;
 export const getIsTrial = (state) => state.subscription.isTrial;
 export const getShowActions = (state) =>
-  mainTabItems.find((tab) => tab.id === state.selectedTab).hasActions;
+  mainTabItems(state.region, state.isEInvoicingEnabled).find(
+    (tab) => tab.id === state.selectedTab
+  ).hasActions;
+export const getEInvoicingStatus = (state) => state.isEInvoicingEnabled;
 export const getAccountOptions = (state) => state.accountOptions;
 const getSerialNumber = (state) => state.serialNumber;
 
@@ -85,6 +88,15 @@ export const getPayDirectRegistrationLink = createSelector(
 
 export const getReminderLink = (state) =>
   `${state.reminders.url}?consumer=ARL&origin=global&cfid=${state.businessId}`;
+
+export const getMarketplaceLink = (state) =>
+  `https://www.myob.com/${state.region}/apps/category/tasks?category=einvoicing`;
+
+export const getIsSubscribed = (state) =>
+  state.salesSettings?.eInvoicingAppName !== '';
+
+export const getEInvoicingAppName = (state) =>
+  state.salesSettings?.eInvoicingAppName;
 
 const getTemplateSettings = (state) => state.templateSettings;
 

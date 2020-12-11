@@ -7,6 +7,8 @@ const getSalesSettingsRoutes = ({
   popMessages,
   replaceURLParams,
   globalCallbacks: { addedPaymentDetails },
+  navigateTo,
+  featureToggles,
 }) => [
   {
     name: RouteName.SALES_SETTINGS,
@@ -18,6 +20,8 @@ const getSalesSettingsRoutes = ({
       popMessages,
       replaceURLParams,
       addedPaymentDetails,
+      navigateTo,
+      featureToggles,
     }),
     documentTitle: 'Sales settings',
   },

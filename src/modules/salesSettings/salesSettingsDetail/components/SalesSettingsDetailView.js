@@ -4,8 +4,10 @@ import React from 'react';
 
 import {
   getAlert,
+  getEInvoicingStatus,
   getLoadingState,
   getModalType,
+  getRegion,
   getSelectedTab,
   getShowActions,
 } from '../SalesSettingsDetailSelectors';
@@ -13,6 +15,7 @@ import { mainTabIds, mainTabItems } from '../tabItems';
 import PageView from '../../../../components/PageView/PageView';
 import SaleSettingsModal from './SaleSettingsModal';
 import SalesSettingsDetailActions from './SalesSettingsDetailActions';
+import SalesSettingsEInvoicingDetails from './SalesSettingsEInvoiceDetails';
 import SalesSettingsEmailDetails from './SalesSettingsEmailDetails';
 import SalesSettingsLayoutDetails from './SalesSettingsLayoutDetails';
 import SalesSettingsPaymentsDetails from './SalesSettingsPaymentsDetails';
@@ -28,15 +31,18 @@ const SalesSettingsDetailView = ({
   onConfirmDeleteTemplate,
   onConfirmSwitchTab,
   onDismissAlert,
+  onMarketPlaceClick,
   onSalesSettingsSave,
   onSaveEmailSettings,
   onSubscribeNowClick,
   onTabSelect,
   onUpdateEmailSettings,
   onUpdateSalesSettingsItem,
+  region,
   selectedTab,
   showActions,
   templateHandlers,
+  isEInvoicingEnabled,
 }) => {
   const Content = {
     [mainTabIds.payments]: SalesSettingsPaymentsDetails,
@@ -44,6 +50,7 @@ const SalesSettingsDetailView = ({
     [mainTabIds.templates]: SalesSettingsTemplateDetails,
     [mainTabIds.reminders]: SalesSettingsRemindersDetails,
     [mainTabIds.emailDefaults]: SalesSettingsEmailDetails,
+    [mainTabIds.eInvoicing]: SalesSettingsEInvoicingDetails,
   }[selectedTab];
 
   const contentProps = {
@@ -60,6 +67,9 @@ const SalesSettingsDetailView = ({
     [mainTabIds.emailDefaults]: {
       onUpdateEmailSettings,
     },
+    [mainTabIds.eInvoicing]: {
+      onMarketPlaceClick,
+    },
   }[selectedTab];
 
   const saveHandler = {
@@ -70,7 +80,7 @@ const SalesSettingsDetailView = ({
 
   const subHeadTabs = (
     <Tabs
-      items={mainTabItems}
+      items={mainTabItems(region, isEInvoicingEnabled)}
       onSelected={onTabSelect}
       selected={selectedTab}
     />
@@ -113,8 +123,10 @@ const SalesSettingsDetailView = ({
 
 const mapStateToProps = (state) => ({
   alert: getAlert(state),
+  isEInvoicingEnabled: getEInvoicingStatus(state),
   loadingState: getLoadingState(state),
   modalType: getModalType(state),
+  region: getRegion(state),
   selectedTab: getSelectedTab(state),
   showActions: getShowActions(state),
 });

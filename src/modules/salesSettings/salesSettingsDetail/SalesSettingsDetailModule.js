@@ -8,6 +8,7 @@ import {
   getIsPageEdited,
   getIsTemplatesLoading,
   getLoadingState,
+  getMarketplaceLink,
   getModalType,
   getNewSortOrder,
   getPendingDeleteTemplate,
@@ -20,6 +21,7 @@ import {
   getTabData,
 } from './SalesSettingsDetailSelectors';
 import { mainTabIds } from './tabItems';
+import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
 import SalesSettingsView from './components/SalesSettingsDetailView';
 import Store from '../../../store/Store';
@@ -35,10 +37,12 @@ import setupHotKeys from '../../../hotKeys/setupHotKeys';
 export default class SalesSettingsModule {
   constructor({
     integration,
+    navigateTo,
     setRootView,
     popMessages,
     replaceURLParams,
     addedPaymentDetails,
+    featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
@@ -48,6 +52,8 @@ export default class SalesSettingsModule {
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
+    this.featureToggles = featureToggles;
   }
 
   loadSalesSettings = () => {
@@ -257,6 +263,7 @@ export default class SalesSettingsModule {
           onSortTemplateList: this.sortTemplateList,
           onActionSelect: this.handleActionSelect,
         }}
+        onMarketPlaceClick={this.marketplaceClick}
       />
     );
 
@@ -301,7 +308,11 @@ export default class SalesSettingsModule {
   };
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
+    const fullContext = {
+      ...context,
+      isEInvoicingEnabled: this.featureToggles?.isEInvoicingEnabled,
+    };
+    this.dispatcher.setInitialState(fullContext);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     setupHotKeys(keyMap, this.handlers);
@@ -333,5 +344,18 @@ export default class SalesSettingsModule {
     window.location.href = `/#/${region}/${businessId}/template/${encodeTemplateName(
       name
     )}`;
+  };
+
+  marketplaceClick = () => {
+    const state = this.store.getState();
+    const link = getMarketplaceLink(state);
+    this.navigateTo(link, true);
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_eInvoicingMarketplace',
+        page: 'salesSettings/eInvoicing',
+      },
+    });
   };
 }
