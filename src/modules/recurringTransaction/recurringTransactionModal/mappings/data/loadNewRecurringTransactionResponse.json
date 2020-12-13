@@ -1,0 +1,10 @@
+{
+  "schedule": {
+    "frequency": "Never",
+    "recurrence": "Indefinitely",
+    "isAutomaticallyRecorded": false,
+    "shouldNotifyUser": false,
+    "notifyUserId": "1",
+    "shouldUseCustomNumber": false
+  }
+}

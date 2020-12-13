@@ -29,7 +29,7 @@ const RecurringTransactionListModalTable = ({
       <Table.HeaderItem {...tableConfig.radio} />
       <Table.HeaderItem {...tableConfig.transactionName}>
         <HeaderSort
-          title="Name"
+          title="Schedule name"
           sortName="TransactionName"
           activeSort={order}
           onSort={onSort}

@@ -8,10 +8,10 @@
     "nextDueDate": "2020-11-10",
     "secondDueDate": "2020-12-10",
     "endDate": "2021-11-10",
-    "numberOfTimes": 12,
-    "remainingTime": 7,
+    "numberOfTimes": "12",
+    "remainingTimes": "7",
     "shouldNotifyUser": false,
-    "notifyUserId": 1,
+    "notifyUserId": "1",
     "shouldUseCustomNumber": false,
     "customNumber": "INV005"
   },
@@ -145,14 +145,5 @@
       "thresholdRate": 10,
       "includeInGstReturn": false
     }
-  ],
-  "transactionTypeOptions": [
-    { "name":  "Bill", "displayName": "Bill" },
-    { "name":  "Invoice", "displayName": "Invoice" },
-    { "name":  "GeneralJournal", "displayName": "General journal" },
-    { "name":  "SaleQuote", "displayName": "Quote" },
-    { "name":  "ReceiveMoney", "displayName": "Receive money" },
-    { "name":  "SpendMoney", "displayName": "Spend money" },
-    { "name":  "TransferMoney", "displayName": "Transfer money" }
   ]
 }

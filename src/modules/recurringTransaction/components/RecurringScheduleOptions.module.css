@@ -1,5 +1,7 @@
-@media (min-width: 768px) {
-  .container {
-    width: var(--flx-width-field-xl);
-  }
+.options {
+  padding-left: 2rem;
+}
+
+.remaining :global(.field-message-popup-form-group) {
+  margin-bottom: 0;
 }

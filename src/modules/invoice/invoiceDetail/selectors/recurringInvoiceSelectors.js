@@ -6,22 +6,10 @@ import {
   getIsCustomerDisabled,
   getIsReadOnly,
 } from './invoiceDetailSelectors';
-import RecurringTransactionListModalTransactionType from '../../../recurringTransaction/recurringTransactionListModal/types/RecurringTransactionListModalTransactionType';
-
-export const getRecurringTransactionName = (state) =>
-  state.recurringSchedule.recurringTransactionName;
+import { getCreateOrUpdateInvoicePayload } from './integratorSelectors';
 
 export const getShouldShowSaveAsRecurring = (state) =>
   state.isRecurringTransactionEnabled;
-
-export const getSaveAsRecurringUrlParams = (state) => ({
-  businessId: state.businessId,
-});
-
-export const getSaveAsRecurringPayload = (state) => ({
-  invoice: state.invoice,
-  schedule: state.recurringSchedule,
-});
 
 const getIsRecurringTransactionEnabled = (state) =>
   state.isRecurringTransactionEnabled;
@@ -36,7 +24,13 @@ export const getShowPrefillRecurringButton = createSelector(
 
 export const getRecurringTransactionListModalContext = (state) => ({
   businessId: getBusinessId(state),
-  transactionType: RecurringTransactionListModalTransactionType.INVOICE,
+  transactionType: 'Invoice',
 });
 
 export const getIsRecurringTransactionReadOnly = (data) => getIsReadOnly(data);
+
+export const getRecurringTransactionModalContext = (state) => ({
+  businessId: getBusinessId(state),
+  transactionType: 'Invoice',
+  transaction: getCreateOrUpdateInvoicePayload(state),
+});

@@ -55,6 +55,7 @@ import { getIsActiveAbn } from './selectors/eInvoiceSelectors';
 import {
   getIsRecurringTransactionReadOnly,
   getRecurringTransactionListModalContext,
+  getRecurringTransactionModalContext,
 } from './selectors/recurringInvoiceSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
 import { isToggleOn } from '../../../splitToggle';
@@ -71,6 +72,7 @@ import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule'
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
+import RecurringTransactionModalModule from '../../recurringTransaction/recurringTransactionModal/RecurringTransactionModalModule';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import createInvoiceDetailDispatcher from './createInvoiceDetailDispatcher';
@@ -122,6 +124,9 @@ export default class InvoiceDetailModule {
     this.recurringTransactionListModal = new RecurringTransactionListModalModule(
       { integration }
     );
+    this.recurringTransactionModal = new RecurringTransactionModalModule({
+      integration,
+    });
   }
 
   openAccountModal = (onChange) => {
@@ -406,26 +411,6 @@ export default class InvoiceDetailModule {
     };
 
     this.createOrUpdateInvoice({ onSuccess });
-  };
-
-  saveInvoiceAsRecurringTransaction = () => {
-    this.dispatcher.setSubmittingState(true);
-
-    const onSuccess = ({ message }) => {
-      this.closeModal();
-      this.dispatcher.setSubmittingState(false);
-      this.displaySuccessAlert(message);
-    };
-
-    const onFailure = ({ message }) => {
-      this.dispatcher.setSubmittingState(false);
-      this.dispatcher.displayModalAlert({ type: 'danger', message });
-    };
-
-    this.integrator.saveInvoiceAsRecurringTransaction({
-      onSuccess,
-      onFailure,
-    });
   };
 
   deleteInvoice = () => {
@@ -721,10 +706,6 @@ export default class InvoiceDetailModule {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
   };
 
-  openRecurringScheduleModal = () => {
-    this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AS_RECURRING);
-  };
-
   openExportPdfModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.EXPORT_PDF);
   };
@@ -949,6 +930,22 @@ export default class InvoiceDetailModule {
     });
   };
 
+  openRecurringTransactionModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionModal.run({
+      context: getRecurringTransactionModalContext(state),
+      onLoadFailure: (message) => {
+        this.recurringTransactionModal.close();
+        this.displayFailureAlert(message);
+      },
+      onSaveSuccess: ({ message }) => {
+        this.recurringTransactionModal.close();
+        this.displaySuccessAlert(message);
+      },
+    });
+  };
+
   loadAbnFromCustomer = () => {
     this.dispatcher.setAbnLoadingState(true);
 
@@ -1007,6 +1004,7 @@ export default class InvoiceDetailModule {
     this.jobComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.recurringTransactionListModal.resetState();
+    this.recurringTransactionModal.resetState();
     this.dispatcher.resetState();
   };
 
@@ -1038,6 +1036,11 @@ export default class InvoiceDetailModule {
 
     if (this.recurringTransactionListModal.isOpened()) {
       this.recurringTransactionListModal.complete();
+      return;
+    }
+
+    if (this.recurringTransactionModal.isOpened()) {
+      this.recurringTransactionModal.save();
       return;
     }
 
@@ -1283,10 +1286,12 @@ export default class InvoiceDetailModule {
   render = () => {
     const accountModal = this.accountModalModule.render();
     const recurringListModal = this.recurringTransactionListModal.render();
+    const recurringModal = this.recurringTransactionModal.render();
 
     const invoiceDetailView = (
       <InvoiceDetailView
         recurringListModal={recurringListModal}
+        recurringModal={recurringModal}
         accountModal={accountModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
@@ -1310,7 +1315,7 @@ export default class InvoiceDetailModule {
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.handleSaveInvoice,
-          onSaveAsRecurringButtonClick: this.openRecurringScheduleModal,
+          onSaveAsRecurringButtonClick: this.openRecurringTransactionModal,
           onSaveAndButtonClick: this.executeSaveAndAction,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
           onSaveAndSendEInvoiceClick: this.saveAndSendEInvoice,
@@ -1330,13 +1335,6 @@ export default class InvoiceDetailModule {
           onConfirmSaveAndCreateNew: this.saveAndCreateNewInvoice,
           onConfirmSaveAndDuplicate: this.saveAndDuplicateInvoice,
           onConfirmSaveAmountDueWarning: this.saveInvoice,
-        }}
-        recurringScheduleModalListeners={{
-          onDismissAlert: this.dispatcher.dismissModalAlert,
-          onConfirm: this.saveInvoiceAsRecurringTransaction,
-          onCancel: this.closeModal,
-          onRecurringScheduleDetailChange: this.dispatcher
-            .updateRecurringScheduleDetail,
         }}
         quickQuoteModalListeners={{
           onCloseModal: this.closeQuoteModal,

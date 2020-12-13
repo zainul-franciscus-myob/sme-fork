@@ -34,6 +34,7 @@ import styles from './InvoiceDetailView.module.css';
 
 const InvoiceDetailView = ({
   recurringListModal,
+  recurringModal,
   accountModal,
   layout,
   loadingState,
@@ -58,7 +59,6 @@ const InvoiceDetailView = ({
   preConversionModalListeners,
   applyPaymentUnsavedChangesListeners,
   redirectToUrlListeners,
-  recurringScheduleModalListeners,
   exportPdfModalListeners,
   renderContactCombobox,
   renderItemCombobox,
@@ -115,7 +115,6 @@ const InvoiceDetailView = ({
       applyPaymentUnsavedChangesListeners={applyPaymentUnsavedChangesListeners}
       exportPdfModalListeners={exportPdfModalListeners}
       redirectToUrlListeners={redirectToUrlListeners}
-      recurringScheduleModalListeners={recurringScheduleModalListeners}
       preConversionModalListeners={preConversionModalListeners}
       quickQuoteModalListeners={quickQuoteModalListeners}
       sendEInvoiceModalListeners={sendEInvoiceModalListeners}
@@ -184,6 +183,7 @@ const InvoiceDetailView = ({
         {upgradeModal}
         {modal}
         {recurringListModal}
+        {recurringModal}
         <div className={classNames(isReadOnly && styles.disabledTable)}>
           {table}
         </div>

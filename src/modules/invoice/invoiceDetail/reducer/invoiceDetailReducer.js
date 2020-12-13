@@ -52,7 +52,6 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
-  UPDATE_RECURRING_SCHEDULE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../../InvoiceIntents';
@@ -90,7 +89,6 @@ import {
 } from './InvoiceHistoryReducer';
 import { loadPayDirect, setPayDirectLoadingState } from './PayDirectReducer';
 import { updateExportPdfDetail } from './ExportPdfReducer';
-import { updateRecurringScheduleDetail } from './recurringInvoiceReducer';
 import InvoiceLayout from '../types/InvoiceLayout';
 import InvoiceLineType from '../types/InvoiceLineType';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -574,7 +572,6 @@ const handlers = {
   [SELECT_CUSTOMER_QUOTE]: selectCustomerQuote,
   [RESET_CUSTOMER_QUOTE]: resetCustomerQuote,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
-  [UPDATE_RECURRING_SCHEDULE_DETAIL]: updateRecurringScheduleDetail,
   [LOAD_PREFILL_FROM_RECURRING_INVOICE]: loadPrefillFromRecurringInvoice,
   [RESET_SEND_EINVOICE]: resetSendEInvoice,
 };

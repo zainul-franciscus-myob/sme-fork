@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getRecurringScheduleOptions } from '../selectors/RecurringInvoiceSelectors';
-import RecurringScheduleOptions from '../../components/RecurringScheduleOptions';
+import RecurringScheduleWrapper from '../../components/RecurringScheduleWrapper';
 
 const RecurringInvoiceScheduleOptions = (props) => (
-  <RecurringScheduleOptions {...props} />
+  <RecurringScheduleWrapper {...props} />
 );
 
 const mapStateToProps = (state) => getRecurringScheduleOptions(state);

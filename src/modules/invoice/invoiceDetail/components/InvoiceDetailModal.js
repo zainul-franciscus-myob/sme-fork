@@ -15,7 +15,6 @@ import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailPreConversionModal from './modal/InvoiceDetailPreConversionModal';
 import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfirmModal';
 import QuickQuoteModal from './modal/QuickQuoteModal';
-import RecurringScheduleModal from './modal/RecurringScheduleModal';
 import SaveAmountDueWarningModal from './modal/SaveAmountDueWarningModal';
 import SendEInvoiceModal from './modal/SendEInvoiceModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
@@ -37,7 +36,6 @@ const InvoiceDetailModal = ({
   exportPdfModalListeners,
   preConversionModalListeners,
   quickQuoteModalListeners,
-  recurringScheduleModalListeners,
   sendEInvoiceModalListeners,
   invalidAbnModalListeners,
 }) => {
@@ -100,12 +98,6 @@ const InvoiceDetailModal = ({
         onCancel={saveAndConfirmModalListeners.onCloseModal}
         onConfirmSave={saveAndConfirmModalListeners.onConfirmSaveAndDuplicate}
       />
-    );
-  }
-
-  if (modalType === InvoiceDetailModalType.SAVE_AS_RECURRING) {
-    return (
-      <RecurringScheduleModal listeners={recurringScheduleModalListeners} />
     );
   }
 

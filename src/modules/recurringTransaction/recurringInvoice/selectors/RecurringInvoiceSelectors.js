@@ -33,6 +33,8 @@ export const getTransactionType = (state) => state.transactionType;
 
 export const getSchedule = (state) => state.schedule;
 export const getScheduleName = (state) => state.schedule.name;
+export const getScheduleRemainingTimes = (state) =>
+  state.schedule.remainingTimes;
 
 export const getInvoice = (state) => state.invoice;
 export const getLayout = (state) => state.invoice.layout;
@@ -58,8 +60,6 @@ export const getAbn = (state) => state.abn;
 const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
 export const getAccountOptions = (state) => state.accountOptions;
-export const getTransactionTypeOptions = (state) =>
-  state.transactionTypeOptions;
 
 const getIsRecurringTransactionEnabled = (state) =>
   state.isRecurringTransactionEnabled;
@@ -427,12 +427,17 @@ const getIsDisabled = createSelector(
   (isSubmitting, isReadOnly) => isSubmitting || isReadOnly
 );
 
-export const getRecurringScheduleOptions = createStructuredSelector({
-  name: getScheduleName,
-  transactionType: getTransactionType,
-  transactionTypeOptions: getTransactionTypeOptions,
-  isDisabled: getIsDisabled,
-});
+export const getRecurringScheduleOptions = createSelector(
+  getSchedule,
+  getTransactionType,
+  getIsDisabled,
+  (schedule, transactionType, isDisabled) => ({
+    ...schedule,
+    transactionType,
+    isDisabled,
+    showTransactionType: true,
+  })
+);
 
 export const getIsFeatureAvailable = createSelector(
   getIsRecurringTransactionEnabled,

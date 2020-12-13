@@ -49,7 +49,6 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
-  UPDATE_RECURRING_SCHEDULE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../InvoiceIntents';
@@ -339,14 +338,6 @@ const createInvoiceDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
-    });
-  },
-
-  updateRecurringScheduleDetail: ({ key, value }) => {
-    store.dispatch({
-      intent: UPDATE_RECURRING_SCHEDULE_DETAIL,
-      key,
-      value,
     });
   },
 

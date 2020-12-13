@@ -36,6 +36,7 @@ import {
   getBusinessId,
   getRecurringTransactionId,
   getRegion,
+  getScheduleRemainingTimes,
 } from '../selectors/RecurringInvoiceSelectors';
 import { getIsRecurringTransactionEnabled } from '../../recurringTransactionList/recurringTransactionListSelectors';
 import { getPayDirect } from '../selectors/PayDirectSelectors';
@@ -102,8 +103,6 @@ const loadRecurringInvoice = (state, action) => ({
   expirationTermOptions:
     action.expirationTermOptions || state.expirationTermOptions,
   taxCodeOptions: action.taxCodeOptions || state.taxCodeOptions,
-  transactionTypeOptions:
-    action.transactionTypeOptions || state.transactionTypeOptions,
 });
 
 const reloadRecurringInvoice = (state, action) => {
@@ -167,13 +166,19 @@ const updateInvoiceIdAfterCreate = (state, { recurringTransactionId }) => ({
   recurringTransactionId,
 });
 
-const updateScheduleOptions = (state, { key, value }) => ({
-  ...state,
-  schedule: {
-    ...state.schedule,
-    [key]: value,
-  },
-});
+const updateScheduleOptions = (state, { key, value }) => {
+  const remainingTimes =
+    key === 'numberOfTimes' ? value : getScheduleRemainingTimes(state);
+
+  return {
+    ...state,
+    schedule: {
+      ...state.schedule,
+      [key]: value,
+      remainingTimes,
+    },
+  };
+};
 
 const updateInvoiceHeaderOptions = (state, { key, value }) =>
   updateInvoiceState(state, { [key]: value });
