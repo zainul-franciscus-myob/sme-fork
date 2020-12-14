@@ -149,7 +149,7 @@ const PurchaseOrderActions = ({
       secondary={[
         !isCreating && deleteButton,
         !isCreating && separator,
-        convertToBillButton,
+        !isCreating && convertToBillButton,
         exportPdfButton,
       ]}
     />

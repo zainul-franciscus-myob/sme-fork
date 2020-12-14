@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import {
   getIsAlertShown,
   getIsBlocking,
+  getIsCreating,
   getIsModalShown,
   getIsReadOnly,
   getLoadingState,
@@ -48,6 +49,7 @@ const PurchaseOrderView = ({
   isDocumentLoading,
   loadingState,
   isReadOnly,
+  isCreating,
   readOnlyMessage,
   layout,
   inventoryModal,
@@ -114,6 +116,7 @@ const PurchaseOrderView = ({
         />
       )}
       <PurchaseOrderHeader
+        isCreating={isCreating}
         onConvertToBillButtonClick={onConvertToBillButtonClick}
       />
     </div>
@@ -218,6 +221,7 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isReadOnly: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
+  isCreating: getIsCreating(state),
 });
 
 export default connect(mapStateToProps)(PurchaseOrderView);
