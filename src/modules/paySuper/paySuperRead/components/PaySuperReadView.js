@@ -7,6 +7,7 @@ import {
   getAlert,
   getDate,
   getDescription,
+  getIsReversal,
   getLabelStatus,
   getLoadingState,
   getModalType,
@@ -46,11 +47,14 @@ const PaySuperReadView = ({
   alert,
   onDismissAlert,
   modalType,
+  isReversal,
 }) => {
   const title = (
     <>
       Super payment {referenceNumber}
-      <PaymentStatus size="large" paymentStatus={labelStatus} />
+      {!isReversal && (
+        <PaymentStatus size="large" paymentStatus={labelStatus} />
+      )}
     </>
   );
   const totalPaymentFooter = (
@@ -94,6 +98,7 @@ const PaySuperReadView = ({
       </Card>
       <ActionButtons
         status={status}
+        isReversal={isReversal}
         onCancelClick={onCancelClick}
         onAuthoriseClick={onAuthoriseClick}
         onReverseClick={onReverseClick}
@@ -116,6 +121,7 @@ const mapStateToProps = (state) => ({
   superPayments: getSuperPayments(state),
   alert: getAlert(state),
   modalType: getModalType(state),
+  isReversal: getIsReversal(state),
 });
 
 export default connect(mapStateToProps)(PaySuperReadView);

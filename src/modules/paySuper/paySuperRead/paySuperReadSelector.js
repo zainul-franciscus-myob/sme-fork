@@ -30,3 +30,5 @@ export const getAlert = (state) => state.alert;
 export const getAccessTokenContent = (state) => ({
   accessToken: state.accessToken,
 });
+
+export const getIsReversal = (state) => state.isReversal;

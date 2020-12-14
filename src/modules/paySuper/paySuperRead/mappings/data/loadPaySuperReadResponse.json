@@ -6,6 +6,7 @@
   "payFromAccount": "1-1110 Business Bank Account #1",
   "description": "Superannuation payment",
   "date": "24/02/2017",
+  "isReversal": false,
   "superPayments": [
     {
       "amount": 88888.88,

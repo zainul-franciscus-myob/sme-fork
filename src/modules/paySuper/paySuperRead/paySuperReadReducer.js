@@ -24,6 +24,7 @@ export const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   modalType: null,
   alert: null,
+  isReversal: false,
 });
 
 export const resetState = () => getDefaultState();
@@ -47,6 +48,7 @@ const loadPaySuperRead = (state, { response }) => ({
   description: response.description,
   date: response.date,
   superPayments: response.superPayments,
+  isReversal: response.isReversal,
 });
 
 const setModalType = (state, { modalType }) => ({

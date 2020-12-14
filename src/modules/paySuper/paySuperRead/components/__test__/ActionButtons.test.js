@@ -13,6 +13,7 @@ describe('ActionButtons', () => {
       <Provider store={store}>
         <ActionButtons
           status={store.state.status}
+          isReversal={store.state.isReversal}
           onAuthoriseClick={() => {}}
           onCancelClick={() => {}}
           onRecordReverseClick={() => {}}
@@ -76,5 +77,34 @@ describe('ActionButtons', () => {
     );
     expect(findButtonWithTestId(buttons, 'authorizeButton')).toHaveLength(0);
     expect(findButtonWithTestId(buttons, 'reversalButton')).toHaveLength(0);
+  });
+
+  it.each([
+    'FundsUnavailable',
+    'FundsTransferError',
+    'PaymentDispersmentError',
+    'PartiallyAuthorised',
+    'Created',
+    '',
+    'abcd',
+  ])(
+    'should not show any action button when it is a reversal transaction for status %s',
+    (testStatus) => {
+      const buttons = constructActionButtons({
+        status: testStatus,
+        isReversal: true,
+      });
+      expect(findButtonWithTestId(buttons, 'authorizeButton')).toHaveLength(0);
+      expect(findButtonWithTestId(buttons, 'reversalButton')).toHaveLength(0);
+    }
+  );
+
+  it('should show action buttons when it is not a reversal transaction', () => {
+    const buttons = constructActionButtons({
+      status: 'PartiallyAuthorised',
+      isReversal: false,
+    });
+    expect(findButtonWithTestId(buttons, 'authorizeButton')).toHaveLength(1);
+    expect(findButtonWithTestId(buttons, 'reversalButton')).toHaveLength(1);
   });
 });

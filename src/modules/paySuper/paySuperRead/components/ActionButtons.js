@@ -12,6 +12,7 @@ const reverseButtonStatus = [
 const recordReversalButtonStatus = ['RecordReversal'];
 const ActionButtons = ({
   status,
+  isReversal,
   onCancelClick,
   onAuthoriseClick,
   onReverseClick,
@@ -66,8 +67,10 @@ const ActionButtons = ({
     <ButtonRow
       primary={[
         CancelButton,
-        reverseButtonStatus.includes(status) && reverseButton,
-        authoriseButtonStatus.includes(status) && authoriseButton,
+        !isReversal && reverseButtonStatus.includes(status) && reverseButton,
+        !isReversal &&
+          authoriseButtonStatus.includes(status) &&
+          authoriseButton,
       ]}
     />
   );
