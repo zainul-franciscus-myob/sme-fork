@@ -41,9 +41,9 @@ const BuyingDetails = ({
   infoAlertText,
 }) => (
   <>
-    {infoAlertText != null && infoAlertText !== '' && (
-      <Alert type="info">{infoAlertText}</Alert>
-    )}
+    {isItemBuyingPriceTaxInclusiveEnabled &&
+      infoAlertText != null &&
+      infoAlertText !== '' && <Alert type="info">{infoAlertText}</Alert>}
     <FieldGroup label="Buying details">
       <CheckboxGroup
         hideLabel
