@@ -1005,7 +1005,7 @@ describe('InvoiceDetailModule', () => {
     });
 
     describe('invalid ABN', () => {
-      it('open sendEInvoiceAbnWarning modal', () => {
+      it('open sendEInvoiceAbnWarning modal if an existing invoice unchanged', () => {
         const { module, store } = setupWithRun({});
 
         store.setState({
@@ -1021,6 +1021,43 @@ describe('InvoiceDetailModule', () => {
             intent: SET_MODAL_TYPE,
             modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
           },
+        ]);
+      });
+
+      it('save new invoice, open sendEInvoiceAbnWarning modal', () => {
+        const { module, integration, store } = setupWithRun({
+          isCreating: true,
+        });
+
+        store.setState({
+          ...store.getState(),
+          abn: { status: AbnStatus.INVALID },
+        });
+
+        module.saveAndSendEInvoice();
+
+        expect(store.getActions()).toEqual([
+          { intent: SET_MODAL_TYPE, modalType: InvoiceDetailModalType.NONE },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: false },
+          { intent: UPDATE_INVOICE_ID_AFTER_CREATE, invoiceId: '1' },
+          { intent: SET_SUBMITTING_STATE, isSubmitting: true },
+          expect.objectContaining({ intent: RELOAD_INVOICE_DETAIL }),
+          { intent: SET_INVOICE_HISTORY_LOADING },
+          expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
+          expect.objectContaining({ intent: LOAD_INVOICE_HISTORY }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_CUSTOMER }),
         ]);
       });
     });

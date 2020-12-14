@@ -342,17 +342,18 @@ export default class InvoiceDetailModule {
 
     const state = this.store.getState();
 
-    if (getIsActiveAbn(state)) {
-      if (getShouldSaveAndReload(state)) {
-        const onSuccess = () => {
-          this.openSendEInvoiceModal();
-        };
-        this.saveAndReload({ onSuccess });
-      } else {
+    const openModal = () => {
+      if (getIsActiveAbn(state)) {
         this.openSendEInvoiceModal();
+      } else {
+        this.openSendEInvoiceAbnWarningModal();
       }
+    };
+
+    if (getShouldSaveAndReload(state)) {
+      this.saveAndReload({ onSuccess: openModal });
     } else {
-      this.openSendEInvoiceAbnWarningModal();
+      openModal();
     }
   };
 
