@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 export const getLoadingState = (state) => state.loadingState;
 export const getIsActionDisabled = (state) =>
   state.isSubmitting || state.isCreatedAccountLoading;
@@ -10,7 +12,7 @@ export const getShouldDisplayPurchasesTab = (state) =>
   state.shouldDisplayPurchasesTab;
 export const getShouldDisplayPayrollTab = (state) =>
   state.shouldDisplayPayrollTab;
-export const getAllowRemoveLateCharge = (state) => !state.isLateChargeRequired;
+export const getIsLateChargeRequired = (state) => state.isLateChargeRequired;
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
@@ -156,3 +158,10 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
 
   return { businessId, accountId };
 };
+
+export const getAllowRemoveLateCharge = createSelector(
+  getIsLateChargeRequired,
+  getIncomeAccountLateCharges,
+  (isLateChargeRequired, incomeAccountLateCharges) =>
+    !incomeAccountLateCharges.hasAccount || !isLateChargeRequired
+);

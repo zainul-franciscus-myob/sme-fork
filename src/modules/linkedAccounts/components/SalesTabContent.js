@@ -146,7 +146,10 @@ const SalesTabContent = ({
         }
       />
     </FieldGroup>
-    <FieldGroup label="Income account for late charges" hideLabel>
+    <FieldGroup
+      label="Income Account for late charges and surcharges"
+      hideLabel
+    >
       <ToggleableAccountCombobox
         disabled={isDisabled}
         allowRemoval={allowRemoveLateCharge}
@@ -162,7 +165,7 @@ const SalesTabContent = ({
         toggleName="incomeAccountLateCharges"
         toggleLabel="I assess charges for late payment and surcharges"
         toggleHandler={handleCheckboxChange(onHasAccountOptionChange)}
-        comboboxLabel="Income account for late charges"
+        comboboxLabel="Income Account for late charges and surcharges"
         comboboxSelectedId={incomeAccountLateCharges.accountId}
         comboboxItems={incomeAccountLateCharges.accounts}
         comboboxHandler={handleComboboxChange(
