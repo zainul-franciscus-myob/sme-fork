@@ -13,14 +13,17 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
+  isNoConditionRuleEnabled: false,
   alert: undefined,
   loadingState: LoadingState.LOADING,
   sortOrder: '',
   orderBy: '',
   filterOptions: {
+    ruleIntent: '',
     keywords: '',
     showInactive: false,
   },
+  ruleIntentOptions: [],
   entries: [],
 });
 
@@ -28,6 +31,7 @@ const loadBankingRuleList = (state, action) => ({
   ...state,
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
+  ruleIntentOptions: action.ruleIntentOptions,
   entries: action.entries,
 });
 
@@ -70,7 +74,7 @@ const setAlert = (state, action) => ({
   alert: action.alert,
 });
 
-const setInitalState = (state, action) => ({
+const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
 });
@@ -86,7 +90,7 @@ const handlers = {
   [SET_SORT_ORDER]: setSortOrder,
   [SET_ALERT]: setAlert,
   [SET_LOADING_STATE]: setLoadingState,
-  [SET_INITIAL_STATE]: setInitalState,
+  [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
 };
 

@@ -42,7 +42,6 @@ const createMemoryIntegration = () => ({
       RootMapping,
       intent
     );
-
     sleep(200).then(() => {
       integrationFunction({
         urlParams,

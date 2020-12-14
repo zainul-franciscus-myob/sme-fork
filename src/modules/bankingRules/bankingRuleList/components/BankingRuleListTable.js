@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIsFilterStateChanged,
+  getIsNoConditionRuleEnabled,
   getIsStatusDisplayed,
   getIsTableEmpty,
   getIsTableLoading,
@@ -36,9 +37,11 @@ const tableConfig = {
   status: { width: '10.8rem' },
   bankAccount: { width: '35.2rem' },
   transactionType: { width: '16.8rem' },
+  ruleIntent: { width: '16.8rem' },
 };
 
 const BankingRuleListTable = ({
+  isNoConditionRuleEnabled,
   isTableEmpty,
   isStatusDisplayed,
   isTableLoading,
@@ -82,6 +85,16 @@ const BankingRuleListTable = ({
           onSort={onSort}
         />
       </Table.HeaderItem>
+      {isNoConditionRuleEnabled && (
+        <Table.HeaderItem {...tableConfig.ruleIntent}>
+          <HeaderSort
+            title="Rule type"
+            sortName="IsAutomated"
+            activeSort={order}
+            onSort={onSort}
+          />
+        </Table.HeaderItem>
+      )}
     </Table.Header>
   );
 
@@ -103,6 +116,7 @@ const mapStateToProps = (state) => ({
   isTableEmpty: getIsTableEmpty(state),
   isStatusDisplayed: getIsStatusDisplayed(state),
   isFilterStateChanged: getIsFilterStateChanged(state),
+  isNoConditionRuleEnabled: getIsNoConditionRuleEnabled(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleListTable);

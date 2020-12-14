@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsNoConditionRuleEnabled,
   getIsStatusDisplayed,
   getTableEntries,
 } from '../BankingRuleListSelectors';
@@ -19,7 +20,12 @@ const InActiveRow = ({ tableConfig, entry }) => (
   </Table.RowItem>
 );
 
-const BankingRuleTableBody = ({ tableConfig, isStatusDisplayed, entries }) => {
+const BankingRuleTableBody = ({
+  tableConfig,
+  isStatusDisplayed,
+  isNoConditionRuleEnabled,
+  entries,
+}) => {
   const rows = entries.map((entry, index) => (
     <Table.Row key={index}>
       <Table.RowItem {...tableConfig.ruleName}>
@@ -34,6 +40,11 @@ const BankingRuleTableBody = ({ tableConfig, isStatusDisplayed, entries }) => {
       <Table.RowItem {...tableConfig.transactionType}>
         {entry.displayTransactionType}
       </Table.RowItem>
+      {isNoConditionRuleEnabled && (
+        <Table.RowItem {...tableConfig.ruleIntent}>
+          {entry.displayRuleIntent}
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 
@@ -43,6 +54,7 @@ const BankingRuleTableBody = ({ tableConfig, isStatusDisplayed, entries }) => {
 const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
   isStatusDisplayed: getIsStatusDisplayed(state),
+  isNoConditionRuleEnabled: getIsNoConditionRuleEnabled(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleTableBody);

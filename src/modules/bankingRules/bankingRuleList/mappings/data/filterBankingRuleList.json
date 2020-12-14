@@ -6,7 +6,8 @@
       "isActive": false,
       "status": "Inactive",
       "bankAccountName": "Credit cardz",
-      "displayTransactionType": "Receive money"
+      "displayTransactionType": "Receive money",
+      "displayRuleIntent": "Allocation template"
     },
     {
       "id": "12",
@@ -14,7 +15,8 @@
       "isActive": false,
       "status": "Inactive",
       "bankAccountName": "Credit cardz",
-      "displayTransactionType": "Receive money"
+      "displayTransactionType": "Receive money",
+      "displayRuleIntent": "Allocation template"
     },
     {
       "id": "13",
@@ -22,7 +24,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "not a bank account",
-      "displayTransactionType": "Spend money"
+      "displayTransactionType": "Spend money",
+      "displayRuleIntent": "Automated rule"
     },
     {
       "id": "134",
@@ -30,7 +33,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "My other bank account",
-      "displayTransactionType": "Bill"
+      "displayTransactionType": "Bill",
+      "displayRuleIntent": "Automated rule"
     },
     {
       "id": "135",
@@ -38,7 +42,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "My bank account",
-      "displayTransactionType": "Invoice"
+      "displayTransactionType": "Invoice",
+      "displayRuleIntent": "Automated rule"
     }
   ]
 }

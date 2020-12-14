@@ -1,4 +1,14 @@
 {
+  "ruleIntentOptions": [
+    {
+      "label": "Allocation template",
+      "value": "Manual"
+    },
+    {
+      "label": "Automated rule",
+      "value": "Automated"
+    }
+  ],
   "sortOrder": "asc",
   "orderBy": "Name",
   "entries": [
@@ -8,7 +18,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "My bank account",
-      "displayTransactionType": "Invoice"
+      "displayTransactionType": "Invoice",
+      "displayRuleIntent": "Automated rule"
     },
     {
       "id": "133",
@@ -16,7 +27,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "My other bank account",
-      "displayTransactionType": "Bill"
+      "displayTransactionType": "Bill",
+      "displayRuleIntent": "Automated rule"
     },
     {
       "id": "333",
@@ -24,7 +36,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "not a bank account",
-      "displayTransactionType": "Spend money"
+      "displayTransactionType": "Spend money",
+      "displayRuleIntent": "Allocation template"
     },
     {
       "id": "666",
@@ -32,7 +45,8 @@
       "isActive": true,
       "status": "",
       "bankAccountName": "Credit cardz",
-      "displayTransactionType": "Receive money"
+      "displayTransactionType": "Receive money",
+      "displayRuleIntent": "Allocation template"
     }
   ]
 }

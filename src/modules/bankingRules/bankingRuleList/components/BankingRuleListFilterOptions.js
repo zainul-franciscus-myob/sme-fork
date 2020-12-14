@@ -1,19 +1,39 @@
-import { FilterBar } from '@myob/myob-widgets';
+import { FilterBar, Select } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions } from '../BankingRuleListSelectors';
+import {
+  getFilterOptions,
+  getIsNoConditionRuleEnabled,
+  getRuleIntentOptions,
+} from '../BankingRuleListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import ShowInactiveCheckbox from '../../../../components/ShowInactiveCheckbox/ShowInactiveCheckbox';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 
 const BankingRuleListFilterOptions = ({
   onUpdateFilters,
   onResetFilters,
-  filterOptions: { keywords, showInactive },
+  filterOptions: { ruleIntent, keywords, showInactive },
+  ruleIntentOptions,
+  isNoConditionRuleEnabled,
 }) => (
   <FilterBar onReset={onResetFilters}>
+    {isNoConditionRuleEnabled && (
+      <Select
+        name="ruleIntent"
+        label="Rule type"
+        value={ruleIntent}
+        onChange={handleSelectChange(onUpdateFilters)}
+      >
+        <Select.Option value="" label="All" key="All" />
+        {ruleIntentOptions.map(({ label, value }) => (
+          <Select.Option value={value} label={label} key={value} />
+        ))}
+      </Select>
+    )}
     <FilterBarSearch
       name="keywords"
       value={keywords}
@@ -32,6 +52,8 @@ const BankingRuleListFilterOptions = ({
 
 const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
+  ruleIntentOptions: getRuleIntentOptions(state),
+  isNoConditionRuleEnabled: getIsNoConditionRuleEnabled(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleListFilterOptions);
