@@ -7,7 +7,9 @@ import {
   RESEND_INVITATION,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SHOW_STATUS_FILTER_OPTIONS,
   SET_TABLE_LOADING_STATE,
+  SET_USER_LIST_FILTER_OPTIONS,
   SORT_USER_LIST,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -19,6 +21,7 @@ import {
   getBusinessId,
   getCancelInvitationDetails,
   getEntries,
+  getFilterOptions,
   getFlipSortOrder,
   getMyDotMyobLink,
   getOrderBy,
@@ -29,6 +32,7 @@ import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import UserListView from './components/UserListView';
+import debounce from '../../../common/debounce/debounce';
 import userListReducer from './userListReducer';
 
 const messageTypes = [SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER];
@@ -57,6 +61,9 @@ export default class UserListModule {
     const urlParams = {
       businessId: getBusinessId(state),
     };
+    const params = {
+      ...getFilterOptions(state),
+    };
 
     const onSuccess = (data) => {
       this.setLoadingState(LoadingState.LOADING_SUCCESS);
@@ -73,6 +80,7 @@ export default class UserListModule {
     this.integration.read({
       intent,
       urlParams,
+      params,
       onSuccess,
       onFailure,
     });
@@ -228,6 +236,27 @@ export default class UserListModule {
     });
   };
 
+  updateFilterOptions = ({ key, value }) => {
+    this.store.dispatch({
+      intent: SET_USER_LIST_FILTER_OPTIONS,
+      key,
+      value,
+    });
+
+    if (key === 'keywords') {
+      debounce(this.loadUserList());
+    } else {
+      this.loadUserList();
+    }
+  };
+
+  setShowStatusFilterOptions = (value) => {
+    this.store.dispatch({
+      intent: SET_SHOW_STATUS_FILTER_OPTIONS,
+      value,
+    });
+  };
+
   render = () => {
     const userListView = (
       <UserListView
@@ -237,6 +266,8 @@ export default class UserListModule {
         onMyMyobClick={this.onMyMyobClick}
         onResendInvitation={this.resendInvitation}
         onCancelInvitation={this.cancelInvitation}
+        onUpdateFilterOptions={this.updateFilterOptions}
+        setShowStatusFilterOptions={this.setShowStatusFilterOptions}
       />
     );
 

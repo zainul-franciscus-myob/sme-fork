@@ -15,6 +15,7 @@ import {
   getLoadingState,
 } from '../userListSelectors';
 import PageView from '../../../../components/PageView/PageView';
+import UserListFilterOptions from './UserListFilterOptions';
 import UserListTable from './UserListTable';
 import UserListTableHeader from './UserListTableHeader';
 
@@ -36,12 +37,21 @@ const UserListView = (props) => {
     onMyMyobClick,
     onResendInvitation,
     onCancelInvitation,
+    onUpdateFilterOptions,
+    setShowStatusFilterOptions,
   } = props;
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
+  );
+
+  const filterBar = (
+    <UserListFilterOptions
+      onUpdateFilterOptions={onUpdateFilterOptions}
+      setShowStatusFilterOptions={setShowStatusFilterOptions}
+    />
   );
 
   const pageHead = (
@@ -71,6 +81,7 @@ const UserListView = (props) => {
     <StandardTemplate
       pageHead={pageHead}
       alert={alertComponent}
+      filterBar={filterBar}
       tableHeader={tableHeader}
     >
       <UserListTable

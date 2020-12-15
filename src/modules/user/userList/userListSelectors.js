@@ -72,3 +72,7 @@ export const getCancelInvitationDetails = (state, index) => {
 
   return selectedUser ? { id: selectedUser.invitationId } : {};
 };
+
+export const getFilterOptions = (state) => state.filterOptions;
+export const getShowStatusFilterOptions = (state) =>
+  state.showStatusFilterOptions;

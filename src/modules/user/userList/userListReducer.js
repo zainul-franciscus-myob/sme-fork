@@ -2,7 +2,9 @@ import {
   LOAD_USER_LIST,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SHOW_STATUS_FILTER_OPTIONS,
   SET_TABLE_LOADING_STATE,
+  SET_USER_LIST_FILTER_OPTIONS,
   SORT_USER_LIST,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -19,6 +21,16 @@ const getDefaultState = () => ({
   isCurrentUserOnlineAdmin: false,
   sortOrder: 'asc',
   orderBy: 'UserName',
+  filterOptions: {
+    keywords: '',
+    invitationAccepted: true,
+    accessRemoved: false,
+    invitationSent: true,
+    invitationCancelled: false,
+    invitationExpired: false,
+    showInactive: false,
+  },
+  showStatusFilterOptions: false,
 });
 
 const stringCompare = (a, b) => {
@@ -87,6 +99,19 @@ const sortUserList = (state, action) => ({
   entries: applySort(action.entries, sort(action.orderBy), action.sortOrder),
 });
 
+const updateFilterOptions = (state, { key, value }) => ({
+  ...state,
+  filterOptions: {
+    ...state.filterOptions,
+    [key]: value,
+  },
+});
+
+const setShowStatusFilterOptions = (state, { value }) => ({
+  ...state,
+  showStatusFilterOptions: value,
+});
+
 const handlers = {
   [LOAD_USER_LIST]: loadUserList,
   [RESET_STATE]: resetState,
@@ -95,6 +120,8 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SORT_USER_LIST]: sortUserList,
+  [SET_USER_LIST_FILTER_OPTIONS]: updateFilterOptions,
+  [SET_SHOW_STATUS_FILTER_OPTIONS]: setShowStatusFilterOptions,
 };
 
 const userListReducer = createReducer(getDefaultState(), handlers);

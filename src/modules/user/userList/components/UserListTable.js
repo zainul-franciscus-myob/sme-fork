@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getIsTableEmpty, getIsTableLoading } from '../userListSelectors';
+import NoResultsPageState from '../../../../components/NoResultPageState/NoResultPageStateColour';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import UserListTableBody from './UserListTableBody';
 
@@ -15,7 +16,12 @@ const UserListTable = ({
   <StickyTableBody
     isLoading={isTableLoading}
     isEmpty={isTableEmpty}
-    emptyMessage="There are no users."
+    emptyView={
+      <NoResultsPageState
+        title="No results found"
+        description="Perhaps check spelling or remove the filters and try again"
+      />
+    }
   >
     <UserListTableBody
       tableConfig={tableConfig}

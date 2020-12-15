@@ -8,9 +8,9 @@ import {
   getIsTableLoading,
 } from '../jobListSelector';
 import JobListTableBody from './JobListTableBody';
+import NoResultsPageStateColour from '../../../../components/NoResultPageState/NoResultPageStateColour';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import emptyStateImage from './empty-state-jobs.svg';
-import noResultStateImage from './no-results-found.svg';
 import style from './JobListTable.module.css';
 
 const emptyPageState = (onAddJobButtonClick) => (
@@ -36,22 +36,15 @@ const emptyPageState = (onAddJobButtonClick) => (
   />
 );
 
-const noResultsPageState = (
-  <PageState
-    title="No results found"
-    description="Perhaps check spelling or remove the filters and try again"
-    image={
-      <img
-        className={style.jobsNoResultImg}
-        src={noResultStateImage}
-        alt="No results found"
-      />
-    }
-  />
-);
-
 const emptyTableView = (isDefaultFilter, onAddJobButtonClick) =>
-  isDefaultFilter ? emptyPageState(onAddJobButtonClick) : noResultsPageState;
+  isDefaultFilter ? (
+    emptyPageState(onAddJobButtonClick)
+  ) : (
+    <NoResultsPageStateColour
+      title="No results found"
+      description="Perhaps check spelling or remove the filters and try again"
+    />
+  );
 
 const JobListTable = ({
   onAddJobButtonClick,
