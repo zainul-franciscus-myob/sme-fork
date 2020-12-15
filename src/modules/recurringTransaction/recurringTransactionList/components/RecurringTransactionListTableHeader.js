@@ -21,6 +21,38 @@ const RecurringTransactionListTableHeader = ({
     <Table.HeaderItem {...tableConfig.transactionType}>
       Transaction type
     </Table.HeaderItem>
+    <Table.HeaderItem {...tableConfig.frequency}>
+      <HeaderSort
+        title="Frequency"
+        sortName="Frequency"
+        activeSort={order}
+        onSort={onSort}
+      />
+    </Table.HeaderItem>
+    <Table.HeaderItem {...tableConfig.overdue}>
+      <HeaderSort
+        title="Overdue"
+        sortName="Overdue"
+        activeSort={order}
+        onSort={onSort}
+      />
+    </Table.HeaderItem>
+    <Table.HeaderItem {...tableConfig.lastPosted}>
+      <HeaderSort
+        title="Last posted"
+        sortName="LastPosted"
+        activeSort={order}
+        onSort={onSort}
+      />
+    </Table.HeaderItem>
+    <Table.HeaderItem {...tableConfig.nextDue}>
+      <HeaderSort
+        title="Next due"
+        sortName="NextDue"
+        activeSort={order}
+        onSort={onSort}
+      />
+    </Table.HeaderItem>
     <Table.HeaderItem {...tableConfig.amount}>
       <HeaderSort
         title="Amount ($)"

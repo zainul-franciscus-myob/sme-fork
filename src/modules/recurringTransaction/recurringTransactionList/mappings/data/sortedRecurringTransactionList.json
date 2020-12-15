@@ -1,10 +1,14 @@
 {
-  "entries": [
+  "entries": [    
     {
       "id": "1",
       "transactionName": "Romeo The Kitten",
       "transactionType": "SpendMoney",
       "displayTransactionType": "Spend money",
+      "frequency": "Weekly",
+      "lastPosted": "23/11/2020",
+      "displayNextDue": "30/11/2020",
+      "nextDue": "2020-11-30T00:00:00",
       "amount": "1,200.00"
     },
     {
@@ -12,6 +16,10 @@
       "transactionName": "Oliver The Kitten",
       "transactionType": "ReceiveMoney",
       "displayTransactionType": "Receive money",
+      "frequency": "Monthly",
+      "lastPosted": "23/11/2020",
+      "displayNextDue": "30/11/2020",
+      "nextDue": "2020-11-30T00:00:00",
       "amount": "7,893.99"
     }
   ]

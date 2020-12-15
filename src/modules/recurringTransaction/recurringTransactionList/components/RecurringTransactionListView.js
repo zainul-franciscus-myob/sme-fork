@@ -17,6 +17,10 @@ import WrongPageState from '../../../../components/WrongPageState/WrongPageState
 const tableConfig = {
   transactionName: { width: 'flex-1', columnName: 'Name', valign: 'top' },
   transactionType: { columnName: 'Transaction type', valign: 'top' },
+  frequency: { columnName: 'Frequency', valign: 'top' },
+  overdue: { columnName: 'Overdue', valign: 'top' },
+  lastPosted: { columnName: 'Last posted', valign: 'top' },
+  nextDue: { columnName: 'Next due', valign: 'top' },
   amount: {
     width: '14.8rem',
     columnName: 'Amount ($)',

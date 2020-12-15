@@ -1,7 +1,9 @@
 import {
+  calculateOverdue,
   getFlipSortOrder,
   getTableEntries,
 } from '../recurringTransactionListSelectors';
+import ScheduleFrequency from '../../types/ScheduleFrequency';
 import TransactionType from '../../types/TransactionType';
 
 describe('recurringTransactionListSelector', () => {
@@ -29,6 +31,40 @@ describe('recurringTransactionListSelector', () => {
         }
       }
     );
+  });
+
+  describe('calculateOverdue', () => {
+    it('returns empty if the frequency is Never', () => {
+      const actual = calculateOverdue({ frequency: ScheduleFrequency.NEVER });
+      expect(actual).toEqual('');
+    });
+
+    it('returns Up to date if the number of days overdue is negative', () => {
+      const actual = calculateOverdue({
+        frequency: ScheduleFrequency.FORTNIGHTLY,
+        currentDate: new Date('01/31/2020'),
+        nextDueDate: new Date('02/28/2020'),
+      });
+      expect(actual).toEqual('Up to date');
+    });
+
+    it('returns Up to date if the number of days overdue is 0', () => {
+      const actual = calculateOverdue({
+        frequency: ScheduleFrequency.FORTNIGHTLY,
+        currentDate: new Date('01/01/2020'),
+        nextDueDate: new Date('01/01/2020'),
+      });
+      expect(actual).toEqual('Up to date');
+    });
+
+    it('returns the number of overdue days if the number of days overdue is positive', () => {
+      const actual = calculateOverdue({
+        frequency: ScheduleFrequency.FORTNIGHTLY,
+        currentDate: new Date('01/31/2020'),
+        nextDueDate: new Date('01/28/2020'),
+      });
+      expect(actual).toEqual('3');
+    });
   });
 
   describe('getFlipSortOrder', () => {

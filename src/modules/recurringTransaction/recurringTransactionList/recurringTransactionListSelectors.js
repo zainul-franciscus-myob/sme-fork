@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect';
+import { differenceInDays } from 'date-fns';
 
+import ScheduleFrequency from '../types/ScheduleFrequency';
 import TransactionType from '../types/TransactionType';
 import getRecurringUrl from '../common/getRecurringUrl';
 
@@ -12,6 +14,15 @@ export const getIsLoading = (state) => state.isLoading;
 export const getAlert = (state) => state.alert;
 
 const getEntries = (state) => state.entries;
+
+export const calculateOverdue = ({ frequency, currentDate, nextDueDate }) => {
+  if (frequency === ScheduleFrequency.NEVER) {
+    return '';
+  }
+
+  const dayDifference = differenceInDays(currentDate, nextDueDate);
+  return dayDifference <= 0 ? 'Up to date' : dayDifference.toString();
+};
 
 export const getTableEntries = createSelector(
   getEntries,
@@ -29,9 +40,15 @@ export const getTableEntries = createSelector(
               recurringTransactionId: id,
             })
           : undefined;
+      const overdue = calculateOverdue({
+        frequency: entry.frequency,
+        currentDate: new Date(),
+        nextDueDate: new Date(entry.nextDue),
+      });
 
       return {
         ...entry,
+        overdue,
         link,
       };
     })

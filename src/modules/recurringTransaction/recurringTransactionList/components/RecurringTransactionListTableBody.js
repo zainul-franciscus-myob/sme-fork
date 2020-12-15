@@ -27,6 +27,18 @@ const RecurringTransactionListTableBody = ({
           <Table.RowItem {...tableConfig.transactionType}>
             {entry.displayTransactionType}
           </Table.RowItem>
+          <Table.RowItem {...tableConfig.frequency}>
+            {entry.frequency}
+          </Table.RowItem>
+          <Table.RowItem {...tableConfig.overdue}>
+            {entry.overdue}
+          </Table.RowItem>
+          <Table.RowItem {...tableConfig.lastPosted}>
+            {entry.lastPosted}
+          </Table.RowItem>
+          <Table.RowItem {...tableConfig.nextDue}>
+            {entry.displayNextDue}
+          </Table.RowItem>
           <Table.RowItem {...tableConfig.amount}>{entry.amount}</Table.RowItem>
         </Table.Row>
       ))}
