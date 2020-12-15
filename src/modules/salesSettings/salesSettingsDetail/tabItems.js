@@ -14,7 +14,7 @@ export const mainTabItems = (region, isEInvoicingEnabled) => {
   const items = [
     {
       id: mainTabIds.layoutAndTheme,
-      label: 'Layout and theme',
+      label: 'Layout',
       hasActions: true,
     },
     { id: mainTabIds.templates, label: 'Templates', hasActions: false },
