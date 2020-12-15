@@ -47,18 +47,15 @@ describe('invoicePaymentDetailReducer', () => {
       };
       const action = {
         intent: LOAD_INVOICE_LIST,
-        entries: [
-          { id: '1234', balanceDue: '50.00' },
-          { id: '3214', balanceDue: '25.00' },
-        ],
+        entries: [{ id: '1234' }, { id: '3214' }],
       };
 
       const expected = {
         paymentAmount: '12.34',
         applyPaymentToInvoiceId: '1234',
         entries: [
-          { id: '1234', paidAmount: '12.34', balanceDue: '50.00' },
-          { id: '3214', paidAmount: '25.00', balanceDue: '25.00' },
+          { id: '1234', paidAmount: '12.34' },
+          { id: '3214', paidAmount: '' },
         ],
       };
       const actual = invoicePaymentDetailReducer(state, action);
@@ -69,16 +66,13 @@ describe('invoicePaymentDetailReducer', () => {
       const state = {};
       const action = {
         intent: LOAD_INVOICE_LIST,
-        entries: [
-          { id: '1234', balanceDue: '' },
-          { id: '3214', balanceDue: '' },
-        ],
+        entries: [{ id: '1234' }, { id: '3214' }],
       };
 
       const expected = {
         entries: [
-          { id: '1234', paidAmount: '', balanceDue: '' },
-          { id: '3214', paidAmount: '', balanceDue: '' },
+          { id: '1234', paidAmount: '' },
+          { id: '3214', paidAmount: '' },
         ],
       };
       const actual = invoicePaymentDetailReducer(state, action);
@@ -86,25 +80,22 @@ describe('invoicePaymentDetailReducer', () => {
     });
   });
 
-  it('initializes paidAmount with balanceDue when paymentAmount and invoiceID are empty', () => {
+  it('initializes blank payment amount when paymentAmount and invoiceID are empty', () => {
     const state = {
       paymentAmount: '',
       applyPaymentToInvoiceId: '',
     };
     const action = {
       intent: LOAD_INVOICE_LIST,
-      entries: [
-        { id: '1234', balanceDue: '50' },
-        { id: '3214', balanceDue: '' },
-      ],
+      entries: [{ id: '1234' }, { id: '3214' }],
     };
 
     const expected = {
       paymentAmount: '',
       applyPaymentToInvoiceId: '',
       entries: [
-        { id: '1234', paidAmount: '50', balanceDue: '50' },
-        { id: '3214', paidAmount: '', balanceDue: '' },
+        { id: '1234', paidAmount: '' },
+        { id: '3214', paidAmount: '' },
       ],
     };
     const actual = invoicePaymentDetailReducer(state, action);

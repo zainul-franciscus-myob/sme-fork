@@ -121,9 +121,7 @@ const loadInvoiceList = (state, { entries }) => ({
   entries: entries.map((entry) => ({
     ...entry,
     paidAmount:
-      state.applyPaymentToInvoiceId === entry.id
-        ? state.paymentAmount
-        : entry.balanceDue,
+      state.applyPaymentToInvoiceId === entry.id ? state.paymentAmount : '',
   })),
 });
 
