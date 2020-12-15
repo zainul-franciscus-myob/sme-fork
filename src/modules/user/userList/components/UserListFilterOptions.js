@@ -18,7 +18,12 @@ import handleCheckboxChange from '../../../../components/handlers/handleCheckbox
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from '../UserList.module.css';
 
-const UserListFilterOptions = (props) => {
+const UserListFilterOptions = ({
+  filterOptions,
+  showStatusFilterOptions,
+  onUpdateFilterOptions,
+  setShowStatusFilterOptions,
+}) => {
   const {
     keywords,
     invitationAccepted,
@@ -27,10 +32,18 @@ const UserListFilterOptions = (props) => {
     invitationCancelled,
     invitationExpired,
     showInactive,
-    onUpdateFilterOptions,
-    setShowStatusFilterOptions,
-    showStatusFilterOptions,
-  } = props;
+  } = filterOptions;
+
+  const statusOptions = {
+    invitationAccepted,
+    accessRemoved,
+    invitationSent,
+    invitationCancelled,
+    invitationExpired,
+  };
+  const numSelectedFilters = Object.values(statusOptions).filter(
+    (option) => option === true
+  ).length;
 
   const StatusBody = () => (
     <>
@@ -122,6 +135,10 @@ const UserListFilterOptions = (props) => {
         </div>
       </FilterBar.Item>
 
+      <FilterBar.Item className={styles.numSelectedFilters}>
+        {numSelectedFilters} selected
+      </FilterBar.Item>
+
       <FilterBar.Item>
         <ShowInactiveCheckbox
           id="showInactive"
@@ -136,7 +153,7 @@ const UserListFilterOptions = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  ...getFilterOptions(state),
+  filterOptions: getFilterOptions(state),
   showStatusFilterOptions: getShowStatusFilterOptions(state),
 });
 
