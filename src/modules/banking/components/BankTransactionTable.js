@@ -46,7 +46,7 @@ const spinnerView = (header) => (
   <React.Fragment>
     {header}
     <Card>
-      <PageState title={<Spinner size="medium" />} description="Loading" />
+      <PageState title="Loading" image={<Spinner size="medium" />} />
     </Card>
   </React.Fragment>
 );

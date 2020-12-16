@@ -13,9 +13,7 @@ import styles from './DashboardTrackingDetail.module.css';
 
 const DashboardTrackingDetail = ({ isDetailLoading, isEmpty }) => {
   if (isDetailLoading)
-    return (
-      <PageState title={<Spinner size="medium" />} description="Loading" />
-    );
+    return <PageState title="Loading" image={<Spinner size="medium" />} />;
 
   if (isEmpty) {
     return (
