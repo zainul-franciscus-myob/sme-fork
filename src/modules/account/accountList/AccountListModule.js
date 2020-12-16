@@ -141,6 +141,7 @@ export default class AccountListModule {
 
   selectAccount = ({ index, value }) => {
     const entries = getRawEntries(this.store.getState());
+    if (!entries[index]) return;
 
     // Create a map of account IDs and the index in the list of entries
     const entriesMap = entries.reduce((acc, entry, i) => {
@@ -193,7 +194,8 @@ export default class AccountListModule {
       }
     }
 
-    // The selected entry is always updated
+    // A dictionary where key is index of updated acc, value is its entry obj,
+    // initialized with user selected entry which is always updated.
     const updatedAccountsMap = {
       [index]: selectedEntry,
     };
@@ -203,13 +205,11 @@ export default class AccountListModule {
     if (selectedEntryParent && selectedEntryParent.selected)
       updatedAccountsMap[selectedEntryParentIndex] = selectedEntryParent;
 
-    const selectedEntryAccountLevel = entries[index].level;
-
     // Select all children under an entry by checking that the
     // entry's level is greater then the selected entry's
     for (let i = index + 1; i < entries.length; i += 1) {
       const entry = entries[i];
-      const isChild = entry.level > selectedEntryAccountLevel;
+      const isChild = entry.level > selectedEntry.level;
 
       if (isChild) {
         // Child entries don't need their parent to be updated
@@ -221,6 +221,7 @@ export default class AccountListModule {
         };
       } else break;
     }
+
     this.dispatcher.selectAccounts(updatedAccountsMap);
     this.dispatcher.setMoveToDisabled(this.shouldDisableMoveTo());
   };
