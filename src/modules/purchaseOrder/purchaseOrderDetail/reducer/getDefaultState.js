@@ -36,6 +36,7 @@ export const getDefaultState = () => ({
     issueDate: formatIsoDate(new Date()),
     promisedDate: '',
     lines: [],
+    amountPaid: '',
     note: '',
   },
   subscription: {

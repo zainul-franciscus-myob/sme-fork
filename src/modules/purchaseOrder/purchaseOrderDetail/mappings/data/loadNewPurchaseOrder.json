@@ -9,6 +9,7 @@
     "purchaseOrderNumber": "00000123",
     "note": "",
     "issueDate": "",
+    "amountPaid": "0",
     "lines": []
   },
   "accountOptions": [

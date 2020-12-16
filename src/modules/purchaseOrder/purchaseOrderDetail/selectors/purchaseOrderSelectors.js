@@ -1,3 +1,4 @@
+import { Decimal } from 'decimal.js';
 import { createSelector } from 'reselect';
 import { format, isBefore } from 'date-fns';
 
@@ -32,6 +33,7 @@ export const getExpirationTerm = (state) => state.purchaseOrder.expirationTerm;
 export const getExpirationDays = (state) => state.purchaseOrder.expirationDays;
 export const getIsTaxInclusive = (state) => state.purchaseOrder.isTaxInclusive;
 export const getIsReportable = (state) => state.purchaseOrder.isReportable;
+export const getAmountPaid = (state) => state.purchaseOrder.amountPaid;
 export const getLines = (state) => state.purchaseOrder.lines;
 const getPurchaseOrderLinesLength = (state) => state.purchaseOrder.lines.length;
 export const getIsForeignCurrency = (state) =>
@@ -285,6 +287,18 @@ export const getTotals = createSelector(
       lines,
       isTaxInclusive,
     })
+);
+
+const calculateAmountDue = (totalAmount, amountPaid) => {
+  const total = Decimal(totalAmount);
+  const paid = Decimal(amountPaid || '0');
+  return total.minus(paid).valueOf();
+};
+
+export const getAmountDue = createSelector(
+  getTotals,
+  getAmountPaid,
+  ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid)
 );
 
 export const getIsBeforeConversionDate = createSelector(

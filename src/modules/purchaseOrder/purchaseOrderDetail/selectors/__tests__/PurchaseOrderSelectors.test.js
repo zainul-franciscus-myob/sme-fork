@@ -1,4 +1,5 @@
 import {
+  getAmountDue,
   getConversionMonthYear,
   getHasLineBeenPrefilled,
   getHasNoteBeenPrefilled,
@@ -378,6 +379,29 @@ describe('PurchaseOrderSelectors', () => {
         totalTax: '0.01',
         totalAmount: '10',
       });
+    });
+
+    it('returns amountDue with calculated totals', () => {
+      const actual = getAmountDue({
+        purchaseOrder: {
+          isTaxInclusive: true,
+          amountPaid: '1',
+          lines: [
+            {
+              type: PurchaseOrderLineType.SERVICE,
+              taxExclusiveAmount: '9.99',
+              taxAmount: '0.01',
+            },
+            {
+              type: PurchaseOrderLineType.SUB_TOTAL,
+              taxExclusiveAmount: '99',
+              taxAmount: '1',
+            },
+          ],
+        },
+      });
+
+      expect(actual).toEqual('9');
     });
   });
 });

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAmountDue,
+  getAmountPaid,
   getIsCreating,
   getPageTitle,
   getTotals,
@@ -12,6 +14,8 @@ import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHead
 const PurchaseOrderHeader = ({
   isCreating,
   pageTitle,
+  amountDue,
+  amountPaid,
   totals: { totalAmount },
   onConvertToBillButtonClick,
 }) => {
@@ -41,6 +45,16 @@ const PurchaseOrderHeader = ({
           label="Total amount"
           count={totalAmount}
         />,
+        <TotalsHeaderItemFormattedCurrency
+          key="totalPaid"
+          label="Total paid"
+          count={amountPaid}
+        />,
+        <TotalsHeaderItemFormattedCurrency
+          key="balanceDue"
+          label="Balance due"
+          count={amountDue}
+        />,
       ]}
     />
   );
@@ -49,6 +63,8 @@ const PurchaseOrderHeader = ({
 const mapStateToProps = (state) => ({
   isCreating: getIsCreating(state),
   pageTitle: getPageTitle(state),
+  amountDue: getAmountDue(state),
+  amountPaid: getAmountPaid(state),
   totals: getTotals(state),
 });
 

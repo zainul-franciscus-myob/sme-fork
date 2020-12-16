@@ -26,6 +26,16 @@ describe('purchaseOrderReducer', () => {
       expect(actual.purchaseOrder.issueDate).toEqual('2020-11-11');
     });
 
+    it('should set amountPaid', () => {
+      const state = { amountPaid: '0' };
+      const action = {
+        intent: LOAD_PURCHASE_ORDER,
+        response: purchaseOrderDetail,
+      };
+      const actual = purchaseOrderReducer(state, action);
+      expect(actual.purchaseOrder.amountPaid).toEqual('0');
+    });
+
     it('should set lines', () => {
       const state = {};
       const action = {
