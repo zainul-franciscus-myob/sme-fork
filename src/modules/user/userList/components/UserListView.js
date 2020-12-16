@@ -13,8 +13,11 @@ import {
   getAlert,
   getIsCurrentUserOnlineAdmin,
   getLoadingState,
+  getModal,
 } from '../userListSelectors';
+import ModalType from '../../ModalType';
 import PageView from '../../../../components/PageView/PageView';
+import RemoveAccessModal from './RemoveAccessModal';
 import UserListFilterOptions from './UserListFilterOptions';
 import UserListTable from './UserListTable';
 import UserListTableHeader from './UserListTableHeader';
@@ -30,6 +33,7 @@ export const tableConfig = {
 const UserListView = (props) => {
   const {
     alert,
+    modal,
     loadingState,
     onCreateUser,
     onDismissAlert,
@@ -37,6 +41,9 @@ const UserListView = (props) => {
     onMyMyobClick,
     onResendInvitation,
     onCancelInvitation,
+    onRemoveAccessClick,
+    onCloseModal,
+    onRemoveAccessModal,
     onUpdateFilterOptions,
     setShowStatusFilterOptions,
   } = props;
@@ -77,6 +84,16 @@ const UserListView = (props) => {
     <UserListTableHeader onSort={onSort} tableConfig={tableConfig} />
   );
 
+  let modalComponent;
+  if (modal.type === ModalType.REMOVE_ACESS) {
+    modalComponent = (
+      <RemoveAccessModal
+        onCancel={onCloseModal}
+        onConfirm={onRemoveAccessModal}
+      />
+    );
+  }
+
   const userListView = (
     <StandardTemplate
       pageHead={pageHead}
@@ -84,10 +101,12 @@ const UserListView = (props) => {
       filterBar={filterBar}
       tableHeader={tableHeader}
     >
+      {modalComponent}
       <UserListTable
         tableConfig={tableConfig}
         onResendInvitation={onResendInvitation}
         onCancelInvitation={onCancelInvitation}
+        onRemoveAccessClick={onRemoveAccessClick}
       />
     </StandardTemplate>
   );
@@ -99,6 +118,7 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   loadingState: getLoadingState(state),
   isCurrentUserOnlineAdmin: getIsCurrentUserOnlineAdmin(state),
+  modal: getModal(state),
 });
 
 export default connect(mapStateToProps)(UserListView);

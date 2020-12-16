@@ -50,6 +50,40 @@ export const getMyDotMyobLink = createSelector(
   }
 );
 
+export const getModal = (state) => state.modal;
+
+export const getSelectedUserIndex = (state) => state.selectedUserIndex;
+
+export const getSelectedUser = createSelector(
+  getEntries,
+  getSelectedUserIndex,
+  (users, userIndex) => {
+    return users[userIndex] || {};
+  }
+);
+
+export const getRemoveAccessModalBody = createSelector(
+  getSelectedUser,
+  (user) => {
+    if (user.myDotInvitationType === 'FileUser') {
+      return "This will remove access to this business. This can't be undone or recovered later";
+    }
+    return "This will remove access to all businesses associated with this serial number. This can't be undone, or recovered later.";
+  }
+);
+
+export const getRemoveAccessDetails = createSelector(
+  getSelectedUser,
+  (user) => {
+    return user
+      ? {
+          userId: user.inviteeContactId,
+          role: user.myDotInvitationType,
+        }
+      : {};
+  }
+);
+
 export const getResendInvitationDetails = (state, index) => {
   const users = getEntries(state);
   const selectedUser = users[index];
@@ -73,6 +107,7 @@ export const getCancelInvitationDetails = (state, index) => {
   return selectedUser ? { id: selectedUser.invitationId } : {};
 };
 
+export const getIsSubmitting = (state) => state.isSubmitting;
 export const getFilterOptions = (state) => state.filterOptions;
 export const getShowStatusFilterOptions = (state) =>
   state.showStatusFilterOptions;

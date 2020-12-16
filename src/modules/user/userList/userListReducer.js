@@ -1,9 +1,13 @@
 import {
+  CLOSE_MODAL,
   LOAD_USER_LIST,
+  OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SHOW_STATUS_FILTER_OPTIONS,
+  SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
+  SET_USER_INDEX,
   SET_USER_LIST_FILTER_OPTIONS,
   SORT_USER_LIST,
 } from '../UserIntents';
@@ -21,6 +25,9 @@ const getDefaultState = () => ({
   isCurrentUserOnlineAdmin: false,
   sortOrder: 'asc',
   orderBy: 'UserName',
+  selectedUserIndex: '',
+  modal: {},
+  isSubmitting: false,
   filterOptions: {
     keywords: '',
     invitationAccepted: true,
@@ -99,6 +106,30 @@ const sortUserList = (state, action) => ({
   entries: applySort(action.entries, sort(action.orderBy), action.sortOrder),
 });
 
+const openModal = (state, action) => ({
+  ...state,
+  modal: {
+    ...action.modal,
+  },
+});
+
+const closeModal = (state) => ({
+  ...state,
+  modal: {
+    type: '',
+  },
+});
+
+const setSelectedUserIndex = (state, action) => ({
+  ...state,
+  selectedUserIndex: action.selectedUserIndex,
+});
+
+const setSubmittingState = (state, action) => ({
+  ...state,
+  isSubmitting: action.isSubmitting,
+});
+
 const updateFilterOptions = (state, { key, value }) => ({
   ...state,
   filterOptions: {
@@ -120,6 +151,10 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SORT_USER_LIST]: sortUserList,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
+  [SET_USER_INDEX]: setSelectedUserIndex,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_USER_LIST_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SHOW_STATUS_FILTER_OPTIONS]: setShowStatusFilterOptions,
 };

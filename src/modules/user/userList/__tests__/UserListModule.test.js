@@ -1,15 +1,20 @@
 import {
   CANCEL_INVITATION,
+  CLOSE_MODAL,
   LOAD_USER_LIST,
+  REMOVE_USER_ACCESS,
   RESEND_INVITATION,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_SUBMITTING_STATE,
 } from '../../UserIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import UserListModule from '../UserListModule';
+import createUserListDispatcher from '../createUserListDispatcher';
+import createUserListIntegrator from '../createUserListIntegrator';
 import userListReducer from '../userListReducer';
 
 describe('UserListModule', () => {
@@ -25,6 +30,8 @@ describe('UserListModule', () => {
       popMessages,
     });
     module.store = store;
+    module.dispatcher = createUserListDispatcher(store);
+    module.integrator = createUserListIntegrator(store, integration);
 
     return {
       store,
@@ -90,11 +97,19 @@ describe('UserListModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
           intent: SET_ALERT,
           alert: {
             type: 'success',
             message: "Great Work! You've done it well!",
           },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
         },
         {
           intent: SET_LOADING_STATE,
@@ -122,11 +137,19 @@ describe('UserListModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
           intent: SET_ALERT,
           alert: {
             type: 'danger',
             message: 'fails',
           },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
         },
       ]);
 
@@ -145,11 +168,19 @@ describe('UserListModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
           intent: SET_ALERT,
           alert: {
             type: 'success',
             message: "Great Work! You've done it well!",
           },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
         },
         {
           intent: SET_LOADING_STATE,
@@ -177,17 +208,102 @@ describe('UserListModule', () => {
 
       expect(store.getActions()).toEqual([
         {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
           intent: SET_ALERT,
           alert: {
             type: 'danger',
             message: 'fails',
           },
         },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
       ]);
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: CANCEL_INVITATION,
+        }),
+      ]);
+    });
+  });
+
+  describe('remove access', () => {
+    it('successfully removed', () => {
+      const { store, integration, module } = setup();
+      module.removeAccess();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'success',
+            message: "Great Work! You've done it well!",
+          },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: REMOVE_USER_ACCESS,
+        }),
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
+        }),
+      ]);
+    });
+
+    it('failed to remove', () => {
+      const { store, integration, module } = setup();
+      integration.mapFailure(REMOVE_USER_ACCESS);
+      module.removeAccess();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: 'fails',
+          },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: REMOVE_USER_ACCESS,
         }),
       ]);
     });

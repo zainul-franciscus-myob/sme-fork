@@ -6,6 +6,7 @@ import {
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
   LOAD_USER_LIST,
+  REMOVE_USER_ACCESS,
   RESEND_INVITATION,
   UPDATE_USER,
 } from '../UserIntents';
@@ -41,6 +42,10 @@ const HttpUserMapping = {
     method: 'GET',
     getPath: ({ businessId, userId }) =>
       `/${businessId}/user/load_user/${userId}`,
+  },
+  [REMOVE_USER_ACCESS]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/user/remove_access`,
   },
   [CANCEL_INVITATION]: {
     method: 'POST',

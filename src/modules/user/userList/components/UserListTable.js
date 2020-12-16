@@ -12,6 +12,7 @@ const UserListTable = ({
   tableConfig,
   onResendInvitation,
   onCancelInvitation,
+  onRemoveAccessClick,
 }) => (
   <StickyTableBody
     isLoading={isTableLoading}
@@ -27,6 +28,7 @@ const UserListTable = ({
       tableConfig={tableConfig}
       onResendInvitation={onResendInvitation}
       onCancelInvitation={onCancelInvitation}
+      onRemoveAccessClick={onRemoveAccessClick}
     />
   </StickyTableBody>
 );

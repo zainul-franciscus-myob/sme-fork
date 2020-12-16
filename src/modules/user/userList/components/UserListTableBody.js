@@ -2,27 +2,56 @@ import { Badge, Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableEntries } from '../userListSelectors';
+import { getIsSubmitting, getTableEntries } from '../userListSelectors';
 
 const UserListTableBody = (props) => {
   const {
     tableConfig,
     entries,
+    isSubmitting,
     onResendInvitation,
     onCancelInvitation,
+    onRemoveAccessClick,
   } = props;
 
-  const ActionButtons = ({ userIndex }) => (
+  const ResendOrCancelButtons = ({ userIndex }) => (
     <>
-      <Button type="link" onClick={() => onResendInvitation(userIndex)}>
+      <Button
+        disabled={isSubmitting}
+        type="link"
+        onClick={() => onResendInvitation(userIndex)}
+      >
         Resend invitation
       </Button>
       {' | '}
-      <Button type="link" onClick={() => onCancelInvitation(userIndex)}>
+      <Button
+        disabled={isSubmitting}
+        type="link"
+        onClick={() => onCancelInvitation(userIndex)}
+      >
         Cancel invitation
       </Button>
     </>
   );
+
+  const RemoveAccessButton = ({ userIndex }) => (
+    <Button
+      disabled={isSubmitting}
+      type="link"
+      onClick={() => onRemoveAccessClick(userIndex)}
+    >
+      Remove access
+    </Button>
+  );
+
+  const resendOrCancelEnabled = (user) =>
+    user.myDotInvitationSatus === 'Pending';
+
+  const removeButtonEnabled = (user) =>
+    user.myDotInvitationSatus === 'Accepted' &&
+    user.myDotInvitationType !== 'Owner' &&
+    user.myDotInvitationType !== 'AdminUser' &&
+    !user.isCurrentUser;
 
   const rows = entries.map((user, userIndex) => (
     <Table.Row key={user.id}>
@@ -39,8 +68,11 @@ const UserListTableBody = (props) => {
         )}
       </Table.RowItem>
       <Table.RowItem {...tableConfig.action}>
-        {user.myDotInvitationSatus === 'Pending' && (
-          <ActionButtons userIndex={userIndex} />
+        {resendOrCancelEnabled(user) && (
+          <ResendOrCancelButtons userIndex={userIndex} />
+        )}
+        {removeButtonEnabled(user) && (
+          <RemoveAccessButton userIndex={userIndex} />
         )}
       </Table.RowItem>
     </Table.Row>
@@ -51,6 +83,7 @@ const UserListTableBody = (props) => {
 
 const mapStateToProps = (state, props) => ({
   entries: getTableEntries(state, props),
+  isSubmitting: getIsSubmitting(state),
 });
 
 export default connect(mapStateToProps)(UserListTableBody);

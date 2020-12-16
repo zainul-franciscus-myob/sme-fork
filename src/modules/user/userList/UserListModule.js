@@ -2,36 +2,24 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  CANCEL_INVITATION,
-  LOAD_USER_LIST,
-  RESEND_INVITATION,
-  SET_ALERT,
-  SET_LOADING_STATE,
-  SET_SHOW_STATUS_FILTER_OPTIONS,
-  SET_TABLE_LOADING_STATE,
-  SET_USER_LIST_FILTER_OPTIONS,
-  SORT_USER_LIST,
-} from '../UserIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
-import {
   SUCCESSFULLY_DELETED_USER,
   SUCCESSFULLY_SAVED_USER,
 } from '../../../common/types/MessageTypes';
 import {
   getBusinessId,
-  getCancelInvitationDetails,
   getEntries,
-  getFilterOptions,
   getFlipSortOrder,
   getMyDotMyobLink,
   getOrderBy,
   getRegion,
-  getResendInvitationDetails,
 } from './userListSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
+import ModalType from '../ModalType';
 import Store from '../../../store/Store';
 import UserListView from './components/UserListView';
+import createUserListDispatcher from './createUserListDispatcher';
+import createUserListIntegrator from './createUserListIntegrator';
 import debounce from '../../../common/debounce/debounce';
 import userListReducer from './userListReducer';
 
@@ -44,46 +32,21 @@ export default class UserListModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.dispatcher = createUserListDispatcher(this.store);
+    this.integrator = createUserListIntegrator(this.store, integration);
   }
 
-  dismissAlert = () => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: undefined,
-    });
-  };
-
   loadUserList = () => {
-    const intent = LOAD_USER_LIST;
-
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const params = {
-      ...getFilterOptions(state),
-    };
-
     const onSuccess = (data) => {
-      this.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.store.dispatch({
-        intent,
-        ...data,
-      });
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.loadUserList(data);
     };
 
     const onFailure = () => {
-      this.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integration.read({
-      intent,
-      urlParams,
-      params,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.loadUserList({ onSuccess, onFailure });
   };
 
   onMyMyobClick = () => {
@@ -104,11 +67,7 @@ export default class UserListModule {
 
     if (successMessage) {
       const { content: message } = successMessage;
-
-      this.setAlert({
-        type: 'success',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'success', message });
     }
   };
 
@@ -121,127 +80,74 @@ export default class UserListModule {
     window.location.href = `/#/${region}/${businessId}/user/${destination}`;
   };
 
-  setAlert = ({ message, type }) => {
-    const intent = SET_ALERT;
-    this.store.dispatch({
-      intent,
-      alert: {
-        message,
-        type,
-      },
-    });
-  };
-
-  setInitialState = (context) => {
-    this.store.dispatch({
-      intent: SET_INITIAL_STATE,
-      context,
-    });
-  };
-
-  setLoadingState = (loadingState) => {
-    const intent = SET_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      loadingState,
-    });
-  };
-
-  setTableLoadingState = (isTableLoading) => {
-    const intent = SET_TABLE_LOADING_STATE;
-    this.store.dispatch({
-      intent,
-      isTableLoading,
-    });
-  };
-
   sortUserList = (orderBy) => {
     const state = this.store.getState();
     const newSortOrder =
       orderBy === getOrderBy(state) ? getFlipSortOrder(state) : 'asc';
     const entries = getEntries(state);
 
-    this.store.dispatch({
-      intent: SORT_USER_LIST,
-      entries,
-      sortOrder: newSortOrder,
-      orderBy,
-    });
+    this.dispatcher.sortUserList(entries, newSortOrder, orderBy);
   };
 
   resendInvitation = (userIndex) => {
-    const intent = RESEND_INVITATION;
-
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-    const content = getResendInvitationDetails(state, userIndex);
+    this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
-      this.setAlert({
-        type: 'success',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'success', message });
+      this.dispatcher.setSubmittingState(false);
       this.loadUserList();
     };
 
     const onFailure = ({ message }) => {
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setSubmittingState(false);
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.resendInvitation({ onSuccess, onFailure, userIndex });
   };
 
   cancelInvitation = (userIndex) => {
-    const intent = CANCEL_INVITATION;
-
-    const state = this.store.getState();
-    const urlParams = {
-      businessId: getBusinessId(state),
-    };
-
-    const content = getCancelInvitationDetails(state, userIndex);
+    this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
-      this.setAlert({
-        type: 'success',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'success', message });
+      this.dispatcher.setSubmittingState(false);
       this.loadUserList();
     };
 
     const onFailure = ({ message }) => {
-      this.setAlert({
-        type: 'danger',
-        message,
-      });
+      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setSubmittingState(false);
     };
 
-    this.integration.write({
-      intent,
-      urlParams,
-      content,
-      onSuccess,
-      onFailure,
-    });
+    this.integrator.cancelInvitation({ onSuccess, onFailure, userIndex });
+  };
+
+  openRemoveAccessModal = (userIndex) => {
+    this.dispatcher.openModal({ type: ModalType.REMOVE_ACESS });
+    this.dispatcher.setSelectedUserIndex(userIndex);
+  };
+
+  removeAccess = () => {
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'success', message });
+      this.dispatcher.setSubmittingState(false);
+      this.loadUserList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.removeAccess({ onSuccess, onFailure });
   };
 
   updateFilterOptions = ({ key, value }) => {
-    this.store.dispatch({
-      intent: SET_USER_LIST_FILTER_OPTIONS,
-      key,
-      value,
-    });
+    this.dispatcher.setFilterOptions({ key, value });
 
     if (key === 'keywords') {
       debounce(this.loadUserList());
@@ -251,21 +157,21 @@ export default class UserListModule {
   };
 
   setShowStatusFilterOptions = (value) => {
-    this.store.dispatch({
-      intent: SET_SHOW_STATUS_FILTER_OPTIONS,
-      value,
-    });
+    this.dispatcher.setShowStatusFilterOptions(value);
   };
 
   render = () => {
     const userListView = (
       <UserListView
         onCreateUser={this.redirectToCreateUser}
-        onDismissAlert={this.dismissAlert}
+        onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortUserList}
         onMyMyobClick={this.onMyMyobClick}
         onResendInvitation={this.resendInvitation}
         onCancelInvitation={this.cancelInvitation}
+        onRemoveAccessClick={this.openRemoveAccessModal}
+        onCloseModal={this.dispatcher.closeModal}
+        onRemoveAccessModal={this.removeAccess}
         onUpdateFilterOptions={this.updateFilterOptions}
         setShowStatusFilterOptions={this.setShowStatusFilterOptions}
       />
@@ -275,15 +181,10 @@ export default class UserListModule {
     this.setRootView(wrappedView);
   };
 
-  resetState() {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
-  }
+  resetState = () => this.dispatcher.resetState();
 
   run(context) {
-    this.setInitialState(context);
+    this.dispatcher.setInitialState(context);
     this.render();
     this.readMessages();
     this.loadUserList();

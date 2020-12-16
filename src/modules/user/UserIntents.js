@@ -19,6 +19,8 @@ export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const LOAD_USER_DETAIL = Symbol('Load existing user');
 export const CANCEL_INVITATION = Symbol('Cancel invitation');
 export const RESEND_INVITATION = Symbol('Resend invitation');
+export const SET_USER_INDEX = Symbol('Set selected user index');
+export const REMOVE_USER_ACCESS = Symbol('Remove user access');
 
 export const SET_USER_LIST_FILTER_OPTIONS = Symbol(
   'Set user list filter options'
