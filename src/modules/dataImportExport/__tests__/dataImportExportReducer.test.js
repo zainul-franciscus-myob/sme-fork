@@ -4,6 +4,7 @@ import {
   UPDATE_CONTACTS_IDENTIFY_BY,
   UPDATE_IMPORT_DATA_TYPE,
   UPDATE_PERIOD_DATE_RANGE,
+  UPDATE_TAX_CODE_MAPPINGS,
 } from '../DataImportExportIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import ContactIdentifyBy from '../types/ContactIdentifyBy';
@@ -35,6 +36,7 @@ describe('dataImportExportReducer', () => {
           dateTo: '',
           fileType: '',
           period: Periods.lastMonth,
+          taxCodes: [],
         },
       },
     };
@@ -119,6 +121,7 @@ describe('dataImportExportReducer', () => {
           dateTo: expect.any(String),
           fileType: expect.any(String),
           period: Periods.lastMonth,
+          taxCodes: expect.any(Array),
         });
       });
     });
@@ -383,5 +386,85 @@ describe('dataImportExportReducer', () => {
       expect(actual.export.companyFile.dateFrom).toEqual(dateFrom);
       expect(actual.export.companyFile.dateTo).toEqual(dateTo);
     });
+  });
+});
+
+describe('UPDATE_TAX_CODE_MAPPINGS', () => {
+  it('Updates tax code mappings', () => {
+    const state = {
+      export: {
+        companyFile: {
+          taxCodes: [
+            {
+              id: 1,
+              displayName: 'ABC',
+              description: 'abcdefghijkllmnopqrstuvqxyz',
+              incomeMapping: '123',
+              expensesMapping: '321',
+              displayRate: '12%',
+            },
+          ],
+        },
+      },
+    };
+
+    const action = {
+      intent: UPDATE_TAX_CODE_MAPPINGS,
+      id: 1,
+      key: 'incomeMapping',
+      value: '111',
+    };
+
+    const actual = dataImportExportReducer(state, action);
+
+    expect(actual.export.companyFile.taxCodes).toEqual([
+      {
+        id: 1,
+        displayName: 'ABC',
+        description: 'abcdefghijkllmnopqrstuvqxyz',
+        incomeMapping: '111',
+        expensesMapping: '321',
+        displayRate: '12%',
+      },
+    ]);
+  });
+
+  it('Does not update tax code mapping if not alphanumeric', () => {
+    const state = {
+      export: {
+        companyFile: {
+          taxCodes: [
+            {
+              id: 1,
+              displayName: 'ABC',
+              description: 'abcdefghijkllmnopqrstuvqxyz',
+              incomeMapping: '123',
+              expensesMapping: '321',
+              displayRate: '12%',
+            },
+          ],
+        },
+      },
+    };
+
+    const action = {
+      intent: UPDATE_TAX_CODE_MAPPINGS,
+      id: 1,
+      key: 'incomeMapping',
+      value: '1&3',
+    };
+
+    const actual = dataImportExportReducer(state, action);
+
+    expect(actual.export.companyFile.taxCodes).toEqual([
+      {
+        id: 1,
+        displayName: 'ABC',
+        description: 'abcdefghijkllmnopqrstuvqxyz',
+        incomeMapping: '123',
+        expensesMapping: '321',
+        displayRate: '12%',
+      },
+    ]);
   });
 });

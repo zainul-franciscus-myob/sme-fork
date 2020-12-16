@@ -1,0 +1,3 @@
+.mappingInput :global(.form-group__input-group) {
+  width: 100%;
+}

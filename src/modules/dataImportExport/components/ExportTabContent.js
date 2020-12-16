@@ -43,6 +43,9 @@ const ExportTabContent = ({
           <ExportCompanyFile
             onChange={exportCompanyFileListeners.onChange}
             onPeriodChange={exportCompanyFileListeners.onPeriodChange}
+            onTaxCodeMappingChange={
+              exportCompanyFileListeners.onTaxCodeMappingChange
+            }
           />
         ),
       }[selectedDataType]}

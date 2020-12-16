@@ -19,6 +19,10 @@ const getImportRegion = createSelector(getRegion, (region) =>
 
 const getEmail = (state) => state.email;
 
+export const getTaxCodes = (state) => {
+  return state.export.companyFile.taxCodes;
+};
+
 export const getImportChartOfAccountsPayload = createSelector(
   getImportFile,
   getDuplicateRecordsOption,
@@ -151,16 +155,18 @@ export const getExportChartOfAccountsQueryParams = createStructuredSelector({
   fileType: getFileType,
 });
 
-export const getExportCompanyFileQueryParams = (state) => {
+export const getExportCompanyFileBodyData = (state) => {
   const { dateFrom, dateTo, fileType, clientCode } = getExportCompanyFile(
     state
   );
   const hasMyobAeMas = getHasClientCode(state);
+  const taxCodeMappings = getTaxCodes(state);
 
   return {
     dateFrom,
     dateTo,
     fileType,
     clientCode: hasMyobAeMas ? clientCode : undefined,
+    taxCodeMappings,
   };
 };

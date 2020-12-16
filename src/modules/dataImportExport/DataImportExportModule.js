@@ -301,6 +301,7 @@ export default class DataImportExportModule {
           exportCompanyFileListeners={{
             onChange: this.dispatcher.updateExportCompanyFileDetail,
             onPeriodChange: this.dispatcher.updatePeriodDateRange,
+            onTaxCodeMappingChange: this.dispatcher.updateTaxCodeMappings,
           }}
           updateContactsIdentifyBy={this.updateContactsIdentifyBy}
           updateContactsType={this.updateContactsType}

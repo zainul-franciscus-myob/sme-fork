@@ -10,9 +10,20 @@ const getClientCode = (state) => state.export.companyFile.clientCode;
 const getFileTypeOptions = (state) => state.export.companyFile.fileTypeOptions;
 const getPeriod = (state) => state.export.companyFile.period;
 
+export const getTaxCodes = (state) => {
+  return state.export.companyFile.taxCodes;
+};
+
 export const getHasClientCode = createSelector(
   getFileType,
   (fileType) => fileType === ExportCompanyFileType.MYOB_AE_MAS
+);
+
+export const getShouldShowTaxCodeMappingTable = createSelector(
+  getFileType,
+  (fileType) =>
+    fileType === ExportCompanyFileType.RECKON_APS ||
+    fileType === ExportCompanyFileType.SAGE_HANDI_LEDGER
 );
 
 export const getExportCompanyFileDetail = createStructuredSelector({

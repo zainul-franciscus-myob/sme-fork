@@ -1,6 +1,6 @@
 import {
   getExportChartOfAccountsQueryParams,
-  getExportCompanyFileQueryParams,
+  getExportCompanyFileBodyData,
   getImportChartOfAccountsPayload,
   getImportContactsPayload,
   getImportEmployeesPayload,
@@ -44,16 +44,36 @@ describe('DataImportExportIntegratorSelectors', () => {
             dateTo: '2020-01-31',
             fileType: ExportCompanyFileType.MYOB_AE_MAS,
             clientCode: 'ABC',
+            taxCodes: [
+              {
+                id: 1,
+                displayName: 'ABC',
+                description: 'abcdefghijkllmnopqrstuvqxyz',
+                incomeMapping: '123',
+                expensesMapping: '321',
+                displayRate: '12%',
+              },
+            ],
           },
         },
       };
 
-      const actual = getExportCompanyFileQueryParams(state);
+      const actual = getExportCompanyFileBodyData(state);
       const expected = {
         dateFrom: '2020-01-01',
         dateTo: '2020-01-31',
         fileType: ExportCompanyFileType.MYOB_AE_MAS,
         clientCode: 'ABC',
+        taxCodeMappings: [
+          {
+            id: 1,
+            displayName: 'ABC',
+            description: 'abcdefghijkllmnopqrstuvqxyz',
+            incomeMapping: '123',
+            expensesMapping: '321',
+            displayRate: '12%',
+          },
+        ],
       };
 
       expect(actual).toEqual(expected);

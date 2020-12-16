@@ -14,6 +14,7 @@ import {
   UPDATE_EXPORT_DATA_TYPE,
   UPDATE_IMPORT_DATA_TYPE,
   UPDATE_PERIOD_DATE_RANGE,
+  UPDATE_TAX_CODE_MAPPINGS,
 } from './DataImportExportIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import ContactIdentifyBy from './types/ContactIdentifyBy';
@@ -82,6 +83,7 @@ const getDefaultState = () => ({
         },
       ],
       period: Periods.lastMonth,
+      taxCodes: [],
     },
   },
 });
@@ -98,6 +100,7 @@ const setInitialStateWithSettings = (settings, initialState) => ({
       dateFrom: settings.dateFrom,
       dateTo: settings.dateTo,
       fileType: settings.fileType,
+      taxCodes: settings.taxCodes,
     },
   },
 });
@@ -294,6 +297,34 @@ const updateExportCompanyFile = (state, action) => ({
   },
 });
 
+const updateTaxCodeMappings = (state, action) => {
+  const regex = /^[a-z0-9]+$/i;
+  const isAlphanumeric = regex.test(action.value);
+
+  const updatedTaxCodeList = state.export.companyFile.taxCodes.map(
+    (taxCode) => {
+      return {
+        ...taxCode,
+        [action.key]:
+          taxCode.id === action.id && isAlphanumeric
+            ? action.value
+            : taxCode[action.key],
+      };
+    }
+  );
+
+  return {
+    ...state,
+    export: {
+      ...state.export,
+      companyFile: {
+        ...state.export.companyFile,
+        taxCodes: updatedTaxCodeList,
+      },
+    },
+  };
+};
+
 const updatePeriodDateRange = (state, { period, dateFrom, dateTo }) => ({
   ...state,
   export: {
@@ -325,6 +356,7 @@ const handlers = {
   [UPDATE_CONTACTS_TYPE]: updateContactsType,
   [UPDATE_EXPORT_COMPANY_FILE_DETAIL]: updateExportCompanyFile,
   [UPDATE_PERIOD_DATE_RANGE]: updatePeriodDateRange,
+  [UPDATE_TAX_CODE_MAPPINGS]: updateTaxCodeMappings,
 };
 
 const dataImportExportReducer = createReducer(getDefaultState(), handlers);
