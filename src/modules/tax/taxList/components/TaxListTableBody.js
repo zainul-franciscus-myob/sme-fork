@@ -23,9 +23,12 @@ const TaxListTableBody = ({ tableConfig, entries }) => {
       paidAccountName,
       paidAccountIsActive,
       rate,
+      link,
     }) => (
       <Table.Row key={id}>
-        <Table.RowItem {...tableConfig.taxCode}>{code}</Table.RowItem>
+        <Table.RowItem {...tableConfig.taxCode}>
+          <a href={link}>{code}</a>
+        </Table.RowItem>
         <Table.RowItem {...tableConfig.description}>
           {description}
         </Table.RowItem>

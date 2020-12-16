@@ -2,13 +2,22 @@ import { createSelector } from 'reselect';
 
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
+const getRegion = (state) => state.region;
 export const getBusinessId = (state) => state.businessId;
 
-export const getTableEntries = (state) => state.entries;
+const getTaxDetailUrl = (state, id) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  return `/#/${region}/${businessId}/tax/${id}`;
+};
+
+export const getTableEntries = (state) =>
+  state.entries.map((entry) => ({
+    ...entry,
+    link: getTaxDetailUrl(state, entry.id),
+  }));
 
 export const getLoadingState = (state) => state.loadingState;
-
-const getRegion = (state) => state.region;
 
 export const getTableHeaderTexts = createSelector(getRegion, (region) => {
   const getText = getRegionToDialectText(region);
