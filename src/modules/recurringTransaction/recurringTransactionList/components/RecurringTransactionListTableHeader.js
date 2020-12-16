@@ -12,7 +12,7 @@ const RecurringTransactionListTableHeader = ({
   <Table.Header>
     <Table.HeaderItem {...tableConfig.transactionName}>
       <HeaderSort
-        title="Name"
+        title="Schedule name"
         sortName="TransactionName"
         activeSort={order}
         onSort={onSort}
