@@ -4,6 +4,8 @@
     "description":"",
     "useDescription":false,
     "displayId":"",
+    "isItemBuyingPriceTaxInclusiveReadOnly": true,
+    "infoAlertText": "The buying price for items created in AccountRight is tax inclusive. Please provide the tax inclusive price.",
     "sellingDetails":{
       "price":"",
       "isTaxInclusive":true,

@@ -64,3 +64,7 @@ export const getBuyingAccountOptions = (state) => state.buyingAccountOptions;
 
 export const getBuyingIsTaxInclusive = (state) =>
   state.item.buyingDetails.isTaxInclusive;
+
+export const getIsItemBuyingPriceTaxInclusiveReadOnly = (state) =>
+  state.item.isItemBuyingPriceTaxInclusiveReadOnly;
+export const getinfoAlertText = (state) => state.item.infoAlertText;

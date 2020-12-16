@@ -17,9 +17,11 @@ import {
   getBuyingTaxCodeId,
   getBuyingUnitOfMeasure,
   getIsBuying,
+  getIsItemBuyingPriceTaxInclusiveReadOnly,
   getTaxCodeOptions,
   getTaxExclusiveLabel,
   getTaxInclusiveLabel,
+  getinfoAlertText,
 } from '../selectors/InventoryModalSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -45,6 +47,8 @@ const BuyingDetails = ({
   onUpdateBuyingOption,
   onUpdateIsBuying,
   isItemBuyingPriceTaxInclusiveEnabled,
+  isItemBuyingPriceTaxInclusiveReadOnly,
+  infoAlertText,
 }) => (
   <FieldGroup label="Buying details">
     <CheckboxGroup
@@ -78,6 +82,13 @@ const BuyingDetails = ({
         trueLabel={taxInclusiveLabel}
         falseLabel={taxExclusiveLabel}
         handler={onUpdateBuyingOption}
+        disabled={isItemBuyingPriceTaxInclusiveReadOnly}
+        labelAccessory={
+          infoAlertText != null &&
+          infoAlertText !== '' && (
+            <Tooltip triggerContent={<Icons.Info />}>{infoAlertText}</Tooltip>
+          )
+        }
       />
     )}
     <Input
@@ -124,6 +135,10 @@ const mapStateToProps = (state) => ({
   taxInclusiveLabel: getTaxInclusiveLabel(state),
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   isTaxInclusiveForBuyingDetails: getBuyingIsTaxInclusive(state),
+  isItemBuyingPriceTaxInclusiveReadOnly: getIsItemBuyingPriceTaxInclusiveReadOnly(
+    state
+  ),
+  infoAlertText: getinfoAlertText(state),
 });
 
 export default connect(mapStateToProps)(BuyingDetails);
