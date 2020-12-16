@@ -15,13 +15,16 @@ export const getAlert = (state) => state.alert;
 
 const getEntries = (state) => state.entries;
 
+const getDayLabel = (number) =>
+  number > 1 ? `${number} days` : `${number} day`;
+
 export const calculateOverdue = ({ frequency, currentDate, nextDueDate }) => {
   if (frequency === ScheduleFrequency.NEVER) {
     return '';
   }
 
   const dayDifference = differenceInDays(currentDate, nextDueDate);
-  return dayDifference <= 0 ? 'Up to date' : dayDifference.toString();
+  return dayDifference <= 0 ? 'Up to date' : getDayLabel(dayDifference);
 };
 
 export const getTableEntries = createSelector(

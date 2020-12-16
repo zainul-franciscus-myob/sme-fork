@@ -57,14 +57,20 @@ describe('recurringTransactionListSelector', () => {
       expect(actual).toEqual('Up to date');
     });
 
-    it('returns the number of overdue days if the number of days overdue is positive', () => {
-      const actual = calculateOverdue({
-        frequency: ScheduleFrequency.FORTNIGHTLY,
-        currentDate: new Date('01/31/2020'),
-        nextDueDate: new Date('01/28/2020'),
-      });
-      expect(actual).toEqual('3');
-    });
+    it.each([
+      ['01/28/2020', '3 days'],
+      ['01/30/2020', '1 day'],
+    ])(
+      'returns the number of overdue days if the number of days overdue is positive',
+      (nextDueDate, expected) => {
+        const actual = calculateOverdue({
+          frequency: ScheduleFrequency.FORTNIGHTLY,
+          currentDate: new Date('01/31/2020'),
+          nextDueDate: new Date(nextDueDate),
+        });
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 
   describe('getFlipSortOrder', () => {
