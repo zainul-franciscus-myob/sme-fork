@@ -1,4 +1,4 @@
-import { CLOSE_MODAL, UPDATE_TAX_PAY_ITEM_DETAIL } from '../../PayItemIntents';
+import { CLOSE_MODAL, SET_IS_PAGE_EDITED } from '../../PayItemIntents';
 import payItemListReducer from '../payItemListReducer';
 
 describe('PayItemListReducer', () => {
@@ -8,9 +8,10 @@ describe('PayItemListReducer', () => {
     expect(actual.isPageEdited).toEqual(false);
   });
 
-  it('sets isPageEdited to true when page is edited', () => {
+  it('sets isPageEdited correctly', () => {
     const action = {
-      intent: UPDATE_TAX_PAY_ITEM_DETAIL,
+      intent: SET_IS_PAGE_EDITED,
+      isPageEdited: true,
     };
 
     const reducer = payItemListReducer(undefined, action);

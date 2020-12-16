@@ -5,6 +5,7 @@ import {
   LOAD_PAYROLL_SETTINGS,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
+  SET_IS_PAGE_EDITED,
   SET_LEAVE_SORT_ORDER,
   SET_SUPERANNUATION_SORT_ORDER,
   SET_WAGES_SORT_ORDER,
@@ -259,6 +260,7 @@ export default class PayItemListModule {
 
   saveTaxPayItem = () => {
     this.setSubmittingState(true);
+    this.setIsPageEdited(false);
 
     const state = this.store.getState();
     const payItemPayload = getSaveTaxPayItemPayload(state);
@@ -293,8 +295,16 @@ export default class PayItemListModule {
     });
   };
 
+  setIsPageEdited = (isPageEdited) => {
+    this.store.dispatch({
+      intent: SET_IS_PAGE_EDITED,
+      isPageEdited,
+    });
+  };
+
   updateTaxPayItemDetail = ({ key, value }) => {
     this.dispatcher.updateTaxPayItemDetail({ key, value });
+    this.setIsPageEdited(true);
   };
 
   redirectToCreatePayItem = () => {

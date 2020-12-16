@@ -10,6 +10,7 @@ import {
   SET_ALERT,
   SET_DEDUCTIONS_SORT_ORDER,
   SET_EXPENSES_SORT_ORDER,
+  SET_IS_PAGE_EDITED,
   SET_LEAVE_SORT_ORDER,
   SET_LOADING_STATE,
   SET_PAYROLL_IS_SET_UP,
@@ -254,7 +255,6 @@ const updateTaxPayItemDetail = (state, action) => ({
       [action.key]: action.value,
     },
   },
-  isPageEdited: true,
 });
 
 const setTableLoadingState = (state, action) => ({
@@ -275,6 +275,11 @@ const setAlert = (state, action) => ({
 const setPayrollIsSetUp = (state, action) => ({
   ...state,
   payrollIsSetUp: action.payrollIsSetUp,
+});
+
+const setIsPageEdited = (state, action) => ({
+  ...state,
+  isPageEdited: action.isPageEdited,
 });
 
 const handlers = {
@@ -305,6 +310,7 @@ const handlers = {
   [OPEN_MODAL]: openModal,
   [SET_LOADING_STATE]: setLoadingState,
   [SET_PAYROLL_IS_SET_UP]: setPayrollIsSetUp,
+  [SET_IS_PAGE_EDITED]: setIsPageEdited,
 };
 
 const payItemListReducer = createReducer(getDefaultState(), handlers);
