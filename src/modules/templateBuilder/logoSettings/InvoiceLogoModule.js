@@ -20,13 +20,20 @@ import createTemplateIntegrator from '../../template/createTemplateIntegrator';
 import templateReducer from '../../template/templateReducer';
 
 class InvoiceLogoModule {
-  constructor({ integration, setRootView, pushMessage, uploadedLogo }) {
+  constructor({
+    integration,
+    setRootView,
+    pushMessage,
+    uploadedLogo,
+    reviewInvoiceTemplateCompleted,
+  }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.uploadedLogoCallback = uploadedLogo;
+    this.reviewInvoiceTemplate = reviewInvoiceTemplateCompleted;
     this.templateBuilderService = TemplateBuilderService(
       this.dispatcher,
       integration,
@@ -91,7 +98,7 @@ class InvoiceLogoModule {
 
   selectFile = (file) => {
     const state = this.store.getState();
-
+    this.reviewInvoiceTemplate();
     if (getImage(state)) {
       const imageTypeToModalType = {
         headerImage: ModalTypes.changeImage,
@@ -167,6 +174,7 @@ class InvoiceLogoModule {
       });
 
       this.uploadedLogoCallback();
+      this.reviewInvoiceTemplate();
       this.redirectToPaymentDetails();
     };
 

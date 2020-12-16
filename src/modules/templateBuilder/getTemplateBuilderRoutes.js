@@ -10,10 +10,11 @@ const getTemplateBuilderRoutes = ({
   pushMessage,
   popMessages,
   globalCallbacks: {
-    setupBusinessDetails,
-    addedPaymentDetails,
+    setupBusinessDetailsCompleted,
+    addedPaymentDetailsSaved,
     uploadedLogo,
     customisedEmailDefaults,
+    reviewInvoiceTemplateCompleted,
   },
 }) => [
   {
@@ -22,7 +23,7 @@ const getTemplateBuilderRoutes = ({
     module: new InvoiceBusinessSettingsModule({
       setRootView,
       integration,
-      setupBusinessDetails,
+      setupBusinessDetailsCompleted,
     }),
     documentTitle: 'Invoice business details',
   },
@@ -34,6 +35,7 @@ const getTemplateBuilderRoutes = ({
       setRootView,
       pushMessage,
       uploadedLogo,
+      reviewInvoiceTemplateCompleted,
     }),
     documentTitle: 'Upload your logo',
   },
@@ -44,7 +46,7 @@ const getTemplateBuilderRoutes = ({
       setRootView,
       integration,
       popMessages,
-      addedPaymentDetails,
+      addedPaymentDetailsSaved,
     }),
     documentTitle: 'Add invoice payment details',
   },

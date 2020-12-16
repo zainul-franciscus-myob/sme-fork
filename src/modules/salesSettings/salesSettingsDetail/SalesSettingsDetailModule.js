@@ -41,14 +41,14 @@ export default class SalesSettingsModule {
     setRootView,
     popMessages,
     replaceURLParams,
-    addedPaymentDetails,
+    addedPaymentDetailsSaved,
     featureToggles,
   }) {
     this.integration = integration;
     this.store = new Store(salesSettingsReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
-    this.closePaymentDetailsTask = addedPaymentDetails;
+    this.closePaymentDetailsTask = addedPaymentDetailsSaved;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createSalesSettingsDispatcher(this.store);
     this.integrator = createSalesSettingsIntegrator(this.store, integration);

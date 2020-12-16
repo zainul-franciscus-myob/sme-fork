@@ -74,7 +74,7 @@ export default (region, cdfguid) => [
       {
         action: `/#/${region}/${cdfguid}/invoicePaymentSettings`,
         title: 'Add invoice payment details',
-        closeEvent: 'addedPaymentDetails',
+        closeEvent: 'addedPaymentDetailsSaved',
         isComplete: true,
         template: 'drawer',
       },

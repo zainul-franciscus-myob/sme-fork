@@ -3,13 +3,14 @@ export default ({ closeTasks }) => ({
     closeTasks({ closeEvent: 'businessDetailsConfirmed' }),
   usersInvited: () => closeTasks({ closeEvent: 'usersInvited' }),
   pageLoaded: (moduleName) => closeTasks({ closeEvent: `${moduleName}Loaded` }),
-  setupBusinessDetails: () =>
-    closeTasks({ closeEvent: 'setupBusinessDetails' }),
+  setupBusinessDetailsCompleted: () =>
+    closeTasks({ closeEvent: 'setupBusinessDetailsCompleted' }),
   updatedEmailSettings: () =>
     closeTasks({ closeEvent: 'updatedEmailSettings' }),
   customisedEmailDefaults: () =>
     closeTasks({ closeEvent: 'customisedEmailDefaults' }),
-  addedPaymentDetails: () => closeTasks({ closeEvent: 'addedPaymentDetails' }),
+  addedPaymentDetailsSaved: () =>
+    closeTasks({ closeEvent: 'addedPaymentDetailsSaved' }),
   uploadedLogo: () => closeTasks({ closeEvent: 'uploadedLogo' }),
   learnPayrollCompleted: () =>
     closeTasks({ closeEvent: 'learnPayrollCompleted' }),
@@ -27,6 +28,8 @@ export default ({ closeTasks }) => ({
   employeeDetailsSaved: () =>
     closeTasks({ closeEvent: 'employeeDetailsSaved' }),
   invoiceSaved: () => closeTasks({ closeEvent: 'invoiceSaved' }),
+  reviewInvoiceTemplateCompleted: () =>
+    closeTasks({ closeEvent: 'reviewInvoiceTemplateCompleted' }),
   // Though the 'bankFeedsUpdated' event itself is not listened to by any tasks, it does trigger the
   // bank feed data to be fed back into app-state so the tasks can react to changes.
   bankFeedsUpdated: () =>

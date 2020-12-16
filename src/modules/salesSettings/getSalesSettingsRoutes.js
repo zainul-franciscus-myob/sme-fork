@@ -6,7 +6,7 @@ const getSalesSettingsRoutes = ({
   integration,
   popMessages,
   replaceURLParams,
-  globalCallbacks: { addedPaymentDetails },
+  globalCallbacks: { addedPaymentDetailsSaved },
   navigateTo,
   featureToggles,
 }) => [
@@ -19,7 +19,7 @@ const getSalesSettingsRoutes = ({
       integration,
       popMessages,
       replaceURLParams,
-      addedPaymentDetails,
+      addedPaymentDetailsSaved,
       navigateTo,
       featureToggles,
     }),
