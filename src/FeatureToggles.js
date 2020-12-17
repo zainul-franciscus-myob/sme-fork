@@ -7,4 +7,5 @@ export default Object.freeze({
   RecurringTransactions: 'essentials-recurring-transactions',
   FindAndRecode: 'essentials-find-and-recode',
   BankTransactionsAllBankAccounts: 'essentials-banking-all-bank-accounts',
+  TaxCodesDetail: 'essentials-tax-codes-crud',
 });

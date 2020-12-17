@@ -1,6 +1,8 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { isToggleOn } from '../../../splitToggle';
+import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import TaxListView from './components/TaxListView';
@@ -41,7 +43,9 @@ class TaxListModule {
     );
 
   run = (context) => {
-    this.dispatcher.setInitialState(context);
+    const isTaxDetailEnabled = isToggleOn(FeatureToggle.TaxCodesDetail);
+
+    this.dispatcher.setInitialState({ ...context, isTaxDetailEnabled });
     this.render();
     this.loadTaxList();
   };

@@ -2,10 +2,10 @@ import { Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTableEntries } from '../taxListSelectors';
+import { getIsTaxDetailEnabled, getTableEntries } from '../taxListSelectors';
 import style from './TaxListTableBody.module.css';
 
-const TaxListTableBody = ({ tableConfig, entries }) => {
+const TaxListTableBody = ({ tableConfig, entries, isTaxDetailEnabled }) => {
   const inactiveLabel = (
     <Label type="boxed" color="light-grey" size="small">
       Inactive
@@ -27,7 +27,7 @@ const TaxListTableBody = ({ tableConfig, entries }) => {
     }) => (
       <Table.Row key={id}>
         <Table.RowItem {...tableConfig.taxCode}>
-          <a href={link}>{code}</a>
+          {isTaxDetailEnabled ? <a href={link}>{code}</a> : code}
         </Table.RowItem>
         <Table.RowItem {...tableConfig.description}>
           {description}
@@ -57,6 +57,7 @@ const TaxListTableBody = ({ tableConfig, entries }) => {
 
 const mapStateToProps = (state) => ({
   entries: getTableEntries(state),
+  isTaxDetailEnabled: getIsTaxDetailEnabled(state),
 });
 
 export default connect(mapStateToProps)(TaxListTableBody);

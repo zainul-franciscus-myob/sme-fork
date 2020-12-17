@@ -5,6 +5,8 @@ import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 const getRegion = (state) => state.region;
 export const getBusinessId = (state) => state.businessId;
 
+export const getIsTaxDetailEnabled = (state) => state.isTaxDetailEnabled;
+
 const getTaxDetailUrl = (state, id) => {
   const region = getRegion(state);
   const businessId = getBusinessId(state);
