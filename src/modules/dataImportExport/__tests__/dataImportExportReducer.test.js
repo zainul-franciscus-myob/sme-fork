@@ -390,7 +390,7 @@ describe('dataImportExportReducer', () => {
 });
 
 describe('UPDATE_TAX_CODE_MAPPINGS', () => {
-  it('Updates tax code mappings for alphanumeric and hyphens', () => {
+  it('Updates tax code mappings', () => {
     const state = {
       export: {
         companyFile: {
@@ -423,45 +423,6 @@ describe('UPDATE_TAX_CODE_MAPPINGS', () => {
         displayName: 'ABC',
         description: 'abcdefghijkllmnopqrstuvqxyz',
         incomeMapping: 'N-1',
-        expensesMapping: '321',
-        displayRate: '12%',
-      },
-    ]);
-  });
-
-  it('Does not update tax code mapping if not alphanumeric', () => {
-    const state = {
-      export: {
-        companyFile: {
-          taxCodes: [
-            {
-              id: 1,
-              displayName: 'ABC',
-              description: 'abcdefghijkllmnopqrstuvqxyz',
-              incomeMapping: '123',
-              expensesMapping: '321',
-              displayRate: '12%',
-            },
-          ],
-        },
-      },
-    };
-
-    const action = {
-      intent: UPDATE_TAX_CODE_MAPPINGS,
-      id: 1,
-      key: 'incomeMapping',
-      value: '1&3',
-    };
-
-    const actual = dataImportExportReducer(state, action);
-
-    expect(actual.export.companyFile.taxCodes).toEqual([
-      {
-        id: 1,
-        displayName: 'ABC',
-        description: 'abcdefghijkllmnopqrstuvqxyz',
-        incomeMapping: '123',
         expensesMapping: '321',
         displayRate: '12%',
       },

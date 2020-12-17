@@ -298,17 +298,12 @@ const updateExportCompanyFile = (state, action) => ({
 });
 
 const updateTaxCodeMappings = (state, action) => {
-  const regex = /^[a-z0-9-]+$/i;
-  const isAlphanumeric = regex.test(action.value);
-
   const updatedTaxCodeList = state.export.companyFile.taxCodes.map(
     (taxCode) => {
       return {
         ...taxCode,
         [action.key]:
-          taxCode.id === action.id && isAlphanumeric
-            ? action.value
-            : taxCode[action.key],
+          taxCode.id === action.id ? action.value : taxCode[action.key],
       };
     }
   );
