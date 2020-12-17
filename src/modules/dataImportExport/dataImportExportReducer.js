@@ -298,7 +298,7 @@ const updateExportCompanyFile = (state, action) => ({
 });
 
 const updateTaxCodeMappings = (state, action) => {
-  const regex = /^[a-z0-9]+$/i;
+  const regex = /^[a-z0-9-]+$/i;
   const isAlphanumeric = regex.test(action.value);
 
   const updatedTaxCodeList = state.export.companyFile.taxCodes.map(

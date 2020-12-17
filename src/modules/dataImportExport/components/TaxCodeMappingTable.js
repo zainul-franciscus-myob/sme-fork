@@ -84,7 +84,6 @@ const TaxCodeMappingTable = ({ taxCodes, onChange }) => {
         >
           <Input
             name="incomeMapping"
-            textAlign="right"
             value={incomeMapping}
             onChange={handleTaxCodeMappingChange(onChange, id)}
             maxLength={3}
@@ -96,7 +95,6 @@ const TaxCodeMappingTable = ({ taxCodes, onChange }) => {
         >
           <Input
             name="expensesMapping"
-            textAlign="right"
             value={expensesMapping}
             onChange={handleTaxCodeMappingChange(onChange, id)}
             maxLength={3}

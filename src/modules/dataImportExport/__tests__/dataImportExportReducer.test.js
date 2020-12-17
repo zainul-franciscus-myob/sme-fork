@@ -390,7 +390,7 @@ describe('dataImportExportReducer', () => {
 });
 
 describe('UPDATE_TAX_CODE_MAPPINGS', () => {
-  it('Updates tax code mappings', () => {
+  it('Updates tax code mappings for alphanumeric and hyphens', () => {
     const state = {
       export: {
         companyFile: {
@@ -412,7 +412,7 @@ describe('UPDATE_TAX_CODE_MAPPINGS', () => {
       intent: UPDATE_TAX_CODE_MAPPINGS,
       id: 1,
       key: 'incomeMapping',
-      value: '111',
+      value: 'N-1',
     };
 
     const actual = dataImportExportReducer(state, action);
@@ -422,7 +422,7 @@ describe('UPDATE_TAX_CODE_MAPPINGS', () => {
         id: 1,
         displayName: 'ABC',
         description: 'abcdefghijkllmnopqrstuvqxyz',
-        incomeMapping: '111',
+        incomeMapping: 'N-1',
         expensesMapping: '321',
         displayRate: '12%',
       },
