@@ -58,9 +58,11 @@ const ContactDetailsTab = (props) => {
       onChange={onSelectChange(onContactDetailsChange)}
       width="xs"
     >
-      {stateOptions.map(({ name, id }) => (
-        <Select.Option key={id} value={id} label={name} />
-      ))}
+      {[<Select.Option value={null} label="" hidden />].concat(
+        stateOptions.map(({ name, id }) => (
+          <Select.Option key={id} value={id} label={name} />
+        ))
+      )}
     </Select>
   ) : (
     <Input
