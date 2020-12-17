@@ -25,9 +25,17 @@ const getLastMonthIndex = (state) =>
 export const getLastMonthInFY = (state) =>
   state.monthOptions[getLastMonthIndex(state)];
 
-const getOpeningBalanceDate = (state) => {
-  const { openingBalanceMonth, openingBalanceYear } = state.businessDetails;
+export const getOpeningBalanceDate = (state) => {
+  const {
+    openingBalanceMonth,
+    openingBalanceYear,
+    isFinancialYearClosed,
+    openingBalanceDate,
+  } = state.businessDetails;
 
+  if (isFinancialYearClosed) {
+    return openingBalanceDate;
+  }
   return `${openingBalanceYear}-${openingBalanceMonth}-01`;
 };
 

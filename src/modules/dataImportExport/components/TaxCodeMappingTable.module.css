@@ -1,3 +1,6 @@
+.mappingInput :global(.form-group>div:first-child) {
+  display: none;
+}
 .mappingInput :global(.form-group__input-group) {
   width: 100%;
 }

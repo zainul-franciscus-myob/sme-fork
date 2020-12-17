@@ -2,6 +2,7 @@ import {
   getCannotRecordTransactionBeforeDate,
   getFinancialYearDateRange,
   getNewFinancialYearDetails,
+  getOpeningBalanceDate,
 } from '../businessSettingsSelectors';
 
 describe('businessDetailSelector', () => {
@@ -171,6 +172,41 @@ describe('businessDetailSelector', () => {
       const expected = '1 Jul 2019';
 
       const actual = getCannotRecordTransactionBeforeDate(state);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getOpeningBalanceDate', () => {
+    it('should return first day of the opening balance month and year when FY is not closed', () => {
+      const state = {
+        businessDetails: {
+          openingBalanceYear: 2020,
+          openingBalanceMonth: 10,
+          openingBalanceDate: '2020-10-10T00:00:00',
+          isFinancialYearClosed: false,
+        },
+      };
+
+      const expected = '2020-10-01';
+
+      const actual = getOpeningBalanceDate(state);
+
+      expect(actual).toEqual(expected);
+    });
+    it('should return opening balance date when FY is closed', () => {
+      const state = {
+        businessDetails: {
+          openingBalanceYear: 2020,
+          openingBalanceMonth: 6,
+          openingBalanceDate: '2020-10-10T00:00:00',
+          isFinancialYearClosed: true,
+        },
+      };
+
+      const expected = '2020-10-10T00:00:00';
+
+      const actual = getOpeningBalanceDate(state);
 
       expect(actual).toEqual(expected);
     });
