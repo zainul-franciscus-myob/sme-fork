@@ -8,6 +8,7 @@ import {
   LOAD_CONTACT,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
+  LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
@@ -100,6 +101,11 @@ const HttpSpendMoneyMapping = {
     method: 'GET',
     getPath: ({ businessId, contactId }) =>
       `/${businessId}/spendMoney/load_abn_from_contact/${contactId}`,
+  },
+  [LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY]: {
+    method: 'GET',
+    getPath: ({ businessId, recurringTransactionId }) =>
+      `/${businessId}/spendMoney/load_prefill_from_recurring_spend_money/${recurringTransactionId}`,
   },
 };
 

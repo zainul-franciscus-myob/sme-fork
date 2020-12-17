@@ -11,6 +11,7 @@ import {
   getShouldShowAbn,
   getShouldShowAccountCode,
   getShowBankStatementText,
+  getShowPrefillRecurringButton,
   getSpendMoneyForCreatePayload,
   getSpendMoneyForUpdatePayload,
   getUniqueSelectedJobIds,
@@ -449,6 +450,20 @@ describe('spendMoneySelectors', () => {
       const uniqueIds = getUniqueSelectedJobIds(state);
 
       expect(uniqueIds).toEqual([]);
+    });
+  });
+
+  describe('getShowPrefillRecurringButton', () => {
+    it('shows on new spend money', () => {
+      const actual = getShowPrefillRecurringButton.resultFunc(true, true);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('hides when feature toggle is off', () => {
+      const actual = getShowPrefillRecurringButton.resultFunc(true, false);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

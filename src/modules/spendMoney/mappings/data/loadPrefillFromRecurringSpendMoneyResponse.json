@@ -1,0 +1,34 @@
+{
+  "spendMoney": {
+    "id": "789",
+    "referenceId": "SM1234567",
+    "isTaxInclusive": false,
+    "isReportable": false,
+    "description": "Bob the builder",
+    "selectedPayFromAccountId": "456",
+    "selectedPayToContactId": "2",
+    "lines": [
+      {
+        "jobId": "1",
+        "accountId": "789",
+        "amount": "1000.00",
+        "quantity": "5",
+        "description": "Bob",
+        "taxCodeId": "123",
+        "taxAmount": "80.10",
+        "lineSubTypeId": 8
+      },
+      {
+        "jobId": "2",
+        "accountId": "456",
+        "amount": "2352.00",
+        "description": "the builder",
+        "taxCodeId": "123",
+        "quantity": "",
+        "taxAmount": "280.10",
+        "lineSubTypeId": 8
+      }
+    ]
+  },
+  "contactType": "Supplier"
+}

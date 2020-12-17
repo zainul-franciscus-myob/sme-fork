@@ -14,6 +14,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
+  LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
@@ -127,6 +128,7 @@ const getDefaultState = () => ({
   startOfFinancialYearDate: '',
   contactType: undefined,
   viewedAccountToolTip: false,
+  isRecurringTransactionEnabled: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -702,6 +704,24 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
   viewedAccountToolTip,
 });
 
+const loadPrefillFromRecurringSpendMoney = (state, action) => {
+  const defaultState = getDefaultState();
+
+  return {
+    ...state,
+    ...action,
+    spendMoney: {
+      ...defaultState.spendMoney,
+      ...action.spendMoney,
+      originalReferenceId: action.spendMoney.referenceId,
+      originalBankStatementText: action.spendMoney.bankStatementText,
+      date: state.spendMoney.date,
+      payFromAccounts: state.spendMoney.payFromAccounts,
+      electronicClearingAccountId: state.spendMoney.electronicClearingAccountId,
+    },
+  };
+};
+
 const handlers = {
   [UPDATE_SPEND_MONEY_HEADER]: updateHeader,
   [LOAD_NEW_SPEND_MONEY]: loadNewSpendMoney,
@@ -750,6 +770,7 @@ const handlers = {
   [LOAD_ABN_FROM_CONTACT]: loadAbnFromContact,
   [CLEAR_ABN]: clearAbn,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
+  [LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY]: loadPrefillFromRecurringSpendMoney,
 };
 const spendMoneyReducer = createReducer(getDefaultState(), handlers);
 

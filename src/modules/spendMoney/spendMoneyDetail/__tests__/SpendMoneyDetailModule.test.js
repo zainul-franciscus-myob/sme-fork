@@ -70,12 +70,14 @@ const setup = () => {
   const setRootView = () => {};
   const pushMessage = () => {};
   const popMessages = () => [];
+  const featureToggles = { isRecurringTransactionEnabled: false };
 
   const module = new SpendMoneyDetailModule({
     integration,
     setRootView,
     pushMessage,
     popMessages,
+    featureToggles,
   });
   module.store = store;
   module.dispatcher = createSpendMoneyDispatcher(store);
@@ -548,6 +550,7 @@ describe('SpendMoneyDetailModule', () => {
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
+            isRecurringTransactionEnabled: false,
           },
         },
         {
@@ -618,6 +621,7 @@ describe('SpendMoneyDetailModule', () => {
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
+            isRecurringTransactionEnabled: false,
           },
         },
         {
@@ -681,6 +685,7 @@ describe('SpendMoneyDetailModule', () => {
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
+            isRecurringTransactionEnabled: false,
           },
         },
         {
@@ -752,6 +757,7 @@ describe('SpendMoneyDetailModule', () => {
             businessId: '👺',
             region: 'au',
             spendMoneyId: 'new',
+            isRecurringTransactionEnabled: false,
           },
         },
         {
@@ -816,6 +822,7 @@ describe('SpendMoneyDetailModule', () => {
             businessId: '👺',
             region: 'au',
             spendMoneyId: '1',
+            isRecurringTransactionEnabled: false,
           },
         },
         {

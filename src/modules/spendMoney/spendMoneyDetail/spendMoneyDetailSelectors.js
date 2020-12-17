@@ -13,6 +13,8 @@ import Region from '../../../common/types/Region';
 import buildAbnLink from '../../../common/links/buildAbnLink';
 import getRegionToDialectText from '../../../dialect/getRegionToDialectText';
 
+const getIsRecurringTransactionEnabled = (state) =>
+  state.isRecurringTransactionEnabled;
 const getReferenceId = (state) => state.spendMoney.referenceId;
 export const getSelectedPayFromId = (state) =>
   state.spendMoney.selectedPayFromAccountId;
@@ -483,3 +485,24 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
 );
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getShowPrefillRecurringButton = createSelector(
+  getIsCreating,
+  getIsRecurringTransactionEnabled,
+  (isCreating, isRecurringTransactionEnabled) =>
+    isCreating && isRecurringTransactionEnabled
+);
+
+export const getRecurringTransactionListModalContext = (state) => ({
+  businessId: getBusinessId(state),
+  transactionType: 'SpendMoney',
+});
+
+export const getLoadPrefillFromRecurringSpendMoneyUrlParams = (
+  state,
+  recurringTransactionId
+) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, recurringTransactionId };
+};

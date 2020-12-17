@@ -28,6 +28,7 @@ import styles from './SpendMoneyDetailView.module.css';
 const SpendMoneyDetailView = ({
   renderJobCombobox,
   renderContactCombobox,
+  recurringListModal,
   accountModal,
   contactModal,
   onUpdateHeaderOptions,
@@ -47,6 +48,7 @@ const SpendMoneyDetailView = ({
   pageTitle,
   attachmentCount,
   onConfirmDeleteButtonClick,
+  onPrefillButtonClick,
   modal,
   onAddAccount,
   onUpdateRow,
@@ -84,6 +86,7 @@ const SpendMoneyDetailView = ({
       onSaveAndButtonClick={onSaveAndButtonClick}
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
+      onPrefillButtonClick={onPrefillButtonClick}
     />
   );
 
@@ -129,6 +132,7 @@ const SpendMoneyDetailView = ({
       {inTrayDocumentView}
       {accountModal}
       {contactModal}
+      {recurringListModal}
       {modal && (
         <SpendMoneyModal
           modal={modal}

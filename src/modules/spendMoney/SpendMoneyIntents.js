@@ -71,3 +71,7 @@ export const CLEAR_ABN = Symbol('Clear the abn');
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
+
+export const LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY = Symbol(
+  'Load prefill from recurring spend money'
+);

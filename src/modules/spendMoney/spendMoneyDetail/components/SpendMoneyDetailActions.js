@@ -2,7 +2,10 @@ import { Button, ButtonRow, Dropdown, Icons } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsActionsDisabled } from '../spendMoneyDetailSelectors';
+import {
+  getIsActionsDisabled,
+  getShowPrefillRecurringButton,
+} from '../spendMoneyDetailSelectors';
 import SaveActionType from './SaveActionType';
 
 const SpendMoneyDetailActions = ({
@@ -10,8 +13,10 @@ const SpendMoneyDetailActions = ({
   onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
+  onPrefillButtonClick,
   isActionsDisabled,
   isCreating,
+  showPrefillRecurringButton,
 }) => {
   const dropdownActionItems = [
     <Dropdown.Item
@@ -75,6 +80,17 @@ const SpendMoneyDetailActions = ({
             Delete
           </Button>
         ),
+        showPrefillRecurringButton && (
+          <Button
+            key="prefill"
+            name="prefill"
+            type="secondary"
+            onClick={onPrefillButtonClick}
+            disabled={isActionsDisabled}
+          >
+            Prefill from recurring
+          </Button>
+        ),
       ]}
     />
   );
@@ -82,6 +98,7 @@ const SpendMoneyDetailActions = ({
 
 const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
+  showPrefillRecurringButton: getShowPrefillRecurringButton(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailActions);

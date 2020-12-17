@@ -35,6 +35,7 @@ import {
   getModal,
   getModalUrl,
   getOpenedModalType,
+  getRecurringTransactionListModalContext,
   getSaveUrl,
   getSelectedPayFromId,
   getSelectedPayToContactId,
@@ -48,19 +49,23 @@ import {
   isPageEdited,
   isReferenceIdDirty,
 } from './spendMoneyDetailSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { trackUserEvent } from '../../../telemetry';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
+import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
 import SaveActionType from './components/SaveActionType';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyElementId from './SpendMoneyElementId';
 import Store from '../../../store/Store';
 import createSpendMoneyDispatcher from './createSpendMoneyDispatcher';
 import createSpendMoneyIntegrator from './createSpendMoneyIntegrator';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import spendMoneyDetailReducer from './spendMoneyDetailReducer';
@@ -79,6 +84,7 @@ export default class SpendMoneyDetailModule {
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.navigateTo = navigateTo;
+    this.featureToggles = featureToggles;
     this.dispatcher = createSpendMoneyDispatcher(this.store);
     this.integrator = createSpendMoneyIntegrator(this.store, integration);
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.spendMoney);
@@ -92,6 +98,10 @@ export default class SpendMoneyDetailModule {
       onAlert: this.dispatcher.setAlert,
     });
     this.trackUserEvent = trackUserEvent;
+
+    this.recurringTransactionListModal = new RecurringTransactionListModalModule(
+      { integration }
+    );
   }
 
   openAccountModal = (onChange) => {
@@ -202,15 +212,7 @@ export default class SpendMoneyDetailModule {
         this.dispatcher.setContactType(contactType);
       });
       this.getTaxCalculations({ isSwitchingTaxInclusive: false });
-
-      const state = this.store.getState();
-      const contactId = getSelectedPayToContactId(state);
-      if (contactId && getShouldLoadAbn(state)) {
-        this.loadAbnFromContact(contactId);
-      }
-
-      this.updateContactCombobox();
-      this.updateJobCombobox();
+      this.updateComponentsAfterLoadSpendMoney();
     };
 
     const onFailure = () => {
@@ -451,6 +453,59 @@ export default class SpendMoneyDetailModule {
     const url = getModalUrl(state);
 
     this.navigateTo(url);
+  };
+
+  openRecurringTransactionListModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionListModal.run({
+      context: getRecurringTransactionListModalContext(state),
+      onComplete: ({ id }) => {
+        this.recurringTransactionListModal.close();
+
+        if (id) {
+          this.loadPrefillFromRecurringSpendMoney(id);
+        }
+      },
+      onLoadFailure: (message) => {
+        this.recurringTransactionListModal.close();
+        this.dispatcher.setAlert({ type: 'danger', message });
+      },
+    });
+  };
+
+  loadPrefillFromRecurringSpendMoney = (recurringTransactionId) => {
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = (data) => {
+      this.dispatcher.setSubmittingState(false);
+
+      this.dispatcher.loadPrefillFromRecurringSpendMoney(data);
+      this.updateComponentsAfterLoadSpendMoney();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlert({ type: 'danger', message });
+    };
+
+    this.integrator.loadPrefillFromRecurringSpendMoney({
+      recurringTransactionId,
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  updateComponentsAfterLoadSpendMoney = () => {
+    const state = this.store.getState();
+
+    const contactId = getSelectedPayToContactId(state);
+    if (contactId && getShouldLoadAbn(state)) {
+      this.loadAbnFromContact(contactId);
+    }
+
+    this.updateContactCombobox();
+    this.updateJobCombobox();
   };
 
   redirectAfterLink = () => {
@@ -735,9 +790,11 @@ export default class SpendMoneyDetailModule {
   render = () => {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
+    const recurringListModal = this.recurringTransactionListModal.render();
 
     const spendMoneyView = (
       <SpendMoneyDetailView
+        recurringListModal={recurringListModal}
         renderJobCombobox={this.renderJobCombobox}
         renderContactCombobox={this.renderContactCombobox}
         accountModal={accountModal}
@@ -751,6 +808,7 @@ export default class SpendMoneyDetailModule {
           this.handleOnDiscardButtonClickFromUnsavedModal
         }
         onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
+        onPrefillButtonClick={this.openRecurringTransactionListModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         isCreating={isCreating}
         onUpdateRow={this.updateSpendMoneyLine}
@@ -905,6 +963,11 @@ export default class SpendMoneyDetailModule {
       return;
     }
 
+    if (this.recurringTransactionListModal.isOpened()) {
+      this.recurringTransactionListModal.complete();
+      return;
+    }
+
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
     switch (modalType) {
@@ -958,7 +1021,15 @@ export default class SpendMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    const isRecurringTransactionEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
+    });
+
+    this.dispatcher.setInitialState({
+      isRecurringTransactionEnabled,
+      ...context,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();
@@ -973,6 +1044,7 @@ export default class SpendMoneyDetailModule {
     this.accountModalModule.resetState();
     this.contactComboboxModule.resetState();
     this.jobComboboxModule.resetState();
+    this.recurringTransactionListModal.resetState();
   }
 
   handlePageTransition = (url) => {

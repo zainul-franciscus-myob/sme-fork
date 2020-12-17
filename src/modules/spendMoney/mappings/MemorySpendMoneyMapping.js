@@ -8,6 +8,7 @@ import {
   LOAD_CONTACT,
   LOAD_NEW_DUPLICATE_SPEND_MONEY,
   LOAD_NEW_SPEND_MONEY,
+  LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SPEND_MONEY_DETAIL,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
@@ -22,6 +23,7 @@ import attachmentDetailResponse from './data/attachmentDetail';
 import createSpendMoneyResponse from './data/createSpendMoney';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadContactResponse from './data/loadContactResponse';
+import loadPrefillFromRecurringSpendMoneyResponse from './data/loadPrefillFromRecurringSpendMoneyResponse';
 import newDuplicateSpendMoneyDetailEntry from './data/loadNewDuplicateSpendMoneyDetailEntry';
 import spendMoneyDetailEntry from './data/spendMoneyDetailEntry';
 import spendMoneyDetailPrefillResponse from './data/spendMoneyDetailPrefill';
@@ -82,6 +84,8 @@ const MemorySpendMoneyMapping = {
     onSuccess(loadAddedAccountResponse),
   [LOAD_CONTACT]: ({ onSuccess }) => onSuccess(loadContactResponse),
   [LOAD_ABN_FROM_CONTACT]: ({ onSuccess }) => onSuccess(abnDetail),
+  [LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY]: ({ onSuccess }) =>
+    onSuccess(loadPrefillFromRecurringSpendMoneyResponse),
 };
 
 export default MemorySpendMoneyMapping;

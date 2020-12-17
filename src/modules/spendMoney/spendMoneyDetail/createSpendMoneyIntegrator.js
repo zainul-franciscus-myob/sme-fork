@@ -6,6 +6,7 @@ import {
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_CONTACT,
+  LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_ATTACHMENT,
@@ -19,6 +20,7 @@ import {
   getLoadAddedAccountUrlParams,
   getLoadContactDetailUrlParams,
   getLoadContactUrlParams,
+  getLoadPrefillFromRecurringSpendMoneyUrlParams,
   getLoadSpendMoneyIntent,
   getLoadSpendMoneyRequestParams,
   getLoadSpendMoneyRequestUrlParams,
@@ -268,6 +270,22 @@ const createSpendMoneyIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
     });
+  },
+
+  loadPrefillFromRecurringSpendMoney: ({
+    recurringTransactionId,
+    onSuccess,
+    onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY;
+    const urlParams = getLoadPrefillFromRecurringSpendMoneyUrlParams(
+      state,
+      recurringTransactionId
+    );
+
+    integration.read({ intent, urlParams, onSuccess, onFailure });
   },
 });
 

@@ -12,6 +12,7 @@ import {
   HIDE_PREFILL_INFO,
   LOAD_ABN_FROM_CONTACT,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
   LOAD_REFERENCE_ID,
   LOAD_SUPPLIER_EXPENSE_ACCOUNT,
   OPEN_MODAL,
@@ -309,6 +310,12 @@ const createSpendMoneyDispatcher = (store) => ({
     store.dispatch({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
+    }),
+
+  loadPrefillFromRecurringSpendMoney: (data) =>
+    store.dispatch({
+      intent: LOAD_PREFILL_FROM_RECURRING_SPEND_MONEY,
+      ...data,
     }),
 });
 
