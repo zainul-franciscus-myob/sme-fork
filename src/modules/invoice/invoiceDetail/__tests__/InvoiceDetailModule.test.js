@@ -1,4 +1,5 @@
 import {
+  ADD_EINVOICE_ATTACHMENTS,
   CREATE_INVOICE_DETAIL,
   CREATE_PRE_CONVERSION_INVOICE_DETAIL,
   LOAD_ABN_FROM_CUSTOMER,
@@ -13,7 +14,6 @@ import {
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
   RESET_CUSTOMER,
-  RESET_SEND_EINVOICE,
   SEND_EINVOICE,
   SET_ABN_LOADING_STATE,
   SET_ALERT,
@@ -1063,116 +1063,6 @@ describe('InvoiceDetailModule', () => {
     });
   });
 
-  describe('sendEInvoiceModal', () => {
-    describe('openSendEInvoiceModal', () => {
-      it('opens sendEInvoice Modal', () => {
-        const { module, store } = setupWithRun();
-
-        module.openSendEInvoiceModal();
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.SEND_EINVOICE,
-          },
-        ]);
-      });
-
-      it('closes sendEInvoice Modal', () => {
-        const { module, store } = setupWithRun();
-
-        module.closeSendEInvoiceModal();
-
-        expect(store.getActions()).toEqual([
-          { intent: RESET_SEND_EINVOICE },
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.NONE,
-          },
-        ]);
-      });
-    });
-  });
-
-  describe('SendEInvoiceAbnWarningModal', () => {
-    describe('openSendEInvoiceAbnWarningModal', () => {
-      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN', () => {
-        const { module, store } = setupWithRun({
-          isCreating: true,
-        });
-
-        store.setState({
-          ...store.getState(),
-          abn: { status: AbnStatus.INVALID },
-        });
-
-        module.openSendEInvoiceAbnWarningModal();
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
-          },
-        ]);
-      });
-
-      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN when page was edited', () => {
-        const { module, store } = setupWithRun({
-          isPageEdited: true,
-        });
-
-        store.setState({
-          ...store.getState(),
-          abn: { status: AbnStatus.INVALID },
-        });
-
-        module.openSendEInvoiceAbnWarningModal();
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
-          },
-        ]);
-      });
-
-      it('open sendEInvoiceAbnWarning modal if customer has an invalid ABN when page unedited', () => {
-        const { module, store } = setupWithRun({
-          isPageEdited: false,
-        });
-
-        store.setState({
-          ...store.getState(),
-          abn: { status: AbnStatus.INVALID },
-        });
-
-        module.openSendEInvoiceAbnWarningModal();
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
-          },
-        ]);
-      });
-    });
-
-    describe('closeInvalidAbnModal', () => {
-      it('closes InvalidAbn Modal', () => {
-        const { module, store } = setupWithRun();
-
-        module.closeInvalidAbnModal();
-
-        expect(store.getActions()).toEqual([
-          {
-            intent: SET_MODAL_TYPE,
-            modalType: InvoiceDetailModalType.NONE,
-          },
-        ]);
-      });
-    });
-  });
-
   describe('sendEInvoice', () => {
     describe('send e-invoice successfully', () => {
       it('send e-invoice and redirect to invoice list', () => {
@@ -1224,6 +1114,26 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: SEND_EINVOICE }),
         ]);
       });
+    });
+  });
+
+  describe('addEInvoiceAttachments', () => {
+    it('add attachments to eInvoice', () => {
+      const { module, store } = setupWithRun({
+        isCreating: false,
+      });
+      const files = [
+        {
+          name: 'File',
+          type: 'text/pdf',
+        },
+      ];
+
+      module.addEInvoiceAttachments(files);
+
+      expect(store.getActions()).toEqual([
+        { intent: ADD_EINVOICE_ATTACHMENTS, files },
+      ]);
     });
   });
 

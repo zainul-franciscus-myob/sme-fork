@@ -137,4 +137,8 @@ export const LOAD_PREFILL_FROM_RECURRING_INVOICE = Symbol(
 );
 
 export const SEND_EINVOICE = Symbol('Send e-invoice');
-export const RESET_SEND_EINVOICE = Symbol('Reset send e-invoice');
+export const RESET_SEND_EINVOICE_ATTACHMENTS = Symbol(
+  'Reset send e-invoice attachments'
+);
+export const ADD_EINVOICE_ATTACHMENTS = Symbol('Add e-invoice attachments');
+export const REMOVE_EINVOICE_ATTACHMENT = Symbol('Remove e-invoice attachment');

@@ -2,6 +2,7 @@ import { isBefore } from 'date-fns';
 import Decimal from 'decimal.js';
 
 import {
+  ADD_EINVOICE_ATTACHMENTS,
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
   CALCULATE_LINES,
@@ -17,12 +18,13 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
+  REMOVE_EINVOICE_ATTACHMENT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
   RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_SEND_EINVOICE,
+  RESET_SEND_EINVOICE_ATTACHMENTS,
   SAVE_EMAIL_SETTINGS,
   SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
@@ -66,6 +68,11 @@ import {
   uploadEmailAttachmentFailed,
   uploadEmailAttachmentUploadProgress,
 } from './EmailReducer';
+import {
+  addEInvoiceAttachments,
+  removeEInvoiceAttachment,
+  resetSendEInvoiceAttachments,
+} from './EInvoiceReducer';
 import {
   calculateAmountDue,
   calculateTotals,
@@ -510,15 +517,6 @@ const loadPrefillFromRecurringInvoice = (state, { invoice }) => {
   };
 };
 
-const resetSendEInvoice = (state, { modalAlert }) => ({
-  ...state,
-  modalAlert,
-  eInvoice: {
-    ...state.eInvoice,
-    attachments: [],
-  },
-});
-
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -573,7 +571,9 @@ const handlers = {
   [RESET_CUSTOMER_QUOTE]: resetCustomerQuote,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
   [LOAD_PREFILL_FROM_RECURRING_INVOICE]: loadPrefillFromRecurringInvoice,
-  [RESET_SEND_EINVOICE]: resetSendEInvoice,
+  [RESET_SEND_EINVOICE_ATTACHMENTS]: resetSendEInvoiceAttachments,
+  [ADD_EINVOICE_ATTACHMENTS]: addEInvoiceAttachments,
+  [REMOVE_EINVOICE_ATTACHMENT]: removeEInvoiceAttachment,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

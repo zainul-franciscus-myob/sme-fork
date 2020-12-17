@@ -52,7 +52,10 @@ import {
   getSendEmailPayload,
   getSendEmailUrlParams,
 } from './selectors/emailSelectors';
-import { getSendEInvoiceUrlParams } from './selectors/eInvoiceSelectors';
+import {
+  getSendEInvoicePayload,
+  getSendEInvoiceUrlParams,
+} from './selectors/eInvoiceSelectors';
 
 const createInvoiceDetailIntegrator = (store, integration) => ({
   loadInvoice: ({ onSuccess, onFailure }) => {
@@ -226,11 +229,12 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
 
     const intent = SEND_EINVOICE;
     const urlParams = getSendEInvoiceUrlParams(state);
+    const content = getSendEInvoicePayload(state);
 
-    integration.write({
+    integration.writeFormData({
       intent,
       urlParams,
-      content: {},
+      content,
       onSuccess,
       onFailure,
     });

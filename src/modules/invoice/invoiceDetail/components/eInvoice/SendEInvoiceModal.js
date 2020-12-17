@@ -1,9 +1,15 @@
-import { Alert, Modal, Separator, SubHeadingGroup } from '@myob/myob-widgets';
+import {
+  Alert,
+  Button,
+  Field,
+  Modal,
+  SubHeadingGroup,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getSendEInvoiceOptions } from '../../selectors/eInvoiceSelectors';
-import Button from '../../../../../components/Button/Button';
+import SendEInvoiceAttachmentsContent from './SendEInvoiceAttachmentsContent';
 import styles from './SendEInvoiceModal.module.css';
 
 const SendEInvoiceModal = ({
@@ -13,8 +19,10 @@ const SendEInvoiceModal = ({
   customerName,
   invoiceNumber,
   issueDate,
+  onAddAttachments,
   onCloseModal,
   onDismissAlert,
+  onRemoveAttachment,
   onSendEInvoice,
 }) => {
   const infoBlock = (
@@ -61,8 +69,23 @@ const SendEInvoiceModal = ({
     </div>
   );
 
+  const attachmentBlock = (
+    <div>
+      <Field
+        label="Supporting documents"
+        className={styles.field}
+        renderField={() => (
+          <SendEInvoiceAttachmentsContent
+            onRemoveAttachment={onRemoveAttachment}
+            onAddAttachments={onAddAttachments}
+          />
+        )}
+      />
+    </div>
+  );
+
   return (
-    <Modal size="medium" title="Send e-invoice" onCancel={onCloseModal}>
+    <Modal size="default" title="Send e-invoice" onCancel={onCloseModal}>
       <Modal.Body>
         {alert && (
           <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -71,7 +94,7 @@ const SendEInvoiceModal = ({
         )}
         {infoBlock}
         {invoiceDetails}
-        <Separator direction="horizontal" />
+        {attachmentBlock}
       </Modal.Body>
       <Modal.Footer>
         <Button type="secondary" onClick={onCloseModal}>

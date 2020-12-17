@@ -1,4 +1,5 @@
 import {
+  ADD_EINVOICE_ATTACHMENTS,
   ADD_EMAIL_ATTACHMENTS,
   ADD_INVOICE_LINE,
   CALCULATE_LINES,
@@ -14,12 +15,13 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   RELOAD_INVOICE_DETAIL,
+  REMOVE_EINVOICE_ATTACHMENT,
   REMOVE_EMAIL_ATTACHMENT,
   REMOVE_INVOICE_LINE,
   RESET_CUSTOMER,
   RESET_CUSTOMER_QUOTE,
   RESET_EMAIL_INVOICE_DETAIL,
-  RESET_SEND_EINVOICE,
+  RESET_SEND_EINVOICE_ATTACHMENTS,
   SAVE_EMAIL_SETTINGS,
   SELECT_CUSTOMER_QUOTE,
   SET_ABN_LOADING_STATE,
@@ -346,7 +348,17 @@ const createInvoiceDetailDispatcher = (store) => ({
   },
 
   resetSendEInvoiceModal: () => {
-    store.dispatch({ intent: RESET_SEND_EINVOICE });
+    store.dispatch({ intent: RESET_SEND_EINVOICE_ATTACHMENTS });
+  },
+
+  addEInvoiceAttachments: (files) => {
+    const intent = ADD_EINVOICE_ATTACHMENTS;
+    store.dispatch({ intent, files });
+  },
+
+  removeEInvoiceAttachment: (index) => {
+    const intent = REMOVE_EINVOICE_ATTACHMENT;
+    store.dispatch({ intent, index });
   },
 });
 

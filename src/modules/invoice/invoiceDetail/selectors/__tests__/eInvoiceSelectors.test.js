@@ -1,10 +1,13 @@
 import {
   getEInvoiceAppName,
+  getEInvoiceAttachmentsToSend,
   getIsActiveAbn,
   getSendEInvoiceOptions,
+  getSendEInvoicePayload,
   getSendEInvoiceUrlParams,
   getShowEInvoiceButton,
 } from '../eInvoiceSelectors';
+import uuid from '../../../../../common/uuid/uuid';
 
 describe('eInvoiceSelectors', () => {
   describe('getEInvoiceAppName', () => {
@@ -99,6 +102,76 @@ describe('eInvoiceSelectors', () => {
     });
   });
 
+  describe('getEInvoiceAttachmentsToSend', () => {
+    describe('should filter failed attachments if any', () => {
+      it('return 2 attachments for send e-invoice', () => {
+        const attachments = [
+          {
+            file: 'FILE',
+            state: 'finished',
+          },
+          {
+            file: 'FILE',
+            state: 'finished',
+          },
+        ];
+        const state = {
+          eInvoice: {
+            appName: 'FooBar',
+            attachments,
+          },
+        };
+
+        const actual = getEInvoiceAttachmentsToSend(state);
+
+        expect(actual.length).toEqual(2);
+      });
+
+      it('return 1 attachment for send e-invoice', () => {
+        const attachments = [
+          {
+            file: 'FILE',
+            state: 'finished',
+          },
+          {
+            file: 'FILE',
+            state: 'failed',
+          },
+        ];
+        const state = {
+          eInvoice: {
+            appName: 'FooBar',
+            attachments,
+          },
+        };
+
+        const actual = getEInvoiceAttachmentsToSend(state);
+
+        expect(actual.length).toEqual(1);
+      });
+    });
+  });
+
+  describe('getSendEInvoicePayload', () => {
+    it('should return payload for send e-invoice', () => {
+      const attachments = new Array(2).fill({
+        file: new File([''], 'filename', { type: 'text/pdf' }),
+        state: 'finished',
+        key: uuid(),
+      });
+      const state = {
+        eInvoice: {
+          appName: 'FooBar',
+          attachments,
+        },
+      };
+
+      const actual = getSendEInvoicePayload(state);
+
+      expect(actual).toEqual(attachments.map((attachment) => attachment.file));
+    });
+  });
+
   describe('getSendEInvoiceOptions', () => {
     it.each([
       [null, ''],
@@ -129,6 +202,72 @@ describe('eInvoiceSelectors', () => {
         abn: expectedAbn,
       };
 
+      expect(actual).toMatchObject(expected);
+    });
+
+    it('should return correct payload for send e-invoice modal', () => {
+      const attachments = new Array(1).fill({
+        file: new File([''], 'filename', { type: 'text/pdf' }),
+        state: 'finished',
+        key: uuid(),
+      });
+      const state = {
+        abn: { abn: 'Test' },
+        invoice: {
+          issueDate: '2020-12-15',
+          lines: [
+            {
+              accountId: '190',
+              amount: '452',
+              description: 'Nintendo switch',
+              discount: '0',
+              itemId: '5',
+              jobId: '17',
+              lineTypeId: '19',
+              taxAmount: '41.09',
+              taxCodeId: '1',
+              taxExclusiveAmount: '410.91',
+              type: 'item',
+              unitOfMeasure: 'qty',
+              unitPrice: '452',
+              units: '1',
+            },
+          ],
+          isTaxInclusive: true,
+          taxExclusiveFreightAmount: '0',
+          freightTaxAmount: '0',
+          freightTaxCodeId: '0',
+          amountPaid: '0',
+          customerName: 'Tom Cruise',
+          invoiceNumber: '00000001',
+        },
+        eInvoice: {
+          appName: 'FooBar',
+          attachments,
+        },
+      };
+
+      const expected = {
+        abn: 'Test',
+        amountDue: '$452.00',
+        customerName: 'Tom Cruise',
+        invoiceNumber: '00000001',
+        issueDate: '15/12/2020',
+        attachments: attachments.map(
+          ({ key, file, error, state: attachmentState }) => ({
+            key,
+            canRemove: true,
+            state: attachmentState,
+            error,
+            file,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+          })
+        ),
+      };
+
+      const actual = getSendEInvoiceOptions(state);
       expect(actual).toMatchObject(expected);
     });
   });

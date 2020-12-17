@@ -16,7 +16,7 @@ import InvoiceDetailPreConversionModal from './modal/InvoiceDetailPreConversionM
 import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfirmModal';
 import QuickQuoteModal from './modal/QuickQuoteModal';
 import SaveAmountDueWarningModal from './modal/SaveAmountDueWarningModal';
-import SendEInvoiceModal from './modal/SendEInvoiceModal';
+import SendEInvoiceModal from './eInvoice/SendEInvoiceModal';
 import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const InvoiceDetailModal = ({
@@ -141,8 +141,10 @@ const InvoiceDetailModal = ({
     return (
       <SendEInvoiceModal
         alert={alert}
+        onAddAttachments={sendEInvoiceModalListeners.onAddAttachments}
         onCloseModal={sendEInvoiceModalListeners.onCloseModal}
         onDismissAlert={sendEInvoiceModalListeners.onDismissAlert}
+        onRemoveAttachment={sendEInvoiceModalListeners.onRemoveAttachment}
         onSendEInvoice={sendEInvoiceModalListeners.onSendEInvoice}
       />
     );

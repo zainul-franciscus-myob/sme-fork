@@ -1,11 +1,13 @@
 import {
   LOAD_INVOICE_DETAIL,
+  RESET_SEND_EINVOICE_ATTACHMENTS,
   SAVE_EMAIL_SETTINGS,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
 } from '../../InvoiceIntents';
-import { setup } from './InvoiceDetailModule.test';
+import { setup, setupWithRun } from './InvoiceDetailModule.test';
+import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import loadInvoiceDetailResponse from '../../mappings/data/serviceLayout/invoiceServiceDetail';
 
@@ -151,6 +153,82 @@ describe('InvoiceDetailModule_Modals', () => {
 
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: SAVE_EMAIL_SETTINGS }),
+        ]);
+      });
+    });
+  });
+
+  describe('sendEInvoiceModal', () => {
+    describe('openSendEInvoiceModal', () => {
+      it('opens sendEInvoice Modal', () => {
+        const { module, store } = setup();
+
+        module.openSendEInvoiceModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.SEND_EINVOICE,
+          },
+        ]);
+      });
+
+      it('closes sendEInvoice Modal', () => {
+        const { module, store } = setup();
+
+        module.closeSendEInvoiceModal();
+
+        expect(store.getActions()).toEqual([
+          { intent: RESET_SEND_EINVOICE_ATTACHMENTS },
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.NONE,
+          },
+        ]);
+      });
+    });
+  });
+
+  describe('SendEInvoiceAbnWarningModal', () => {
+    describe('openSendEInvoiceAbnWarningModal', () => {
+      it.each`
+        isCreating | isPageEdited
+        ${true}    | ${false}
+        ${false}   | ${true}
+        ${false}   | ${false}
+      `(
+        `open sendEInvoiceAbnWarning modal if customer has an invalid ABN when page creating is "$isCreating", page edited is "$isPageEdited"`,
+        ({ isCreating, isPageEdited }) => {
+          const { module, store } = setupWithRun({ isCreating, isPageEdited });
+
+          store.setState({
+            ...store.getState(),
+            abn: { status: AbnStatus.INVALID },
+          });
+
+          module.openSendEInvoiceAbnWarningModal();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING,
+            },
+          ]);
+        }
+      );
+    });
+
+    describe('closeInvalidAbnModal', () => {
+      it('closes InvalidAbn Modal', () => {
+        const { module, store } = setup();
+
+        module.closeInvalidAbnModal();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: SET_MODAL_TYPE,
+            modalType: InvoiceDetailModalType.NONE,
+          },
         ]);
       });
     });

@@ -404,6 +404,10 @@ export default class InvoiceDetailModule {
     });
   };
 
+  addEInvoiceAttachments = (files) => {
+    this.dispatcher.addEInvoiceAttachments(files);
+  };
+
   saveAndRedirectToInvoicePayment = () => {
     this.closeModal();
     const onSuccess = () => {
@@ -1346,6 +1350,8 @@ export default class InvoiceDetailModule {
           onCloseModal: this.closeSendEInvoiceModal,
           onSendEInvoice: this.sendEInvoice,
           onDismissAlert: this.dispatcher.dismissModalAlert,
+          onAddAttachments: this.addEInvoiceAttachments,
+          onRemoveAttachment: this.dispatcher.removeEInvoiceAttachment,
         }}
         invalidAbnModalListeners={{
           onCloseModal: this.closeInvalidAbnModal,

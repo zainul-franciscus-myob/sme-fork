@@ -2,6 +2,10 @@
   margin: var(--flx-spacing-medium) 0 0;
 }
 
+.field {
+  margin-top: var(--flx-spacing-small);
+}
+
 .subHeadingContainer {
   padding: var(--flx-spacing-x-small) 0;
   display: grid;
