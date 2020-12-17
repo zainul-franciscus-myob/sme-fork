@@ -481,6 +481,7 @@ export default class SpendMoneyDetailModule {
       this.dispatcher.setSubmittingState(false);
 
       this.dispatcher.loadPrefillFromRecurringSpendMoney(data);
+      this.getTaxCalculations({ isSwitchingTaxInclusive: false });
       this.updateComponentsAfterLoadSpendMoney();
     };
 
