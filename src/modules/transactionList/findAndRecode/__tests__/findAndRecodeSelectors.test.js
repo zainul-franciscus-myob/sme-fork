@@ -380,6 +380,16 @@ describe('findAndRecodeSelectors', () => {
 
       expect(actual).toBeTruthy();
     });
+
+    it('returns true when no items selected', () => {
+      const state = {
+        recodeItems: [],
+      };
+
+      const actual = getIsRecodeFinished(state);
+
+      expect(actual).toBeTruthy();
+    });
   });
 
   describe('getIsRecodeFailure', () => {

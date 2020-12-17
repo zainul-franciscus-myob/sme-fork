@@ -5,6 +5,7 @@ import Periods from '../../components/PeriodPicker/Periods';
 
 export const JOURNAL_TRANSACTIONS = tabItemIds.journal;
 export const DEBITS_AND_CREDITS = tabItemIds.debitsAndCredits;
+export const FIND_AND_RECODE = tabItemIds.findAndRecode;
 
 export const defaultFilterOptions = {
   accountId: undefined,

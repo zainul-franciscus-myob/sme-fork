@@ -5,12 +5,15 @@ import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
 export const getAlert = (state) => state.alert;
 export const getActiveTab = (state) => state.activeTab;
+export const getSwitchToTab = (state) => state.switchToTab;
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 export const getLastMonthInFinancialYear = (state) =>
   state.lastMonthInFinancialYear;
+export const getModalType = (state) => state.modalType;
+export const getRedirectUrl = (state) => state.redirectUrl;
 
-const getLastLoadingTab = (state) => state.lastLoadingTab;
+export const getLastLoadingTab = (state) => state.lastLoadingTab;
 
 export const getIsSwitchingTab = createSelector(
   getActiveTab,

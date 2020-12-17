@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getRecodeItems } from './findAndRecodeSelectors';
+import { getIsRecodeFinished, getRecodeItems } from './findAndRecodeSelectors';
 import FindAndRecodeView from './components/FindAndRecodeView';
 import Store from '../../../store/Store';
 import createFindAndRecodeDispatcher from './createFindAndRecodeDispatcher';
@@ -55,8 +55,10 @@ export default class FindAndRecodeModule {
     const recursiveRecode = (items) => {
       const [item, ...maybeRestItems] = items;
       const restItems = maybeRestItems ?? [];
+      const isRecodeTerminated =
+        getRecodeItems(this.store.getState()).length !== 0;
 
-      if (item) {
+      if (item && isRecodeTerminated) {
         const onSuccess = () => {
           this.dispatcher.recodeItemSuccess(item.id);
           recursiveRecode(restItems);
@@ -80,6 +82,10 @@ export default class FindAndRecodeModule {
 
     const recodeItems = getRecodeItems(this.store.getState());
     recursiveRecode(recodeItems);
+  };
+
+  stopRecode = () => {
+    this.dispatcher.unselectAllItems();
   };
 
   updateFilters = ({ key, value }) => {
@@ -110,6 +116,11 @@ export default class FindAndRecodeModule {
   updatePeriod = (period) => {
     this.dispatcher.updatePeriod(period);
     this.sortAndFilterFindAndRecodeList();
+  };
+
+  getIsRecodeFinished = () => {
+    const state = this.store.getState();
+    return getIsRecodeFinished(state);
   };
 
   run = (context) => {

@@ -7,6 +7,7 @@ const getTransactionListRoutes = ({
   popMessages,
   replaceURLParams,
   isToggleOn,
+  navigateTo,
 }) => {
   const routes = [
     {
@@ -19,6 +20,7 @@ const getTransactionListRoutes = ({
         popMessages,
         replaceURLParams,
         isToggleOn,
+        navigateTo,
       }),
       documentTitle: 'Transactions',
     },
@@ -32,6 +34,7 @@ const getTransactionListRoutes = ({
         popMessages,
         replaceURLParams,
         isToggleOn,
+        navigateTo,
       }),
       documentTitle: 'Transactions',
     },

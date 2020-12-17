@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS } from './getDefaultState';
+import {
+  DEBITS_AND_CREDITS,
+  FIND_AND_RECODE,
+  JOURNAL_TRANSACTIONS,
+} from './getDefaultState';
 import {
   SUCCESSFULLY_DELETED_APPLY_TO_SALE,
   SUCCESSFULLY_DELETED_BILL_PAYMENT,
@@ -29,7 +33,9 @@ import {
   getFindAndRecodeContext,
   getIsSwitchingTab,
   getNewSortOrder,
+  getRedirectUrl,
   getSettings,
+  getSwitchToTab,
   getURLParams,
 } from './selectors/transactionListSelectors';
 import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
@@ -39,6 +45,7 @@ import { mapTab } from './tabItems';
 import FeatureToggles from '../../FeatureToggles';
 import FindAndRecodeModule from './findAndRecode/FindAndRecodeModule';
 import LoadingState from '../../components/PageView/LoadingState';
+import ModalType from './findAndRecode/types/ModalType';
 import RouteName from '../../router/RouteName';
 import Store from '../../store/Store';
 import TransactionListView from './components/TransactionListView';
@@ -71,7 +78,13 @@ const messageTypes = [
 ];
 
 export default class TransactionListModule {
-  constructor({ integration, setRootView, popMessages, replaceURLParams }) {
+  constructor({
+    integration,
+    setRootView,
+    popMessages,
+    replaceURLParams,
+    navigateTo,
+  }) {
     this.store = new Store(transactionListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
@@ -79,6 +92,7 @@ export default class TransactionListModule {
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createTransactionListDispatcher(this.store);
     this.integrator = createTransactionListIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
     this.findAndRecodeModule = new FindAndRecodeModule({
       integration,
       setAlert: this.setAlert,
@@ -278,8 +292,15 @@ export default class TransactionListModule {
   dismissAlert = () => this.dispatcher.dismissAlert();
 
   setTab = (tabId) => {
-    this.dispatcher.setTab(tabId);
-    this.setView(tabId);
+    const isRecodeFinished = this.findAndRecodeModule.getIsRecodeFinished();
+
+    if (isRecodeFinished) {
+      this.dispatcher.setTab(tabId);
+      this.setView(tabId);
+    } else {
+      this.dispatcher.setSwitchToTab(tabId);
+      this.dispatcher.openModal({ modalType: ModalType.TerminateModal });
+    }
   };
 
   loadCreditsAndDebitsTab = () => {
@@ -306,7 +327,36 @@ export default class TransactionListModule {
 
   loadFindAndRecodeTab = () => {
     const state = this.store.getState();
+    this.setLastLoadingTab(FIND_AND_RECODE);
     this.findAndRecodeModule.run(getFindAndRecodeContext(state));
+  };
+
+  discardAndRedirect = () => {
+    this.findAndRecodeModule.stopRecode();
+    this.dispatcher.closeModal();
+    const url = getRedirectUrl(this.store.getState());
+
+    if (url) {
+      this.navigateTo(url);
+    } else {
+      const state = this.store.getState();
+      const switchToTab = getSwitchToTab(state);
+      this.dispatcher.setTab(switchToTab);
+      this.setView(switchToTab);
+    }
+  };
+
+  closeModal = () => {
+    this.dispatcher.closeModal();
+  };
+
+  handlePageTransition = (url) => {
+    if (this.findAndRecodeModule.getIsRecodeFinished()) {
+      this.navigateTo(url);
+    } else {
+      this.dispatcher.setRedirectUrl(url);
+      this.dispatcher.openModal({ modalType: ModalType.TerminateModal });
+    }
   };
 
   setView = (tabId) => {
@@ -336,6 +386,8 @@ export default class TransactionListModule {
           onSort={this.sort}
           onLoadMoreButtonClick={this.loadNextPage}
           onRenderFindAndRecode={this.findAndRecodeModule.render}
+          discardAndRedirect={this.discardAndRedirect}
+          closeModal={this.closeModal}
         />
       </Provider>
     );

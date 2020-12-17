@@ -1,15 +1,22 @@
 import * as localStorageDriver from '../../../store/localStorageDriver';
-import { DEBITS_AND_CREDITS, JOURNAL_TRANSACTIONS } from '../getDefaultState';
+import {
+  DEBITS_AND_CREDITS,
+  FIND_AND_RECODE,
+  JOURNAL_TRANSACTIONS,
+} from '../getDefaultState';
 import {
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  OPEN_MODAL,
   RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SORT_ORDER,
+  SET_SWITCH_TO_TAB,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
@@ -20,6 +27,7 @@ import {
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import { tabItemIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
+import ModalType from '../findAndRecode/types/ModalType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import TestIntegration from '../../../integration/TestIntegration';
 import TestStore from '../../../store/TestStore';
@@ -80,7 +88,10 @@ describe('TransactionListModule', () => {
   const setupWithTab = (tab) => {
     const toolbox = setupWithRun();
     const { module, store, integration } = toolbox;
-
+    module.findAndRecodeModule = {
+      run: jest.fn(),
+      getIsRecodeFinished: () => true,
+    };
     module.setTab(tab);
     store.resetActions();
     integration.resetRequests();
@@ -320,9 +331,6 @@ describe('TransactionListModule', () => {
 
     it('run findAndRecodeModule when switch to find and recode tab', () => {
       const { module, store } = setupWithTab(JOURNAL_TRANSACTIONS);
-      module.findAndRecodeModule = {
-        run: jest.fn(),
-      };
 
       module.setTab(tabItemIds.findAndRecode);
 
@@ -330,6 +338,10 @@ describe('TransactionListModule', () => {
         {
           intent: SET_TAB,
           tabId: tabItemIds.findAndRecode,
+        },
+        {
+          intent: SET_LAST_LOADING_TAB,
+          lastLoadingTab: tabItemIds.findAndRecode,
         },
       ]);
       expect(module.findAndRecodeModule.run).toHaveBeenCalledWith({
@@ -339,6 +351,64 @@ describe('TransactionListModule', () => {
         taxCodeList: expect.any(Array),
         accountList: expect.any(Array),
       });
+    });
+
+    it('show discard modal when switch to another tab if recode is not finished', () => {
+      const { module, store } = setupWithTab(FIND_AND_RECODE);
+      module.findAndRecodeModule = {
+        getIsRecodeFinished: () => false,
+      };
+
+      module.setTab(tabItemIds.journal);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SWITCH_TO_TAB,
+          switchToTab: tabItemIds.journal,
+        },
+        {
+          intent: OPEN_MODAL,
+          modalType: ModalType.TerminateModal,
+        },
+      ]);
+    });
+
+    it('switch to another tab if recode is finished', () => {
+      const { module, store, integration } = setupWithTab(FIND_AND_RECODE);
+      module.findAndRecodeModule = {
+        getIsRecodeFinished: () => true,
+      };
+
+      module.setTab(tabItemIds.journal);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TAB,
+          tabId: JOURNAL_TRANSACTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          key: JOURNAL_TRANSACTIONS,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_LAST_LOADING_TAB,
+          lastLoadingTab: JOURNAL_TRANSACTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          key: JOURNAL_TRANSACTIONS,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_TRANSACTION_LIST,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_TRANSACTION_LIST,
+        }),
+      ]);
     });
   });
 
@@ -651,6 +721,40 @@ describe('TransactionListModule', () => {
           }),
         },
       ]);
+    });
+  });
+
+  describe('handlePageTransition', () => {
+    it('open modal when recode not finished', () => {
+      const { module, store } = setupWithRun();
+      module.navigateTo = jest.fn();
+      module.findAndRecodeModule = {
+        getIsRecodeFinished: () => false,
+      };
+
+      module.handlePageTransition('😴');
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_REDIRECT_URL,
+          redirectUrl: '😴',
+        },
+        {
+          intent: OPEN_MODAL,
+          modalType: ModalType.TerminateModal,
+        },
+      ]);
+    });
+    it('redirects to url when recode is finished', () => {
+      const { module } = setupWithRun();
+      module.navigateTo = jest.fn();
+      module.findAndRecodeModule = {
+        getIsRecodeFinished: () => true,
+      };
+
+      module.handlePageTransition('😴');
+
+      expect(module.navigateTo).toHaveBeenCalledWith('😴');
     });
   });
 });

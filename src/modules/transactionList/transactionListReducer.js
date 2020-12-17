@@ -1,19 +1,17 @@
 import {
-  DEBITS_AND_CREDITS,
-  JOURNAL_TRANSACTIONS,
-  defaultFilterOptions,
-  getDefaultState,
-} from './getDefaultState';
-import {
+  CLOSE_MODAL,
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  OPEN_MODAL,
   RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SORT_ORDER,
+  SET_SWITCH_TO_TAB,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
@@ -21,6 +19,12 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
 } from './TransactionListIntents';
+import {
+  DEBITS_AND_CREDITS,
+  JOURNAL_TRANSACTIONS,
+  defaultFilterOptions,
+  getDefaultState,
+} from './getDefaultState';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import LoadMoreButtonStatuses from '../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import Periods from '../../components/PeriodPicker/Periods';
@@ -61,6 +65,11 @@ const setInitialState = (state, { context, settings, sourceJournal }) => {
 const setTab = (state, action) => ({
   ...state,
   activeTab: action.tabId,
+});
+
+const setSwitchToTab = (state, { switchToTab }) => ({
+  ...state,
+  switchToTab,
 });
 
 const setAlert = (state, action) => ({
@@ -197,12 +206,28 @@ const loadTransactionNextPage = (state, action) => ({
   },
 });
 
+const setRedirectUrl = (state, { redirectUrl }) => ({
+  ...state,
+  redirectUrl,
+});
+
+const closeModal = (state) => ({
+  ...state,
+  modalType: undefined,
+});
+
+const openModal = (state, action) => ({
+  ...state,
+  modalType: action.modalType,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_TAB]: setTab,
   [SET_ALERT]: setAlert,
   [SET_LAST_LOADING_TAB]: setLastLoadingTab,
+  [SET_SWITCH_TO_TAB]: setSwitchToTab,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SET_NEXT_PAGE_LOADING_STATE]: setNextPageLoadingState,
   [SET_LOADING_STATE]: setLoadingState,
@@ -215,6 +240,9 @@ const handlers = {
   [LOAD_CREDITS_AND_DEBITS_NEXT_PAGE]: loadCreditsAndDebitsNextPage,
   [SORT_AND_FILTER_TRANSACTION_LIST]: sortAndFilterTransactionList,
   [LOAD_TRANSACTION_NEXT_PAGE]: loadTransactionNextPage,
+  [SET_REDIRECT_URL]: setRedirectUrl,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
 };
 
 const transactionListReducer = createReducer(getDefaultState(), handlers);

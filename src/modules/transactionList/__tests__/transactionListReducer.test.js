@@ -1,17 +1,21 @@
 import {
-  DEBITS_AND_CREDITS,
-  JOURNAL_TRANSACTIONS,
-  getDefaultState,
-} from '../getDefaultState';
-import {
+  CLOSE_MODAL,
+  OPEN_MODAL,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_SORT_ORDER,
+  SET_SWITCH_TO_TAB,
   SET_TAB,
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
 } from '../TransactionListIntents';
+import {
+  DEBITS_AND_CREDITS,
+  JOURNAL_TRANSACTIONS,
+  getDefaultState,
+} from '../getDefaultState';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import ModalType from '../findAndRecode/types/ModalType';
 import Periods from '../../../components/PeriodPicker/Periods';
 import getDateRangeByPeriodAndLastMonthInFY from '../../../components/PeriodPicker/getDateRangeByPeriodAndLastMonthInFY';
 import transactionListReducer from '../transactionListReducer';
@@ -247,6 +251,53 @@ describe('transactionListReducer', () => {
       const actual = transactionListReducer(state, action);
 
       expect(actual.lastLoadingTab).toEqual(JOURNAL_TRANSACTIONS);
+    });
+  });
+
+  describe('SET_SWITCH_TO_TAB', () => {
+    it('should update switch to tab', () => {
+      const state = {
+        switchToTab: '',
+      };
+
+      const action = {
+        intent: SET_SWITCH_TO_TAB,
+        switchToTab: JOURNAL_TRANSACTIONS,
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.switchToTab).toEqual(JOURNAL_TRANSACTIONS);
+    });
+  });
+
+  describe('OPEN_MODAL', () => {
+    it('should open modal', () => {
+      const state = {
+        modalType: undefined,
+      };
+
+      const action = {
+        intent: OPEN_MODAL,
+        modalType: ModalType.TerminateModal,
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.modalType).toEqual(ModalType.TerminateModal);
+    });
+    it('should close modal', () => {
+      const state = {
+        modalType: ModalType.TerminateModal,
+      };
+
+      const action = {
+        intent: CLOSE_MODAL,
+      };
+
+      const actual = transactionListReducer(state, action);
+
+      expect(actual.modalType).toEqual(undefined);
     });
   });
 

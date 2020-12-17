@@ -6,10 +6,13 @@ import {
   getActiveTab,
   getAlert,
   getIsFindAndRecodeEnabled,
+  getModalType,
 } from '../selectors/transactionListSelectors';
 import { tabItemIds } from '../tabItems';
 import CreditsAndDebitsListView from './CreditsAndDebitsListView';
 import JournalTransactionListView from './JournalTransactionListView';
+import ModalType from '../findAndRecode/types/ModalType';
+import TerminateModal from './TerminateModal';
 
 const TransactionListView = ({
   selectedTab,
@@ -24,6 +27,9 @@ const TransactionListView = ({
   onLoadMoreButtonClick,
   onRenderFindAndRecode,
   isFindAndRecodeEnabled,
+  discardAndRedirect,
+  closeModal,
+  modalType,
 }) => {
   const tabs = (
     <Tabs
@@ -46,6 +52,17 @@ const TransactionListView = ({
     />
   );
 
+  const modal = modalType === ModalType.TerminateModal && (
+    <TerminateModal onConfirm={discardAndRedirect} onCancel={closeModal} />
+  );
+
+  const subHeaderChildren = (
+    <>
+      {tabs}
+      {modal}
+    </>
+  );
+
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
@@ -62,7 +79,7 @@ const TransactionListView = ({
       onPeriodChange={onPeriodChange}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       pageHead={pageHead}
-      subHead={tabs}
+      subHead={subHeaderChildren}
       alert={alertComponent}
     />
   );
@@ -75,7 +92,7 @@ const TransactionListView = ({
       onPeriodChange={onPeriodChange}
       onLoadMoreButtonClick={onLoadMoreButtonClick}
       pageHead={pageHead}
-      subHead={tabs}
+      subHead={subHeaderChildren}
       alert={alertComponent}
     />
   );
@@ -85,8 +102,9 @@ const TransactionListView = ({
     [tabItemIds.journal]: journalTransactionListView,
     [tabItemIds.findAndRecode]: onRenderFindAndRecode({
       pageHead,
-      subHead: tabs,
+      subHead: subHeaderChildren,
       alert: alertComponent,
+      modal,
     }),
   }[selectedTab];
 };
@@ -95,6 +113,7 @@ const mapStateToProps = (state) => ({
   selectedTab: getActiveTab(state),
   alert: getAlert(state),
   isFindAndRecodeEnabled: getIsFindAndRecodeEnabled(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(TransactionListView);

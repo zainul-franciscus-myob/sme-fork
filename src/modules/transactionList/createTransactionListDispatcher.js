@@ -1,13 +1,17 @@
 import {
+  CLOSE_MODAL,
   LOAD_CREDITS_AND_DEBITS_LIST,
   LOAD_CREDITS_AND_DEBITS_NEXT_PAGE,
   LOAD_TRANSACTION_NEXT_PAGE,
+  OPEN_MODAL,
   RESET_FILTER_OPTIONS,
   SET_ALERT,
   SET_LAST_LOADING_TAB,
   SET_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
+  SET_REDIRECT_URL,
   SET_SORT_ORDER,
+  SET_SWITCH_TO_TAB,
   SET_TAB,
   SET_TABLE_LOADING_STATE,
   SORT_AND_FILTER_CREDITS_AND_DEBITS_LIST,
@@ -80,6 +84,13 @@ const createTransactionListDispatcher = (store) => ({
     store.dispatch({
       intent: SET_TAB,
       tabId,
+    });
+  },
+
+  setSwitchToTab: (tabId) => {
+    store.dispatch({
+      intent: SET_SWITCH_TO_TAB,
+      switchToTab: tabId,
     });
   },
 
@@ -163,6 +174,26 @@ const createTransactionListDispatcher = (store) => ({
       period,
       dateFrom,
       dateTo,
+    });
+  },
+
+  setRedirectUrl: (redirectUrl) => {
+    store.dispatch({
+      intent: SET_REDIRECT_URL,
+      redirectUrl,
+    });
+  },
+
+  openModal: ({ modalType }) => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType,
+    });
+  },
+
+  closeModal: () => {
+    store.dispatch({
+      intent: CLOSE_MODAL,
     });
   },
 });

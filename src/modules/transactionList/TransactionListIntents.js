@@ -1,4 +1,5 @@
 export const SET_TAB = Symbol('Set tab');
+export const SET_SWITCH_TO_TAB = Symbol('Set switch to tab');
 export const SET_ALERT = Symbol('Set the Alert of the page');
 export const SET_LAST_LOADING_TAB = Symbol('Set last loading tab');
 export const SET_TABLE_LOADING_STATE = Symbol('Set table loading state');
@@ -25,3 +26,7 @@ export const SORT_AND_FILTER_TRANSACTION_LIST = Symbol(
   'Sort and filter list of transactions'
 );
 export const LOAD_TRANSACTION_NEXT_PAGE = Symbol('Load transaction next page');
+
+export const SET_REDIRECT_URL = Symbol('Set redirect url');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
