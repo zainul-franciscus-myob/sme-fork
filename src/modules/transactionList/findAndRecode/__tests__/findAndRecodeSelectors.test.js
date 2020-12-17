@@ -7,6 +7,7 @@ import {
   getIsRecodeFinished,
   getIsRecodeLoading,
   getLoadMoreButtonStatus,
+  getNoItemSelected,
   getRecodeFailureMessage,
   getRecodeItemContent,
   getSelectedText,
@@ -299,6 +300,33 @@ describe('findAndRecodeSelectors', () => {
       const actual = getAreSomeItemsSelected(state);
 
       expect(actual).toBeFalsy();
+    });
+  });
+
+  describe('getNoItemSelected', () => {
+    it('returns false when some entries selected', () => {
+      const state = {
+        recodeItems: [
+          {
+            id: '1',
+            status: RecodeStatus.SELECTED,
+          },
+        ],
+      };
+
+      const actual = getNoItemSelected(state);
+
+      expect(actual).toBeFalsy();
+    });
+
+    it('returns true when no entries selected', () => {
+      const state = {
+        recodeItems: [],
+      };
+
+      const actual = getNoItemSelected(state);
+
+      expect(actual).toBeTruthy();
     });
   });
 

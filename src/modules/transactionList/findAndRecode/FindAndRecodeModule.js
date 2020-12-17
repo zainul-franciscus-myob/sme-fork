@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsRecodeFinished, getRecodeItems } from './findAndRecodeSelectors';
+import {
+  getIsRecodeLoading,
+  getNoItemSelected,
+  getRecodeItems,
+} from './findAndRecodeSelectors';
 import FindAndRecodeView from './components/FindAndRecodeView';
 import Store from '../../../store/Store';
 import createFindAndRecodeDispatcher from './createFindAndRecodeDispatcher';
@@ -120,7 +124,7 @@ export default class FindAndRecodeModule {
 
   getIsRecodeFinished = () => {
     const state = this.store.getState();
-    return getIsRecodeFinished(state);
+    return getNoItemSelected(state) || !getIsRecodeLoading(state);
   };
 
   run = (context) => {

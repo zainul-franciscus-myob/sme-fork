@@ -550,4 +550,46 @@ describe('FindAndRecodeModule', () => {
       ]);
     });
   });
+
+  describe('getIsRecodeFinished', () => {
+    it('return true if no item selected', () => {
+      const { module } = setupWithRun();
+
+      const actual = module.getIsRecodeFinished();
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('return true if recode process is not started', () => {
+      const { module } = setupWithRun();
+
+      module.dispatcher.selectItem('1');
+
+      const actual = module.getIsRecodeFinished();
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('return true if recode process is finished', () => {
+      const { module } = setupWithRun();
+
+      module.dispatcher.selectItem('1');
+      module.dispatcher.updateRecodeOptions('accountId', '1');
+      module.dispatcher.finishRecode();
+
+      const actual = module.getIsRecodeFinished();
+      expect(actual).toBeTruthy();
+    });
+
+    it('return false if recode process is not finished', () => {
+      const { module } = setupWithRun();
+
+      module.dispatcher.selectItem('1');
+      module.dispatcher.updateRecodeOptions('accountId', '1');
+      module.dispatcher.startRecode();
+
+      const actual = module.getIsRecodeFinished();
+      expect(actual).toBeFalsy();
+    });
+  });
 });

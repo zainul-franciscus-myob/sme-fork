@@ -72,6 +72,11 @@ const getSort = createSelector(
   }
 );
 
+export const getNoItemSelected = createSelector(
+  getRecodeItems,
+  (items) => items.length === 0
+);
+
 export const getAreAllItemsSelected = createSelector(
   getRecodeItems,
   getEntries,
