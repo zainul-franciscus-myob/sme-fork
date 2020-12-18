@@ -1,7 +1,7 @@
 import { ONBOARD_USER } from '../../OnboardingIntents';
 import {
   getBusinessId,
-  getOnboardUserContent,
+  getOnSuccessCallbackUrl,
 } from '../../OnboardingSelectors';
 
 const AuthorisationStepIntegrator = (store, integration) => ({
@@ -10,12 +10,13 @@ const AuthorisationStepIntegrator = (store, integration) => ({
     const intent = ONBOARD_USER;
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
-    const content = getOnboardUserContent(state);
 
     integration.write({
       intent,
       urlParams,
-      content,
+      params: {
+        successUrl: getOnSuccessCallbackUrl(state),
+      },
       onSuccess,
       onFailure,
     });

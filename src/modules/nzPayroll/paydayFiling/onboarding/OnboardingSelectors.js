@@ -45,16 +45,13 @@ export const getBusinessDetailsUrl = (state) => {
   return `/#/nz/${businessId}?selectedTab=businessDetails`;
 };
 
-const getOnSuccessCallbackUrl = (state) => {
+export const getOnSuccessCallbackUrl = (state) => {
   const businessId = getBusinessId(state);
-  return btoa(
+  const successUrl = window.location.origin.concat(
     `/#/nz/${businessId}/paydayFiling/onboarding?authorisation=complete`
   );
+  return btoa(successUrl);
 };
-
-export const getOnboardUserContent = (state) => ({
-  onSuccessCallbackUrl: getOnSuccessCallbackUrl(state),
-});
 
 export const isAuthorisationComplete = (state) => {
   const authFragment = state.authorisation.split('complete#');

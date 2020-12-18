@@ -5,6 +5,11 @@ describe('Authorisation step integrator', () => {
   describe('onboard user', () => {
     it('should call integrator with expected parameters and content', () => {
       // arrange
+      const successUrl = btoa(
+        window.location.origin.concat(
+          '/#/nz/42/paydayFiling/onboarding?authorisation=complete'
+        )
+      );
       const integration = { write: jest.fn() };
       const businessId = 42;
 
@@ -12,11 +17,6 @@ describe('Authorisation step integrator', () => {
         getState: () => ({
           businessId,
         }),
-      };
-      const expectedContent = {
-        onSuccessCallbackUrl: btoa(
-          `/#/nz/${businessId}/paydayFiling/onboarding?authorisation=complete`
-        ),
       };
       const integrator = AuthorisationStepIntegrator(store, integration);
 
@@ -30,7 +30,7 @@ describe('Authorisation step integrator', () => {
       const parameterObject = integration.write.mock.calls[0][0];
       expect(parameterObject.intent).toEqual(ONBOARD_USER);
       expect(parameterObject.urlParams).toEqual({ businessId });
-      expect(parameterObject.content).toEqual(expectedContent);
+      expect(parameterObject.params).toEqual({ successUrl });
     });
   });
 });

@@ -5,7 +5,7 @@ import {
   getCurrentStep,
   getIrdNumber,
   getLoadingState,
-  getOnboardUserContent,
+  getOnSuccessCallbackUrl,
   getStepperSteps,
   isAuthorisationComplete,
 } from '../OnboardingSelectors';
@@ -145,20 +145,22 @@ describe('OnboardingSelectors', () => {
     });
   });
 
-  describe('getOnboardUserContent', () => {
+  describe('getOnboardUserQueryString', () => {
     it('should return encoded callback url', () => {
+      const successUrl = btoa(
+        window.location.origin.concat(
+          '/#/nz/123/paydayFiling/onboarding?authorisation=complete'
+        )
+      );
+
       const businessId = '123';
       const state = {
         businessId,
       };
 
-      const expected = {
-        onSuccessCallbackUrl: btoa(
-          '/#/nz/123/paydayFiling/onboarding?authorisation=complete'
-        ),
-      };
+      const expected = successUrl;
 
-      const actual = getOnboardUserContent(state);
+      const actual = getOnSuccessCallbackUrl(state);
       expect(actual).toEqual(expected);
     });
   });
