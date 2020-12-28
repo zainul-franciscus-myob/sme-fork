@@ -41,8 +41,8 @@ const EtpView = ({
     <>
       <h2>Employment termination payments (ETP)</h2>
       <p>
-        Select one of all Employees termination payments to remove. You&apos;ll
-        also need to change or delete each pay that contains a deleted ETP
+        Select the employee’s ETP you would like to remove. You&apos;ll also
+        need to change or delete each pay that contains a deleted ETP
         transaction.
       </p>
       <PaysTable
