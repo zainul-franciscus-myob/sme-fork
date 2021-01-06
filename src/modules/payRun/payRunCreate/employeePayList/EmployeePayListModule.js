@@ -106,6 +106,7 @@ export default class EmployeePayListModule {
       this.validatePayPeriodEmployeeLimit(() =>
         this.validateEtp(() => this.dispatcher.nextStep())
       );
+      this.dispatcher.setSubmittingState(false);
     };
     this.saveDraft(onSuccess);
   };

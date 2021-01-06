@@ -134,6 +134,16 @@ describe('EmployeePayListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({ intent: SAVE_DRAFT }),
       ]);
+      expect(store.state.isSubmitting).toBeFalsy();
+    });
+
+    it('sets isSubmitting to be false after succeeded', () => {
+      const { store, integration, module } = constructEmployeePayListModule();
+      integration.mapSuccess(SAVE_DRAFT, { message: 'saved!' });
+
+      module.nextStep();
+
+      expect(store.state.isSubmitting).toBeFalsy();
     });
   });
 
