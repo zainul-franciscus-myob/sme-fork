@@ -37,7 +37,9 @@ describe('EmailSendingMessage', () => {
 
       expect(alert).toHaveLength(1);
       expect(alert.prop('type')).toEqual('danger');
-      expect(alert.text()).toContain('Failed to send emails to the following');
+      expect(alert.text()).toContain(
+        'Failed to send emails to the following employees. Check to make sure you have entered a ‘Reply-to email address’ in Payroll settings, email defaults. This might be causing the error.'
+      );
       expect(alert.text()).toContain('Sue');
       expect(alert.text()).toContain('sue@example.com');
     });
