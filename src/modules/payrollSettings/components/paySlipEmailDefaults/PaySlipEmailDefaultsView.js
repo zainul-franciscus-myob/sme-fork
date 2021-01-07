@@ -75,6 +75,7 @@ const PaySlipEmailDefaultsView = ({
               width="xl"
               value={replyToEmail}
               name="replyToEmail"
+              requiredLabel="This field is required"
               onChange={handleInputChange(onPaySlipEmailDefaultsFieldChange)}
             />
           </FieldGroup>
