@@ -107,6 +107,7 @@ describe('BillInTrayDocumentSelectors', () => {
           accounts: [],
           paidAmount: '100.05',
           discountAmount: '20.85',
+          shouldSendRemittanceAdvice: true,
         },
       };
 
@@ -124,7 +125,7 @@ describe('BillInTrayDocumentSelectors', () => {
             discountAmount: '20.85',
           },
         ],
-        sendRemittanceAdvice: false,
+        sendRemittanceAdvice: true,
       };
 
       const actual = getCreateBillPaymentPayload(state);
@@ -324,6 +325,7 @@ describe('BillInTrayDocumentSelectors', () => {
           },
         ],
         accountId: '1',
+        bankStatementText: 'WAWA',
         balanceDue: '10',
         billNumber: '000005',
         description: '',

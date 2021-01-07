@@ -135,6 +135,7 @@ export const getDefaultState = () => ({
     paymentDate: formatIsoDate(new Date()),
     referenceId: '',
     originalReferenceId: '',
+    shouldSendRemittanceAdvice: false,
   },
   viewedAccountToolTip: false,
 });

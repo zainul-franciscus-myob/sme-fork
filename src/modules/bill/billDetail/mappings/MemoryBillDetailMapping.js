@@ -104,7 +104,8 @@ const MemoryBillDetailMapping = {
     onSuccess(successResponse),
   [LOAD_NEW_BILL_PAYMENT]: ({ onSuccess }) =>
     onSuccess(loadNewBillPaymentWithSupplier),
-  [CREATE_BILL_PAYMENT]: ({ onSuccess }) => onSuccess(successResponse),
+  [CREATE_BILL_PAYMENT]: ({ onSuccess }) =>
+    onSuccess({ ...successResponse, id: 1 }),
   [GET_REFERENCE_ID]: ({ onSuccess }) => onSuccess(billPaymentReferenceId),
   [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: ({ onSuccess }) =>
     onSuccess(loadItemAndServiceBill),

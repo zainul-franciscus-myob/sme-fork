@@ -5,6 +5,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Heading,
+  Input,
   Modal,
   Separator,
   SubHeadingGroup,
@@ -18,6 +19,8 @@ import {
   getBillPaymentOptions,
   getIsActionsDisabled,
   getIsPaymentModalLoading,
+  getIsRemittanceAdviceEnabled,
+  getShouldSendRemittanceAdvice,
 } from '../selectors/BillRecordPaymentSelectors';
 import { getSupplierId } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -28,6 +31,7 @@ import SupplierPaymentDetailsStatus from './SupplierPaymentDetailsStatus';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 import styles from './BillRecordPaymentModal.module.css';
 
 const onDateChange = (handler) => (key) => ({ value }) =>
@@ -56,6 +60,7 @@ const BillRecordPaymentModal = ({
   accountId,
   accounts,
   alert,
+  bankStatementText,
   balanceDue,
   billNumber,
   discountAmount,
@@ -64,24 +69,31 @@ const BillRecordPaymentModal = ({
   isBeforeStartOfFinancialYear,
   isElectronicPayment,
   isModalLoading,
+  isRemittanceAdviceEnabled,
   issueDate,
   onCancel,
+  onChangeBankStatementText,
   onEditSupplierClick,
+  onUpdateBankStatementText,
   onUpdateBillPaymentAmountFields,
   onUpdateHeaderOption,
   onUpdateIsElectronicPayment,
   onRecordMultiplePayments,
   onRecordPaymentModalOpen,
   onSaveBillPayment,
+  onShouldSendRemittanceAdviceChange,
   overAmount,
   paidAmount,
   paymentDate,
+  shouldSendRemittanceAdvice,
   shouldShowSupplierPopover,
   showElectronicPayments,
   supplierName,
 }) => {
   const [showDiscount, setShowDiscount] = useState(false);
   const requiredLabel = 'This is required';
+  const requiredBankStatementText =
+    'This will appear on your supplier’s bank statement to help identify the payment';
 
   useEffect(() => {
     if (supplierId) {
@@ -159,6 +171,18 @@ const BillRecordPaymentModal = ({
             />
           )}
         </Box>
+        {isElectronicPayment && (
+          <Input
+            name="bankStatementText"
+            label="Statement text"
+            value={bankStatementText}
+            onChange={handleInputChange(onChangeBankStatementText)}
+            onBlur={handleInputChange(onUpdateBankStatementText)}
+            requiredLabel={requiredBankStatementText}
+            maxLength={18}
+            width="lg"
+          />
+        )}
         <Box className={styles.fieldGroup}>
           <AccountCombobox
             label="Bank account"
@@ -236,6 +260,34 @@ const BillRecordPaymentModal = ({
             </Button>
           )}
         </Box>
+        {isRemittanceAdviceEnabled && (
+          <>
+            <Separator></Separator>
+            <Checkbox
+              name="shouldSendRemittanceAdvice"
+              label="Send remittance advice"
+              checked={shouldSendRemittanceAdvice}
+              onChange={handleCheckboxChange(
+                onShouldSendRemittanceAdviceChange
+              )}
+            />
+            {shouldSendRemittanceAdvice && (
+              <Box marginTop="xs">
+                <Alert type="info">
+                  You&#39;ll have the option to send by email or export a PDF
+                  when you save this payment.&nbsp;
+                  <a
+                    href="https://help.myob.com/wiki/x/TA5XAw"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Learn more
+                  </a>
+                </Alert>
+              </Box>
+            )}
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer className={styles.modalFooter}>
         <Button type="link" onClick={onRecordMultiplePayments}>
@@ -267,6 +319,8 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isModalLoading: getIsPaymentModalLoading(state),
   isActionsDisabled: getIsActionsDisabled(state),
+  shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
+  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(BillRecordPaymentModal);

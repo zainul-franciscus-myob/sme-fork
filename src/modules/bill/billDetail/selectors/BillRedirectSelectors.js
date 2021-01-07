@@ -7,6 +7,10 @@ import {
   getRegion,
   getSupplierId,
 } from './billSelectors';
+import {
+  getBillPaymentId,
+  getShouldSendRemittanceAdvice,
+} from './BillRecordPaymentSelectors';
 import getQueryFromParams from '../../../../common/getQueryFromParams/getQueryFromParams';
 
 export const getBillListUrl = createSelector(
@@ -57,3 +61,13 @@ export const getSupplierLink = createSelector(
   (businessId, region, supplierId) =>
     `/#/${region}/${businessId}/contact/${supplierId}`
 );
+
+export const getSavedBillPaymentUrl = (state) => {
+  const baseUrl = getBaseUrl(state);
+  const redirectParams = {
+    redirectUrl: `${baseUrl}/bill/${getBillId(state)}`,
+    modalType: getShouldSendRemittanceAdvice(state) ? 'remittanceAdvice' : '',
+  };
+  const urlParams = getQueryFromParams(redirectParams);
+  return `${baseUrl}/billPayment/${getBillPaymentId(state)}${urlParams}`;
+};

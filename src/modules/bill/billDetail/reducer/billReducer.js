@@ -4,6 +4,7 @@ import Decimal from 'decimal.js';
 import {
   ADD_BILL_LINE,
   CALCULATE_LINE_AMOUNTS,
+  CHANGE_BANK_STATEMENT_TEXT,
   CLOSE_ALERT,
   CLOSE_MODAL,
   CONVERT_TO_PRE_CONVERSION_BILL,
@@ -44,15 +45,18 @@ import {
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_BILL_PAYMENT_AMOUNT_FIELDS,
+  UPDATE_BILL_PAYMENT_ID,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_HEADER_OPTION,
   UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
   UPDATE_REFERENCE_ID,
+  UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
 } from '../BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
@@ -66,20 +70,24 @@ import {
 } from '../selectors/billSelectors';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import {
+  changeBankStatementText,
+  loadNewBillPayment,
+  setPaymentModalAlert,
+  setPaymentModalLoadingState,
+  setPaymentModalSubmittingState,
+  updateBankStatementText,
+  updateBillPaymentAmountFields,
+  updateBillPaymentId,
+  updateHeaderOption,
+  updateReferenceId,
+  updateShouldSendRemittanceAdvice,
+} from './billRecordPaymentReducer';
+import {
   defaultLinePrefillStatus,
   defaultPrefillStatus,
   getDefaultState,
 } from './getDefaultState';
 import { getHasInTrayDocumentId } from '../selectors/BillInTrayDocumentSelectors';
-import {
-  loadNewBillPayment,
-  setPaymentModalAlert,
-  setPaymentModalLoadingState,
-  setPaymentModalSubmittingState,
-  updateBillPaymentAmountFields,
-  updateHeaderOption,
-  updateReferenceId,
-} from './billRecordPaymentReducer';
 import BillLayout from '../types/BillLayout';
 import BillLineType from '../types/BillLineType';
 import BillStatus from '../types/BillStatus';
@@ -186,6 +194,11 @@ const reloadBill = (state, action) => {
     ...defaultState,
     ...context,
     loadingState: LoadingState.LOADING_SUCCESS,
+    recordBillPayment: {
+      ...defaultState.recordBillPayment,
+      isRemittanceAdviceEnabled:
+        state.recordBillPayment?.isRemittanceAdviceEnabled,
+    },
   };
 
   return loadBill(initialState, action);
@@ -194,6 +207,10 @@ const reloadBill = (state, action) => {
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+  recordBillPayment: {
+    ...state.recordBillPayment,
+    isRemittanceAdviceEnabled: action.context.isRemittanceAdviceEnabled,
+  },
 });
 
 const resetState = () => getDefaultState();
@@ -749,6 +766,10 @@ const handlers = {
   [CONVERT_TO_PRE_CONVERSION_BILL]: convertToPreConversionBill,
   [SET_SHOW_PRE_CONVERSION_ALERT]: setShowPreConversionAlert,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
+  [CHANGE_BANK_STATEMENT_TEXT]: changeBankStatementText,
+  [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
+  [UPDATE_BILL_PAYMENT_ID]: updateBillPaymentId,
+  [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: updateShouldSendRemittanceAdvice,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

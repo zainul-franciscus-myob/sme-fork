@@ -45,6 +45,7 @@ describe('BillPaymentDetailModule', () => {
     const integration = new TestIntegration();
     const setRootView = () => {};
     const pushMessage = () => {};
+    const popMessages = () => [];
     const replaceURLParams = jest.fn();
     const navigateTo = jest.fn((url) => {
       window.location.href = url;
@@ -56,6 +57,7 @@ describe('BillPaymentDetailModule', () => {
       pushMessage,
       navigateTo,
       replaceURLParams,
+      popMessages,
     });
     module.store = store;
     module.dispatcher = createBillPaymentDetailDispatcher(store);
@@ -170,6 +172,23 @@ describe('BillPaymentDetailModule', () => {
             }),
           ])
         );
+      });
+
+      it(`displays alert from inbox after loading ${test.name}`, () => {
+        const { store, module } = setup();
+        module.popMessages = jest.fn().mockReturnValue([
+          {
+            content: '🦕',
+          },
+        ]);
+
+        module.run({});
+
+        expect(store.getActions()).toContainEqual({
+          intent: SET_ALERT_MESSAGE,
+          type: 'success',
+          message: '🦕',
+        });
       });
     });
   });

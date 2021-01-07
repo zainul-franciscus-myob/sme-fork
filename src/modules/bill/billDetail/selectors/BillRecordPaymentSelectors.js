@@ -21,6 +21,10 @@ const getElectronicClearingAccountId = (state) =>
   state.recordBillPayment.electronicClearingAccountId;
 export const getBillPaymentId = (state) =>
   state.recordBillPayment.billPaymentId;
+export const getShouldSendRemittanceAdvice = (state) =>
+  state.recordBillPayment.shouldSendRemittanceAdvice;
+export const getIsRemittanceAdviceEnabled = (state) =>
+  state.recordBillPayment.isRemittanceAdviceEnabled;
 
 export const getIsBeforeStartOfFinancialYear = (state) => {
   const { startOfFinancialYearDate, paymentDate } = state.recordBillPayment;
@@ -44,7 +48,7 @@ export const getArePaymentDetailsComplete = (state) =>
 
 const getPaymentDate = (state) => state.recordBillPayment.paymentDate;
 
-const getReferenceId = (state) => state.recordBillPayment.referenceId;
+export const getReferenceId = (state) => state.recordBillPayment.referenceId;
 
 const getPaidAmount = (state) => state.recordBillPayment.paidAmount;
 
@@ -94,7 +98,7 @@ export const getShouldShowSupplierPopover = createSelector(
     supplierId && showElectronicPayments && isElectronicPayment
 );
 
-const getSupplierName = (state) => state.recordBillPayment.supplierName;
+export const getSupplierName = (state) => state.recordBillPayment.supplierName;
 
 const getIssueDate = (state) => formatDate(state.bill.issueDate, 'dd/MM/yyyy');
 
@@ -145,13 +149,14 @@ export const getCreateBillPaymentPayload = (state) => {
     accountId: getAccountId(state),
     supplierId: getSupplierId(state),
     entries: getBillEntriesForCreatePayload(state),
-    sendRemittanceAdvice: false,
+    sendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   };
 };
 
 export const getBillPaymentOptions = createStructuredSelector({
   accounts: getAccounts,
   accountId: getAccountId,
+  bankStatementText: getBankStatementText,
   balanceDue: getAmountDue,
   billNumber: getBillNumber,
   description: getDescription,

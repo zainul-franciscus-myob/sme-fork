@@ -89,6 +89,9 @@ const BillModal = ({
     [ModalType.RecordPayment]: (
       <BillRecordPaymentModal
         onCancel={recordBillPaymentModalListeners.onCancel}
+        onChangeBankStatementText={
+          recordBillPaymentModalListeners.onChangeBankStatementText
+        }
         onEditSupplierClick={
           recordBillPaymentModalListeners.onEditSupplierClick
         }
@@ -99,6 +102,12 @@ const BillModal = ({
           recordBillPaymentModalListeners.onRecordMultiplePayments
         }
         onSaveBillPayment={recordBillPaymentModalListeners.onSaveBillPayment}
+        onShouldSendRemittanceAdviceChange={
+          recordBillPaymentModalListeners.onShouldSendRemittanceAdviceChange
+        }
+        onUpdateBankStatementText={
+          recordBillPaymentModalListeners.onUpdateBankStatementText
+        }
         onUpdateHeaderOption={
           recordBillPaymentModalListeners.onUpdateHeaderOption
         }

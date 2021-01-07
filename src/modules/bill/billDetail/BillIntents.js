@@ -69,7 +69,8 @@ export const UPDATE_PRE_CONVERSION_BILL_DETAIL = Symbol(
 export const DELETE_PRE_CONVERSION_BILL_DETAIL = Symbol(
   'Delete a pre conversion bill'
 );
-
+export const CHANGE_BANK_STATEMENT_TEXT = Symbol('Change bank statement text');
+export const UPDATE_BANK_STATEMENT_TEXT = Symbol('Update bank statement text');
 export const GET_REFERENCE_ID = Symbol('Get referenceId');
 export const UPDATE_HEADER_OPTION = Symbol('Update header option');
 export const UPDATE_REFERENCE_ID = Symbol('Update referenceId');
@@ -85,9 +86,12 @@ export const SET_PAYMENT_MODAL_LOADING_STATE = Symbol(
   'Set record bill payment modal loading state'
 );
 export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
-
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
+);
+export const UPDATE_BILL_PAYMENT_ID = Symbol('Update Bill Payment Id');
+export const UPDATE_SHOULD_SEND_REMITTANCE_ADVICE = Symbol(
+  'Update Should Send Remittance Advice'
 );
 
 export const LOAD_NEW_BILL_DETAIL_FROM_ORDER = Symbol(

@@ -1,6 +1,7 @@
 import {
   ADD_BILL_LINE,
   CALCULATE_LINE_AMOUNTS,
+  CHANGE_BANK_STATEMENT_TEXT,
   CLOSE_ALERT,
   CLOSE_MODAL,
   CONVERT_TO_PRE_CONVERSION_BILL,
@@ -41,15 +42,18 @@ import {
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
   UNLINK_IN_TRAY_DOCUMENT,
+  UPDATE_BANK_STATEMENT_TEXT,
   UPDATE_BILL_ID,
   UPDATE_BILL_LINE,
   UPDATE_BILL_OPTION,
   UPDATE_BILL_PAYMENT_AMOUNT_FIELDS,
+  UPDATE_BILL_PAYMENT_ID,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_HEADER_OPTION,
   UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
   UPDATE_REFERENCE_ID,
+  UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
 } from './BillIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -424,10 +428,38 @@ const createBillDispatcher = (store) => ({
     });
   },
 
+  changeBankStatementText: (bankStatementText) => {
+    store.dispatch({
+      intent: CHANGE_BANK_STATEMENT_TEXT,
+      bankStatementText,
+    });
+  },
+
+  updateBankStatementText: (bankStatementText) => {
+    store.dispatch({
+      intent: UPDATE_BANK_STATEMENT_TEXT,
+      bankStatementText,
+    });
+  },
+
   setViewedAccountToolTip: (viewedAccountToolTip) => {
     store.dispatch({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
+    });
+  },
+
+  updateBillPaymentId: (billPaymentId) => {
+    store.dispatch({
+      intent: UPDATE_BILL_PAYMENT_ID,
+      billPaymentId,
+    });
+  },
+
+  updateShouldSendRemittanceAdvice: ({ value }) => {
+    store.dispatch({
+      intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
+      shouldSendRemittanceAdvice: value,
     });
   },
 });

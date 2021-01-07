@@ -24,6 +24,60 @@ describe('billRecordPaymentReducer', () => {
 
       expect(actual.recordBillPayment.bankStatementText).toEqual('PAYMENT 123');
     });
+
+    it('should set the bankStatementText to referenceId when new referenceId is fetched', () => {
+      const state = {
+        recordBillPayment: {
+          accountId: '1',
+          electronicClearingAccountId: '1',
+          bankStatementText: 'PAYMENT 123',
+          referenceId: '123',
+        },
+      };
+
+      const action = {
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '124',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.recordBillPayment.bankStatementText).toEqual('PAYMENT 124');
+    });
+
+    it('should not set the bankStatementText when modified', () => {
+      const state = {
+        recordBillPayment: {
+          bankStatementText: 'MY TEXT',
+        },
+      };
+
+      const action = {
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '123',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.recordBillPayment.bankStatementText).toEqual('MY TEXT');
+    });
+
+    it('should not set the bankStatementText when modified', () => {
+      const state = {
+        recordBillPayment: {
+          bankStatementText: 'MY TEXT',
+        },
+      };
+
+      const action = {
+        intent: UPDATE_REFERENCE_ID,
+        referenceId: '123',
+      };
+
+      const actual = billReducer(state, action);
+
+      expect(actual.recordBillPayment.bankStatementText).toEqual('MY TEXT');
+    });
   });
 
   describe('LOAD_NEW_BILL_PAYMENT', () => {

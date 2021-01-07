@@ -8,6 +8,7 @@ import {
   SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
   SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
   SUCCESSFULLY_SAVED_BILL,
+  SUCCESSFULLY_SAVED_BILL_PAYMENT,
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../../common/types/MessageTypes';
 import {
@@ -49,10 +50,12 @@ import {
   getBillPaymentUrl,
   getCreateNewBillUrl,
   getInTrayUrl,
+  getSavedBillPaymentUrl,
 } from './selectors/BillRedirectSelectors';
 import {
   getDefaultAccountId,
   getIsActionsDisabled,
+  getShouldSendRemittanceAdvice,
 } from './selectors/BillRecordPaymentSelectors';
 import {
   getExportPdfFilename,
@@ -138,6 +141,8 @@ class BillModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
+    this.isRemittanceAdviceEnabled =
+      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   openAccountModal = (onChange) => {
@@ -918,6 +923,13 @@ class BillModule {
     this.navigateTo(url);
   };
 
+  redirectToSavedBillPayment = () => {
+    const state = this.store.getState();
+    const url = getSavedBillPaymentUrl(state);
+
+    this.navigateTo(url);
+  };
+
   redirectToContactDetail = () => {
     const state = this.store.getState();
     const url = getSupplierLink(state);
@@ -1022,6 +1034,14 @@ class BillModule {
     }
   };
 
+  changeBankStatementText = ({ value }) => {
+    this.dispatcher.changeBankStatementText(value);
+  };
+
+  updateBankStatementText = ({ value }) => {
+    this.dispatcher.updateBankStatementText(value);
+  };
+
   loadNewBillPayment = () => {
     this.dispatcher.setBillPaymentModalLoadingState(true);
     const onSuccess = (response) => {
@@ -1045,12 +1065,23 @@ class BillModule {
 
     this.dispatcher.setBillPaymentModalSubmittingState(true);
 
-    const onSuccess = ({ message }) => {
+    const onSuccess = (response) => {
+      if (getShouldSendRemittanceAdvice(state)) {
+        const { id } = response;
+        this.dispatcher.updateBillPaymentId(id);
+        this.pushMessage({
+          type: SUCCESSFULLY_SAVED_BILL_PAYMENT,
+          content: response.message,
+        });
+        this.redirectToSavedBillPayment();
+        return;
+      }
+
       this.reloadBill({
         onSuccess: () => {
           this.dispatcher.setBillPaymentModalSubmittingState(false);
           this.dispatcher.closeModal();
-          this.dispatcher.openSuccessAlert({ message });
+          this.dispatcher.openSuccessAlert({ message: response.message });
         },
       });
     };
@@ -1161,9 +1192,13 @@ class BillModule {
           onRecordPaymentClick={this.openRecordPaymentModal}
           recordBillPaymentModalListeners={{
             onCancel: this.closeModal,
+            onChangeBankStatementText: this.changeBankStatementText,
             onEditSupplierClick: this.redirectToContactDetail,
             onRecordMultiplePayments: this.redirectToBillPayment,
             onRecordPaymentModalOpen: this.loadNewBillPayment,
+            onShouldSendRemittanceAdviceChange: this.dispatcher
+              .updateShouldSendRemittanceAdvice,
+            onUpdateBankStatementText: this.updateBankStatementText,
             onUpdateHeaderOption: this.updateHeaderOption,
             onUpdateIsElectronicPayment: this.updateIsElectronicPayment,
             onUpdateBillPaymentAmountFields: this.dispatcher
@@ -1182,7 +1217,10 @@ class BillModule {
   };
 
   setInitialState = (context) => {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      ...context,
+      isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
+    });
   };
 
   resetState = () => {

@@ -30,6 +30,8 @@ import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
+const messageTypes = [SUCCESSFULLY_SAVED_BILL_PAYMENT];
+
 export default class BillPaymentModule {
   constructor({
     integration,
@@ -38,10 +40,13 @@ export default class BillPaymentModule {
     replaceURLParams,
     navigateTo,
     featureToggles,
+    popMessages,
   }) {
     this.store = new Store(billPaymentReducer);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.popMessages = popMessages;
+    this.messageTypes = messageTypes;
     this.replaceURLParams = replaceURLParams;
     this.dispatcher = createBillPaymentDetailDispatcher(this.store);
     this.integrator = createBillPaymentDetailIntegrator(
@@ -332,6 +337,15 @@ export default class BillPaymentModule {
       : null;
   };
 
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlertMessage({ message, type: 'success' });
+    }
+  };
+
   render = () => {
     const billPaymentView = (
       <BillPaymentView
@@ -394,6 +408,7 @@ export default class BillPaymentModule {
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();
+    this.readMessages();
     this.loadBillPayment((response) => {
       if (!response.supplierId) this.loadContactCombobox();
     });
