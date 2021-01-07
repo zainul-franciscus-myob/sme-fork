@@ -22,12 +22,13 @@
 
 .fieldGroup {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
 .fieldGroup > button {
   padding-left: var(--flx-spacing-medium);
+  align-self: center;
 }
 
 .fieldGroup > div {

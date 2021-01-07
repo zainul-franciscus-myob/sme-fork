@@ -212,3 +212,6 @@ export const getLoadBillPaymentParams = createSelector(
   getSupplierId,
   (supplierId) => (supplierId ? { supplierId } : {})
 );
+
+export const getIsPaymentAmountEdited = (state) =>
+  state.recordBillPayment.isPaymentAmountEdited;

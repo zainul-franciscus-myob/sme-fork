@@ -122,6 +122,7 @@ export const getDefaultState = () => ({
     alert: undefined,
     billPaymentId: 'new',
     supplierName: '',
+    isPaymentAmountEdited: false,
     isModalEdited: false,
     isModalLoading: false,
     isSubmitting: false,

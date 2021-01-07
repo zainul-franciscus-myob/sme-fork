@@ -18,6 +18,7 @@ import {
   getAlert,
   getBillPaymentOptions,
   getIsActionsDisabled,
+  getIsPaymentAmountEdited,
   getIsPaymentModalLoading,
   getIsRemittanceAdviceEnabled,
   getShouldSendRemittanceAdvice,
@@ -69,6 +70,7 @@ const BillRecordPaymentModal = ({
   isBeforeStartOfFinancialYear,
   isElectronicPayment,
   isModalLoading,
+  isPaymentAmountEdited,
   isRemittanceAdviceEnabled,
   issueDate,
   onCancel,
@@ -249,7 +251,7 @@ const BillRecordPaymentModal = ({
             label="Amount paid ($)"
             requiredLabel={requiredLabel}
             errorMessage={
-              !paidAmount || Number(paidAmount) === 0
+              (!paidAmount || Number(paidAmount) === 0) && isPaymentAmountEdited
                 ? 'Amount paid is required'
                 : null
             }
@@ -319,6 +321,7 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   isModalLoading: getIsPaymentModalLoading(state),
   isActionsDisabled: getIsActionsDisabled(state),
+  isPaymentAmountEdited: getIsPaymentAmountEdited(state),
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
 });

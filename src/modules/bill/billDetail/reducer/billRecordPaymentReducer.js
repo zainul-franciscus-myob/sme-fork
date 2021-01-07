@@ -107,6 +107,7 @@ export const updateBillPaymentAmountFields = (state, action) => ({
   recordBillPayment: {
     ...state.recordBillPayment,
     isModalEdited: true,
+    isPaymentAmountEdited: true,
     [action.key]: action.value,
   },
 });
