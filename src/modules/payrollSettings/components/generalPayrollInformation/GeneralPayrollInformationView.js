@@ -68,6 +68,7 @@ const GeneralPayrollInformationView = (props) => {
             <FieldGroup label="Details">
               <AmountInput
                 label="Full-time employee weekly hours"
+                requiredLabel="This field is required"
                 name="hoursInWorkWeek"
                 value={hoursInWorkWeek}
                 onChange={handleInputChange(onGeneralPayrollInformationChange)}
@@ -86,6 +87,7 @@ const GeneralPayrollInformationView = (props) => {
               />
               <AmountInput
                 label="Cents to round net pay down to"
+                requiredLabel="This field is required"
                 name="roundNetPay"
                 value={roundNetPay}
                 onChange={handleInputChange(onGeneralPayrollInformationChange)}
