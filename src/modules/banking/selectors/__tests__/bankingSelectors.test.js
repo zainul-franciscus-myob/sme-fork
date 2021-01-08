@@ -104,6 +104,11 @@ describe('bankingSelector', () => {
         { bankBalance: 1209.09, myobBalance: 1000, unallocated: undefined },
         { bankBalance: '$--', myobBalance: '$--', unallocated: '$--' },
       ],
+      [
+        'should return empty balances when balance is undefined',
+        undefined,
+        { bankBalance: '$--', myobBalance: '$--', unallocated: '$--' },
+      ],
     ].forEach((args) => {
       const [name, balances, expected] = args;
 

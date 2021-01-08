@@ -246,6 +246,15 @@ export const getIsBalancesInvalid = ({
   unallocated === undefined;
 
 export const getDisplayBalances = createSelector(getBalances, (balances) => {
+  if (!balances) {
+    const undefinedBalanceTooltip = '';
+    return {
+      bankBalance: '$--',
+      myobBalance: '$--',
+      unallocated: '$--',
+      undefinedBalanceTooltip,
+    };
+  }
   const { bankBalance, myobBalance, unallocated, bankBalanceDate } = balances;
 
   const balanceTooltip = bankBalanceDate
