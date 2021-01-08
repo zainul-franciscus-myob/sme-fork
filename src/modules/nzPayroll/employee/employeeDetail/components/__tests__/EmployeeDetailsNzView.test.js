@@ -16,14 +16,11 @@ import TestStore from '../../../../../../store/TestStore';
 import employeeDetailNzReducer from '../../employeeDetailNzReducer';
 
 const subModules = {
-  [tabIds.contactDetails]: {
-    getView: jest.fn().mockReturnValue('contactDetails'),
+  [tabIds.personalDetails]: {
+    getView: jest.fn().mockReturnValue('personalDetails'),
   },
   [tabIds.employmentDetails]: {
     getView: jest.fn().mockReturnValue('employmentDetails'),
-  },
-  [tabIds.salaryAndWages]: {
-    getView: jest.fn().mockReturnValue('salaryAndWages'),
   },
 };
 
@@ -56,7 +53,7 @@ describe('<EmployeeDetailNzView />', () => {
 
   describe('after details have been fetched', () => {
     const response = {
-      contactDetail: {
+      personalDetail: {
         firstName: 'Bob',
         lastName: 'The builder',
         isInactive: false,
@@ -77,30 +74,26 @@ describe('<EmployeeDetailNzView />', () => {
     });
 
     describe('tabs', () => {
-      it('should render the contact Details card by default', () => {
+      it('should render the personal Details card by default', () => {
         const wrapper = mountWithProvider(<EmployeeDetailNzView {...props} />);
 
-        expect(subModules[tabIds.contactDetails].getView).toHaveBeenCalled();
+        expect(subModules[tabIds.personalDetails].getView).toHaveBeenCalled();
 
-        expect(wrapper.find(Card).text()).toEqual('contactDetails');
+        expect(wrapper.find(Card).text()).toEqual('personalDetails');
         expect(wrapper.find(Tabs).prop('selected')).toEqual(
-          tabIds.contactDetails
+          tabIds.personalDetails
         );
       });
 
       describe('sub tabs', () => {
         describe.each([
           [
-            { mainTab: tabIds.contactDetails },
-            subModules[tabIds.contactDetails],
+            { mainTab: tabIds.personalDetails },
+            subModules[tabIds.personalDetails],
           ],
           [
-            { mainTab: tabIds.payrollDetails },
+            { mainTab: tabIds.employmentDetails },
             subModules[tabIds.employmentDetails],
-          ],
-          [
-            { mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages },
-            subModules[tabIds.salaryAndWages],
           ],
         ])('When tab %p is selected', ({ mainTab, subTab }, subModule) => {
           const onMainTabSelected = (tab) =>
@@ -147,7 +140,7 @@ describe('<EmployeeDetailNzView />', () => {
             />
           );
 
-          wrapper.find(Tabs).prop('onSelected')(tabIds.payrollDetails);
+          wrapper.find(Tabs).prop('onSelected')(tabIds.employmentDetails);
           wrapper.update();
 
           expect(
@@ -157,9 +150,6 @@ describe('<EmployeeDetailNzView />', () => {
           expect(wrapper.find(Card).text()).toContain('employmentDetails');
 
           expect(wrapper.find(Tabs).at(0).prop('selected')).toEqual(
-            tabIds.payrollDetails
-          );
-          expect(wrapper.find(Tabs).at(1).prop('selected')).toEqual(
             tabIds.employmentDetails
           );
         });
@@ -169,7 +159,7 @@ describe('<EmployeeDetailNzView />', () => {
     it('should update the title', () => {
       const wrapper = mountWithProvider(<EmployeeDetailNzView {...props} />);
 
-      const title = `${response.contactDetail.firstName} ${response.contactDetail.lastName}`;
+      const title = `${response.personalDetail.firstName} ${response.personalDetail.lastName}`;
       expect(wrapper.find(PageHead).prop('title')).toEqual(title);
     });
   });

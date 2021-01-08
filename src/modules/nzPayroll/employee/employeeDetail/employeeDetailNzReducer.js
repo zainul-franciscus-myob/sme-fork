@@ -2,12 +2,11 @@ import * as intents from '../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import { tabIds } from './tabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
-import contactDetailsNzTabReducer from './contactDetails/contactDetailsNzTabReducer';
 import createReducer from '../../../../store/createReducer';
 import employementDetailsReducer from './employmentDetails/employementDetailsReducer';
 import leaveReducer from './leave/leaveReducer';
-import salaryAndWageReducer from './salaryAndWages/salaryAndWageReducer';
-import taxAndKiwiSaverReducer from './taxAndKiwiSaver/taxAndKiwiSaverReducer';
+import personalDetailsNzTabReducer from './personalDetails/personalDetailsNzTabReducer';
+import standardPayTabReducer from './standardPay/standardPayTabReducer';
 
 // @TODO: LOAD DEFAULT LEAVE DETAILS
 const getDefaultState = () => ({
@@ -16,12 +15,9 @@ const getDefaultState = () => ({
   isPageEdited: false,
   isSubmitting: false,
   tabs: {
-    main: tabIds.contactDetails,
-    subTabs: {
-      [tabIds.payrollDetails]: tabIds.employmentDetails,
-    },
+    main: tabIds.personalDetails,
   },
-  contactDetail: {
+  personalDetail: {
     firstName: '',
     lastName: '',
     isInactive: false,
@@ -62,9 +58,9 @@ const dismissAlert = (state) => ({
   alert: undefined,
 });
 
-const loadContactDetail = (state, payload) => ({
-  ...state.contactDetail,
-  ...payload.contactDetail,
+const loadPersonalDetail = (state, payload) => ({
+  ...state.personalDetail,
+  ...payload.personalDetail,
 });
 
 // @TODO: LOAD DEFAULT LEAVE DETAILS
@@ -82,7 +78,7 @@ const loadEmployeeDetail = (state, action) => ({
   loadingState: LoadingState.LOADING_SUCCESS,
 
   ...action.payload,
-  contactDetail: loadContactDetail(state, action.payload),
+  personalDetail: loadPersonalDetail(state, action.payload),
   payrollDetails: loadPayrollDetail(state, action.payload),
 });
 
@@ -98,7 +94,7 @@ const loadEmployeeDetailFailed = (state) => ({
 
 const updateEmployeeDetails = (state, action) => ({
   ...state,
-  contactDetail: loadContactDetail(state, action),
+  personalDetail: loadPersonalDetail(state, action),
   payrollDetails: loadPayrollDetail(state, action),
   loadingState: LoadingState.LOADING_SUCCESS,
   alert: { type: 'success', message: action.message },
@@ -149,29 +145,14 @@ const setMainTab = (state, { mainTab }) => ({
   },
 });
 
-const setSubTab = (state, { mainTab, subTab }) =>
-  mainTab && subTab
-    ? {
-        ...state,
-        tabs: {
-          ...state.tabs,
-          subTabs: {
-            ...state.tabs.subTabs,
-            [mainTab]: subTab,
-          },
-        },
-      }
-    : state;
-
 const setInitialState = (
   state = getDefaultState(),
-  { context: { mainTab, subTab, ...params } }
+  { context: { mainTab, ...params } }
 ) => ({
   ...state,
   ...params,
   tabs: {
     main: mainTab || state.tabs.main,
-    subTabs: setSubTab(state, { mainTab, subTab }).tabs.subTabs,
   },
 });
 
@@ -192,12 +173,10 @@ const handlers = {
   [intents.DELETE_EMPLOYEE_FAILED]: deleteEmployeeFailed,
   [intents.UPDATING_EMPLOYEE]: updatingEmployeeDetails,
   [intents.SET_MAIN_TAB]: setMainTab,
-  [intents.SET_SUB_TAB]: setSubTab,
-  ...contactDetailsNzTabReducer,
+  ...personalDetailsNzTabReducer,
   ...employementDetailsReducer,
-  ...salaryAndWageReducer,
+  ...standardPayTabReducer,
   ...leaveReducer,
-  ...taxAndKiwiSaverReducer,
 };
 
 const employeeDetailNzReducer = createReducer(getDefaultState(), handlers);

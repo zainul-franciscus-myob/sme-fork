@@ -1,72 +1,58 @@
 import { FormHorizontal } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React, { useCallback } from 'react';
+import React from 'react';
 
-import {
-  getCalculatedAge,
-  getDateOfBirth,
-  getEmploymentStatus,
-  getGender,
-  getGenderOptions,
-  getStartDate,
-  getTerminationDate,
-} from '../EmploymentDetailsSelectors';
-import EmploymentFieldGroup from './EmploymentFieldGroup';
-import PersonalEmploymentFieldGroup from './PersonalEmploymentFieldGroup';
+import * as selectors from '../EmploymentDetailsSelectors';
+import Employment from './Employment';
+import KiwiSaver from './KiwiSaver';
+import TaxDeclaration from './TaxDeclaration';
 
-const EmploymentDetailsNzTab = ({
-  dateOfBirth,
-  gender,
-  calculatedAge,
-  genderOptions,
-  startDate,
-  terminationDate,
-  employmentStatus,
-  onEmploymentDetailsChange,
-}) => {
-  const onInputChange = useCallback(
-    (target) =>
-      onEmploymentDetailsChange({
-        key: target.name,
-        value: target.value,
-      }),
-    [onEmploymentDetailsChange]
-  );
-
-  const onDateChange = (fieldName) => ({ value }) =>
-    onInputChange({ name: fieldName, value });
-
-  const onSelectChange = ({ target }) => onInputChange(target);
-
-  return (
-    <FormHorizontal layout="primary">
-      <PersonalEmploymentFieldGroup
-        dateOfBirth={dateOfBirth}
-        gender={gender}
-        calculatedAge={calculatedAge}
-        genderOptions={genderOptions}
-        onDateChange={onDateChange}
-        onSelectChange={onSelectChange}
-      />
-      <EmploymentFieldGroup
-        startDate={startDate}
-        terminationDate={terminationDate}
-        employmentStatus={employmentStatus}
-        onDateChange={onDateChange}
-      />
-    </FormHorizontal>
-  );
+const handleOnBlurWithKey = (key, handler) => ({ target: { value } }) => {
+  handler({ key, value });
 };
 
-const mapStateToProps = (state) => ({
-  dateOfBirth: getDateOfBirth(state),
-  gender: getGender(state),
-  calculatedAge: getCalculatedAge(state),
-  genderOptions: getGenderOptions(state),
+const EmploymentDetailsNzTab = ({
+  employmentDetails,
+  employmentStatusOptions,
+  onEmploymentDetailsChange,
 
-  startDate: getStartDate(state),
-  terminationDate: getTerminationDate(state),
-  employmentStatus: getEmploymentStatus(state),
+  taxDetails,
+  taxCodeOptions,
+  onTaxDetailsChange,
+
+  kiwiSaverDetails,
+  kiwiSaverOptions,
+  onKiwiSaverDetailsChange,
+}) => (
+  <FormHorizontal layout="primary">
+    <Employment
+      employmentDetails={employmentDetails}
+      employmentStatusOptions={employmentStatusOptions}
+      onEmploymentDetailsChange={onEmploymentDetailsChange}
+    />
+    <TaxDeclaration
+      taxDetails={taxDetails}
+      taxCodeOptions={taxCodeOptions}
+      onTaxDetailsChange={onTaxDetailsChange}
+      handleOnBlurWithKey={handleOnBlurWithKey}
+    />
+    <KiwiSaver
+      kiwiSaverDetails={kiwiSaverDetails}
+      kiwiSaverOptions={kiwiSaverOptions}
+      onKiwiSaverDetailsChange={onKiwiSaverDetailsChange}
+      handleOnBlurWithKey={handleOnBlurWithKey}
+    />
+    {/* <PaymentDetails /> */}
+  </FormHorizontal>
+);
+
+const mapStateToProps = (state) => ({
+  employmentDetails: selectors.getEmploymentDetails(state),
+  employmentStatusOptions: selectors.getEmploymentStatusOptions(state),
+  taxDetails: selectors.getTaxDetails(state),
+  taxCodeOptions: selectors.getTaxCodeOptions(state),
+  kiwiSaverDetails: selectors.getKiwiSaverDetails(state),
+  kiwiSaverOptions: selectors.getKiwiSaverOptions(state),
 });
 
 export default connect(mapStateToProps)(EmploymentDetailsNzTab);

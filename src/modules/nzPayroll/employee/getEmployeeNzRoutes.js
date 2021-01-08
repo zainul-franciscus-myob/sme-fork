@@ -26,7 +26,7 @@ const getEmployeeNzRoutes = ({
       name: RouteName.EMPLOYEE_DETAIL_NZ,
       path: '/nz/:businessId/employee/:employeeId',
       defaultParams: { region: 'nz' },
-      allowedParams: ['mainTab', 'subTab'],
+      allowedParams: ['mainTab'],
       module: new EmployeeDetailNzModule({
         integration,
         setRootView,

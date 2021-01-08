@@ -1,4 +1,4 @@
-import { Button, Icons, Table } from '@myob/myob-widgets';
+import { AddIcon, Button, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 const AddHolidayOrLeaveRow = ({ tableConfig, onAddHolidayAndLeaveClick }) => {
@@ -8,7 +8,7 @@ const AddHolidayOrLeaveRow = ({ tableConfig, onAddHolidayAndLeaveClick }) => {
         <Button
           key="Add holidays or leave"
           type="link"
-          icon={<Icons.Add />}
+          icon={<AddIcon />}
           onClick={onAddHolidayAndLeaveClick}
         >
           Add holidays or leave

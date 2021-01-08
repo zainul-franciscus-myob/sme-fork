@@ -72,7 +72,6 @@ const LeaveTabView = ({ leave, onLeaveChange, onHolidayPayBlur }) => {
           value={leave.sickLeaveOpeningBalance}
         />
       </FieldGroup>
-
       <FieldGroup label="Alternative holidays">
         <ReadOnly
           name="alternativeCurrentBalance"

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { SET_MAIN_TAB } from '../../../EmployeeNzIntents';
 import { tabIds } from '../../tabItems';
-import EmployeeDetailsMainTabs from '../EmployeeDetailsMainTabs';
+import EmployeeDetailsTab from '../EmployeeDetailsTab';
 import TestStore from '../../../../../../store/TestStore';
 import employeeDetailNzReducer from '../../employeeDetailNzReducer';
 
@@ -14,7 +14,7 @@ describe('<EmployeeDetailsMainTabs />', () => {
 
   beforeEach(() => {
     store = new TestStore(employeeDetailNzReducer);
-    wrapper = mount(<EmployeeDetailsMainTabs />, {
+    wrapper = mount(<EmployeeDetailsTab />, {
       wrappingComponent: Provider,
       wrappingComponentProps: { store },
     });
@@ -25,21 +25,23 @@ describe('<EmployeeDetailsMainTabs />', () => {
     const tabItems = wrapper.find('TabItem');
 
     expect(tabs.length).toEqual(1);
-    expect(tabItems.length).toEqual(2);
+    expect(tabItems.length).toEqual(4);
 
-    expect(tabs.prop('selected')).toEqual('contactDetails');
-    expect(tabItems.at(0).text()).toEqual('Contact details');
-    expect(tabItems.at(1).text()).toEqual('Payroll details');
+    expect(tabs.prop('selected')).toEqual('personalDetails');
+    expect(tabItems.at(0).text()).toEqual('Personal details');
+    expect(tabItems.at(1).text()).toEqual('Employment details');
+    expect(tabItems.at(2).text()).toEqual('Standard pay');
+    expect(tabItems.at(3).text()).toEqual('Leave');
   });
 
   it('should render selected main tab', () => {
     store.dispatch({
       intent: SET_MAIN_TAB,
-      mainTab: tabIds.payrollDetails,
+      mainTab: tabIds.employmentDetails,
     });
 
     wrapper.update();
     const tabs = wrapper.find('Tabs');
-    expect(tabs.prop('selected')).toEqual('payrollDetails');
+    expect(tabs.prop('selected')).toEqual('employmentDetails');
   });
 });

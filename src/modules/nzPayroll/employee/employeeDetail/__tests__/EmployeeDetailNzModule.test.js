@@ -3,14 +3,11 @@ import { mount } from 'enzyme';
 import * as intents from '../../EmployeeNzIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../tabItems';
-import ContactDetailsNzTabView from '../contactDetails/components/ContactDetailsNzTabView';
 import EmployeeDetailNzModule from '../EmployeeDetailNzModule';
 import EmployeeDetailsNzView from '../components/EmployeeDetailsNzView';
 import EmploymentDetailsTab from '../employmentDetails/components/EmploymentDetailsTab';
-import LeaveTabView from '../leave/components/LeaveTabView';
 import LoadingFailPageState from '../../../../../components/PageView/LoadingFailPageState';
-import SalaryAndWagesTabView from '../salaryAndWages/components/SalaryAndWagesTabView';
-import TaxAndKiwiSaverTab from '../taxAndKiwiSaver/components/TaxAndKiwiSaverTab';
+import PersonalDetailsNzTab from '../personalDetails/components/PersonalDetailsNzTab';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
 import employeeDetailNzDispatcher from '../employeeDetailNzDispatcher';
@@ -89,7 +86,7 @@ describe('EmployeeDetailNzModule', () => {
 
       wrapper.update();
       expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
-      expect(wrapper.find(ContactDetailsNzTabView).exists()).toBe(true);
+      expect(wrapper.find(PersonalDetailsNzTab).exists()).toBe(true);
     });
 
     it('should display LoadingFailPageState when integration fails', () => {
@@ -144,12 +141,12 @@ describe('EmployeeDetailNzModule', () => {
 
     wrapper.update();
     expect(wrapper.find(EmployeeDetailsNzView).exists()).toBe(true);
-    expect(wrapper.find(ContactDetailsNzTabView).exists()).toBe(true);
+    expect(wrapper.find(PersonalDetailsNzTab).exists()).toBe(true);
   });
 
-  describe('Sub tabs', () => {
-    describe('When clicking tab payroll details tab', () => {
-      it('should move to payroll details page', () => {
+  describe('tabs', () => {
+    describe('When clicking tab employment details tab', () => {
+      it('should move to employment details page', () => {
         const { integration, module, wrapper } = setup();
         integration.mapSuccess(
           intents.LOAD_EMPLOYEE_DETAIL,
@@ -161,7 +158,7 @@ describe('EmployeeDetailNzModule', () => {
 
         wrapper
           .find('TabItem')
-          .findWhere((c) => c.prop('item')?.id === 'payrollDetails')
+          .findWhere((c) => c.prop('item')?.id === 'employmentDetails')
           .find('a')
           .simulate('click');
         wrapper.update();
@@ -181,31 +178,21 @@ describe('EmployeeDetailNzModule', () => {
 
         wrapper
           .find('TabItem')
-          .findWhere((c) => c.prop('item')?.id === 'payrollDetails')
+          .findWhere((c) => c.prop('item')?.id === 'employmentDetails')
           .find('a')
           .simulate('click');
         wrapper.update();
 
         expect(replaceURLParams).toHaveBeenLastCalledWith({
-          mainTab: 'payrollDetails',
-          subTab: 'employmentDetails',
+          mainTab: 'employmentDetails',
+          subTab: undefined,
         });
       });
     });
 
     describe.each([
-      [{ mainTab: tabIds.contactDetails }, ContactDetailsNzTabView],
-      [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
-      [{ mainTab: tabIds.payrollDetails }, EmploymentDetailsTab],
-      [
-        { mainTab: tabIds.payrollDetails, subTab: tabIds.salaryAndWages },
-        SalaryAndWagesTabView,
-      ],
-      [{ mainTab: tabIds.payrollDetails, subTab: tabIds.leave }, LeaveTabView],
-      [
-        { mainTab: tabIds.payrollDetails, subTab: tabIds.taxAndKiwiSaver },
-        TaxAndKiwiSaverTab,
-      ],
+      [{ mainTab: tabIds.personalDetails }, PersonalDetailsNzTab],
+      [{ mainTab: tabIds.employmentDetails }, EmploymentDetailsTab],
     ])('When tab %p is selected', ({ mainTab, subTab }, TabView) => {
       it(`should display ${TabView.displayName}`, () => {
         const { integration, module, wrapper } = setup();

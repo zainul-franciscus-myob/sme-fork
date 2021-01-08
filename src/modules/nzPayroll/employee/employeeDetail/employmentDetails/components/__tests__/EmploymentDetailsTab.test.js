@@ -3,13 +3,15 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LOAD_EMPLOYEE_DETAIL } from '../../../../EmployeeNzIntents';
-import EmployeeDetailsTab from '../EmploymentDetailsTab';
-import EmploymentFieldGroup from '../EmploymentFieldGroup';
-import PersonalEmploymentFieldGroup from '../PersonalEmploymentFieldGroup';
+import Employment from '../Employment';
+import EmploymentDetailsNzTab from '../EmploymentDetailsTab';
+import KiwiSaver from '../KiwiSaver';
+import TaxDeclaration from '../TaxDeclaration';
 import TestStore from '../../../../../../../store/TestStore';
 import employeeDetailNzReducer from '../../../employeeDetailNzReducer';
+import employeeDetails from '../../../../mappings/data/employeeDetailEntry';
 
-describe('<EmployeeDetailsTab />', () => {
+describe('<EmploymentDetailsNzTab />', () => {
   let store;
   beforeEach(() => {
     store = new TestStore(employeeDetailNzReducer);
@@ -21,54 +23,56 @@ describe('<EmployeeDetailsTab />', () => {
       wrappingComponentProps: { store },
     });
 
-  const employmentDetails = {
-    dateOfBirth: '1945-08-29T00:00:00',
-    gender: 'Male',
-
-    startDate: '2010-01-01T00:00:00',
-    terminationDate: '2015-01-01T00:00:00',
-    employmentStatus: 'Casual',
-  };
-
-  const employeeDetails = {
-    payrollDetails: {
-      employmentDetails,
-    },
-    genderOptions: [{ name: 'option 1', value: '1' }],
-  };
-
   const setup = () => {
     store.dispatch({ intent: LOAD_EMPLOYEE_DETAIL, payload: employeeDetails });
-    const wrapper = mountWithProvider(<EmployeeDetailsTab />);
+    const wrapper = mountWithProvider(<EmploymentDetailsNzTab />);
     return wrapper;
   };
 
-  it('should contain a PersonalEmploymentFieldGroup', () => {
-    const wrapper = setup();
-    const personalEmploymentFieldGroup = wrapper.find(
-      PersonalEmploymentFieldGroup
-    );
+  describe('EmploymentDetailsNzTab', () => {
+    it.each([
+      [Employment, 'Employment'],
+      [TaxDeclaration, 'Tax declaration'],
+      [KiwiSaver, 'KiwiSaver'],
+    ])('should render component with label)', (field, label) => {
+      const wrapper = setup();
+      const view = wrapper.find(EmploymentDetailsNzTab);
 
-    expect(personalEmploymentFieldGroup.props()).toEqual(
-      expect.objectContaining({
-        dateOfBirth: employmentDetails.dateOfBirth,
-        gender: employmentDetails.gender,
-        calculatedAge: expect.any(String),
-        genderOptions: employeeDetails.genderOptions,
-      })
-    );
+      expect(view.find(field).find({ label }).exists()).toBeTruthy();
+    });
   });
 
-  it('should contain a EmploymentFieldGroup', () => {
+  it('should render EmploymentDetailsNzTab', () => {
     const wrapper = setup();
-    const personalEmploymentFieldGroup = wrapper.find(EmploymentFieldGroup);
+    const view = wrapper.find(EmploymentDetailsNzTab);
 
-    expect(personalEmploymentFieldGroup.props()).toEqual(
-      expect.objectContaining({
-        startDate: employmentDetails.startDate,
-        terminationDate: employmentDetails.terminationDate,
-        employmentStatus: employmentDetails.employmentStatus,
-      })
-    );
+    expect(view).toHaveLength(1);
+  });
+
+  it('Employment should have proper props', () => {
+    const wrapper = setup();
+    const employment = wrapper.find(Employment);
+
+    expect(employment.props()).toHaveProperty('employmentDetails');
+    expect(employment.props()).toHaveProperty('employmentStatusOptions');
+    expect(employment.props()).toHaveProperty('onEmploymentDetailsChange');
+  });
+
+  it('KiwiSaver should have proper props', () => {
+    const wrapper = setup();
+    const kiwiSaver = wrapper.find(KiwiSaver);
+
+    expect(kiwiSaver.props()).toHaveProperty('kiwiSaverDetails');
+    expect(kiwiSaver.props()).toHaveProperty('kiwiSaverOptions');
+    expect(kiwiSaver.props()).toHaveProperty('onKiwiSaverDetailsChange');
+  });
+
+  it('TaxDeclaration should have proper props', () => {
+    const wrapper = setup();
+    const tax = wrapper.find(TaxDeclaration);
+
+    expect(tax.props()).toHaveProperty('taxDetails');
+    expect(tax.props()).toHaveProperty('taxCodeOptions');
+    expect(tax.props()).toHaveProperty('onTaxDetailsChange');
   });
 });

@@ -1,11 +1,11 @@
 {
-  "contactDetail": {
-    "country": "New Zealand"
+  "personalDetail": {
+    "country": "New Zealand",
+    "dateOfBirth": "",
+    "gender": "Not Set"
   },
   "payrollDetails": {
     "employmentDetails": {
-      "dateOfBirth": "",
-      "gender": "Not Set",
       "startDate": "",
       "terminationDate": "",
       "employmentStatus": "Casual"
@@ -30,59 +30,47 @@
       "employerSuperannuationContributionTax": 0
     }
   },
+
   "genderOptions": [
-    { "name": "-", "value": "NotSet" },
-    { "name": "Male", "value": "Male" },
-    { "name": "Female", "value": "Female" },
-    { "name": "Unspecified", "value": "Indeterminate" }
+    { "label": "-", "value": "NotSet" },
+    { "label": "Male", "value": "Male" },
+    { "label": "Female", "value": "Female" },
+    { "label": "Unspecified", "value": "Indeterminate" }
+  ],
+  "employmentStatusOptions": [
+    { "label": "Casual", "value": "Casual" },
+    { "label": "Fulltime", "value": "Fulltime" }
+  ],
+  "kiwiSaverStatusOptions": [{ "label": "Active member", "value": "1" }],
+  "kiwiSaverEmployeeContributionOptions": [
+    { "label": "3", "value": "3.00" },
+    { "label": "4", "value": "4.00" },
+    { "label": "6", "value": "5.00" },
+    { "label": "8", "value": "8.00" },
+    { "label": "10", "value": "10.00" }
   ],
   "payCycleOptions": [
-    { "id": "Weekly", "displayName": "Weekly" },
-    { "id": "Fortnightly", "displayName": "Fortnightly" },
-    { "id": "FourWeekly", "displayName": "Four weekly" },
-    { "id": "Monthly", "displayName": "Monthly" }
+    { "label": "Weekly", "value": "Weekly" },
+    { "label": "Fortnightly", "value": "Fortnightly" },
+    { "label": "Four weekly", "value": "FourWeekly" },
+    { "label": "Monthly", "value": "Monthly" }
   ],
   "taxCodeOptions": [
-    { "key": "ND", "value": "ND" },
-    { "key": "M", "value": "M" },
-    { "key": "ME", "value": "ME" },
-    { "key": "SB", "value": "SB" },
-    { "key": "S", "value": "S" },
-    { "key": "SH", "value": "SH" },
-    { "key": "ST", "value": "ST" },
-    { "key": "EDW", "value": "EDW" },
-    { "key": "CAE", "value": "CAE" }
-  ],
-  "kiwiSaverStatusOptions": [
-    { "key": 1, "value": "Active member" }
-  ],
-  "kiwiSaverEmployeeContributionOptions": [
-    { "key": "3.00", "value": 3 },
-    { "key": "4.00", "value": 4 },
-    { "key": "6.00", "value": 6 },
-    { "key": "8.00", "value": 8 },
-    { "key": "10.00", "value": 10 }
+    { "label": "ND", "value": "ND" },
+    { "label": "M", "value": "M" },
+    { "label": "ME", "value": "ME" },
+    { "label": "SB", "value": "SB" },
+    { "label": "S", "value": "S" },
+    { "label": "SH", "value": "SH" },
+    { "label": "ST", "value": "ST" },
+    { "label": "EDW", "value": "EDW" },
+    { "label": "CAE", "value": "CAE" }
   ],
   "employerSuperannuationContributionTaxOptions": [
-    {
-      "displayName": "Please select an option",
-      "value": "0"
-    },
-    {
-      "displayName": "Up to $16,800 (tax at 10.5%)",
-      "value": "0.105"
-    },
-    {
-      "displayName": "$16,801 to $57,600 (tax at 17.5%)",
-      "value": "0.175"
-    },
-    {
-      "displayName": "$57,601 to $84,000 (tax at 30%)",
-      "value": "0.3"
-    },
-    {
-      "displayName": "Over $84,000 (tax at 33%)",
-      "value": "0.33"
-    }
+    { "label": "Please select an option", "value": "0" },
+    { "label": "10.5% (annual earnings up to $16,800", "value": "0.105" },
+    { "label": "17.5% (annual earnings $16,801 to $57,600)", "value": "0.175" },
+    { "label": "30% (annual earnings $57,601 to $84,000)", "value": "0.3" },
+    { "label": "33% (annual earnings over $84,000)", "value": "0.33" }
   ]
 }

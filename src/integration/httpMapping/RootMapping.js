@@ -47,6 +47,7 @@ import NavigationMapping from './NavigationMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/HttpPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/HttpPayRefundMapping';
 import PayRunDetailMapping from '../../modules/payRun/mappings/HttpPayRunDetailMapping';
+import PayRunDetailNzMapping from '../../modules/nzPayroll/payRun/mappings/HttpPayRunDetailNzMapping';
 import PayRunListMapping from '../../modules/payRun/mappings/HttpPayRunListMapping';
 import PayRunMapping from '../../modules/payRun/mappings/HttpPayRunMapping';
 import PayRunNzMapping from '../../modules/nzPayroll/payRun/mappings/HttpPayRunNzMapping';
@@ -186,6 +187,7 @@ const RootMapping = Object.freeze({
   ...PurchaseOrderMapping,
   ...PurchaseOrderDetailMapping,
   ...PaydayFilingOnboardingNzMapping,
+  ...PayRunDetailNzMapping,
 });
 
 export default RootMapping;

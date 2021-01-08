@@ -35,13 +35,13 @@ describe('employeeDetailNzIntegrator', () => {
     it('should call integrator read with SAVE_EMPLOYEE_DETAIL intent', () => {
       const businessId = 1234;
       const employeeId = 12;
-      const contactDetail = {};
+      const personalDetail = {};
       const payrollDetails = {};
 
       const state = {
         businessId,
         employeeId,
-        contactDetail,
+        personalDetail,
         payrollDetails,
       };
 
@@ -49,7 +49,7 @@ describe('employeeDetailNzIntegrator', () => {
       const urlParams = { businessId, employeeId };
       const onSuccess = () => {};
       const onFailure = () => {};
-      const content = { contactDetail, payrollDetails };
+      const content = { personalDetail, payrollDetails };
 
       const integration = { write: jest.fn(), read: jest.fn() };
       const integrator = employeeDetailNzIntegrator({ store, integration });

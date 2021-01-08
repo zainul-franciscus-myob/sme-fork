@@ -13,13 +13,12 @@ import {
   isPageEdited,
 } from './EmployeeDetailNzSelectors';
 import { tabItems } from './tabItems';
-import ContactDetailsNzTabModule from './contactDetails/ContactDetailsNzTabModule';
 import EmployeeDetailsNzView from './components/EmployeeDetailsNzView';
 import EmploymentDetailsNzModule from './employmentDetails/EmploymentDetailsNzModule';
-import LeaveModule from './leave/LeaveModule';
-import SalaryAndWagesModule from './salaryAndWages/salaryAndWagesModule';
+import LeaveNzModule from './leave/LeaveNzModule';
+import PersonalDetailsNzTabModule from './personalDetails/PersonalDetailsNzTabModule';
+import StandardPayTabModule from './standardPay/StandardPayTabModule';
 import Store from '../../../../store/Store';
-import TaxAndKiwiSaverModule from './taxAndKiwiSaver/TaxAndKiwiSaverModule';
 import employeeDetailNzDispatcher from './employeeDetailNzDispatcher';
 import employeeDetailNzIntegrator from './employeeDetailNzIntegrator';
 import employeeDetailNzReducer from './employeeDetailNzReducer';
@@ -44,11 +43,10 @@ export default class EmployeeDetailNzModule {
       integration,
     });
     this.subModules = {
-      contactDetails: new ContactDetailsNzTabModule({ store: this.store }),
+      personalDetails: new PersonalDetailsNzTabModule({ store: this.store }),
       employmentDetails: new EmploymentDetailsNzModule({ store: this.store }),
-      salaryAndWages: new SalaryAndWagesModule({ store: this.store }),
-      leave: new LeaveModule({ store: this.store }),
-      taxAndKiwiSaver: new TaxAndKiwiSaverModule({ store: this.store }),
+      standardPay: new StandardPayTabModule({ store: this.store }),
+      leave: new LeaveNzModule({ store: this.store }),
     };
   }
 
@@ -79,18 +77,12 @@ export default class EmployeeDetailNzModule {
     this.replaceURLParams(getURLParams(this.store.getState()));
   };
 
-  setSubTab = (mainTab, subTab) => {
-    this.dispatcher.setSubTab(mainTab, subTab);
-    this.replaceURLParams({ mainTab, subTab });
-  };
-
   render() {
     const employeeDetailNzView = (
       <EmployeeDetailsNzView
         tabItems={tabItems}
         subModules={this.subModules}
         onMainTabSelected={this.setMainTab}
-        onSubTabSelected={this.setSubTab}
         onCancelButtonClick={this.onCancelButtonClick}
         onSaveButtonClick={this.onSaveButtonClick}
         onDeleteButtonClick={this.onDeleteButtonClick}

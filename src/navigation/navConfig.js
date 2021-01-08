@@ -175,6 +175,10 @@ export const featuresConfig = {
   stpReporting: { routeName: RouteName.STP_REPORTING_CENTRE },
 
   employeeListNz: { routeName: RouteName.EMPLOYEE_LIST_NZ },
+  employeeCreateNz: {
+    routeName: RouteName.EMPLOYEE_DETAIL_NZ,
+    params: { employeeId: 'new' },
+  },
   payRunCreateNz: { routeName: RouteName.PAY_RUN_CREATE_NZ },
   payRunListNz: { routeName: RouteName.PAY_RUN_LIST_NZ },
 

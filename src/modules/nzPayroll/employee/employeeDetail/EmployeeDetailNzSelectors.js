@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getContactDetail = (state) => state.contactDetail;
+const getPersonalDetail = (state) => state.personalDetail;
 const getPayrollDetails = ({ payrollDetails }) => payrollDetails;
 
 export const getAlert = (state) => state.alert;
@@ -15,18 +15,18 @@ export const getIsSubmitting = (state) => state.isSubmitting;
 export const getIsCreating = (state) => state.employeeId === 'new';
 
 export const getEmployeeFullName = createSelector(
-  getContactDetail,
+  getPersonalDetail,
   getIsCreating,
-  (contactDetail, isCreating) =>
+  (personalDetail, isCreating) =>
     isCreating
       ? 'Create employee'
-      : `${contactDetail.firstName} ${contactDetail.lastName}`
+      : `${personalDetail.firstName} ${personalDetail.lastName}`
 );
 
 export const getEmployeePayload = createSelector(
-  getContactDetail,
+  getPersonalDetail,
   getPayrollDetails,
-  (contactDetail, payrollDetails) => ({ contactDetail, payrollDetails })
+  (personalDetail, payrollDetails) => ({ personalDetail, payrollDetails })
 );
 
 export const getEmployeeListUrl = createSelector(
@@ -36,15 +36,7 @@ export const getEmployeeListUrl = createSelector(
 );
 
 export const getMainTab = (state) => state.tabs.main;
-const getSubTabs = (state) => state.tabs.subTabs;
-export const getCurrentSubTab = createSelector(
-  getMainTab,
-  getSubTabs,
-  (mainTab, subTabs) => subTabs[mainTab]
-);
 
-export const getURLParams = createSelector(
-  getMainTab,
-  getCurrentSubTab,
-  (mainTab, subTab) => ({ mainTab, subTab })
-);
+export const getURLParams = createSelector(getMainTab, (mainTab) => ({
+  mainTab,
+}));

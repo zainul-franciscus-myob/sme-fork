@@ -58,9 +58,7 @@ describe('LeaveTabView', () => {
   it('should have proper props', () => {
     const { wrapper } = setup();
     const { leave } = employeeDetail.payrollDetails;
-
     const view = wrapper.find('LeaveTabView');
-
     expect(view.props()).toMatchObject({ leave });
   });
   */
@@ -119,21 +117,16 @@ describe('LeaveTabView', () => {
       },
     ])('ReadOnly Field: %p', ({ label, name, data }) => {
       const { wrapper } = setup();
-
       const field = wrapper.find({ name }).find('ReadOnly');
-
       expect(field.props()).toMatchObject({
         label,
         name,
         children: data,
       });
     });
-
     it('Datepicker should render with proper props', () => {
       const { wrapper } = setup();
-
       const field = wrapper.find('DatePicker');
-
       expect(field.props()).toMatchObject({
         name: 'nextAnniversaryDate',
         label: 'Next anniversary date',
@@ -153,20 +146,15 @@ describe('LeaveTabView', () => {
     ])('AmountInput Field: %p', (name) => {
       const { wrapper, onLeaveChange } = setup();
       const field = wrapper.find({ name }).find('AmountInput');
-
       field.props().onChange({ target: { name, value: '5' } });
-
       expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });
-
     it('Datepicker calls onLeaveChange when selecting the date', () => {
       const { wrapper, onLeaveChange } = setup();
       const field = wrapper.find('DatePicker');
-
       field
         .props()
         .onSelect({ target: { fieldName: 'nextAnniversaryDate', value: '' } });
-
       expect(onLeaveChange).toHaveBeenCalledTimes(1);
     });
   */

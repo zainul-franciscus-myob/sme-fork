@@ -153,6 +153,7 @@ export const getPayrollNzUrls = createSelector(
   getisNzPayRunsViewEnabled,
   (enabledUrls, isNzPayRunsViewEnabled) => ({
     employeeListNz: enabledUrls.employeeListNz,
+    employeeCreateNz: enabledUrls.employeeCreateNz,
     payRunCreateNz: enabledUrls.payRunCreateNz,
     payRunListNz: isNzPayRunsViewEnabled ? enabledUrls.payRunListNz : undefined,
   })

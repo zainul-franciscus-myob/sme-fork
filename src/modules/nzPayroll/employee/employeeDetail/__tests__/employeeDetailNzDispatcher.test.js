@@ -133,21 +133,10 @@ describe('employeeDetailNzDispatcher', () => {
 
   describe('setMainTab', () => {
     it('should dispatch a SET_MAIN_TAB intent', () => {
-      dispatcher.setMainTab(tabIds.contactDetails);
+      dispatcher.setMainTab(tabIds.getPersonalDetail);
       expect(store.dispatch).toHaveBeenCalledWith({
         intent: intents.SET_MAIN_TAB,
-        mainTab: tabIds.contactDetails,
-      });
-    });
-  });
-
-  describe('setSubTab', () => {
-    it('should dispatch a SET_SUB_TAB intent', () => {
-      dispatcher.setSubTab(tabIds.payrollDetails, tabIds.employmentDetails);
-      expect(store.dispatch).toHaveBeenCalledWith({
-        intent: intents.SET_SUB_TAB,
-        mainTab: tabIds.payrollDetails,
-        subTab: tabIds.employmentDetails,
+        mainTab: tabIds.getPersonalDetail,
       });
     });
   });

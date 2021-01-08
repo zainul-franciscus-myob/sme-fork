@@ -32,9 +32,6 @@ export const LOAD_EMPLOYEE_DETAIL_FAILED = Symbol(
 );
 export const LOAD_NEW_EMPLOYEE_DETAIL = Symbol('Load new employee detail');
 
-// Update contant detail intents
-export const UPDATE_CONTACT_DETAIL = Symbol('Update employee contact detail');
-
 // Update tabs intents
 export const SET_MAIN_TAB = Symbol('Set main tab');
 export const SET_SUB_TAB = Symbol('Set sub tab');

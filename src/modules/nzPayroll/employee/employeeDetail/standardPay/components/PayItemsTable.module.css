@@ -1,0 +1,11 @@
+.payItemForm :global(.field-message-popup-form-group) {
+  width: 100%;
+}
+
+.payItemForm :global(.field-message-popup-form-group-input-group) {
+  width: 70%;
+}
+
+.payItemForm :global(.field-message-popup-form-group__label-group) {
+  width: 30%;
+}

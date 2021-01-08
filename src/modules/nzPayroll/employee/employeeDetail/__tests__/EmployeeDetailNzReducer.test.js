@@ -1,5 +1,6 @@
 import * as intents from '../../EmployeeNzIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import { UPDATE_PERSONAL_DETAIL } from '../EmployeeDetailNzIntents';
 import { tabIds } from '../tabItems';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeeDetailNzReducer from '../employeeDetailNzReducer';
@@ -9,13 +10,8 @@ const defaultState = {
   isPageEdited: false,
   alert: undefined,
   isSubmitting: false,
-  tabs: {
-    main: tabIds.contactDetails,
-    subTabs: {
-      [tabIds.payrollDetails]: tabIds.employmentDetails,
-    },
-  },
-  contactDetail: {
+  tabs: { main: tabIds.personalDetails },
+  personalDetail: {
     firstName: '',
     lastName: '',
     isInactive: false,
@@ -61,25 +57,17 @@ describe('EmployeeDetailNzReducer', () => {
       expect(result).toEqual({ ...defaultState, ...context });
     });
 
-    it('should set the initial mainTab and subTab from context', () => {
+    it('should set the initial mainTab from context', () => {
       const context = {
         businessId: 'id',
         region: 'nz',
         mainTab: 'mainTab',
-        subTab: 'subTab',
       };
-      const action = {
-        intent: SET_INITIAL_STATE,
-        context,
-      };
+      const action = { intent: SET_INITIAL_STATE, context };
 
       const result = employeeDetailNzReducer(undefined, action);
 
       expect(result).toHaveProperty('tabs.main', context.mainTab);
-      expect(result).toHaveProperty(
-        `tabs.subTabs.${context.mainTab}`,
-        context.subTab
-      );
     });
   });
 
@@ -101,7 +89,7 @@ describe('EmployeeDetailNzReducer', () => {
 
   describe('loadEmployeeDetail', () => {
     it('should load the Employee Details', () => {
-      const contactDetail = {
+      const personalDetail = {
         firstName: 'Bob',
         lastName: 'The Builder',
         isInactive: true,
@@ -127,11 +115,11 @@ describe('EmployeeDetailNzReducer', () => {
 
       const action = {
         intent: intents.LOAD_EMPLOYEE_DETAIL,
-        payload: { contactDetail, payrollDetails },
+        payload: { personalDetail, payrollDetails },
       };
 
       const state = {
-        contactDetail: {},
+        personalDetail: {},
         payrollDetails: {
           employmentDetails: {},
         },
@@ -140,7 +128,7 @@ describe('EmployeeDetailNzReducer', () => {
       const result = employeeDetailNzReducer(state, action);
 
       expect(result).toEqual({
-        contactDetail,
+        personalDetail,
         payrollDetails,
         loadingState: LoadingState.LOADING_SUCCESS,
       });
@@ -168,57 +156,21 @@ describe('EmployeeDetailNzReducer', () => {
     });
   });
 
-  describe('SET_SUB_TAB', () => {
-    it('should change the sub tab to the specified tab', () => {
-      const action = {
-        intent: intents.SET_SUB_TAB,
-        mainTab: 'tab 1',
-        subTab: 'tab 1 a',
-      };
-
-      const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toHaveProperty(
-        `tabs.subTabs.${action.mainTab}`,
-        action.subTab
-      );
-    });
-
-    it('should not update state if mainTab is undefiend', () => {
-      const action = {
-        intent: intents.SET_SUB_TAB,
-        subTab: 'tab 1 a',
-      };
-
-      const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toEqual(defaultState);
-    });
-
-    it('should not update state if subTab is undefiend', () => {
-      const action = {
-        intent: intents.SET_SUB_TAB,
-        mainTab: 'tab 1',
-      };
-
-      const result = employeeDetailNzReducer(defaultState, action);
-      expect(result).toEqual(defaultState);
-    });
-  });
-
-  describe('updateContactDetails', () => {
+  describe('updatepersonalDetails', () => {
     it('should update firstName field detail and set isPageEdited to true', () => {
       const state = {
-        contactDetail: {
+        personalDetail: {
           firstName: 'test',
         },
       };
       const action = {
-        intent: intents.UPDATE_CONTACT_DETAIL,
+        intent: UPDATE_PERSONAL_DETAIL,
         key: 'firstName',
         value: 'name',
       };
       const expected = {
         isPageEdited: true,
-        contactDetail: {
+        personalDetail: {
           firstName: 'name',
         },
       };
@@ -230,18 +182,18 @@ describe('EmployeeDetailNzReducer', () => {
 
     it('should update country and set isPageEdited to true', () => {
       const state = {
-        contactDetail: {
+        personalDetail: {
           country: 'Australia',
         },
       };
       const action = {
-        intent: intents.UPDATE_CONTACT_DETAIL,
+        intent: UPDATE_PERSONAL_DETAIL,
         key: 'country',
         value: 'New Zealand',
       };
       const expected = {
         isPageEdited: true,
-        contactDetail: {
+        personalDetail: {
           country: 'New Zealand',
         },
       };
@@ -305,7 +257,7 @@ describe('EmployeeDetailNzReducer', () => {
       const state = {
         loadingState: LoadingState.LOADING,
         alert: undefined,
-        contactDetail: {
+        personalDetail: {
           firstName: 'Old',
           lastName: 'Old',
           isInactive: true,
@@ -326,7 +278,7 @@ describe('EmployeeDetailNzReducer', () => {
         },
       };
 
-      const contactDetail = {
+      const personalDetail = {
         firstName: 'Bob',
         lastName: 'The Builder',
         isInactive: true,
@@ -356,7 +308,7 @@ describe('EmployeeDetailNzReducer', () => {
       const action = {
         intent: intents.UPDATE_EMPLOYEE,
         message: 'Nice work',
-        contactDetail,
+        personalDetail,
         payrollDetails,
       };
 
@@ -365,7 +317,7 @@ describe('EmployeeDetailNzReducer', () => {
           type: 'success',
           message: 'Nice work',
         },
-        contactDetail,
+        personalDetail,
         payrollDetails,
         loadingState: LoadingState.LOADING_SUCCESS,
         isPageEdited: false,

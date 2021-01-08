@@ -14,6 +14,13 @@ const getPayRunRoutes = () => [
     path: '/nz/:businessId/payRun/',
     defaultParams: { region: 'nz' },
     loadModule: () => import('./payRunList/PayRunListModule'),
+    documentTitle: 'Pay runs',
+  },
+  {
+    name: RouteName.PAY_RUN_DETAIL_NZ,
+    path: '/nz/:businessId/payRun/:payRunId',
+    defaultParams: { region: 'nz' },
+    loadModule: () => import('./payRunDetail/PayRunDetailNzModule'),
     documentTitle: 'Pay run',
   },
 ];

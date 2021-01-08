@@ -67,6 +67,7 @@ const RouteName = {
   PAY_RUN_CREATE: 'payRun/payRunCreate',
   PAY_RUN_LIST_NZ: 'payRun/payRunListNz',
   PAY_RUN_LIST: 'payRun/payRunList',
+  PAY_RUN_DETAIL_NZ: 'payRun/payRunDetailNz',
   PAY_RUN_DETAIL: 'payRun/payRunDetail',
   TIMESHEET: 'timesheet',
   PAY_SUPER_LIST: 'paySuper/PaySuperList',
@@ -116,6 +117,7 @@ const RouteName = {
   REPORT_SETTINGS: 'reportSettings',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
   PAYDAY_FILING_ONBOARDING_NZ: 'paydayFiling/onboardingNz',
+  PAYDAY_FILING_NZ: 'paydayFiling',
   RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
 };
 

@@ -43,6 +43,7 @@ import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/Mem
 import LinkBillMapping from '../../modules/linkBill/mappings/MemoryLinkBillMapping';
 import LinkUserMapping from '../../modules/linkUser/mappings/MemoryLinkUserMapping';
 import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/MemoryLinkedAccountsMapping';
+import MemoryPayRunDetailNzMapping from '../../modules/nzPayroll/payRun/mappings/MemoryPayRunDetailNzMapping';
 import NavigationMapping from './NavigationMapping';
 import PayDayOnboardingMapping from '../../modules/nzPayroll/paydayFiling/onboarding/mappings/MemoryPaydayOnboardingMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/MemoryPayItemMapping';
@@ -187,6 +188,7 @@ const RootMapping = Object.freeze({
   ...PurchaseSettingsMapping,
   ...RecurringTransactionMapping,
   ...FindAndRecodeMapping,
+  ...MemoryPayRunDetailNzMapping,
 });
 
 export default RootMapping;

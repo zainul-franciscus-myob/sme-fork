@@ -1,23 +1,13 @@
 export const tabIds = {
-  contactDetails: 'contactDetails',
-  payrollDetails: 'payrollDetails',
-
+  personalDetails: 'personalDetails',
   employmentDetails: 'employmentDetails',
-  salaryAndWages: 'salaryAndWages',
+  standardPay: 'standardPay',
   leave: 'leave',
-  taxAndKiwiSaver: 'taxAndKiwiSaver',
 };
 
 export const tabItems = [
-  { id: tabIds.contactDetails, label: 'Contact details' },
-  {
-    id: tabIds.payrollDetails,
-    label: 'Payroll details',
-    subTabs: [
-      { id: tabIds.employmentDetails, label: 'Employment details' },
-      { id: tabIds.salaryAndWages, label: 'Salary and wages' },
-      { id: tabIds.leave, label: 'Leave' },
-      { id: tabIds.taxAndKiwiSaver, label: 'Tax and KiwiSaver' },
-    ],
-  },
+  { id: tabIds.personalDetails, label: 'Personal details' },
+  { id: tabIds.employmentDetails, label: 'Employment details' },
+  { id: tabIds.standardPay, label: 'Standard pay' },
+  { id: tabIds.leave, label: 'Leave' },
 ];

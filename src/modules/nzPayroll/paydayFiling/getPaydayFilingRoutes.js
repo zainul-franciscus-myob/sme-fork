@@ -11,6 +11,14 @@ const getPaydayFilingRoutes = ({ featureToggles }) => {
           loadModule: () => import('./onboarding/OnboardingModule'),
           documentTitle: 'Connect to Payday filing',
         },
+        {
+          name: RouteName.PAYDAY_FILING_NZ,
+          path: '/:region/:businessId/paydayFiling',
+          allowedParams: ['authorisation'],
+          defaultParams: { region: 'nz' },
+          loadModule: () => import('./paydayFiling/PaydayFilingModule'),
+          documentTitle: 'Payday filing',
+        },
       ]
     : [];
 };

@@ -1,0 +1,19 @@
+{
+    "totalTakeHomePay": "5893.45",
+    "paymentPeriodStart": "2019-07-09",
+    "paymentPeriodEnd": "2017-06-02",
+    "paymentDate": "2019-07-03",
+    "employeeList": [
+        {
+            "id": 124,
+            "name": "Lionel Messi",
+            "takeHomePay": "750.26"
+        },
+        {
+            "id": 125,
+            "name": "Diego Maradona",
+            "takeHomePay": "2008.26"
+        }
+    ]
+}
+  

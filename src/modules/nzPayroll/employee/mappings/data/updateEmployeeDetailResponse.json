@@ -1,6 +1,6 @@
 {
   "message": "Your employee has been saved.",
-  "contactDetail": {
+  "personalDetail": {
     "firstName": "Updated Bob",
     "lastName": "The builder",
     "address": "2/34 Park Avenue",
@@ -12,12 +12,12 @@
     "email": "bob@thebuilder.com",
     "notes": "nz payroll employee",
     "isInactive": false,
-    "employeeNumber": "0012"
+    "employeeNumber": "0012",
+    "dateOfBirth": "2000-12-25T00:00:00",
+    "gender": "Not Set"
   },
   "payrollDetails": {
     "employmentDetails": {
-      "dateOfBirth": "2000-12-25T00:00:00",
-      "gender": "Not Set",
       "startDate": "2010-07-02T00:00:00",
       "terminationDate": "",
       "employmentStatus": "Casual"
@@ -25,7 +25,8 @@
     "wage": {
       "selectedPayBasis": "Hourly",
       "hourlyRate": "48.0764",
-      "selectedPayCycle": "Weekly"
+      "selectedPayCycle": "Weekly",
+      "payPeriodHours": "30"
     },
     "leave": {
       "sickLeaveCurrentBalance": "4.0",
@@ -42,9 +43,9 @@
       "taxCode": "M"
     },
     "kiwiSaver": {
-      "kiwiSaverStatus" : 1,
-      "employeeContributionRate" : 3,
-      "employerContributionRate" : 13.50,
+      "kiwiSaverStatus": "1",
+      "employeeContributionRate": "3.00",
+      "employerContributionRate": "13.5",
       "employerSuperannuationContributionTax": 0.175
     }
   }

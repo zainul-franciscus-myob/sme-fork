@@ -1,6 +1,5 @@
 import {
   getBusinessId,
-  getCurrentSubTab,
   getEmployeeFullName,
   getEmployeeId,
   getEmployeeListUrl,
@@ -53,7 +52,7 @@ describe('EmployeeDetailNzSelectors', () => {
   describe('getEmployeeFullName', () => {
     it('should return employee name as the firstName lastName', () => {
       const state = {
-        contactDetail: {
+        personalDetail: {
           firstName: 'Bob',
           lastName: 'The Builder',
         },
@@ -81,31 +80,6 @@ describe('EmployeeDetailNzSelectors', () => {
         },
       };
       expect(getMainTab(state)).toEqual(state.tabs.main);
-    });
-  });
-
-  describe('getCurrentSubTab', () => {
-    it('should return the current sub tab', () => {
-      const state = {
-        tabs: {
-          main: 'tab_a',
-          subTabs: {
-            tab_a: 'tab_a_1',
-          },
-        },
-      };
-      expect(getCurrentSubTab(state)).toEqual(state.tabs.subTabs.tab_a);
-    });
-    it('should return undefined if current main tab has no sub tab', () => {
-      const state = {
-        tabs: {
-          main: 'tab_b',
-          subTabs: {
-            tab_a: 'tab_a_1',
-          },
-        },
-      };
-      expect(getCurrentSubTab(state)).toBeUndefined();
     });
   });
 
@@ -156,7 +130,7 @@ describe('EmployeeDetailNzSelectors', () => {
   });
 
   describe('getEmployeePayload', () => {
-    const contactDetail = {
+    const personalDetail = {
       firstName: 'Bob',
       lastName: 'The Builder',
     };
@@ -166,12 +140,12 @@ describe('EmployeeDetailNzSelectors', () => {
       },
     };
     const state = {
-      contactDetail,
+      personalDetail,
       payrollDetails,
     };
 
-    it('should contain the contactDetail', () => {
-      expect(getEmployeePayload(state)).toMatchObject({ contactDetail });
+    it('should contain the personalDetail', () => {
+      expect(getEmployeePayload(state)).toMatchObject({ personalDetail });
     });
 
     it('should contain the payrollDetails', () => {

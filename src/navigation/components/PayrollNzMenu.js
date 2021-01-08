@@ -18,6 +18,8 @@ const getItems = (urls, onMenuLinkClick) =>
   [
     urls.employeeListNz &&
       getMenuLink(urls.employeeListNz, 'Employees', onMenuLinkClick),
+    urls.employeeCreateNz &&
+      getMenuLink(urls.employeeCreateNz, 'Create employee', onMenuLinkClick),
     <Navigation.Separator key="separator-employee" />,
     urls.payRunCreateNz &&
       getMenuLink(urls.payRunCreateNz, 'Create pay run', onMenuLinkClick),

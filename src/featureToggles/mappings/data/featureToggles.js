@@ -23,4 +23,5 @@ export default {
   isNzPaydayFilingEnabled: true,
   isNzPayrollAccountingEnabled: true,
   isEInvoicingEnabled: true,
+  isNzPayRunsViewEnabled: true,
 };

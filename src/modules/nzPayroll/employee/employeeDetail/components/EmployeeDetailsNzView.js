@@ -10,8 +10,8 @@ import {
 } from '../EmployeeDetailNzSelectors';
 import ConfirmModal from './ConfirmModal';
 import EmployeeDetailActions from './EmployeeDetailActions';
-import EmployeeDetailsMainTabs from './EmployeeDetailsMainTabs';
-import EmployeeDetailsSubTabBody from './EmployeeDetailsSubTabBody';
+import EmployeeDetailsTab from './EmployeeDetailsTab';
+import EmployeeDetailsTabBody from './EmployeeDetailsTabBody';
 import PageView from '../../../../../components/PageView/PageView';
 
 const EmployeeDetailsNzView = ({
@@ -21,7 +21,6 @@ const EmployeeDetailsNzView = ({
   modal,
   subModules,
   onMainTabSelected,
-  onSubTabSelected,
   onCancelButtonClick,
   onSaveButtonClick,
   onDeleteButtonClick,
@@ -50,11 +49,8 @@ const EmployeeDetailsNzView = ({
     <BaseTemplate>
       {alertComponent}
       <PageHead title={pageHeadTitle} />
-      <EmployeeDetailsMainTabs onMainTabSelected={onMainTabSelected} />
-      <EmployeeDetailsSubTabBody
-        onSubTabSelected={onSubTabSelected}
-        subModules={subModules}
-      />
+      <EmployeeDetailsTab onMainTabSelected={onMainTabSelected} />
+      <EmployeeDetailsTabBody subModules={subModules} />
       {actionButtons}
       {confirmModal}
     </BaseTemplate>
