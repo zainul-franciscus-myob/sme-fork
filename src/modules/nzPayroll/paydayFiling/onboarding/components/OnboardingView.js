@@ -1,9 +1,10 @@
-import { BaseTemplate, PageHead, Stepper } from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
   getActiveStepNumber,
+  getAlert,
   getCurrentStep,
   getLoadingState,
   getStepperSteps,
@@ -12,14 +13,23 @@ import PageView from '../../../../../components/PageView/PageView';
 import onboardingViewStyles from './OnboardingView.module.css';
 
 const OnboardingView = ({
+  alert,
   stepModules,
   currentStep,
   stepperSteps,
   activeStepNumber,
   loadingState,
+  onDismissAlert,
 }) => {
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
   const view = (
     <BaseTemplate>
+      {alertComponent}
       <PageHead title="Connect to payday filing" />
 
       <div className={onboardingViewStyles.wrapper}>
@@ -41,6 +51,7 @@ const mapStateToProps = (state) => ({
   stepperSteps: getStepperSteps(state),
   activeStepNumber: getActiveStepNumber(state),
   loadingState: getLoadingState(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(OnboardingView);

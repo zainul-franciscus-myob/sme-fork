@@ -3,7 +3,8 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import {
-  ONBOARD_USER,
+  CREATE_ONBOARD_USER,
+  SET_ALERT,
   SET_CURRENT_STEP,
   SET_LOADING_STATE,
 } from '../../../OnboardingIntents';
@@ -41,16 +42,22 @@ describe('AuthorisationStepModule', () => {
   };
 
   describe('Previous button', () => {
-    it('should take user to previous step on click', () => {
+    it('should take user to previous step on click and clear any alerts', () => {
       const { store, wrapper } = constructAuthorisationStepModule();
 
       const previousButton = findButtonWithTestId(wrapper, 'previous');
       previousButton.simulate('click');
 
-      expect(store.getActions()).toContainEqual({
-        intent: SET_CURRENT_STEP,
-        currentStep: steps.OVERVIEW,
-      });
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_ALERT,
+          alert: undefined,
+        },
+        {
+          intent: SET_CURRENT_STEP,
+          currentStep: steps.OVERVIEW,
+        },
+      ]);
     });
   });
   describe('Authorise button', () => {
@@ -71,7 +78,7 @@ describe('AuthorisationStepModule', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: ONBOARD_USER,
+          intent: CREATE_ONBOARD_USER,
         }),
       ]);
       expect(navigateTo).toHaveBeenCalledWith(expected);
@@ -80,7 +87,7 @@ describe('AuthorisationStepModule', () => {
 
   it('should load failure screen if integrator call fails', () => {
     const { store, wrapper, integration } = constructAuthorisationStepModule();
-    integration.mapFailure(ONBOARD_USER);
+    integration.mapFailure(CREATE_ONBOARD_USER);
 
     const authoriseButton = findButtonWithTestId(
       wrapper,
@@ -94,6 +101,10 @@ describe('AuthorisationStepModule', () => {
         loadingState: LoadingState.LOADING,
       },
       {
+        intent: SET_ALERT,
+        alert: undefined,
+      },
+      {
         intent: SET_LOADING_STATE,
         loadingState: LoadingState.LOADING_FAIL,
       },
@@ -101,7 +112,7 @@ describe('AuthorisationStepModule', () => {
 
     expect(integration.getRequests()).toEqual([
       expect.objectContaining({
-        intent: ONBOARD_USER,
+        intent: CREATE_ONBOARD_USER,
       }),
     ]);
   });

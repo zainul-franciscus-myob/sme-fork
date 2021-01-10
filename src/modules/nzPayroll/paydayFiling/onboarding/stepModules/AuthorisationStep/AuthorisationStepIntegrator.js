@@ -1,13 +1,13 @@
-import { ONBOARD_USER } from '../../OnboardingIntents';
+import { CREATE_ONBOARD_USER } from '../../OnboardingIntents';
 import {
   getBusinessId,
   getOnSuccessCallbackUrl,
 } from '../../OnboardingSelectors';
 
 const AuthorisationStepIntegrator = (store, integration) => ({
-  onboardUser: ({ onSuccess, onFailure }) => {
+  createOnboardUser: ({ onSuccess, onFailure }) => {
     const state = store.getState();
-    const intent = ONBOARD_USER;
+    const intent = CREATE_ONBOARD_USER;
     const businessId = getBusinessId(state);
     const urlParams = { businessId };
 

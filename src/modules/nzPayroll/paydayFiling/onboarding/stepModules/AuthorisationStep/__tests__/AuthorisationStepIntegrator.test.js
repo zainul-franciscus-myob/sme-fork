@@ -1,4 +1,4 @@
-import { ONBOARD_USER } from '../../../OnboardingIntents';
+import { CREATE_ONBOARD_USER } from '../../../OnboardingIntents';
 import AuthorisationStepIntegrator from '../AuthorisationStepIntegrator';
 
 describe('Authorisation step integrator', () => {
@@ -21,14 +21,14 @@ describe('Authorisation step integrator', () => {
       const integrator = AuthorisationStepIntegrator(store, integration);
 
       // act
-      integrator.onboardUser({
+      integrator.createOnboardUser({
         onSuccess: () => {},
         onFailure: () => {},
       });
 
       // assert
       const parameterObject = integration.write.mock.calls[0][0];
-      expect(parameterObject.intent).toEqual(ONBOARD_USER);
+      expect(parameterObject.intent).toEqual(CREATE_ONBOARD_USER);
       expect(parameterObject.urlParams).toEqual({ businessId });
       expect(parameterObject.params).toEqual({ successUrl });
     });

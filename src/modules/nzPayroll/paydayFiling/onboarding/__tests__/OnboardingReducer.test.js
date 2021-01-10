@@ -1,5 +1,6 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import {
+  SET_ALERT,
   SET_CURRENT_STEP,
   SET_IRD_NUMBER,
   SET_LOADING_STATE,
@@ -65,7 +66,7 @@ describe('onboardingReducer', () => {
         currentStep: OnboardingSteps.OVERVIEW,
         businessId: '',
         irdNumber: '',
-        loadingState: LoadingState.LOADING_SUCCESS,
+        loadingState: LoadingState.LOADING,
         authorisation: '',
       };
 
@@ -114,6 +115,25 @@ describe('onboardingReducer', () => {
       expect(result).toEqual({
         loadingState: LoadingState.LOADING_SUCCESS,
       });
+    });
+  });
+
+  describe('setAlert', () => {
+    it('should set alert', () => {
+      const state = {
+        alert: undefined,
+      };
+
+      const alert = { message: 'test', type: 'danger' };
+
+      const action = {
+        intent: SET_ALERT,
+        alert,
+      };
+
+      const result = onboardingReducer(state, action);
+
+      expect(result).toEqual({ alert });
     });
   });
 });

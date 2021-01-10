@@ -45,15 +45,20 @@ export const getBusinessDetailsUrl = (state) => {
   return `/#/nz/${businessId}?selectedTab=businessDetails`;
 };
 
-export const getOnSuccessCallbackUrl = (state) => {
+export const getPaydayFilingUrl = (state) => {
   const businessId = getBusinessId(state);
+  return `/#/nz/${businessId}/paydayFiling`;
+};
+
+export const getOnSuccessCallbackUrl = (state) => {
+  const paydayFilingUrl = getPaydayFilingUrl(state);
   const successUrl = window.location.origin.concat(
-    `/#/nz/${businessId}/paydayFiling/onboarding?authorisation=complete`
+    `${paydayFilingUrl}/onboarding?authorisation=complete`
   );
   return btoa(successUrl);
 };
 
-export const isAuthorisationComplete = (state) => {
+export const isIrdAuthorisationComplete = (state) => {
   const authFragment = state.authorisation.split('complete#');
   return authFragment.length > 1 && authFragment[1].length > 0;
 };
@@ -61,6 +66,18 @@ export const isAuthorisationComplete = (state) => {
 export const getActiveStepNumber = (state) =>
   initialStepperSteps.find((step) => step.id === getCurrentStep(state)).number;
 
+export const getAlert = (state) => state.alert;
+
 export const getIrdNumber = (state) => state.irdNumber;
 
 export const getLoadingState = (state) => state.loadingState;
+
+export const getCreateNzEmployeeUrl = (state) => {
+  const businessId = getBusinessId(state);
+  return `/#/nz/${businessId}/employee/new`;
+};
+
+export const getCreateNzPayRunUrl = (state) => {
+  const businessId = getBusinessId(state);
+  return `/#/nz/${businessId}/payRun/new`;
+};

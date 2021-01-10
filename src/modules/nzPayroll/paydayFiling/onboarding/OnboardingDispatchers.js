@@ -1,5 +1,6 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
+  SET_ALERT,
   SET_CURRENT_STEP,
   SET_IRD_NUMBER,
   SET_LOADING_STATE,
@@ -31,6 +32,16 @@ const onboardingDispatchers = (store) => ({
   setIrdNumber: (irdNumber) => {
     const intent = SET_IRD_NUMBER;
     store.dispatch({ intent, irdNumber });
+  },
+
+  setAlert: (alert) => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert });
+  },
+
+  dismissAlert: () => {
+    const intent = SET_ALERT;
+    store.dispatch({ intent, alert: undefined });
   },
 });
 

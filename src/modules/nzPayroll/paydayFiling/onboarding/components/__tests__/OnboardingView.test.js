@@ -1,4 +1,4 @@
-import { PageHead, Stepper } from '@myob/myob-widgets';
+import { Alert, PageHead, Stepper } from '@myob/myob-widgets';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
 import React from 'react';
@@ -34,7 +34,39 @@ describe('OnboardingView', () => {
           [Steps.OVERVIEW]: new OverviewStepModule(store),
         },
       };
+
+      store.setState({
+        ...store.getState(),
+        loadingState: LoadingState.LOADING_SUCCESS,
+      });
+
       const wrapper = mountWithProvider(<OnboardingView {...props} />);
+      expect(wrapper.exists(PageHead)).toEqual(true);
+      expect(wrapper.exists(Stepper)).toEqual(true);
+      expect(wrapper.exists(OverviewStepView)).toEqual(true);
+      expect(wrapper.exists(Alert)).toEqual(false);
+    });
+
+    it('should render alert component when alert defined', () => {
+      // arrange
+      const alert = { message: 'test', type: 'danger' };
+      const props = {
+        stepModules: {
+          [Steps.OVERVIEW]: new OverviewStepModule(store),
+        },
+      };
+
+      store.setState({
+        ...store.getState(),
+        alert,
+        loadingState: LoadingState.LOADING_SUCCESS,
+      });
+
+      // act
+      const wrapper = mountWithProvider(<OnboardingView {...props} />);
+
+      // assert
+      expect(wrapper.exists(Alert)).toEqual(true);
       expect(wrapper.exists(PageHead)).toEqual(true);
       expect(wrapper.exists(Stepper)).toEqual(true);
       expect(wrapper.exists(OverviewStepView)).toEqual(true);

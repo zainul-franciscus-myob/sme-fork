@@ -17,6 +17,7 @@ export default class AuthorisationStepModule {
 
   authoriseUser = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.dispatcher.dismissAlert();
 
     const onSuccess = ({ onboardUrl }) => {
       this.navigateTo(onboardUrl);
@@ -26,10 +27,11 @@ export default class AuthorisationStepModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.onboardUser({ onSuccess, onFailure });
+    this.integrator.createOnboardUser({ onSuccess, onFailure });
   };
 
   previousStep = () => {
+    this.dispatcher.dismissAlert();
     this.dispatcher.setStep(Steps.OVERVIEW);
   };
 
