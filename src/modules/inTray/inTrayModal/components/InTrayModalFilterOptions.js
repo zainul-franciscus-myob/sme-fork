@@ -1,29 +1,34 @@
-import { FilterBar } from '@myob/myob-widgets';
+import { Search } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getFilterOptions, getIsEntryLoading } from '../InTrayModalSelectors';
-import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
+import {
+  getFilterOptions,
+  getIsEntryLoading,
+} from '../selectors/InTrayModalSelectors';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
+import styles from './InTrayModalFilterOptions.module.css';
 
 const InTrayModalFilterOptions = (props) => {
   const {
     filterOptions: { keywords },
     isEntryLoading,
     onUpdateFilterOptions,
-    onResetFilterOptions,
   } = props;
 
   return (
-    <FilterBar onReset={onResetFilterOptions}>
-      <FilterBarSearch
-        id="keywords"
-        name="keywords"
-        value={keywords}
-        onChange={handleInputChange(onUpdateFilterOptions)}
+    <>
+      <Search
+        containerClassName={styles.search}
         disabled={isEntryLoading}
+        id="keywords"
+        label="Search"
+        name="keywords"
+        onChange={handleInputChange(onUpdateFilterOptions)}
+        value={keywords}
+        maxLength={255}
       />
-    </FilterBar>
+    </>
   );
 };
 

@@ -12,20 +12,23 @@ import {
   SUCCESSFULLY_SAVED_SPEND_MONEY_WITHOUT_LINK,
 } from '../../../common/types/MessageTypes';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+import {
+  getAppStoreLink,
+  getGooglePlayLink,
+  getIsEntryLoading,
+  getIsEntryUploadingDone,
+  getNewSortOrder,
+  getShouldPolling,
+  getSuppliersWikiLink,
+  getUploadCompleteAlert,
+  getUploadingEntry,
+  getUploadingErrorMessage,
+} from './selectors/InTrayListSelectors';
 import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import {
   getEmail,
   getIsUploadOptionsLoading,
 } from './selectors/UploadOptionsSelectors';
-import {
-  getIsEntryLoading,
-  getIsEntryUploadingDone,
-  getNewSortOrder,
-  getShouldPolling,
-  getUploadCompleteAlert,
-  getUploadingEntry,
-  getUploadingErrorMessage,
-} from './selectors/InTrayListSelectors';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -124,13 +127,12 @@ export default class InTrayModule {
 
   sortInTrayList = (orderBy) => {
     const state = this.store.getState();
-    if (getIsEntryLoading(state)) {
-      return;
-    }
+
+    if (getIsEntryLoading(state)) return;
 
     const sortOrder = getNewSortOrder(orderBy)(state);
-    this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
 
+    this.dispatcher.setInTrayListSortOrder(orderBy, sortOrder);
     this.sortAndFilterInTrayList();
   };
 
@@ -172,10 +174,8 @@ export default class InTrayModule {
       this.dispatcher.removeInTrayListEntry(uploadId);
     };
 
-    const onComplete = (results) => {
-      const alert = getUploadCompleteAlert(results);
-      this.dispatcher.setAlert(alert);
-    };
+    const onComplete = (results) =>
+      this.dispatcher.setAlert(getUploadCompleteAlert(results));
 
     this.integrator.createInTrayDocuments({
       onProgress,
@@ -191,8 +191,7 @@ export default class InTrayModule {
   };
 
   startPolling = () => {
-    const state = this.store.getState();
-    if (!this.pollTimer && getShouldPolling(state)) {
+    if (!this.pollTimer && getShouldPolling(this.store.getState())) {
       this.pollTimer = setTimeout(() => this.pollEntries(), 7000);
     }
   };
@@ -216,10 +215,7 @@ export default class InTrayModule {
   };
 
   deleteInTrayDocument = (id) => {
-    const state = this.store.getState();
-    if (getIsEntryLoading(state)) {
-      return;
-    }
+    if (getIsEntryLoading(this.store.getState())) return;
 
     this.dispatcher.closeInTrayDeleteModal();
     this.dispatcher.setInTrayListEntrySubmittingState(id, true);
@@ -262,8 +258,7 @@ export default class InTrayModule {
 
   setDocumentViewerUrl = (id) => {
     const onSuccess = (blob) => {
-      const url = URL.createObjectURL(blob);
-      this.dispatcher.setDocumentViewerUrl(url);
+      this.dispatcher.setDocumentViewerUrl(URL.createObjectURL(blob));
     };
 
     const onFailure = ({ message }) => {
@@ -287,7 +282,7 @@ export default class InTrayModule {
       inTrayDocumentId: id,
     });
 
-    window.location.href = `/#/${region}/${businessId}/bill/new`;
+    this.openInSameTab(`/#/${region}/${businessId}/bill/new`);
   };
 
   redirectToCreateSpendMoney = (id) => {
@@ -300,7 +295,7 @@ export default class InTrayModule {
       inTrayDocumentId: id,
     });
 
-    window.location.href = `/#/${region}/${businessId}/spendMoney/new`;
+    this.openInSameTab(`/#/${region}/${businessId}/spendMoney/new`);
   };
 
   openMoreUploadOptionsDialog = () => {
@@ -337,6 +332,7 @@ export default class InTrayModule {
       this.hideEmailGenerationConfirmation();
       this.dispatcher.closeModal();
     }
+
     this.globalCallbacks.inTrayUploadOptionsClosed();
   };
 
@@ -350,11 +346,12 @@ export default class InTrayModule {
     const region = getRegion(state);
     const businessId = getBusinessId(state);
 
-    window.location.href = `/#/${region}/${businessId}/linkBill/${id}`;
+    this.openInSameTab(`/#/${region}/${businessId}/linkBill/${id}`);
   };
 
   activateEntryRow = (id) => {
     const state = this.store.getState();
+
     if (getIsEntryUploadingDone(state, id)) {
       this.dispatcher.activeEntryRow(id);
       this.setDocumentViewerUrl(id);
@@ -367,10 +364,7 @@ export default class InTrayModule {
   };
 
   updateFilterOptions = ({ key, value }) => {
-    const state = this.store.getState();
-    if (getIsEntryLoading(state)) {
-      return;
-    }
+    if (getIsEntryLoading(this.store.getState())) return;
 
     this.dispatcher.setInTrayListFilterOptions({ key, value });
 
@@ -383,22 +377,17 @@ export default class InTrayModule {
     onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
     onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
     onGenerateNewEmailButtonClick: this.generateNewEmail,
-    navigateToAppStore: this.openInNewTab(
-      `https://apps.apple.com/${getRegion(
-        this.store.getState()
-      )}/app/myob-capture/id1442167388`
-    ),
-    navigateToGooglePlay: this.openInNewTab(
-      'https://play.google.com/store/apps/details?id=com.myob.snap'
-    ),
-    navigateToSuppliersWiki: this.openInNewTab(
-      'https://help.myob.com/wiki/display/myob/Automating+supplier+invoices'
-    ),
+    navigateToAppStore: () =>
+      this.openInNewTab(getAppStoreLink(this.store.getState())),
+    navigateToGooglePlay: () => this.openInNewTab(getGooglePlayLink),
+    navigateToSuppliersWiki: () => this.openInNewTab(getSuppliersWikiLink),
   });
 
   setUploadPopoverState = () => this.dispatcher.setUploadPopoverState(true);
 
-  openInNewTab = (url) => () => this.navigateTo(url, true);
+  openInNewTab = (url) => this.navigateTo(url, true);
+
+  openInSameTab = (url) => this.navigateTo(url, false);
 
   render = () => {
     const inTrayView = (
@@ -410,7 +399,7 @@ export default class InTrayModule {
         }}
         inTrayListListeners={{
           handleActionSelect: this.handleActionSelect,
-          onAddAttachments: this.uploadInTrayFiles,
+          onUpload: this.uploadInTrayFiles,
           onCloseDetail: this.deactivateEntryRow,
           onEntryActive: this.activateEntryRow,
           onSort: this.sortInTrayList,
@@ -425,7 +414,7 @@ export default class InTrayModule {
           ...this.sharedUploadListeners(),
         }}
         emptyStateListeners={{
-          onAddAttachments: this.uploadInTrayFiles,
+          onUpload: this.uploadInTrayFiles,
           setUploadPopoverState: () => this.setUploadPopoverState(),
           ...this.sharedUploadListeners(),
         }}
@@ -435,18 +424,14 @@ export default class InTrayModule {
     this.setRootView(<Provider store={this.store}>{inTrayView}</Provider>);
   };
 
-  resetState = () => {
-    const intent = RESET_STATE;
-    this.store.dispatch({
-      intent,
-    });
-  };
+  resetState = () => this.store.dispatch({ intent: RESET_STATE });
 
   unsubscribeFromStore = () => {
     if (this.pollTimer) {
       // If there is a running poll clear it.
       clearTimeout(this.pollTimer);
     }
+
     this.store.unsubscribeAll();
   };
 

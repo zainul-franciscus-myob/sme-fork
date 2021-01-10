@@ -1,12 +1,13 @@
 import { Button, MobileIcon, Popover } from '@myob/myob-widgets';
 import React from 'react';
 
-import AppStore from '../assets/AppStore.svg';
-import GooglePlay from '../assets/GooglePlay.svg';
-import styles from '../InTrayView.module.css';
+import AppStore from './assets/AppStore.svg';
+import GooglePlay from './assets/GooglePlay.svg';
+import styles from './InTrayEmptyStateView.module.css';
 
 const ScanWithPhone = ({ navigateToAppStore, navigateToGooglePlay }) => (
   <Popover
+    appendTarget="#inTray"
     body={
       <Popover.Body
         child={

@@ -6,13 +6,13 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import BunningsWarehouse from '../assets/BunningsWarehouse.svg';
-import Officeworks from '../assets/Officeworks.svg';
-import styles from '../InTrayView.module.css';
+import BunningsWarehouse from './assets/BunningsWarehouse.svg';
+import Officeworks from './assets/Officeworks.svg';
+import styles from './InTrayEmptyStateView.module.css';
 
 const ReceiveBillsFromSuppliers = ({ region, navigateToSuppliersWiki }) => (
   <Popover
-    className={styles.popover}
+    appendTarget="#inTray"
     body={
       <Popover.Body
         child={
@@ -56,6 +56,7 @@ const ReceiveBillsFromSuppliers = ({ region, navigateToSuppliersWiki }) => (
         classes={[styles.popoverBody]}
       />
     }
+    className={styles.popover}
     closeOnOuterAction
     preferPlace="above"
   >

@@ -8,7 +8,7 @@ import {
   getUploadedEntry,
   getUploadingEntry,
   getUploadingErrorMessage,
-} from '../InTrayModalSelectors';
+} from '../selectors/InTrayModalSelectors';
 import uploadStatuses from '../uploadStatuses';
 
 describe('InTrayModalSelectors', () => {

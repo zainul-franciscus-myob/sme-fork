@@ -6,9 +6,10 @@ import {
   getIsTableLoading,
   getIsUploadAllowed,
   getOrder,
-} from '../InTrayModalSelectors';
-import InTrayDropZone from './InTrayDropZone';
+} from '../selectors/InTrayModalSelectors';
+import DropZoneHorizontal from '../../../../components/DropZone/DropZoneHorizontal';
 import InTrayListTableBody from './InTrayModalTableBody';
+import InTrayModalFilterOptions from './InTrayModalFilterOptions';
 import TableView from '../../../../components/TableView/TableView';
 import styles from './InTrayModalTable.module.css';
 
@@ -43,11 +44,12 @@ const InTrayModalTable = ({
   onUpload,
   onView,
   onSelect,
+  onUpdateFilterOptions,
 }) => {
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.radioButton} />
-      <Table.HeaderItem {...tableConfig.thumbnail}></Table.HeaderItem>
+      <Table.HeaderItem {...tableConfig.thumbnail} />
       <Table.HeaderItem {...tableConfig.uploadedDate}>
         <HeaderSort
           title="Date uploaded"
@@ -84,8 +86,6 @@ const InTrayModalTable = ({
     </Table.Header>
   );
 
-  const dropZone = <InTrayDropZone onUpload={onUpload} />;
-
   const tableBody = (
     <InTrayListTableBody
       tableConfig={tableConfig}
@@ -96,18 +96,25 @@ const InTrayModalTable = ({
   );
 
   return (
-    <TableView
-      hasActions
-      className={styles.inTrayTable}
-      header={header}
-      isLoading={isTableLoading}
-      // This prop is necessary to enable certain styling for the Table component in mobile view
-      // for when the table has a checkbox/radio button, or any actionable item for each row.
-      onRowSelect={() => {}}
-    >
-      {isUploadAllowed && dropZone}
-      {tableBody}
-    </TableView>
+    <>
+      {isUploadAllowed && (
+        <DropZoneHorizontal onUpload={onUpload} className={styles.dropZone} />
+      )}
+
+      <InTrayModalFilterOptions onUpdateFilterOptions={onUpdateFilterOptions} />
+
+      <TableView
+        hasActions
+        className={styles.inTrayTable}
+        header={header}
+        isLoading={isTableLoading}
+        // This prop is necessary to enable certain styling for the Table component in mobile view
+        // for when the table has a checkbox/radio button, or any actionable item for each row.
+        onRowSelect={() => {}}
+      >
+        {tableBody}
+      </TableView>
+    </>
   );
 };
 

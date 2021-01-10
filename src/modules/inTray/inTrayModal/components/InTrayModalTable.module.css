@@ -2,3 +2,5 @@
 .inTrayTable :global(.table-data__header .table-data__cell:first-child > .radio) {
   display: none;
 }
+
+.dropZone { margin-bottom: var(--flx-spacing-medium); }

@@ -123,7 +123,7 @@ class BillModule {
     this.jobModalModule = new JobModalModule({
       integration,
     });
-    this.inTrayModalModule = new InTrayModalModule({ integration });
+    this.inTrayModalModule = new InTrayModalModule({ integration, navigateTo });
     this.taxCalculate = createTaxCalculator(TaxCalculatorTypes.bill);
     this.globalCallbacks = globalCallbacks;
     this.navigateTo = navigateTo;

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-import uploadStatuses from './uploadStatuses';
+import uploadStatuses from '../uploadStatuses';
 
 const uploadFileTypes = [
   'application/pdf',
@@ -150,3 +150,25 @@ export const getIsLinkActionDisabled = createSelector(
   getSelectedId,
   (isActionDisabled, selectId) => isActionDisabled || !selectId
 );
+
+export const getEmail = (state) => state.email;
+
+export const getIsEntriesEmpty = (state) => (state.entries || []).length === 0;
+
+export const getAppStoreLink = createSelector(
+  getRegion,
+  (region) => `https://apps.apple.com/${region}/app/myob-capture/id1442167388`
+);
+
+export const getGooglePlayLink =
+  'https://play.google.com/store/apps/details?id=com.myob.snap';
+
+export const getSuppliersWikiLink =
+  'https://help.myob.com/wiki/display/myob/Automating+supplier+invoices';
+
+export const getUploadOptionsAlert = (state) => state.uploadOptionsAlert;
+
+export const getIsConfirmingEmailGeneration = (state) =>
+  state.isConfirmingEmailGeneration;
+
+export const getIsUploadPopoverOpen = (state) => state.isUploadPopoverOpen;

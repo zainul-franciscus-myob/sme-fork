@@ -3,12 +3,21 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getEmail,
+  getIsConfirmingEmailGeneration,
+  getUploadOptionsAlert,
+} from '../selectors/UploadOptionsSelectors';
+import {
   getIsDetailShown,
   getIsTableEmpty,
   getIsTableLoading,
   getOrder,
 } from '../selectors/InTrayListSelectors';
-import InTrayEmptyStateView from './InTrayEmptyStateView';
+import {
+  getIsUploadPopoverOpen,
+  getRegion,
+} from '../selectors/InTraySelectors';
+import InTrayEmptyStateView from '../../inTrayEmptyState/InTrayEmptyStateView';
 import InTrayListTableBody from './InTrayListTableBody';
 import LoadingPageState from '../../../../components/LoadingPageState/LoadingPageState';
 import styles from './InTrayListTable.module.css';
@@ -38,15 +47,20 @@ const tableConfig = {
 };
 
 const InTrayListTable = ({
+  email,
+  emptyStateListeners,
   handleActionSelect,
+  isConfirmingEmailGeneration,
   isTableEmpty,
   isTableLoading,
-  emptyStateListeners,
-  onAddAttachments,
+  isUploadPopoverOpen,
   onRowSelect,
   onSort,
+  onUpload,
   order,
+  region,
   showSplitView,
+  uploadOptionsAlert,
 }) => {
   let tableBodyView;
 
@@ -54,15 +68,22 @@ const InTrayListTable = ({
     tableBodyView = <LoadingPageState size="medium" />;
   } else if (isTableEmpty) {
     tableBodyView = (
-      <InTrayEmptyStateView emptyStateListeners={emptyStateListeners} />
+      <InTrayEmptyStateView
+        email={email}
+        emptyStateListeners={emptyStateListeners}
+        isConfirmingEmailGeneration={isConfirmingEmailGeneration}
+        isUploadPopoverOpen={isUploadPopoverOpen}
+        region={region}
+        uploadOptionsAlert={uploadOptionsAlert}
+      />
     );
   } else {
     tableBodyView = (
       <InTrayListTableBody
-        tableConfig={tableConfig}
-        onRowSelect={onRowSelect}
-        onAddAttachments={onAddAttachments}
         handleActionSelect={handleActionSelect}
+        onRowSelect={onRowSelect}
+        onUpload={onUpload}
+        tableConfig={tableConfig}
       />
     );
   }
@@ -123,10 +144,15 @@ const InTrayListTable = ({
 };
 
 const mapStateToProps = (state) => ({
-  isTableLoading: getIsTableLoading(state),
+  email: getEmail(state),
+  isConfirmingEmailGeneration: getIsConfirmingEmailGeneration(state),
   isTableEmpty: getIsTableEmpty(state),
+  isTableLoading: getIsTableLoading(state),
+  isUploadPopoverOpen: getIsUploadPopoverOpen(state),
   order: getOrder(state),
+  region: getRegion(state),
   showSplitView: getIsDetailShown(state),
+  uploadOptionsAlert: getUploadOptionsAlert(state),
 });
 
 export default connect(mapStateToProps)(InTrayListTable);

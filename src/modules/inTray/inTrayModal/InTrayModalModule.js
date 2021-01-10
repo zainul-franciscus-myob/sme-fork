@@ -1,33 +1,37 @@
-/* eslint-disable react/no-this-in-sfc */
 import { Provider } from 'react-redux';
 import React from 'react';
+import copy from 'copy-to-clipboard';
 
 import {
+  getAppStoreLink,
+  getEmail,
   getFilterOptions,
+  getGooglePlayLink,
   getIsEntryLoading,
   getNewSortOrder,
+  getSuppliersWikiLink,
   getUploadCompleteAlert,
   getUploadingEntry,
   getUploadingErrorMessage,
-} from './InTrayModalSelectors';
+} from './selectors/InTrayModalSelectors';
 import InTrayModalView from './components/InTrayModalView';
 import Store from '../../../store/Store';
 import createInTrayModalDispatcher from './createInTrayModalDispatcher';
 import createInTrayModalIntegrator from './createInTrayModalIntegrator';
 import debounce from '../../../common/debounce/debounce';
-import inTrayModalReducer from './InTrayModalReducer';
+import inTrayModalReducer from './reducers/InTrayModalReducer';
 
 export default class InTrayModalModule {
-  constructor({ integration }) {
+  constructor({ integration, navigateTo }) {
     this.integration = integration;
     this.store = new Store(inTrayModalReducer);
     this.dispatcher = createInTrayModalDispatcher(this.store);
     this.integrator = createInTrayModalIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   loadInTrayModal = () => {
-    const state = this.store.getState();
-    const filterOptions = getFilterOptions(state);
+    const filterOptions = getFilterOptions(this.store.getState());
 
     this.dispatcher.setLoadingState(true);
 
@@ -64,7 +68,6 @@ export default class InTrayModalModule {
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.setFilterOptions({ key, value });
-
     this.debouncedSortAndFilterInTrayList();
   };
 
@@ -75,19 +78,19 @@ export default class InTrayModalModule {
 
   updateSortOrder = (orderBy) => {
     const state = this.store.getState();
-    if (getIsEntryLoading(state)) {
-      return;
-    }
+
+    if (getIsEntryLoading(state)) return;
 
     const sortOrder = getNewSortOrder(orderBy)(state);
-    this.dispatcher.setSortOrder(orderBy, sortOrder);
 
+    this.dispatcher.setSortOrder(orderBy, sortOrder);
     this.sortAndFilterInTrayList();
   };
 
   uploadInTrayFiles = (files) => {
     const entries = files.reverse().reduce((acc, file, index) => {
       const errorMessage = getUploadingErrorMessage(file);
+
       if (errorMessage) {
         this.dispatcher.setAlert({ message: errorMessage, type: 'danger' });
 
@@ -102,9 +105,7 @@ export default class InTrayModalModule {
       return [...acc, { uploadId, file }];
     }, []);
 
-    if (entries.length) {
-      this.createInTrayDocuments(entries);
-    }
+    if (entries.length) this.createInTrayDocuments(entries);
   };
 
   createInTrayDocuments = (entries) => {
@@ -122,11 +123,8 @@ export default class InTrayModalModule {
       this.dispatcher.removeInTrayListEntry(uploadId);
     };
 
-    const onComplete = (results) => {
-      const alert = getUploadCompleteAlert(results);
-
-      this.dispatcher.setAlert(alert);
-    };
+    const onComplete = (results) =>
+      this.dispatcher.setAlert(getUploadCompleteAlert(results));
 
     this.integrator.createInTrayDocuments({
       onProgress,
@@ -142,7 +140,7 @@ export default class InTrayModalModule {
 
     const onSuccess = ({ fileUrl }) => {
       this.dispatcher.setEntrySubmittingState(id, false);
-      window.open(fileUrl, '_blank');
+      this.openInNewTab(fileUrl);
     };
 
     const onFailure = ({ message }) => {
@@ -163,29 +161,87 @@ export default class InTrayModalModule {
     this.onSaveSuccess(state.selectedId);
   };
 
+  openInNewTab = (url) => this.navigateTo(url, true);
+
+  openInSameTab = (url) => this.navigateTo(url, false);
+
+  copyEmail = () => {
+    copy(getEmail(this.store.getState()));
+
+    this.dispatcher.setUploadOptionsAlert({
+      message: 'Copied!',
+      type: 'success',
+    });
+  };
+
+  showEmailGenerationConfirmation = () =>
+    this.dispatcher.setConfirmingEmailGeneration(true);
+
+  hideEmailGenerationConfirmation = () =>
+    this.dispatcher.setConfirmingEmailGeneration(false);
+
+  setUploadPopoverState = () => this.dispatcher.setUploadPopoverState(true);
+
+  generateNewEmail = () => {
+    this.dispatcher.setUploadOptionsLoading(true);
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setUploadOptionsLoading(false);
+      this.dispatcher.setUploadOptionsAlert({
+        message,
+        type: 'danger',
+      });
+    };
+
+    const onSuccess = ({ message, email }) => {
+      this.hideEmailGenerationConfirmation();
+      this.dispatcher.setUploadOptionsLoading(false);
+      this.dispatcher.setUploadOptionsAlert({
+        message,
+        type: 'success',
+      });
+      this.dispatcher.generateNewEmail(message, email);
+    };
+
+    this.integrator.generateNewEmail({ onSuccess, onFailure });
+  };
+
   render = () => (
     <Provider store={this.store}>
       <InTrayModalView
         inTrayModalListeners={{
+          onCloseModal: this.close,
           onDismissAlert: this.dispatcher.dismissAlert,
           onLinkButtonClick: this.linkInTrayDocument,
-          onCloseModal: this.close,
         }}
         inTrayListListeners={{
-          onUpdateFilterOptions: this.updateFilterOptions,
           onResetFilterOptions: this.resetFilterOptions,
+          onSelect: this.dispatcher.setSelectedDocumentId,
           onSort: this.updateSortOrder,
+          onUpdateFilterOptions: this.updateFilterOptions,
           onUpload: this.uploadInTrayFiles,
           onView: this.viewInTrayDocument,
-          onSelect: this.dispatcher.setSelectedDocumentId,
+        }}
+        emptyStateListeners={{
+          navigateToAppStore: () =>
+            this.openInNewTab(getAppStoreLink(this.store.getState())),
+          navigateToGooglePlay: () => this.openInNewTab(getGooglePlayLink),
+          navigateToSuppliersWiki: () =>
+            this.openInNewTab(getSuppliersWikiLink),
+          onConfirmEmailGenerationButtonClick: this
+            .showEmailGenerationConfirmation,
+          onCopyEmailButtonClicked: this.copyEmail,
+          onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
+          onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
+          onGenerateNewEmailButtonClick: this.generateNewEmail,
+          onUpload: this.uploadInTrayFiles,
+          setUploadPopoverState: () => this.setUploadPopoverState(),
         }}
       />
     </Provider>
   );
 
-  close = () => {
-    this.dispatcher.resetState();
-  };
+  close = () => this.dispatcher.resetState();
 
   run = ({ context, onSaveSuccess, onLoadFailure }) => {
     this.onSaveSuccess = onSaveSuccess;

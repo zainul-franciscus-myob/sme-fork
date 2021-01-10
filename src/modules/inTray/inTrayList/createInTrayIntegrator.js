@@ -18,11 +18,9 @@ import {
 const createInTrayIntegrator = (store, integration) => ({
   loadInTray: ({ onSuccess, onFailure }) => {
     const intent = LOAD_IN_TRAY;
-
     const state = store.getState();
     const businessId = getBusinessId(state);
     const filterOptions = getFilterOptions(state);
-
     const urlParams = { businessId };
     const params = { ...filterOptions };
 
@@ -37,13 +35,11 @@ const createInTrayIntegrator = (store, integration) => ({
 
   sortAndfilterInTrayList: ({ onSuccess, onFailure }) => {
     const intent = SORT_AND_FILTER_IN_TRAY_LIST;
-
     const state = store.getState();
     const businessId = getBusinessId(state);
     const filterOptions = getFilterOptions(state);
     const sortOrder = getSortOrder(state);
     const orderBy = getOrderBy(state);
-
     const urlParams = { businessId };
     const params = {
       ...filterOptions,
@@ -85,7 +81,6 @@ const createInTrayIntegrator = (store, integration) => ({
 
   deleteInTrayDocument: ({ onSuccess, onFailure, id }) => {
     const intent = DELETE_IN_TRAY_DOCUMENT;
-
     const state = store.getState();
     const businessId = getBusinessId(state);
     const urlParams = { businessId, documentId: id };
@@ -101,9 +96,7 @@ const createInTrayIntegrator = (store, integration) => ({
 
   downloadInTrayDocument: ({ onSuccess, onFailure, id }) => {
     const intent = DOWNLOAD_IN_TRAY_DOCUMENT;
-
-    const state = store.getState();
-    const businessId = getBusinessId(state);
+    const businessId = getBusinessId(store.getState());
     const urlParams = { businessId, documentId: id };
 
     integration.readFile({
@@ -117,7 +110,6 @@ const createInTrayIntegrator = (store, integration) => ({
 
   generateNewEmail: ({ onSuccess, onFailure }) => {
     const intent = GENERATE_IN_TRAY_EMAIL;
-
     const businessId = getBusinessId(store.getState());
 
     integration.write({
@@ -130,16 +122,10 @@ const createInTrayIntegrator = (store, integration) => ({
 
   pollInTrayList: ({ onSuccess, onFailure }) => {
     const intent = POLL_INTRAY_LIST;
-
     const state = store.getState();
     const businessId = getBusinessId(state);
-
     const documentIds = getDocumentIds(state);
-
-    const params = {
-      documentIds,
-    };
-
+    const params = { documentIds };
     const urlParams = { businessId };
 
     integration.read({

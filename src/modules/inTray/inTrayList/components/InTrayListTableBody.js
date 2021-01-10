@@ -7,7 +7,7 @@ import {
   getAllowedActions,
   getTableEntries,
 } from '../selectors/InTrayListSelectors';
-import InTrayDropzoneTableRow from './InTrayDropzoneTableRow';
+import DropZoneHorizontal from '../../../../components/DropZone/DropZoneHorizontal';
 import actionTypes from '../actionTypes';
 import styles from './InTrayListTableBody.module.css';
 
@@ -122,7 +122,7 @@ const InTrayListTableBody = ({
   allowedActions,
   handleActionSelect,
   onRowSelect,
-  onAddAttachments,
+  onUpload,
 }) => {
   const rows = entries.map((entry) => {
     const {
@@ -186,7 +186,11 @@ const InTrayListTableBody = ({
 
   return (
     <Table.Body>
-      <InTrayDropzoneTableRow onAddAttachment={onAddAttachments} />
+      <DropZoneHorizontal
+        className={styles.dropZone}
+        onDrop={onUpload}
+        onFileSelected={onUpload}
+      />
       {rows}
     </Table.Body>
   );

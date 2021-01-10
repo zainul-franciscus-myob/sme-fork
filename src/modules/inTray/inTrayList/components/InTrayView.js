@@ -38,7 +38,6 @@ const InTrayView = ({
   },
   inTrayListListeners: {
     handleActionSelect,
-    onAddAttachments,
     onCloseDetail,
     onCreateBill,
     onDelete,
@@ -47,6 +46,7 @@ const InTrayView = ({
     onLinkToExistingBill,
     onSort,
     onUpdateFilterOptions,
+    onUpload,
   },
   loadingState,
   modalType,
@@ -109,7 +109,7 @@ const InTrayView = ({
           <InTrayListTable
             emptyStateListeners={emptyStateListeners}
             handleActionSelect={handleActionSelect}
-            onAddAttachments={onAddAttachments}
+            onUpload={onUpload}
             onCreateBill={onCreateBill}
             onDelete={onDelete}
             onDownload={onDownload}

@@ -9,7 +9,10 @@ import {
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getSelectedId, getTableEntries } from '../InTrayModalSelectors';
+import {
+  getSelectedId,
+  getTableEntries,
+} from '../selectors/InTrayModalSelectors';
 import Thumbnail from '../../../../components/Thumbnail/Thumbnail';
 import styles from './InTrayModalTableBody.module.css';
 

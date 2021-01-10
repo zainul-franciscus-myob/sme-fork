@@ -9,8 +9,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import style from '../uploadOptions/UploadOptionsModal.module.css';
-import styles from '../InTrayView.module.css';
+import styles from './InTrayEmptyStateView.module.css';
 
 const UploadViaEmail = ({
   email,
@@ -57,6 +56,7 @@ const UploadViaEmail = ({
 
   return (
     <Popover
+      appendTarget="#inTray"
       body={
         <Popover.Body
           child={
@@ -78,7 +78,7 @@ const UploadViaEmail = ({
                 address with your suppliers too.
               </p>
 
-              <div className={style.inTrayEmailAddress}>
+              <div className={styles.inTrayEmailAddress}>
                 <Input
                   data-copy
                   disabled

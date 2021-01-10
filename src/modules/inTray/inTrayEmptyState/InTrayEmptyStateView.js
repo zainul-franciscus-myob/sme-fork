@@ -1,21 +1,12 @@
 import { PageState } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
 
-import {
-  getEmail,
-  getIsConfirmingEmailGeneration,
-  getUploadOptionsAlert,
-} from '../selectors/UploadOptionsSelectors';
-import {
-  getIsUploadPopoverOpen,
-  getRegion,
-} from '../selectors/InTraySelectors';
-import InTrayDropzoneTableRow from './InTrayDropzoneTableRow';
+import DropZoneHorizontal from '../../../components/DropZone/DropZoneHorizontal';
 import InTrayEmptyState from './assets/InTrayEmptyState.svg';
-import ReceiveBillsFromSuppliers from './popovers/ReceiveBillsFromSuppliers';
-import ScanWithPhone from './popovers/ScanWithPhone';
-import UploadViaEmail from './popovers/UploadViaEmail';
+import ReceiveBillsFromSuppliers from './ReceiveBillsFromSuppliers';
+import ScanWithPhone from './ScanWithPhone';
+import UploadViaEmail from './UploadViaEmail';
+import styles from './InTrayEmptyStateView.module.css';
 
 const InTrayEmptyStateView = ({
   email,
@@ -23,12 +14,12 @@ const InTrayEmptyStateView = ({
     navigateToAppStore,
     navigateToGooglePlay,
     navigateToSuppliersWiki,
-    onAddAttachments,
     onConfirmEmailGenerationButtonClick,
     onCopyEmailButtonClicked,
     onDismissAlert,
     onDismissConfirmEmailGeneration,
     onGenerateNewEmailButtonClick,
+    onUpload,
     setUploadPopoverState,
   },
   isConfirmingEmailGeneration,
@@ -70,7 +61,7 @@ const InTrayEmptyStateView = ({
             transactions.
           </p>
 
-          <InTrayDropzoneTableRow onAddAttachment={onAddAttachments} />
+          <DropZoneHorizontal className={styles.dropZone} onUpload={onUpload} />
         </>
       }
       image={<img src={InTrayEmptyState} alt="No files in your In tray" />}
@@ -78,12 +69,4 @@ const InTrayEmptyStateView = ({
   );
 };
 
-const mapStateToProps = (state) => ({
-  email: getEmail(state),
-  isConfirmingEmailGeneration: getIsConfirmingEmailGeneration(state),
-  isUploadPopoverOpen: getIsUploadPopoverOpen(state),
-  region: getRegion(state),
-  uploadOptionsAlert: getUploadOptionsAlert(state),
-});
-
-export default connect(mapStateToProps)(InTrayEmptyStateView);
+export default InTrayEmptyStateView;

@@ -18,11 +18,11 @@ import {
   getIsUploadOptionsLoading,
   getUploadOptionsAlert,
 } from '../../selectors/UploadOptionsSelectors';
-import App from '../assets/App.svg';
-import AppStore from '../assets/AppStore.svg';
-import Email from '../assets/Email.svg';
-import Feeds from '../assets/Feeds.svg';
-import GooglePlay from '../assets/GooglePlay.svg';
+import App from '../../../inTrayEmptyState/assets/App.svg';
+import AppStore from '../../../inTrayEmptyState/assets/AppStore.svg';
+import Email from '../../../inTrayEmptyState/assets/Email.svg';
+import Feeds from '../../../inTrayEmptyState/assets/Feeds.svg';
+import GooglePlay from '../../../inTrayEmptyState/assets/GooglePlay.svg';
 import style from './UploadOptionsModal.module.css';
 
 const UploadOptionsModal = ({

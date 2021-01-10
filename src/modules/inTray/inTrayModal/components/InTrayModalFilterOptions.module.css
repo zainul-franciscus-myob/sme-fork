@@ -1,0 +1,9 @@
+.search { display: flex; }
+
+.search > div:first-of-type {
+  margin:
+    var(--flx-spacing-x-tiny)
+    var(--flx-spacing-tiny)
+    var(--flx-spacing-clear)
+    var(--flx-spacing-clear);
+}

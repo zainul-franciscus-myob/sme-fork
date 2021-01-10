@@ -1,44 +1,56 @@
 import {
   ADD_IN_TRAY_LIST_ENTRY,
   CREATE_IN_TRAY_MODAL_DOCUMENT,
+  GENERATE_IN_TRAY_EMAIL,
   LOAD_IN_TRAY_MODAL,
   REMOVE_IN_TRAY_LIST_ENTRY,
   RESET_IN_TRAY_LIST_FILTER_OPTIONS,
   SELECT_DOCUMENT,
   SET_ALERT,
+  SET_CONFIRMING_EMAIL_GENERATION,
   SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE,
   SET_IN_TRAY_LIST_FILTER_OPTIONS,
   SET_IN_TRAY_LIST_SORT_ORDER,
   SET_IN_TRAY_LIST_TABLE_LOADING_STATE,
   SET_LOADING_STATE,
+  SET_UPLOAD_OPTIONS_ALERT,
+  SET_UPLOAD_OPTIONS_LOADING_STATE,
+  SET_UPLOAD_POPOVER_STATE,
   SORT_AND_FILTER_IN_TRAY_MODAL,
-} from '../InTrayIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+} from '../../InTrayIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
   getFilteredEntriesByKey,
   getUpdatedEntriesByKey,
   getUploadedEntry,
-} from './InTrayModalSelectors';
-import createReducer from '../../../store/createReducer';
+} from '../selectors/InTrayModalSelectors';
+import createReducer from '../../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isLoading: true,
-  isOpen: false,
-  businessId: '',
   alert: undefined,
-  isTableLoading: false,
-  isUploadAllowed: true,
-  selectedId: '',
+  businessId: '',
+  email: '',
+  entries: [],
   filterOptions: {
     keywords: '',
   },
-  sortOrder: 'desc',
+  isConfirmingEmailGeneration: false,
+  isLoading: true,
+  isOpen: false,
+  isTableLoading: false,
+  isUploadAllowed: true,
+  isUploadOptionsLoading: false,
+  isUploadPopoverOpen: false,
   orderBy: 'ReceivedOn',
-  entries: [],
+  region: '',
+  selectedId: '',
+  sortOrder: 'desc',
+  uploadOptionsAlert: undefined,
 });
 
 const loadInTrayModal = (state, action) => ({
   ...state,
+  email: action.email,
   entries: action.entries,
 });
 
@@ -119,6 +131,34 @@ const setSelectedDocumentId = (state, { id }) => ({
   selectedId: id,
 });
 
+const setUploadOptionsAlert = (state, { uploadOptionsAlert }) => ({
+  ...state,
+  uploadOptionsAlert,
+});
+
+const setConfirmingEmailGeneration = (
+  state,
+  { isConfirmingEmailGeneration }
+) => ({
+  ...state,
+  isConfirmingEmailGeneration,
+});
+
+const setUploadPopoverState = (state, { isUploadPopoverOpen }) => ({
+  ...state,
+  isUploadPopoverOpen,
+});
+
+const setUploadOptionsLoadingState = (state, { isUploadOptionsLoading }) => ({
+  ...state,
+  isUploadOptionsLoading,
+});
+
+const generateInTrayEmail = (state, { email }) => ({
+  ...state,
+  email,
+});
+
 const handlers = {
   [LOAD_IN_TRAY_MODAL]: loadInTrayModal,
   [RESET_STATE]: resetState,
@@ -136,8 +176,13 @@ const handlers = {
   [ADD_IN_TRAY_LIST_ENTRY]: addEntry,
   [REMOVE_IN_TRAY_LIST_ENTRY]: removeEntry,
   [SET_IN_TRAY_LIST_ENTRY_SUBMITTING_STATE]: setEntrySubmittingState,
-
   [SELECT_DOCUMENT]: setSelectedDocumentId,
+
+  [SET_UPLOAD_OPTIONS_ALERT]: setUploadOptionsAlert,
+  [SET_CONFIRMING_EMAIL_GENERATION]: setConfirmingEmailGeneration,
+  [SET_UPLOAD_POPOVER_STATE]: setUploadPopoverState,
+  [SET_UPLOAD_OPTIONS_LOADING_STATE]: setUploadOptionsLoadingState,
+  [GENERATE_IN_TRAY_EMAIL]: generateInTrayEmail,
 };
 
 const inTrayModalReducer = createReducer(getDefaultState(), handlers);
