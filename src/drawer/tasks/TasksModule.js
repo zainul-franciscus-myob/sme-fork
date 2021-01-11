@@ -32,10 +32,15 @@ export default class TasksModule {
       constructPath,
     } = this;
     const { closeTasks, dismissTask } = tasksService;
-    const onboardingTasks =
-      tasks && tasks.filter((task) => task.template !== 'welcome');
     const welcomeTask =
       tasks && tasks.find((task) => task.template === 'welcome');
+    const systemUpgradedMessageTask =
+      tasks && tasks.find((task) => task.template === 'systemUpgradedMessage');
+    const onboardingTasks =
+      tasks &&
+      tasks.filter(
+        (task) => task !== welcomeTask && task !== systemUpgradedMessageTask
+      );
     const { dispatcher } = this;
 
     return (
@@ -47,6 +52,7 @@ export default class TasksModule {
           closeView={closeView}
           onboardingTasks={onboardingTasks}
           welcomeTask={welcomeTask}
+          systemUpgradedMessageTask={systemUpgradedMessageTask}
           dismissTask={dismissTask}
           isActiveRoute={isActiveRoute}
           constructPath={constructPath}

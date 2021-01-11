@@ -5,6 +5,7 @@ import React from 'react';
 import { getIsActive, getIsLoading } from '../TasksSelectors';
 import Onboarding from './Onboarding';
 import PageView from '../../../components/PageView/PageView';
+import SystemUpgradedMessage from './SystemUpgradedMessage';
 import TasksIcon from '../../../navigation/components/images/TasksIcon.svg';
 import Welcome from './Welcome';
 import asideHeaderStyles from '../../AsideHeader.module.css';
@@ -20,12 +21,15 @@ const TasksView = ({
   loadingState,
   onboardingTasks,
   welcomeTask,
+  systemUpgradedMessageTask,
   isActiveRoute,
   constructPath,
 }) => {
   if (!isActive) return null;
   const hasTasks =
-    welcomeTask || (onboardingTasks && onboardingTasks.length > 0);
+    welcomeTask ||
+    systemUpgradedMessageTask ||
+    (onboardingTasks && onboardingTasks.length > 0);
 
   const tasksView = () => (
     <div>
@@ -35,6 +39,12 @@ const TasksView = ({
         closeIntroModal={closeIntroModal}
         openIntroModal={openIntroModal}
       />
+      {systemUpgradedMessageTask && (
+        <SystemUpgradedMessage
+          task={systemUpgradedMessageTask}
+          dismissTask={dismissTask}
+        />
+      )}
       <Onboarding
         tasks={onboardingTasks}
         closeTasks={closeTasks}
