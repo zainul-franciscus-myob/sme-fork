@@ -7,7 +7,7 @@
       "id":"345",
       "name": "Bob The Builder",
       "email":"bob@thebuilder.com",
-      "type":"Advisor",
+      "type":"Online admin",
       "status":"Active since 28-01-2020",
       "isActive": true,
       "myDotInvitationSatus": "Accepted",
@@ -21,7 +21,7 @@
       "id":"346",
       "name": "Matt Witherow",
       "email":"matt@hotmail.com",
-      "type":"Advisor",
+      "type":"Online admin",
       "status":"Active since 24-01-2020",
       "isActive": true,
       "myDotInvitationSatus": "Accepted",
@@ -129,5 +129,16 @@
       "isCurrentUser": false
     }
   ],
-  "serialNumber": "000000000000"
+  "serialNumber": "000000000000",
+  "practices": [
+    {
+      "practiceId": "8b8d017b-a126-4015-bf33-dd8de699bed7",
+      "practiceName": "Practice Account Firm 1"
+    },
+    {
+      "practiceId": "8b8d017b-a126-4015-bf33-dd8de699bed8",
+      "practiceName": "Practice Account Firm 2"
+    }
+  ],
+  "loadPracticesError": null
 }

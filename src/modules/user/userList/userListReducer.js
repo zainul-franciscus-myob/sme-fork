@@ -9,6 +9,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_USER_INDEX,
   SET_USER_LIST_FILTER_OPTIONS,
+  SORT_PRACTICE_LIST,
   SORT_USER_LIST,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -19,6 +20,8 @@ const getDefaultState = () => ({
   alert: undefined,
   businessId: '',
   entries: [],
+  practices: [],
+  loadPracticesError: null,
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
   region: '',
@@ -38,6 +41,8 @@ const getDefaultState = () => ({
     showInactive: false,
   },
   showStatusFilterOptions: false,
+  practiceListSortOrder: 'asc',
+  practiceListOrderBy: 'Name',
 });
 
 const stringCompare = (a, b) => {
@@ -63,6 +68,13 @@ const sort = (column) => {
   return sortFns[column];
 };
 
+const sortPractice = (column) => {
+  const sortFns = {
+    Name: (a, b) => stringCompare(a.practiceName, b.practiceName),
+  };
+  return sortFns[column];
+};
+
 const applySort = (entries, sortFn, sortOrder) => {
   const result = entries.slice();
   result.sort(sortFn);
@@ -75,6 +87,8 @@ const loadUserList = (state, { intent, ...data }) => ({
   sortOrder: state.sortOrder,
   orderBy: state.orderBy,
   entries: applySort(data.entries, sort(state.orderBy), state.sortOrder),
+  practices: data.practices,
+  loadPracticesError: data.loadPracticesError,
 });
 
 const resetState = () => getDefaultState();
@@ -104,6 +118,17 @@ const sortUserList = (state, action) => ({
   sortOrder: action.sortOrder,
   orderBy: action.orderBy,
   entries: applySort(action.entries, sort(action.orderBy), action.sortOrder),
+});
+
+const sortPracticeList = (state, action) => ({
+  ...state,
+  practiceListOrderBy: action.orderBy,
+  practiceListSortOrder: action.sortOrder,
+  practices: applySort(
+    action.practices,
+    sortPractice(action.orderBy),
+    action.sortOrder
+  ),
 });
 
 const openModal = (state, action) => ({
@@ -151,6 +176,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
   [SORT_USER_LIST]: sortUserList,
+  [SORT_PRACTICE_LIST]: sortPracticeList,
   [OPEN_MODAL]: openModal,
   [CLOSE_MODAL]: closeModal,
   [SET_USER_INDEX]: setSelectedUserIndex,

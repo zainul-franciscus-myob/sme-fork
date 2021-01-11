@@ -1,7 +1,7 @@
 import { LOAD_USER_LIST, SORT_USER_LIST } from '../../UserIntents';
 import userListReducer from '../userListReducer';
 
-describe('userDetailReducer', () => {
+describe('userListReducer', () => {
   const reducer = userListReducer;
 
   describe('LOAD_USER_LIST', () => {

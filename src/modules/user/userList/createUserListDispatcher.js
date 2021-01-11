@@ -9,6 +9,7 @@ import {
   SET_TABLE_LOADING_STATE,
   SET_USER_INDEX,
   SET_USER_LIST_FILTER_OPTIONS,
+  SORT_PRACTICE_LIST,
   SORT_USER_LIST,
 } from '../UserIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -65,6 +66,14 @@ const createUserListDispatcher = (store) => ({
       entries,
       sortOrder,
       orderBy,
+    }),
+
+  sortPracticeList: (practices, sortOrder, orderBy) =>
+    store.dispatch({
+      intent: SORT_PRACTICE_LIST,
+      practices,
+      orderBy,
+      sortOrder,
     }),
 
   setSelectedUserIndex: (selectedUserIndex) =>

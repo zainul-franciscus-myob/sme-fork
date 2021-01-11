@@ -11,6 +11,9 @@ import {
   getFlipSortOrder,
   getMyDotMyobLink,
   getOrderBy,
+  getPracticeListOrderBy,
+  getPracticeListSortOrder,
+  getPractices,
   getRegion,
 } from './userListSelectors';
 import { trackUserEvent } from '../../../telemetry';
@@ -87,6 +90,17 @@ export default class UserListModule {
     const entries = getEntries(state);
 
     this.dispatcher.sortUserList(entries, newSortOrder, orderBy);
+  };
+
+  sortPracticeList = (orderBy) => {
+    const state = this.store.getState();
+    const newSortOrder =
+      orderBy === getPracticeListOrderBy(state)
+        ? getFlipSortOrder({ sortOrder: getPracticeListSortOrder(state) })
+        : 'asc';
+    const practices = getPractices(state);
+
+    this.dispatcher.sortPracticeList(practices, newSortOrder, orderBy);
   };
 
   resendInvitation = (userIndex) => {
@@ -166,6 +180,7 @@ export default class UserListModule {
         onCreateUser={this.redirectToCreateUser}
         onDismissAlert={this.dispatcher.dismissAlert}
         onSort={this.sortUserList}
+        onSortPracticeList={this.sortPracticeList}
         onMyMyobClick={this.onMyMyobClick}
         onResendInvitation={this.resendInvitation}
         onCancelInvitation={this.cancelInvitation}

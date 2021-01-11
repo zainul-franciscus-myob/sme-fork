@@ -25,7 +25,19 @@ export const getOrder = ({ sortOrder, orderBy }) => ({
   descending: sortOrder === 'desc',
 });
 
+export const getPracticeListOrder = ({
+  practiceListSortOrder,
+  practiceListOrderBy,
+}) => ({
+  column: practiceListOrderBy,
+  descending: practiceListSortOrder === 'desc',
+});
+
 export const getOrderBy = (state) => state.orderBy;
+
+export const getPracticeListOrderBy = (state) => state.practiceListOrderBy;
+
+export const getPracticeListSortOrder = (state) => state.practiceListSortOrder;
 
 export const getRegion = (state) => state.region;
 
@@ -41,6 +53,13 @@ export const getTableEntries = createSelector(
       link: `/#/${region}/${businessId}/user/${entry.id}`,
     }))
 );
+
+export const getPractices = (state) => state.practices;
+
+export const getShouldShowPractices = (state) =>
+  !state.loadPracticesError && state.practices && state.practices.length > 0;
+
+export const getShouldShowPracticesError = (state) => state.loadPracticesError;
 
 export const getMyDotMyobLink = createSelector(
   getBusinessId,
