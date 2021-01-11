@@ -1,5 +1,7 @@
 ## `split.io` Guidelines
 
+These guidelines are for split.io usage spefically in New Essentials (sme-web and sme-web-bff only). It is not applicable to other projects.
+
 ---
 
 ### What is `split.io` used for?
