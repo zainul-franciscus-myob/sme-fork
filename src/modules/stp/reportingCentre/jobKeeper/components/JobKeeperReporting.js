@@ -36,8 +36,8 @@ class JobKeeperReporting extends React.Component {
       { label: 'September (fortnights 12 & 13)', month: '9' },
       { label: 'October (fortnights 14 & 15)', month: '10' },
       { label: 'November (fortnights 16 & 17)', month: '11' },
-      { label: 'December (fortnights 18 & 19)', month: '12' },
-      { label: 'January (fortnights 20, 21 & 22)', month: '1' },
+      { label: 'December (fortnights 18, 19 & 20)', month: '12' },
+      { label: 'January (fortnights 21 & 22)', month: '1' },
       { label: 'February (fortnights 23 & 24)', month: '2' },
       { label: 'March (fortnights 25 & 26)', month: '3' },
     ];
