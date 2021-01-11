@@ -16,18 +16,15 @@ const PayItemsTable = ({ onWageDetailsChange }) => {
           <Table.HeaderItem {...tableConfig.quantity}>
             Quantity{' '}
             <Tooltip>
-              For pay items that are not automatically calculated, enter the
-              hours the employee usually works in a pay cycle. You can change
-              the hours when processing the pays.
+              You can change the hours when processing the pays.
             </Tooltip>
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.rate}>Rate ($)</Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.amount}>
             Amount ($){' '}
             <Tooltip>
-              For pay items that are not automatically calculated, enter the
-              amounts that are usually paid or deducted each pay. You can change
-              the amount when processing the pays.
+              Enter the amounts that are usually paid or deducted each pay. You
+              can change the amounts when processing the pays.
             </Tooltip>
           </Table.HeaderItem>
           <Table.HeaderItem {...tableConfig.action}></Table.HeaderItem>

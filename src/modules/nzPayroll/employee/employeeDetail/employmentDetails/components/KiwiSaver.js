@@ -1,4 +1,4 @@
-import { FieldGroup, InfoIcon, Select, Tooltip } from '@myob/myob-widgets';
+import { FieldGroup, Select } from '@myob/myob-widgets';
 import React from 'react';
 
 import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
@@ -62,11 +62,6 @@ const KiwiSaver = ({
       requiredLabel="Employer superannuation contribution tax rate is required"
       onChange={handleSelectChange(onKiwiSaverDetailsChange)}
       value={kiwiSaverDetails.employerSuperannuationContributionTax}
-      labelAccessory={
-        <Tooltip triggerContent={<InfoIcon />}>
-          Employer superannuation contribution tax rate
-        </Tooltip>
-      }
     >
       {kiwiSaverOptions.esctRateOptions.map(({ label, value }) => (
         <Select.Option key={value} value={value} label={label} />
