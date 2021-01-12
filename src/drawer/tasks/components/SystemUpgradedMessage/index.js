@@ -2,7 +2,8 @@ import React from 'react';
 
 const SystemUpgradedMessage = ({ task, dismissTask }) => {
   if (!task.isComplete) {
-    window.Appcues.show(task.routeParams.appcue);
+    const { appcue } = task.routeParams;
+    if (window.Appcues && appcue) window.Appcues.show(appcue);
     dismissTask(task.key);
   }
 
