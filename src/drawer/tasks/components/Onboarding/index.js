@@ -2,16 +2,8 @@ import { Icons } from '@myob/myob-widgets';
 import React from 'react';
 import classNames from 'classnames';
 
+import TaskIcon from '../TaskIcon';
 import styles from './index.module.css';
-
-const svgPath = (key) => {
-  try {
-    // eslint-disable-next-line global-require, import/no-dynamic-require
-    return require(`./assets/${key}.svg`);
-  } catch {
-    return null;
-  }
-};
 
 const hasNoChildren = (task) => !task.tasks || !task.tasks.length;
 
@@ -88,7 +80,6 @@ const Onboarding = ({
   return (
     <ul className={styles.tasks}>
       {tasks.map((task) => {
-        const taskIconPath = svgPath(task.key) || svgPath(task.template);
         return (
           <li
             key={task.title}
@@ -97,9 +88,7 @@ const Onboarding = ({
             })}
           >
             <TaskLink task={task}>
-              {taskIconPath && (
-                <img src={taskIconPath} alt={task.title} width="36" />
-              )}
+              <TaskIcon task={task} width="36"></TaskIcon>
 
               <div className={styles.container}>
                 <div>

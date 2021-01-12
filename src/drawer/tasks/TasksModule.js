@@ -36,10 +36,15 @@ export default class TasksModule {
       tasks && tasks.find((task) => task.template === 'welcome');
     const systemUpgradedMessageTask =
       tasks && tasks.find((task) => task.template === 'systemUpgradedMessage');
+    const upgradeReportingTask =
+      tasks && tasks.find((task) => task.template === 'reportingVideo');
     const onboardingTasks =
       tasks &&
       tasks.filter(
-        (task) => task !== welcomeTask && task !== systemUpgradedMessageTask
+        (task) =>
+          task !== welcomeTask &&
+          task !== systemUpgradedMessageTask &&
+          task !== upgradeReportingTask
       );
     const { dispatcher } = this;
 
@@ -56,6 +61,9 @@ export default class TasksModule {
           dismissTask={dismissTask}
           isActiveRoute={isActiveRoute}
           constructPath={constructPath}
+          upgradeReportingTask={upgradeReportingTask}
+          openReportingModal={dispatcher.openReportingModal}
+          closeReportingModal={dispatcher.closeReportingModal}
         />
       </Provider>
     );

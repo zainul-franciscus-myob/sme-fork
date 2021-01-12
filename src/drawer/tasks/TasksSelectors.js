@@ -7,3 +7,4 @@ export const getRegion = (state) => state.region;
 export const getWelcomeVideoId = createSelector(getRegion, (region) =>
   region === 'nz' ? '17i4r8ci29' : 'nu4tdi39qw'
 );
+export const getIsReportingModalOpen = (state) => state.reportingModal.isOpen;

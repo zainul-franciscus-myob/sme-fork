@@ -1,4 +1,7 @@
-.tasks { list-style: none; }
+.tasks {
+  list-style: none;
+  margin-bottom: 0;
+}
 
 /* @FEELIX */
 .tasks :global(.label) {
@@ -21,16 +24,23 @@
   text-decoration: none;
 }
 
-.tasks .container { width: 100%; display: flex}
+.tasks .container {
+  width: 100%;
+  display: flex;
+}
 
 .tasks p {
   font-size: small;
   margin-bottom: 0;
 }
 
-.tasks img { margin-right: var(--flx-spacing-small);}
+.tasks img {
+  margin-right: var(--flx-spacing-small);
+}
 
-.tasks h3 { margin-top: 0; }
+.tasks h3 {
+  margin-top: 0;
+}
 
 .subTasks {
   counter-reset: item;
@@ -48,7 +58,9 @@
 }
 
 .subTasks a:before,
-.subTasks a span { flex: 1; }
+.subTasks a span {
+  flex: 1;
+}
 
 .subTasks a:before {
   background: var(--flx-palette-storm-17);
@@ -62,9 +74,13 @@
   text-align: center;
 }
 
-.active { background: var(--flx-palette-dusk-05); }
+.active {
+  background: var(--flx-palette-dusk-05);
+}
 
-.active a { color: var(--flx-palette-dusk-100); }
+.active a {
+  color: var(--flx-palette-dusk-100);
+}
 
 .active a:before {
   background: var(--flx-palette-dusk-100);
@@ -78,7 +94,8 @@
 }
 
 .completed a:before {
-  background: url('assets/tick.svg') no-repeat 4px 4px / 16px var(--flx-palette-golf);
+  background: url('assets/tick.svg') no-repeat 4px 4px / 16px
+    var(--flx-palette-golf);
   content: '';
 }
 

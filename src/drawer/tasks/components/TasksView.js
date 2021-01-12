@@ -5,6 +5,7 @@ import React from 'react';
 import { getIsActive, getIsLoading } from '../TasksSelectors';
 import Onboarding from './Onboarding';
 import PageView from '../../../components/PageView/PageView';
+import Reporting from './Reporting';
 import SystemUpgradedMessage from './SystemUpgradedMessage';
 import TasksIcon from '../../../navigation/components/images/TasksIcon.svg';
 import Welcome from './Welcome';
@@ -24,6 +25,9 @@ const TasksView = ({
   systemUpgradedMessageTask,
   isActiveRoute,
   constructPath,
+  upgradeReportingTask,
+  openReportingModal,
+  closeReportingModal,
 }) => {
   if (!isActive) return null;
   const hasTasks =
@@ -51,6 +55,14 @@ const TasksView = ({
         dismissTask={dismissTask}
         isActiveRoute={isActiveRoute}
         constructPath={constructPath}
+      />
+      <Reporting
+        tasks={upgradeReportingTask}
+        closeTasks={closeTasks}
+        dismissTask={dismissTask}
+        constructPath={constructPath}
+        openReportingModal={openReportingModal}
+        closeReportingModal={closeReportingModal}
       />
     </div>
   );

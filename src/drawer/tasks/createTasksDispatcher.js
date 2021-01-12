@@ -1,6 +1,8 @@
 import {
   CLOSE_INTRO_MODAL,
+  CLOSE_REPORTING_MODAL,
   OPEN_INTRO_MODAL,
+  OPEN_REPORTING_MODAL,
   SET_ACTIVE_STATE,
   SET_LOADING_STATE,
 } from './TasksIntents';
@@ -35,6 +37,18 @@ const createTasksDispatcher = (store) => ({
     store.dispatch({
       intent: CLOSE_INTRO_MODAL,
       introModal: { isOpen: false },
+    });
+  },
+  openReportingModal: () => {
+    store.dispatch({
+      intent: OPEN_REPORTING_MODAL,
+      reportingModal: { isOpen: true },
+    });
+  },
+  closeReportingModal: () => {
+    store.dispatch({
+      intent: CLOSE_REPORTING_MODAL,
+      reportingModal: { isOpen: false },
     });
   },
 });
