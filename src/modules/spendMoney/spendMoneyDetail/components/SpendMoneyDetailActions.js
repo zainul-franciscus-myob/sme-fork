@@ -5,6 +5,7 @@ import React from 'react';
 import {
   getIsActionsDisabled,
   getShowPrefillRecurringButton,
+  getShowSaveAsRecurring,
 } from '../spendMoneyDetailSelectors';
 import SaveActionType from './SaveActionType';
 
@@ -14,9 +15,11 @@ const SpendMoneyDetailActions = ({
   onCancelButtonClick,
   onDeleteButtonClick,
   onPrefillButtonClick,
+  onSaveAsRecurringButtonClick,
   isActionsDisabled,
   isCreating,
   showPrefillRecurringButton,
+  showSaveAsRecurringButton,
 }) => {
   const dropdownActionItems = [
     <Dropdown.Item
@@ -91,6 +94,17 @@ const SpendMoneyDetailActions = ({
             Prefill from recurring
           </Button>
         ),
+        showSaveAsRecurringButton && (
+          <Button
+            key="saveAsRecurring"
+            name="saveAsRecurring"
+            type="secondary"
+            onClick={onSaveAsRecurringButtonClick}
+            disabled={isActionsDisabled}
+          >
+            Save as recurring
+          </Button>
+        ),
       ]}
     />
   );
@@ -99,6 +113,7 @@ const SpendMoneyDetailActions = ({
 const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
   showPrefillRecurringButton: getShowPrefillRecurringButton(state),
+  showSaveAsRecurringButton: getShowSaveAsRecurring(state),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailActions);

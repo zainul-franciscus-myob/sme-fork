@@ -29,6 +29,7 @@ const SpendMoneyDetailView = ({
   renderJobCombobox,
   renderContactCombobox,
   recurringListModal,
+  recurringModal,
   accountModal,
   contactModal,
   onUpdateHeaderOptions,
@@ -49,6 +50,7 @@ const SpendMoneyDetailView = ({
   attachmentCount,
   onConfirmDeleteButtonClick,
   onPrefillButtonClick,
+  onSaveAsRecurringButtonClick,
   modal,
   onAddAccount,
   onUpdateRow,
@@ -87,6 +89,7 @@ const SpendMoneyDetailView = ({
       onCancelButtonClick={onCancelButtonClick}
       onDeleteButtonClick={onDeleteButtonClick}
       onPrefillButtonClick={onPrefillButtonClick}
+      onSaveAsRecurringButtonClick={onSaveAsRecurringButtonClick}
     />
   );
 
@@ -133,6 +136,7 @@ const SpendMoneyDetailView = ({
       {accountModal}
       {contactModal}
       {recurringListModal}
+      {recurringModal}
       {modal && (
         <SpendMoneyModal
           modal={modal}

@@ -506,3 +506,12 @@ export const getLoadPrefillFromRecurringSpendMoneyUrlParams = (
 
   return { businessId, recurringTransactionId };
 };
+
+export const getShowSaveAsRecurring = (state) =>
+  state.isRecurringTransactionEnabled;
+
+export const getRecurringTransactionModalContext = (state) => ({
+  businessId: getBusinessId(state),
+  transactionType: 'SpendMoney',
+  transaction: getSpendMoneyForCreatePayload(state),
+});

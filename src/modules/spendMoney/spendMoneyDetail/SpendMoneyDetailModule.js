@@ -36,6 +36,7 @@ import {
   getModalUrl,
   getOpenedModalType,
   getRecurringTransactionListModalContext,
+  getRecurringTransactionModalContext,
   getSaveUrl,
   getSelectedPayFromId,
   getSelectedPayToContactId,
@@ -59,6 +60,7 @@ import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from './components/ModalType';
 import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
+import RecurringTransactionModalModule from '../../recurringTransaction/recurringTransactionModal/RecurringTransactionModalModule';
 import SaveActionType from './components/SaveActionType';
 import SpendMoneyDetailView from './components/SpendMoneyDetailView';
 import SpendMoneyElementId from './SpendMoneyElementId';
@@ -102,6 +104,9 @@ export default class SpendMoneyDetailModule {
     this.recurringTransactionListModal = new RecurringTransactionListModalModule(
       { integration }
     );
+    this.recurringTransactionModal = new RecurringTransactionModalModule({
+      integration,
+    });
   }
 
   openAccountModal = (onChange) => {
@@ -497,6 +502,22 @@ export default class SpendMoneyDetailModule {
     });
   };
 
+  openRecurringTransactionModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionModal.run({
+      context: getRecurringTransactionModalContext(state),
+      onLoadFailure: (message) => {
+        this.recurringTransactionModal.close();
+        this.dispatcher.setAlert({ type: 'danger', message });
+      },
+      onSaveSuccess: ({ message }) => {
+        this.recurringTransactionModal.close();
+        this.dispatcher.setAlert({ type: 'success', message });
+      },
+    });
+  };
+
   updateComponentsAfterLoadSpendMoney = () => {
     const state = this.store.getState();
 
@@ -792,10 +813,12 @@ export default class SpendMoneyDetailModule {
     const isCreating = getIsCreating(this.store.getState());
     const accountModal = this.accountModalModule.render();
     const recurringListModal = this.recurringTransactionListModal.render();
+    const recurringModal = this.recurringTransactionModal.render();
 
     const spendMoneyView = (
       <SpendMoneyDetailView
         recurringListModal={recurringListModal}
+        recurringModal={recurringModal}
         renderJobCombobox={this.renderJobCombobox}
         renderContactCombobox={this.renderContactCombobox}
         accountModal={accountModal}
@@ -810,6 +833,7 @@ export default class SpendMoneyDetailModule {
         }
         onConfirmDeleteButtonClick={this.deleteSpendMoneyTransaction}
         onPrefillButtonClick={this.openRecurringTransactionListModal}
+        onSaveAsRecurringButtonClick={this.openRecurringTransactionModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         isCreating={isCreating}
         onUpdateRow={this.updateSpendMoneyLine}
@@ -969,6 +993,11 @@ export default class SpendMoneyDetailModule {
       return;
     }
 
+    if (this.recurringTransactionModal.isOpened()) {
+      this.recurringTransactionModal.save();
+      return;
+    }
+
     const state = this.store.getState();
     const modalType = getOpenedModalType(state);
     switch (modalType) {
@@ -1046,6 +1075,7 @@ export default class SpendMoneyDetailModule {
     this.contactComboboxModule.resetState();
     this.jobComboboxModule.resetState();
     this.recurringTransactionListModal.resetState();
+    this.recurringTransactionModal.resetState();
   }
 
   handlePageTransition = (url) => {
