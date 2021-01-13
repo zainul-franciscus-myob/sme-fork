@@ -41,6 +41,7 @@ describe('PayRunModule', () => {
         integration,
         setRootView,
         pushMessage: [],
+        featureToggles: {},
       });
       payRunModule.run();
       payRunModule.startNewPayRun();
@@ -80,6 +81,7 @@ describe('PayRunModule', () => {
       const module = new PayRunModule({
         integration,
         setRootView,
+        featureToggles: {},
       });
       module.store = store;
       module.dispatcher = createPayRunDispatchers(store);

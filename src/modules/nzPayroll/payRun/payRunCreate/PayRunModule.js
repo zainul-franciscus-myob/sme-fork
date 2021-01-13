@@ -27,11 +27,11 @@ export default class PayRunModule {
     setRootView,
     pushMessage,
     subscribeOrUpgrade,
-    navigateTo,
+    navigateToName,
     featureToggles,
   }) {
     this.integration = integration;
-    this.navigateTo = navigateTo;
+    this.navigateToName = navigateToName;
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
     this.dispatcher = createPayRunDispatchers(this.store);
@@ -59,6 +59,8 @@ export default class PayRunModule {
       }),
       [DONE.key]: new PayRunDoneSubModule({
         integration,
+        navigateToName: this.navigateToName,
+        featureToggles: this.featureToggles,
         store: this.store,
       }),
     };

@@ -2,11 +2,14 @@ import React from 'react';
 
 import { getDashboardUrl } from '../PayRunSelectors';
 import PayRunDoneView from './components/PayRunDoneView';
+import RouteName from '../../../../../router/RouteName';
 
 export default class PayRunDoneSubModule {
-  constructor({ store }, restartPayRun) {
+  constructor({ store, navigateToName, featureToggles }, restartPayRun) {
     this.store = store;
     this.restartPayRun = restartPayRun;
+    this.navigateToName = navigateToName;
+    this.featureToggles = featureToggles;
   }
 
   closePayRun = () => {
@@ -14,7 +17,17 @@ export default class PayRunDoneSubModule {
     window.location.href = getDashboardUrl(state);
   };
 
+  openPaydayFilingReport = () => {
+    this.navigateToName(RouteName.PAYDAY_FILING_NZ);
+  };
+
   render() {
-    return <PayRunDoneView onCloseButtonClick={this.closePayRun} />;
+    return (
+      <PayRunDoneView
+        onCloseButtonClick={this.closePayRun}
+        onOpenPaydayFilingClick={this.openPaydayFilingReport}
+        isNzPayRunsViewEnabled={this.featureToggles.isNzPayRunsViewEnabled}
+      />
+    );
   }
 }

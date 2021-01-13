@@ -4,6 +4,7 @@ import {
   Card,
   PageHead,
   PageState,
+  SignOutIcon,
   Stepper,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -20,9 +21,11 @@ import styles from './PayRunDoneView.module.css';
 
 const PayRunDoneView = ({
   onCloseButtonClick,
+  onOpenPaydayFilingClick,
   paymentDate,
   stepNumber,
   payRunSteps,
+  isNzPayRunsViewEnabled,
 }) => {
   return (
     <React.Fragment>
@@ -36,6 +39,20 @@ const PayRunDoneView = ({
           title="Well done! This pay run is finished!"
           description={`Make sure your employees are paid by ${paymentDate}.`}
           image={<img src={payRunDoneImage} alt="Pay Run Finished!" />}
+          actions={
+            isNzPayRunsViewEnabled
+              ? [
+                  <Button
+                    type="link"
+                    testid="paydayFilingReportButton"
+                    onClick={onOpenPaydayFilingClick}
+                    icon={<SignOutIcon size="1.8rem" />}
+                  >
+                    Payday Filing
+                  </Button>,
+                ]
+              : null
+          }
         />
       </Card>
       <ButtonRow
