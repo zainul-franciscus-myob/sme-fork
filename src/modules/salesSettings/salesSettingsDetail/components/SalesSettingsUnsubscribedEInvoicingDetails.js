@@ -16,12 +16,13 @@ const SalesSettingsUnsubscribedEInvoicingDetails = ({ onMarketPlaceClick }) => (
 
         <p>
           Sending an e-invoice means you can send invoices directly into your
-          customers financial system. It helps reduce costs and improve payment
-          times.
+          customer&apos;s financial system. It helps reduce costs and improve
+          payment times.
         </p>
         <p>
-          We&apos;ve partners with some top e-invoicing providers to ensure you
-          have capability to send e-invoices effectively and securely.
+          We&apos;ve partnered with some prominent e-invoicing providers to
+          ensure you have capability to send e-invoices effectively and
+          securely.
         </p>
 
         <ButtonRow
