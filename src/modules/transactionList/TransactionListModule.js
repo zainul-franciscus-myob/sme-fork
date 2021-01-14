@@ -401,6 +401,7 @@ export default class TransactionListModule {
       context.businessId,
       RouteName.TRANSACTION_LIST
     );
+
     const isFindAndRecodeEnabled = isToggleOn(FeatureToggles.FindAndRecode);
     this.setInitialState(
       {
@@ -418,7 +419,12 @@ export default class TransactionListModule {
     });
     this.render();
     this.readMessages();
-    this.loadCreditsAndDebitsTab();
+
+    if (settings.activeTab) {
+      this.setTab(settings.activeTab);
+    } else {
+      this.loadCreditsAndDebitsTab();
+    }
   }
 
   resetState() {

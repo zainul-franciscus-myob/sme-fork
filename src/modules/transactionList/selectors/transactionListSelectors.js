@@ -53,10 +53,12 @@ export const getFilterOptions = createSelector(
 );
 
 export const getSettings = createSelector(
+  getActiveTab,
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  (filterOptions, sortOrder, orderBy) => ({
+  (activeTab, filterOptions, sortOrder, orderBy) => ({
+    activeTab,
     filterOptions,
     sortOrder,
     orderBy,

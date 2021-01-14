@@ -25,6 +25,7 @@ import {
   UPDATE_PERIOD_DATE_RANGE,
 } from '../TransactionListIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { SORT_AND_FILTER_FIND_AND_RECODE_LIST } from '../findAndRecode/FindAndRecodeIntents';
 import { tabItemIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../findAndRecode/types/ModalType';
@@ -47,7 +48,9 @@ describe('TransactionListModule', () => {
 
   const setup = () => {
     // Mock loadSettings & saveSettings from localStorage to prevent side effects
-    localStorageDriver.loadSettings = () => {};
+    localStorageDriver.loadSettings = jest.fn().mockReturnValue({
+      filterOptions: {},
+    });
     localStorageDriver.saveSettings = () => {};
 
     const setRootView = () => {};
@@ -144,6 +147,99 @@ describe('TransactionListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: LOAD_CREDITS_AND_DEBITS_LIST,
+        }),
+      ]);
+    });
+
+    it('should load the journal transactions tab if the previous active tab within local settings is journal transactions', () => {
+      const { module, store, integration } = setup();
+
+      localStorageDriver.loadSettings = jest.fn().mockReturnValue({
+        activeTab: JOURNAL_TRANSACTIONS,
+        filterOptions: {},
+      });
+
+      module.run({});
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          settings: {
+            activeTab: JOURNAL_TRANSACTIONS,
+            filterOptions: {},
+          },
+          context: {
+            isFindAndRecodeEnabled: true,
+          },
+        },
+        {
+          intent: SET_TAB,
+          tabId: JOURNAL_TRANSACTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          key: JOURNAL_TRANSACTIONS,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_LAST_LOADING_TAB,
+          lastLoadingTab: JOURNAL_TRANSACTIONS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          key: JOURNAL_TRANSACTIONS,
+          isTableLoading: false,
+        },
+        {
+          intent: SORT_AND_FILTER_TRANSACTION_LIST,
+          entries: expect.any(Object),
+          pagination: expect.any(Object),
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_TRANSACTION_LIST,
+        }),
+      ]);
+    });
+
+    it('should load the find & replace tab if the previous active tab within local settings is find & replace', () => {
+      const { module, store, integration } = setup();
+
+      localStorageDriver.loadSettings = jest.fn().mockReturnValue({
+        activeTab: FIND_AND_RECODE,
+        filterOptions: {},
+      });
+
+      module.run({});
+
+      console.log(store.getActions());
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          settings: {
+            activeTab: FIND_AND_RECODE,
+            filterOptions: {},
+          },
+          context: {
+            isFindAndRecodeEnabled: true,
+          },
+        },
+        {
+          intent: SET_TAB,
+          tabId: FIND_AND_RECODE,
+        },
+        {
+          intent: SET_LAST_LOADING_TAB,
+          lastLoadingTab: FIND_AND_RECODE,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
         }),
       ]);
     });
