@@ -49,7 +49,7 @@ const Reporting = ({
           }}
         >
           <div className={styles.container}>
-            <TaskIcon task={tasks} width="90"></TaskIcon>
+            <TaskIcon task={tasks} width="36"></TaskIcon>
             <div>
               <h3>{tasks.title}</h3>
               <p>{tasks.description}</p>

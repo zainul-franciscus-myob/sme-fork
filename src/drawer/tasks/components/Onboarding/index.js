@@ -34,11 +34,18 @@ const Onboarding = ({
   isActiveRoute,
   constructPath,
 }) => {
-  const isActiveTask = (task) =>
-    hasNoChildren(task) &&
-    (oldIsTaskActive(task) ||
-      (task.routeName &&
-        isActiveRoute(task.routeName, task.routeParams, false)));
+  const isActiveTask = (task) => {
+    return (
+      hasNoChildren(task) &&
+      (oldIsTaskActive(task) ||
+        (task.routeName &&
+          isActiveRoute(
+            task.routeName,
+            task.routeParams,
+            !!task.ignoreQueryParams
+          )))
+    );
+  };
 
   /** A link to the target route of a task. */
   const TaskLink = ({ task, children }) => {
