@@ -11,7 +11,7 @@ import AccordionRowTypes from '../../../../../components/Accordion/AccordionRowT
 import AccordionTable from '../../../../../components/Accordion/AccordionTable';
 import CollapsibleTableRow from '../../../../../components/Accordion/CollapsibleTableRow';
 import InvoiceHistoryAccordianStatus from '../../types/InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatusPretty from '../../types/InvoiceHistoryStatusPretty';
+import InvoiceHistoryStatusPretty from '../../../InvoiceHistoryStatusPretty';
 import InvoiceHistoryTable from './InvoiceHistoryTable';
 import ServiceUnavailableImage from '../../../../../components/ServiceUnavailableImage/ServiceUnavailableImage';
 import styles from './InvoiceHistory.module.css';

@@ -16,6 +16,7 @@ const InvoiceListTable = ({
   isTableLoading,
   isTableEmpty,
   isDefaultFilter,
+  isInvoiceListActivityColumnEnabled,
   tableConfig,
   onCreateInvoiceButtonClick,
 }) => {
@@ -48,7 +49,10 @@ const InvoiceListTable = ({
       isEmpty={isTableEmpty}
       emptyView={emptyTableView}
     >
-      <InvoiceListTableBody tableConfig={tableConfig} />
+      <InvoiceListTableBody
+        tableConfig={tableConfig}
+        isInvoiceListActivityColumnEnabled={isInvoiceListActivityColumnEnabled}
+      />
     </StickyTableBody>
   );
 };

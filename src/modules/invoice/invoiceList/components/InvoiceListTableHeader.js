@@ -6,7 +6,12 @@ import { getOrder } from '../invoiceListSelectors';
 import { getResponsiveConfig } from './getResponsiveConfig';
 
 const InvoiceListTableHeader = (props) => {
-  const { onSort, order, tableConfig } = props;
+  const {
+    onSort,
+    order,
+    tableConfig,
+    isInvoiceListActivityColumnEnabled,
+  } = props;
 
   return (
     <Table responsiveWidths={getResponsiveConfig(tableConfig)}>
@@ -99,6 +104,19 @@ const InvoiceListTableHeader = (props) => {
             onSort={onSort}
           />
         </Table.HeaderItem>
+        {isInvoiceListActivityColumnEnabled && (
+          <Table.HeaderItem
+            columnName={tableConfig.activity.columnName}
+            {...tableConfig.activity}
+          >
+            <HeaderSort
+              title="Activity"
+              sortName="Activity"
+              activeSort={order}
+              onSort={onSort}
+            />
+          </Table.HeaderItem>
+        )}
       </Table.Header>
     </Table>
   );

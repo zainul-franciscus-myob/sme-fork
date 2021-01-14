@@ -1,6 +1,6 @@
 import FormatDateWithPattern from '../../../../common/valueFormatters/formatDate/formatDateWithPattern';
 import InvoiceHistoryAccordianStatus from '../types/InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatus from '../types/InvoiceHistoryStatus';
+import InvoiceHistoryStatus from '../../InvoiceHistoryStatus';
 
 const getDate = (date) => FormatDateWithPattern('dd/MM/yyyy')(new Date(date));
 

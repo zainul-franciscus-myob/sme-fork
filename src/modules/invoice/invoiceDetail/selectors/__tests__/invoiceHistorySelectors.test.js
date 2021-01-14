@@ -5,7 +5,7 @@ import {
   getTime,
 } from '../invoiceHistorySelectors';
 import InvoiceHistoryAccordionStatus from '../../types/InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
+import InvoiceHistoryStatus from '../../../InvoiceHistoryStatus';
 
 describe('invoiceHistorySelectors', () => {
   describe('getMostRecentStatus', () => {

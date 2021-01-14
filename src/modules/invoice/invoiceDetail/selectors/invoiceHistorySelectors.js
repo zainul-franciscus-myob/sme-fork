@@ -1,7 +1,7 @@
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
 import FormatDateWithPattern from '../../../../common/valueFormatters/formatDate/formatDateWithPattern';
 import InvoiceHistoryAccordionStatus from '../types/InvoiceHistoryAccordionStatus';
-import InvoiceHistoryStatus from '../types/InvoiceHistoryStatus';
+import InvoiceHistoryStatus from '../../InvoiceHistoryStatus';
 
 export const getInvoiceHistory = (state) => state.invoiceHistory;
 

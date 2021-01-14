@@ -1,5 +1,5 @@
 import { loadInvoiceHistory } from '../InvoiceHistoryReducer';
-import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
+import InvoiceHistoryStatus from '../../../InvoiceHistoryStatus';
 
 describe('InvoiceHistoryReducer', () => {
   const event = {

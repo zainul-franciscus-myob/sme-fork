@@ -4,8 +4,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import { getInvoiceHistoryTable } from '../../selectors/invoiceHistorySelectors';
-import InvoiceHistoryStatus from '../../types/InvoiceHistoryStatus';
-import InvoiceHistoryStatusPretty from '../../types/InvoiceHistoryStatusPretty';
+import InvoiceHistoryStatus from '../../../InvoiceHistoryStatus';
+import InvoiceHistoryStatusPretty from '../../../InvoiceHistoryStatusPretty';
 import styles from './InvoiceHistoryTable.module.css';
 
 const iconAndStatusClassName = (status) =>

@@ -22,6 +22,7 @@ const tableConfig = {
   invoiceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
   dateDue: { columnName: 'Due date', valign: 'top', align: 'left' },
   status: { columnName: 'Status', valign: 'middle', align: 'left' },
+  activity: { columnName: 'Activity', valign: 'middle', align: 'left' },
 };
 
 const InvoiceListView = ({
@@ -34,6 +35,7 @@ const InvoiceListView = ({
   onDismissAlert,
   onLoadMoreButtonClick,
   loadMoreButtonStatus,
+  isInvoiceListActivityColumnEnabled,
 }) => {
   const filterBar = (
     <InvoiceListFilterOptions
@@ -55,13 +57,18 @@ const InvoiceListView = ({
   );
 
   const tableHeader = (
-    <InvoiceListTableHeader tableConfig={tableConfig} onSort={onSort} />
+    <InvoiceListTableHeader
+      tableConfig={tableConfig}
+      onSort={onSort}
+      isInvoiceListActivityColumnEnabled={isInvoiceListActivityColumnEnabled}
+    />
   );
 
   const listTable = (
     <InvoiceListTable
       tableConfig={tableConfig}
       onCreateInvoiceButtonClick={onCreateInvoiceButtonClick}
+      isInvoiceListActivityColumnEnabled={isInvoiceListActivityColumnEnabled}
     />
   );
 

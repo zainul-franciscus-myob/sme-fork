@@ -32,6 +32,7 @@ export default {
       status: 'Open',
       dateDue: '2020-09-25T00:00:00.000',
       dateDueDisplay: '25/09/2020',
+      activity: 'VIEWED_ONLINE',
     },
     {
       id: 'item-id',
@@ -60,6 +61,7 @@ export default {
       status: 'Open',
       dateDueDisplay: '01/10/2017',
       dateDue: '2017-10-01T00:00:00.000',
+      activity: 'DELIVERY_FAILED',
     },
     {
       id: 'item-readonly-id',
@@ -74,6 +76,7 @@ export default {
       status: 'Closed',
       dateDueDisplay: 'Prepaid',
       dateDue: '2019-02-25T00:00:00.000',
+      activity: 'EMAILED',
     },
   ],
   pagination: {

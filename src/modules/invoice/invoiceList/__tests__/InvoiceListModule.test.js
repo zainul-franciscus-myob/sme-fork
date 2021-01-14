@@ -34,6 +34,7 @@ describe('InvoiceListModule', () => {
       integration,
       setRootView,
       popMessages,
+      featureToggles: { isInvoiceListActivityColumnEnabled: true },
     });
     module.store = store;
     module.dispatcher = createInvoiceListDispatcher(store);

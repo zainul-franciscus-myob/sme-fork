@@ -1,3 +1,19 @@
 .tableBody {
   min-height: 60vh;
 }
+
+.errorIcon {
+  color: var(--flx-palette-berry);
+ }
+ 
+ .errorIcon svg{
+   fill: var(--flx-palette-berry);
+ }
+ 
+ .icons > * {
+   vertical-align: middle;
+ }
+ 
+ .icons svg:first-child {
+   margin-right: var(--flx-spacing-tiny);
+ }

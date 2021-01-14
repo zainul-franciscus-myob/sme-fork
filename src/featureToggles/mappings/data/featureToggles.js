@@ -24,4 +24,5 @@ export default {
   isNzPayrollAccountingEnabled: true,
   isEInvoicingEnabled: true,
   isNzPayRunsViewEnabled: true,
+  isInvoiceListActivityColumnEnabled: true,
 };

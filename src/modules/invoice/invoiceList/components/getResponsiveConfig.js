@@ -47,7 +47,7 @@ export const getResponsiveConfig = (tableConfig) => [
       },
       {
         columnName: tableConfig.purchaseOrder.columnName,
-        styles: { width: '15.2rem' },
+        styles: { width: '15rem' },
       },
       {
         columnName: tableConfig.invoiceAmount.columnName,

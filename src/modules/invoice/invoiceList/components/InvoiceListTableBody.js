@@ -1,12 +1,28 @@
-import { Label, Table } from '@myob/myob-widgets';
+import { Icons, Label, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import { getTableEntries } from '../invoiceListSelectors';
+import InvoiceHistoryStatus from '../../InvoiceHistoryStatus.js';
+import InvoiceHistoryStatusPretty from '../../InvoiceHistoryStatusPretty';
 import styles from './InvoiceListTableBody.module.css';
 
+const iconAndStatusClassName = (activity) =>
+  classNames({
+    [styles.errorIcon]: [InvoiceHistoryStatus.DELIVERY_FAILED].includes(
+      activity
+    ),
+  });
+
+const icon = {
+  [InvoiceHistoryStatus.VIEWED_ONLINE]: <Icons.Show />,
+  [InvoiceHistoryStatus.EMAILED]: <Icons.Mail />,
+  [InvoiceHistoryStatus.DELIVERY_FAILED]: <Icons.Error />,
+};
+
 const InvoiceListTableBody = (props) => {
-  const { entries, tableConfig } = props;
+  const { entries, tableConfig, isInvoiceListActivityColumnEnabled } = props;
 
   const rows = entries.map((entry) => (
     <Table.Row key={entry.id}>
@@ -34,6 +50,19 @@ const InvoiceListTableBody = (props) => {
           {entry.status}
         </Label>
       </Table.RowItem>
+      {isInvoiceListActivityColumnEnabled && (
+        <Table.RowItem
+          {...tableConfig.activity}
+          title={InvoiceHistoryStatusPretty[entry.activity]}
+          className={classNames(
+            styles.icons,
+            iconAndStatusClassName(entry.activity)
+          )}
+        >
+          {icon[entry.activity]}
+          <span>{InvoiceHistoryStatusPretty[entry.activity]}</span>
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 

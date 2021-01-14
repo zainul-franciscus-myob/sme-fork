@@ -32,13 +32,14 @@ const messageTypes = [
 ];
 
 export default class InvoiceListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({ integration, setRootView, popMessages, featureToggles }) {
     this.store = new Store(invoiceListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
     this.dispatcher = createInvoiceListDispatcher(this.store);
     this.integrator = createInvoiceListIntegrator(this.store, integration);
+    this.featureToggles = featureToggles;
   }
 
   loadInvoiceList = () => {
@@ -157,6 +158,9 @@ export default class InvoiceListModule {
         onSort={this.sortInvoiceList}
         onLoadMoreButtonClick={this.loadNextPage}
         onCreateInvoiceButtonClick={this.redirectToCreateNewInvoice}
+        isInvoiceListActivityColumnEnabled={
+          this.featureToggles.isInvoiceListActivityColumnEnabled
+        }
       />
     );
 
