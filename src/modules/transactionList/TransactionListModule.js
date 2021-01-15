@@ -420,7 +420,7 @@ export default class TransactionListModule {
     this.render();
     this.readMessages();
 
-    if (settings.activeTab) {
+    if (settings && settings.activeTab) {
       this.setTab(settings.activeTab);
     } else {
       this.loadCreditsAndDebitsTab();
