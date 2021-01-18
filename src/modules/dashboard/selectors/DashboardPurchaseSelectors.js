@@ -1,7 +1,11 @@
-import { addDays, startOfMonth, subYears } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
+import { startOfMonth } from 'date-fns';
 
-import { getBusinessId, getRegion } from './DashboardSelectors';
+import {
+  getBusinessId,
+  getLast12MonthsDateRange,
+  getRegion,
+} from './DashboardSelectors';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getPurchaseEntries = (state) => state.purchase.entries;
@@ -30,21 +34,19 @@ export const getBillListLink = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/bill`
 );
 
-export const getUnpaidTotalLink = createSelector(getBillListLink, (link) => {
-  const today = new Date();
-  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
-  const dateTo = formatIsoDate(today);
+export const getUnpaidTotalLink = createSelector(
+  getBillListLink,
+  getLast12MonthsDateRange,
+  (link, { dateFrom, dateTo }) =>
+    `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open`
+);
 
-  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open`;
-});
-
-export const getOverDueTotalLink = createSelector(getBillListLink, (link) => {
-  const today = new Date();
-  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
-  const dateTo = formatIsoDate(today);
-
-  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
-});
+export const getOverDueTotalLink = createSelector(
+  getBillListLink,
+  getLast12MonthsDateRange,
+  (link, { dateFrom, dateTo }) =>
+    `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`
+);
 
 export const getPurchaseTotalLink = createSelector(getBillListLink, (link) => {
   const today = new Date();
@@ -85,6 +87,11 @@ export const getPurchaseTableEntries = createSelector(
     }))
 );
 
-export const getLoadPurchaseParams = () => ({
-  todayDate: formatIsoDate(new Date()),
-});
+export const getLoadPurchaseParams = createSelector(
+  getLast12MonthsDateRange,
+  ({ dateFrom, dateTo }) => ({
+    todayDate: new Date(),
+    dateFrom,
+    dateTo,
+  })
+);

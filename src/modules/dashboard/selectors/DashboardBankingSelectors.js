@@ -1,6 +1,10 @@
 import { createSelector, createStructuredSelector } from 'reselect';
 
-import { getBusinessId, getRegion } from './DashboardSelectors';
+import {
+  getBusinessId,
+  getLast12MonthsDateRange,
+  getRegion,
+} from './DashboardSelectors';
 import Config from '../../../Config';
 import TransactionTypes from '../../banking/types/TransactionTypes';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -41,17 +45,24 @@ export const getBalanceDateText = createSelector(
       : "Your bank hasn't provided a statement date."
 );
 
-export const getLoadBankingParams = (state) => ({
-  bankFeedAccountId: state.banking.bankFeedAccountId,
-  statementDate: formatIsoDate(new Date()),
-});
+export const getLoadBankingParams = createSelector(
+  getSelectedBankFeedAccount,
+  getLast12MonthsDateRange,
+  (bankFeedAccountId, { dateFrom, dateTo }) => ({
+    bankFeedAccountId,
+    statementDate: formatIsoDate(new Date()),
+    dateFrom,
+    dateTo,
+  })
+);
 
 export const getBankingLink = createSelector(
   getBusinessId,
   getRegion,
   getSelectedBankFeedAccount,
-  (businessId, region, bankAccount) =>
-    `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}&transactionType=${TransactionTypes.UNALLOCATED}`
+  getLast12MonthsDateRange,
+  (businessId, region, bankAccount, { dateFrom, dateTo }) =>
+    `/#/${region}/${businessId}/banking?bankAccount=${bankAccount}&transactionType=${TransactionTypes.UNALLOCATED}&dateFrom=${dateFrom}&dateTo=${dateTo}`
 );
 
 export const getBankfeedAmount = createStructuredSelector({

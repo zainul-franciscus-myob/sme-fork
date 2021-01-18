@@ -20,7 +20,7 @@ const DashboardTotalSummary = ({ items = [], className = '' }) => {
 
       const tooltipOrLink = tooltip ? (
         <a key={title} href={link}>
-          <Tooltip triggerContent={headerItem}>Past 12 Months</Tooltip>
+          <Tooltip triggerContent={headerItem}>Last 12 Months</Tooltip>
         </a>
       ) : (
         <a key={title} href={link}>

@@ -1,7 +1,11 @@
-import { addDays, startOfMonth, subYears } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
+import { startOfMonth } from 'date-fns';
 
-import { getBusinessId, getRegion } from './DashboardSelectors';
+import {
+  getBusinessId,
+  getLast12MonthsDateRange,
+  getRegion,
+} from './DashboardSelectors';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 const getSalesEntries = (state) => state.sales.entries;
@@ -30,23 +34,18 @@ export const getInvoiceListLink = createSelector(
   (businessId, region) => `/#/${region}/${businessId}/invoice`
 );
 
-export const getUnpaidTotalLink = createSelector(getInvoiceListLink, (link) => {
-  const today = new Date();
-  const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
-  const dateTo = formatIsoDate(today);
-
-  return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateOccurred&sortOrder=desc`;
-});
+export const getUnpaidTotalLink = createSelector(
+  getInvoiceListLink,
+  getLast12MonthsDateRange,
+  (link, { dateFrom, dateTo }) =>
+    `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateOccurred&sortOrder=desc`
+);
 
 export const getOverDueTotalLink = createSelector(
   getInvoiceListLink,
-  (link) => {
-    const today = new Date();
-    const dateFrom = formatIsoDate(addDays(subYears(today, 1), 1));
-    const dateTo = formatIsoDate(today);
-
-    return `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`;
-  }
+  getLast12MonthsDateRange,
+  (link, { dateFrom, dateTo }) =>
+    `${link}?dateFrom=${dateFrom}&dateTo=${dateTo}&status=Open&orderBy=DateDue&sortOrder=desc`
 );
 
 export const getInvoiceTotalLink = createSelector(
@@ -90,6 +89,11 @@ export const getSalesTableEntries = createSelector(
     }))
 );
 
-export const getLoadSalesParams = () => ({
-  todayDate: formatIsoDate(new Date()),
-});
+export const getLoadSalesParams = createSelector(
+  getLast12MonthsDateRange,
+  ({ dateFrom, dateTo }) => ({
+    todayDate: new Date(),
+    dateFrom,
+    dateTo,
+  })
+);

@@ -1,5 +1,7 @@
 import { createStructuredSelector } from 'reselect';
-import { getHours } from 'date-fns';
+import { getHours, subYears } from 'date-fns';
+
+import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
 
 export const getShouldShowBanking = (state) =>
   state.enabled.includes('banking');
@@ -52,3 +54,14 @@ export const getShouldUsePayrollLayout = (state) =>
   !getShouldShowSales(state) &&
   !getShouldShowBankFeedBalance(state) &&
   !getShouldShowBanking(state);
+
+export const getLast12MonthsDateRange = () => {
+  const today = new Date();
+  const dateFrom = formatIsoDate(subYears(today, 1));
+  const dateTo = formatIsoDate(today);
+
+  return {
+    dateFrom,
+    dateTo,
+  };
+};
