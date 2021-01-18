@@ -5,17 +5,22 @@ const loadTasks = async ({ dispatcher, integration, store }) => {
 
   if (!businessId || !region) return;
 
-  const tasks = await new Promise((resolve, reject) =>
+  const tasks = await new Promise((resolve) =>
     integration.read({
       intent: GET_TASKS_LIST,
       urlParams: { businessId },
       params: { region },
       onSuccess: resolve,
-      onFailure: reject,
+      onFailure: () => {
+        dispatcher.loadTasksFailure();
+        resolve();
+      },
     })
   );
 
-  dispatcher.loadTasks(tasks);
+  if (tasks) {
+    dispatcher.loadTasks(tasks);
+  }
 };
 
 export default loadTasks;

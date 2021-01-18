@@ -16,6 +16,8 @@ export const getAreOnboardingSettingsLoaded = (state) =>
   state.areOnboardingSettingsLoaded;
 export const getPreviousSettingsBusinessId = (state) =>
   state.previousSettingsBusinessId;
+export const getUpdateTasksFailure = (state) => state.updateTasksFailure;
+export const getGetTasksListFailure = (state) => state.getGetTasksListFailure;
 
 export const getHasCheckedBrowserAlert = (state) =>
   state.hasCheckedBrowserAlert;

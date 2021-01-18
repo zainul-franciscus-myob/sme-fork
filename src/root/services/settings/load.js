@@ -17,19 +17,24 @@ const load = async (dispatcher, integration, store) => {
   )
     return;
 
-  const settings = await new Promise((resolve, reject) =>
+  const settings = await new Promise((resolve) =>
     integration.read({
       intent: LOAD_SETTINGS,
       urlParams: { businessId },
       onSuccess: resolve,
-      onFailure: reject,
+      onFailure: () => {
+        dispatcher.loadSettingsFailure();
+        resolve();
+      },
     })
   );
 
-  dispatcher.loadSettings({
-    ...settings,
-    previousSettingsBusinessId: businessId,
-  });
+  if (settings) {
+    dispatcher.loadSettings({
+      ...settings,
+      previousSettingsBusinessId: businessId,
+    });
+  }
 };
 
 export default load;

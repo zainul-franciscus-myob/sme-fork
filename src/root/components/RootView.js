@@ -18,13 +18,24 @@ const RootView = ({
   tasks,
   browserAlert,
   onDismissBrowserAlert,
+  updateTasksFailure,
+  getTasksListFailure,
+  updateOnboardingSettingsFailure,
 }) => {
   if (isLoading) return <LoadingPageState />;
-  if (shouldShowOnboarding) return onboarding.render();
+  if (shouldShowOnboarding) {
+    return onboarding.render(updateOnboardingSettingsFailure);
+  }
+
+  const drawerTasks = {
+    tasks,
+    updateTasksFailure,
+    getTasksListFailure,
+  };
 
   return (
     <div id="main" className={style.main}>
-      {drawer.render(tasks)}
+      {drawer.render(drawerTasks)}
       <div className={style.navAndRootView}>
         {nav.render(tasks, businessName, serialNumber, businessRole)}
         {browserAlert && (
@@ -47,6 +58,9 @@ const mapStateToProps = ({
   shouldShowOnboarding,
   tasks,
   browserAlert,
+  updateTasksFailure,
+  getTasksListFailure,
+  updateOnboardingSettingsFailure,
 }) => ({
   businessName: organisationName,
   businessRole,
@@ -55,6 +69,9 @@ const mapStateToProps = ({
   shouldShowOnboarding,
   tasks,
   browserAlert,
+  updateTasksFailure,
+  getTasksListFailure,
+  updateOnboardingSettingsFailure,
 });
 
 export default connect(mapStateToProps)(RootView);

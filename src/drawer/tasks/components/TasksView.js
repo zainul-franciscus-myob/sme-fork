@@ -1,4 +1,4 @@
-import { Aside, PageState } from '@myob/myob-widgets';
+import { Alert, Aside, PageState } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -25,6 +25,8 @@ const TasksView = ({
   systemUpgradedMessageTask,
   isActiveRoute,
   constructPath,
+  updateTasksFailure,
+  getTasksListFailure,
   upgradeReportingTask,
   openReportingModal,
   closeReportingModal,
@@ -34,6 +36,13 @@ const TasksView = ({
     welcomeTask ||
     systemUpgradedMessageTask ||
     (onboardingTasks && onboardingTasks.length > 0);
+
+  const alert = updateTasksFailure
+    ? {
+        type: 'danger',
+        message: 'Sorry, we couldn’t close the task. Try again later.',
+      }
+    : null;
 
   const tasksView = () => (
     <div>
@@ -73,7 +82,11 @@ const TasksView = ({
       image={
         <img src={emptyStateImage} alt="no tasks" style={{ width: '10rem' }} />
       }
-      title="Nice work, you're all caught up!"
+      title={
+        getTasksListFailure
+          ? 'Sorry, we couldn’t load the tasks.'
+          : "Nice work, you're all caught up!"
+      }
     />
   );
 
@@ -90,6 +103,7 @@ const TasksView = ({
 
   return (
     <Aside header={header}>
+      {alert && <Alert type={alert.type}>{alert.message}</Alert>}
       <PageView loadingState={loadingState} view={view} />
     </Aside>
   );

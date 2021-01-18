@@ -56,14 +56,16 @@ export default class DrawerModule {
 
   closeDrawer = () => this.dispatcher.closeDrawer();
 
-  render = (tasks) => {
+  render = (drawerTasks) => {
     const { store, subModules } = this;
 
     return (
       <Provider store={store}>
         <Drawer>
           {Object.values(subModules).map((sm) => {
-            if (sm === subModules[views.TASKS]) return sm.getView(tasks);
+            if (sm === subModules[views.TASKS]) {
+              return sm.getView(drawerTasks);
+            }
             return sm.getView();
           })}
         </Drawer>

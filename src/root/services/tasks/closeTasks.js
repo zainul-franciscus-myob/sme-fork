@@ -12,17 +12,22 @@ const closeTasks = async ({ dispatcher, integration, store, context }) => {
     reactsToCloseEvent(tasks, closeEvent) ||
     isDismissEvent(closeEvent)
   ) {
-    const newTasks = await new Promise((resolve, reject) =>
+    const newTasks = await new Promise((resolve) =>
       integration.write({
         intent: CLOSE_TASKS,
         urlParams: { businessId, closeEvent },
         onSuccess: resolve,
-        onFailure: reject,
+        onFailure: () => {
+          dispatcher.updateTasksFailure();
+          resolve();
+        },
         allowParallelRequests: true,
       })
     );
 
-    dispatcher.updateTasks(newTasks);
+    if (newTasks) {
+      dispatcher.updateTasks(newTasks);
+    }
   }
 };
 

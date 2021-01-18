@@ -1,10 +1,13 @@
 import {
   DISMISS_TASK,
   GET_TASKS_LIST,
+  GET_TASKS_LIST_FAILURE,
   LOAD_SETTINGS,
+  LOAD_SETTINGS_FAILURE,
   LOAD_SHARED_INFO,
   LOAD_SUBSCRIPTION,
   SAVE_SETTINGS,
+  SAVE_SETTINGS_FAILURE,
   SET_BROWSER_ALERT,
   SET_BUSINESS_ID,
   SET_HAS_CHECKED_BROWSER_ALERT,
@@ -12,6 +15,7 @@ import {
   SET_REGION,
   SET_VIEW_DATA,
   UPDATE_TASKS,
+  UPDATE_TASKS_FAILURE,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 
@@ -21,9 +25,19 @@ const createRootDispatcher = (store) => ({
     store.dispatch({ intent, settings });
   },
 
+  loadSettingsFailure: () => {
+    const intent = LOAD_SETTINGS_FAILURE;
+    store.dispatch({ intent, getOnboardingSettingsFailure: true });
+  },
+
   saveSettings: (settings) => {
     const intent = SAVE_SETTINGS;
     store.dispatch({ intent, settings });
+  },
+
+  saveSettingsFailure: () => {
+    const intent = SAVE_SETTINGS_FAILURE;
+    store.dispatch({ intent, updateOnboardingSettingsFailure: true });
   },
 
   loadTasks: (payload) => {
@@ -31,9 +45,19 @@ const createRootDispatcher = (store) => ({
     store.dispatch({ intent, payload });
   },
 
+  loadTasksFailure: () => {
+    const intent = GET_TASKS_LIST_FAILURE;
+    store.dispatch({ intent, getTasksListFailure: true });
+  },
+
   updateTasks: (tasks) => {
     const intent = UPDATE_TASKS;
     store.dispatch({ intent, tasks });
+  },
+
+  updateTasksFailure: () => {
+    const intent = UPDATE_TASKS_FAILURE;
+    store.dispatch({ intent, updateTasksFailure: true });
   },
 
   dismissTask: (taskKey) => {

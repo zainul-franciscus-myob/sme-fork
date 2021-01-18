@@ -1,10 +1,13 @@
 import {
   DISMISS_TASK,
   GET_TASKS_LIST,
+  GET_TASKS_LIST_FAILURE,
   LOAD_SETTINGS,
+  LOAD_SETTINGS_FAILURE,
   LOAD_SHARED_INFO,
   LOAD_SUBSCRIPTION,
   SAVE_SETTINGS,
+  SAVE_SETTINGS_FAILURE,
   SET_BROWSER_ALERT,
   SET_BUSINESS_ID,
   SET_HAS_CHECKED_BROWSER_ALERT,
@@ -12,6 +15,7 @@ import {
   SET_REGION,
   SET_VIEW_DATA,
   UPDATE_TASKS,
+  UPDATE_TASKS_FAILURE,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
@@ -28,6 +32,10 @@ const getDefaultState = () => ({
   hasCheckedBrowserAlert: false,
   areOnboardingSettingsLoaded: false,
   proposedBusinessName: '',
+  updateTasksFailure: false,
+  getTasksListFailure: false,
+  getOnboardingSettingsFailure: false,
+  updateOnboardingSettingsFailure: false,
 });
 
 const setBusinessId = (state, { businessId }) => ({
@@ -50,6 +58,7 @@ const setOnboarding = (state, action) => ({
   ...action.settings,
   shouldShowOnboarding: shouldShowOnboarding(action.settings),
   areOnboardingSettingsLoaded: true,
+  getOnboardingSettingsFailure: false,
 });
 
 const setViewData = (state, action) => ({
@@ -57,29 +66,76 @@ const setViewData = (state, action) => ({
   ...action.data,
 });
 
-const loadTasks = (state, action) => ({
-  ...state,
-  tasks: action.payload,
-});
+const loadTasks = (state, action) => {
+  return {
+    ...state,
+    tasks: action.payload,
+    getTasksListFailure: false,
+  };
+};
 
 const updateTasks = (state, { tasks: newTasks }) => {
   const oldTasks = state.tasks;
 
-  const mergedTasks = oldTasks.map((oldTask) => {
-    const newTaskIndex = newTasks.findIndex((t) => t.key === oldTask.key);
+  if (newTasks) {
+    const mergedTasks = oldTasks.map((oldTask) => {
+      const newTaskIndex = newTasks.findIndex((t) => t.key === oldTask.key);
 
-    if (newTaskIndex < 0) return oldTask;
+      if (newTaskIndex < 0) return oldTask;
 
-    const newTask = newTasks[newTaskIndex];
-    newTasks.splice(newTaskIndex, 1);
-    return newTask;
-  });
+      const newTask = newTasks[newTaskIndex];
+      newTasks.splice(newTaskIndex, 1);
+      return newTask;
+    });
 
-  if (newTasks.length > 0) {
-    mergedTasks.push(...newTasks);
+    if (newTasks.length > 0) {
+      mergedTasks.push(...newTasks);
+    }
+
+    return {
+      ...state,
+      tasks: mergedTasks,
+      updateTasksFailure: false,
+    };
   }
 
-  return { ...state, tasks: mergedTasks };
+  return { ...state, tasks: oldTasks };
+};
+
+const setUpdateTasksFailure = (state, { updateTasksFailure }) => {
+  return {
+    ...state,
+    updateTasksFailure,
+  };
+};
+
+const setUpdateOnboardingSettingsFailure = (
+  state,
+  { updateOnboardingSettingsFailure }
+) => {
+  return {
+    ...state,
+    updateOnboardingSettingsFailure,
+  };
+};
+
+const setGetTasksListFailure = (state, { getTasksListFailure }) => {
+  return {
+    ...state,
+    getTasksListFailure,
+  };
+};
+
+const setGetOnboardingSettingsFailure = (
+  state,
+  { getOnboardingSettingsFailure }
+) => {
+  return {
+    ...state,
+    getOnboardingSettingsFailure,
+    shouldShowOnboarding: false,
+    areOnboardingSettingsLoaded: false,
+  };
 };
 
 const dismissTask = (state, { taskKey }) => {
@@ -120,12 +176,16 @@ const setHasCheckedBrowserAlert = (state) => ({
 const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
+  [LOAD_SETTINGS_FAILURE]: setGetOnboardingSettingsFailure,
   [SAVE_SETTINGS]: setOnboarding,
+  [SAVE_SETTINGS_FAILURE]: setUpdateOnboardingSettingsFailure,
   [SET_VIEW_DATA]: setViewData,
   [SET_BUSINESS_ID]: setBusinessId,
   [SET_REGION]: setRegion,
   [GET_TASKS_LIST]: loadTasks,
+  [GET_TASKS_LIST_FAILURE]: setGetTasksListFailure,
   [UPDATE_TASKS]: updateTasks,
+  [UPDATE_TASKS_FAILURE]: setUpdateTasksFailure,
   [LOAD_GLOBAL_BUSINESS_DETAILS]: loadBusinessDetails,
   [DISMISS_TASK]: dismissTask,
   [LOAD_SHARED_INFO]: loadSharedInfo,

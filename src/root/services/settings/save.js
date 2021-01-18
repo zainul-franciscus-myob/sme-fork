@@ -18,7 +18,7 @@ const save = async (
   dispatcher.setLoadingState(true);
 
   try {
-    const settings = await new Promise((resolve, reject) =>
+    const settings = await new Promise((resolve) =>
       integration.write({
         intent,
         urlParams,
@@ -30,11 +30,16 @@ const save = async (
           onboardingComplete,
         },
         onSuccess: resolve,
-        onFailure: reject,
+        onFailure: () => {
+          dispatcher.saveSettingsFailure();
+          resolve();
+        },
       })
     );
 
-    dispatcher.saveSettings(settings);
+    if (settings) {
+      dispatcher.saveSettings(settings);
+    }
   } catch (error) {
     console.error(error); // eslint-disable-line no-console
   }

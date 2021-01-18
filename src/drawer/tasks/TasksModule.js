@@ -23,7 +23,7 @@ export default class TasksModule {
     this.constructPath = constructPath;
   }
 
-  getView = (tasks) => {
+  getView = (drawerTasks) => {
     const {
       tasksService,
       closeView,
@@ -31,6 +31,7 @@ export default class TasksModule {
       isActiveRoute,
       constructPath,
     } = this;
+    const { tasks } = drawerTasks;
     const { closeTasks, dismissTask } = tasksService;
     const welcomeTask =
       tasks && tasks.find((task) => task.template === 'welcome');
@@ -61,6 +62,8 @@ export default class TasksModule {
           dismissTask={dismissTask}
           isActiveRoute={isActiveRoute}
           constructPath={constructPath}
+          updateTasksFailure={drawerTasks.updateTasksFailure}
+          getTasksListFailure={drawerTasks.getTasksListFailure}
           upgradeReportingTask={upgradeReportingTask}
           openReportingModal={dispatcher.openReportingModal}
           closeReportingModal={dispatcher.closeReportingModal}

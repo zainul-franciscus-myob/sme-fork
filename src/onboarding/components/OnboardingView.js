@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   ButtonRow,
   Card,
@@ -46,6 +47,14 @@ class OnboardingView extends Component {
     this.dispatcher = props.dispatcher;
     this.onSave = props.onSave;
     this.businessId = props.businessId;
+
+    this.alert = props.updateOnboardingSettingsFailure
+      ? {
+          type: 'danger',
+          message:
+            'Sorry, we couldn’t save some fields in the onboarding form. Try again later.',
+        }
+      : null;
   }
 
   componentDidMount() {
@@ -195,7 +204,9 @@ class OnboardingView extends Component {
               />
             </div>
           </Card>
-
+          {this.alert && (
+            <Alert type={this.alert.type}>{this.alert.message}</Alert>
+          )}
           <div>
             <ButtonRow>
               <Button onClick={this.save}>Get down to business</Button>

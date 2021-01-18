@@ -39,7 +39,7 @@ class OnboardingModule {
 
   onboardingVisited = () => recordPageVisit(this.routeProps);
 
-  render = () => {
+  render = (updateOnboardingSettingsFailure) => {
     const { dispatcher, save, onboardingVisited, businessId } = this;
 
     return (
@@ -48,6 +48,7 @@ class OnboardingModule {
         onSave={save}
         dispatcher={dispatcher}
         onLoad={onboardingVisited}
+        updateOnboardingSettingsFailure={updateOnboardingSettingsFailure}
       />
     );
   };
