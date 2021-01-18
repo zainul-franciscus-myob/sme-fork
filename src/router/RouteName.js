@@ -87,6 +87,7 @@ const RouteName = {
   ELECTRONIC_PAYMENTS_READ: 'electronicPayments/electronicPaymentsRead',
   CUSTOMER_STATEMENT_LIST: 'customerStatement/customerStatementList',
   EMPLOYEE_PAY_DETAIL: 'employeePay/employeePayDetail',
+  EMPLOYEE_PAY_DETAIL_NZ: 'employeePay/employeePayDetailNz',
   REPORTS_STANDARD: 'reportsStandard',
   REPORTS_FAVOURITE: 'reportsFavourite',
   REPORTS_CUSTOM: 'reportsCustom',

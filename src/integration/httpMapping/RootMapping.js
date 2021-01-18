@@ -25,6 +25,7 @@ import ElectronicPaymentsReadMapping from '../../modules/electronicPayments/elec
 import EmployeeMapping from '../../modules/employee/mappings/HttpEmployeeMapping';
 import EmployeeNzMapping from '../../modules/nzPayroll/employee/mappings/HttpEmployeeNzMapping';
 import EmployeePayMapping from '../../modules/employeePay/mappings/HttpEmployeePayMapping';
+import EmployeePayNzMapping from '../../modules/nzPayroll/employeePay/mappings/HttpEmployeePayNzMapping';
 import ExpensePayItemMapping from '../../modules/payItem/expensePayItem/mappings/HttpExpensePayItemMapping';
 import FeatureTogglesMapping from '../../featureToggles/mappings/HttpFeatureTogglesMapping';
 import FileUnavailableMapping from '../../modules/fileUnavailable/mappings/HttpFileUnavailableMapping';
@@ -188,6 +189,7 @@ const RootMapping = Object.freeze({
   ...PurchaseOrderDetailMapping,
   ...PaydayFilingOnboardingNzMapping,
   ...PayRunDetailNzMapping,
+  ...EmployeePayNzMapping,
 });
 
 export default RootMapping;

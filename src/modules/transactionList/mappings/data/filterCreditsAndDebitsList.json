@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "id": "901",
+      "displayDate": "03/12/2018",
+      "referenceId": "801",
+      "description": "Pay employee",
+      "displayDebit": "",
+      "displayCredit": "1000.00",
+      "displayAccountName": "6-5100 Wages & Salaries",
+      "businessEventType": "EmployeePayment",
+      "sourceJournal": "Payroll"
+    },
+    {
       "id": "401",
       "displayDate": "03/12/2018",
       "referenceId": "135",

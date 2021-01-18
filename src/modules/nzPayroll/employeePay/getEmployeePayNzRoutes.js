@@ -1,7 +1,7 @@
 import EmployeePayDetailModule from './employeePayDetail/EmployeePayDetailModule';
-import RouteName from '../../router/RouteName';
+import RouteName from '../../../router/RouteName';
 
-const getEmployeePayRoutes = ({
+const getEmployeePayNzRoutes = ({
   integration,
   setRootView,
   pushMessage,
@@ -9,9 +9,9 @@ const getEmployeePayRoutes = ({
 }) => {
   const routes = [
     {
-      name: RouteName.EMPLOYEE_PAY_DETAIL,
-      path: '/au/:businessId/employeePay/:transactionId',
-      defaultParams: { region: 'au' },
+      name: RouteName.EMPLOYEE_PAY_DETAIL_NZ,
+      path: '/nz/:businessId/employeePay/:transactionId',
+      defaultParams: { region: 'nz' },
       documentTitle: 'Employee Pay',
       module: new EmployeePayDetailModule({
         integration,
@@ -25,4 +25,4 @@ const getEmployeePayRoutes = ({
   return routes;
 };
 
-export default getEmployeePayRoutes;
+export default getEmployeePayNzRoutes;

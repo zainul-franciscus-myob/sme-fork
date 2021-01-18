@@ -17,6 +17,7 @@ import getDashboardRoutes from './modules/dashboard/getDashboardRoutes';
 import getDataImportExportRoutes from './modules/dataImportExport/getDataImportExportRoutes';
 import getElectronicPaymentsRoutes from './modules/electronicPayments/getElectronicPaymentsRoutes';
 import getEmployeeNzRoutes from './modules/nzPayroll/employee/getEmployeeNzRoutes';
+import getEmployeePayNzRoutes from './modules/nzPayroll/employeePay/getEmployeePayNzRoutes';
 import getEmployeePayRoutes from './modules/employeePay/getEmployeePayRoutes';
 import getEmployeeRoutes from './modules/employee/getEmployeeRoutes';
 import getErrorRoutes from './modules/error/getErrorRoutes';
@@ -127,6 +128,7 @@ const getRoutes = (moduleParams) => [
   ...getReportsSubscribeNowRoutes(moduleParams),
   ...getRecurringTransactionRoutes(moduleParams),
   ...getPaydayFilingRoutes(moduleParams),
+  ...getEmployeePayNzRoutes(moduleParams),
 ];
 
 export default getRoutes;

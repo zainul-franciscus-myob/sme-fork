@@ -1,0 +1,112 @@
+{
+  "balance": "-$31,954.87",
+  "dateOfPayment": "05/07/2018",
+  "referenceNumber": "EP000687",
+  "isDeletable": false,
+  "isReversible": false,
+  "isUserStpRegistered": true,
+  "isPending" : false,
+  "isRejected" : false,
+  "isEditable": true,
+  "transactionDesc": "Paycheque",
+  "id": 243,
+  "employeeBankStatementDesc": "PAY FOR 5/07/2003",
+  "accountName": "1-1190 Electronic clearing account",
+  "totalNetPayment": "$661.54",
+  "employeeId": 21,
+  "employeeFirstName": "Mary",
+  "employeeLastName": "Jones",
+  "paymentMethod": "Electronic",
+  "isElectronicallyProcessed": false,
+  "payPeriodEnd": "05/07/2018",
+  "payPeriodStart": "29/06/2018",
+  "parentBusinessEventId": 321,
+  "parentBusinessEventDisplayId": "EP000015",
+  "lines": [
+    {
+      "categoryName": "Wages",
+      "items": [
+        {
+          "name": "Base Salary",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 6
+        },
+        {
+          "name": "Hourly Wage",
+          "amount": "$861.54",
+          "hours": 0.67,
+          "payItemId": 7
+        },
+        {
+          "name": "Annual Leave",
+          "amount": "$961.54",
+          "hours": 7.60,
+          "payItemId": 12
+        }
+      ]
+    },
+    {
+      "categoryName": "Deductions",
+      "items": [
+        {
+          "name": "Deductions",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 8
+        }
+      ]
+    },
+    {
+      "categoryName": "Taxes",
+      "items": [
+        {
+          "name": "Super before tax",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 9
+        },
+        {
+          "name": "Super after tax",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 10
+        },
+        {
+          "name": "PAYG withholding",
+          "amount": "$961.54",
+          "hours": null,
+          "payItemId": 11
+        }
+      ]
+    },
+    {
+      "categoryName": "Leave accrual",
+      "items": [
+        {
+          "name": "Entitlement",
+          "amount": null,
+          "hours": 0.67,
+          "payItemId": 12
+        }
+      ]
+    },
+    {
+      "categoryName": "Employer expenses",
+      "items": [
+        {
+          "name": "Expenses",
+          "hours": null,
+          "amount": "$961.54",
+          "payItemId": 13
+        },
+        {
+          "name": "Super expenses",
+          "hours": null,
+          "amount": "$961.54",
+          "payItemId": 14
+        }
+      ]
+    }
+  ]
+}
