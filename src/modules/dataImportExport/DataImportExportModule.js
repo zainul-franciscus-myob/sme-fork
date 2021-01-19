@@ -39,12 +39,12 @@ export default class DataImportExportModule {
     this.pollTimer = null;
   }
 
-  loadDataImportExport = () => {
+  loadDataImportExport = (settings) => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.loadDataImportExport(response);
+      this.dispatcher.loadDataImportExport(response, settings);
     };
 
     const onFailure = () => {
@@ -341,6 +341,6 @@ export default class DataImportExportModule {
         getSettings(state)
       )
     );
-    this.loadDataImportExport();
+    this.loadDataImportExport(settings);
   }
 }

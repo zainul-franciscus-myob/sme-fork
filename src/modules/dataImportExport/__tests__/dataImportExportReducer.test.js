@@ -169,6 +169,7 @@ describe('dataImportExportReducer', () => {
           chartOfAccounts: {
             fileType: 'fileType2',
           },
+          companyFile: {},
         },
       };
 
@@ -182,6 +183,217 @@ describe('dataImportExportReducer', () => {
       expect(actual.export.chartOfAccounts).toEqual(
         expectedExportChartOfAccounts
       );
+    });
+
+    it('use tax codes in settings if tax codes not changed', () => {
+      const state = {
+        export: {
+          companyFile: {
+            otherProps: '...',
+            fileType: 'fileType1',
+            fileTypeOptions: [
+              { name: 'fileType1Name', value: 'fileType1' },
+              { name: 'fileType2Name', value: 'fileType2' },
+            ],
+          },
+        },
+      };
+
+      const action = {
+        intent: LOAD_DATA_IMPORT_EXPORT,
+        export: {
+          companyFile: {
+            fileType: 'fileType2',
+            taxCodes: [
+              {
+                id: 1,
+                description: 'GST FREE',
+                displayRate: '10%',
+                displayName: 'FRE',
+                incomeMapping: 'FRE',
+                expensesMapping: 'FRE',
+              },
+            ],
+          },
+        },
+        settings: {
+          taxCodes: [
+            {
+              id: 1,
+              description: 'GST FREE',
+              displayRate: '10%',
+              displayName: 'FRE',
+              incomeMapping: 'NEW',
+              expensesMapping: 'NEW',
+            },
+          ],
+        },
+      };
+
+      const expectedExportCompanyFile = {
+        ...state.export.companyFile,
+        fileType: 'fileType2',
+        taxCodes: [
+          {
+            id: 1,
+            description: 'GST FREE',
+            displayRate: '10%',
+            displayName: 'FRE',
+            incomeMapping: 'NEW',
+            expensesMapping: 'NEW',
+          },
+        ],
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual.export.companyFile).toEqual(expectedExportCompanyFile);
+    });
+
+    it('use tax codes in response if there is new tax code', () => {
+      const state = {
+        export: {
+          companyFile: {
+            otherProps: '...',
+            fileType: 'fileType1',
+            fileTypeOptions: [
+              { name: 'fileType1Name', value: 'fileType1' },
+              { name: 'fileType2Name', value: 'fileType2' },
+            ],
+          },
+        },
+      };
+
+      const action = {
+        intent: LOAD_DATA_IMPORT_EXPORT,
+        export: {
+          companyFile: {
+            fileType: 'fileType2',
+            taxCodes: [
+              {
+                id: 1,
+                description: 'GST FREE',
+                displayRate: '10%',
+                displayName: 'FRE',
+                incomeMapping: 'FRE',
+                expensesMapping: 'FRE',
+              },
+              {
+                id: 2,
+                description: 'No Tax',
+                displayRate: '0%',
+                displayName: 'N-T',
+                incomeMapping: 'N-T',
+                expensesMapping: 'N-T',
+              },
+            ],
+          },
+        },
+        settings: {
+          taxCodes: [
+            {
+              id: 1,
+              description: 'GST FREE',
+              displayRate: '10%',
+              displayName: 'FRE',
+              incomeMapping: 'NEW',
+              expensesMapping: 'NEW',
+            },
+          ],
+        },
+      };
+
+      const expectedExportCompanyFile = {
+        ...state.export.companyFile,
+        fileType: 'fileType2',
+        taxCodes: [
+          {
+            id: 1,
+            description: 'GST FREE',
+            displayRate: '10%',
+            displayName: 'FRE',
+            incomeMapping: 'FRE',
+            expensesMapping: 'FRE',
+          },
+          {
+            id: 2,
+            description: 'No Tax',
+            displayRate: '0%',
+            displayName: 'N-T',
+            incomeMapping: 'N-T',
+            expensesMapping: 'N-T',
+          },
+        ],
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual.export.companyFile).toEqual(expectedExportCompanyFile);
+    });
+
+    it('use tax codes in response if there is tax code removed', () => {
+      const state = {
+        export: {
+          companyFile: {
+            otherProps: '...',
+            fileType: 'fileType1',
+            fileTypeOptions: [
+              { name: 'fileType1Name', value: 'fileType1' },
+              { name: 'fileType2Name', value: 'fileType2' },
+            ],
+          },
+        },
+      };
+
+      const action = {
+        intent: LOAD_DATA_IMPORT_EXPORT,
+        export: {
+          companyFile: {
+            fileType: 'fileType2',
+            taxCodes: [
+              {
+                id: 2,
+                description: 'No Tax',
+                displayRate: '0%',
+                displayName: 'N-T',
+                incomeMapping: 'N-T',
+                expensesMapping: 'N-T',
+              },
+            ],
+          },
+        },
+        settings: {
+          taxCodes: [
+            {
+              id: 1,
+              description: 'GST FREE',
+              displayRate: '10%',
+              displayName: 'FRE',
+              incomeMapping: 'NEW',
+              expensesMapping: 'NEW',
+            },
+          ],
+        },
+      };
+
+      const expectedExportCompanyFile = {
+        ...state.export.companyFile,
+        fileType: 'fileType2',
+        taxCodes: [
+          {
+            id: 2,
+            description: 'No Tax',
+            displayRate: '0%',
+            displayName: 'N-T',
+            incomeMapping: 'N-T',
+            expensesMapping: 'N-T',
+          },
+        ],
+      };
+
+      const actual = dataImportExportReducer(state, action);
+
+      expect(actual.export.companyFile).toEqual(expectedExportCompanyFile);
     });
   });
 

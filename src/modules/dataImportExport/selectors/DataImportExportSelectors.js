@@ -19,6 +19,7 @@ const getPeriod = (state) => state.export.companyFile.period;
 const getDateFrom = (state) => state.export.companyFile.dateFrom;
 const getDateTo = (state) => state.export.companyFile.dateTo;
 const getFileType = (state) => state.export.companyFile.fileType;
+const getTaxCodes = (state) => state.export.companyFile.taxCodes;
 
 export const getSettings = createSelector(
   getSettingsVersion,
@@ -26,12 +27,14 @@ export const getSettings = createSelector(
   getDateFrom,
   getDateTo,
   getFileType,
-  (settingsVersion, period, dateFrom, dateTo, fileType) => ({
+  getTaxCodes,
+  (settingsVersion, period, dateFrom, dateTo, fileType, taxCodes) => ({
     settingsVersion,
     period,
     dateFrom,
     dateTo,
     fileType,
+    taxCodes,
   })
 );
 

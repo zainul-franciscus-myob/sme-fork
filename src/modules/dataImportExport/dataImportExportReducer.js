@@ -168,23 +168,59 @@ const setSelectedTab = (state, action) => ({
   selectedTab: action.selectedTab,
 });
 
-const loadDataImportExport = (state, action) => ({
-  ...state,
-  email: action.email,
-  lastMonthInFinancialYear: action.lastMonthInFinancialYear,
-  export: {
-    ...state.export,
-    businessName: action.export.businessName,
-    chartOfAccounts: {
-      ...state.export.chartOfAccounts,
-      ...action.export.chartOfAccounts,
+const serializeTaxcodes = (taxCodes) => {
+  const TaxCodeIds = taxCodes.map((tc) => tc.id);
+
+  return JSON.stringify(TaxCodeIds);
+};
+
+const taxCodesNotChangeFromLastTime = (
+  taxCodesInSettings,
+  taxCodesFromResponse
+) => {
+  const serializedSettingsTaxCodeIds = serializeTaxcodes(taxCodesInSettings);
+
+  const serializedResponseTaxCodeIds = serializeTaxcodes(taxCodesFromResponse);
+
+  return serializedSettingsTaxCodeIds === serializedResponseTaxCodeIds;
+};
+
+const loadDataImportExport = (state, action) => {
+  const { settings = {} } = action;
+  const taxCodesInSettings = settings.taxCodes;
+  const taxCodesFromResponse = action.export.companyFile.taxCodes;
+
+  let taxCodes;
+
+  if (
+    taxCodesInSettings &&
+    taxCodesFromResponse &&
+    taxCodesNotChangeFromLastTime(taxCodesInSettings, taxCodesFromResponse)
+  ) {
+    taxCodes = taxCodesInSettings;
+  } else {
+    taxCodes = taxCodesFromResponse;
+  }
+
+  return {
+    ...state,
+    email: action.email,
+    lastMonthInFinancialYear: action.lastMonthInFinancialYear,
+    export: {
+      ...state.export,
+      businessName: action.export.businessName,
+      chartOfAccounts: {
+        ...state.export.chartOfAccounts,
+        ...action.export.chartOfAccounts,
+      },
+      companyFile: {
+        ...state.export.companyFile,
+        ...action.export.companyFile,
+        taxCodes,
+      },
     },
-    companyFile: {
-      ...state.export.companyFile,
-      ...action.export.companyFile,
-    },
-  },
-});
+  };
+};
 
 const updateExportDataType = (state, action) => ({
   ...state,

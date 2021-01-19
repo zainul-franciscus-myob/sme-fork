@@ -71,10 +71,11 @@ const createDataImportExportDispatcher = (store) => ({
     });
   },
 
-  loadDataImportExport: (response) => {
+  loadDataImportExport: (response, settings) => {
     store.dispatch({
       intent: LOAD_DATA_IMPORT_EXPORT,
       ...response,
+      settings,
     });
   },
 
