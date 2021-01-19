@@ -1,6 +1,7 @@
 import {
   CANCEL_INVITATION,
   LOAD_USER_LIST,
+  REMOVE_PRACTICE_ACCESS,
   REMOVE_USER_ACCESS,
   RESEND_INVITATION,
 } from '../UserIntents';
@@ -10,6 +11,7 @@ import {
   getFilterOptions,
   getRemoveAccessDetails,
   getResendInvitationDetails,
+  getSelectedPracticeId,
 } from './userListSelectors';
 
 const createUserListIntegrator = (store, integration) => ({
@@ -82,6 +84,22 @@ const createUserListIntegrator = (store, integration) => ({
       intent: REMOVE_USER_ACCESS,
       urlParams,
       content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  removePracticeAccess: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const urlParams = {
+      businessId: getBusinessId(state),
+      practiceId: getSelectedPracticeId(state),
+    };
+
+    integration.write({
+      intent: REMOVE_PRACTICE_ACCESS,
+      urlParams,
       onSuccess,
       onFailure,
     });

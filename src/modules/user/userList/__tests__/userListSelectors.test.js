@@ -1,4 +1,8 @@
-import { getShouldShowPractices } from '../userListSelectors';
+import {
+  getRemoveAccessModalBody,
+  getRemovePracticeAccessModalBody,
+  getShouldShowPractices,
+} from '../userListSelectors';
 
 describe('User List Selectors', () => {
   describe('getShouldShowPractices', () => {
@@ -33,6 +37,81 @@ describe('User List Selectors', () => {
       const actual = getShouldShowPractices(state);
 
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getRemoveAccessModalBody', () => {
+    it('should return correct message for remove user access modal and user is a FileUser', () => {
+      const state = {
+        selectedUserIndex: '0',
+        entries: [
+          {
+            userId: '1234',
+            myDotInvitationType: 'FileUser',
+          },
+        ],
+      };
+
+      const actual = getRemoveAccessModalBody(state);
+
+      expect(actual).toEqual(
+        "This will remove access to this business. This can't be undone or recovered later."
+      );
+    });
+
+    it('should return correct message for remove user access modal and user is not a FileUser', () => {
+      const state = {
+        selectedUserIndex: '1',
+        entries: [
+          {
+            userId: '1234',
+            role: 'FileUser',
+          },
+          {
+            userId: '4567',
+            role: '',
+          },
+        ],
+      };
+
+      const actual = getRemoveAccessModalBody(state);
+
+      expect(actual).toEqual(
+        "This will remove access to all businesses associated with this serial number. This can't be undone, or recovered later."
+      );
+    });
+  });
+
+  describe('getRemovePracticeAccessModalBody', () => {
+    it('should return correct message for remove practice access modal', () => {
+      const state = {
+        selectedPracticeId: '1',
+        practices: [
+          {
+            practiceId: '1',
+            practiceName: 'Some Business',
+          },
+        ],
+      };
+
+      const actual = getRemovePracticeAccessModalBody(state);
+
+      expect(actual).toEqual(
+        'Some Business will no longer be able to access your business.'
+      );
+    });
+
+    it('should return empty string for remove practice access modal when selected practice is empty', () => {
+      const state = {
+        selectedPracticeId: '1',
+        practices: [],
+      };
+
+      const actual = getRemovePracticeAccessModalBody(state);
+
+      expect(actual).toEqual(
+        ' will no longer be able to access your business.'
+      );
     });
   });
 });

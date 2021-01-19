@@ -73,6 +73,8 @@ export const getModal = (state) => state.modal;
 
 export const getSelectedUserIndex = (state) => state.selectedUserIndex;
 
+export const getSelectedPracticeId = (state) => state.selectedPracticeId;
+
 export const getSelectedUser = createSelector(
   getEntries,
   getSelectedUserIndex,
@@ -81,13 +83,29 @@ export const getSelectedUser = createSelector(
   }
 );
 
+export const getSelectedPractice = createSelector(
+  getPractices,
+  getSelectedPracticeId,
+  (practices, practiceId) => {
+    return practices.find((p) => p.practiceId === practiceId) || {};
+  }
+);
+
 export const getRemoveAccessModalBody = createSelector(
   getSelectedUser,
   (user) => {
     if (user.myDotInvitationType === 'FileUser') {
-      return "This will remove access to this business. This can't be undone or recovered later";
+      return "This will remove access to this business. This can't be undone or recovered later.";
     }
     return "This will remove access to all businesses associated with this serial number. This can't be undone, or recovered later.";
+  }
+);
+
+export const getRemovePracticeAccessModalBody = createSelector(
+  getSelectedPractice,
+  (practice) => {
+    const practiceName = practice.practiceName || '';
+    return `${practiceName} will no longer be able to access your business.`;
   }
 );
 

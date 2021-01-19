@@ -138,8 +138,13 @@ export default class UserListModule {
   };
 
   openRemoveAccessModal = (userIndex) => {
-    this.dispatcher.openModal({ type: ModalType.REMOVE_ACESS });
+    this.dispatcher.openModal({ type: ModalType.REMOVE_ACCESS });
     this.dispatcher.setSelectedUserIndex(userIndex);
+  };
+
+  openRemovePracticeAccessModal = (practiceId) => {
+    this.dispatcher.openModal({ type: ModalType.REMOVE_PRACTICE_ACCESS });
+    this.dispatcher.setSelectedPracticeId(practiceId);
   };
 
   removeAccess = () => {
@@ -158,6 +163,24 @@ export default class UserListModule {
     };
 
     this.integrator.removeAccess({ onSuccess, onFailure });
+  };
+
+  removePracticeAccess = () => {
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'success', message });
+      this.dispatcher.setSubmittingState(false);
+      this.loadUserList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setAlert({ type: 'danger', message });
+      this.dispatcher.setSubmittingState(false);
+    };
+
+    this.integrator.removePracticeAccess({ onSuccess, onFailure });
   };
 
   updateFilterOptions = ({ key, value }) => {
@@ -185,8 +208,10 @@ export default class UserListModule {
         onResendInvitation={this.resendInvitation}
         onCancelInvitation={this.cancelInvitation}
         onRemoveAccessClick={this.openRemoveAccessModal}
+        onRemovePracticeAccessClick={this.openRemovePracticeAccessModal}
         onCloseModal={this.dispatcher.closeModal}
         onRemoveAccessModal={this.removeAccess}
+        onRemovePracticeAccessModal={this.removePracticeAccess}
         onUpdateFilterOptions={this.updateFilterOptions}
         setShowStatusFilterOptions={this.setShowStatusFilterOptions}
       />

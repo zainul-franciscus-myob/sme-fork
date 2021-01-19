@@ -4,6 +4,7 @@ import {
   OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PRACTICE_ID,
   SET_SHOW_STATUS_FILTER_OPTIONS,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -80,6 +81,12 @@ const createUserListDispatcher = (store) => ({
     store.dispatch({
       intent: SET_USER_INDEX,
       selectedUserIndex,
+    }),
+
+  setSelectedPracticeId: (selectedPracticeId) =>
+    store.dispatch({
+      intent: SET_PRACTICE_ID,
+      selectedPracticeId,
     }),
 
   setFilterOptions: ({ key, value }) =>

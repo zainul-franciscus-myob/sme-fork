@@ -1,8 +1,5 @@
 import { Button, Modal } from '@myob/myob-widgets';
-import { connect } from 'react-redux';
 import React from 'react';
-
-import { getRemoveAccessModalBody } from '../userListSelectors';
 
 const RemoveAccessModal = ({ onCancel, onConfirm, modalBody }) => (
   <Modal title="Remove access?" size="small" onCancel={onCancel}>
@@ -18,8 +15,4 @@ const RemoveAccessModal = ({ onCancel, onConfirm, modalBody }) => (
   </Modal>
 );
 
-const mapStateToProps = (state, props) => ({
-  modalBody: getRemoveAccessModalBody(state, props),
-});
-
-export default connect(mapStateToProps)(RemoveAccessModal);
+export default RemoveAccessModal;

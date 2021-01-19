@@ -6,6 +6,7 @@ import {
   LOAD_NEW_USER_DETAIL,
   LOAD_USER_DETAIL,
   LOAD_USER_LIST,
+  REMOVE_PRACTICE_ACCESS,
   REMOVE_USER_ACCESS,
   RESEND_INVITATION,
   UPDATE_USER,
@@ -42,6 +43,11 @@ const HttpUserMapping = {
     method: 'GET',
     getPath: ({ businessId, userId }) =>
       `/${businessId}/user/load_user/${userId}`,
+  },
+  [REMOVE_PRACTICE_ACCESS]: {
+    method: 'DELETE',
+    getPath: ({ businessId, practiceId }) =>
+      `/${businessId}/user/remove_practice/${practiceId}`,
   },
   [REMOVE_USER_ACCESS]: {
     method: 'POST',

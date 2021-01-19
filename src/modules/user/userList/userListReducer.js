@@ -4,6 +4,7 @@ import {
   OPEN_MODAL,
   SET_ALERT,
   SET_LOADING_STATE,
+  SET_PRACTICE_ID,
   SET_SHOW_STATUS_FILTER_OPTIONS,
   SET_SUBMITTING_STATE,
   SET_TABLE_LOADING_STATE,
@@ -43,6 +44,7 @@ const getDefaultState = () => ({
   showStatusFilterOptions: false,
   practiceListSortOrder: 'asc',
   practiceListOrderBy: 'Name',
+  selectedPracticeId: '',
 });
 
 const stringCompare = (a, b) => {
@@ -150,6 +152,11 @@ const setSelectedUserIndex = (state, action) => ({
   selectedUserIndex: action.selectedUserIndex,
 });
 
+const setSelectedPracticeId = (state, action) => ({
+  ...state,
+  selectedPracticeId: action.selectedPracticeId,
+});
+
 const setSubmittingState = (state, action) => ({
   ...state,
   isSubmitting: action.isSubmitting,
@@ -183,6 +190,7 @@ const handlers = {
   [SET_SUBMITTING_STATE]: setSubmittingState,
   [SET_USER_LIST_FILTER_OPTIONS]: updateFilterOptions,
   [SET_SHOW_STATUS_FILTER_OPTIONS]: setShowStatusFilterOptions,
+  [SET_PRACTICE_ID]: setSelectedPracticeId,
 };
 
 const userListReducer = createReducer(getDefaultState(), handlers);

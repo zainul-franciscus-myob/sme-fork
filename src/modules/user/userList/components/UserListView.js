@@ -15,6 +15,8 @@ import {
   getIsCurrentUserOnlineAdmin,
   getLoadingState,
   getModal,
+  getRemoveAccessModalBody,
+  getRemovePracticeAccessModalBody,
   getShouldShowPractices,
   getShouldShowPracticesError,
 } from '../userListSelectors';
@@ -47,12 +49,16 @@ const UserListView = (props) => {
     onResendInvitation,
     onCancelInvitation,
     onRemoveAccessClick,
+    onRemovePracticeAccessClick,
     onCloseModal,
     onRemoveAccessModal,
+    onRemovePracticeAccessModal,
     onUpdateFilterOptions,
     setShowStatusFilterOptions,
     shouldShowPractices,
     shouldShowPracticesError,
+    removeAccessModalBody,
+    removePracticeAccessModalBody,
   } = props;
 
   const alertComponent = alert && (
@@ -96,11 +102,21 @@ const UserListView = (props) => {
   );
 
   let modalComponent;
-  if (modal.type === ModalType.REMOVE_ACESS) {
+  if (modal.type === ModalType.REMOVE_ACCESS) {
     modalComponent = (
       <RemoveAccessModal
         onCancel={onCloseModal}
         onConfirm={onRemoveAccessModal}
+        modalBody={removeAccessModalBody}
+      />
+    );
+  }
+  if (modal.type === ModalType.REMOVE_PRACTICE_ACCESS) {
+    modalComponent = (
+      <RemoveAccessModal
+        onCancel={onCloseModal}
+        onConfirm={onRemovePracticeAccessModal}
+        modalBody={removePracticeAccessModalBody}
       />
     );
   }
@@ -132,7 +148,10 @@ const UserListView = (props) => {
       </StandardTemplate>
       {shouldShowPractices && (
         <StandardTemplate pageHead={existingAdvisorsPageHead}>
-          <ExistingAdvisorList onSort={onSortPracticeList} />
+          <ExistingAdvisorList
+            onSort={onSortPracticeList}
+            onRemovePracticeAccessClick={onRemovePracticeAccessClick}
+          />
         </StandardTemplate>
       )}
     </>
@@ -148,6 +167,8 @@ const mapStateToProps = (state) => ({
   modal: getModal(state),
   shouldShowPractices: getShouldShowPractices(state),
   shouldShowPracticesError: getShouldShowPracticesError(state),
+  removeAccessModalBody: getRemoveAccessModalBody(state),
+  removePracticeAccessModalBody: getRemovePracticeAccessModalBody(state),
 });
 
 export default connect(mapStateToProps)(UserListView);

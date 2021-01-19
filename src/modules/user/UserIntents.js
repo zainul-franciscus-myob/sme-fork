@@ -21,7 +21,9 @@ export const LOAD_USER_DETAIL = Symbol('Load existing user');
 export const CANCEL_INVITATION = Symbol('Cancel invitation');
 export const RESEND_INVITATION = Symbol('Resend invitation');
 export const SET_USER_INDEX = Symbol('Set selected user index');
+export const SET_PRACTICE_ID = Symbol('Set selected practice id');
 export const REMOVE_USER_ACCESS = Symbol('Remove user access');
+export const REMOVE_PRACTICE_ACCESS = Symbol('Remove practice access');
 
 export const SET_USER_LIST_FILTER_OPTIONS = Symbol(
   'Set user list filter options'

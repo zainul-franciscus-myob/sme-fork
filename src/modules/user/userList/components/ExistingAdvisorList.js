@@ -1,14 +1,32 @@
-import { Alert, HeaderSort, Table } from '@myob/myob-widgets';
+import { Alert, Button, HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getPracticeListOrder, getPractices } from '../userListSelectors';
+import {
+  getIsSubmitting,
+  getPracticeListOrder,
+  getPractices,
+} from '../userListSelectors';
 
-const ExistingAdvisorList = ({ practices, onSort, order }) => {
+const ExistingAdvisorList = ({
+  practices,
+  onSort,
+  order,
+  onRemovePracticeAccessClick,
+  isSubmitting,
+}) => {
   const practiceRows = practices.map((practice) => (
     <Table.Row key={practice.practiceId}>
       <Table.RowItem>{practice.practiceName}</Table.RowItem>
-      <Table.RowItem align="right">{/* <ActionButtons /> */}</Table.RowItem>
+      <Table.RowItem align="right">
+        <Button
+          disabled={isSubmitting}
+          type="link"
+          onClick={() => onRemovePracticeAccessClick(practice.practiceId)}
+        >
+          Remove access
+        </Button>
+      </Table.RowItem>
     </Table.Row>
   ));
 
@@ -47,6 +65,7 @@ const ExistingAdvisorList = ({ practices, onSort, order }) => {
 const mapStateToProps = (state) => ({
   practices: getPractices(state),
   order: getPracticeListOrder(state),
+  isSubmitting: getIsSubmitting(state),
 });
 
 export default connect(mapStateToProps)(ExistingAdvisorList);

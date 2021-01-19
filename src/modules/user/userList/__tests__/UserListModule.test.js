@@ -2,6 +2,7 @@ import {
   CANCEL_INVITATION,
   CLOSE_MODAL,
   LOAD_USER_LIST,
+  REMOVE_PRACTICE_ACCESS,
   REMOVE_USER_ACCESS,
   RESEND_INVITATION,
   SET_ALERT,
@@ -304,6 +305,83 @@ describe('UserListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: REMOVE_USER_ACCESS,
+        }),
+      ]);
+    });
+  });
+
+  describe('remove practice access', () => {
+    it('successfully removed', () => {
+      const { store, integration, module } = setup();
+      module.removePracticeAccess();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'success',
+            message: "Great Work! You've done it well!",
+          },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: REMOVE_PRACTICE_ACCESS,
+        }),
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
+        }),
+      ]);
+    });
+
+    it('failed to remove', () => {
+      const { store, integration, module } = setup();
+      integration.mapFailure(REMOVE_PRACTICE_ACCESS);
+      module.removePracticeAccess();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: true,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+        {
+          intent: SET_ALERT,
+          alert: {
+            type: 'danger',
+            message: 'fails',
+          },
+        },
+        {
+          intent: SET_SUBMITTING_STATE,
+          isSubmitting: false,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: REMOVE_PRACTICE_ACCESS,
         }),
       ]);
     });
