@@ -92,7 +92,7 @@ export const getSalesTableEntries = createSelector(
 export const getLoadSalesParams = createSelector(
   getLast12MonthsDateRange,
   ({ dateFrom, dateTo }) => ({
-    todayDate: new Date(),
+    todayDate: formatIsoDate(new Date()),
     dateFrom,
     dateTo,
   })

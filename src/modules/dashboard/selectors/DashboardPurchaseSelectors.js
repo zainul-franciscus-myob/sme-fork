@@ -90,7 +90,7 @@ export const getPurchaseTableEntries = createSelector(
 export const getLoadPurchaseParams = createSelector(
   getLast12MonthsDateRange,
   ({ dateFrom, dateTo }) => ({
-    todayDate: new Date(),
+    todayDate: formatIsoDate(new Date()),
     dateFrom,
     dateTo,
   })
