@@ -1,0 +1,11 @@
+.itemList :global(.form-group) {
+  flex-grow: 1;
+}
+
+.bold {
+  font-weight: var(--flx-font-weight-bold);
+}
+
+.padRight {
+  padding-right: var(--flx-padding-input-x);
+}

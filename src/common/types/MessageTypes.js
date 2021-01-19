@@ -96,6 +96,14 @@ export const SUCCESSFULLY_DELETED_BILL_PAYMENT = Symbol(
   'Successfully deleted bill payment'
 );
 
+// Supplier payment
+export const SUCCESSFULLY_SAVED_SUPPLIER_PAYMENT = Symbol(
+  'Successfully saved supplier payment'
+);
+export const SUCCESSFULLY_DELETED_SUPPLIER_PAYMENT = Symbol(
+  'Successfully deleted supplier payment'
+);
+
 // In tray
 export const SUCCESSFULLY_LINKED_DOCUMENT_TO_BILL =
   'Successfully linked document to bill';

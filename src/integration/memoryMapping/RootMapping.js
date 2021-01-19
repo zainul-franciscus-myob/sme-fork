@@ -81,6 +81,7 @@ import StpSetupMapping from '../../modules/stp/stpSetup/mappings/MemoryStpSetupM
 import SubscriptionMapping from '../../modules/settings/subscription/mappings/MemorySubscriptionMapping';
 import SuperFundMapping from '../../modules/superFund/mappings/MemorySuperFundMapping';
 import SuperPayItemMapping from '../../modules/payItem/superPayItem/mappings/MemorySuperPayItemMapping';
+import SupplierPaymentMapping from '../../modules/supplierPayment/mappings/MemorySupplierPaymentMapping';
 import SupplierReturnMapping from '../../modules/supplierReturn/mappings/MemorySupplierReturnMapping';
 import SupplierReturnPurchaseMapping from '../../modules/supplierReturnPurchase/mappings/MemorySupplierReturnPurchaseMapping';
 import TaskMapping from './TaskMapping';
@@ -116,6 +117,7 @@ const RootMapping = Object.freeze({
   ...TaxTableCalculationsMapping,
   ...InvoicePaymentMapping,
   ...BillPaymentMapping,
+  ...SupplierPaymentMapping,
   ...BillMapping,
   ...BillDetailMapping,
   ...CustomerReturnMapping,

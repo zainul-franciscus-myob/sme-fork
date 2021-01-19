@@ -15,6 +15,7 @@ const RouteName = {
   INVOICE_LIST: 'invoice/invoiceList',
   INVOICE_DETAIL: 'invoice/invoiceDetail',
   BILL_PAYMENT_DETAIL: 'billPayment/billPaymentDetail',
+  SUPPLIER_PAYMENT_DETAIL: 'supplierPayment/supplierPaymentDetail',
   LOGOUT: 'logout/logout',
   TAX_LIST: 'tax/taxList',
   TAX_DETAIL: 'tax/taxDetail',

@@ -1,0 +1,25 @@
+{
+  "supplierStatementText": "WAWA",
+  "arePaymentDetailsComplete": true,
+  "entries": [
+    {
+      "id": "1",
+      "purchaseNumber": "0000023",
+      "status": "Open",
+      "date": "27/03/2019",
+      "purchaseAmount": "250.05",
+      "discountAmount": "",
+      "paidAmount": ""
+    },
+    {
+      "id": "378",
+      "purchaseNumber": "0000024",
+      "status": "Open",
+      "date": "27/03/2019",
+      "purchaseAmount": "2500.05",
+      "discountAmount": "",
+      "paidAmount": ""
+    }
+  ]
+}
+

@@ -53,6 +53,7 @@ import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRout
 import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
 import getStpRoutes from './modules/stp/getStpRoutes';
 import getSuperFundRoutes from './modules/superFund/getSuperFundRoutes';
+import getSupplierPaymentRoutes from './modules/supplierPayment/getSupplierPaymentRoutes';
 import getSupplierReturnPurchaseRoutes from './modules/supplierReturnPurchase/getSupplierReturnPurchaseRoutes';
 import getSupplierReturnRoutes from './modules/supplierReturn/getSupplierReturnRoutes';
 import getTaxRoutes from './modules/tax/getTaxRoutes';
@@ -75,6 +76,7 @@ const getRoutes = (moduleParams) => [
   ...getQuoteRoutes(moduleParams),
   ...getInvoiceRoutes(moduleParams),
   ...getBillPaymentRoutes(moduleParams),
+  ...getSupplierPaymentRoutes(moduleParams),
   ...getTaxRoutes(moduleParams),
   ...getBusinessRoutes(moduleParams),
   ...getInventoryRoutes(moduleParams),

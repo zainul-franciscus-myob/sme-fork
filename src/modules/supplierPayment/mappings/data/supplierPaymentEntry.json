@@ -1,0 +1,76 @@
+{
+  "accounts": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
+    }
+  ],
+  "description": "Payment; A-Z Stationery Supplies. If empty, something else here",
+  "entries": [
+    {
+      "id": "378",
+      "purchaseNumber": "0000023",
+      "status": "Open",
+      "date": "27/03/2019",
+      "purchaseAmount": "0.00",
+      "paidAmount": "2500.05",
+      "discountAmount": "0.00"
+    }
+  ],
+  "date": "2019-03-28",
+  "accountId": "123",
+  "supplierId": "1",
+  "supplierName": "Tom Cruise",
+  "referenceId": "BP0000002",
+  "bankStatementText": "Payment 123",
+  "isElectronicallyProcessed": true,
+  "electronicPaymentId": 5,
+  "electronicPaymentReference": "EP000001",
+  "supplierPaymentId": "394",
+  "remittanceAdviceDefaults": {
+    "ccAddresses": [
+      ""
+    ],
+    "fromEmail": "alex.skoufis@myob.com",
+    "fromName": "Alex Skoufis",
+    "isEmailMeACopy": false,
+    "messageBody": "Please contact us immediately if you are unable to detach or download your Remittance Advice. Thank you.",
+    "subject": "From Clearwater Pty Ltd",
+    "toAddresses": [
+      "xa@myob.com",
+      "xa1@myob.com"
+    ],
+    "templateName": "c"
+  },
+  "electronicClearingAccountId": "789",
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "arePaymentDetailsComplete": true,
+  "supplierStatementText": "Hello Bianca",
+  "templateOptions": [
+    {
+      "label": "c",
+      "name": "c"
+    },
+    {
+      "label": "d",
+      "name": "d"
+    }
+  ]
+}
