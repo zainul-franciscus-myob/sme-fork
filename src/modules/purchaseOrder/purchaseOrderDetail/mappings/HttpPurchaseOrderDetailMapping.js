@@ -10,7 +10,9 @@ import {
   LOAD_NEW_PURCHASE_ORDER,
   LOAD_PURCHASE_ORDER,
   LOAD_SUPPLIER_DETAIL,
+  SEND_EMAIL,
   UPDATE_PURCHASE_ORDER,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../PurchaseOrderIntents';
 
 const HttpPurchaseOrderDetailMapping = {
@@ -73,6 +75,16 @@ const HttpPurchaseOrderDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/purchaseOrder/load_abn_from_supplier/${supplierId}`,
+  },
+  [SEND_EMAIL]: {
+    method: 'POST',
+    getPath: ({ businessId, purchaseOrderId }) =>
+      `/${businessId}/purchaseOrder/send_purchase_order_email/${purchaseOrderId}`,
+  },
+  [UPLOAD_EMAIL_ATTACHMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/purchaseOrder/upload_email_attachment`,
   },
 };
 

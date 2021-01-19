@@ -130,6 +130,31 @@ describe('purchaseOrderReducer', () => {
 
       expect(actual.exportPdf).toEqual(expected);
     });
+
+    it('should set emailPurchaseOrder', () => {
+      const state = {};
+      const action = {
+        intent: LOAD_PURCHASE_ORDER,
+        response: purchaseOrderDetail,
+      };
+
+      const expected = {
+        hasEmailReplyDetails: true,
+        isEmailMeACopy: false,
+        ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
+        fromEmail: 'tom.xu@myob.com',
+        fromName: 'Tom Xu',
+        messageBody: "Let's make some hot chocolate!!",
+        subject: 'Hot Chocolate is life',
+        toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+        attachments: [],
+        templateName: '',
+      };
+
+      const actual = purchaseOrderReducer(state, action);
+
+      expect(actual.emailPurchaseOrder).toEqual(expected);
+    });
   });
 
   describe('reloadPurchaseOrder', () => {
@@ -387,7 +412,7 @@ describe('purchaseOrderReducer', () => {
 
       const action = {
         intent: OPEN_MODAL,
-        modalType: ModalType.Unsaved,
+        modalType: ModalType.UNSAVED,
         redirectUrl: url,
       };
 

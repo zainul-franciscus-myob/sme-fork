@@ -166,6 +166,27 @@
     "taxCodeId": "",
     "lineSubTypeId": ""
   },
+  "emailPurchaseOrder": {
+    "hasEmailReplyDetails": true,
+    "isEmailMeACopy": false,
+    "businessName": "Hot Choccers",
+    "ccToEmail": [
+      "t-pain@myob.com",
+      "hamzzz@myob.com"
+    ],
+    "fromEmail": "tpain@myob.com",
+    "fromName": "Romeo Romeo",
+    "messageBody": "Let's make some hot chocolate!!",
+    "subject": "Hot Chocolate is life",
+    "toEmail": [
+      "geoff.spires@myob.com",
+      "tom.xu@myob.com"
+    ],
+    "toName": "Geoff Speirs",
+    "includePurchaseOrderNumberInEmail": true,
+    "attachments": [],
+    "templateName": "a"
+  },
   "template": {
     "defaultTemplate": "b",
     "templateOptions": [

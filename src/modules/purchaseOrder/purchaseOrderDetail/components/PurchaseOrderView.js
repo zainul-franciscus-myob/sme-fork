@@ -76,6 +76,9 @@ const PurchaseOrderView = ({
   onUpgradeModalUpgradeButtonClick,
   onConfirmSaveAndRedirect,
   onDiscardAndRedirect,
+  onSaveAndEmailButtonClick,
+  emailPurchaseOrderDetailModalListeners,
+  emailSettingsModalListeners,
 }) => {
   const tableLayoutOption = (
     <PurchaseOrderLayoutPopover
@@ -152,6 +155,10 @@ const PurchaseOrderView = ({
           exportPdfModalListeners={exportPdfModalListeners}
           onConfirmSaveAndRedirect={onConfirmSaveAndRedirect}
           onDiscardAndRedirect={onDiscardAndRedirect}
+          emailPurchaseOrderDetailModalListeners={
+            emailPurchaseOrderDetailModalListeners
+          }
+          emailSettingsModalListeners={emailSettingsModalListeners}
         />
       )}
     </div>
@@ -195,6 +202,7 @@ const PurchaseOrderView = ({
           onDeleteButtonClick={onDeleteButtonClick}
           onExportPdfButtonClick={onExportPdfButtonClick}
           onConvertToBillButtonClick={onConvertToBillButtonClick}
+          onSaveAndEmailButtonClick={onSaveAndEmailButtonClick}
         />
       }
       subHeadChildren={subHeaderChildren}

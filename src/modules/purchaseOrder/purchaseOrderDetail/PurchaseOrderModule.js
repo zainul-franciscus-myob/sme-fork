@@ -5,6 +5,7 @@ import {
   DUPLICATE_PURCHASE_ORDER,
   SUCCESSFULLY_DELETED_PURCHASE_ORDER,
   SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
+  SUCCESSFULLY_EMAILED_PURCHASE_ORDER,
   SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
   SUCCESSFULLY_SAVED_PURCHASE_ORDER,
   SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK,
@@ -22,6 +23,7 @@ import {
   getIsLineEdited,
   getIsLinesEmpty,
   getIsPageEdited,
+  getIsSubmitting,
   getIsTaxInclusive,
   getItemComboboxContext,
   getLinesForTaxCalculation,
@@ -30,6 +32,7 @@ import {
   getNewLineIndex,
   getPurchaseOrderId,
   getRedirectUrl,
+  getShouldSaveAndReload,
   getShouldShowAbn,
   getSupplierId,
   getTaxCodeOptions,
@@ -40,11 +43,13 @@ import {
   getCreateBillFromOrderUrl,
   getCreateNewPurchaseOrderUrl,
   getPurchaseOrderListUrl,
+  getPurchasesSettingsUrl,
 } from './selectors/PurchaseOrderRedirectSelectors';
 import {
-  getExportPdfFilename,
-  getShouldSaveAndReload,
-} from './selectors/exportPdfSelectors';
+  getEmailModalType,
+  getFilesForUpload,
+} from './selectors/EmailSelectors';
+import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import {
   getIsLineAccountIdKey,
   getIsLineItemIdKey,
@@ -334,8 +339,8 @@ class PurchaseOrderModule {
 
   openSaveAndModal = (saveActionType) => {
     const modalType = {
-      [SaveActionType.SAVE_AND_CREATE_NEW]: ModalType.SaveAndCreateNew,
-      [SaveActionType.SAVE_AND_DUPLICATE]: ModalType.SaveAndDuplicate,
+      [SaveActionType.SAVE_AND_CREATE_NEW]: ModalType.SAVE_AND_CREATE_NEW,
+      [SaveActionType.SAVE_AND_DUPLICATE]: ModalType.SAVE_AND_DUPLICATE,
     }[saveActionType];
 
     this.dispatcher.openModal({ modalType });
@@ -347,7 +352,7 @@ class PurchaseOrderModule {
 
     if (isPageEdited) {
       this.dispatcher.openModal({
-        modalType: ModalType.CancelModal,
+        modalType: ModalType.CANCEL,
       });
     } else {
       this.redirectToPurchaseOrderList();
@@ -356,7 +361,7 @@ class PurchaseOrderModule {
 
   openDeleteModal = () => {
     this.dispatcher.openModal({
-      modalType: ModalType.DeleteModal,
+      modalType: ModalType.DELETE,
     });
   };
 
@@ -395,7 +400,7 @@ class PurchaseOrderModule {
 
   openPreConversionModal = () => {
     this.dispatcher.openModal({
-      modalType: ModalType.PreConversionPurchaseOrder,
+      modalType: ModalType.PRECONVERSION_PURCHASE_ORDER,
     });
   };
 
@@ -563,7 +568,7 @@ class PurchaseOrderModule {
   };
 
   openExportPdfModal = () => {
-    this.dispatcher.openModal({ modalType: ModalType.ExportPdf });
+    this.dispatcher.openModal({ modalType: ModalType.EXPORT_PDF });
   };
 
   openExportPdfModalOrSaveAndExportPdf = () => {
@@ -578,9 +583,31 @@ class PurchaseOrderModule {
 
   openUnsavedModal = (url) => {
     this.dispatcher.openModal({
-      modalType: ModalType.Unsaved,
+      modalType: ModalType.UNSAVED,
       redirectUrl: url,
     });
+  };
+
+  saveAndEmailPurchaseOrder = () => {
+    const state = this.store.getState();
+    const shouldSaveAndReload = getShouldSaveAndReload(state);
+    if (shouldSaveAndReload) {
+      const onSuccess = ({ message }) => {
+        this.openEmailModal();
+        this.dispatcher.setModalAlert({ type: 'success', message });
+      };
+
+      this.saveAndReload({ onSuccess });
+    } else {
+      this.openEmailModal();
+    }
+  };
+
+  openEmailModal = () => {
+    const state = this.store.getState();
+    const type = getEmailModalType(state);
+
+    this.dispatcher.openModal({ modalType: type });
   };
 
   redirectToCreateNewBill = () => {
@@ -700,6 +727,96 @@ class PurchaseOrderModule {
       : null;
   };
 
+  sendEmail = () => {
+    if (getIsSubmitting(this.store.getState())) return;
+
+    this.dispatcher.setSubmittingState(true);
+
+    const onSuccess = ({ message }) => {
+      this.globalCallbacks.purchaseOrderSaved();
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_EMAILED_PURCHASE_ORDER,
+        content: message,
+      });
+      this.redirectToPurchaseOrderList();
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.sendEmail({
+      onSuccess,
+      onFailure,
+    });
+  };
+
+  updateEmailPurchaseOrderDetail = ({ key, value }) => {
+    this.dispatcher.updateEmailPurchaseOrderDetail(key, value);
+  };
+
+  addEmailAttachments = (files) => {
+    this.dispatcher.addEmailAttachments(files);
+
+    this.uploadEmailAttachments(files);
+  };
+
+  uploadEmailAttachments = (files) => {
+    const state = this.store.getState();
+
+    getFilesForUpload(state, files).forEach((file) =>
+      this.uploadEmailAttachment(file)
+    );
+  };
+
+  uploadEmailAttachment = (file) => {
+    const onSuccess = (response) => {
+      this.dispatcher.uploadEmailAttachment({ response, file });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.uploadEmailAttachmentFailed({ message, file });
+    };
+
+    const onProgress = (uploadProgress) => {
+      this.dispatcher.updateEmailAttachmentUploadProgress({
+        uploadProgress,
+        file,
+      });
+    };
+
+    this.integrator.uploadEmailAttachment({
+      onSuccess,
+      onFailure,
+      onProgress,
+      file,
+    });
+  };
+
+  redirectToPurchasesSettings = () => {
+    const state = this.store.getState();
+    const url = getPurchasesSettingsUrl(state);
+
+    this.navigateTo(url);
+  };
+
+  closeEmailSettingsModal = () => {
+    this.dispatcher.closeModal();
+    this.dispatcher.resetOpenSendEmail();
+  };
+
+  openPurchasesSettingsTabAndCloseModal = () => {
+    this.closeEmailSettingsModal();
+    this.redirectToPurchasesSettings();
+  };
+
+  closeEmailModal = () => {
+    this.closeModal();
+    this.dispatcher.resetEmailPurchaseOrderDetail();
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
@@ -718,6 +835,7 @@ class PurchaseOrderModule {
           onCancelButtonClick={this.openCancelModal}
           onDeleteButtonClick={this.openDeleteModal}
           onExportPdfButtonClick={this.openExportPdfModalOrSaveAndExportPdf}
+          onSaveAndEmailButtonClick={this.saveAndEmailPurchaseOrder}
           onModalClose={this.closeModal}
           onCancelModalConfirm={this.redirectToPurchaseOrderList}
           onDeleteModalConfirm={this.deletePurchaseOrder}
@@ -758,6 +876,20 @@ class PurchaseOrderModule {
             onCancel: this.closeModal,
             onConfirm: this.exportPdf,
             onChange: this.dispatcher.updateExportPdfDetail,
+          }}
+          emailSettingsModalListeners={{
+            onConfirm: this.openPurchasesSettingsTabAndCloseModal,
+            onCloseModal: this.closeEmailModal,
+            onDismissAlert: this.dispatcher.dismissModalAlert,
+          }}
+          emailPurchaseOrderDetailModalListeners={{
+            onConfirm: this.sendEmail,
+            onCloseModal: this.closeEmailModal,
+            onEmailPurchaseOrderDetailChange: this
+              .updateEmailPurchaseOrderDetail,
+            onDismissAlert: this.dispatcher.dismissModalAlert,
+            onAddAttachments: this.addEmailAttachments,
+            onRemoveAttachment: this.dispatcher.removeEmailAttachment,
           }}
           onConvertToBillButtonClick={this.convertToBillOrOpenUnsavedModal}
           onAddSupplierButtonClick={this.openSupplierModal}
@@ -801,7 +933,7 @@ class PurchaseOrderModule {
     const state = this.store.getState();
     if (getIsPageEdited(state)) {
       this.dispatcher.setRedirectUrl(url);
-      this.dispatcher.openModal({ modalType: ModalType.Unsaved });
+      this.dispatcher.openModal({ modalType: ModalType.UNSAVED });
     } else {
       this.navigateTo(url);
     }

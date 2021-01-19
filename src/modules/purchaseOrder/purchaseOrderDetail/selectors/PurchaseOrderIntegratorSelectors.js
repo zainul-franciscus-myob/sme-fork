@@ -129,6 +129,34 @@ export const getSavePurchaseOrderContent = createSelector(
   }
 );
 
+export const getSendEmailUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  const purchaseOrderId = getPurchaseOrderId(state);
+
+  return { businessId, purchaseOrderId };
+};
+
+export const getSendEmailPayload = (state) => {
+  const {
+    hasEmailReplyDetails,
+    includePurchaseOrderNumberInEmail,
+    attachments,
+    ...restOfEmailPurchaseOrder
+  } = state.emailPurchaseOrder;
+
+  return {
+    ...restOfEmailPurchaseOrder,
+    attachments: attachments
+      .filter((attachment) => attachment.state === 'finished')
+      .map(({ file, keyName, uploadPassword }) => ({
+        filename: file.name,
+        mimeType: file.type,
+        keyName,
+        uploadPassword,
+      })),
+  };
+};
+
 export const getLoadAbnFromSupplierUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const supplierId = getSupplierId(state);

@@ -15,6 +15,7 @@ import {
   SAVE_PURCHASE_ORDER_FAILED,
   SET_ABN_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_MODAL_ALERT,
   START_BLOCKING,
   START_LOADING,
   STOP_BLOCKING,
@@ -36,6 +37,7 @@ import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import createPurchaseOrderDispatcher from '../createPurchaseOrderDispatcher';
 import createPurchaseOrderIntegrator from '../createPurchaseOrderIntegrator';
+import loadServicePurchaseOrder from '../mappings/data/loadServicePurchaseOrder';
 import purchaseOrderReducer from '../reducer/purchaseOrderReducer';
 
 export const mockCreateObjectUrl = () => {
@@ -395,14 +397,14 @@ describe('PurchaseOrderModule', () => {
       const { module, store } = setUpWithRun({ isCreating: true });
 
       module.updatePurchaseOrderOption({
-        key: 'supplierInvoiceNumber',
+        key: 'supplierPurchaseOrderNumber',
         value: '1',
       });
 
       expect(store.getActions()).toEqual([
         {
           intent: UPDATE_PURCHASE_ORDER_OPTION,
-          key: 'supplierInvoiceNumber',
+          key: 'supplierPurchaseOrderNumber',
           value: '1',
         },
       ]);
@@ -689,7 +691,7 @@ describe('PurchaseOrderModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+          { intent: OPEN_MODAL, modalType: ModalType.EXPORT_PDF },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
@@ -762,7 +764,7 @@ describe('PurchaseOrderModule', () => {
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
           expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
-          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+          { intent: OPEN_MODAL, modalType: ModalType.EXPORT_PDF },
         ]);
         expect(integration.getRequests()).toEqual([
           expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
@@ -825,7 +827,7 @@ describe('PurchaseOrderModule', () => {
         module.openExportPdfModalOrSaveAndExportPdf();
 
         expect(store.getActions()).toEqual([
-          { intent: OPEN_MODAL, modalType: ModalType.ExportPdf },
+          { intent: OPEN_MODAL, modalType: ModalType.EXPORT_PDF },
         ]);
         expect(integration.getRequests().length).toBe(0);
       });
@@ -844,7 +846,7 @@ describe('PurchaseOrderModule', () => {
           expect(store.getActions()).toEqual([
             {
               intent: OPEN_MODAL,
-              modalType: ModalType.Unsaved,
+              modalType: ModalType.UNSAVED,
               redirectUrl: expectedUrl,
             },
           ]);
@@ -861,6 +863,218 @@ describe('PurchaseOrderModule', () => {
 
           expect(navigateTo).toBeCalledWith(expectedUrl);
         });
+      });
+    });
+  });
+
+  describe('saveAndEmailPurchaseOrder', () => {
+    describe('new purchase order', () => {
+      it('create purchase order, update purchase order id, update url params, reload purchase order, open email modal and show alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: UPDATE_PURCHASE_ORDER_ID, id: '1' },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_PURCHASE_ORDER }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          {
+            intent: OPEN_MODAL,
+            modalType: ModalType.EMAIL_PURCHASE_ORDER,
+          },
+          {
+            intent: SET_MODAL_ALERT,
+            modalAlert: {
+              type: 'success',
+              message:
+                "Success! You've successfully created a new purchase Order.",
+            },
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalled();
+      });
+
+      it('does not open email modal when create purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(CREATE_PURCHASE_ORDER, { message });
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: SAVE_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+        ]);
+      });
+
+      it('does not open email modal when reload purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(LOAD_PURCHASE_ORDER, { message });
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: UPDATE_PURCHASE_ORDER_ID, id: '1' },
+          { intent: START_BLOCKING },
+          { intent: RELOAD_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+        ]);
+      });
+    });
+
+    describe('existing purchase order that has been edited', () => {
+      it('update purchase order, reload purchase order, open email modal and show alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_PURCHASE_ORDER }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          {
+            intent: OPEN_MODAL,
+            modalType: ModalType.EMAIL_PURCHASE_ORDER,
+          },
+          {
+            intent: SET_MODAL_ALERT,
+            modalAlert: {
+              type: 'success',
+              message: "Great Work! You've done it well!",
+            },
+          },
+        ]);
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ]);
+
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+
+      it('does not open email modal when update purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(UPDATE_PURCHASE_ORDER, { message });
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: SAVE_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+        ]);
+      });
+
+      it('does not open email modal when reload purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(LOAD_PURCHASE_ORDER, { message });
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          { intent: RELOAD_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+        ]);
+      });
+    });
+
+    describe('existing purchase order that has not been edited', () => {
+      it('should open email modal', () => {
+        const { module, store } = setUpWithRun();
+
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          {
+            intent: OPEN_MODAL,
+            modalType: ModalType.EMAIL_PURCHASE_ORDER,
+          },
+        ]);
+
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('does not have reply email address', () => {
+      it('open email settings', () => {
+        const { module, store, integration } = setUp();
+        integration.mapSuccess(LOAD_PURCHASE_ORDER, {
+          ...loadServicePurchaseOrder,
+          emailPurchaseOrder: {
+            ...loadServicePurchaseOrder.emailPurchaseOrder,
+            hasEmailReplyDetails: false,
+          },
+        });
+        module.run({
+          purchaseOrderId: 'purchaseOrderId',
+          businessId: 'businessId',
+          region: 'au',
+        });
+        store.resetActions();
+        integration.resetRequests();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: OPEN_MODAL,
+              modalType: ModalType.EMAIL_SETTINGS,
+            },
+          ])
+        );
       });
     });
   });

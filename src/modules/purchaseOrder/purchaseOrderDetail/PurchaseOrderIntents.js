@@ -12,6 +12,8 @@ export const LOAD_SUPPLIER_DETAIL_FAILED = Symbol(
   'Load supplier detail failed'
 );
 export const RESET_SUPPLIER = Symbol('Reset the supplier');
+export const RESET_OPEN_SEND_EMAIL = Symbol('Reset open send email');
+
 export const UPDATE_PURCHASE_ORDER_OPTION = Symbol(
   'Update purchase order option'
 );
@@ -75,5 +77,25 @@ export const UPDATE_HEADER_OPTION = Symbol('Update header option');
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
+export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
+export const SET_MODAL_ALERT = Symbol('Set modal alert');
 
 export const SAVE_PURCHASE_ORDER_FAILED = Symbol('Save purchase order failed');
+
+export const SEND_EMAIL = Symbol('Send email');
+export const UPLOAD_EMAIL_ATTACHMENT = Symbol('Upload email attachment');
+export const UPDATE_EMAIL_PURCHASE_ORDER_DETAIL = Symbol(
+  'Update email purchase order detail'
+);
+export const RESET_EMAIL_PURCHASE_ORDER_DETAIL = Symbol(
+  'Reset email purchase order detail'
+);
+
+export const ADD_EMAIL_ATTACHMENTS = Symbol('Add email attachments');
+export const UPLOAD_EMAIL_ATTACHMENT_FAILED = Symbol(
+  'Upload email attachment failed'
+);
+export const UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS = Symbol(
+  'Update email attachment upload progress'
+);
+export const REMOVE_EMAIL_ATTACHMENT = Symbol('Remove email attachment');

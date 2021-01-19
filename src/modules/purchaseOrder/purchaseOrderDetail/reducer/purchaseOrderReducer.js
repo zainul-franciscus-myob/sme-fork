@@ -1,6 +1,7 @@
 import Decimal from 'decimal.js';
 
 import {
+  ADD_EMAIL_ATTACHMENTS,
   ADD_PURCHASE_ORDER_LINE,
   CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
@@ -23,13 +24,18 @@ import {
   OPEN_MODAL,
   RELOAD_PURCHASE_ORDER,
   RELOAD_PURCHASE_ORDER_FAILED,
+  REMOVE_EMAIL_ATTACHMENT,
   REMOVE_PURCHASE_ORDER_LINE,
+  RESET_EMAIL_PURCHASE_ORDER_DETAIL,
+  RESET_OPEN_SEND_EMAIL,
   RESET_SUPPLIER,
   SAVE_PURCHASE_ORDER_FAILED,
   SET_ABN_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_MODAL_ALERT,
   SET_REDIRECT_URL,
   SET_SOURCE,
+  SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_BLOCKING,
@@ -38,14 +44,28 @@ import {
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
+  UPDATE_EMAIL_PURCHASE_ORDER_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_ISSUE_DATE,
   UPDATE_LAYOUT,
   UPDATE_PURCHASE_ORDER_ID,
   UPDATE_PURCHASE_ORDER_LINE,
   UPDATE_PURCHASE_ORDER_OPTION,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../PurchaseOrderIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import {
+  addAttachments,
+  removeEmailAttachment,
+  resetEmailPurchaseOrderDetail,
+  resetOpenSendEmailParam,
+  updateEmailAttachmentUploadProgress,
+  updateEmailPurchaseOrderDetail,
+  uploadEmailAttachment,
+  uploadEmailAttachmentFailed,
+} from './EmailReducer';
 import { calculateLineAmounts, getTaxCalculations } from './calculationReducer';
 import {
   defaultLinePrefillStatus,
@@ -57,6 +77,7 @@ import {
   getPurchaseOrderId,
   getRegion,
 } from '../selectors/purchaseOrderSelectors';
+import { getEmailDetailFromPurchaseOrderDetail } from '../selectors/EmailSelectors';
 import LineTaxTypes from '../types/LineTaxTypes';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PurchaseOrderLineType from '../types/PurchaseOrderLineType';
@@ -116,6 +137,20 @@ const loadPurchaseOrder = (state, action) => {
             .hasHitLimit,
         }
       : defaultState.subscription,
+    emailPurchaseOrder: {
+      ...state.emailPurchaseOrder,
+      ...getEmailDetailFromPurchaseOrderDetail({
+        emailPurchaseOrder: action.response.emailPurchaseOrder,
+        purchaseOrderNumber: action.response.purchaseOrder.purchaseOrderNumber,
+      }),
+    },
+    emailPurchaseOrderDefaultState: {
+      ...state.emailPurchaseOrderDefaultState,
+      ...getEmailDetailFromPurchaseOrderDetail({
+        emailPurchaseOrder: action.response.emailPurchaseOrder,
+        purchaseOrderNumber: action.response.purchaseOrder.purchaseOrderNumber,
+      }),
+    },
     exportPdf: {
       ...state.exportPdf,
       ...action.response.exportPdf,
@@ -145,6 +180,11 @@ const reloadPurchaseOrder = (state, action) => {
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
+});
+
+const setModalAlert = (state, action) => ({
+  ...state,
+  modalAlert: action.modalAlert,
 });
 
 const resetState = () => getDefaultState();
@@ -493,6 +533,11 @@ const deletingPurchaseOrder = (state) => ({
   isBlocking: true,
 });
 
+const setSubmittingState = (state, { isSubmitting }) => ({
+  ...state,
+  isSubmitting,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -539,6 +584,16 @@ const handlers = {
   [SAVE_PURCHASE_ORDER_FAILED]: actionFailed,
   [EXPORT_PURCHASE_ORDER_PDF_FAILED]: exportPurchaseOrderPdfFailed,
   [LOADING_AFTER_CREATE]: loadingAfterCreate,
+  [ADD_EMAIL_ATTACHMENTS]: addAttachments,
+  [REMOVE_EMAIL_ATTACHMENT]: removeEmailAttachment,
+  [RESET_EMAIL_PURCHASE_ORDER_DETAIL]: resetEmailPurchaseOrderDetail,
+  [RESET_OPEN_SEND_EMAIL]: resetOpenSendEmailParam,
+  [SET_MODAL_ALERT]: setModalAlert,
+  [SET_SUBMITTING_STATE]: setSubmittingState,
+  [UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS]: updateEmailAttachmentUploadProgress,
+  [UPDATE_EMAIL_PURCHASE_ORDER_DETAIL]: updateEmailPurchaseOrderDetail,
+  [UPLOAD_EMAIL_ATTACHMENT]: uploadEmailAttachment,
+  [UPLOAD_EMAIL_ATTACHMENT_FAILED]: uploadEmailAttachmentFailed,
 };
 
 const purchaseOrderReducer = createReducer(getDefaultState(), handlers);

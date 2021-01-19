@@ -1,4 +1,5 @@
 import {
+  ADD_EMAIL_ATTACHMENTS,
   ADD_PURCHASE_ORDER_LINE,
   CALCULATE_LINE_AMOUNTS,
   CLOSE_ALERT,
@@ -22,13 +23,18 @@ import {
   OPEN_MODAL,
   RELOAD_PURCHASE_ORDER,
   RELOAD_PURCHASE_ORDER_FAILED,
+  REMOVE_EMAIL_ATTACHMENT,
   REMOVE_PURCHASE_ORDER_LINE,
+  RESET_EMAIL_PURCHASE_ORDER_DETAIL,
+  RESET_OPEN_SEND_EMAIL,
   RESET_SUPPLIER,
   SAVE_PURCHASE_ORDER_FAILED,
   SET_ABN_LOADING_STATE,
   SET_DUPLICATE_ID,
+  SET_MODAL_ALERT,
   SET_REDIRECT_URL,
   SET_SOURCE,
+  SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
   SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
   START_BLOCKING,
@@ -37,6 +43,8 @@ import {
   STOP_BLOCKING,
   STOP_LOADING,
   STOP_MODAL_BLOCKING,
+  UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS,
+  UPDATE_EMAIL_PURCHASE_ORDER_DETAIL,
   UPDATE_EXPORT_PDF_DETAIL,
   UPDATE_HEADER_OPTION,
   UPDATE_ISSUE_DATE,
@@ -44,6 +52,8 @@ import {
   UPDATE_PURCHASE_ORDER_ID,
   UPDATE_PURCHASE_ORDER_LINE,
   UPDATE_PURCHASE_ORDER_OPTION,
+  UPLOAD_EMAIL_ATTACHMENT,
+  UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from './PurchaseOrderIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -179,6 +189,14 @@ const createPurchaseOrderDispatcher = (store) => ({
     });
   },
 
+  setModalAlert: ({ type, message }) =>
+    store.dispatch({
+      intent: SET_MODAL_ALERT,
+      modalAlert: { type, message },
+    }),
+
+  dismissModalAlert: () => store.dispatch({ intent: SET_MODAL_ALERT }),
+
   openDangerAlert: ({ message }) => {
     store.dispatch({
       intent: OPEN_ALERT,
@@ -186,6 +204,8 @@ const createPurchaseOrderDispatcher = (store) => ({
       type: 'danger',
     });
   },
+
+  resetOpenSendEmail: () => store.dispatch({ intent: RESET_OPEN_SEND_EMAIL }),
 
   openSuccessAlert: ({ message }) => {
     store.dispatch({
@@ -380,6 +400,47 @@ const createPurchaseOrderDispatcher = (store) => ({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
     });
+  },
+
+  setSubmittingState: (isSubmitting) =>
+    store.dispatch({
+      intent: SET_SUBMITTING_STATE,
+      isSubmitting,
+    }),
+
+  updateEmailPurchaseOrderDetail: (key, value) =>
+    store.dispatch({
+      intent: UPDATE_EMAIL_PURCHASE_ORDER_DETAIL,
+      key,
+      value,
+    }),
+
+  resetEmailPurchaseOrderDetail: () =>
+    store.dispatch({ intent: RESET_EMAIL_PURCHASE_ORDER_DETAIL }),
+
+  addEmailAttachments: (files) => {
+    const intent = ADD_EMAIL_ATTACHMENTS;
+    store.dispatch({ intent, files });
+  },
+
+  uploadEmailAttachment: ({ response, file }) => {
+    const intent = UPLOAD_EMAIL_ATTACHMENT;
+    store.dispatch({ intent, ...response, file });
+  },
+
+  uploadEmailAttachmentFailed: ({ message, file }) => {
+    const intent = UPLOAD_EMAIL_ATTACHMENT_FAILED;
+    store.dispatch({ intent, message, file });
+  },
+
+  updateEmailAttachmentUploadProgress: ({ uploadProgress, file }) => {
+    const intent = UPDATE_EMAIL_ATTACHMENT_UPLOAD_PROGRESS;
+    store.dispatch({ intent, uploadProgress, file });
+  },
+
+  removeEmailAttachment: (index) => {
+    const intent = REMOVE_EMAIL_ATTACHMENT;
+    store.dispatch({ intent, index });
   },
 });
 

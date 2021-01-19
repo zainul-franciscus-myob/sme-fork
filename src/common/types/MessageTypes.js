@@ -80,6 +80,10 @@ export const SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK = Symbol(
 );
 export const DUPLICATE_PURCHASE_ORDER = Symbol('Duplicate purchase order');
 
+export const SUCCESSFULLY_EMAILED_PURCHASE_ORDER = Symbol(
+  'Successfully emailed purchase order'
+);
+
 // Remittance Advice
 export const SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE = Symbol(
   'Successfully emailed remittance advice'

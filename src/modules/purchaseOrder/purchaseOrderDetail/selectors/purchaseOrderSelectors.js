@@ -43,6 +43,7 @@ export const getAbn = (state) => state.abn;
 export const getAccountOptions = (state) => state.accountOptions;
 export const getExpirationTermOptions = (state) => state.expirationTermOptions;
 export const getTaxCodeOptions = (state) => state.taxCodeOptions;
+export const getTemplateOptions = (state) => state.template.templateOptions;
 
 export const getLoadingState = (state) => state.loadingState;
 export const getIsBlocking = (state) => state.isBlocking;
@@ -51,8 +52,10 @@ export const getIsAbnLoading = (state) => state.isAbnLoading;
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getIsLineEdited = (state) => state.isLineEdited;
 export const getModalType = (state) => state.modalType;
+export const getModalAlert = (state) => state.modalAlert;
 export const getAlertType = (state) => state.alert.type;
 export const getAlertMessage = (state) => state.alert.message;
+export const getIsSubmitting = (state) => state.isSubmitting;
 
 export const getTotalTaxLabel = (state) =>
   getRegionToDialectText(state.region)('Tax');
@@ -108,6 +111,13 @@ export const getIsLinesEmpty = createSelector(
 export const getTableData = createSelector(getPurchaseOrderLinesLength, (len) =>
   Array(len).fill({})
 );
+
+export const getShouldSaveAndReload = (state) => {
+  const isCreating = getIsCreating(state);
+  const isPageEdited = getIsPageEdited(state);
+
+  return isCreating || isPageEdited;
+};
 
 export const getPurchaseOrderLine = (state, { index }) => {
   const line = state.purchaseOrder.lines[index];

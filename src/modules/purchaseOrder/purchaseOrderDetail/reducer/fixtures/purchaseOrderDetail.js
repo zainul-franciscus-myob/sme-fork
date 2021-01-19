@@ -115,6 +115,18 @@ export default {
   conversionDate: '2014-07-01T00:00:00',
   exportPdf: {},
   openExportPdf: undefined,
+  emailPurchaseOrder: {
+    hasEmailReplyDetails: true,
+    isEmailMeACopy: false,
+    ccToEmail: ['t-pain@myob.com', 'hamzzz@myob.com'],
+    fromEmail: 'tom.xu@myob.com',
+    fromName: 'Tom Xu',
+    messageBody: "Let's make some hot chocolate!!",
+    subject: 'Hot Chocolate is life',
+    toEmail: ['geoff.spires@myob.com', 'tom.xu@myob.com'],
+    attachments: [],
+    templateName: '',
+  },
   startOfFinancialYearDate: '2018-07-01T00:00:00',
   subscription: {
     isUpgradeModalShowing: false,

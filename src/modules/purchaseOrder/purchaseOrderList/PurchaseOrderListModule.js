@@ -3,6 +3,7 @@ import React from 'react';
 
 import {
   SUCCESSFULLY_DELETED_PURCHASE_ORDER,
+  SUCCESSFULLY_EMAILED_PURCHASE_ORDER,
   SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK,
 } from '../../../common/types/MessageTypes';
 import {
@@ -22,6 +23,7 @@ import purchaseOrderListReducer from './purchaseOrderListReducer';
 const messageTypes = [
   SUCCESSFULLY_SAVED_PURCHASE_ORDER_WITHOUT_LINK,
   SUCCESSFULLY_DELETED_PURCHASE_ORDER,
+  SUCCESSFULLY_EMAILED_PURCHASE_ORDER,
 ];
 
 export default class PurchaseOrderListModule {

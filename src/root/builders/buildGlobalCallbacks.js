@@ -28,6 +28,7 @@ export default ({ closeTasks }) => ({
   employeeDetailsSaved: () =>
     closeTasks({ closeEvent: 'employeeDetailsSaved' }),
   invoiceSaved: () => closeTasks({ closeEvent: 'invoiceSaved' }),
+  purchaseOrderSaved: () => closeTasks({ closeEvent: 'purchaseOrderSaved' }),
   reviewInvoiceTemplateCompleted: () =>
     closeTasks({ closeEvent: 'reviewInvoiceTemplateCompleted' }),
   // Though the 'bankFeedsUpdated' event itself is not listened to by any tasks, it does trigger the

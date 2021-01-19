@@ -1,9 +1,7 @@
 import {
   getAmountDue,
-  getConversionMonthYear,
   getHasLineBeenPrefilled,
   getHasNoteBeenPrefilled,
-  getIsBeforeFYAndAfterConversionDate,
   getIsLinesSupported,
   getIsNewLine,
   getIsReadOnly,
@@ -12,8 +10,9 @@ import {
   getNewLineIndex,
   getPageTitle,
   getPurchaseOrderLine,
-  getReadOnlyMessage,
+  getShouldSaveAndReload,
   getTableData,
+  getTemplateOptions,
   getTotals,
   getUniqueSelectedItemIds,
 } from '../purchaseOrderSelectors';
@@ -404,85 +403,40 @@ describe('PurchaseOrderSelectors', () => {
       expect(actual).toEqual('9');
     });
   });
-});
 
-describe('getReadOnlyMessage', () => {
-  it.each([
-    [
-      false,
-      'blah',
-      "This purchase order is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this purchase order.",
-    ],
-    [
-      false,
-      '',
-      "This purchase order is read only because the purchase order layout isn't supported in the browser. Switch to AccountRight desktop to edit this purchase order.",
-    ],
-    [
-      false,
-      undefined,
-      "This purchase order is read only because the purchase order layout isn't supported in the browser. Switch to AccountRight desktop to edit this purchase order.",
-    ],
-    [
-      true,
-      '',
-      'This purchase order is read only because it contains unsupported features. Switch to AccountRight desktop to edit this purchase order.',
-    ],
-  ])(
-    'isLayoutSupported %s, layout %s',
-    (isLayoutSupported, layout, message) => {
-      const actual = getReadOnlyMessage.resultFunc(isLayoutSupported, layout);
+  describe('getTemplateOptions', () => {
+    const state = {
+      template: {
+        templateOptions: [{ name: 'a', label: 'a' }],
+        defaultTemplate: 'a',
+      },
+    };
+    it('uses template options when layout is service', () => {
+      const actual = getTemplateOptions(state);
 
-      expect(actual).toEqual(message);
-    }
-  );
-});
+      expect(actual).toEqual([{ name: 'a', label: 'a' }]);
+    });
+  });
 
-describe('getIsBeforeFYAndAfterConversionDate', () => {
-  it.each([
-    ['2014-07-01', '2011-01-01', '2010-01-01', false],
-    ['2014-07-01', '2011-01-01', '2011-01-01', true],
-    ['2014-07-01', '2011-01-01', '2013-01-01', true],
-    ['2014-07-01', '2011-01-01', '2014-06-30', true],
-    ['2014-07-01', '2011-01-01', '2014-07-01', false],
-    ['2014-07-01', '2011-01-01', '2014-07-02', false],
-    ['2014-07-01', '2011-01-01', '2015-01-01', false],
-    ['2014-07-01', '2014-07-01', '2013-01-01', false],
-    ['2014-07-01', '2014-07-01', '2014-07-01', false],
-    ['2014-07-01', '2014-07-01', '2015-01-01', false],
-    ['2014-07-01', '2015-01-01', '2014-07-02', false],
-  ])(
-    'when start of financial year date is %s, conversion date is %s and issue date is %s, should return %s',
-    (startOfFinancialYearDate, conversionDate, issueDate, expected) => {
+  describe('getShouldSaveAndReload', () => {
+    it('should return true when purchase order is created', () => {
       const state = {
-        purchaseOrder: {
-          issueDate,
-        },
-        startOfFinancialYearDate,
-        conversionDate,
+        purchaseOrderId: 'new',
+        isPageEdited: false,
       };
+      const actual = getShouldSaveAndReload(state);
 
-      const actual = getIsBeforeFYAndAfterConversionDate(state);
+      expect(actual).toBeTruthy();
+    });
 
-      expect(actual).toEqual(expected);
-    }
-  );
-});
-
-describe('getConversionMonthYear', () => {
-  [
-    { value: '2013-08-01', expected: 'August 2013' },
-    { value: '2013-01-01', expected: 'January 2013' },
-    { value: '2013-07-01', expected: 'July 2013' },
-    { value: '2013-12-01', expected: 'December 2013' },
-  ].forEach((test) => {
-    it('should format correctly', () => {
+    it('should return true when page is edited', () => {
       const state = {
-        conversionDate: test.value,
+        purchaseOrderId: '1',
+        isPageEdited: true,
       };
-      const actual = getConversionMonthYear(state);
+      const actual = getShouldSaveAndReload(state);
 
-      expect(actual).toEqual(test.expected);
+      expect(actual).toBeTruthy();
     });
   });
 });

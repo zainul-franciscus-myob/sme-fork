@@ -1,9 +1,14 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getModalType } from '../selectors/purchaseOrderSelectors';
+import {
+  getModalAlert,
+  getModalType,
+} from '../selectors/purchaseOrderSelectors';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
+import EmailPurchaseOrderModal from './email/EmailPurchaseOrderModal';
+import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './ExportPdfModal';
 import ModalType from '../types/ModalType';
 import SaveAndCreateNewModal from './SaveAndCreateNewModal';
@@ -12,6 +17,9 @@ import UnsavedModal from '../../../../components/modal/UnsavedModal';
 
 const PurchaseOrderModal = ({
   modalType,
+  templateOptions,
+  isActionDisabled,
+  modalAlert,
   onModalClose,
   onCancelModalConfirm,
   onConfirmSaveAndDuplicateButtonClick,
@@ -20,12 +28,14 @@ const PurchaseOrderModal = ({
   onDeleteModalConfirm,
   onDiscardAndRedirect,
   exportPdfModalListeners,
+  emailPurchaseOrderDetailModalListeners,
+  emailSettingsModalListeners,
 }) =>
   ({
-    [ModalType.CancelModal]: (
+    [ModalType.CANCEL]: (
       <CancelModal onConfirm={onCancelModalConfirm} onCancel={onModalClose} />
     ),
-    [ModalType.DeleteModal]: (
+    [ModalType.DELETE]: (
       <DeleteModal
         onConfirm={onDeleteModalConfirm}
         onCancel={onModalClose}
@@ -33,7 +43,7 @@ const PurchaseOrderModal = ({
       />
     ),
 
-    [ModalType.SaveAndCreateNew]: (
+    [ModalType.SAVE_AND_CREATE_NEW]: (
       <SaveAndCreateNewModal
         onConfirmSaveAndCreateNewButtonClick={
           onConfirmSaveAndCreateNewButtonClick
@@ -41,7 +51,7 @@ const PurchaseOrderModal = ({
         onCancel={onModalClose}
       />
     ),
-    [ModalType.SaveAndDuplicate]: (
+    [ModalType.SAVE_AND_DUPLICATE]: (
       <SaveAndDuplicateModal
         onConfirmSaveAndDuplicateButtonClick={
           onConfirmSaveAndDuplicateButtonClick
@@ -49,7 +59,7 @@ const PurchaseOrderModal = ({
         onCancel={onModalClose}
       />
     ),
-    [ModalType.Unsaved]: (
+    [ModalType.UNSAVED]: (
       <UnsavedModal
         onConfirmSave={onConfirmSaveAndRedirect}
         onConfirmUnsave={onDiscardAndRedirect}
@@ -58,12 +68,42 @@ const PurchaseOrderModal = ({
         description="Looks like you've made changes. Do you want to record these changes?"
       />
     ),
-    [ModalType.ExportPdf]: (
+    [ModalType.EXPORT_PDF]: (
       <ExportPdfModal listeners={exportPdfModalListeners} />
+    ),
+    [ModalType.EMAIL_PURCHASE_ORDER]: (
+      <EmailPurchaseOrderModal
+        templateOptions={templateOptions}
+        isActionDisabled={isActionDisabled}
+        alert={modalAlert}
+        onCancel={emailPurchaseOrderDetailModalListeners.onCloseModal}
+        onConfirm={emailPurchaseOrderDetailModalListeners.onConfirm}
+        onEmailPurchaseOrderDetailChange={
+          emailPurchaseOrderDetailModalListeners.onEmailPurchaseOrderDetailChange
+        }
+        onDismissAlert={emailPurchaseOrderDetailModalListeners.onDismissAlert}
+        onAddAttachments={
+          emailPurchaseOrderDetailModalListeners.onAddAttachments
+        }
+        onRemoveAttachment={
+          emailPurchaseOrderDetailModalListeners.onRemoveAttachment
+        }
+      />
+    ),
+    [ModalType.EMAIL_SETTINGS]: (
+      <EmailSettingsModal
+        onCancel={emailSettingsModalListeners.onCloseModal}
+        onConfirm={emailSettingsModalListeners.onConfirm}
+        alert={modalAlert}
+        title="Enter email reply details in settings"
+        description="Looks like there are no email reply details for your business in Purchases settings. You'll need to enter these details before you can send this email."
+        onDismissAlert={emailSettingsModalListeners.onDismissAlert}
+      />
     ),
   }[modalType]);
 
 const mapStateToProps = (state) => ({
+  modalAlert: getModalAlert(state),
   modalType: getModalType(state),
 });
 

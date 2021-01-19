@@ -2,9 +2,7 @@ import { createSelector } from 'reselect';
 
 import {
   getBusinessId,
-  getIsCreating,
   getIsModalBlocking,
-  getIsPageEdited,
   getModalType,
   getPurchaseOrderId,
   getPurchaseOrderNumber,
@@ -26,13 +24,6 @@ export const getExportPdfQueryParams = (state) => ({
   formName: getExportPdfTemplate(state),
 });
 
-export const getShouldSaveAndReload = (state) => {
-  const isCreating = getIsCreating(state);
-  const isPageEdited = getIsPageEdited(state);
-
-  return isCreating || isPageEdited;
-};
-
 export const getExportPdfFilename = (state) => {
   const purchaseOrderNumber = getPurchaseOrderNumber(state);
 
@@ -43,5 +34,5 @@ export const getIsExportingPDF = createSelector(
   getModalType,
   getIsModalBlocking,
   (modalType, isModalBlocking) =>
-    modalType === ModalType.ExportPdf && isModalBlocking
+    modalType === ModalType.EXPORT_PDF && isModalBlocking
 );

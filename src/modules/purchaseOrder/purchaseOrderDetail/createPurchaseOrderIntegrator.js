@@ -6,7 +6,10 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
+  SEND_EMAIL,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from './PurchaseOrderIntents';
+import { getBusinessId } from './selectors/purchaseOrderSelectors';
 import {
   getCalculatePurchaseOrderItemChangeContent,
   getCalculatePurchaseOrderLinesUrlParams,
@@ -20,6 +23,8 @@ import {
   getSavePurchaseOrderContent,
   getSavePurchaseOrderIntent,
   getSavePurchaseOrderUrlParams,
+  getSendEmailPayload,
+  getSendEmailUrlParams,
 } from './selectors/PurchaseOrderIntegratorSelectors';
 import {
   getExportPdfQueryParams,
@@ -107,6 +112,38 @@ const createPurchaseOrderIntegrator = (store, integration) => ({
       content,
       onSuccess,
       onFailure,
+    });
+  },
+
+  sendEmail: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = SEND_EMAIL;
+    const urlParams = getSendEmailUrlParams(state);
+    const content = getSendEmailPayload(state);
+
+    integration.write({
+      intent,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  uploadEmailAttachment: ({ onSuccess, onFailure, onProgress, file }) => {
+    const state = store.getState();
+    integration.writeFormData({
+      intent: UPLOAD_EMAIL_ATTACHMENT,
+      content: {
+        file,
+      },
+      urlParams: {
+        businessId: getBusinessId(state),
+      },
+      onSuccess,
+      onFailure,
+      onProgress,
     });
   },
 

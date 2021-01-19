@@ -15,6 +15,7 @@ import {
   getIsReadOnly,
   getShowExportPdfButton,
 } from '../selectors/purchaseOrderSelectors';
+import { getShowEmailButton } from '../selectors/EmailSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const PurchaseOrderActions = ({
@@ -22,6 +23,7 @@ const PurchaseOrderActions = ({
   isBlocking,
   isReadOnly,
   isForeignCurrency,
+  showEmailButton,
   showExportPdfButton,
   onSaveButtonClick,
   onSaveAndButtonClick,
@@ -29,6 +31,7 @@ const PurchaseOrderActions = ({
   onDeleteButtonClick,
   onExportPdfButtonClick,
   onConvertToBillButtonClick,
+  onSaveAndEmailButtonClick,
 }) => {
   const exportPdfButton = (
     <Button
@@ -131,6 +134,18 @@ const PurchaseOrderActions = ({
     </Button>
   );
 
+  const emailButton = (
+    <Button
+      key="saveAndEmail"
+      name="saveAndEmail"
+      type="secondary"
+      onClick={onSaveAndEmailButtonClick}
+      disabled={isBlocking}
+    >
+      Email purchase order
+    </Button>
+  );
+
   if (isReadOnly) {
     return (
       <ButtonRow
@@ -138,6 +153,7 @@ const PurchaseOrderActions = ({
         secondary={[
           !isCreating && !isForeignCurrency,
           showExportPdfButton && exportPdfButton,
+          showEmailButton && emailButton,
         ]}
       />
     );
@@ -151,6 +167,7 @@ const PurchaseOrderActions = ({
         !isCreating && separator,
         !isCreating && convertToBillButton,
         exportPdfButton,
+        emailButton,
       ]}
     />
   );
@@ -161,6 +178,7 @@ const mapStateToProps = (state) => ({
   isBlocking: getIsBlocking(state),
   isReadOnly: getIsReadOnly(state),
   isForeignCurrency: getIsForeignCurrency(state),
+  showEmailButton: getShowEmailButton(state),
   showExportPdfButton: getShowExportPdfButton(state),
 });
 

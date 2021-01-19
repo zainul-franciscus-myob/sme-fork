@@ -10,7 +10,9 @@ import {
   LOAD_NEW_PURCHASE_ORDER,
   LOAD_PURCHASE_ORDER,
   LOAD_SUPPLIER_DETAIL,
+  SEND_EMAIL,
   UPDATE_PURCHASE_ORDER,
+  UPLOAD_EMAIL_ATTACHMENT,
 } from '../PurchaseOrderIntents';
 import createPurchaseOrderResponse from './data/createPurchaseOrderResponse';
 import loadAbnDetail from './data/loadAbnDetail';
@@ -29,6 +31,7 @@ import loadServicePurchaseOrderWithFreight from './data/loadServicePurchaseOrder
 import loadSupplierDetail from './data/loadSupplierDetail';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
+import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse';
 
 const MemoryPurchaseOrderDetailMapping = {
   [LOAD_PURCHASE_ORDER]: ({ urlParams = {}, onSuccess }) => {
@@ -76,6 +79,9 @@ const MemoryPurchaseOrderDetailMapping = {
     onSuccess(loadAddedAccountResponse),
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [LOAD_ABN_FROM_SUPPLIER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
+  [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>
+    onSuccess(uploadEmailAttachmentResponse),
 };
 
 export default MemoryPurchaseOrderDetailMapping;
