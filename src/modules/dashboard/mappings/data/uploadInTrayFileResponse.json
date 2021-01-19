@@ -1,0 +1,12 @@
+{
+  "message": "Success! You've successfully uploaded a document.",
+  "entry": {
+    "id": "6ea58e30-d5c9-4030-84ae-715f266becd4",
+    "uploadedDate": "19/05/2019",
+    "invoiceNumber": "",
+    "issuedDate": "",
+    "thumbnailUri": "https://assets.digital.myob.com/images/favicons/apple-touch-icon.png",
+    "totalAmount": "",
+    "ocrStatus": "InProgress"
+  }
+}

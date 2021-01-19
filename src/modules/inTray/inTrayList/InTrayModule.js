@@ -24,11 +24,13 @@ import {
   getUploadingEntry,
   getUploadingErrorMessage,
 } from './selectors/InTrayListSelectors';
-import { getBusinessId, getRegion } from './selectors/InTraySelectors';
 import {
-  getEmail,
-  getIsUploadOptionsLoading,
-} from './selectors/UploadOptionsSelectors';
+  getBusinessId,
+  getInTrayUploadOptionsModalContext,
+  getRegion,
+} from './selectors/InTraySelectors';
+import { getEmail } from './selectors/UploadOptionsSelectors';
+import InTrayUploadOptionsModalModule from '../inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -37,7 +39,6 @@ import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import debounce from '../../../common/debounce/debounce';
 import inTrayReducer from './reducer/inTrayReducer';
-import modalTypes from './modalTypes';
 import openBlob from '../../../common/blobOpener/openBlob';
 
 const messageTypes = [
@@ -69,6 +70,11 @@ export default class InTrayModule {
     this.dispatcher = createInTrayDispatcher(this.store);
     this.integrator = createInTrayIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
+    this.inTrayUploadOptionsModalModule = new InTrayUploadOptionsModalModule({
+      globalCallbacks,
+      integration,
+      navigateTo,
+    });
   }
 
   loadInTray = () => {
@@ -299,7 +305,11 @@ export default class InTrayModule {
   };
 
   openMoreUploadOptionsDialog = () => {
-    this.dispatcher.openModal(modalTypes.uploadOptions);
+    const state = this.store.getState();
+    const modalContext = getInTrayUploadOptionsModalContext(state);
+    this.inTrayUploadOptionsModalModule.run({
+      context: modalContext,
+    });
     this.dispatcher.setUploadPopoverState(false);
   };
 
@@ -325,15 +335,6 @@ export default class InTrayModule {
     };
 
     this.integrator.generateNewEmail({ onSuccess, onFailure });
-  };
-
-  onCloseUploadOptionsModal = () => {
-    if (!getIsUploadOptionsLoading(this.store.getState())) {
-      this.hideEmailGenerationConfirmation();
-      this.dispatcher.closeModal();
-    }
-
-    this.globalCallbacks.inTrayUploadOptionsClosed();
   };
 
   copyEmail = () => {
@@ -371,18 +372,6 @@ export default class InTrayModule {
     debounce(this.sortAndFilterInTrayList)();
   };
 
-  sharedUploadListeners = () => ({
-    onConfirmEmailGenerationButtonClick: this.showEmailGenerationConfirmation,
-    onCopyEmailButtonClicked: this.copyEmail,
-    onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
-    onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
-    onGenerateNewEmailButtonClick: this.generateNewEmail,
-    navigateToAppStore: () =>
-      this.openInNewTab(getAppStoreLink(this.store.getState())),
-    navigateToGooglePlay: () => this.openInNewTab(getGooglePlayLink),
-    navigateToSuppliersWiki: () => this.openInNewTab(getSuppliersWikiLink),
-  });
-
   setUploadPopoverState = () => this.dispatcher.setUploadPopoverState(true);
 
   openInNewTab = (url) => this.navigateTo(url, true);
@@ -390,6 +379,8 @@ export default class InTrayModule {
   openInSameTab = (url) => this.navigateTo(url, false);
 
   render = () => {
+    const inTrayUploadOptionsModal = this.inTrayUploadOptionsModalModule.render();
+
     const inTrayView = (
       <InTrayView
         inTrayListeners={{
@@ -409,14 +400,21 @@ export default class InTrayModule {
           onConfirmClose: this.dispatcher.closeInTrayDeleteModal,
           onConfirmDelete: this.deleteInTrayDocument,
         }}
-        uploadOptionsModalListeners={{
-          onCancel: this.onCloseUploadOptionsModal,
-          ...this.sharedUploadListeners(),
-        }}
+        inTrayUploadOptionsModal={inTrayUploadOptionsModal}
         emptyStateListeners={{
           onUpload: this.uploadInTrayFiles,
           setUploadPopoverState: () => this.setUploadPopoverState(),
-          ...this.sharedUploadListeners(),
+          onConfirmEmailGenerationButtonClick: this
+            .showEmailGenerationConfirmation,
+          onCopyEmailButtonClicked: this.copyEmail,
+          onDismissAlert: this.dispatcher.dismissUploadOptionsAlert,
+          onDismissConfirmEmailGeneration: this.hideEmailGenerationConfirmation,
+          onGenerateNewEmailButtonClick: this.generateNewEmail,
+          navigateToAppStore: () =>
+            this.openInNewTab(getAppStoreLink(this.store.getState())),
+          navigateToGooglePlay: () => this.openInNewTab(getGooglePlayLink),
+          navigateToSuppliersWiki: () =>
+            this.openInNewTab(getSuppliersWikiLink),
         }}
       />
     );
@@ -424,7 +422,10 @@ export default class InTrayModule {
     this.setRootView(<Provider store={this.store}>{inTrayView}</Provider>);
   };
 
-  resetState = () => this.store.dispatch({ intent: RESET_STATE });
+  resetState = () => {
+    this.inTrayUploadOptionsModalModule.resetState();
+    this.store.dispatch({ intent: RESET_STATE });
+  };
 
   unsubscribeFromStore = () => {
     if (this.pollTimer) {

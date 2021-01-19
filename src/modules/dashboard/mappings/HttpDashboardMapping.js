@@ -1,7 +1,9 @@
 import {
+  CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_IN_TRAY,
   LOAD_PAYROLL,
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
@@ -50,6 +52,15 @@ const HttpDashboardMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/dashboard/load_payroll_reports`,
+  },
+  [LOAD_IN_TRAY]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/dashboard/load_inTray`,
+  },
+  [CREATE_IN_TRAY_DOCUMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/inTray/create_in_tray_document`,
   },
 };
 

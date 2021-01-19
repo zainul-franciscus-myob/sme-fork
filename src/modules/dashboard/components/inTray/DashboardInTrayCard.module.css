@@ -1,0 +1,33 @@
+.container :global(.form-group) {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.container > hr {
+  margin-top: var(--flx-spacing-tiny);
+}
+
+.dropZone :global(.file-browser-label-wrapper) > label {
+  padding: 0;
+}
+
+.linkDocuments {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.linkDocuments > span:nth-of-type(2) {
+  line-height: var(--flx-line-height-reset);
+  margin-right: var(--flx-spacing-tiny);
+  margin-left: var(--flx-spacing-tiny);
+}
+
+.loading {
+  display: flex;
+  justify-content: flex-start;
+  color: var(--flx-palette-storm-72);
+}
+
+.loading :global(.smallLoadingSpinner) {
+  margin: 0 1rem 0 0;
+}

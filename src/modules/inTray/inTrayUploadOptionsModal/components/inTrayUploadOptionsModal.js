@@ -15,17 +15,19 @@ import React from 'react';
 import {
   getEmail,
   getIsConfirmingEmailGeneration,
+  getIsOpen,
   getIsUploadOptionsLoading,
   getUploadOptionsAlert,
-} from '../../selectors/UploadOptionsSelectors';
-import App from '../../../inTrayEmptyState/assets/App.svg';
-import AppStore from '../../../inTrayEmptyState/assets/AppStore.svg';
-import Email from '../../../inTrayEmptyState/assets/Email.svg';
-import Feeds from '../../../inTrayEmptyState/assets/Feeds.svg';
-import GooglePlay from '../../../inTrayEmptyState/assets/GooglePlay.svg';
-import style from './UploadOptionsModal.module.css';
+} from '../selectors/inTrayUploadOptionsSelectors';
+import App from '../../inTrayEmptyState/assets/App.svg';
+import AppStore from '../../inTrayEmptyState/assets/AppStore.svg';
+import Email from '../../inTrayEmptyState/assets/Email.svg';
+import Feeds from '../../inTrayEmptyState/assets/Feeds.svg';
+import GooglePlay from '../../inTrayEmptyState/assets/GooglePlay.svg';
+import style from './inTrayUploadOptionsModal.module.css';
 
 const UploadOptionsModal = ({
+  isOpen,
   listeners: {
     navigateToAppStore,
     navigateToGooglePlay,
@@ -187,27 +189,30 @@ const UploadOptionsModal = ({
   const spinner = <Spinner className={style.inTraySpinner} />;
 
   return (
-    <Modal
-      onCancel={onCancel}
-      size="large"
-      title="More ways to upload documents"
-    >
-      {isUploadOptionsLoading ? spinner : modalBody}
-      <Modal.Footer>
-        <Button
-          disabled={isUploadOptionsLoading}
-          onClick={onCancel}
-          type="secondary"
-        >
-          Close
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    isOpen && (
+      <Modal
+        onCancel={onCancel}
+        size="large"
+        title="More ways to upload documents"
+      >
+        {isUploadOptionsLoading ? spinner : modalBody}
+        <Modal.Footer>
+          <Button
+            disabled={isUploadOptionsLoading}
+            onClick={onCancel}
+            type="secondary"
+          >
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    )
   );
 };
 
 const mapStateToProps = (state) => ({
   email: getEmail(state),
+  isOpen: getIsOpen(state),
   isConfirmingEmailGeneration: getIsConfirmingEmailGeneration(state),
   isUploadOptionsLoading: getIsUploadOptionsLoading(state),
   uploadOptionsAlert: getUploadOptionsAlert(state),

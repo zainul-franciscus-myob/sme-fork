@@ -46,3 +46,14 @@ export const SET_PAYROLL_REPORTS_LOADING_STATE = Symbol(
 export const SET_PAYROLL_REPORTS_ERROR_STATE = Symbol(
   'Set payroll reports error state'
 );
+
+export const ADD_IN_TRAY_ENTRY = Symbol('Add in tray entry');
+export const CREATE_IN_TRAY_DOCUMENT = Symbol('Create in tray document');
+export const REMOVE_IN_TRAY_ENTRY = Symbol('Remove in tray entry');
+export const LOAD_IN_TRAY = Symbol('Load in tray');
+export const SET_IN_TRAY_LOADING_STATE = Symbol('Set in tray loading state');
+export const SET_IN_TRAY_ERROR_STATE = Symbol('Set in tray error state');
+export const SET_IN_TRAY_ALERT = Symbol('Set in tray alert');
+export const SET_IN_TRAY_UPLOADING_STATE = Symbol(
+  'Set in tray uploading state'
+);

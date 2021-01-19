@@ -1,7 +1,9 @@
 import {
+  CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_IN_TRAY,
   LOAD_PAYROLL,
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
@@ -9,9 +11,11 @@ import {
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
 } from '../DashboardIntents';
+import createInTrayFileResponse from './data/uploadInTrayFileResponse';
 import loadAccountBankingResponse from './data/loadAccountBankingResponse';
 import loadDashboardResponse from './data/loadDashboardResponse';
 import loadDefaultBankingResponse from './data/loadDefaultBankingResponse';
+import loadInTrayResponse from './data/loadInTrayResponse';
 import loadPayrollReportsResponse from './data/loadPayrollReportsResponse';
 import loadPayrollResponse from './data/loadPayrollResponse';
 import loadPurchaseResponse from './data/loadPurchaseResponse';
@@ -33,6 +37,14 @@ const MemoryDashboardMapping = {
   [LOAD_PAYROLL]: ({ onSuccess }) => onSuccess(loadPayrollResponse),
   [LOAD_PAYROLL_REPORTS]: ({ onSuccess }) =>
     onSuccess(loadPayrollReportsResponse),
+  [LOAD_IN_TRAY]: ({ onSuccess }) => onSuccess(loadInTrayResponse),
+  [CREATE_IN_TRAY_DOCUMENT]: ({ onSuccess }) => {
+    const {
+      entry: { id, ...res },
+    } = createInTrayFileResponse;
+    const entry = { ...res, id: `${id}-${Math.random()}` };
+    onSuccess({ ...createInTrayFileResponse, entry });
+  },
 };
 
 export default MemoryDashboardMapping;

@@ -16,6 +16,7 @@ export const getShouldShowTracking = (state) =>
   state.enabled.includes('tracking');
 export const getShouldShowPayroll = (state) =>
   state.enabled.includes('payroll');
+export const getShouldShowInTray = (state) => state.enabled.includes('inTray');
 
 export const getBusinessId = (state) => state.businessId;
 

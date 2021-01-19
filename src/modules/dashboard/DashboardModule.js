@@ -2,7 +2,14 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getInTrayUploadOptionsModalContext,
+  getUploadCompleteAlert,
+  getUploadingEntry,
+  getUploadingErrorMessage,
+} from './selectors/DashboardInTraySelectors';
+import {
   getShouldShowBanking,
+  getShouldShowInTray,
   getShouldShowPayroll,
   getShouldShowPurchases,
   getShouldShowSales,
@@ -10,19 +17,25 @@ import {
 } from './selectors/DashboardSelectors';
 import Config from '../../Config';
 import DashboardView from './components/DashboardView';
+import InTrayUploadOptionsModalModule from '../inTray/inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
 import Store from '../../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
 import createDashboardIntegrator from './createDashboardIntegrator';
 import dashboardReducer from './reducers/dashboardReducer';
 
 export default class DashboardModule {
-  constructor({ integration, setRootView, navigateTo }) {
+  constructor({ globalCallbacks, integration, setRootView, navigateTo }) {
     this.integration = integration;
     this.store = new Store(dashboardReducer);
     this.setRootView = setRootView;
     this.dispatcher = createDashboardDispatcher(this.store);
     this.integrator = createDashboardIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
+    this.inTrayUploadOptionsModalModule = new InTrayUploadOptionsModalModule({
+      globalCallbacks,
+      integration,
+      navigateTo,
+    });
   }
 
   loadDashboard = () => {
@@ -37,6 +50,7 @@ export default class DashboardModule {
       this.loadBanking();
       this.loadPayroll();
       this.loadPayrollReports();
+      this.loadInTray();
     };
 
     const onFailure = () => {
@@ -50,6 +64,27 @@ export default class DashboardModule {
     this.dispatcher.loadConfig({
       myReportsUrl: Config.MY_REPORTS_URL,
     });
+  };
+
+  loadInTray = () => {
+    if (!getShouldShowInTray(this.store.getState())) {
+      return;
+    }
+
+    this.dispatcher.setInTrayErrorState(false);
+    this.dispatcher.setInTrayLoadingState(true);
+
+    const onSuccess = (payload) => {
+      this.dispatcher.setInTrayLoadingState(false);
+      this.dispatcher.loadInTray(payload);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setInTrayLoadingState(false);
+      this.dispatcher.setInTrayErrorState(true);
+    };
+
+    this.integrator.loadInTray({ onSuccess, onFailure });
   };
 
   loadSales = () => {
@@ -206,13 +241,80 @@ export default class DashboardModule {
     this.loadBanking();
   };
 
+  openInTrayUploadOptionsModal = () => {
+    const state = this.store.getState();
+    const modalContext = getInTrayUploadOptionsModalContext(state);
+    this.inTrayUploadOptionsModalModule.run({
+      context: modalContext,
+    });
+  };
+
+  uploadInTrayFiles = (files) => {
+    const entries = files.reverse().reduce((acc, file, index) => {
+      const errorMessage = getUploadingErrorMessage(file);
+      if (errorMessage) {
+        this.dispatcher.setInTrayAlert({
+          message: errorMessage,
+          type: 'danger',
+        });
+
+        return acc;
+      }
+
+      const entry = getUploadingEntry(index);
+      const { uploadId } = entry;
+
+      this.dispatcher.addInTrayEntry(entry);
+
+      return [...acc, { uploadId, file }];
+    }, []);
+
+    if (entries.length) {
+      this.createInTrayDocuments(entries);
+    }
+  };
+
+  createInTrayDocuments = (entries) => {
+    const onProgress = () => {
+      this.dispatcher.setInTrayUploadingState(true);
+    };
+
+    const onSuccess = ({ entry }, index) => {
+      const { uploadId } = entries[index] || { uploadId: 'none' };
+
+      this.dispatcher.createInTrayDocument(uploadId, entry);
+    };
+
+    const onFailure = (response, index) => {
+      const { uploadId } = entries[index] || { uploadId: 'none' };
+
+      this.dispatcher.removeInTrayListEntry(uploadId);
+    };
+
+    const onComplete = (results) => {
+      this.dispatcher.setInTrayUploadingState(false);
+      this.dispatcher.setInTrayAlert(getUploadCompleteAlert(results));
+    };
+
+    this.integrator.createInTrayDocuments({
+      onProgress,
+      onSuccess,
+      onFailure,
+      onComplete,
+      entries,
+    });
+  };
+
   redirectToUrl = (url) => {
     this.navigateTo(url);
   };
 
   render = () => {
+    const inTrayUploadOptionsModal = this.inTrayUploadOptionsModalModule.render();
+
     const dashboardView = (
       <DashboardView
+        inTrayUploadOptionsModal={inTrayUploadOptionsModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onLinkClick={this.redirectToUrl}
         onSalesReload={this.loadSales}
@@ -223,6 +325,11 @@ export default class DashboardModule {
         onPayrollReload={this.loadPayroll}
         onPayrollReportsReload={this.loadPayrollReports}
         onBankFeedAccountChange={this.updateBankFeedAccount}
+        inTrayListeners={{
+          onDismissAlert: this.dispatcher.dismissInTrayAlert,
+          onMoreWaysToUploadButtonClick: this.openInTrayUploadOptionsModal,
+          onUpload: this.uploadInTrayFiles,
+        }}
       />
     );
 
@@ -233,7 +340,10 @@ export default class DashboardModule {
 
   setInitialState = (context) => this.dispatcher.setInitialState(context);
 
-  resetState = () => this.dispatcher.resetState();
+  resetState = () => {
+    this.inTrayUploadOptionsModalModule.resetState();
+    this.dispatcher.resetState();
+  };
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();

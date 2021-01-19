@@ -2,7 +2,12 @@ import DashboardModule from './DashboardModule';
 import RouteName from '../../router/RouteName';
 
 // @FEATURE_TOGGLE: essentials-dashboard-payroll-payrun-widget
-const getDashboardRoutes = ({ integration, setRootView, navigateTo }) => {
+const getDashboardRoutes = ({
+  globalCallbacks,
+  integration,
+  setRootView,
+  navigateTo,
+}) => {
   const routes = [
     {
       name: RouteName.DASHBOARD,
@@ -11,6 +16,7 @@ const getDashboardRoutes = ({ integration, setRootView, navigateTo }) => {
         integration,
         setRootView,
         navigateTo,
+        globalCallbacks,
       }),
       documentTitle: 'Dashboard',
     },

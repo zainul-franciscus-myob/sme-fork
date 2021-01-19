@@ -6,7 +6,6 @@ import {
   getAlert,
   getDeleteModal,
   getLoadingState,
-  getModalType,
 } from '../selectors/InTraySelectors';
 import {
   getIsDetailShown,
@@ -20,8 +19,6 @@ import InTrayListFilterOptions from './InTrayListFilterOptions';
 import InTrayListTable from './InTrayListTable';
 import MasterDetailTemplate from '../../../../components/Feelix/MasterDetailTemplate/MasterDetailTemplate';
 import PageView from '../../../../components/PageView/PageView';
-import UploadOptionsModal from './uploadOptions/UploadOptionsModal';
-import modalTypes from '../modalTypes';
 import styles from './InTrayView.module.css';
 
 const InTrayView = ({
@@ -49,19 +46,13 @@ const InTrayView = ({
     onUpload,
   },
   loadingState,
-  modalType,
   emptyStateListeners,
-  uploadOptionsModalListeners,
+  inTrayUploadOptionsModal,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
       {alert.message}
     </Alert>
-  );
-
-  const uploadOptionsModalComponent = modalType ===
-    modalTypes.uploadOptions && (
-    <UploadOptionsModal listeners={uploadOptionsModalListeners} />
   );
 
   const deleteModalComponent = deleteModal && (
@@ -89,7 +80,7 @@ const InTrayView = ({
 
   const inTrayView = (
     <div className={isEntryLoading ? styles.submitting : ''}>
-      {uploadOptionsModalComponent}
+      {inTrayUploadOptionsModal}
       {deleteModalComponent}
       <MasterDetailTemplate
         alert={alertComponent}
@@ -129,7 +120,6 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   isEntryLoading: getIsEntryLoading(state),
   alert: getAlert(state),
-  modalType: getModalType(state),
   deleteModal: getDeleteModal(state),
   isDetailShown: getIsDetailShown(state),
   isTableEmpty: getIsTableEmpty(state),

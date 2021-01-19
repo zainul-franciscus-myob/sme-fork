@@ -7,6 +7,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
 import dashboardBankingReducerHandlers from './dashboardBankingReducer';
+import dashboardInTrayReducerHandlers from './dashboardInTrayReducer';
 import dashboardPayrollReducerHandlers from './dashboardPayrollReducer';
 import dashboardPayrollReportsReducerHandlers from './dashboardPayrollReportsReducer';
 import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
@@ -76,6 +77,15 @@ const getDefaultState = () => ({
     bankBalanceDate: '',
     currentBalance: '',
     lastReconcileDate: '',
+  },
+
+  inTray: {
+    email: '',
+    isLoading: false,
+    hasError: false,
+    entries: [],
+    alert: undefined,
+    isUploading: false,
   },
 
   payroll: {
@@ -186,6 +196,7 @@ const handlers = {
   ...dashboardBankingReducerHandlers,
   ...dashboardPayrollReducerHandlers,
   ...dashboardPayrollReportsReducerHandlers,
+  ...dashboardInTrayReducerHandlers,
 };
 
 const dashboardReducer = createReducer(getDefaultState(), handlers);

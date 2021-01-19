@@ -1,7 +1,9 @@
 import {
+  CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_IN_TRAY,
   LOAD_PAYROLL,
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
@@ -151,6 +153,42 @@ const createDashboardIntegrator = (store, integration) => ({
       urlParams,
       onSuccess,
       onFailure,
+    });
+  },
+
+  loadInTray: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_IN_TRAY;
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+    const urlParams = { businessId };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  createInTrayDocuments: ({
+    onProgress,
+    onSuccess,
+    onFailure,
+    onComplete,
+    entries,
+  }) => {
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+    };
+
+    integration.writeManyFormData({
+      intent: CREATE_IN_TRAY_DOCUMENT,
+      contents: entries.map(({ file }) => ({ file })),
+      urlParams,
+      onProgress,
+      onSuccess,
+      onFailure,
+      onComplete,
     });
   },
 });

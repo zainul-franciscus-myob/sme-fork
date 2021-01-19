@@ -1,17 +1,25 @@
 import {
+  ADD_IN_TRAY_ENTRY,
+  CREATE_IN_TRAY_DOCUMENT,
   LOAD_CONFIG,
   LOAD_DASHBOARD,
   LOAD_DEFAULT_BANKING,
+  LOAD_IN_TRAY,
   LOAD_PAYROLL,
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
+  REMOVE_IN_TRAY_ENTRY,
   SET_ALERT,
   SET_BANKING_ERROR_STATE,
   SET_BANKING_LOADING_STATE,
   SET_BANK_FEED_ACCOUNT_ID,
+  SET_IN_TRAY_ALERT,
+  SET_IN_TRAY_ERROR_STATE,
+  SET_IN_TRAY_LOADING_STATE,
+  SET_IN_TRAY_UPLOADING_STATE,
   SET_LOADING_STATE,
   SET_PAYROLL_ERROR_STATE,
   SET_PAYROLL_LOADING_STATE,
@@ -177,6 +185,57 @@ const createDashboardDispatcher = (store) => ({
   setPayrollReportsErrorState: (hasError) => {
     const intent = SET_PAYROLL_REPORTS_ERROR_STATE;
     store.dispatch({ intent, hasError });
+  },
+
+  addInTrayEntry: (entry) => {
+    const intent = ADD_IN_TRAY_ENTRY;
+    store.dispatch({ intent, entry });
+  },
+
+  createInTrayDocument: (uploadId, entry) => {
+    const intent = CREATE_IN_TRAY_DOCUMENT;
+    store.dispatch({ intent, uploadId, entry });
+  },
+
+  removeInTrayListEntry: (uploadId) => {
+    const intent = REMOVE_IN_TRAY_ENTRY;
+    store.dispatch({ intent, uploadId });
+  },
+
+  loadInTray: (payload) => {
+    const intent = LOAD_IN_TRAY;
+    store.dispatch({ intent, ...payload });
+  },
+
+  setInTrayUploadingState: (isUploading) => {
+    const intent = SET_IN_TRAY_UPLOADING_STATE;
+    store.dispatch({ intent, isUploading });
+  },
+
+  setInTrayLoadingState: (isLoading) => {
+    const intent = SET_IN_TRAY_LOADING_STATE;
+    store.dispatch({ intent, isLoading });
+  },
+
+  setInTrayErrorState: (hasError) => {
+    const intent = SET_IN_TRAY_ERROR_STATE;
+    store.dispatch({ intent, hasError });
+  },
+
+  setInTrayAlert: ({ message, type }) => {
+    const intent = SET_IN_TRAY_ALERT;
+    store.dispatch({
+      intent,
+      alert: { message, type },
+    });
+  },
+
+  dismissInTrayAlert: () => {
+    const intent = SET_IN_TRAY_ALERT;
+    store.dispatch({
+      intent,
+      alert: undefined,
+    });
   },
 });
 

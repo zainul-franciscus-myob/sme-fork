@@ -7,6 +7,7 @@ import {
   getIsLoading,
   getRegion,
   getShouldShowBanking,
+  getShouldShowInTray,
   getShouldShowLeanEngage,
   getShouldShowPayroll,
   getShouldShowPurchases,
@@ -18,6 +19,7 @@ import DashBoardNzPayrollEapView from './payroll/DashboardNzPayrollEapView';
 import DashBoardPayrollView from './payroll/DashboardPayrollView';
 import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardHeader from './DashboardHeader';
+import DashboardInTrayCard from './inTray/DashboardInTrayCard';
 import DashboardLeanEngageCard from './DashboardLeanEngageCard';
 import DashboardPayrollPayrunsCard from './payroll/DashboardPayrollPayrunsCard';
 import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
@@ -30,6 +32,8 @@ import styles from './DashboardView.module.css';
 
 const DashboardView = ({
   alert,
+  inTrayListeners,
+  inTrayUploadOptionsModal,
   isLoading,
   onDismissAlert,
   onLinkClick,
@@ -48,6 +52,7 @@ const DashboardView = ({
   shouldShowTracking,
   shouldUsePayrollLayout,
   shouldShowPayroll,
+  shouldShowInTray,
   region,
 }) => {
   const alertComponent = alert && (
@@ -98,6 +103,16 @@ const DashboardView = ({
               onBankFeedAccountChange={onBankFeedAccountChange}
             />
           )}
+          {shouldShowInTray && (
+            <DashboardInTrayCard
+              onDismissAlert={inTrayListeners.onDismissAlert}
+              onLinkClick={onLinkClick}
+              onMoreWaysToUploadButtonClick={
+                inTrayListeners.onMoreWaysToUploadButtonClick
+              }
+              onUpload={inTrayListeners.onUpload}
+            />
+          )}
 
           {shouldShowPayroll && (
             <DashboardPayrollPayrunsCard
@@ -117,6 +132,7 @@ const DashboardView = ({
   const dashboardView = (
     <BaseTemplate>
       {alertComponent}
+      {inTrayUploadOptionsModal}
       {header}
       {body}
     </BaseTemplate>
@@ -154,6 +170,7 @@ const mapStateToProps = (state) => ({
   shouldShowTracking: getShouldShowTracking(state),
   shouldUsePayrollLayout: getShouldUsePayrollLayout(state),
   shouldShowPayroll: getShouldShowPayroll(state),
+  shouldShowInTray: getShouldShowInTray(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
   region: getRegion(state),
