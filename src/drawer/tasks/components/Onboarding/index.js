@@ -59,6 +59,13 @@ const Onboarding = ({
       }
     }
 
+    /** Trigger appcues of the active task on redirect */
+
+    if (isActiveTask(task) && task.routeParams) {
+      const { appcue } = task.routeParams;
+      if (window.Appcues && appcue) window.Appcues.show(appcue);
+    }
+
     return (
       <a
         href={href}
