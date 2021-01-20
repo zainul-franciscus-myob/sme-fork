@@ -7,6 +7,7 @@ import {
   Row,
 } from '../../../../components/LearnTemplate/LearnTemplate';
 import eInvoiceHero from './e-invoices.svg';
+import styles from './SalesSettingsUnsubscribedEInvoicingDetails.module.css';
 
 const SalesSettingsUnsubscribedEInvoicingDetails = ({ onMarketPlaceClick }) => (
   <LearnTemplate>
@@ -39,7 +40,11 @@ const SalesSettingsUnsubscribedEInvoicingDetails = ({ onMarketPlaceClick }) => (
       </Column>
 
       <Column>
-        <img src={eInvoiceHero} alt="E-Invoicing" />
+        <img
+          src={eInvoiceHero}
+          alt="E-Invoicing"
+          className={styles.eInvoiceHero}
+        />
       </Column>
     </Row>
   </LearnTemplate>

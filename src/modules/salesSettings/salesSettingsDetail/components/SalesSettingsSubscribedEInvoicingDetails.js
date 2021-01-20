@@ -5,8 +5,8 @@ const SalesSettingsSubscribedEInvoicingDetails = ({ eInvoicingAppName }) => (
   <Card>
     <FieldGroup label="E-invoicing settings">
       <p>
-        You are registered with e-invoicing with <b>{eInvoicingAppName}</b>. To
-        manage your e-invoicing account please contact your provider.
+        You are registered for E-invoicing with <b>{eInvoicingAppName}</b>. To
+        manage your E-invoicing account please contact your provider.
       </p>
     </FieldGroup>
   </Card>

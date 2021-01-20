@@ -27,7 +27,7 @@ export const mainTabItems = (region, isEInvoicingEnabled) => {
   if (isEInvoicingEnabled && region === Region.au) {
     items.push({
       id: mainTabIds.eInvoicing,
-      label: 'e-Invoicing',
+      label: 'E-Invoicing',
       hasActions: false,
     });
   }
