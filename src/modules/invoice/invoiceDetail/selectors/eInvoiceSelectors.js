@@ -74,7 +74,9 @@ export const getEInvoiceAttachmentsToSend = createSelector(
 
 export const getSendEInvoicePayload = createSelector(
   getEInvoiceAttachmentsToSend,
-  (attachments) => attachments.map(({ file }) => file)
+  (attachments) => ({
+    Attachments: attachments.map(({ file }) => file),
+  })
 );
 
 export const getSendEInvoiceOptions = createStructuredSelector({

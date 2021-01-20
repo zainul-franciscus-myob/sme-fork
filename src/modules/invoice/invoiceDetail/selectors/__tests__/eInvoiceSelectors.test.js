@@ -166,9 +166,13 @@ describe('eInvoiceSelectors', () => {
         },
       };
 
+      const expected = {
+        Attachments: attachments.map((attachment) => attachment.file),
+      };
+
       const actual = getSendEInvoicePayload(state);
 
-      expect(actual).toEqual(attachments.map((attachment) => attachment.file));
+      expect(actual).toEqual(expected);
     });
   });
 
