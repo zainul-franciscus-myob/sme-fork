@@ -11,6 +11,7 @@ import {
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import OnboardingModule from '../OnboardingModule';
+import RouteName from '../../../../../router/RouteName';
 import Steps from '../OnboardingSteps';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
@@ -22,7 +23,9 @@ describe('OnboardingModule', () => {
   let store;
   const replaceURLParams = jest.fn();
 
-  const constructOnboardingModule = () => {
+  const constructOnboardingModule = (
+    featureToggles = { isPaydayFilingEnabled: true }
+  ) => {
     let wrapper;
     const setRootView = (component) => {
       wrapper = mount(component);
@@ -32,6 +35,8 @@ describe('OnboardingModule', () => {
       integration,
       setRootView,
       replaceURLParams,
+      featureToggles,
+      navigateToName: jest.fn(),
     });
 
     module.store = store;
@@ -40,6 +45,7 @@ describe('OnboardingModule', () => {
 
     return {
       wrapper,
+      module,
     };
   };
 
@@ -50,7 +56,7 @@ describe('OnboardingModule', () => {
 
   afterEach(jest.clearAllMocks);
 
-  it('renders the payday filing onboarding view component', () => {
+  it('renders the payday filing onboarding view component when payday filing is enabled', () => {
     const { wrapper } = constructOnboardingModule();
     const component = wrapper.find('OnboardingView');
 
@@ -167,5 +173,17 @@ describe('OnboardingModule', () => {
         intent: GET_IRD_NUMBER,
       }),
     ]);
+  });
+  it('redirects to business list if payday filing is not enabled', () => {
+    // arrange
+    const featureToggles = {
+      isPaydayFilingEnabled: false,
+    };
+
+    // act
+    const { module } = constructOnboardingModule(featureToggles);
+
+    // assert
+    expect(module.navigateToName).toBeCalledWith(RouteName.BUSINESS_LIST);
   });
 });

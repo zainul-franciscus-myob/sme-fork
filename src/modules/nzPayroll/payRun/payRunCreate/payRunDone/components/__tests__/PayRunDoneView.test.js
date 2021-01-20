@@ -11,10 +11,10 @@ import payRunReducer from '../../../payRunReducer';
 
 describe('PayRunDoneView', () => {
   let store;
-  const props = (isNzPayRunsViewEnabled) => {
+  const props = (isPaydayFilingEnabled) => {
     return {
       onCloseButtonClick: () => {},
-      isNzPayRunsViewEnabled,
+      isPaydayFilingEnabled,
     };
   };
   const initialState = {

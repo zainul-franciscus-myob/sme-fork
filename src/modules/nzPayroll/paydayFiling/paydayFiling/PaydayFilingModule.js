@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getSelectedTab, getUrlParams } from './PaydayFilingSelectors';
+import {
+  getOnboardingPageUrl,
+  getSelectedTab,
+  getUrlParams,
+} from './PaydayFilingSelectors';
 import { tabIds } from './TabItems';
 import InlandRevenueSettingsModule from './inlandRevenueSettings/InlandRevenueSettingsModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -11,6 +15,7 @@ import Store from '../../../../store/Store';
 import SubmissionsListModule from './submissionsList/SubmissionsListModule';
 import createPaydayFilingDispatcher from './createPaydayFilingDispatcher';
 import createPaydayFilingIntegrator from './createPaydayFilingIntegrator';
+import routeName from '../../../../router/RouteName';
 
 export default class PaydayFilingModule {
   constructor({
@@ -20,6 +25,7 @@ export default class PaydayFilingModule {
     featureToggles,
     pushMessage,
     popMessages,
+    navigateToName,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
@@ -34,6 +40,7 @@ export default class PaydayFilingModule {
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
     this.subModules = {};
+    this.navigateToName = navigateToName;
   }
 
   setupSubModules = (context) => {
@@ -85,11 +92,34 @@ export default class PaydayFilingModule {
     this.replaceURLParams(getUrlParams(state));
   };
 
+  loadBusinessOnboardedStatus = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setIsBusinessOnboarded(response.isBusinessOnboarded);
+      if (response.isBusinessOnboarded) {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+        this.runTab();
+      } else {
+        this.redirectToOnboardingPage();
+      }
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadBusinessOnboardedStatus({ onSuccess, onFailure });
+  };
+
   run(context) {
-    this.setupSubModules(context);
-    this.dispatcher.setInitialState(context);
-    this.render();
-    this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    if (this.featureToggles.isPaydayFilingEnabled) {
+      this.setupSubModules(context);
+      this.dispatcher.setInitialState(context);
+      this.render();
+      this.loadBusinessOnboardedStatus();
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    } else this.redirectToBusinessList();
   }
 
   render = () => {
@@ -125,5 +155,13 @@ export default class PaydayFilingModule {
     this.attemptToRoute(() => {
       this.redirectToUrl(url);
     });
+  };
+
+  redirectToOnboardingPage = () => {
+    window.location.href = getOnboardingPageUrl(this.store.getState());
+  };
+
+  redirectToBusinessList = () => {
+    this.navigateToName(routeName.BUSINESS_LIST);
   };
 }

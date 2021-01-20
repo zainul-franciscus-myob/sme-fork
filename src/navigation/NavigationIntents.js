@@ -12,3 +12,6 @@ export const SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE = Symbol(
 export const SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE = Symbol(
   'Set nzpayroll accounting feature toggle'
 );
+export const SET_PAYDAY_FILING_FEATURE_TOGGLE = Symbol(
+  'Set payday filing feature toggle'
+);

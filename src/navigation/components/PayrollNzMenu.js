@@ -25,6 +25,9 @@ const getItems = (urls, onMenuLinkClick) =>
       getMenuLink(urls.payRunCreateNz, 'Create pay run', onMenuLinkClick),
     urls.payRunListNz &&
       getMenuLink(urls.payRunListNz, 'Pay runs', onMenuLinkClick),
+    urls.paydayFiling && <Navigation.Separator key="separator-payday" />,
+    urls.paydayFiling &&
+      getMenuLink(urls.paydayFiling, 'Payday filing', onMenuLinkClick),
   ].filter(Boolean);
 
 const PayrollNzMenu = ({ urls, onMenuSelect, onMenuLinkClick, activeNav }) => (

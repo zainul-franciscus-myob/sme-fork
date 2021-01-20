@@ -1,5 +1,10 @@
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
-import { SET_ALERT, SET_LOADING_STATE, SET_TAB } from './PaydayFilingIntents';
+import {
+  SET_ALERT,
+  SET_IS_BUSINESS_ONBOARDED,
+  SET_LOADING_STATE,
+  SET_TAB,
+} from './PaydayFilingIntents';
 
 const createReportingCentreDispatcher = (store) => ({
   resetState: () => {
@@ -40,6 +45,13 @@ const createReportingCentreDispatcher = (store) => ({
     store.dispatch({
       intent: SET_TAB,
       tab,
+    });
+  },
+
+  setIsBusinessOnboarded: (isBusinessOnboarded) => {
+    store.dispatch({
+      intent: SET_IS_BUSINESS_ONBOARDED,
+      isBusinessOnboarded,
     });
   },
 });

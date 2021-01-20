@@ -4,6 +4,7 @@ import {
   SET_LOADING_STATE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
+  SET_PAYDAY_FILING_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -80,12 +81,18 @@ const setPayRunsViewFeatureToggle = (state, { isNzPayRunsViewEnabled }) => ({
   ...state,
   isNzPayRunsViewEnabled,
 });
+
 const setNzPayrollAccountingFeatureToggle = (
   state,
   { isNzPayrollAccountingEnabled }
 ) => ({
   ...state,
   isNzPayrollAccountingEnabled,
+});
+
+const setPaydayFilingFeatureToggle = (state, { isPaydayFilingEnabled }) => ({
+  ...state,
+  isPaydayFilingEnabled,
 });
 
 const handlers = {
@@ -97,6 +104,7 @@ const handlers = {
   [SET_RECURRING_TRANSACTION_FEATURE_TOGGLE]: setRecurringTransactionFeatureToggle,
   [SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE]: setPayRunsViewFeatureToggle,
   [SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE]: setNzPayrollAccountingFeatureToggle,
+  [SET_PAYDAY_FILING_FEATURE_TOGGLE]: setPaydayFilingFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);

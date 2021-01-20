@@ -41,6 +41,7 @@
     "employeeCreateNz",
     "payRunCreateNz",
     "payRunListNz",
+    "paydayFiling",
 
     "contactList",
     "contactCreate",

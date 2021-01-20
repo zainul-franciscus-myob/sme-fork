@@ -20,7 +20,7 @@ export default {
   isPayBillRemittanceAdviceEnabled: true,
   isItemBuyingPriceTaxInclusiveEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,
-  isNzPaydayFilingEnabled: true,
+  isPaydayFilingEnabled: true,
   isNzPayrollAccountingEnabled: true,
   isEInvoicingEnabled: true,
   isNzPayRunsViewEnabled: true,

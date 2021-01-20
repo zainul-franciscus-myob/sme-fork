@@ -8,3 +8,8 @@ export const getSelectedTab = (state) => state.tab;
 export const getUrlParams = createSelector(getSelectedTab, (selectedTab) => ({
   tab: selectedTab,
 }));
+
+export const getOnboardingPageUrl = (state) => {
+  const { region, businessId } = state;
+  return `/#/${region}/${businessId}/paydayFiling/onboarding`;
+};

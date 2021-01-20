@@ -34,7 +34,7 @@ describe('PayRunDoneSubModule', () => {
   describe('Payday button', () => {
     it('should send to Payday filing report page', () => {
       const { wrapper, payRunDoneSubModule } = constructPayRunDoneSubModule({
-        isNzPayRunsViewEnabled: true,
+        isPaydayFilingEnabled: true,
       });
       const paydayFilingButton = findButtonWithTestId(
         wrapper,
@@ -43,13 +43,13 @@ describe('PayRunDoneSubModule', () => {
 
       paydayFilingButton.simulate('click');
       expect(payRunDoneSubModule.navigateToName).toBeCalledWith(
-        RouteName.PAYDAY_FILING_NZ
+        RouteName.PAYDAY_FILING
       );
     });
 
     it('should not redirect to Payday filing report if Payday feature disabled', () => {
       const { wrapper } = constructPayRunDoneSubModule({
-        isNzPayRunsViewEnabled: false,
+        isPaydayFilingEnabled: false,
       });
       const paydayFilingButton = findButtonWithTestId(
         wrapper,

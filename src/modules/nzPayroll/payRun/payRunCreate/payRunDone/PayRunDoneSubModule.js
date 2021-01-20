@@ -18,7 +18,7 @@ export default class PayRunDoneSubModule {
   };
 
   openPaydayFilingReport = () => {
-    this.navigateToName(RouteName.PAYDAY_FILING_NZ);
+    this.navigateToName(RouteName.PAYDAY_FILING);
   };
 
   render() {
@@ -26,7 +26,7 @@ export default class PayRunDoneSubModule {
       <PayRunDoneView
         onCloseButtonClick={this.closePayRun}
         onOpenPaydayFilingClick={this.openPaydayFilingReport}
-        isNzPayRunsViewEnabled={this.featureToggles.isNzPayRunsViewEnabled}
+        isPaydayFilingEnabled={this.featureToggles.isPaydayFilingEnabled}
       />
     );
   }

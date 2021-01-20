@@ -147,15 +147,18 @@ export const getPayrollUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
   stpReporting: enabledUrls.stpReporting,
 }));
 
-const getisNzPayRunsViewEnabled = (state) => state.isNzPayRunsViewEnabled;
+const getIsNzPayRunsViewEnabled = (state) => state.isNzPayRunsViewEnabled;
+const getIsPaydayFilingEnabled = (state) => state.isPaydayFilingEnabled;
 export const getPayrollNzUrls = createSelector(
   getEnabledUrls,
-  getisNzPayRunsViewEnabled,
-  (enabledUrls, isNzPayRunsViewEnabled) => ({
+  getIsNzPayRunsViewEnabled,
+  getIsPaydayFilingEnabled,
+  (enabledUrls, isNzPayRunsViewEnabled, isPaydayFilingEnabled) => ({
     employeeListNz: enabledUrls.employeeListNz,
     employeeCreateNz: enabledUrls.employeeCreateNz,
     payRunCreateNz: enabledUrls.payRunCreateNz,
     payRunListNz: isNzPayRunsViewEnabled ? enabledUrls.payRunListNz : undefined,
+    paydayFiling: isPaydayFilingEnabled ? enabledUrls.paydayFiling : undefined,
   })
 );
 

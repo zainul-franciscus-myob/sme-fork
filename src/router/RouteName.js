@@ -118,8 +118,8 @@ const RouteName = {
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
   REPORT_SETTINGS: 'reportSettings',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
-  PAYDAY_FILING_ONBOARDING_NZ: 'paydayFiling/onboardingNz',
-  PAYDAY_FILING_NZ: 'paydayFiling',
+  PAYDAY_FILING_ONBOARDING: 'paydayFiling/onboarding',
+  PAYDAY_FILING: 'paydayFiling',
   RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
 };
 

@@ -57,6 +57,7 @@ import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mapping
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/HttpPaySuperListMapping';
 import PaySuperReadMapping from '../../modules/paySuper/paySuperRead/mappings/HttpPaySuperReadMapping';
 import PaySuperStsLoginMapping from '../../modules/stsLogin/mappings/HttpPaySuperStsLoginMapping';
+import PaydayFilingNzMapping from '../../modules/nzPayroll/paydayFiling/mappings/HttpPaydayFilingNzMapping';
 import PaydayFilingOnboardingNzMapping from '../../modules/nzPayroll/paydayFiling/onboarding/mappings/HttpPaydayFilingOnboardingMapping';
 import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/HttpPayrollSettingsMapping';
 import PurchaseOrderDetailMapping from '../../modules/purchaseOrder/purchaseOrderDetail/mappings/HttpPurchaseOrderDetailMapping';
@@ -192,6 +193,7 @@ const RootMapping = Object.freeze({
   ...PaydayFilingOnboardingNzMapping,
   ...PayRunDetailNzMapping,
   ...EmployeePayNzMapping,
+  ...PaydayFilingNzMapping,
 });
 
 export default RootMapping;

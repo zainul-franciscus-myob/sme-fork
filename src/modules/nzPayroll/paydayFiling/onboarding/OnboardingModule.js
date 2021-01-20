@@ -12,9 +12,17 @@ import Store from '../../../../store/Store';
 import onboardingDispatchers from './OnboardingDispatchers';
 import onboardingIntegrator from './OnboardingIntegrator';
 import onboardingReducer from './OnboardingReducer';
+import routeName from '../../../../router/RouteName';
 
 export default class OnboardingModule {
-  constructor({ integration, setRootView, navigateTo, replaceURLParams }) {
+  constructor({
+    integration,
+    setRootView,
+    navigateTo,
+    replaceURLParams,
+    featureToggles,
+    navigateToName,
+  }) {
     this.integration = integration;
     this.setRootView = setRootView;
     this.navigateTo = navigateTo;
@@ -23,6 +31,8 @@ export default class OnboardingModule {
     this.dispatcher = onboardingDispatchers(this.store);
     this.stepModules = [];
     this.replaceURLParams = replaceURLParams;
+    this.featureToggles = featureToggles;
+    this.navigateToName = navigateToName;
   }
 
   setupSubModules = () => {
@@ -98,12 +108,14 @@ export default class OnboardingModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
-    this.setupSubModules();
-    this.setBusinessIrdNumber();
-    this.setupSteps();
-    this.render();
-    this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    if (this.featureToggles.isPaydayFilingEnabled) {
+      this.dispatcher.setInitialState(context);
+      this.setupSubModules();
+      this.setBusinessIrdNumber();
+      this.setupSteps();
+      this.render();
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    } else this.redirectToBusinessList();
   }
 
   resetState = () => {
@@ -112,5 +124,9 @@ export default class OnboardingModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
+  };
+
+  redirectToBusinessList = () => {
+    this.navigateToName(routeName.BUSINESS_LIST);
   };
 }

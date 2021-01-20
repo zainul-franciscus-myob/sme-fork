@@ -25,7 +25,7 @@ const PayRunDoneView = ({
   paymentDate,
   stepNumber,
   payRunSteps,
-  isNzPayRunsViewEnabled,
+  isPaydayFilingEnabled,
 }) => {
   return (
     <React.Fragment>
@@ -40,7 +40,7 @@ const PayRunDoneView = ({
           description={`Make sure your employees are paid by ${paymentDate}.`}
           image={<img src={payRunDoneImage} alt="Pay Run Finished!" />}
           actions={
-            isNzPayRunsViewEnabled
+            isPaydayFilingEnabled
               ? [
                   <Button
                     type="link"

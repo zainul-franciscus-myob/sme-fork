@@ -7,6 +7,7 @@ import {
   SET_LOADING_STATE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
+  SET_PAYDAY_FILING_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -301,6 +302,17 @@ export default class NavigationModule {
     });
   };
 
+  setPaydayFilingFeatureToggle = () => {
+    const isPaydayFilingEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPaydayFilingEnabled,
+    });
+
+    this.store.dispatch({
+      intent: SET_PAYDAY_FILING_FEATURE_TOGGLE,
+      isPaydayFilingEnabled,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -311,6 +323,7 @@ export default class NavigationModule {
     this.setRecurringTransactionFeatureToggle();
     this.setPayRunsViewFeatureToggle();
     this.setNzPayrollAccountingFeatureToggle();
+    this.setPaydayFilingFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });
