@@ -12,7 +12,7 @@ import { tabItemIds } from '../tabItems';
 import CreditsAndDebitsListView from './CreditsAndDebitsListView';
 import JournalTransactionListView from './JournalTransactionListView';
 import ModalType from '../findAndRecode/types/ModalType';
-import TerminateModal from './TerminateModal';
+import TerminateModal from '../findAndRecode/components/TerminateModal';
 
 const TransactionListView = ({
   selectedTab,

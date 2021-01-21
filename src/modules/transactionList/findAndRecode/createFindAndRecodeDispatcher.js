@@ -1,7 +1,9 @@
 import {
+  CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
+  OPEN_MODAL,
   OPEN_RECODE_OPTIONS,
   RECODE_ITEM_FAILURE,
   RECODE_ITEM_SUCCESS,
@@ -149,6 +151,19 @@ const createFindAndRecodeDispatcher = (store) => ({
       intent: RECODE_ITEM_FAILURE,
       id,
       error,
+    });
+  },
+
+  openModal: ({ modalType }) => {
+    store.dispatch({
+      intent: OPEN_MODAL,
+      modalType,
+    });
+  },
+
+  closeModal: () => {
+    store.dispatch({
+      intent: CLOSE_MODAL,
     });
   },
 });

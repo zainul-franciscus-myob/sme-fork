@@ -17,6 +17,8 @@ const getSortOrder = (state) => state.sortOrder;
 
 export const getFilterOptions = (state) => state.filterOptions;
 
+export const getModalType = (state) => state.modalType;
+
 const getEntries = (state) => state.entries;
 
 const getEntryLink = (entry, businessId, region) => {

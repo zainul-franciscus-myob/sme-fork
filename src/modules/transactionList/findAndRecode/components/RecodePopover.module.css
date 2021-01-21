@@ -1,3 +1,7 @@
 .selectedText {
   margin-left: var(--flx-spacing-x-small)
 }
+
+.recode.popover {
+  z-index: 1050
+}

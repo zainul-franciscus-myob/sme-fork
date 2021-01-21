@@ -276,7 +276,6 @@ describe('transactionListReducer', () => {
       const state = {
         modalType: undefined,
       };
-
       const action = {
         intent: OPEN_MODAL,
         modalType: ModalType.TerminateModal,
@@ -286,11 +285,13 @@ describe('transactionListReducer', () => {
 
       expect(actual.modalType).toEqual(ModalType.TerminateModal);
     });
+  });
+
+  describe('CLOSE_MODAL', () => {
     it('should close modal', () => {
       const state = {
         modalType: ModalType.TerminateModal,
       };
-
       const action = {
         intent: CLOSE_MODAL,
       };

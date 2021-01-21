@@ -1,11 +1,13 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
 import {
   getAccountList,
   getIsRecodeLoading,
   getIsRecodeOptionsOpen,
+  getModalType,
   getRecodeOptions,
   getSelectedText,
   getTaxCodeList,
@@ -26,7 +28,8 @@ const RecodePopover = ({
   onOpenRecodeOptions,
   onUpdateRecodeOptions,
   onCloseRecodeOptions,
-  onRecode,
+  onOpenRecodeModal,
+  modalType,
 }) => {
   const body = (
     <>
@@ -56,7 +59,7 @@ const RecodePopover = ({
 
   const footer = (
     <ButtonRow>
-      <Button onClick={onRecode} disabled={isRecodeLoading}>
+      <Button onClick={onOpenRecodeModal} disabled={isRecodeLoading}>
         Replace
       </Button>
     </ButtonRow>
@@ -65,11 +68,14 @@ const RecodePopover = ({
   return (
     <>
       <Popover
+        className={classNames(styles.recode, styles.popover)}
         body={<Popover.Body child={body} />}
         footer={<Popover.Footer child={footer} />}
         closeOnOuterAction
         preferPlace="below"
-        onOuterAction={() => isRecodeOptionsOpen && onCloseRecodeOptions()}
+        onOuterAction={() =>
+          isRecodeOptionsOpen && !modalType && onCloseRecodeOptions()
+        }
         isOpen={isRecodeOptionsOpen}
       >
         <Button
@@ -92,6 +98,7 @@ const mapStateToProps = (state) => ({
   recodeOptions: getRecodeOptions(state),
   isRecodeLoading: getIsRecodeLoading(state),
   selectedText: getSelectedText(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(RecodePopover);

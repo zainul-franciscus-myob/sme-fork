@@ -1,6 +1,8 @@
 import {
+  CLOSE_MODAL,
   FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
+  OPEN_MODAL,
   RECODE_ITEM_FAILURE,
   RECODE_ITEM_SUCCESS,
   RESET_FILTER_OPTIONS,
@@ -11,6 +13,7 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_RECODE_OPTIONS,
 } from '../FindAndRecodeIntents';
+import ModalType from '../types/ModalType';
 import Periods from '../../../../components/PeriodPicker/Periods';
 import RecodeStatus from '../types/RecodeStatus';
 import findAndRecodeReducer from '../findAndRecodeReducer';
@@ -519,6 +522,38 @@ describe('findAndRecodeReducer', () => {
           error: '🥬',
         },
       ]);
+    });
+  });
+
+  describe('OPEN_MODAL', () => {
+    it('opens modal', () => {
+      const state = {
+        modalType: undefined,
+      };
+      const action = {
+        intent: OPEN_MODAL,
+        modalType: ModalType.RecodeModal,
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.modalType).toEqual(ModalType.RecodeModal);
+    });
+  });
+
+  describe('CLOSE_MODAL', () => {
+    it('closes modal', () => {
+      const state = {
+        modalType: ModalType.RecodeModal,
+      };
+
+      const action = {
+        intent: CLOSE_MODAL,
+      };
+
+      const actual = findAndRecodeReducer(state, action);
+
+      expect(actual.modalType).toEqual(undefined);
     });
   });
 });

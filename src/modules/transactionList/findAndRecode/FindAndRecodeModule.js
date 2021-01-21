@@ -7,6 +7,7 @@ import {
   getRecodeItems,
 } from './findAndRecodeSelectors';
 import FindAndRecodeView from './components/FindAndRecodeView';
+import ModalType from './types/ModalType';
 import Store from '../../../store/Store';
 import createFindAndRecodeDispatcher from './createFindAndRecodeDispatcher';
 import createFindAndRecodeIntegrator from './createFindAndRecodeIntegrator';
@@ -83,6 +84,7 @@ export default class FindAndRecodeModule {
 
     this.dispatcher.startRecode();
     this.dispatcher.closeRecodeOptions();
+    this.dispatcher.closeModal();
 
     const recodeItems = getRecodeItems(this.store.getState());
     recursiveRecode(recodeItems);
@@ -127,6 +129,12 @@ export default class FindAndRecodeModule {
     return getNoItemSelected(state) || !getIsRecodeLoading(state);
   };
 
+  openRecodeModal = () => {
+    this.dispatcher.openModal({
+      modalType: ModalType.RecodeModal,
+    });
+  };
+
   run = (context) => {
     this.dispatcher.setInitialState(context);
     this.sortAndFilterFindAndRecodeList();
@@ -147,7 +155,9 @@ export default class FindAndRecodeModule {
           onSort={this.sort}
           onSelectAllItems={this.dispatcher.selectAllItems}
           onSelectItem={this.dispatcher.selectItem}
-          onRecode={this.recode}
+          onOpenRecodeModal={this.openRecodeModal}
+          onCloseRecodeModal={this.dispatcher.closeModal}
+          onConfirmRecode={this.recode}
           onOpenRecodeOptions={this.dispatcher.openRecodeOptions}
           onCloseRecodeOptions={this.dispatcher.closeRecodeOptions}
         />

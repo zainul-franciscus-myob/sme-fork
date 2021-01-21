@@ -94,6 +94,7 @@ export default class Popover extends React.Component {
       isOpen: this.state.popoverIsOpen,
       preferPlace: this.props.preferPlace,
       place: this.props.place,
+      className: this.props.className,
       appendTarget:
         document.querySelector(this.props.appendTarget) || document.body,
       body,
@@ -112,6 +113,7 @@ Popover.defaultProps = {
   place: null,
   closeOnOuterAction: undefined,
   classes: null,
+  className: undefined,
   header: undefined,
   body: undefined,
   footer: undefined,

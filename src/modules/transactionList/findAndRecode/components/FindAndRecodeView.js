@@ -5,13 +5,16 @@ import React from 'react';
 import {
   getAreSomeItemsSelected,
   getLoadMoreButtonStatus,
+  getModalType,
 } from '../findAndRecodeSelectors';
 import FindAndRecodeFilterOptions from './FindAndRecodeFilterOptions';
 import FindAndRecodeListTable from './FindAndRecodeListTable';
 import FindAndRecodeListTableHeader from './FindAndRecodeListTableHeader';
+import ModalType from '../types/ModalType';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import RecodeAlert from './RecodeAlert';
+import RecodeModal from './RecodeModal';
 import RecodePopover from './RecodePopover';
 
 export const tableConfig = {
@@ -35,7 +38,9 @@ const FindAndRecodeView = ({
   onSort,
   onSelectItem,
   onSelectAllItems,
-  onRecode,
+  onOpenRecodeModal,
+  onCloseRecodeModal,
+  onConfirmRecode,
   onOpenRecodeOptions,
   onCloseRecodeOptions,
   onUpdateRecodeOptions,
@@ -44,7 +49,12 @@ const FindAndRecodeView = ({
   pageHead,
   subHead,
   alert,
+  modalType,
 }) => {
+  const modal = modalType === ModalType.RecodeModal && (
+    <RecodeModal onConfirm={onConfirmRecode} onCancel={onCloseRecodeModal} />
+  );
+
   const transactionListView = (
     <PaginatedListTemplate
       alert={
@@ -61,7 +71,12 @@ const FindAndRecodeView = ({
           onPeriodChange={onPeriodChange}
         />
       }
-      subHeadChildren={subHead}
+      subHeadChildren={
+        <>
+          {subHead}
+          {modal}
+        </>
+      }
       tableHeader={
         <FindAndRecodeListTableHeader
           onSort={onSort}
@@ -76,7 +91,7 @@ const FindAndRecodeView = ({
               onOpenRecodeOptions={onOpenRecodeOptions}
               onCloseRecodeOptions={onCloseRecodeOptions}
               onUpdateRecodeOptions={onUpdateRecodeOptions}
-              onRecode={onRecode}
+              onOpenRecodeModal={onOpenRecodeModal}
             />
           </BulkActions>
         )
@@ -98,6 +113,7 @@ const FindAndRecodeView = ({
 const mapStateToProps = (state) => ({
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
   areSomeItemsSelected: getAreSomeItemsSelected(state),
+  modalType: getModalType(state),
 });
 
 export default connect(mapStateToProps)(FindAndRecodeView);

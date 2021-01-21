@@ -1,7 +1,9 @@
 import {
+  CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
+  OPEN_MODAL,
   OPEN_RECODE_OPTIONS,
   RECODE_ITEM_FAILURE,
   RECODE_ITEM_SUCCESS,
@@ -29,6 +31,7 @@ const getDefaultState = () => ({
   region: undefined,
   businessId: undefined,
   lastMonthInFinancialYear: undefined,
+  modalType: undefined,
   accountList: [],
   taxCodeList: [],
   entries: [],
@@ -259,6 +262,16 @@ const recodeItemFailure = (state, { id, error }) => ({
   }),
 });
 
+const openModal = (state, action) => ({
+  ...state,
+  modalType: action.modalType,
+});
+
+const closeModal = (state) => ({
+  ...state,
+  modalType: undefined,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -280,6 +293,8 @@ const handlers = {
   [UPDATE_RECODE_OPTIONS]: updateRecodeOptions,
   [RECODE_ITEM_SUCCESS]: recodeItemSuccess,
   [RECODE_ITEM_FAILURE]: recodeItemFailure,
+  [OPEN_MODAL]: openModal,
+  [CLOSE_MODAL]: closeModal,
 };
 
 const findAndRecodeReducer = createReducer(getDefaultState(), handlers);

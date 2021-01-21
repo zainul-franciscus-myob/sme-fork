@@ -20,6 +20,8 @@ export const OPEN_RECODE_OPTIONS = Symbol('Open recode options');
 export const CLOSE_RECODE_OPTIONS = Symbol('Close recode options');
 export const UPDATE_RECODE_OPTIONS = Symbol('Update recode options');
 export const UNSELECT_ALL_ITEMS = Symbol('Unselect all items');
+export const OPEN_MODAL = Symbol('Open modal');
+export const CLOSE_MODAL = Symbol('Close modal');
 
 export const RECODE_ITEM_SUCCESS = Symbol('Recode item success');
 export const RECODE_ITEM_FAILURE = Symbol('Recode item failure');

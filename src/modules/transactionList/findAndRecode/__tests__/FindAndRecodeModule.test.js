@@ -1,4 +1,5 @@
 import {
+  CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
@@ -406,6 +407,9 @@ describe('FindAndRecodeModule', () => {
           intent: CLOSE_RECODE_OPTIONS,
         },
         {
+          intent: CLOSE_MODAL,
+        },
+        {
           intent: RECODE_ITEM_SUCCESS,
           id: '1',
         },
@@ -449,6 +453,9 @@ describe('FindAndRecodeModule', () => {
         },
         {
           intent: CLOSE_RECODE_OPTIONS,
+        },
+        {
+          intent: CLOSE_MODAL,
         },
         {
           intent: RECODE_ITEM_SUCCESS,
@@ -533,6 +540,9 @@ describe('FindAndRecodeModule', () => {
         },
         {
           intent: CLOSE_RECODE_OPTIONS,
+        },
+        {
+          intent: CLOSE_MODAL,
         },
         {
           intent: RECODE_ITEM_FAILURE,
