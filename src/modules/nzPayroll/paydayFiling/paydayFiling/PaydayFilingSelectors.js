@@ -13,3 +13,12 @@ export const getOnboardingPageUrl = (state) => {
   const { region, businessId } = state;
   return `/#/${region}/${businessId}/paydayFiling/onboarding`;
 };
+
+export const isUserAuthorised = (state) =>
+  state.userSession.onboarded && state.userSession.validEhSession;
+
+export const getUserStatusMessage = createSelector(
+  isUserAuthorised,
+  (isAuthorised) =>
+    isAuthorised ? 'You have authorised MYOB' : 'You have not authorised MYOB'
+);

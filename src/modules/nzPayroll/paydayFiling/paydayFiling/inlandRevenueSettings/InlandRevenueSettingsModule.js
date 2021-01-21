@@ -1,8 +1,10 @@
 import React from 'react';
 
+import InlandRevenueSettingsView from './components/InlandRevenueSettingsView';
+
 export default class InlandRevenueSettingsModule {
   getView = () => {
-    return <h1>TODO: Inland Revenue Settings View</h1>;
+    return <InlandRevenueSettingsView />;
   };
 
   run = () => {

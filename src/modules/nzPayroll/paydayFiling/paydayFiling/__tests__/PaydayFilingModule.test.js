@@ -1,7 +1,11 @@
 import { mount } from 'enzyme';
 
-import { LOAD_BUSINESS_ONBOARDED_STATUS } from '../PaydayFilingIntents';
+import {
+  LOAD_BUSINESS_ONBOARDED_STATUS,
+  LOAD_PAYDAY_USER_SESSION,
+} from '../PaydayFilingIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import InlandRevenueSettingsView from '../inlandRevenueSettings/components/InlandRevenueSettingsView';
 import PaydayFilingModule from '../PaydayFilingModule';
 import RouteName from '../../../../../router/RouteName';
 import TestIntegration from '../../../../../integration/TestIntegration';
@@ -98,6 +102,32 @@ describe('PaydayFilingModule', () => {
       expect(window.location.href).toEqual(
         'http://localhost/#/nz/123/paydayFiling/onboarding'
       );
+    });
+  });
+
+  describe('InlandRevenueSettings tab selected', () => {
+    it('should display InlandRevenueSettingsView', () => {
+      const { wrapper, integration, module } = constructPaydayFilingModule();
+
+      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_STATUS, {
+        isBusinessOnboarded: true,
+      });
+
+      integration.mapSuccess(LOAD_PAYDAY_USER_SESSION, {
+        userGuid: 'eacef4d8-7f5c-4936-a2f8-4383c333304d',
+        onboarded: true,
+        validEhSession: false,
+      });
+
+      module.run({});
+      wrapper
+        .find('TabItem')
+        .findWhere((c) => c.prop('item')?.id === 'irdSettings')
+        .find('a')
+        .simulate('click');
+
+      const component = wrapper.find(InlandRevenueSettingsView);
+      expect(component).toHaveLength(1);
     });
   });
 });

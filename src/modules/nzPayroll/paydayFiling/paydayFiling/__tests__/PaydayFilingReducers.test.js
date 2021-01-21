@@ -1,5 +1,5 @@
+import { LOAD_PAYDAY_USER_SESSION, SET_TAB } from '../PaydayFilingIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
-import { SET_TAB } from '../PaydayFilingIntents';
 import { tabIds } from '../TabItems';
 import PaydayFilingReducer from '../PaydayFilingReducer';
 
@@ -69,6 +69,33 @@ describe('PaydayFilingReducer', () => {
       const result = PaydayFilingReducer(state, action);
 
       expect(result).toEqual({ tab: tabIds.submissionsList });
+    });
+  });
+
+  describe('setUserSession', () => {
+    it('should set userSession from dispatcher into the state', () => {
+      const state = { userSession: null };
+
+      const action = {
+        intent: LOAD_PAYDAY_USER_SESSION,
+        userSession: {
+          userGuid: 'eacef4d8-7f5c-4936-a2f8-4383c333304d',
+          onboarded: true,
+          validEhSession: false,
+        },
+      };
+
+      const expected = {
+        userSession: {
+          userGuid: 'eacef4d8-7f5c-4936-a2f8-4383c333304d',
+          onboarded: true,
+          validEhSession: false,
+        },
+      };
+
+      const result = PaydayFilingReducer(state, action);
+
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -1,12 +1,13 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 import {
+  LOAD_PAYDAY_USER_SESSION,
   SET_ALERT,
   SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_TAB,
 } from './PaydayFilingIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
-const createReportingCentreDispatcher = (store) => ({
+const createPaydayFilingDispatcher = (store) => ({
   resetState: () => {
     store.dispatch({
       intent: RESET_STATE,
@@ -48,6 +49,13 @@ const createReportingCentreDispatcher = (store) => ({
     });
   },
 
+  loadUserSession: (response) => {
+    store.dispatch({
+      intent: LOAD_PAYDAY_USER_SESSION,
+      userSession: response,
+    });
+  },
+
   setIsBusinessOnboarded: (isBusinessOnboarded) => {
     store.dispatch({
       intent: SET_IS_BUSINESS_ONBOARDED,
@@ -56,4 +64,4 @@ const createReportingCentreDispatcher = (store) => ({
   },
 });
 
-export default createReportingCentreDispatcher;
+export default createPaydayFilingDispatcher;

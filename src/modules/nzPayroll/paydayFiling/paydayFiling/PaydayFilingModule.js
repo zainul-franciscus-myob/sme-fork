@@ -32,10 +32,7 @@ export default class PaydayFilingModule {
     this.featureToggles = featureToggles;
     this.replaceURLParams = replaceURLParams;
     this.store = new Store(PaydayFilingReducer);
-    this.integrator = createPaydayFilingIntegrator(
-      this.store,
-      this.integration
-    );
+    this.integrator = createPaydayFilingIntegrator(this.store, integration);
     this.dispatcher = createPaydayFilingDispatcher(this.store);
     this.popMessages = popMessages;
     this.pushMessage = pushMessage;
@@ -92,6 +89,21 @@ export default class PaydayFilingModule {
     this.replaceURLParams(getUrlParams(state));
   };
 
+  loadUserSession = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.loadUserSession(response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadUserSession({ onSuccess, onFailure });
+  };
+
   loadBusinessOnboardedStatus = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
@@ -99,6 +111,7 @@ export default class PaydayFilingModule {
       this.dispatcher.setIsBusinessOnboarded(response.isBusinessOnboarded);
       if (response.isBusinessOnboarded) {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+        this.loadUserSession();
         this.runTab();
       } else {
         this.redirectToOnboardingPage();

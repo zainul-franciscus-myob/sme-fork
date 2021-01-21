@@ -5,3 +5,5 @@ export const SET_IS_BUSINESS_ONBOARDED = Symbol('Set is business onboarded');
 export const LOAD_BUSINESS_ONBOARDED_STATUS = Symbol(
   'Load business onboarded status'
 );
+
+export const LOAD_PAYDAY_USER_SESSION = Symbol('Load user session');
