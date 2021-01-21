@@ -1,4 +1,5 @@
 import RecurringInvoiceModule from './recurringInvoice/RecurringInvoiceModule';
+import RecurringSpendMoneyModule from './recurringSpendMoney/RecurringSpendMoneyModule';
 import RecurringTransactionListModule from './recurringTransactionList/RecurringTransactionListModule';
 import RouteName from '../../router/RouteName';
 
@@ -36,6 +37,20 @@ const getRecurringTransactionRoutes = ({
         setRootView,
         pushMessage,
         popMessages,
+        replaceURLParams,
+        navigateTo,
+        featureToggles,
+      }),
+      documentTitle: 'Recurring transaction',
+    },
+    {
+      name: RouteName.RECURRING_SPEND_MONEY,
+      path:
+        '/:region/:businessId/recurringTransaction/:recurringTransactionId/spendMoney',
+      module: new RecurringSpendMoneyModule({
+        integration,
+        setRootView,
+        pushMessage,
         replaceURLParams,
         navigateTo,
         featureToggles,

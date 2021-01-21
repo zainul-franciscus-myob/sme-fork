@@ -598,10 +598,6 @@ export default class RecurringInvoiceModule {
         }}
         invoiceActionListeners={{
           onSaveButtonClick: this.saveRecurringInvoice,
-          onSaveAndButtonClick: this.executeSaveAndAction,
-          onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
-          onPayInvoiceButtonClick: this.payInvoice,
-          onExportPdfButtonClick: this.openExportPdfModalOrSaveAndExportPdf,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
         }}

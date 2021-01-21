@@ -1,0 +1,101 @@
+{
+  "transactionType": "SpendMoney",
+  "schedule": {
+    "frequency": "Never",
+    "recurrence": "Indefinitely",
+    "isAutomaticallyRecorded": false,
+    "shouldNotifyUser": false,
+    "notifyUserId": "1",
+    "shouldUseCustomNumber": false
+  },
+  "spendMoney": {
+    "isTaxInclusive": true,
+    "payFromAccountId": "123"
+  },
+  "newLine": {
+    "jobId": "",
+    "accountId": "",
+    "amount": "",
+    "quantity": "",
+    "description": "",
+    "taxCodeId": "",
+    "taxAmount": "",
+    "lineSubTypeId": 8
+  },
+  "payFromAccountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
+    }
+  ],
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "1",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "taxCodeId": "2",
+      "displayId": "2-123"
+    }
+  ],
+  "taxCodeOptions": [
+    {
+      "description": "Goods & Services Tax",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "1",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    },
+    {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
+      "id": "2",
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    }
+  ],
+  "electronicClearingAccountId": "789"
+}

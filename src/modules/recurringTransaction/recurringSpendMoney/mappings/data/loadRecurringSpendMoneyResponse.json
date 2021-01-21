@@ -1,0 +1,148 @@
+{
+  "transactionType": "SpendMoney",
+  "schedule": {
+    "name": "Recurring SM",
+    "frequency": "Never",
+    "recurrence": "Indefinitely",
+    "isAutomaticallyRecorded": false,
+    "nextDueDate": "2020-11-10",
+    "secondDueDate": "2020-12-10",
+    "endDate": "2021-11-10",
+    "numberOfTimes": "12",
+    "remainingTimes": "7",
+    "shouldNotifyUser": false,
+    "notifyUserId": "1",
+    "shouldUseCustomNumber": false,
+    "customNumber": "INV005"
+  },
+  "spendMoney": {
+    "isTaxInclusive": false,
+    "isReportable": false,
+    "description": "Bob the builder",
+    "payFromAccountId": "456",
+    "payToContactId": "2",
+    "bankStatementText": "Payment",
+    "lines": [
+      {
+        "jobId": "1",
+        "id": "1",
+        "accountId": "789",
+        "amount": "1000.00",
+        "quantity": "5",
+        "description": "Bob",
+        "taxCodeId": "123",
+        "taxAmount": "80.10",
+        "lineSubTypeId": 8
+      },
+      {
+        "jobId": "2",
+        "id": "2",
+        "accountId": "456",
+        "amount": "2352.00",
+        "description": "the builder",
+        "taxCodeId": "123",
+        "quantity": "",
+        "taxAmount": "280.10",
+        "lineSubTypeId": 8
+      }
+    ]
+  },
+  "newLine": {
+    "jobId": "",
+    "accountId": "",
+    "amount": "",
+    "quantity": "",
+    "description": "",
+    "taxCodeId": "",
+    "taxAmount": "",
+    "lineSubTypeId": 8
+  },
+  "payFromAccountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Bank",
+      "accountType": "Asset",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Other Bank",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "Electronic clearing account",
+      "accountType": "Asset",
+      "taxCodeId": "124",
+      "displayId": "1-109"
+    }
+  ],
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "1-123"
+    },
+    {
+      "id": "456",
+      "displayName": "My Assets Account 1",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-123"
+    },
+    {
+      "id": "789",
+      "displayName": "My (Inactive) Assets Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "2-124"
+    }
+  ],
+  "taxCodeOptions": [
+    {
+      "description": "Goods & Services Tax",
+      "displayName": "GST",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "id": "1",
+      "rate": "10",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    },
+    {
+      "description": "No ABN Withholding",
+      "displayName": "ABN",
+      "displayRate": "47%",
+      "id": "2",
+      "rate": "47",
+      "codeType": "NoABN_TFN",
+      "threshold": "0",
+      "childrenCalculationCollection": [],
+      "calculationMethod": "2",
+      "roundingMethod": "2",
+      "collectedBehaviour": "1",
+      "payedBehaviour": "1",
+      "isWithholding": false,
+      "thresholdRate": "10",
+      "includeInGstReturn": false
+    }
+  ],
+  "electronicClearingAccountId": "789",
+  "contact": {
+    "id": "456",
+    "contactType": "Supplier",
+    "isReportable": false
+  }
+}

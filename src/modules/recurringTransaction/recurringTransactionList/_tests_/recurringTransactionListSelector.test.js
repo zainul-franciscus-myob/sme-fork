@@ -14,7 +14,7 @@ describe('recurringTransactionListSelector', () => {
       [TransactionType.INVOICE, true],
       [TransactionType.QUOTE, false],
       [TransactionType.RECEIVE_MONEY, false],
-      [TransactionType.SPEND_MONEY, false],
+      [TransactionType.SPEND_MONEY, true],
       [TransactionType.TRANSFER_MONEY, false],
       ['Unknown', false],
     ])(

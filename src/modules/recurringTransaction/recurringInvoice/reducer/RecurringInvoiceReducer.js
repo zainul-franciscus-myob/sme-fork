@@ -177,6 +177,7 @@ const updateScheduleOptions = (state, { key, value }) => {
       [key]: value,
       remainingTimes,
     },
+    isPageEdited: true,
   };
 };
 

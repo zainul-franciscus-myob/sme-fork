@@ -9,6 +9,11 @@ const items = [
     label="Invoice"
     value={TransactionType.INVOICE}
   />,
+  <Dropdown.Item
+    key={TransactionType.SPEND_MONEY}
+    label="Spend money"
+    value={TransactionType.SPEND_MONEY}
+  />,
 ];
 
 const RecurringTransactionListPageHead = ({ onCreateButtonClick }) => (

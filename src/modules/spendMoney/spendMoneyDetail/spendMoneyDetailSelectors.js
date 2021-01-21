@@ -513,5 +513,13 @@ export const getShowSaveAsRecurring = (state) =>
 export const getRecurringTransactionModalContext = (state) => ({
   businessId: getBusinessId(state),
   transactionType: 'SpendMoney',
-  transaction: getSpendMoneyForCreatePayload(state),
+  transaction: {
+    isTaxInclusive: getIsTaxInclusive(state),
+    description: getDescription(state),
+    isReportable: getIsReportable(state),
+    payFromAccountId: getSelectedPayFromId(state),
+    payToContactId: getSelectedPayToContactId(state),
+    bankStatementText: getBankStatementText(state),
+    lines: getLines(state),
+  },
 });

@@ -8,7 +8,10 @@ describe('getRecurringUrl', () => {
     [TransactionType.INVOICE, '/#/au/bizId/recurringTransaction/45/invoice'],
     [TransactionType.QUOTE, '/#/au/bizId/recurringTransaction'],
     [TransactionType.RECEIVE_MONEY, '/#/au/bizId/recurringTransaction'],
-    [TransactionType.SPEND_MONEY, '/#/au/bizId/recurringTransaction'],
+    [
+      TransactionType.SPEND_MONEY,
+      '/#/au/bizId/recurringTransaction/45/spendMoney',
+    ],
     [TransactionType.TRANSFER_MONEY, '/#/au/bizId/recurringTransaction'],
     ['Unknown', '/#/au/bizId/recurringTransaction'],
   ])('', (transactionType, expected) => {

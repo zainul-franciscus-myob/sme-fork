@@ -117,10 +117,11 @@ const RouteName = {
   QUOTE_WITH_STATUS_DETAIL: 'quoteWithList/quoteDetail',
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
   REPORT_SETTINGS: 'reportSettings',
+  RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
+  RECURRING_SPEND_MONEY: 'recurringTransaction/recurringSpendMoney',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
   PAYDAY_FILING_ONBOARDING: 'paydayFiling/onboarding',
   PAYDAY_FILING: 'paydayFiling',
-  RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
 };
 
 export default RouteName;
