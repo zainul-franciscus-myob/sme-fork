@@ -13,6 +13,7 @@ import AtoSettingsModule from './atoSettings/AtoSettingsModule';
 import FinalisationModule from './finalisation/FinalisationModule';
 import GstCalculatorModule from './gstCalculator/GstCalculatorModule';
 import JobKeeperModule from './jobKeeper/JobKeeperModule';
+import JobMakerModule from './jobMaker/JobMakerModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ReportingCentreReducer from './ReportingCentreReducer';
 import ReportingCentreView from './components/ReportingCentreView';
@@ -84,6 +85,13 @@ export default class ReportingCentreModule {
         context,
         setAlert: this.dispatcher.setAlert,
         pushMessage: this.pushMessage,
+      }),
+      [tabIds.jobMaker]: new JobMakerModule({
+        integration: this.integration,
+        context,
+        setAlert: this.dispatcher.setAlert,
+        pushMessage: this.pushMessage,
+        featureToggles: this.featureToggles,
       }),
     };
   };

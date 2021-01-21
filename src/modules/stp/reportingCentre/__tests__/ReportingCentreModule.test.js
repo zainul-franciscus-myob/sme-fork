@@ -94,7 +94,7 @@ describe('ReportingCentreModule', () => {
       ).toBeTruthy();
     });
 
-    it('does not show if the feature toggle is on', () => {
+    it('does not show if the feature toggle is off', () => {
       const wrapper = setupModule('registered', tabIds.reports, true);
 
       const tabs = wrapper.find(Tabs);
@@ -116,7 +116,7 @@ describe('ReportingCentreModule', () => {
       ).toBeTruthy();
     });
 
-    it('does not tab show if the feature toggle is false', () => {
+    it('does not show if the feature toggle is false', () => {
       const wrapper = setupModule('registered', tabIds.reports, true, {
         isJobKeeperCalculatorEnabled: false,
       });
@@ -124,6 +124,30 @@ describe('ReportingCentreModule', () => {
       const tabs = wrapper.find(Tabs);
       expect(
         tabs.prop('items').find((item) => item.id === tabIds.gstCalculator)
+      ).toBeFalsy();
+    });
+  });
+
+  describe('JobMaker tab', () => {
+    it('shows tab if the feature toggle is on', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true, {
+        isJobMakerTabEnabled: true,
+      });
+
+      const tabs = wrapper.find(Tabs);
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.jobMaker)
+      ).toBeTruthy();
+    });
+
+    it('does not show if the feature toggle is off', () => {
+      const wrapper = setupModule('registered', tabIds.reports, true, {
+        isJobMakerTabEnabled: false,
+      });
+
+      const tabs = wrapper.find(Tabs);
+      expect(
+        tabs.prop('items').find((item) => item.id === tabIds.jobMaker)
       ).toBeFalsy();
     });
   });
