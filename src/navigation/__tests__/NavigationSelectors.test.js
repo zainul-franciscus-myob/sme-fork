@@ -1,4 +1,5 @@
 import {
+  getBankingUrls,
   getIsNzPayrollOnly,
   getMenuLogoUrl,
   getSalesUrls,
@@ -94,6 +95,38 @@ describe('NavigationSelectors', () => {
 
       const actual = getSalesUrls(state);
       expect(actual.recurringTransactionSalesList).toBeDefined();
+    });
+
+    it('should not return recurring transaction banking list url if feature toggle is off', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: false,
+        enabledFeatures: ['recurringTransactionBankingList'],
+        urls: { recurringTransactionBankingList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getBankingUrls(state);
+      expect(actual.recurringTransactionBankingList).toBeUndefined();
+    });
+
+    it('should return recurring transaction banking list url if feature toggle is on and feature is returned as enabled from bff', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: true,
+        enabledFeatures: ['recurringTransactionBankingList'],
+        urls: { recurringTransactionBankingList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getBankingUrls(state);
+      expect(actual.recurringTransactionBankingList).toBeDefined();
     });
   });
 

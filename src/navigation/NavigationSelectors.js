@@ -178,17 +178,24 @@ export const getShouldDisplayPayrollNzMenu = createSelector(
     !isLoading && region === Region.nz && Object.values(urls).some(Boolean)
 );
 
-export const getBankingUrls = createSelector(getEnabledUrls, (enabledUrls) => ({
-  bankTransactionList: enabledUrls.bankTransactionList,
-  bankReconciliation: enabledUrls.bankReconciliation,
-  bankingRuleList: enabledUrls.bankingRuleList,
-  bankFeeds: enabledUrls.bankFeeds,
-  electronicPaymentCreate: enabledUrls.electronicPaymentBankCreate,
-  spendMoneyCreate: enabledUrls.spendMoneyCreate,
-  receiveMoneyCreate: enabledUrls.receiveMoneyCreate,
-  transferMoneyCreate: enabledUrls.transferMoneyCreate,
-  transactionList: enabledUrls.transactionList,
-}));
+export const getBankingUrls = createSelector(
+  getEnabledUrls,
+  getIsRecurringTransactionEnabled,
+  (enabledUrls, isRecurringTransactionEnabled) => ({
+    bankTransactionList: enabledUrls.bankTransactionList,
+    bankReconciliation: enabledUrls.bankReconciliation,
+    bankingRuleList: enabledUrls.bankingRuleList,
+    bankFeeds: enabledUrls.bankFeeds,
+    electronicPaymentCreate: enabledUrls.electronicPaymentBankCreate,
+    spendMoneyCreate: enabledUrls.spendMoneyCreate,
+    receiveMoneyCreate: enabledUrls.receiveMoneyCreate,
+    transferMoneyCreate: enabledUrls.transferMoneyCreate,
+    recurringTransactionBankingList: isRecurringTransactionEnabled
+      ? enabledUrls.recurringTransactionBankingList
+      : undefined,
+    transactionList: enabledUrls.transactionList,
+  })
+);
 export const getShouldDisplayBankingMenu = createSelector(
   getIsLoading,
   getBankingUrls,

@@ -30,6 +30,7 @@
     "spendMoneyCreate",
     "receiveMoneyCreate",
     "transferMoneyCreate",
+    "recurringTransactionBankingList",
     "transactionList",
 
     "generalJournalList",

@@ -143,8 +143,10 @@ export const featuresConfig = {
     routeName: RouteName.TRANSFER_MONEY_DETAIL,
     params: { transferMoneyId: 'new' },
   },
+  recurringTransactionBankingList: {
+    routeName: RouteName.RECURRING_TRANSACTION_LIST,
+  },
   transactionList: { routeName: RouteName.TRANSACTION_LIST },
-
   generalJournalList: {
     routeName: RouteName.GENERAL_JOURNAL_LIST,
     params: { sourceJournal: 'General' },

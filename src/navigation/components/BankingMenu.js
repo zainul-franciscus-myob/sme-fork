@@ -15,7 +15,10 @@ const isElectronicPaymentSeparatorRequired = (urls) =>
   urls.electronicPaymentCreate;
 
 const isTransactionSeparatorRequired = (urls) =>
-  urls.spendMoneyCreate || urls.receiveMoneyCreate || urls.transferMoneyCreate;
+  urls.spendMoneyCreate ||
+  urls.receiveMoneyCreate ||
+  urls.transferMoneyCreate ||
+  urls.recurringTransactionBankingList;
 
 const getMenuLink = (url, label, onMenuLinkClick) => (
   <Navigation.MenuLink
@@ -62,6 +65,12 @@ const getItems = (urls, onMenuLinkClick) =>
       getMenuLink(urls.receiveMoneyCreate, 'Receive money', onMenuLinkClick),
     urls.transferMoneyCreate &&
       getMenuLink(urls.transferMoneyCreate, 'Transfer money', onMenuLinkClick),
+    urls.recurringTransactionBankingList &&
+      getMenuLink(
+        urls.recurringTransactionBankingList,
+        'Recurring transactions',
+        onMenuLinkClick
+      ),
     isTransactionSeparatorRequired(urls) && (
       <Navigation.Separator key="separator-transaction" />
     ),

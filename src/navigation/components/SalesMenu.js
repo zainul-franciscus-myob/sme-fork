@@ -8,7 +8,10 @@ import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 const isQuoteSeparatorRequired = (urls) => urls.quoteList || urls.quoteCreate;
 
 const isInvoiceSeparatorRequired = (urls) =>
-  urls.invoiceList || urls.invoiceCreate || urls.invoicePaymentCreate;
+  urls.invoiceList ||
+  urls.invoiceCreate ||
+  urls.invoicePaymentCreate ||
+  urls.recurringTransactionSalesList;
 
 const isInventorySeparatorRequired = (urls) =>
   urls.customerReturnList || urls.itemList;
