@@ -671,6 +671,160 @@ describe('PurchaseOrderModule', () => {
     });
   });
 
+  describe('savePurchaseOrder', () => {
+    describe('new purchase order', () => {
+      it('create purchase order, update purchase order id, update url params, reload purchase order, and show success alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        module.replaceURLParams = jest.fn();
+
+        module.savePurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          {
+            intent: UPDATE_PURCHASE_ORDER_ID,
+            id: '1',
+          },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_PURCHASE_ORDER }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          {
+            intent: OPEN_ALERT,
+            type: 'success',
+            message:
+              "Success! You've successfully created a new purchase Order.",
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ]);
+        expect(module.replaceURLParams).toHaveBeenCalled();
+      });
+
+      it('show danger alert when create purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(CREATE_PURCHASE_ORDER, { message });
+        module.replaceURLParams = jest.fn();
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: SAVE_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+        ]);
+      });
+
+      it('show danger alert when reload purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isCreating: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(LOAD_PURCHASE_ORDER, { message });
+
+        module.saveAndEmailPurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          {
+            intent: UPDATE_PURCHASE_ORDER_ID,
+            id: '1',
+          },
+          { intent: START_BLOCKING },
+          { intent: RELOAD_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: CREATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+        ]);
+      });
+    });
+
+    describe('existing purchase order', () => {
+      it('update purchase order, reload purchase order and show success alert inside modal', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        module.replaceURLParams = jest.fn();
+
+        module.savePurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          expect.objectContaining({ intent: RELOAD_PURCHASE_ORDER }),
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+          { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          {
+            intent: OPEN_ALERT,
+            type: 'success',
+            message: "Great Work! You've done it well!",
+          },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ]);
+        expect(module.replaceURLParams).not.toHaveBeenCalled();
+      });
+
+      it('show danger alert when update purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(UPDATE_PURCHASE_ORDER, { message });
+
+        module.savePurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: SAVE_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+        ]);
+      });
+
+      it('show danger alert when reload purchase order failed', () => {
+        const { module, store, integration } = setUpWithRun({
+          isPageEdited: true,
+        });
+        const message = 'Error';
+        integration.mapFailure(LOAD_PURCHASE_ORDER, { message });
+
+        module.savePurchaseOrder();
+
+        expect(store.getActions()).toEqual([
+          { intent: START_BLOCKING },
+          { intent: STOP_BLOCKING },
+          { intent: START_BLOCKING },
+          { intent: RELOAD_PURCHASE_ORDER_FAILED, message },
+        ]);
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({ intent: UPDATE_PURCHASE_ORDER }),
+          expect.objectContaining({ intent: LOAD_PURCHASE_ORDER }),
+        ]);
+      });
+    });
+  });
+
   describe('openExportPdfModalOrSaveAndExportPdf', () => {
     describe('new purchaseOrder', () => {
       it('create purchaseOrder, update purchaseOrder id, update url params, reload purchaseOrder, open export pdf modal and show alert inside modal', () => {
