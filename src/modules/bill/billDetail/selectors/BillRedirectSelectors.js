@@ -54,6 +54,20 @@ export const getBillPaymentUrl = (state) => {
   return `${baseUrl}/billPayment/new${urlParams}`;
 };
 
+export const getSupplierPaymentUrl = (state) => {
+  const baseUrl = getBaseUrl(state);
+  const amountDue = getAmountDue(state);
+  const redirectParams = {
+    supplierId: getSupplierId(state),
+    paymentAmount: isNegativeAmount(amountDue) ? amountDue.slice(1) : amountDue,
+    applyPaymentToPurchaseId: getBillId(state),
+  };
+
+  const urlParams = getQueryFromParams(redirectParams);
+
+  return `${baseUrl}/supplierPayment/new${urlParams}`;
+};
+
 export const getSupplierLink = createSelector(
   getBusinessId,
   getRegion,

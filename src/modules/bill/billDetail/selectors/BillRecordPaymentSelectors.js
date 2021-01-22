@@ -125,6 +125,7 @@ const getBillEntriesForCreatePayload = createSelector(
     return [
       {
         paidAmount,
+        // TODO Need change payload to billId after replace bill payment with supplier payment module
         id: billId,
         discountAmount,
       },

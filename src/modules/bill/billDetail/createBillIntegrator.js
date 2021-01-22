@@ -264,6 +264,7 @@ const createBillIntegrator = (store, integration) => ({
     const state = store.getState();
 
     integration.write({
+      // TODO Chane intent to CREATE_SUPPLIER_PAYMENT once release supplier payment to replace bill payment module
       intent: CREATE_BILL_PAYMENT,
       urlParams: getLoadBillPaymentUrlParams(state),
       content: getCreateBillPaymentPayload(state),

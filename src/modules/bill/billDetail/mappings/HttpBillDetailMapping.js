@@ -2,6 +2,7 @@ import {
   CREATE_BILL,
   CREATE_BILL_PAYMENT,
   CREATE_PRE_CONVERSION_BILL_DETAIL,
+  CREATE_SUPPLIER_PAYMENT,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -121,6 +122,11 @@ const HttpBillDetailMapping = {
   [CREATE_BILL_PAYMENT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/bill/create_bill_payment`,
+  },
+  [CREATE_SUPPLIER_PAYMENT]: {
+    method: 'POST',
+    getPath: ({ businessId }) =>
+      `/${businessId}/supplierPayment/create_supplier_payment`,
   },
   [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: {
     method: 'GET',

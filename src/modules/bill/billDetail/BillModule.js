@@ -51,6 +51,7 @@ import {
   getCreateNewBillUrl,
   getInTrayUrl,
   getSavedBillPaymentUrl,
+  getSupplierPaymentUrl,
 } from './selectors/BillRedirectSelectors';
 import {
   getDefaultAccountId,
@@ -923,6 +924,21 @@ class BillModule {
     this.navigateTo(url);
   };
 
+  redirectToSupplierPayment = () => {
+    const state = this.store.getState();
+    const url = getSupplierPaymentUrl(state);
+
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'pay_multiple_bills_clicked',
+        page: 'Bill',
+      },
+    });
+
+    this.navigateTo(url);
+  };
+
   redirectToSavedBillPayment = () => {
     const state = this.store.getState();
     const url = getSavedBillPaymentUrl(state);
@@ -1194,6 +1210,7 @@ class BillModule {
             onCancel: this.closeModal,
             onChangeBankStatementText: this.changeBankStatementText,
             onEditSupplierClick: this.redirectToContactDetail,
+            // TODO Need change it to redirectToSupplierPayment after release supplier payment module
             onRecordMultiplePayments: this.redirectToBillPayment,
             onRecordPaymentModalOpen: this.loadNewBillPayment,
             onShouldSendRemittanceAdviceChange: this.dispatcher

@@ -86,6 +86,7 @@ export const SET_PAYMENT_MODAL_LOADING_STATE = Symbol(
   'Set record bill payment modal loading state'
 );
 export const CREATE_BILL_PAYMENT = Symbol('Create bill payment');
+export const CREATE_SUPPLIER_PAYMENT = Symbol('Create supplier payment');
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );

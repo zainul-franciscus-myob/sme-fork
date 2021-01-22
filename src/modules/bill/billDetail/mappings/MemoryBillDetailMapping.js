@@ -2,6 +2,7 @@ import {
   CREATE_BILL,
   CREATE_BILL_PAYMENT,
   CREATE_PRE_CONVERSION_BILL_DETAIL,
+  CREATE_SUPPLIER_PAYMENT,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -105,6 +106,8 @@ const MemoryBillDetailMapping = {
   [LOAD_NEW_BILL_PAYMENT]: ({ onSuccess }) =>
     onSuccess(loadNewBillPaymentWithSupplier),
   [CREATE_BILL_PAYMENT]: ({ onSuccess }) =>
+    onSuccess({ ...successResponse, id: 1 }),
+  [CREATE_SUPPLIER_PAYMENT]: ({ onSuccess }) =>
     onSuccess({ ...successResponse, id: 1 }),
   [GET_REFERENCE_ID]: ({ onSuccess }) => onSuccess(billPaymentReferenceId),
   [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: ({ onSuccess }) =>
