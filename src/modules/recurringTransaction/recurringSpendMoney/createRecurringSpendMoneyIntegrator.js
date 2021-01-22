@@ -45,7 +45,7 @@ const createRecurringSpendMoneyIntegrator = (store, integration) => ({
     const content = getCreateOrUpdateSpendMoneyPayload(state);
     const urlParams = {
       businessId: getBusinessId(state),
-      recurringTransactionId: isCreating
+      recurringTransactionId: !isCreating
         ? getRecurringTransactionId(state)
         : undefined,
     };
