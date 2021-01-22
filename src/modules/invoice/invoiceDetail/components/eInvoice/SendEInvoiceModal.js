@@ -19,6 +19,7 @@ const SendEInvoiceModal = ({
   customerName,
   invoiceNumber,
   issueDate,
+  isActionsDisabled,
   onAddAttachments,
   onCloseModal,
   onDismissAlert,
@@ -85,7 +86,12 @@ const SendEInvoiceModal = ({
   );
 
   return (
-    <Modal size="default" title="Send e-invoice" onCancel={onCloseModal}>
+    <Modal
+      size="default"
+      title="Send e-invoice"
+      onCancel={onCloseModal}
+      canClose={!isActionsDisabled}
+    >
       <Modal.Body>
         {alert && (
           <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -97,10 +103,18 @@ const SendEInvoiceModal = ({
         {attachmentBlock}
       </Modal.Body>
       <Modal.Footer>
-        <Button type="secondary" onClick={onCloseModal}>
+        <Button
+          type="secondary"
+          onClick={onCloseModal}
+          disabled={isActionsDisabled}
+        >
           Cancel
         </Button>
-        <Button type="primary" onClick={onSendEInvoice}>
+        <Button
+          type="primary"
+          onClick={onSendEInvoice}
+          disabled={isActionsDisabled}
+        >
           Send e-invoice
         </Button>
       </Modal.Footer>

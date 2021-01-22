@@ -141,6 +141,7 @@ const InvoiceDetailModal = ({
     return (
       <SendEInvoiceModal
         alert={alert}
+        isActionsDisabled={isActionsDisabled}
         onAddAttachments={sendEInvoiceModalListeners.onAddAttachments}
         onCloseModal={sendEInvoiceModalListeners.onCloseModal}
         onDismissAlert={sendEInvoiceModalListeners.onDismissAlert}
