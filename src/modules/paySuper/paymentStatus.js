@@ -4,7 +4,7 @@ const paymentStatus = {
     color: 'orange',
   },
   PartiallyAuthorised: {
-    display: 'Partially Authorised',
+    display: 'Partially authorised',
     color: 'orange',
   },
   Authorised: {

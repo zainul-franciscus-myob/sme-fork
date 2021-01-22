@@ -74,7 +74,7 @@ describe('paySuperListSelector', () => {
       },
       {
         input: 'PartiallyAuthorised',
-        expected: { display: 'Partially Authorised', color: 'orange' },
+        expected: { display: 'Partially authorised', color: 'orange' },
       },
       {
         input: 'Authorised',
