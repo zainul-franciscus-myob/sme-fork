@@ -1,4 +1,8 @@
-import { LOAD_PAYDAY_USER_SESSION, SET_TAB } from '../PaydayFilingIntents';
+import {
+  LOAD_PAYDAY_USER_SESSION,
+  SET_IS_BUSINESS_ONBOARDED,
+  SET_TAB,
+} from '../PaydayFilingIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import { tabIds } from '../TabItems';
 import PaydayFilingReducer from '../PaydayFilingReducer';
@@ -69,6 +73,24 @@ describe('PaydayFilingReducer', () => {
       const result = PaydayFilingReducer(state, action);
 
       expect(result).toEqual({ tab: tabIds.submissionsList });
+    });
+  });
+  describe('setIsBusinessOnboarded', () => {
+    it('should set the onboarded status', () => {
+      const state = {
+        isBusinessOnboarded: '',
+      };
+
+      const action = {
+        intent: SET_IS_BUSINESS_ONBOARDED,
+        isBusinessOnboarded: true,
+      };
+
+      const result = PaydayFilingReducer(state, action);
+
+      expect(result).toEqual({
+        isBusinessOnboarded: true,
+      });
     });
   });
 

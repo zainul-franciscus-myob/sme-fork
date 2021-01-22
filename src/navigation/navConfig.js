@@ -54,6 +54,7 @@ export const activeMapping = {
   [RouteName.PAY_RUN_CREATE_NZ]: 'payroll',
   [RouteName.PAY_RUN_LIST_NZ]: 'payroll',
   [RouteName.PAYDAY_FILING]: 'payroll',
+  [RouteName.PAYDAY_FILING_ONBOARDING]: 'payroll',
 
   [RouteName.EMPLOYEE_LIST]: 'payroll',
   [RouteName.EMPLOYEE_DETAIL]: 'payroll',

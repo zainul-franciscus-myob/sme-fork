@@ -4,7 +4,7 @@ import {
   UPDATE_ONBOARD_USER,
 } from '../OnboardingIntents';
 
-const PaydayFilingOnboardingNzMapping = {
+const PaydayFilingOnboardingMapping = {
   [GET_IRD_NUMBER]: {
     method: 'GET',
     getPath: ({ businessId }) =>
@@ -24,4 +24,4 @@ const PaydayFilingOnboardingNzMapping = {
   },
 };
 
-export default PaydayFilingOnboardingNzMapping;
+export default PaydayFilingOnboardingMapping;

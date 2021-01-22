@@ -1,11 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  getOnboardingPageUrl,
-  getSelectedTab,
-  getUrlParams,
-} from './PaydayFilingSelectors';
+import { getSelectedTab, getUrlParams } from './PaydayFilingSelectors';
 import { tabIds } from './TabItems';
 import InlandRevenueSettingsModule from './inlandRevenueSettings/InlandRevenueSettingsModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -108,8 +104,9 @@ export default class PaydayFilingModule {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      this.dispatcher.setIsBusinessOnboarded(response.isBusinessOnboarded);
-      if (response.isBusinessOnboarded) {
+      const { isBusinessOnboarded } = response;
+      this.dispatcher.setIsBusinessOnboarded(isBusinessOnboarded);
+      if (isBusinessOnboarded) {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.loadUserSession();
         this.runTab();
@@ -129,9 +126,8 @@ export default class PaydayFilingModule {
     if (this.featureToggles.isPaydayFilingEnabled) {
       this.setupSubModules(context);
       this.dispatcher.setInitialState(context);
-      this.render();
       this.loadBusinessOnboardedStatus();
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.render();
     } else this.redirectToBusinessList();
   }
 
@@ -171,7 +167,7 @@ export default class PaydayFilingModule {
   };
 
   redirectToOnboardingPage = () => {
-    window.location.href = getOnboardingPageUrl(this.store.getState());
+    this.navigateToName(routeName.PAYDAY_FILING_ONBOARDING);
   };
 
   redirectToBusinessList = () => {

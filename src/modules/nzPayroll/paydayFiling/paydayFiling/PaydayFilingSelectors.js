@@ -9,10 +9,7 @@ export const getUrlParams = createSelector(getSelectedTab, (selectedTab) => ({
   tab: selectedTab,
 }));
 
-export const getOnboardingPageUrl = (state) => {
-  const { region, businessId } = state;
-  return `/#/${region}/${businessId}/paydayFiling/onboarding`;
-};
+export const getIsBusinessOnboarded = (state) => state.isBusinessOnboarded;
 
 export const isUserAuthorised = (state) =>
   state.userSession.onboarded && state.userSession.validEhSession;

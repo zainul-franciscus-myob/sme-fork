@@ -1,6 +1,7 @@
 import {
   LOAD_PAYDAY_USER_SESSION,
   SET_ALERT,
+  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_TAB,
 } from './PaydayFilingIntents';
@@ -54,6 +55,11 @@ const setTab = (state, { tab }) => ({
   tab: setValidTab(tab),
 });
 
+const setIsBusinessOnboarded = (state, { isBusinessOnboarded }) => ({
+  ...state,
+  isBusinessOnboarded,
+});
+
 const setUserSession = (state, { userSession }) => ({
   ...state,
   userSession,
@@ -65,6 +71,7 @@ const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [SET_ALERT]: setAlert,
   [SET_TAB]: setTab,
+  [SET_IS_BUSINESS_ONBOARDED]: setIsBusinessOnboarded,
   [LOAD_PAYDAY_USER_SESSION]: setUserSession,
 };
 

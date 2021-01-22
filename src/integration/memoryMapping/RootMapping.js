@@ -46,7 +46,6 @@ import LinkUserMapping from '../../modules/linkUser/mappings/MemoryLinkUserMappi
 import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/MemoryLinkedAccountsMapping';
 import MemoryPayRunDetailNzMapping from '../../modules/nzPayroll/payRun/mappings/MemoryPayRunDetailNzMapping';
 import NavigationMapping from './NavigationMapping';
-import PayDayFilingMapping from '../../modules/nzPayroll/paydayFiling/paydayFiling/mappings/MemoryPaydayFilingMapping';
 import PayDayOnboardingMapping from '../../modules/nzPayroll/paydayFiling/onboarding/mappings/MemoryPaydayOnboardingMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/MemoryPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/MemoryPayRefundMapping';
@@ -59,6 +58,7 @@ import PaySuperCreateMapping from '../../modules/paySuper/paySuperCreate/mapping
 import PaySuperListMapping from '../../modules/paySuper/paySuperList/mappings/MemoryPaySuperListMapping';
 import PaySuperReadMapping from '../../modules/paySuper/paySuperRead/mappings/MemoryPaySuperReadMapping';
 import PaySuperStsLoginMapping from '../../modules/stsLogin/mappings/MemoryPaySuperStsLoginMapping';
+import PaydayFilingMapping from '../../modules/nzPayroll/paydayFiling/paydayFiling/mappings/MemoryPaydayFilingMapping';
 import PayrollSettingsMapping from '../../modules/payrollSettings/mappings/MemoryPayrollSettingsMapping';
 import PurchaseOrderDetailMapping from '../../modules/purchaseOrder/purchaseOrderDetail/mappings/MemoryPurchaseOrderDetailMapping';
 import PurchaseOrderMapping from '../../modules/purchaseOrder/purchaseOrderList/mappings/MemoryPurchaseOrderMapping';
@@ -193,8 +193,8 @@ const RootMapping = Object.freeze({
   ...RecurringTransactionMapping,
   ...FindAndRecodeMapping,
   ...MemoryPayRunDetailNzMapping,
-  ...PayDayFilingMapping,
   ...EmployeePayNzMapping,
+  ...PaydayFilingMapping,
 });
 
 export default RootMapping;

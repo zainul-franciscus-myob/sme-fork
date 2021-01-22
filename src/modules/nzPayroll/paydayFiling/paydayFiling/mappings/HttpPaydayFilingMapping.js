@@ -13,7 +13,7 @@ const PaydayFilingMapping = {
   [LOAD_BUSINESS_ONBOARDED_STATUS]: {
     method: 'GET',
     getPath: ({ businessId }) =>
-      `/${businessId}/nz-payroll/paydayFiling/onboarded`,
+      `/${businessId}/nz-payroll/paydayFiling/load_business_onboarded_status`,
   },
 };
 

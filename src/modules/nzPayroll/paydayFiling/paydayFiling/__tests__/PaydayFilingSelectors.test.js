@@ -1,4 +1,5 @@
 import {
+  getIsBusinessOnboarded,
   getUrlParams,
   getUserStatusMessage,
   isUserAuthorised,
@@ -14,6 +15,18 @@ describe('PaydayFilingSelectors', () => {
       const result = getUrlParams(state);
 
       expect(result).toEqual({ tab: 'finalisation' });
+    });
+  });
+  describe('getIsBusinessOnboarded', () => {
+    it('should get the business onboarded status', () => {
+      const businessOnboardedStatus = { isBusinessOnboarded: true };
+      const state = {
+        isBusinessOnboarded: businessOnboardedStatus,
+      };
+
+      const actual = getIsBusinessOnboarded(state);
+
+      expect(actual).toEqual(businessOnboardedStatus);
     });
   });
 

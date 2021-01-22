@@ -99,8 +99,8 @@ describe('PaydayFilingModule', () => {
       });
       module.run({});
 
-      expect(window.location.href).toEqual(
-        'http://localhost/#/nz/123/paydayFiling/onboarding'
+      expect(module.navigateToName).toBeCalledWith(
+        RouteName.PAYDAY_FILING_ONBOARDING
       );
     });
   });
