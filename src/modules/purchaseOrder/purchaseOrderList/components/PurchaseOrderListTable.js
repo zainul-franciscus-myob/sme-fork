@@ -8,10 +8,10 @@ import {
   getTableBodyState,
 } from '../purchaseOrderListSelectors';
 import Icon from '../../../../components/Icon/Icon';
+import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import PurchaseOrderListTableBody from './PurchaseOrderListTableBody';
 import StickyTableBody from '../../../../components/StickyTable/StickyTableBody';
 import TableBodyType from '../TableBodyType';
-import purchaseOrderEmptyStateImage from './purchase-order-empty-state.svg';
 
 const PurchaseOrderListTable = ({
   isTableEmpty,
@@ -29,16 +29,9 @@ const PurchaseOrderListTable = ({
   );
 
   const emptyPageState = (
-    <PageState
-      title="Create purchase order"
-      description="Create a record of the purchase orders you receive from suppliers. You'll be able to keep track of payments and due dates more easily."
-      image={
-        <img
-          src={purchaseOrderEmptyStateImage}
-          style={{ width: '25%' }}
-          alt="Create purchase order"
-        />
-      }
+    <NoResultPageState
+      title="Your first purchase order awaits"
+      description="Track the purchases you make and how much you owe your suppliers with purchase orders."
       actions={[
         <Button type="link" icon={<Icons.Add />} onClick={onCreateButtonClick}>
           Create purchase order
