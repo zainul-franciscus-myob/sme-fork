@@ -1,4 +1,4 @@
-FROM docker.myob.com/sme-web/sme-web-buildnode@sha256:f817334bfe21f7bbb094f0ad537e75fac302c67dacdc4ec104919fe6f03e6df4
+FROM docker.myob.com/sme-web/sme-web-buildnode@sha256:598936b1b5534a199666d435e6439cc7771b2d2d5bc1fe9cfa763738a5fbd5e4
 
 RUN apk add --update \
     docker openrc openssh sudo bash git \

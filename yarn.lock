@@ -2105,10 +2105,10 @@
     treat "^1.5.1"
     validate.js "0.11.1"
 
-"@myob/tax-calculator@0.0.19":
-  version "0.0.19"
-  resolved "https://npm.myob.com/npm/@myob/tax-calculator/-/0.0.19/tax-calculator-0.0.19.tgz#99dec2f3d5f12767d862bd5ba643365e546fb851"
-  integrity sha512-5mJKs0wsgxaI42YsGg8M1ebdJ74uZG4SqLbz9msaYCsU2k7p6nm3r69tiWKAhnlOKeCzJnXLg5k0XL3XjD0IxQ==
+"@myob/tax-calculator@0.0.20":
+  version "0.0.20"
+  resolved "https://npm.myob.com/npm/@myob/tax-calculator/-/0.0.20/tax-calculator-0.0.20.tgz#2638f1f6624ec745e9e4dc2e63ca0d6d48d1d0bb"
+  integrity sha512-5kp4dNQ+4pX2W6M95LMJgnK1swT5hGf9yVdU8DSi3lGsoF/e+G0kBZUutXaI6C2ktkOwgr3uxgMmG3u+5T8Rvg==
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
