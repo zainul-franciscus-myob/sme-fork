@@ -42,11 +42,13 @@ export default class UserListModule {
   loadUserList = () => {
     const onSuccess = (data) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setTableLoadingState(false);
       this.dispatcher.loadUserList(data);
     };
 
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setTableLoadingState(false);
     };
 
     this.integrator.loadUserList({ onSuccess, onFailure });
@@ -185,6 +187,7 @@ export default class UserListModule {
 
   updateFilterOptions = ({ key, value }) => {
     this.dispatcher.setFilterOptions({ key, value });
+    this.dispatcher.setTableLoadingState(true);
 
     if (key === 'keywords') {
       debounce(this.loadUserList());

@@ -8,6 +8,8 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  SET_TABLE_LOADING_STATE,
+  SET_USER_LIST_FILTER_OPTIONS,
 } from '../../UserIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -55,6 +57,10 @@ describe('UserListModule', () => {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
         },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
         expect.objectContaining({
           intent: LOAD_USER_LIST,
         }),
@@ -80,6 +86,10 @@ describe('UserListModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_FAIL,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
         },
       ]);
 
@@ -115,6 +125,10 @@ describe('UserListModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
         },
         expect.objectContaining({
           intent: LOAD_USER_LIST,
@@ -186,6 +200,10 @@ describe('UserListModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
         },
         expect.objectContaining({
           intent: LOAD_USER_LIST,
@@ -260,6 +278,10 @@ describe('UserListModule', () => {
         {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
         },
         expect.objectContaining({
           intent: LOAD_USER_LIST,
@@ -338,6 +360,10 @@ describe('UserListModule', () => {
           intent: SET_LOADING_STATE,
           loadingState: LoadingState.LOADING_SUCCESS,
         },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
         expect.objectContaining({
           intent: LOAD_USER_LIST,
         }),
@@ -382,6 +408,45 @@ describe('UserListModule', () => {
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: REMOVE_PRACTICE_ACCESS,
+        }),
+      ]);
+    });
+  });
+
+  describe('update filter options', () => {
+    it('set correct filters and load user list again', () => {
+      const { store, integration, module } = setup();
+      const filters = {
+        key: 'keywords',
+        value: 'admin',
+      };
+      module.updateFilterOptions(filters);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_USER_LIST_FILTER_OPTIONS,
+          ...filters,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_USER_LIST,
         }),
       ]);
     });
