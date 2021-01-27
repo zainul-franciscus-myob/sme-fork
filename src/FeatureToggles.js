@@ -1,6 +1,4 @@
 export default Object.freeze({
-  EssentialsJobs: 'essentials-jobs',
-  EssentialsJobsPayrun: 'essentials-jobs-payrun',
   BankTransactionsPagination: 'bank-transactions-pagination',
   BankLinkPayee: 'banklink-payee',
   InProductBankFeeds: 'in-product-bank-feeds',
