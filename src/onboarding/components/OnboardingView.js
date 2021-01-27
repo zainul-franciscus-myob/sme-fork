@@ -51,8 +51,7 @@ class OnboardingView extends Component {
     this.alert = props.updateOnboardingSettingsFailure
       ? {
           type: 'danger',
-          message:
-            'Sorry, we couldn’t save some fields in the onboarding form. Try again later.',
+          message: 'Sorry, something went wrong on our end. Please try again.',
         }
       : null;
   }
