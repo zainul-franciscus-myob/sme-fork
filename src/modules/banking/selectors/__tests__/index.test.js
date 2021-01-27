@@ -4,7 +4,7 @@ import {
   getBankingRuleModuleContext,
   getFilterBankTransactionsParams,
   getFilterBankTransactionsUrlParams,
-  getIndexOfNextUnmatchedLine,
+  getIndexOfNextUnapprovedLine,
   getIsAllocated,
   getIsFocused,
   getIsTabDisabled,
@@ -398,79 +398,66 @@ describe('Bank transactions index selectors', () => {
     );
   });
 
-  describe('getIndexOfNextUnmatchedLine', () => {
-    it(`given ${BankTransactionStatusTypes.unmatched} transactions after start index should return index of the first`, () => {
+  describe('getIndexOfNextUnapprovedLine', () => {
+    it.each([
+      BankTransactionStatusTypes.unmatched,
+      BankTransactionStatusTypes.matched,
+      BankTransactionStatusTypes.paymentRuleMatched,
+    ])(
+      'should return index of first unapproved transaction (e.g. %s) after the start index',
+      (type) => {
+        const state = {
+          entries: [
+            { type: BankTransactionStatusTypes.matched },
+            { type: BankTransactionStatusTypes.splitAllocation },
+            { type: BankTransactionStatusTypes.singleAllocation },
+            { type },
+            { type: BankTransactionStatusTypes.unmatched },
+          ],
+        };
+
+        const actual = getIndexOfNextUnapprovedLine(state, 1);
+
+        expect(actual).toEqual(3);
+      }
+    );
+
+    it('given no unapproved transactions after the start index should return -1', () => {
       const state = {
         entries: [
+          { type: BankTransactionStatusTypes.unmatched },
           { type: BankTransactionStatusTypes.splitMatched },
-          {
-            type: BankTransactionStatusTypes.splitAllocation,
-          },
-          {
-            type: BankTransactionStatusTypes.unmatched,
-          },
-          {
-            type: BankTransactionStatusTypes.singleAllocation,
-          },
-          {
-            type: BankTransactionStatusTypes.unmatched,
-          },
+          { type: BankTransactionStatusTypes.splitAllocation },
+          { type: BankTransactionStatusTypes.singleAllocation },
+          { type: BankTransactionStatusTypes.transfer },
         ],
       };
 
-      const actual = getIndexOfNextUnmatchedLine(state, 1);
-
-      expect(actual).toEqual(2);
-    });
-
-    it(`given no ${BankTransactionStatusTypes.unmatched} transactions after start index should return -1`, () => {
-      const state = {
-        entries: [
-          {
-            type: BankTransactionStatusTypes.unmatched,
-          },
-          {
-            type: BankTransactionStatusTypes.splitMatched,
-          },
-          {
-            type: BankTransactionStatusTypes.splitAllocation,
-          },
-          {
-            type: BankTransactionStatusTypes.singleAllocation,
-          },
-          {
-            type: BankTransactionStatusTypes.transfer,
-          },
-          {
-            type: BankTransactionStatusTypes.matched,
-          },
-          {
-            type: BankTransactionStatusTypes.paymentRuleMatched,
-          },
-        ],
-      };
-
-      const actual = getIndexOfNextUnmatchedLine(state, 1);
+      const actual = getIndexOfNextUnapprovedLine(state, 1);
 
       expect(actual).toEqual(-1);
     });
 
-    it(`given no start index should should return index of the first ${BankTransactionStatusTypes.unmatched} transaction`, () => {
-      const state = {
-        entries: [
-          {
-            type: BankTransactionStatusTypes.matched,
-          },
-          {
-            type: BankTransactionStatusTypes.unmatched,
-          },
-        ],
-      };
+    it.each([
+      BankTransactionStatusTypes.unmatched,
+      BankTransactionStatusTypes.matched,
+      BankTransactionStatusTypes.paymentRuleMatched,
+    ])(
+      'given start index is undefined should return index of the first unapproved transaction (e.g. %s)',
+      (type) => {
+        const state = {
+          entries: [
+            { type: BankTransactionStatusTypes.transfer },
+            { type },
+            { type: BankTransactionStatusTypes.paymentRuleMatched },
+          ],
+        };
 
-      const actual = getIndexOfNextUnmatchedLine(state);
+        const actual = getIndexOfNextUnapprovedLine(state);
 
-      expect(actual).toEqual(1);
-    });
+        expect(actual).toEqual(1);
+      }
+    );
   });
 
   describe('getBankingRuleModuleContext', () => {

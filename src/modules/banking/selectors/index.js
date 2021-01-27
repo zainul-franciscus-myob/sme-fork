@@ -9,7 +9,9 @@ import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/Lo
 import MatchTransactionShowType from '../types/MatchTransactionShowType';
 import Region from '../../../common/types/Region';
 import RuleTypes from '../bankingRule/RuleTypes';
-import StatusTypes from '../types/BankTransactionStatusTypes';
+import StatusTypes, {
+  isStatusUnapproved,
+} from '../types/BankTransactionStatusTypes';
 import TabItems from '../types/TabItems';
 import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatCurrency from '../../../common/valueFormatters/formatCurrency';
@@ -595,11 +597,10 @@ export const getLocationOfTransactionLine = (state, index) => {
   return FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT;
 };
 
-export const getIndexOfNextUnmatchedLine = (state, startIndex = 0) => {
+export const getIndexOfNextUnapprovedLine = (state, startIndex = 0) => {
   const entries = getEntries(state);
   return entries.findIndex(
-    (entry, index) =>
-      index >= startIndex && entry.type === StatusTypes.unmatched
+    (entry, index) => index >= startIndex && isStatusUnapproved(entry.type)
   );
 };
 

@@ -2237,38 +2237,35 @@ describe('BankingModule', () => {
         expect(store.getActions()).toEqual([]);
       });
 
-      it.each([[F8], [[OPTION, G]]])(
-        `%s should set focus on the first ${BankTransactionStatusTypes.unmatched} transaction line`,
-        (hotkey) => {
-          // Setup
-          const entries = [
-            {
-              type: BankTransactionStatusTypes.matched,
-            },
-            {
-              type: BankTransactionStatusTypes.unmatched,
-            },
-            {
-              type: BankTransactionStatusTypes.unmatched,
-            },
-          ];
-          const { module, store } = setUpWithBankTransactionEntries(entries);
+      [F8, [OPTION, G]].forEach((hotkey) => {
+        it.each([
+          BankTransactionStatusTypes.unmatched,
+          BankTransactionStatusTypes.matched,
+          BankTransactionStatusTypes.paymentRuleMatched,
+        ])(
+          `${hotkey} should set focus on the first unapproved transaction line (e.g. %s)`,
+          (type) => {
+            const entries = [
+              { type: BankTransactionStatusTypes.transfer },
+              { type },
+              { type: BankTransactionStatusTypes.unmatched },
+            ];
+            const { module, store } = setUpWithBankTransactionEntries(entries);
 
-          // Action
-          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
-          hotkeyHandler.action();
+            const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+            hotkeyHandler.action();
 
-          // Assertion
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_FOCUS,
-              index: 1,
-              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
-              isFocused: true,
-            },
-          ]);
-        }
-      );
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_FOCUS,
+                index: 1,
+                location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+                isFocused: true,
+              },
+            ]);
+          }
+        );
+      });
 
       it.each([
         [[COMMAND, FORWARD_SLASH]],
@@ -2547,121 +2544,95 @@ describe('BankingModule', () => {
       );
     });
 
-    describe.each([
-      HotkeyLocations.APPROVED_TRANSACTION_BUTTON,
-      HotkeyLocations.POSSIBLE_MATCHED_BUTTON,
-    ])('%s', (location) => {
-      it.each([[F8], [[OPTION, G]]])(
-        `%s should set focus on next ${BankTransactionStatusTypes.unmatched} transaction below current line`,
-        (hotkey) => {
-          // Setup
-          const entries = [
-            {
-              type: BankTransactionStatusTypes.unmatched,
-            },
-            {
-              type: BankTransactionStatusTypes.matched,
-            },
-            {
-              type: BankTransactionStatusTypes.unmatched,
-            },
-          ];
-          const { module, store } = setUpWithBankTransactionEntries(entries);
+    describe(`${HotkeyLocations.APPROVED_TRANSACTION_BUTTON}`, () => {
+      const location = HotkeyLocations.APPROVED_TRANSACTION_BUTTON;
 
-          // Action
-          const event = { index: 1 };
-          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
-          hotkeyHandler.action(event);
+      [F8, [OPTION, G]].forEach((hotkey) => {
+        it.each([
+          BankTransactionStatusTypes.unmatched,
+          BankTransactionStatusTypes.matched,
+          BankTransactionStatusTypes.paymentRuleMatched,
+        ])(
+          `${hotkey} should set focus on next unapproved transaction (e.g. %s) below the current line`,
+          (type) => {
+            const entries = [
+              { type: BankTransactionStatusTypes.unmatched },
+              { type: BankTransactionStatusTypes.singleAllocation },
+              { type },
+              { type: BankTransactionStatusTypes.matched },
+            ];
+            const { module, store } = setUpWithBankTransactionEntries(entries);
 
-          // Assertion
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_FOCUS,
-              index: 2,
-              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
-              isFocused: true,
-            },
-          ]);
-        }
-      );
+            const event = { index: 1 };
+            const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+            hotkeyHandler.action(event);
 
-      it.each([[F8], [[OPTION, G]]])(
-        `%s should set focus on first ${BankTransactionStatusTypes.unmatched} transaction if there are none below current line`,
-        (hotkey) => {
-          // Setup
-          const entries = [
-            {
-              type: BankTransactionStatusTypes.unmatched,
-            },
-            {
-              type: BankTransactionStatusTypes.matched,
-            },
-            {
-              type: BankTransactionStatusTypes.matched,
-            },
-          ];
-          const { module, store } = setUpWithBankTransactionEntries(entries);
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_FOCUS,
+                index: 2,
+                location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+                isFocused: true,
+              },
+            ]);
+          }
+        );
 
-          // Action
-          const event = { index: 1 };
-          const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
-          hotkeyHandler.action(event);
+        it.each([
+          BankTransactionStatusTypes.unmatched,
+          BankTransactionStatusTypes.matched,
+          BankTransactionStatusTypes.paymentRuleMatched,
+        ])(
+          `${hotkey} should set focus on first unapproved transaction (e.g. %s) if there are none below the current line`,
+          (type) => {
+            const entries = [
+              { type },
+              { type: BankTransactionStatusTypes.paymentRuleMatched },
+              { type: BankTransactionStatusTypes.singleAllocation },
+              { type: BankTransactionStatusTypes.transfer },
+            ];
+            const { module, store } = setUpWithBankTransactionEntries(entries);
 
-          // Assertion
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_FOCUS,
-              index: 0,
-              location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
-              isFocused: true,
-            },
-          ]);
-        }
-      );
+            const event = { index: 2 };
+            const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
+            hotkeyHandler.action(event);
+
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_FOCUS,
+                index: 0,
+                location: FocusLocations.MATCHED_OR_ALLOCATED_ELEMENT,
+                isFocused: true,
+              },
+            ]);
+          }
+        );
+      });
     });
 
     describe.each([
       HotkeyLocations.APPROVED_TRANSACTION_BUTTON,
-      HotkeyLocations.POSSIBLE_MATCHED_BUTTON,
       HotkeyLocations.GLOBAL,
     ])('%s', (location) => {
       const index = {
         [HotkeyLocations.APPROVED_TRANSACTION_BUTTON]: 1,
-        [HotkeyLocations.POSSIBLE_MATCHED_BUTTON]: 1,
         [HotkeyLocations.GLOBAL]: undefined,
       };
       it.each([[F8], [[OPTION, G]]])(
-        `%s should do nothing if there are no ${BankTransactionStatusTypes.unmatched} transaction lines`,
+        '%s should do nothing if there are no unapproved transaction lines',
         (hotkey) => {
-          // Setup
           const entries = [
-            {
-              type: BankTransactionStatusTypes.splitMatched,
-            },
-            {
-              type: BankTransactionStatusTypes.splitAllocation,
-            },
-            {
-              type: BankTransactionStatusTypes.singleAllocation,
-            },
-            {
-              type: BankTransactionStatusTypes.transfer,
-            },
-            {
-              type: BankTransactionStatusTypes.matched,
-            },
-            {
-              type: BankTransactionStatusTypes.paymentRuleMatched,
-            },
+            { type: BankTransactionStatusTypes.splitMatched },
+            { type: BankTransactionStatusTypes.splitAllocation },
+            { type: BankTransactionStatusTypes.singleAllocation },
+            { type: BankTransactionStatusTypes.transfer },
           ];
           const { module, store } = setUpWithBankTransactionEntries(entries);
 
-          // Action
           const event = { index };
           const hotkeyHandler = getHotkeyHandler(module, location, hotkey);
           hotkeyHandler.action(event);
 
-          // Assertion
           expect(store.getActions()).toEqual([]);
         }
       );

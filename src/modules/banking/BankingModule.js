@@ -35,7 +35,7 @@ import {
   getBankingRuleModuleContext,
   getBusinessId,
   getDefaultTabFocusLocation,
-  getIndexOfNextUnmatchedLine,
+  getIndexOfNextUnapprovedLine,
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryEdited,
@@ -1579,15 +1579,15 @@ export default class BankingModule {
     }
   };
 
-  setFocusToFirstUnmatchedLine = () => {
-    const index = getIndexOfNextUnmatchedLine(this.store.getState(), 0);
+  setFocusToFirstUnapprovedLine = () => {
+    const index = getIndexOfNextUnapprovedLine(this.store.getState(), 0);
     if (index >= 0) {
       this.setFocusToTransactionLine(index);
     }
   };
 
-  setFocusToUnmatchedLine = ({ index }) => {
-    const indexToFocus = getIndexOfNextUnmatchedLine(
+  setFocusToUnapprovedLine = ({ index }) => {
+    const indexToFocus = getIndexOfNextUnapprovedLine(
       this.store.getState(),
       index
     );
@@ -1595,7 +1595,7 @@ export default class BankingModule {
     if (indexToFocus >= 0) {
       this.setFocusToTransactionLine(indexToFocus);
     } else {
-      this.setFocusToFirstUnmatchedLine();
+      this.setFocusToFirstUnapprovedLine();
     }
   };
 
@@ -1686,17 +1686,6 @@ export default class BankingModule {
             TabItems.allocate,
             FocusLocations.SPLIT_ALLOCATION_BANKING_RULE_COMBOBOX
           ),
-      },
-    ];
-
-    const hotkeysToSetFocusToUnmatchedTransactionLine = [
-      {
-        key: F8,
-        action: this.setFocusToUnmatchedLine,
-      },
-      {
-        key: [OPTION, G],
-        action: this.setFocusToUnmatchedLine,
       },
     ];
 
@@ -1800,11 +1789,11 @@ export default class BankingModule {
       [HotkeyLocations.GLOBAL]: [
         {
           key: F8,
-          action: this.setFocusToFirstUnmatchedLine,
+          action: this.setFocusToFirstUnapprovedLine,
         },
         {
           key: [OPTION, G],
-          action: this.setFocusToFirstUnmatchedLine,
+          action: this.setFocusToFirstUnapprovedLine,
         },
         ...hotkeysToOpenHelpPanel,
         ...hotkeysAccessibleInAccordion,
@@ -1837,7 +1826,6 @@ export default class BankingModule {
           key: ESCAPE,
           action: this.collapseTransaction,
         },
-        ...hotkeysToSetFocusToUnmatchedTransactionLine,
         ...hotkeysToCreateBankRule,
         ...hotkeysToExpandAccordionView,
         ...hotkeysToQuickAllocateMatchedTransaction,
@@ -1847,7 +1835,14 @@ export default class BankingModule {
           key: ESCAPE,
           action: this.collapseTransaction,
         },
-        ...hotkeysToSetFocusToUnmatchedTransactionLine,
+        {
+          key: F8,
+          action: this.setFocusToUnapprovedLine,
+        },
+        {
+          key: [OPTION, G],
+          action: this.setFocusToUnapprovedLine,
+        },
         ...hotkeysToCreateBankRule,
         ...hotkeysToExpandAccordionView,
       ],
