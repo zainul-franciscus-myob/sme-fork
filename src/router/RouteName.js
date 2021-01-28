@@ -120,6 +120,7 @@ const RouteName = {
   RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
   RECURRING_SPEND_MONEY: 'recurringTransaction/recurringSpendMoney',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',
+  ONBOARDING_LEARN_SMARTME: 'smartme/learn',
   PAYDAY_FILING_ONBOARDING: 'paydayFiling/onboarding',
   PAYDAY_FILING: 'paydayFiling',
 };

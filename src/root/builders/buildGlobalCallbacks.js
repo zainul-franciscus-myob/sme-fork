@@ -1,4 +1,4 @@
-export default ({ closeTasks }) => ({
+export default ({ closeTasks, loadTasks }) => ({
   businessDetailsConfirmed: () =>
     closeTasks({ closeEvent: 'businessDetailsConfirmed' }),
   usersInvited: () => closeTasks({ closeEvent: 'usersInvited' }),
@@ -35,4 +35,6 @@ export default ({ closeTasks }) => ({
   // bank feed data to be fed back into app-state so the tasks can react to changes.
   bankFeedsUpdated: () =>
     closeTasks({ closeEvent: 'bankFeedsUpdated', force: true }),
+  smartMEUpdated: () => closeTasks({ closeEvent: 'smartMEUpdated' }),
+  refreshTaskEvent: (compareEnergyBill) => loadTasks(compareEnergyBill),
 });

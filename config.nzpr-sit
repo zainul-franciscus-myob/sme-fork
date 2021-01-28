@@ -21,4 +21,5 @@ REACT_APP_BANKFEED_PORTAL_URL=https://apply.bankfeeds.myob.com/Forms/Portal \
 REACT_APP_MYOB_URL=https://myob.com/sit \
 REACT_APP_GENESYS_CHAT=false \
 NODE_OPTIONS=--max_old_space_size=4096 \
+REACT_APP_SMARTME_TASK=true \
 $@

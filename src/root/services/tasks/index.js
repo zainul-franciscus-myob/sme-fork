@@ -3,7 +3,8 @@ import dismissTask from './dismissTask';
 import loadTasks from './loadTasks';
 
 export default (dispatcher, integration, store) => {
-  const load = () => loadTasks({ dispatcher, integration, store });
+  const load = (compareEnergyBill) =>
+    loadTasks({ dispatcher, integration, store, compareEnergyBill });
   const close = (context) =>
     closeTasks({
       dispatcher,

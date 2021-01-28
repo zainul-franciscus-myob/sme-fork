@@ -97,6 +97,7 @@ export default class RootModule {
 
     this.globalCallbacks = buildGlobalCallbacks({
       closeTasks: this.tasksService.closeTasks,
+      loadTasks: this.tasksService.load,
     });
   };
 

@@ -22,4 +22,5 @@ REACT_APP_MYOB_URL=https://myob.com \
 REACT_APP_MYOB_TEAM_URL=https://team.myob.com \
 REACT_APP_GENESYS_CHAT=true \
 NODE_OPTIONS=--max_old_space_size=4096 \
+REACT_APP_SMARTME_TASK=false \
 $@

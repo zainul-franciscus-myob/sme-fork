@@ -35,6 +35,7 @@ import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
+import config from '../../../Config';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import debounce from '../../../common/debounce/debounce';
@@ -288,6 +289,9 @@ export default class InTrayModule {
       inTrayDocumentId: id,
     });
 
+    if (config.SMARTME_TASK) {
+      this.globalCallbacks.refreshTaskEvent(true);
+    }
     this.openInSameTab(`/#/${region}/${businessId}/bill/new`);
   };
 

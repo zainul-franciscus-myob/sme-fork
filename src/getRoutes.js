@@ -50,6 +50,7 @@ import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRout
 import getRecurringTransactionRoutes from './modules/recurringTransaction/getRecurringTransactionRoutes';
 import getReportsSubscribeNowRoutes from './modules/reportsSubscribeNow/getReportsSubscribeNowRoutes';
 import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRoutes';
+import getSmartMeSettingsRoutes from './modules/smartMeSettings/getSmartMeSettingsRoutes';
 import getSpendMoneyRoutes from './modules/spendMoney/getSpendMoneyRoutes';
 import getStpRoutes from './modules/stp/getStpRoutes';
 import getSuperFundRoutes from './modules/superFund/getSuperFundRoutes';
@@ -88,6 +89,7 @@ const getRoutes = (moduleParams) => [
   ...getInvoicePaymentRoutes(moduleParams),
   ...getSalesSettingsRoutes(moduleParams),
   ...getPayrollSettingsRoutes(moduleParams),
+  ...getSmartMeSettingsRoutes(moduleParams),
   ...getPurchaseSettingsRoutes(moduleParams),
   ...getSuperFundRoutes(moduleParams),
   ...getSupplierReturnRoutes(moduleParams),
