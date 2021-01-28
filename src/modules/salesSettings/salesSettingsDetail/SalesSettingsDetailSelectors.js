@@ -87,7 +87,7 @@ export const getPayDirectRegistrationLink = createSelector(
 );
 
 export const getReminderLink = (state) =>
-  `${state.reminders.url}?consumer=ARL&origin=global&cfid=${state.businessId}`;
+  `${state.reminders.url}?consumer=ARL&source=SMEP&origin=global&cfid=${state.businessId}`;
 
 export const getMarketplaceLink = (state) =>
   `https://www.myob.com/${state.region}/apps/category/tasks?category=einvoicing`;

@@ -123,7 +123,8 @@ describe('salesSettingsSelectors', () => {
           url: 'https://foo.bar',
         },
       };
-      const expected = 'https://foo.bar?consumer=ARL&origin=global&cfid=123';
+      const expected =
+        'https://foo.bar?consumer=ARL&source=SMEP&origin=global&cfid=123';
 
       expect(getReminderLink(state)).toEqual(expected);
     });

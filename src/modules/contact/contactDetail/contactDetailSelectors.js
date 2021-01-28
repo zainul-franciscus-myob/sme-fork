@@ -152,7 +152,7 @@ export const getLoadAddedAccountUrlParams = (state, accountId) => {
 };
 
 export const getReminderLink = (state) =>
-  `${state.reminders.url}?consumer=ARL&origin=Customer&cfid=${state.businessId}&id=${state.contact.uid}`;
+  `${state.reminders.url}?consumer=ARL&source=SMEP&origin=Customer&cfid=${state.businessId}&id=${state.contact.uid}`;
 
 export const getShouldShowPaymentDetails = createSelector(
   getRegion,
