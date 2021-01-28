@@ -13,8 +13,10 @@ const iconAndStatusClassName = (status) =>
     [styles.errorIcon]: [
       InvoiceHistoryStatus.PAYMENT_DECLINED,
       InvoiceHistoryStatus.BULK_PAYMENT_DECLINED,
-      InvoiceHistoryStatus.DELIVERY_FAILED,
     ].includes(status),
+    [styles.warningIcon]: [InvoiceHistoryStatus.DELIVERY_FAILED].includes(
+      status
+    ),
     [styles.dollarIcon]: status === 'PAYMENT_RECEIVED',
   });
 
@@ -33,7 +35,7 @@ const icon = {
   [InvoiceHistoryStatus.CREDIT_APPLIED]: <Icons.Dollar />,
   [InvoiceHistoryStatus.INVOICE_REVERSED]: <Icons.Replied />,
   [InvoiceHistoryStatus.EMAILED]: <Icons.Mail />,
-  [InvoiceHistoryStatus.DELIVERY_FAILED]: <Icons.Error />,
+  [InvoiceHistoryStatus.DELIVERY_FAILED]: <Icons.Warning />,
 };
 
 const InvoiceHistoryTable = ({ invoiceHistory, onClickOnRefNo }) => (

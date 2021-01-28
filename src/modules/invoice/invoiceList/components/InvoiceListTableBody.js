@@ -10,7 +10,7 @@ import styles from './InvoiceListTableBody.module.css';
 
 const iconAndStatusClassName = (activity) =>
   classNames({
-    [styles.errorIcon]: [InvoiceHistoryStatus.DELIVERY_FAILED].includes(
+    [styles.warningIcon]: [InvoiceHistoryStatus.DELIVERY_FAILED].includes(
       activity
     ),
   });
@@ -18,7 +18,7 @@ const iconAndStatusClassName = (activity) =>
 const icon = {
   [InvoiceHistoryStatus.VIEWED_ONLINE]: <Icons.Show />,
   [InvoiceHistoryStatus.EMAILED]: <Icons.Mail />,
-  [InvoiceHistoryStatus.DELIVERY_FAILED]: <Icons.Error />,
+  [InvoiceHistoryStatus.DELIVERY_FAILED]: <Icons.Warning />,
 };
 
 const InvoiceListTableBody = (props) => {

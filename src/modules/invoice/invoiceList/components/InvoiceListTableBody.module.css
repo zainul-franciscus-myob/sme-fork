@@ -2,12 +2,16 @@
   min-height: 60vh;
 }
 
-.errorIcon {
-  color: var(--flx-palette-berry);
+.warningIcon {  
+  color: var(--flx-palette-crown);  
  }
+
+ .warningIcon svg path{  
+  fill: var(--flx-palette-crown);      
+}
  
- .errorIcon svg{
-   fill: var(--flx-palette-berry);
+ .warningIcon svg path:first-child{  
+   fill: var(--flx-palette-pineapple);      
  }
  
  .icons > * {

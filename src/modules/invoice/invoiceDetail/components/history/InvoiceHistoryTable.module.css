@@ -6,6 +6,14 @@
   fill: var(--flx-palette-berry);
 }
 
+.warningIcon svg path{  
+  fill: var(--flx-palette-crown);      
+}
+ 
+ .warningIcon svg path:first-child{  
+   fill: var(--flx-palette-pineapple);      
+ }
+
 .dollarIcon {
  color: var(--flx-palette-golf);
 }
