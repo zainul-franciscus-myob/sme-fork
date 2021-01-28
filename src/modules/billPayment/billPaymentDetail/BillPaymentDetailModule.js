@@ -39,7 +39,6 @@ export default class BillPaymentModule {
     pushMessage,
     replaceURLParams,
     navigateTo,
-    featureToggles,
     popMessages,
   }) {
     this.store = new Store(billPaymentReducer);
@@ -55,8 +54,6 @@ export default class BillPaymentModule {
     );
     this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
-    this.isRemittanceAdviceEnabled =
-      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   loadBillPayment = (onSuccessFn) => {
@@ -404,7 +401,6 @@ export default class BillPaymentModule {
   run = (context) => {
     this.dispatcher.setInitialState({
       ...context,
-      isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

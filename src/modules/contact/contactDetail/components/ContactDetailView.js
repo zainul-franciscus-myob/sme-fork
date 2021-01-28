@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
-  getIsPayBillRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
   getPaymentDetails,
@@ -29,7 +28,6 @@ const ContactDetailView = ({
   loadingState,
   modalType,
   alertMessage,
-  isPayBillRemittanceAdviceEnabled,
   shouldShowPaymentDetails,
   onContactDetailsChange,
   onPaymentDetailsChange,
@@ -94,7 +92,6 @@ const ContactDetailView = ({
           <PaymentDetails
             {...paymentDetails}
             onPaymentDetailsChange={onPaymentDetailsChange}
-            isPayBillRemittanceAdviceEnabled={isPayBillRemittanceAdviceEnabled}
           />
         )}
         <MoreDetails onContactDetailsChange={onContactDetailsChange} />
@@ -112,7 +109,6 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
   paymentDetails: getPaymentDetails(state),
-  isPayBillRemittanceAdviceEnabled: getIsPayBillRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

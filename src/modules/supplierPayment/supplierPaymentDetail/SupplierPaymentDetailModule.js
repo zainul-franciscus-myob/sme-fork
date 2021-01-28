@@ -32,7 +32,6 @@ export default class SupplierPaymentModule {
     pushMessage,
     replaceURLParams,
     navigateTo,
-    featureToggles,
     popMessages,
   }) {
     this.store = new Store(supplierPaymentReducer);
@@ -48,8 +47,6 @@ export default class SupplierPaymentModule {
     );
     this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
-    this.isRemittanceAdviceEnabled =
-      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   loadSupplierPayment = (onSuccessFn) => {
@@ -306,7 +303,6 @@ export default class SupplierPaymentModule {
   run = (context) => {
     this.dispatcher.setInitialState({
       ...context,
-      isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

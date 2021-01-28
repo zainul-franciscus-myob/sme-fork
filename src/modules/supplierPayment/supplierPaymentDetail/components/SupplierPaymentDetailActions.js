@@ -6,13 +6,11 @@ import {
   getCanDelete,
   getIsActionsDisabled,
   getIsCreating,
-  getIsRemittanceAdviceEnabled,
 } from '../SupplierPaymentDetailSelectors';
 
 const SupplierPaymentActions = ({
   onSaveButtonClick,
   onRemittanceAdviceClick,
-  isRemittanceAdviceEnabled,
   onCancelButtonClick,
   onDeleteButtonClick,
   isActionsDisabled,
@@ -52,7 +50,7 @@ const SupplierPaymentActions = ({
           Delete
         </Button>
       ),
-      isRemittanceAdviceEnabled && !isCreating && (
+      !isCreating && (
         <Button
           key="sendRemittanceAdviceEmail"
           name="sendRemittanceAdvice"
@@ -71,7 +69,6 @@ const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
   canDelete: getCanDelete(state),
   isCreating: getIsCreating(state),
-  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(SupplierPaymentActions);

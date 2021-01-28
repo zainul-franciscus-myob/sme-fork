@@ -26,7 +26,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ContactDetailModule {
-  constructor({ integration, setRootView, pushMessage, featureToggles }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.integration = integration;
     this.store = new Store(contactDetailReducer);
     this.setRootView = setRootView;
@@ -36,8 +36,6 @@ export default class ContactDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.isPayBillRemittanceAdviceEnabled =
-      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   openAccountModal = () => {
@@ -263,7 +261,6 @@ export default class ContactDetailModule {
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
-      isPayBillRemittanceAdviceEnabled: this.isPayBillRemittanceAdviceEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

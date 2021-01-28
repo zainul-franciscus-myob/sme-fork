@@ -194,11 +194,6 @@ const reloadBill = (state, action) => {
     ...defaultState,
     ...context,
     loadingState: LoadingState.LOADING_SUCCESS,
-    recordBillPayment: {
-      ...defaultState.recordBillPayment,
-      isRemittanceAdviceEnabled:
-        state.recordBillPayment?.isRemittanceAdviceEnabled,
-    },
   };
 
   return loadBill(initialState, action);
@@ -207,10 +202,6 @@ const reloadBill = (state, action) => {
 const setInitialState = (state, action) => ({
   ...state,
   ...action.context,
-  recordBillPayment: {
-    ...state.recordBillPayment,
-    isRemittanceAdviceEnabled: action.context.isRemittanceAdviceEnabled,
-  },
 });
 
 const resetState = () => getDefaultState();

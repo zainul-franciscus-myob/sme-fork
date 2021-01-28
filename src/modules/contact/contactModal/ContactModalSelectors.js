@@ -34,9 +34,6 @@ export const getPaymentDetails = (state) => state.contact.paymentDetails;
 
 export const getContactTypeOptions = (state) => state.contactTypeOptions;
 
-export const getIsPayBillRemittanceAdviceEnabled = (state) =>
-  state.isPayBillRemittanceAdviceEnabled;
-
 export const getTitle = createSelector(
   getShowContactType,
   getContactType,

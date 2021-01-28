@@ -17,7 +17,6 @@ export default {
   isAllowNegativesInPayRuns: true,
   isBankLinkPayeeEnabled: true,
   isRecurringTransactionEnabled: true,
-  isPayBillRemittanceAdviceEnabled: true,
   isItemBuyingPriceTaxInclusiveEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,
   isPaydayFilingEnabled: true,

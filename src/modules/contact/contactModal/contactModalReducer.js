@@ -64,7 +64,6 @@ export const getDefaultState = () => ({
     },
   },
   contactTypeOptions: [],
-  isPayBillRemittanceAdviceEnabled: false,
 });
 
 const setInitialState = (state, { context }) => {
@@ -79,7 +78,6 @@ const setInitialState = (state, { context }) => {
       ...defaultState.contact,
       contactType: context.contactType || defaultState.contact.contactType,
     },
-    isPayBillRemittanceAdviceEnabled: context.isPayBillRemittanceAdviceEnabled,
   };
 };
 

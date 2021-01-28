@@ -142,8 +142,6 @@ class BillModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
-    this.isRemittanceAdviceEnabled =
-      featureToggles?.isPayBillRemittanceAdviceEnabled;
   }
 
   openAccountModal = (onChange) => {
@@ -1236,7 +1234,6 @@ class BillModule {
   setInitialState = (context) => {
     this.dispatcher.setInitialState({
       ...context,
-      isRemittanceAdviceEnabled: this.isRemittanceAdviceEnabled,
     });
   };
 

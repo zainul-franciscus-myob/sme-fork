@@ -23,8 +23,6 @@ export const getBillPaymentId = (state) =>
   state.recordBillPayment.billPaymentId;
 export const getShouldSendRemittanceAdvice = (state) =>
   state.recordBillPayment.shouldSendRemittanceAdvice;
-export const getIsRemittanceAdviceEnabled = (state) =>
-  state.recordBillPayment.isRemittanceAdviceEnabled;
 
 export const getIsBeforeStartOfFinancialYear = (state) => {
   const { startOfFinancialYearDate, paymentDate } = state.recordBillPayment;

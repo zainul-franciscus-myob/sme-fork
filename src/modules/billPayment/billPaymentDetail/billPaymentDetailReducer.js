@@ -62,7 +62,6 @@ const getDefaultState = () => ({
   applyPaymentToBillId: '',
   startOfFinancialYearDate: '',
   shouldSendRemittanceAdvice: false,
-  isRemittanceAdviceEnabled: false,
   remittanceAdviceType: remittanceAdviceTypes.email,
   areEmailSettingsSet: false,
   templateOptions: [''],

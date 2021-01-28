@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getAlertMessage,
   getIsCreating,
-  getIsRemittanceAdviceEnabled,
   getLoadingState,
   getModalType,
   getRemittanceAdviceType,
@@ -34,7 +33,6 @@ const BillPaymentDetailView = ({
   onRemittanceAdviceDetailsChange,
   onUpdateIsElectronicPayment,
   isCreating,
-  isRemittanceAdviceEnabled,
   renderContactCombobox,
   onChangeBankStatementText,
   onChangeReferenceId,
@@ -167,9 +165,7 @@ const BillPaymentDetailView = ({
         onUpdateTableInputField={onUpdateTableInputField}
       />
       <Separator />
-      {isRemittanceAdviceEnabled &&
-        isCreating &&
-        shouldSendRemittanceAdviceCheckbox}
+      {isCreating && shouldSendRemittanceAdviceCheckbox}
     </LineItemTemplate>
   );
 
@@ -183,7 +179,6 @@ const mapStateToProps = (state) => ({
   title: getTitle(state),
   isCreating: getIsCreating(state),
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
-  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
   remittanceAdviceType: getRemittanceAdviceType(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
 });

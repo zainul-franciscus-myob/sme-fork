@@ -15,8 +15,6 @@ import formatCurrency from '../../../common/valueFormatters/formatCurrency';
 import remittanceAdviceTypes from './remittanceAdviceTypes';
 import tableViewTypes from './tableViewTypes';
 
-export const getIsRemittanceAdviceEnabled = (state) =>
-  state.isRemittanceAdviceEnabled;
 export const getAlertMessage = (state) => state.alertMessage;
 export const getLoadingState = (state) => state.loadingState;
 export const getIsSupplierLoading = (state) => state.isSupplierLoading;

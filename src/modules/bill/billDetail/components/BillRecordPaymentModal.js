@@ -20,7 +20,6 @@ import {
   getIsActionsDisabled,
   getIsPaymentAmountEdited,
   getIsPaymentModalLoading,
-  getIsRemittanceAdviceEnabled,
   getShouldSendRemittanceAdvice,
 } from '../selectors/BillRecordPaymentSelectors';
 import { getSupplierId } from '../selectors/billSelectors';
@@ -71,7 +70,6 @@ const BillRecordPaymentModal = ({
   isElectronicPayment,
   isModalLoading,
   isPaymentAmountEdited,
-  isRemittanceAdviceEnabled,
   issueDate,
   onCancel,
   onChangeBankStatementText,
@@ -262,34 +260,30 @@ const BillRecordPaymentModal = ({
             </Button>
           )}
         </Box>
-        {isRemittanceAdviceEnabled && (
-          <>
-            <Separator></Separator>
-            <Checkbox
-              name="shouldSendRemittanceAdvice"
-              label="Send remittance advice"
-              checked={shouldSendRemittanceAdvice}
-              onChange={handleCheckboxChange(
-                onShouldSendRemittanceAdviceChange
-              )}
-            />
-            {shouldSendRemittanceAdvice && (
-              <Box marginTop="xs">
-                <Alert type="info">
-                  You&#39;ll have the option to send by email or export a PDF
-                  when you save this payment.&nbsp;
-                  <a
-                    href="https://help.myob.com/wiki/x/TA5XAw"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Learn more
-                  </a>
-                </Alert>
-              </Box>
-            )}
-          </>
-        )}
+        <>
+          <Separator></Separator>
+          <Checkbox
+            name="shouldSendRemittanceAdvice"
+            label="Send remittance advice"
+            checked={shouldSendRemittanceAdvice}
+            onChange={handleCheckboxChange(onShouldSendRemittanceAdviceChange)}
+          />
+          {shouldSendRemittanceAdvice && (
+            <Box marginTop="xs">
+              <Alert type="info">
+                You&#39;ll have the option to send by email or export a PDF when
+                you save this payment.&nbsp;
+                <a
+                  href="https://help.myob.com/wiki/x/TA5XAw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn more
+                </a>
+              </Alert>
+            </Box>
+          )}
+        </>
       </Modal.Body>
       <Modal.Footer className={styles.modalFooter}>
         <Button type="link" onClick={onRecordMultiplePayments}>
@@ -323,7 +317,6 @@ const mapStateToProps = (state) => ({
   isActionsDisabled: getIsActionsDisabled(state),
   isPaymentAmountEdited: getIsPaymentAmountEdited(state),
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
-  isRemittanceAdviceEnabled: getIsRemittanceAdviceEnabled(state),
 });
 
 export default connect(mapStateToProps)(BillRecordPaymentModal);

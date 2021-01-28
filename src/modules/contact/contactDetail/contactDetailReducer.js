@@ -93,7 +93,6 @@ const getDefaultState = () => ({
   },
   abnValidationResult: undefined,
   isValidatingAbn: false,
-  isPayBillRemittanceAdviceEnabled: false,
 });
 
 const resetState = () => getDefaultState();
