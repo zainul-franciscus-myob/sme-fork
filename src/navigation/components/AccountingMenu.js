@@ -47,12 +47,19 @@ const getOnlineTaxMenuItems = (urls, onMenuLinkClick, onlineTaxLabel) => [
     getMenuLink(urls.onlineTax, onlineTaxLabel, onMenuLinkClick),
 ];
 
-const getAccountingMenuItems = (urls, taxCodesLabel, onMenuLinkClick) => [
+const getAccountingMenuItems = (
+  urls,
+  taxCodesLabel,
+  onMenuLinkClick,
+  isNzPayrollOnly
+) => [
   urls.accountList &&
     getMenuLink(urls.accountList, 'Chart of accounts', onMenuLinkClick),
   urls.linkedAccounts &&
     getMenuLink(urls.linkedAccounts, 'Manage linked accounts', onMenuLinkClick),
-  urls.jobList && getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
+  urls.jobList &&
+    !isNzPayrollOnly &&
+    getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
   urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
 ];
 
@@ -72,7 +79,8 @@ const getItems = ({
   const accountingMenu = getAccountingMenuItems(
     urls,
     taxCodesLabel,
-    onMenuLinkClick
+    onMenuLinkClick,
+    isNzPayrollOnly
   );
   const menu = [...journalMenu, ...accountingMenu, ...onlineTaxMenu].filter(
     Boolean
