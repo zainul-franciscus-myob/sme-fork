@@ -61,6 +61,15 @@ export const getShouldShowPractices = (state) =>
 
 export const getShouldShowPracticesError = (state) => state.loadPracticesError;
 
+export const getShouldShowManageMydotUserLink = createSelector(
+  getEntries,
+  (entries) => {
+    const currentUser = entries.find((user) => user.isCurrentUser === true);
+
+    return !currentUser || currentUser.myDotInvitationType !== 'FileUser';
+  }
+);
+
 export const getMyDotMyobLink = createSelector(
   getBusinessId,
   getSerialNumber,

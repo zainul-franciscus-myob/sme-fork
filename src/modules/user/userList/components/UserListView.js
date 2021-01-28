@@ -17,6 +17,7 @@ import {
   getModal,
   getRemoveAccessModalBody,
   getRemovePracticeAccessModalBody,
+  getShouldShowManageMydotUserLink,
   getShouldShowPractices,
   getShouldShowPracticesError,
 } from '../userListSelectors';
@@ -57,6 +58,7 @@ const UserListView = (props) => {
     setShowStatusFilterOptions,
     shouldShowPractices,
     shouldShowPracticesError,
+    shouldShowManageMydotUserLink,
     removeAccessModalBody,
     removePracticeAccessModalBody,
   } = props;
@@ -76,14 +78,16 @@ const UserListView = (props) => {
 
   const pageHead = (
     <PageHead title="Users">
-      <Button
-        type="link"
-        icon={<Icons.OpenExternalLink />}
-        onClick={onMyMyobClick}
-        iconRight
-      >
-        Manage user access via my.MYOB
-      </Button>
+      {shouldShowManageMydotUserLink && (
+        <Button
+          type="link"
+          icon={<Icons.OpenExternalLink />}
+          onClick={onMyMyobClick}
+          iconRight
+        >
+          Manage user access via my.MYOB
+        </Button>
+      )}
       <ButtonRow>
         <Button type="secondary" onClick={onCreateUser(true)}>
           Create advisor
@@ -167,6 +171,7 @@ const mapStateToProps = (state) => ({
   modal: getModal(state),
   shouldShowPractices: getShouldShowPractices(state),
   shouldShowPracticesError: getShouldShowPracticesError(state),
+  shouldShowManageMydotUserLink: getShouldShowManageMydotUserLink(state),
   removeAccessModalBody: getRemoveAccessModalBody(state),
   removePracticeAccessModalBody: getRemovePracticeAccessModalBody(state),
 });
