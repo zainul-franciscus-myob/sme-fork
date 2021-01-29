@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { SUCCESSFULLY_SAVED_SUPPLIER_PAYMENT } from '../../../common/types/MessageTypes';
+import {
+  SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
+  SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
+  SUCCESSFULLY_SAVED_SUPPLIER_PAYMENT,
+} from '../../../common/types/MessageTypes';
 import {
   getContactComboboxContext,
   getDefaultAccountId,
@@ -12,6 +16,7 @@ import {
   getRedirectUrl,
   getShouldSendRemittanceAdvice,
 } from './SupplierPaymentDetailSelectors';
+import { getReferenceId } from '../../billPayment/billPaymentDetail/BillPaymentDetailSelectors';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -19,6 +24,7 @@ import SupplierPaymentView from './components/SupplierPaymentDetailView';
 import createSupplierPaymentDetailDispatcher from './createSupplierPaymentDetailDispatcher';
 import createSupplierPaymentDetailIntegrator from './createSupplierPaymentDetailIntegrator';
 import keyMap from '../../../hotKeys/keyMap';
+import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 import supplierPaymentModalTypes from './supplierPaymentModalTypes';
 import supplierPaymentReducer from './supplierPaymentDetailReducer';
@@ -228,6 +234,62 @@ export default class SupplierPaymentModule {
     this.dispatcher.closeModal();
   };
 
+  sendRemittanceAdviceEmail = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.closeRemittanceAdviceModal();
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.pushMessage({
+        type: SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
+        content: response.message,
+      });
+      const state = this.store.getState();
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
+    };
+
+    this.integrator.sendRemittanceAdviceEmail({ onSuccess, onFailure });
+  };
+
+  downloadRemittanceAdvicePdf = () => {
+    const state = this.store.getState();
+
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.closeRemittanceAdviceModal();
+
+    const onSuccess = (data) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.pushMessage({
+        type: SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
+        content: 'PDF downloaded successfully.',
+      });
+
+      const referenceId = getReferenceId(state);
+
+      openBlob({
+        blob: data,
+        filename: `RemittanceAdvice-${referenceId}.pdf`,
+        shouldDownload: true,
+      });
+
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
+    };
+
+    this.integrator.exportRemittanceAdvicePdf({ onSuccess, onFailure });
+  };
+
   cancelSupplierPayment = () => {
     const state = this.store.getState();
     const url = getRedirectUrl(state);
@@ -266,7 +328,12 @@ export default class SupplierPaymentModule {
         onUpdateBankStatementText={this.updateBankStatementText}
         onUpdateTableInputField={this.dispatcher.updateTableInputField}
         onSaveButtonClick={this.saveSupplierPayment}
+        onSendRemittanceAdviceEmail={this.sendRemittanceAdviceEmail}
+        onDownloadRemittanceAdvicePdf={this.downloadRemittanceAdvicePdf}
         onRemittanceAdviceClick={this.openRemittanceAdviceModal}
+        onRemittanceAdviceDetailsChange={
+          this.dispatcher.updateRemittanceAdviceDetails
+        }
         onCloseRemittanceAdviceModal={this.closeRemittanceAdviceModal}
         onCancelButtonClick={this.openCancelModal}
         onCloseModal={this.dispatcher.closeModal}
@@ -277,6 +344,9 @@ export default class SupplierPaymentModule {
         onCloseUnsaveModal={this.closeUnsaveModal}
         onShouldSendRemittanceAdviceChange={
           this.dispatcher.updateShouldSendRemittanceAdvice
+        }
+        onUpdateRemittanceAdviceType={
+          this.dispatcher.updateRemittanceAdviceType
         }
       />
     );
