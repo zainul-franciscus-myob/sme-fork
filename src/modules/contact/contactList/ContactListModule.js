@@ -7,6 +7,7 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getContactCreateLink,
+  getContactsImportLink,
   getFlipSortOrder,
   getOrderBy,
 } from './contactListSelector';
@@ -21,7 +22,7 @@ import debounce from '../../../common/debounce/debounce';
 const messageTypes = [SUCCESSFULLY_DELETED_CONTACT, SUCCESSFULLY_SAVED_CONTACT];
 
 export default class ContactListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({ integration, setRootView, popMessages, navigateTo }) {
     this.integration = integration;
     this.store = new Store(contactListReducer);
     this.setRootView = setRootView;
@@ -29,6 +30,7 @@ export default class ContactListModule {
     this.messageTypes = messageTypes;
     this.dispatcher = createContactListDispatcher(this.store);
     this.integrator = createContactListIntegrator(this.store, integration);
+    this.navigateTo = navigateTo;
   }
 
   render = () => {
@@ -36,6 +38,7 @@ export default class ContactListModule {
       <Provider store={this.store}>
         <ContactListView
           onAddContactButtonClick={this.redirectToAddContact}
+          onImportContactsButtonClick={this.redirectToImportContacts}
           onDismissAlert={this.dispatcher.dismissAlert}
           onUpdateFilters={this.updateFilterOptions}
           onResetFilter={this.resetFilters}
@@ -130,7 +133,14 @@ export default class ContactListModule {
     const state = this.store.getState();
     const url = getContactCreateLink(state);
 
-    window.location.href = url;
+    this.navigateTo(url);
+  };
+
+  redirectToImportContacts = () => {
+    const state = this.store.getState();
+    const url = getContactsImportLink(state);
+
+    this.navigateTo(url);
   };
 
   run(context) {

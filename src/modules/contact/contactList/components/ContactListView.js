@@ -1,8 +1,8 @@
 import {
+  AddIcon,
   Alert,
   Button,
   HeaderSort,
-  Icons,
   PageHead,
   Table,
 } from '@myob/myob-widgets';
@@ -90,6 +90,7 @@ const ContactListView = (props) => {
     loadMoreButtonStatus,
     onDismissAlert,
     onAddContactButtonClick,
+    onImportContactsButtonClick,
     onUpdateFilters,
     onResetFilter,
     onSort,
@@ -103,6 +104,7 @@ const ContactListView = (props) => {
       {alert.message}
     </Alert>
   );
+
   const emptyTableView = isDefaultFilters ? (
     <NoResultPageState
       title="Save the details of people or businesses you deal with."
@@ -114,9 +116,17 @@ const ContactListView = (props) => {
           key={1}
           type="link"
           onClick={onAddContactButtonClick}
-          icon={<Icons.Add />}
+          icon={<AddIcon />}
         >
           Create contact
+        </Button>,
+        <Button
+          key={2}
+          type="link"
+          onClick={onImportContactsButtonClick}
+          icon={<AddIcon />}
+        >
+          Import contacts
         </Button>,
       ]}
     />
@@ -135,6 +145,9 @@ const ContactListView = (props) => {
 
   const pageHead = (
     <PageHead title="Contacts">
+      <Button type="secondary" onClick={onImportContactsButtonClick}>
+        Import contacts
+      </Button>
       <Button onClick={onAddContactButtonClick}>Create contact</Button>
     </PageHead>
   );

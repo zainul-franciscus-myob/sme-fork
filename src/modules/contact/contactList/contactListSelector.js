@@ -101,6 +101,13 @@ export const getContactCreateLink = (state) => {
   return `/#/${region}/${businessId}/contact/new`;
 };
 
+export const getContactsImportLink = (state) => {
+  const businessId = getBusinessId(state);
+  const region = getRegion(state);
+
+  return `/#/${region}/${businessId}/dataImportExport?importType=contacts`;
+};
+
 export const getContactListUrlParams = (state) => {
   const businessId = getBusinessId(state);
 
