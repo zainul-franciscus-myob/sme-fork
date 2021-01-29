@@ -5,7 +5,7 @@ import React from 'react';
 import LinkButton from '../../../components/Button/LinkButton';
 import fileUnavailableGraphic from './fileUnavailableGraphic.svg';
 
-const FileUnavailable = ({ isOnlineOnly }) => {
+const FileUnavailable = ({ isOnlineUser }) => {
   const arlUserCard = (
     <BaseTemplate>
       <Card>
@@ -63,7 +63,7 @@ const FileUnavailable = ({ isOnlineOnly }) => {
       </Card>
     </BaseTemplate>
   );
-  return isOnlineOnly ? onlineUserCard : arlUserCard;
+  return isOnlineUser ? onlineUserCard : arlUserCard;
 };
 
 const mapStateToProps = (state) => ({
