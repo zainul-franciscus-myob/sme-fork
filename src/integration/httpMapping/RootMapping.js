@@ -44,6 +44,7 @@ import LeavePayItemMapping from '../../modules/payItem/leavePayItem/mappings/Htt
 import LinkBillMapping from '../../modules/linkBill/mappings/HttpLinkBillMapping';
 import LinkUserMapping from '../../modules/linkUser/mappings/HttpLinkUserMapping';
 import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/HttpLinkedAccountsMapping';
+import MoveToMYOBMapping from '../../modules/moveToMYOB/mappings/HttpMoveToMYOBMapping';
 import NavigationMapping from './NavigationMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/HttpPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/HttpPayRefundMapping';
@@ -194,6 +195,7 @@ const RootMapping = Object.freeze({
   ...PaydayFilingMapping,
   ...PayRunDetailNzMapping,
   ...EmployeePayNzMapping,
+  ...MoveToMYOBMapping,
 });
 
 export default RootMapping;

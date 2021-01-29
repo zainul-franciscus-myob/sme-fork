@@ -18,6 +18,7 @@ import {
   getAppMarketplaceUrl,
   getBusinessId,
   getCreateNewBusinessUrl,
+  getMoveToMYOBUrl,
   getMyobTeamUrl,
   getPaymentDetailUrl,
   getProductManagementUrl,
@@ -108,6 +109,7 @@ export default class NavigationModule {
     const productManagementUrl = getProductManagementUrl(state);
     const myobTeamUrl = getMyobTeamUrl(state);
     const appMarketplaceUrl = getAppMarketplaceUrl(state);
+    const moveToMYOBUrl = getMoveToMYOBUrl(state);
 
     const urls = Object.entries(featuresConfig).reduce(
       (acc, [key, feature]) => {
@@ -119,6 +121,7 @@ export default class NavigationModule {
           productManagementUrl,
           myobTeamUrl,
           appMarketplaceUrl,
+          moveToMYOBUrl,
         });
         return acc;
       },
@@ -139,6 +142,7 @@ export default class NavigationModule {
     productManagementUrl,
     myobTeamUrl,
     appMarketplaceUrl,
+    moveToMYOBUrl,
   }) => {
     switch (key) {
       case RouteName.REPORTS_PDF_STYLE_TEMPLATES:
@@ -163,6 +167,8 @@ export default class NavigationModule {
         return myobTeamUrl;
       case RouteName.APP_MARKETPLACE:
         return appMarketplaceUrl;
+      case RouteName.MOVE_TO_MYOB:
+        return moveToMYOBUrl;
       default:
         return `/#${this.constructPath(feature.routeName, feature.params)}`;
     }
@@ -212,36 +218,43 @@ export default class NavigationModule {
       ...this.routeProps,
       currentRouteName: 'createNewBusiness',
     });
-    const state = this.store.getState();
-    this.redirectToPage(getCreateNewBusinessUrl(state));
+
+    this.redirectToPage(getCreateNewBusinessUrl(this.store.getState()));
   };
 
   manageMyProduct = () => {
     const state = this.store.getState();
-    const userEmail = getUserEmail(state);
-    const productManagementUrl = getProductManagementUrl(state);
-
-    const telemetryData = {
-      userEmail,
-    };
 
     trackUserEvent({
       eventName: 'manageMyProduct',
-      customProperties: telemetryData,
+      customProperties: { userEmail: getUserEmail(state) },
     });
-    this.navigateTo(productManagementUrl, true);
+
+    this.navigateTo(getProductManagementUrl(state), true);
+  };
+
+  moveToMYOB = () => {
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'move_to_myob_nav_link_clicked',
+      },
+    });
+
+    this.navigateTo(getMoveToMYOBUrl(this.store.getState()), true);
   };
 
   render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {
     const {
       createBusiness,
+      manageMyProduct,
+      moveToMYOB,
       onPageTransition,
       redirectToPage,
       store,
       subscribeNow,
       toggleHelp,
       toggleTasks,
-      manageMyProduct,
     } = this;
 
     return (
@@ -253,12 +266,13 @@ export default class NavigationModule {
           onCreateBusinessClick={createBusiness}
           onHelpLinkClick={toggleHelp}
           onLogoutLinkClick={() => logout(true)}
+          onManageMyProductClick={manageMyProduct}
           onMenuLinkClick={onPageTransition}
           onMenuSelect={redirectToPage}
+          onMoveToMYOBClick={moveToMYOB}
           onSubscribeNowClick={subscribeNow}
           onTasksLinkClick={toggleTasks}
           serialNumber={serialNumber}
-          onManageMyProductClick={manageMyProduct}
         />
       </Provider>
     );

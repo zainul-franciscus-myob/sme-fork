@@ -1,0 +1,5 @@
+@media screen and (max-width: 800px) {
+  .img {
+    padding: var(--flx-spacing-medium) var(--flx-spacing-clear) var(--flx-spacing-tiny);
+  }
+}

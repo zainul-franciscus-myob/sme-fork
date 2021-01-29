@@ -2,6 +2,7 @@ import {
   AddIcon,
   CaretIcon,
   EditIcon,
+  InventoryIcon,
   Label,
   Navigation,
   PurchasesIcon,
@@ -20,6 +21,7 @@ import {
   getIsCurrentUserAdvisor,
   getIsReadOnly,
   getSerialNumber,
+  getShouldShowMoveToMYOB,
   getShouldShowPaymentDetail,
   getUserEmail,
 } from '../NavigationSelectors';
@@ -28,137 +30,156 @@ import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 import styles from './BusinessMenu.module.css';
 
 const isSeparatorRequired = (urls) =>
+  urls.appMarketplace ||
   urls.businessDetails ||
+  urls.createNewBusiness ||
+  urls.dataImportExport ||
   urls.incomeAllocation ||
-  urls.salesSettings ||
+  urls.manageMyClients ||
+  urls.moveToMYOB ||
   urls.payrollSettings ||
   urls.reportSettings ||
-  urls.userList ||
-  urls.dataImportExport ||
-  urls.appMarketplace;
+  urls.salesSettings ||
+  urls.userList;
 
-const getMenuLink = (url, label, onMenuLinkClick, target) => (
-  <Navigation.MenuLink
-    key={label}
-    url={url}
-    label={label}
-    onClick={handleMenuLinkClick(onMenuLinkClick, url, target)}
-  />
-);
-
-const getMenuLinkWithIcon = (url, label, icon, onMenuLinkClick, target) => (
-  <Navigation.MenuLink
-    key={label}
-    url={url}
-    label={label}
-    onClick={handleMenuLinkClick(onMenuLinkClick, url, target)}
-    icon={icon}
-    target={target}
-  />
-);
-
-const manageMyClientsMenuItem = (onMenuLinkClick) =>
-  getMenuLinkWithIcon(
-    'https://partner.myob.com/ledgers/live',
-    'Manage my clients',
-    <SwitchIcon />,
-    onMenuLinkClick,
-    '_blank'
+const getMenuLink = ({
+  icon,
+  label,
+  onClick,
+  target,
+  tracking,
+  url,
+  ...props
+}) => {
+  return (
+    <Navigation.MenuLink
+      icon={icon}
+      key={label}
+      label={label}
+      onClick={handleMenuLinkClick(onClick, url, target)}
+      url={url}
+      {...props}
+    />
   );
-const switchBusinessMenuItem = (onMenuLinkClick) =>
-  getMenuLinkWithIcon(
-    '#/businesses',
-    'Switch business',
-    <SwitchIcon />,
-    onMenuLinkClick,
-    undefined
-  );
-
-const UnlinkedMenuLink = ({ label, className }) => (
-  <li className={classNames(styles.unlink, className)}>
-    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-    <a role="button">{label}</a>
-  </li>
-);
+};
 
 const getItems = ({
-  urls,
-  serialNumber,
-  userEmail,
-  shouldShowPaymentDetail,
   isCurrentUserAdvisor,
-  onMenuLinkClick,
-  onLogoutLinkClick,
   onCreateBusinessClick,
   onManageMyProductClick,
+  onMoveToMYOB,
+  onLogoutLinkClick,
+  serialNumber,
+  shouldShowMoveToMYOB,
+  shouldShowPaymentDetail,
+  urls,
+  userEmail,
 }) =>
   [
     urls.businessDetails &&
-      getMenuLink(urls.businessDetails, 'Business settings', onMenuLinkClick),
+      getMenuLink({
+        label: 'Business settings',
+        url: urls.businessDetails,
+      }),
     urls.incomeAllocation &&
-      getMenuLink(urls.incomeAllocation, 'Income allocation', onMenuLinkClick),
+      getMenuLink({
+        label: 'Income allocation',
+        url: urls.incomeAllocation,
+      }),
     urls.salesSettings &&
-      getMenuLink(urls.salesSettings, 'Sales settings', onMenuLinkClick),
+      getMenuLink({
+        label: 'Sales settings',
+        url: urls.salesSettings,
+      }),
     urls.payrollSettings &&
-      getMenuLink(urls.payrollSettings, 'Payroll settings', onMenuLinkClick),
+      getMenuLink({
+        label: 'Payroll settings',
+        url: urls.payrollSettings,
+      }),
     urls.purchaseSettings &&
-      getMenuLink(urls.purchaseSettings, 'Purchases settings', onMenuLinkClick),
-    getMenuLink(urls.reportSettings, 'Report settings', onMenuLinkClick),
-    urls.userList && getMenuLink(urls.userList, 'Users', onMenuLinkClick),
+      getMenuLink({
+        label: 'Purchases settings',
+        url: urls.purchaseSettings,
+      }),
+    urls.reportSettings &&
+      getMenuLink({
+        label: 'Report settings',
+        url: urls.reportSettings,
+      }),
+    urls.userList &&
+      getMenuLink({
+        label: 'Users',
+        url: urls.userList,
+      }),
     urls.dataImportExport &&
-      getMenuLink(
-        urls.dataImportExport,
-        'Import and export data',
-        onMenuLinkClick
-      ),
+      getMenuLink({
+        label: 'Import and export data',
+        url: urls.dataImportExport,
+      }),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
+    shouldShowMoveToMYOB &&
+      getMenuLink({
+        icon: <InventoryIcon />,
+        label: 'Move to MYOB',
+        onClick: onMoveToMYOB,
+        target: '_blank',
+        url: urls.moveToMYOB,
+      }),
     urls.productManagementDetail &&
-      getMenuLinkWithIcon(
-        urls.productManagementDetail,
-        'Manage my product',
-        <EditIcon />,
-        onManageMyProductClick
-      ),
-    shouldShowPaymentDetail
-      ? getMenuLinkWithIcon(
-          urls.paymentDetail,
-          'Billing and payments',
-          <WalletIcon />,
-          onMenuLinkClick,
-          '_blank'
-        )
-      : undefined,
+      getMenuLink({
+        icon: <EditIcon />,
+        label: 'Manage my product',
+        onClick: onManageMyProductClick,
+        url: urls.productManagementDetail,
+      }),
+    shouldShowPaymentDetail &&
+      getMenuLink({
+        icon: <WalletIcon />,
+        label: 'Billing and payments',
+        target: '_blank',
+        url: urls.paymentDetail,
+      }),
     isCurrentUserAdvisor
-      ? manageMyClientsMenuItem(onMenuLinkClick)
-      : switchBusinessMenuItem(onMenuLinkClick),
-    onCreateBusinessClick &&
-      getMenuLinkWithIcon(
-        '',
-        'Create new business',
-        <AddIcon />,
-        onCreateBusinessClick
-      ),
+      ? getMenuLink({
+          icon: <SwitchIcon />,
+          label: 'Manage my clients',
+          target: '_blank',
+          url: urls.manageMyClients,
+        })
+      : getMenuLink({
+          icon: <SwitchIcon />,
+          label: 'Switch business',
+          url: '#/businesses',
+        }),
+    urls.createNewBusiness &&
+      getMenuLink({
+        icon: <AddIcon />,
+        label: 'Create new business',
+        onClick: onCreateBusinessClick,
+        url: urls.createNewBusiness,
+      }),
     urls.appMarketplace &&
-      getMenuLinkWithIcon(
-        urls.appMarketplace,
-        'App marketplace',
-        <PurchasesIcon />,
-        onMenuLinkClick,
-        '_blank'
-      ),
+      getMenuLink({
+        icon: <PurchasesIcon />,
+        label: 'App marketplace',
+        target: '_blank',
+        url: urls.appMarketplace,
+      }),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
-    getMenuLinkWithIcon('', 'Log out', <SignOutIcon />, onLogoutLinkClick),
+    getMenuLink({
+      label: 'Log out',
+      icon: <SignOutIcon />,
+      onClick: onLogoutLinkClick,
+    }),
     userEmail && (
-      <UnlinkedMenuLink
-        label={userEmail}
-        className={classNames(styles.userDetails, styles.userEmail)}
-      />
+      <li className={classNames(styles.userDetails, styles.userEmail)}>
+        {userEmail}
+      </li>
     ),
     serialNumber && (
-      <UnlinkedMenuLink
-        label={`Serial no. ${serialNumber}`}
-        className={classNames(styles.userDetails, styles.serialNumber)}
-      />
+      <li className={classNames(styles.userDetails, styles.serialNumber)}>
+        {`Serial no. ${serialNumber}`}
+      </li>
     ),
   ].filter(Boolean);
 
@@ -179,20 +200,21 @@ const ReadonlyStatus = () => (
 );
 
 const BusinessMenu = ({
-  businessName,
-  serialNumber,
-  userEmail,
-  urls,
   activeNav,
+  businessName,
   isCurrentUserAdvisor,
-  shouldShowPaymentDetail,
-  onMenuSelect,
-  onMenuLinkClick,
-  onLogoutLinkClick,
+  isReadOnly,
+  onAppMarketplaceClick,
   onCreateBusinessClick,
   onManageMyProductClick,
-  onAppMarketplaceClick,
-  isReadOnly,
+  onMoveToMYOB,
+  onLogoutLinkClick,
+  onMenuSelect,
+  serialNumber,
+  shouldShowMoveToMYOB,
+  shouldShowPaymentDetail,
+  urls,
+  userEmail,
 }) => (
   <div className={styles.businessMenu}>
     <Navigation.Menu
@@ -209,16 +231,17 @@ const BusinessMenu = ({
         </div>
       }
       items={getItems({
-        urls,
-        serialNumber,
-        userEmail,
-        shouldShowPaymentDetail,
         isCurrentUserAdvisor,
-        onMenuLinkClick,
-        onLogoutLinkClick,
+        onAppMarketplaceClick,
         onCreateBusinessClick,
         onManageMyProductClick,
-        onAppMarketplaceClick,
+        onMoveToMYOB,
+        onLogoutLinkClick,
+        serialNumber,
+        shouldShowMoveToMYOB,
+        shouldShowPaymentDetail,
+        urls,
+        userEmail,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}
@@ -227,13 +250,14 @@ const BusinessMenu = ({
 );
 
 const mapStateToProps = (state) => ({
-  urls: getBusinessUrls(state),
-  serialNumber: getSerialNumber(state),
-  userEmail: getUserEmail(state),
   activeNav: getActiveNav(state),
-  isReadOnly: getIsReadOnly(state),
   isCurrentUserAdvisor: getIsCurrentUserAdvisor(state),
+  isReadOnly: getIsReadOnly(state),
+  serialNumber: getSerialNumber(state),
+  shouldShowMoveToMYOB: getShouldShowMoveToMYOB(state),
   shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
+  urls: getBusinessUrls(state),
+  userEmail: getUserEmail(state),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);

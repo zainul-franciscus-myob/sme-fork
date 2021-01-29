@@ -216,4 +216,5 @@ export const featuresConfig = {
   paymentDetail: { routeName: RouteName.PAYMENT_DETAIL },
   productManagementDetail: { routeName: RouteName.PRODUCT_MANAGEMENT_DETAIL },
   appMarketplace: { routeName: RouteName.APP_MARKETPLACE },
+  moveToMYOB: { routeName: RouteName.MOVE_TO_MYOB },
 };

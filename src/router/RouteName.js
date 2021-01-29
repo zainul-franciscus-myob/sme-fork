@@ -123,6 +123,7 @@ const RouteName = {
   ONBOARDING_LEARN_SMARTME: 'smartme/learn',
   PAYDAY_FILING_ONBOARDING: 'paydayFiling/onboarding',
   PAYDAY_FILING: 'paydayFiling',
+  MOVE_TO_MYOB: 'moveToMYOB',
 };
 
 export default RouteName;

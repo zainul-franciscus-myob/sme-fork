@@ -23,6 +23,9 @@ export default {
   MYOB_TEAM_URL: process.env.REACT_APP_MYOB_TEAM_URL,
   GENESYS_CHAT:
     (process.env.REACT_APP_GENESYS_CHAT || 'false').toLowerCase() === 'true',
+  MOVE_TO_MYOB_URL_AU: process.env.REACT_APP_CONVERT_2_MYOB_URL_AU,
+  MOVE_TO_MYOB_URL_NZ: process.env.REACT_APP_CONVERT_2_MYOB_URL_NZ,
+  MANAGE_MY_CLIENTS_URL: process.env.REACT_APP_MANAGE_MY_CLIENTS_URL,
   SMARTME_TASK:
     (process.env.REACT_APP_SMARTME_TASK || 'false').toLowerCase() === 'true',
 };

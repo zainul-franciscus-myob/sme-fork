@@ -21,6 +21,9 @@ REACT_APP_BANKFEED_PORTAL_URL=https://apply.bankfeeds.myob.com/Forms/Portal \
 REACT_APP_MYOB_URL=https://myob.com \
 REACT_APP_MYOB_TEAM_URL=https://team.myob.com \
 REACT_APP_GENESYS_CHAT=true \
+REACT_APP_CONVERT_2_MYOB_URL_AU=https://convert2myob.com.au \
+REACT_APP_CONVERT_2_MYOB_URL_NZ=https://convert2myob.co.nz \
+REACT_APP_MANAGE_MY_CLIENTS_URL=https://partner.myob.com/ledgers/live \
 NODE_OPTIONS=--max_old_space_size=4096 \
 REACT_APP_SMARTME_TASK=false \
 $@

@@ -44,18 +44,18 @@ import Tasks from './Tasks';
 import styles from './NavigationBar.module.css';
 
 const getPrimary = ({
-  onMenuSelect,
   onMenuLinkClick,
-  shouldDisplayHome,
-  shouldDisplaySalesMenu,
-  shouldDisplayPurchasesMenu,
+  onMenuSelect,
+  shouldDisplayAccountingMenu,
   shouldDisplayBankingMenu,
   shouldDisplayContactMenu,
-  shouldDisplayAccountingMenu,
+  shouldDisplayHome,
+  shouldDisplayInTray,
   shouldDisplayPayrollMenu,
   shouldDisplayPayrollNzMenu,
-  shouldDisplayInTray,
+  shouldDisplayPurchasesMenu,
   shouldDisplayReportsMenu,
+  shouldDisplaySalesMenu,
 }) =>
   [
     shouldDisplayHome && <Home key="Home" onMenuLinkClick={onMenuLinkClick} />,
@@ -121,19 +121,20 @@ const getPrimary = ({
   ].filter(Boolean);
 
 const getSettings = ({
-  shouldDisplayBusinessMenu,
+  businessName,
+  hasTasks,
+  onCreateBusinessClick,
+  onHelpLinkClick,
+  onLogoutLinkClick,
+  onManageMyProductClick,
+  onMenuLinkClick,
+  onMenuSelect,
+  onMoveToMYOBClick,
+  onTasksLinkClick,
   shouldDisplayAddMenu,
+  shouldDisplayBusinessMenu,
   shouldDisplayHelpMenu,
   shouldDisplayTasksMenu,
-  onMenuSelect,
-  onMenuLinkClick,
-  onHelpLinkClick,
-  onTasksLinkClick,
-  onLogoutLinkClick,
-  onCreateBusinessClick,
-  onManageMyProductClick,
-  hasTasks,
-  businessName,
 }) =>
   [
     shouldDisplayAddMenu && (
@@ -161,13 +162,14 @@ const getSettings = ({
     ),
     shouldDisplayBusinessMenu && (
       <BusinessMenu
-        key="BusinessMenu"
         businessName={businessName}
-        onMenuSelect={onMenuSelect}
-        onMenuLinkClick={onMenuLinkClick}
-        onLogoutLinkClick={onLogoutLinkClick}
+        key="BusinessMenu"
         onCreateBusinessClick={onCreateBusinessClick}
+        onLogoutLinkClick={onLogoutLinkClick}
         onManageMyProductClick={onManageMyProductClick}
+        onMenuLinkClick={onMenuLinkClick}
+        onMenuSelect={onMenuSelect}
+        onMoveToMYOBClick={onMoveToMYOBClick}
       />
     ),
     !shouldDisplayBusinessMenu && (
@@ -182,15 +184,16 @@ const NavigationBar = ({
   email,
   hasTasks,
   menuLogoUrl,
+  onAppMarketplaceClick,
   onCreateBusinessClick,
-  onManageMyProductClick,
   onHelpLinkClick,
   onLogoutLinkClick,
+  onManageMyProductClick,
   onMenuLinkClick,
   onMenuSelect,
+  onMoveToMYOBClick,
   onSubscribeNowClick,
   onTasksLinkClick,
-  onAppMarketplaceClick,
   region,
   serialNumber,
   shouldDisplayAccountingMenu,
@@ -212,38 +215,40 @@ const NavigationBar = ({
   trialEndDate,
 }) => {
   const primaryMenuItems = getPrimary({
-    onMenuSelect,
     onMenuLinkClick,
-    shouldDisplayHome,
-    shouldDisplaySalesMenu,
-    shouldDisplayPurchasesMenu,
+    onMenuSelect,
+    shouldDisplayAccountingMenu,
     shouldDisplayBankingMenu,
     shouldDisplayContactMenu,
-    shouldDisplayAccountingMenu,
+    shouldDisplayHome,
+    shouldDisplayInTray,
     shouldDisplayPayrollMenu,
     shouldDisplayPayrollNzMenu,
-    shouldDisplayInTray,
+    shouldDisplayPurchasesMenu,
     shouldDisplayReportsMenu,
+    shouldDisplaySalesMenu,
   });
   const settings = getSettings({
-    onMenuSelect,
-    onMenuLinkClick,
-    onHelpLinkClick,
-    onTasksLinkClick,
-    onLogoutLinkClick,
-    onSubscribeNowClick,
-    onCreateBusinessClick,
-    onManageMyProductClick,
-    onAppMarketplaceClick,
-    region,
-    shouldDisplayBusinessMenu,
-    shouldDisplayAddMenu,
-    shouldDisplayHelpMenu,
-    shouldDisplayTasksMenu,
-    shouldDisplaySubscriptionNow,
-    hasTasks,
     businessName,
+    hasTasks,
+    onAppMarketplaceClick,
+    onCreateBusinessClick,
+    onHelpLinkClick,
+    onLogoutLinkClick,
+    onManageMyProductClick,
+    onMenuLinkClick,
+    onMenuSelect,
+    onMoveToMYOBClick,
+    onSubscribeNowClick,
+    onTasksLinkClick,
+    region,
+    shouldDisplayAddMenu,
+    shouldDisplayBusinessMenu,
+    shouldDisplayHelpMenu,
+    shouldDisplaySubscriptionNow,
+    shouldDisplayTasksMenu,
   });
+
   const brand = (
     <Navigation.Brand url={menuLogoUrl} width="7.3rem">
       <MYOBLogo />

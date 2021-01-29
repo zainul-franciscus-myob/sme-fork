@@ -242,6 +242,12 @@ export const getShouldDisplayAccountingMenu = createSelector(
   }
 );
 
+export const getCreateNewBusinessUrl = createSelector(getRegion, (region) =>
+  region === Region.nz
+    ? Config.CREATE_BUSINESS_URL_NZ
+    : Config.CREATE_BUSINESS_URL_AU
+);
+
 export const getBusinessUrls = createSelector(
   getEnabledUrls,
   (enabledUrls) => ({
@@ -257,6 +263,9 @@ export const getBusinessUrls = createSelector(
     productManagementDetail: enabledUrls.productManagementDetail,
     subscription: enabledUrls.subscription,
     appMarketplace: enabledUrls.appMarketplace,
+    moveToMYOB: enabledUrls.moveToMYOB,
+    manageMyClients: Config.MANAGE_MY_CLIENTS_URL,
+    createNewBusiness: getCreateNewBusinessUrl,
   })
 );
 
@@ -359,12 +368,6 @@ export const getShouldDisplayLiveChat = createSelector(
     Config.GENESYS_CHAT
 );
 
-export const getCreateNewBusinessUrl = createSelector(getRegion, (region) =>
-  region === Region.nz
-    ? Config.CREATE_BUSINESS_URL_NZ
-    : Config.CREATE_BUSINESS_URL_AU
-);
-
 export const getIsNzPayrollOnly = createSelector(
   getShouldDisplayPayrollNzMenu,
   getShouldDisplayPurchasesMenu,
@@ -372,4 +375,17 @@ export const getIsNzPayrollOnly = createSelector(
   getShouldDisplayBankingMenu,
   (hasNzPayroll, hasPurchase, hasSales, hasBanking) =>
     hasNzPayroll && !hasPurchase && !hasSales && !hasBanking
+);
+
+export const getShouldShowMoveToMYOB = createSelector(
+  getBusinessUrls,
+  getIsTrial,
+  (businessUrls, isTrial) =>
+    Boolean(businessUrls.moveToMYOB) &&
+    isTrial &&
+    process.env.NODE_ENV !== 'production'
+);
+
+export const getMoveToMYOBUrl = createSelector(getRegion, (region) =>
+  region === Region.au ? Config.MOVE_TO_MYOB_URL_AU : Config.MOVE_TO_MYOB_URL_NZ
 );

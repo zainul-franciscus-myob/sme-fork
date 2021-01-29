@@ -67,7 +67,8 @@
     "paymentDetail",
     "productManagementDetail",
     "subscription",
-    "appMarketplace"
+    "appMarketplace",
+    "moveToMYOB"
   ],
   "isReadOnly": false,
   "isCurrentUserAdvisor": true
