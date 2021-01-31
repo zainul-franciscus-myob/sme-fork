@@ -7,6 +7,11 @@ export const UPDATE_FILTER_OPTIONS = Symbol('Update filter options');
 export const UPDATE_PERIOD = Symbol('Update period');
 export const RESET_FILTER_OPTIONS = Symbol('Reset filter options');
 
+export const LOAD_FIND_AND_RECODE_LIST = Symbol('Load find and recode list');
+export const SET_FIND_AND_RECODE_LIST_LOADING_STATE = Symbol(
+  'Load find and recode list loading state'
+);
+
 export const SORT_AND_FILTER_FIND_AND_RECODE_LIST = Symbol(
   'Sort and filter find and recode list'
 );

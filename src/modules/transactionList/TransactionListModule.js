@@ -48,7 +48,7 @@ import FindAndRecodeModule from './findAndRecode/FindAndRecodeModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './findAndRecode/types/ModalType';
 import RouteName from '../../router/RouteName';
-import Store from '../../store/Store';
+import Store from '../../store/DebugStore';
 import TransactionListView from './components/TransactionListView';
 import createTransactionListDispatcher from './createTransactionListDispatcher';
 import createTransactionListIntegrator from './createTransactionListIntegrator';

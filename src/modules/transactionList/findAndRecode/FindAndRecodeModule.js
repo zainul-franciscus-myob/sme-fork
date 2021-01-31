@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsAccountsOrTaxCodesListEmpty,
   getIsRecodeLoading,
   getNoItemSelected,
   getRecodeItems,
@@ -21,6 +22,26 @@ export default class FindAndRecodeModule {
     this.dispatcher = createFindAndRecodeDispatcher(this.store);
     this.setAlert = setAlert;
   }
+
+  loadFindAndRecodeList = () => {
+    this.dispatcher.unselectAllItems();
+    this.dispatcher.setFindAndRecodeListLoadingState(true);
+    this.dispatcher.setTableLoadingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setFindAndRecodeListLoadingState(false);
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.loadFindAndRecodeList(response);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setFindAndRecodeListLoadingState(false);
+      this.dispatcher.setTableLoadingState(false);
+      this.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.loadFindAndRecodeList({ onSuccess, onFailure });
+  };
 
   sortAndFilterFindAndRecodeList = () => {
     this.dispatcher.unselectAllItems();
@@ -137,7 +158,11 @@ export default class FindAndRecodeModule {
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
-    this.sortAndFilterFindAndRecodeList();
+    if (getIsAccountsOrTaxCodesListEmpty(this.store.getState())) {
+      this.loadFindAndRecodeList();
+    } else {
+      this.sortAndFilterFindAndRecodeList();
+    }
   };
 
   render = ({ pageHead, subHead, alert }) => {

@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
+  LOAD_FIND_AND_RECODE_LIST,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
   RECODE,
   RECODE_ITEM_FAILURE,
@@ -9,6 +10,7 @@ import {
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
+  SET_FIND_AND_RECODE_LIST_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -73,7 +75,96 @@ describe('FindAndRecodeModule', () => {
   };
 
   describe('run', () => {
-    it('successfully loads list', () => {
+    it('successfully loads but not load the accounts and taxcodes list', () => {
+      const { module, store, integration } = setup();
+
+      module.run({
+        businessId: '🦕',
+        region: 'au',
+        taxCodeList: [
+          {
+            description: 'Goods & Services Tax',
+            displayName: 'GST',
+            displayRate: '10%',
+            id: '1',
+          },
+          {
+            description: 'Not Reportable',
+            displayName: 'N-T',
+            displayRate: '0%',
+            id: '2',
+          },
+        ],
+        accountList: [
+          {
+            id: '4',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            accountType: 'Asset',
+          },
+          {
+            id: '5',
+            displayId: '1-1110',
+            displayName: 'Kitchen Account #2',
+            accountType: 'Asset',
+          },
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+          },
+        ],
+      });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            businessId: '🦕',
+            region: 'au',
+            taxCodeList: expect.any(Object),
+            accountList: expect.any(Object),
+          },
+        },
+        {
+          intent: UNSELECT_ALL_ITEMS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+          urlParams: {
+            businessId: '🦕',
+          },
+          params: {
+            accountId: undefined,
+            keywords: '',
+            orderBy: 'Date',
+            sortOrder: 'desc',
+            sourceJournal: 'All',
+            taxCodeId: undefined,
+            dateFrom: '',
+            dateTo: '',
+            offset: 0,
+          },
+        },
+      ]);
+    });
+
+    it('successfully loads and load the accounts and taxcodes list', () => {
       const { module, store, integration } = setup();
 
       module.run({
@@ -97,23 +188,30 @@ describe('FindAndRecodeModule', () => {
           intent: UNSELECT_ALL_ITEMS,
         },
         {
+          intent: SET_FIND_AND_RECODE_LIST_LOADING_STATE,
+          isFindAndRecodeListLoading: true,
+        },
+        {
           intent: SET_TABLE_LOADING_STATE,
           isTableLoading: true,
+        },
+        {
+          intent: SET_FIND_AND_RECODE_LIST_LOADING_STATE,
+          isFindAndRecodeListLoading: false,
         },
         {
           intent: SET_TABLE_LOADING_STATE,
           isTableLoading: false,
         },
         expect.objectContaining({
-          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+          intent: LOAD_FIND_AND_RECODE_LIST,
         }),
       ]);
+
       expect(integration.getRequests()).toEqual([
         {
-          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
-          urlParams: {
-            businessId: '🦕',
-          },
+          intent: LOAD_FIND_AND_RECODE_LIST,
+          urlParams: { businessId: '🦕' },
           params: {
             accountId: undefined,
             keywords: '',
@@ -136,8 +234,40 @@ describe('FindAndRecodeModule', () => {
       module.run({
         businessId: '🦕',
         region: 'au',
-        taxCodeList: [],
-        accountList: [],
+        taxCodeList: [
+          {
+            description: 'Goods & Services Tax',
+            displayName: 'GST',
+            displayRate: '10%',
+            id: '1',
+          },
+          {
+            description: 'Not Reportable',
+            displayName: 'N-T',
+            displayRate: '0%',
+            id: '2',
+          },
+        ],
+        accountList: [
+          {
+            id: '4',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            accountType: 'Asset',
+          },
+          {
+            id: '5',
+            displayId: '1-1110',
+            displayName: 'Kitchen Account #2',
+            accountType: 'Asset',
+          },
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+          },
+        ],
       });
 
       expect(store.getActions()).toEqual([
@@ -146,8 +276,8 @@ describe('FindAndRecodeModule', () => {
           context: {
             businessId: '🦕',
             region: 'au',
-            taxCodeList: [],
-            accountList: [],
+            taxCodeList: expect.any(Object),
+            accountList: expect.any(Object),
           },
         },
         {
@@ -162,14 +292,137 @@ describe('FindAndRecodeModule', () => {
           isTableLoading: false,
         },
       ]);
+
       expect(setAlert).toHaveBeenCalledWith({
         message: expect.any(String),
         type: 'danger',
       });
+
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
           intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
         }),
+      ]);
+    });
+
+    it('should not load accounts and tax codes list if they are not empty', () => {
+      const { module, store, integration } = setup();
+
+      module.run({
+        businessId: '🦕',
+        region: 'au',
+        taxCodeList: [
+          {
+            description: 'Goods & Services Tax',
+            displayName: 'GST',
+            displayRate: '10%',
+            id: '1',
+          },
+          {
+            description: 'Not Reportable',
+            displayName: 'N-T',
+            displayRate: '0%',
+            id: '2',
+          },
+        ],
+        accountList: [
+          {
+            id: '4',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            accountType: 'Asset',
+          },
+          {
+            id: '5',
+            displayId: '1-1110',
+            displayName: 'Kitchen Account #2',
+            accountType: 'Asset',
+          },
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+          },
+        ],
+      });
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context: {
+            businessId: '🦕',
+            region: 'au',
+            taxCodeList: [
+              {
+                description: 'Goods & Services Tax',
+                displayName: 'GST',
+                displayRate: '10%',
+                id: '1',
+              },
+              {
+                description: 'Not Reportable',
+                displayName: 'N-T',
+                displayRate: '0%',
+                id: '2',
+              },
+            ],
+            accountList: [
+              {
+                id: '4',
+                displayId: '1-1110',
+                displayName: 'Vehicle Account #11',
+                accountType: 'Asset',
+              },
+              {
+                id: '5',
+                displayId: '1-1110',
+                displayName: 'Kitchen Account #2',
+                accountType: 'Asset',
+              },
+              {
+                id: '6',
+                displayId: '1-1110',
+                displayName: 'Lounge Account #6',
+                accountType: 'Expense',
+              },
+            ],
+          },
+        },
+        {
+          intent: UNSELECT_ALL_ITEMS,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: true,
+        },
+        {
+          intent: SET_TABLE_LOADING_STATE,
+          isTableLoading: false,
+        },
+        expect.objectContaining({
+          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+        }),
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        {
+          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+          urlParams: {
+            businessId: '🦕',
+          },
+          params: {
+            accountId: undefined,
+            keywords: '',
+            orderBy: 'Date',
+            sortOrder: 'desc',
+            sourceJournal: 'All',
+            taxCodeId: undefined,
+            dateFrom: '',
+            dateTo: '',
+            offset: 0,
+          },
+        },
       ]);
     });
   });

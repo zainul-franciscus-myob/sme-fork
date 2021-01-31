@@ -61,6 +61,14 @@ export const getAccountList = (state) => state.accountList;
 
 export const getTaxCodeList = (state) => state.taxCodeList;
 
+export const getIsAccountsOrTaxCodesListEmpty = createSelector(
+  getAccountList,
+  getTaxCodeList,
+  (accountList, taxCodeList) => {
+    return accountList.length === 0 || taxCodeList.length === 0;
+  }
+);
+
 const getOffset = (state) => state.pagination.offset;
 
 const getSort = createSelector(

@@ -24,8 +24,8 @@ import {
   UPDATE_FILTER_OPTIONS,
   UPDATE_PERIOD_DATE_RANGE,
 } from '../TransactionListIntents';
+import { LOAD_FIND_AND_RECODE_LIST } from '../findAndRecode/FindAndRecodeIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
-import { SORT_AND_FILTER_FIND_AND_RECODE_LIST } from '../findAndRecode/FindAndRecodeIntents';
 import { tabItemIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import ModalType from '../findAndRecode/types/ModalType';
@@ -214,8 +214,6 @@ describe('TransactionListModule', () => {
 
       module.run({});
 
-      console.log(store.getActions());
-
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
@@ -239,7 +237,7 @@ describe('TransactionListModule', () => {
 
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: SORT_AND_FILTER_FIND_AND_RECODE_LIST,
+          intent: LOAD_FIND_AND_RECODE_LIST,
         }),
       ]);
     });

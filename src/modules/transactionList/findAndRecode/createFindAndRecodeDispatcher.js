@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
+  LOAD_FIND_AND_RECODE_LIST,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
   OPEN_MODAL,
   OPEN_RECODE_OPTIONS,
@@ -10,6 +11,7 @@ import {
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
+  SET_FIND_AND_RECODE_LIST_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -39,6 +41,13 @@ const createFindAndRecodeDispatcher = (store) => ({
     });
   },
 
+  loadFindAndRecodeList: (response) => {
+    store.dispatch({
+      intent: LOAD_FIND_AND_RECODE_LIST,
+      ...response,
+    });
+  },
+
   loadFindAndRecodeListNextPage: (response) => {
     store.dispatch({
       intent: LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
@@ -50,6 +59,13 @@ const createFindAndRecodeDispatcher = (store) => ({
     store.dispatch({
       intent: SET_TABLE_LOADING_STATE,
       isTableLoading,
+    });
+  },
+
+  setFindAndRecodeListLoadingState: (isFindAndRecodeListLoading) => {
+    store.dispatch({
+      intent: SET_FIND_AND_RECODE_LIST_LOADING_STATE,
+      isFindAndRecodeListLoading,
     });
   },
 

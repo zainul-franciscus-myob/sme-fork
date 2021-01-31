@@ -2,6 +2,7 @@ import {
   CLOSE_MODAL,
   CLOSE_RECODE_OPTIONS,
   FINISH_RECODE,
+  LOAD_FIND_AND_RECODE_LIST,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
   OPEN_MODAL,
   OPEN_RECODE_OPTIONS,
@@ -10,6 +11,7 @@ import {
   RESET_FILTER_OPTIONS,
   SELECT_ALL_ITEMS,
   SELECT_ITEM,
+  SET_FIND_AND_RECODE_LIST_LOADING_STATE,
   SET_NEXT_PAGE_LOADING_STATE,
   SET_SORT_ORDER,
   SET_TABLE_LOADING_STATE,
@@ -36,6 +38,7 @@ const getDefaultState = () => ({
   taxCodeList: [],
   entries: [],
   isTableLoading: false,
+  isFindAndRecodeListLoading: false,
   isNextPageLoading: false,
   loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
   pagination: {
@@ -71,6 +74,14 @@ const resetState = () => getDefaultState();
 const setTableLoadingState = (state, { isTableLoading }) => ({
   ...state,
   isTableLoading,
+});
+
+const setFindAndRecodeListLoadingState = (
+  state,
+  { isFindAndRecodeListLoading }
+) => ({
+  ...state,
+  isFindAndRecodeListLoading,
 });
 
 const startRecode = (state) => ({
@@ -122,6 +133,17 @@ const resetFilterOptions = (state) => ({
 
 const sortAndFilterFindAndRecodeList = (state, { entries, pagination }) => ({
   ...state,
+  entries,
+  pagination,
+});
+
+const loadFindAndRecodeList = (
+  state,
+  { accountList, taxCodeList, entries, pagination }
+) => ({
+  ...state,
+  accountList,
+  taxCodeList,
   entries,
   pagination,
 });
@@ -276,6 +298,8 @@ const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [SET_TABLE_LOADING_STATE]: setTableLoadingState,
+  [SET_FIND_AND_RECODE_LIST_LOADING_STATE]: setFindAndRecodeListLoadingState,
+  [LOAD_FIND_AND_RECODE_LIST]: loadFindAndRecodeList,
   [SET_NEXT_PAGE_LOADING_STATE]: setNextPageLoadingState,
   [SET_SORT_ORDER]: setSortOrder,
   [UPDATE_PERIOD]: updatePeriod,

@@ -1,4 +1,5 @@
 import {
+  LOAD_FIND_AND_RECODE_LIST,
   LOAD_FIND_AND_RECODE_LIST_NEXT_PAGE,
   RECODE,
   SORT_AND_FILTER_FIND_AND_RECODE_LIST,
@@ -11,6 +12,18 @@ import {
 } from './findAndRecodeSelectors';
 
 const createFindAndRecodeIntegrator = (store, integration) => ({
+  loadFindAndRecodeList: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    integration.read({
+      intent: LOAD_FIND_AND_RECODE_LIST,
+      urlParams: getUrlParams(state),
+      params: getSortAndFilterParams(state),
+      onSuccess,
+      onFailure,
+    });
+  },
+
   sortAndFilterFindAndRecodeList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 

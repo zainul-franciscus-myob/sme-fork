@@ -3,6 +3,7 @@ import {
   getActiveSort,
   getAreAllItemsSelected,
   getAreSomeItemsSelected,
+  getIsAccountsOrTaxCodesListEmpty,
   getIsRecodeFailure,
   getIsRecodeFinished,
   getIsRecodeLoading,
@@ -531,6 +532,105 @@ describe('findAndRecodeSelectors', () => {
       const actual = getRecodeFailureMessage(state);
 
       expect(actual).toEqual('2 replacements failed.');
+    });
+  });
+
+  describe('getIsAccountsOrTaxCodesListEmpty', () => {
+    it('should return true if accounts list is empty', () => {
+      const state = {
+        accountList: [],
+        taxCodeList: [
+          {
+            description: 'Goods & Services Tax',
+            displayName: 'GST',
+            displayRate: '10%',
+            id: '1',
+          },
+          {
+            description: 'Not Reportable',
+            displayName: 'N-T',
+            displayRate: '0%',
+            id: '2',
+          },
+        ],
+      };
+
+      const result = getIsAccountsOrTaxCodesListEmpty(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return true if tax code list is empty', () => {
+      const state = {
+        accountList: [
+          {
+            id: '4',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            accountType: 'Asset',
+          },
+          {
+            id: '5',
+            displayId: '1-1110',
+            displayName: 'Kitchen Account #2',
+            accountType: 'Asset',
+          },
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+          },
+        ],
+        taxCodeList: [],
+      };
+
+      const result = getIsAccountsOrTaxCodesListEmpty(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return false if accounts and tax codes list is not empty', () => {
+      const state = {
+        accountList: [
+          {
+            id: '4',
+            displayId: '1-1110',
+            displayName: 'Vehicle Account #11',
+            accountType: 'Asset',
+          },
+          {
+            id: '5',
+            displayId: '1-1110',
+            displayName: 'Kitchen Account #2',
+            accountType: 'Asset',
+          },
+          {
+            id: '6',
+            displayId: '1-1110',
+            displayName: 'Lounge Account #6',
+            accountType: 'Expense',
+          },
+        ],
+        taxCodeList: [
+          {
+            description: 'Goods & Services Tax',
+            displayName: 'GST',
+            displayRate: '10%',
+            id: '1',
+          },
+          {
+            description: 'Not Reportable',
+            displayName: 'N-T',
+            displayRate: '0%',
+            id: '2',
+          },
+        ],
+      };
+
+      const result = getIsAccountsOrTaxCodesListEmpty(state);
+
+      expect(result).toEqual(false);
     });
   });
 });
