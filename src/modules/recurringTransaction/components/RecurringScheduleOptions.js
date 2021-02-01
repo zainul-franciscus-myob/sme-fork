@@ -40,6 +40,7 @@ const RecurringScheduleOptions = ({
   frequency,
   recurrence,
   nextDueDate,
+  secondDueDate,
   endDate,
   numberOfTimes,
   remainingTimes,
@@ -107,6 +108,21 @@ const RecurringScheduleOptions = ({
             )}
             disabled={isDisabled}
           />
+
+          {frequency === ScheduleFrequency.TWICE_A_MONTH && (
+            <DatePicker
+              label="Repeated on"
+              requiredLabel={requiredLabel}
+              name="secondDueDate"
+              value={secondDueDate}
+              onSelect={handleDatePickerChange(
+                onUpdateScheduleOptions,
+                'secondDueDate'
+              )}
+              disabled={isDisabled}
+            />
+          )}
+
           <RecurringScheduleRecurrenceOptions
             recurrence={recurrence}
             endDate={endDate}
