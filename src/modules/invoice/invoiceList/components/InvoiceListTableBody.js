@@ -54,13 +54,16 @@ const InvoiceListTableBody = (props) => {
         <Table.RowItem
           {...tableConfig.activity}
           title={InvoiceHistoryStatusPretty[entry.activity]}
-          className={classNames(
-            styles.icons,
-            iconAndStatusClassName(entry.activity)
-          )}
         >
-          {icon[entry.activity]}
-          <span>{InvoiceHistoryStatusPretty[entry.activity]}</span>
+          <span
+            className={classNames(
+              styles.icons,
+              iconAndStatusClassName(entry.activity)
+            )}
+          >
+            {icon[entry.activity]}
+            <span>{InvoiceHistoryStatusPretty[entry.activity]}</span>
+          </span>
         </Table.RowItem>
       )}
     </Table.Row>
