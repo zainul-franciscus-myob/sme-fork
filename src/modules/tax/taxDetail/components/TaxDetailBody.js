@@ -26,6 +26,8 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import FormattedAmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import TaxDetailTable from './TaxDetailTable';
+import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../../components/handlers/handleInputChange';
 
 const TaxDetailBody = ({
   taxCodeDetails,
@@ -40,6 +42,7 @@ const TaxDetailBody = ({
   isReadOnly,
   isGstReturnShown,
   includeInGSTReturn,
+  onChangeTaxField,
   renderContactCombobox,
 }) => {
   const {
@@ -69,14 +72,15 @@ const TaxDetailBody = ({
         label={taxCodeLabel}
         value={code}
         width="lg"
-        disabled={isReadOnly}
+        maxLength={3}
+        onChange={handleInputChange(onChangeTaxField)}
       />
       <Input
         name="description"
         label="Description"
         value={description}
         width="lg"
-        disabled={isReadOnly}
+        onChange={handleInputChange(onChangeTaxField)}
       />
       <Combobox
         name="type"
@@ -95,7 +99,8 @@ const TaxDetailBody = ({
           label="Rate (%)"
           value={rate}
           width="lg"
-          disabled={isReadOnly}
+          numeralIntegerScale={3}
+          onChange={handleInputChange(onChangeTaxField)}
         />
       )}
       {isGstReturnShown && (
@@ -119,7 +124,10 @@ const TaxDetailBody = ({
           items={accountOptions}
           selectedId={taxCollectedAccountId}
           width="lg"
-          disabled={isReadOnly}
+          onChange={handleComboboxChange(
+            'taxCollectedAccountId',
+            onChangeTaxField
+          )}
         />
       )}
       {isTaxPaidAccountShown && (
@@ -129,7 +137,7 @@ const TaxDetailBody = ({
           items={accountOptions}
           selectedId={taxPaidAccountId}
           width="lg"
-          disabled={isReadOnly}
+          onChange={handleComboboxChange('taxPaidAccountId', onChangeTaxField)}
         />
       )}
       {isLinkedContactShown &&

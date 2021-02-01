@@ -18,7 +18,8 @@ describe('TaxListModule', () => {
     const store = new TestStore(taxListReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
-    const module = new TaxListModule({ integration, setRootView });
+    const popMessages = () => [];
+    const module = new TaxListModule({ integration, setRootView, popMessages });
 
     isToggleOn.mockReturnValue(isTaxDetailEnabled);
 

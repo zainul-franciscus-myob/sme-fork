@@ -289,3 +289,7 @@ export const SUCCESSFULLY_SAVED_RECURRING_TRANSACTION = Symbol(
 export const SUCCESSFULLY_DELETED_RECURRING_TRANSACTION = Symbol(
   'Successfully deleted a recurring transaction'
 );
+// Tax Codes
+export const SUCCESSFULLY_SAVED_TAX_CODE = Symbol(
+  'Successfully saved a tax code'
+);

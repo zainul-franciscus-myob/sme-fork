@@ -14,6 +14,7 @@ import TaxTypes, {
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
 
+export const getPageTitle = (state) => state.pageTitle;
 export const getTaxCodeId = (state) => state.taxCodeId;
 export const getLoadingState = (state) => state.loadingState;
 export const getTaxType = (state) => TaxTypes[state.type];
@@ -21,6 +22,11 @@ export const getAccountOptions = (state) => state.accountOptions;
 export const getChildrenTaxCodes = (state) => state.childrenTaxCodes;
 export const getIncludeInGSTReturn = (state) => state.includeInGSTReturn;
 export const getIsReadOnly = () => true; // Defaulted to true until Create and Update functionality is added
+export const getIsActionsDisabled = (state) => state.isSubmitting;
+export const getIsPageEdited = (state) => state.isPageEdited;
+export const getAlert = (state) => state.alert;
+export const getModal = (state) => state.modal;
+export const getModalUrl = (state) => state.modal?.url;
 
 export const getTaxCodeDetails = (state) => ({
   code: state.code,
@@ -43,6 +49,14 @@ export const getTaxTypeDetails = createSelector(getTaxType, (type) => ({
   isChildrenTaxCodesShown: hasChildrenTaxCodes(type),
   isLuxuryCarTaxThresholdShown: hasLuxuryCarTaxThreshold(type),
 }));
+
+export const getSaveTaxDetailContent = (state) => ({
+  code: state.code,
+  description: state.description,
+  rate: state.rate,
+  taxCollectedAccountId: state.taxCollectedAccountId,
+  taxPaidAccountId: state.taxPaidAccountId,
+});
 
 export const getIsGstReturnShown = createSelector(
   getRegion,
@@ -102,7 +116,8 @@ export const getContactComboboxContext = createSelector(
   })
 );
 
-export const getPageTitle = createSelector(
-  getTaxCodeDetails,
-  ({ code, description }) => `${code} - ${description}`
+export const getTaxCodeListUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/tax`
 );

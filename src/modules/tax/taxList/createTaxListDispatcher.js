@@ -1,4 +1,4 @@
-import { LOAD_TAX_LIST, SET_LOADING_STATE } from '../TaxIntents';
+import { LOAD_TAX_LIST, SET_ALERT, SET_LOADING_STATE } from '../TaxIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
 const createTaxListDispatcher = (store) => ({
@@ -25,6 +25,20 @@ const createTaxListDispatcher = (store) => ({
       loadingState,
     });
   },
+  setAlert: ({ type, message }) => {
+    store.dispatch({
+      intent: SET_ALERT,
+      alert: {
+        type,
+        message,
+      },
+    });
+  },
+  dismissAlert: () =>
+    store.dispatch({
+      intent: SET_ALERT,
+      alert: undefined,
+    }),
 });
 
 export default createTaxListDispatcher;

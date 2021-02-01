@@ -1,7 +1,9 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { SUCCESSFULLY_SAVED_TAX_CODE } from '../../../common/types/MessageTypes';
 import { isToggleOn } from '../../../splitToggle';
+import AlertType from '../../../common/types/AlertType';
 import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -10,12 +12,16 @@ import createTaxListDispatcher from './createTaxListDispatcher';
 import createTaxListIntegrator from './createTaxListIntegrator';
 import taxListReducer from './taxListReducer';
 
+const messageTypes = [SUCCESSFULLY_SAVED_TAX_CODE];
+
 class TaxListModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.store = new Store(taxListReducer);
     this.setRootView = setRootView;
     this.dispatcher = createTaxListDispatcher(this.store);
     this.integrator = createTaxListIntegrator(this.store, integration);
+    this.messageTypes = messageTypes;
+    this.popMessages = popMessages;
   }
 
   loadTaxList = () => {
@@ -38,14 +44,23 @@ class TaxListModule {
   render = () =>
     this.setRootView(
       <Provider store={this.store}>
-        <TaxListView />
+        <TaxListView onDismissAlert={this.dispatcher.dismissAlert} />
       </Provider>
     );
+
+  readMessages = () => {
+    const [successMessage] = this.popMessages(this.messageTypes);
+    if (successMessage) {
+      const { content: message } = successMessage;
+      this.dispatcher.setAlert({ type: AlertType.SUCCESS, message });
+    }
+  };
 
   run = (context) => {
     const isTaxDetailEnabled = isToggleOn(FeatureToggle.TaxCodesDetail);
 
     this.dispatcher.setInitialState({ ...context, isTaxDetailEnabled });
+    this.readMessages();
     this.render();
     this.loadTaxList();
   };
