@@ -22,9 +22,10 @@ const SalesSettingsLayoutDetails = ({ reminderLink }) => (
         alt="Invoice reminder"
       />
       <p>
-        Save time chasing late payments by automating your reminders. Whether
-        you want to gently prod all or some of your customers, you can choose
-        when to remind them, what you want to say and how often.
+        Save time chasing late payments by automating your reminders. You can
+        decide which of your customers to remind, and how often. For customers
+        you work with regularly, you can send summaries of all outstanding
+        invoices.
       </p>
       <Button type="primary" onClick={openNewTab(reminderLink)}>
         Reminders settings
