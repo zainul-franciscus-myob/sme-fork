@@ -8,11 +8,12 @@ import createFileUnavailableIntegration from './createFileUnavailableIntegration
 import fileUnavailableReducer from './fileUnavailableReducer';
 
 export default class FileUnavailableModule {
-  constructor({ integration, setRootView }) {
+  constructor({ integration, setRootView, navigateTo }) {
     this.integration = createFileUnavailableIntegration(integration);
     this.store = new Store(fileUnavailableReducer);
     this.setRootView = setRootView;
     this.dispatcher = createFileUnavailableDispatcher(this.store);
+    this.navigateTo = navigateTo;
   }
 
   unsubscribeFromStore() {
@@ -42,7 +43,15 @@ export default class FileUnavailableModule {
   }
 
   run(context) {
+    const { reason } = context;
+
     this.dispatcher.setInitialState(context);
+
+    if (!['versionTooLow', 'versionTooHigh'].includes(reason)) {
+      const { businessId, region } = this.store.getState();
+      this.navigateTo(`/#/${region}/${businessId}/dashboard`);
+      return;
+    }
     this.render();
     this.load();
   }

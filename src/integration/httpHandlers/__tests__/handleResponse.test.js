@@ -85,8 +85,8 @@ describe('handleResponse', () => {
   });
 
   describe('when response HTTP status code is 400', () => {
-    it('and code is FileUnavailable, should redirect to file unavailable page', async () => {
-      const body = { code: 'FileUnavailable' };
+    it('and code is FileVersionTooLow, should redirect to file unavailable page with reason', async () => {
+      const body = { code: 'FileVersionTooLow' };
       const forbiddenCodePromise = Promise.resolve({
         status: 400,
         json: () => body,
@@ -101,7 +101,27 @@ describe('handleResponse', () => {
       });
 
       expect(window.location.href).toBe(
-        'http://localhost/#/au/1234-3456-123456-123456/unavailable'
+        'http://localhost/#/au/1234-3456-123456-123456/unavailable?reason=versionTooLow'
+      );
+    });
+
+    it('and code is FileVersionTooHigh, should redirect to file unavailable page with reason', async () => {
+      const body = { code: 'FileVersionTooHigh' };
+      const forbiddenCodePromise = Promise.resolve({
+        status: 400,
+        json: () => body,
+      });
+
+      await handleResponse({
+        fetchedPromise: forbiddenCodePromise,
+        responseParser,
+        onSuccess,
+        onFailure,
+        urlParams: { businessId: '1234-3456-123456-123456' },
+      });
+
+      expect(window.location.href).toBe(
+        'http://localhost/#/au/1234-3456-123456-123456/unavailable?reason=versionTooHigh'
       );
     });
   });
