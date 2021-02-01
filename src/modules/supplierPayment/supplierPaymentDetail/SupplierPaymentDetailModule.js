@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
+  SUCCESSFULLY_DELETED_SUPPLIER_PAYMENT,
   SUCCESSFULLY_DOWNLOADED_REMITTANCE_ADVICE,
   SUCCESSFULLY_EMAILED_REMITTANCE_ADVICE,
   SUCCESSFULLY_SAVED_SUPPLIER_PAYMENT,
@@ -348,6 +349,8 @@ export default class SupplierPaymentModule {
         onUpdateRemittanceAdviceType={
           this.dispatcher.updateRemittanceAdviceType
         }
+        onDeleteButtonClick={this.openDeleteModal}
+        onDeleteModal={this.deleteSupplierPayment}
       />
     );
 
@@ -416,5 +419,28 @@ export default class SupplierPaymentModule {
 
   openDeleteModal = () => {
     this.dispatcher.openModal(supplierPaymentModalTypes.delete);
+  };
+
+  deleteSupplierPayment = () => {
+    this.dispatcher.setSubmittingState(true);
+    this.dispatcher.closeModal();
+
+    const onSuccess = (response) => {
+      this.dispatcher.setSubmittingState(false);
+      this.pushMessage({
+        type: SUCCESSFULLY_DELETED_SUPPLIER_PAYMENT,
+        content: response.message,
+      });
+      const state = this.store.getState();
+      const url = getRedirectUrl(state);
+      this.navigateTo(url);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setAlertMessage({ message, type: 'danger' });
+    };
+
+    this.integrator.deleteSupplierPayment({ onSuccess, onFailure });
   };
 }
