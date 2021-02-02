@@ -3,12 +3,12 @@ import React from 'react';
 
 import { getSelectedTab, getUrlParams } from './PaydayFilingSelectors';
 import { tabIds } from './TabItems';
+import EiSubmissionsModule from './eiSubmissions/EiSubmissionsModule';
 import InlandRevenueSettingsModule from './inlandRevenueSettings/InlandRevenueSettingsModule';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import PaydayCentreView from './components/PaydayFilingView';
 import PaydayFilingReducer from './PaydayFilingReducer';
 import Store from '../../../../store/Store';
-import SubmissionsListModule from './submissionsList/SubmissionsListModule';
 import createPaydayFilingDispatcher from './createPaydayFilingDispatcher';
 import createPaydayFilingIntegrator from './createPaydayFilingIntegrator';
 import routeName from '../../../../router/RouteName';
@@ -38,7 +38,8 @@ export default class PaydayFilingModule {
 
   setupSubModules = (context) => {
     this.subModules = {
-      [tabIds.submissionsList]: new SubmissionsListModule({
+      [tabIds.eiSubmissions]: new EiSubmissionsModule({
+        store: this.store,
         integration: this.integration,
         context,
       }),

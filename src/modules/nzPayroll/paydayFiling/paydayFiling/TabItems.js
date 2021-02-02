@@ -1,9 +1,9 @@
 export const tabIds = {
-  submissionsList: 'submissionsList',
+  eiSubmissions: 'eiSubmissions',
   irdSettings: 'irdSettings',
 };
 
 export const getTabItems = () => [
-  { id: tabIds.submissionsList, label: 'Employment information submissions' },
+  { id: tabIds.eiSubmissions, label: 'Employment information submissions' },
   { id: tabIds.irdSettings, label: 'Inland revenue settings' },
 ];

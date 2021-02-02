@@ -40,7 +40,7 @@ describe('PaydayFilingReducer', () => {
 
       const result = PaydayFilingReducer(state, action);
 
-      expect(result).toEqual({ tab: tabIds.submissionsList });
+      expect(result).toEqual({ tab: tabIds.eiSubmissions });
     });
   });
 
@@ -50,13 +50,13 @@ describe('PaydayFilingReducer', () => {
 
       const action = {
         intent: SET_TAB,
-        tab: tabIds.submissionsList,
+        tab: tabIds.eiSubmissions,
       };
 
       const result = PaydayFilingReducer(state, action);
 
       expect(result).toEqual({
-        tab: tabIds.submissionsList,
+        tab: tabIds.eiSubmissions,
       });
     });
 
@@ -72,7 +72,7 @@ describe('PaydayFilingReducer', () => {
 
       const result = PaydayFilingReducer(state, action);
 
-      expect(result).toEqual({ tab: tabIds.submissionsList });
+      expect(result).toEqual({ tab: tabIds.eiSubmissions });
     });
   });
   describe('setIsBusinessOnboarded', () => {

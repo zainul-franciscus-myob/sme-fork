@@ -6,26 +6,28 @@ import {
   SET_TAB,
 } from './PaydayFilingIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
+import {
+  eiSubmissionsHandlers,
+  getEiSubmissionsDefaultState,
+} from './eiSubmissions/EiSubmissionsReducer';
 import { tabIds } from './TabItems';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import createReducer from '../../../../store/createReducer';
+import wrapHandlers from '../../../../store/wrapHandlers';
 
 const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   alert: null,
   tab: '',
-  status: '',
-  agentAbn: '',
-  agentNumber: '',
-  payrollIsSetUp: true,
   userSession: null,
+  [tabIds.eiSubmissions]: getEiSubmissionsDefaultState(),
 });
 
 const setValidTab = (tab) => {
   const validTabIds = Object.keys(tabIds);
   const isValidTab = validTabIds.includes(tab);
 
-  return isValidTab ? tab : tabIds.submissionsList;
+  return isValidTab ? tab : tabIds.eiSubmissions;
 };
 
 const setInitialState = (state, { context }) => {
@@ -73,6 +75,7 @@ const handlers = {
   [SET_TAB]: setTab,
   [SET_IS_BUSINESS_ONBOARDED]: setIsBusinessOnboarded,
   [LOAD_PAYDAY_USER_SESSION]: setUserSession,
+  ...wrapHandlers(tabIds.eiSubmissions, eiSubmissionsHandlers),
 };
 
 const paydayFilingReducer = createReducer(getDefaultState(), handlers);
