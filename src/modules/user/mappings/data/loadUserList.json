@@ -2,6 +2,7 @@
   "isCurrentUserOnlineAdmin": true,
   "sortOrder": "asc",
   "orderBy": "UserName",
+  "currentUserUserType": "AdminUser",
   "entries":[
     {
       "id":"345",

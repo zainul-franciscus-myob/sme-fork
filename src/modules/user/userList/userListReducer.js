@@ -27,6 +27,7 @@ const getDefaultState = () => ({
   isTableLoading: false,
   region: '',
   isCurrentUserOnlineAdmin: false,
+  currentUserUserType: '',
   sortOrder: 'asc',
   orderBy: 'UserName',
   selectedUserIndex: '',

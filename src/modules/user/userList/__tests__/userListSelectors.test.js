@@ -1,7 +1,6 @@
 import {
   getRemoveAccessModalBody,
   getRemovePracticeAccessModalBody,
-  getShouldShowManageMydotUserLink,
   getShouldShowPractices,
 } from '../userListSelectors';
 
@@ -38,67 +37,6 @@ describe('User List Selectors', () => {
       const actual = getShouldShowPractices(state);
 
       expect(actual).toEqual(true);
-    });
-  });
-
-  describe('getShouldShowManageMydotUserLink', () => {
-    it('should show mydot user manage link if current user is not a FileUser', () => {
-      const state = {
-        entries: [
-          {
-            userId: '1234',
-            myDotInvitationType: 'FileUser',
-            isCurrentUser: false,
-          },
-          {
-            userId: '4567',
-            myDotInvitationType: 'AdminUser',
-            isCurrentUser: true,
-          },
-        ],
-      };
-
-      const actual = getShouldShowManageMydotUserLink(state);
-
-      expect(actual).toBeTruthy();
-    });
-
-    it('should not show mydot user manage link if current user is a FileUser', () => {
-      const state = {
-        entries: [
-          {
-            userId: '1234',
-            myDotInvitationType: 'FileUser',
-            isCurrentUser: false,
-          },
-          {
-            userId: '4567',
-            myDotInvitationType: 'FileUser',
-            isCurrentUser: true,
-          },
-        ],
-      };
-
-      const actual = getShouldShowManageMydotUserLink(state);
-
-      expect(actual).toBeFalsy();
-    });
-
-    it('should show mydot user manage link if mydot is down', () => {
-      const state = {
-        entries: [
-          {
-            userId: '1234',
-          },
-          {
-            userId: '4567',
-          },
-        ],
-      };
-
-      const actual = getShouldShowManageMydotUserLink(state);
-
-      expect(actual).toBeTruthy();
     });
   });
 
