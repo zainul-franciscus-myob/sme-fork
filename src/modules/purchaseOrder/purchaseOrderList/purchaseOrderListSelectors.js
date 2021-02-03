@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import LoadMoreButtonStatuses from '../../../components/PaginatedListTemplate/LoadMoreButtonStatuses';
 import TableBodyType from './TableBodyType';
+import formatAmount from '../../../common/valueFormatters/formatAmount';
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
 import shallowCompare from '../../../common/shallowCompare/shallowCompare';
 
@@ -59,6 +60,7 @@ export const getTableEntries = createSelector(
       return {
         ...entry,
         link: getEntryLink(entry, businessId, region),
+        balanceDueDisplayValue: formatAmount(entry.balanceDue),
         promisedDate: parsedPromisedDate.getDate()
           ? formatSlashDate(parsedPromisedDate)
           : entry.promisedDate,

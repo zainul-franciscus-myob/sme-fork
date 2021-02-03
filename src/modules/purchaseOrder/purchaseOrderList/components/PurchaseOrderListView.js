@@ -25,6 +25,7 @@ const tableConfig = {
     valign: 'top',
     align: 'right',
   },
+  balanceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
   promisedDate: { columnName: 'Promised date', valign: 'top' },
 };
 
@@ -104,6 +105,12 @@ const PurchaseOrderListView = (props) => {
         <HeaderItem
           config={tableConfig.purchaseOrderAmount}
           sortName="Amount"
+          activeSort={order}
+          onSort={onSort}
+        />
+        <HeaderItem
+          config={tableConfig.balanceDue}
+          sortName="BalanceDue"
           activeSort={order}
           onSort={onSort}
         />

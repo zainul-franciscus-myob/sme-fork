@@ -22,6 +22,9 @@ const PurchaseOrderListTableBody = (props) => {
       <Table.RowItem {...tableConfig.purchaseOrderAmount}>
         {entry.purchaseOrderAmount}
       </Table.RowItem>
+      <Table.RowItem {...tableConfig.balanceDue}>
+        {entry.balanceDueDisplayValue}
+      </Table.RowItem>
       <Table.RowItem {...tableConfig.promisedDate}>
         {entry.promisedDate}
       </Table.RowItem>
