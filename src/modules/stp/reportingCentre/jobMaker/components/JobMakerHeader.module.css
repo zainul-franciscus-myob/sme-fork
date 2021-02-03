@@ -1,0 +1,8 @@
+.flex {
+  display: flex;
+}
+
+.divider {
+  border-right: 1px solid #ccc;
+  margin: 0 20px;
+}

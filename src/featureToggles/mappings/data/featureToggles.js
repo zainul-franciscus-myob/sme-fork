@@ -25,5 +25,5 @@ export default {
   isNzPayRunsViewEnabled: true,
   isInvoiceListActivityColumnEnabled: true,
   isJobMakerTabEnabled: true,
-  isJobMakerDeclarationEnabled: false,
+  isJobMakerDeclarationEnabled: true,
 };

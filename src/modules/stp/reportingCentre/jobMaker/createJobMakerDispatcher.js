@@ -1,4 +1,8 @@
-import { SET_INITIAL_STATE, SET_LOADING_STATE } from './JobMakerIntents';
+import {
+  SET_INITIAL_STATE,
+  SET_JOB_MAKER_INITIAL,
+  SET_LOADING_STATE,
+} from './JobMakerIntents';
 
 const createJobMakerDispatcher = (store) => ({
   setInitialState: (context) => {
@@ -12,6 +16,13 @@ const createJobMakerDispatcher = (store) => ({
     store.dispatch({
       intent: SET_LOADING_STATE,
       loadingState,
+    });
+  },
+
+  setInitialJobMaker: (response) => {
+    store.dispatch({
+      intent: SET_JOB_MAKER_INITIAL,
+      response,
     });
   },
 });

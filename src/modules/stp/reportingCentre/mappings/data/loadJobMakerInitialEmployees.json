@@ -1,0 +1,34 @@
+{
+  "employees": [
+    {
+      "employeeId": "100001",
+      "firstName": "Alf",
+      "lastName": "Galang",
+      "nomination": "Nomination sent 05/02/2021",
+      "declaration": "Declaration sent 27/03/2021"
+    },
+    {
+      "employeeId": "100003",
+      "firstName": "Marley",
+      "lastName": "Bergson",
+      "nomination": "Re-nomination sent 07/02/2021",
+      "declaration": null
+    },
+    {
+      "employeeId": "100002",
+      "firstName": "Sarah",
+      "lastName": "Boss",
+      "nomination": null,
+      "declaration": null
+    }
+  ],
+  "currentPayrollYearLabel" : "2020/21",
+  "currentPeriodDetails": {
+    "period": 1,
+    "periodStart": "7 Oct 2020",
+    "periodEnd": "6 Jan 2021",
+    "claimStart": "1 February",
+    "claimBestBefore": "27 March",
+    "claimEnd": "30 March"
+  }
+}

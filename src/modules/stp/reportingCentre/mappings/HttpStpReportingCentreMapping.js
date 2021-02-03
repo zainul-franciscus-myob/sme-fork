@@ -33,6 +33,7 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
+import { LOAD_INITIAL_JOB_MAKER_EMPLOYEES } from '../jobMaker/JobMakerIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -162,6 +163,11 @@ const HttpStpReportingCentreMapping = {
   [LOAD_EMPLOYEES_BENEFIT_REPORT]: {
     method: 'POST',
     getPath: ({ businessId }) => `/${businessId}/stp/employee_benefit_report`,
+  },
+  [LOAD_INITIAL_JOB_MAKER_EMPLOYEES]: {
+    method: 'GET',
+    getPath: ({ businessId }) =>
+      `/${businessId}/stp/job_maker_employees_initial`,
   },
 };
 

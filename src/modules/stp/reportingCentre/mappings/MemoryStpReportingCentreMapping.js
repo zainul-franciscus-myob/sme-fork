@@ -34,6 +34,7 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
+import { LOAD_INITIAL_JOB_MAKER_EMPLOYEES } from '../jobMaker/JobMakerIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -47,6 +48,7 @@ import loadEmployeesResponse from './data/loadTerminationEmployeesResponse';
 import loadFinalisationEmployeesAndHeaderDetailsForYearResponse from './data/loadFinalisationEmployeesAndHeaderDetailsForYearResponse';
 import loadFinalisationInitialEmployeesAndHeaderDetailsResponse from './data/loadFinalisationInitialEmployeesAndHeaderDetailsResponse';
 import loadJobKeeperInitialEmployees from './data/loadJobKeeperInitialEmployees';
+import loadJobMakerInitialEmployees from './data/loadJobMakerInitialEmployees';
 import loadPayEventDetails from './data/loadPayEventDetailResponse';
 import loadPayEventsResponse from './data/loadPayEventsResponse';
 import sortEmployeesResponse from './data/sortTerminationEmployeesResponse';
@@ -111,6 +113,8 @@ const MemoryStpReportingCentreMapping = {
   [CALCULATE_TURNOVER]: ({ onSuccess }) => onSuccess(calculateGstTurnover),
   [LOAD_EMPLOYEES_BENEFIT_REPORT]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
+  [LOAD_INITIAL_JOB_MAKER_EMPLOYEES]: ({ onSuccess }) =>
+    onSuccess(loadJobMakerInitialEmployees),
 };
 
 export default MemoryStpReportingCentreMapping;
