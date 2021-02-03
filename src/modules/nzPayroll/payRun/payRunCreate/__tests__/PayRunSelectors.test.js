@@ -3,6 +3,7 @@ import {
   getDashboardUrl,
   getDraftPayRunId,
   getEmployeeHeader,
+  getIsBusinessOnboarded,
   getIsSubmitting,
   getLoadingState,
   getPayOnDate,
@@ -314,6 +315,18 @@ describe('PayRunSelectors', () => {
       };
 
       expect(getPreviousStepModalIsOpen(state)).toEqual(expected);
+    });
+  });
+
+  describe('getIsBusinessOnboarded', () => {
+    it('should get is business on boarded', () => {
+      const expected = true;
+
+      const state = {
+        isBusinessOnboarded: true,
+      };
+
+      expect(getIsBusinessOnboarded(state)).toEqual(expected);
     });
   });
 });

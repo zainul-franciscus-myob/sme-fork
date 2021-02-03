@@ -3,16 +3,19 @@ import React from 'react';
 import AlertType from '../types/AlertType';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import RecordPayRunView from './components/RecordPayRunView';
+import RouteName from '../../../../../router/RouteName';
 import createRecordPayRunDispatchers from './createRecordPayRunDispatchers';
 import createRecordPayRunIntegrator from './createRecordPayRunIntegrator';
 import openBlob from '../../../../../common/blobOpener/openBlob';
 
 export default class RecordPayRunSubModule {
-  constructor({ integration, store }) {
+  constructor({ integration, store, featureToggles, navigateToName }) {
     this.integration = integration;
     this.store = store;
     this.dispatcher = createRecordPayRunDispatchers(store);
     this.integrator = createRecordPayRunIntegrator(store, integration);
+    this.featureToggles = featureToggles;
+    this.navigateToName = navigateToName;
   }
 
   recordPayments = () => {
@@ -60,6 +63,10 @@ export default class RecordPayRunSubModule {
     this.dispatcher.openDiscardAndRedirectModal();
   }
 
+  openPaydayFilingReport = () => {
+    this.navigateToName(RouteName.PAYDAY_FILING);
+  };
+
   render() {
     return (
       <>
@@ -67,6 +74,8 @@ export default class RecordPayRunSubModule {
           recordPayments={this.onNext}
           onViewPayrollVerifyReportClick={this.payrollVerificationReport}
           onPreviousButtonClick={this.goToPreviousStep}
+          isPaydayFilingEnabled={this.featureToggles.isPaydayFilingEnabled}
+          onOpenPaydayFilingClick={this.openPaydayFilingReport}
         />
       </>
     );

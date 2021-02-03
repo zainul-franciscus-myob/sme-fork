@@ -12,6 +12,8 @@ describe('RecordPayRunActions', () => {
     onPreviousButtonClick: jest.fn(),
     onRecordButtonClick: jest.fn(),
     onViewPayrollVerifyReportClick: jest.fn(),
+    isBusinessOnboarded: false,
+    isPaydayFilingEnabled: false,
   };
 
   beforeEach(() => {
@@ -45,5 +47,58 @@ describe('RecordPayRunActions', () => {
         expect(expectedHandler).toHaveBeenCalledTimes(1);
       });
     });
+  });
+
+  it('Should show record without filling with IR when business not onboarded', () => {
+    const onboarded = {
+      ...props,
+      isPaydayFilingEnabled: true,
+    };
+    store.setState({
+      ...store.getState(),
+      isBusinessOnboarded: false,
+    });
+
+    const wrapper = mountWithProvider(<RecordPayRunActions {...onboarded} />);
+    expect(
+      wrapper.find({ testid: 'saveWithoutFilingButton' }).first().text()
+    ).toEqual('Record pay run without filing with IR');
+    expect(wrapper.find({ testid: 'saveButton' }).length).toBe(0);
+  });
+
+  it('Should show record when business is onboarded', () => {
+    const onboarded = {
+      ...props,
+      isPaydayFilingEnabled: true,
+    };
+
+    store.setState({
+      ...store.getState(),
+      isBusinessOnboarded: true,
+    });
+
+    const wrapper = mountWithProvider(<RecordPayRunActions {...onboarded} />);
+    expect(wrapper.find({ testid: 'saveButton' }).first().text()).toEqual(
+      'Record'
+    );
+    expect(wrapper.find({ testid: 'saveWithoutFilingButton' }).length).toBe(0);
+  });
+
+  it('Should show record when payday filing is not enabled', () => {
+    const onboarded = {
+      ...props,
+      isPaydayFilingEnabled: false,
+    };
+
+    store.setState({
+      ...store.getState(),
+      isBusinessOnboarded: true,
+    });
+
+    const wrapper = mountWithProvider(<RecordPayRunActions {...onboarded} />);
+    expect(wrapper.find({ testid: 'saveButton' }).first().text()).toEqual(
+      'Record'
+    );
+    expect(wrapper.find({ testid: 'saveWithoutFilingButton' }).length).toBe(0);
   });
 });

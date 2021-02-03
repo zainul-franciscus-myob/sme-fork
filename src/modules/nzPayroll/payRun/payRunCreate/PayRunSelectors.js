@@ -138,3 +138,5 @@ export const getAlert = (state) => state.alert;
 
 export const isNavigationToSelf = (state) =>
   window.location.href.endsWith(state.redirectUrl);
+
+export const getIsBusinessOnboarded = (state) => state.isBusinessOnboarded;

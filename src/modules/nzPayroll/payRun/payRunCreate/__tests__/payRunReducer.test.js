@@ -7,6 +7,7 @@ import {
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_DRAFT_PAY_RUN_ID,
+  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -289,6 +290,27 @@ describe('NZ Payrun reducer', () => {
       const expected = {
         loadingState: LoadingState.LOADING_SUCCESS,
         alert: { type: AlertType.ERROR, message: 'Create draft payrun failed' },
+      };
+
+      const actual = payRunReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Set IsBusinessOnboarded', () => {
+    it('should set IsBusinessOnboarded', () => {
+      const state = {
+        isBusinessOnboarded: false,
+      };
+
+      const action = {
+        intent: SET_IS_BUSINESS_ONBOARDED,
+        isBusinessOnboarded: true,
+      };
+
+      const expected = {
+        isBusinessOnboarded: true,
       };
 
       const actual = payRunReducer(state, action);

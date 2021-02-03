@@ -65,3 +65,9 @@ export const OPEN_ADD_HOLIDAYS_AND_LEAVE_MODAL = Symbol(
 export const CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL = Symbol(
   'Cancel add holidays and leave modal dialog'
 );
+
+export const SET_IS_BUSINESS_ONBOARDED = Symbol('Set is business onboarded');
+
+export const LOAD_BUSINESS_ONBOARDED_STATUS = Symbol(
+  'Load business onboarded status'
+);

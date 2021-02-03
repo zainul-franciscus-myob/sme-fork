@@ -52,6 +52,8 @@ export default class PayRunModule {
       [RECORD_AND_REPORT.key]: new RecordPayRunSubModule({
         integration,
         store: this.store,
+        featureToggles,
+        navigateToName: this.navigateToName,
       }),
       [PREPARE_PAYSLIPS.key]: new PreparePaySlipsSubModule({
         integration,
@@ -88,13 +90,28 @@ export default class PayRunModule {
   startNewPayRun = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
-    const onSuccess = (response) => {
-      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-      this.dispatcher.startNewPayRun(response);
-    };
-
     const onFailure = () => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    const onSuccess = (response) => {
+      if (this.featureToggles.isPaydayFilingEnabled) {
+        const onLoadStatusSuccess = (response2) => {
+          const { isBusinessOnboarded } = response2;
+          this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+          this.dispatcher.setIsBusinessOnboarded(isBusinessOnboarded);
+          this.dispatcher.startNewPayRun(response);
+        };
+
+        this.integrator.loadBusinessOnboardedStatus({
+          onSuccess: onLoadStatusSuccess,
+          onFailure,
+        });
+      } else {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+        this.dispatcher.setIsBusinessOnboarded(false);
+        this.dispatcher.startNewPayRun(response);
+      }
     };
 
     this.integrator.startNewPayRun({ onSuccess, onFailure });

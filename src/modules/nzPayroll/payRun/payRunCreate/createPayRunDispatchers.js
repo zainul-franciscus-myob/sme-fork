@@ -10,6 +10,7 @@ import {
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_ALERT,
+  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
@@ -130,6 +131,14 @@ const createPayRunDispatchers = (store) => ({
     const intent = LOAD_PAYROLL_VERIFICATION_REPORT_FAILED;
     store.dispatch({
       intent,
+    });
+  },
+
+  setIsBusinessOnboarded: (isBusinessOnboarded) => {
+    const intent = SET_IS_BUSINESS_ONBOARDED;
+    store.dispatch({
+      intent,
+      isBusinessOnboarded,
     });
   },
 });

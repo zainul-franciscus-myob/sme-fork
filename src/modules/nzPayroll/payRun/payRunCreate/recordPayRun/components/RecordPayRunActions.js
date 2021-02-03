@@ -1,10 +1,15 @@
 import { Button, ButtonRow } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
+
+import { getIsBusinessOnboarded } from '../../PayRunSelectors';
 
 const RecordPayRunActions = ({
   onRecordButtonClick,
   onViewPayrollVerifyReportClick,
   onPreviousButtonClick,
+  isBusinessOnboarded,
+  isPaydayFilingEnabled,
 }) => (
   <ButtonRow
     primary={[
@@ -26,17 +31,33 @@ const RecordPayRunActions = ({
       >
         Previous
       </Button>,
-      <Button
-        key="save"
-        name="save"
-        type="primary"
-        onClick={onRecordButtonClick}
-        testid="saveButton"
-      >
-        Record
-      </Button>,
+      !isPaydayFilingEnabled || isBusinessOnboarded ? (
+        <Button
+          key="save"
+          name="save"
+          type="primary"
+          onClick={onRecordButtonClick}
+          testid="saveButton"
+        >
+          Record
+        </Button>
+      ) : (
+        <Button
+          key="saveWithoutFiling"
+          name="saveWithoutFiling"
+          type="primary"
+          onClick={onRecordButtonClick}
+          testid="saveWithoutFilingButton"
+        >
+          Record pay run without filing with IR
+        </Button>
+      ),
     ]}
   />
 );
 
-export default RecordPayRunActions;
+const mapStateToProps = (state) => ({
+  isBusinessOnboarded: getIsBusinessOnboarded(state),
+});
+
+export default connect(mapStateToProps)(RecordPayRunActions);

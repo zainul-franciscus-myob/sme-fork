@@ -13,6 +13,7 @@ import {
   RESTART_PAY_RUN,
   SET_ALERT,
   SET_DRAFT_PAY_RUN_ID,
+  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
@@ -151,6 +152,11 @@ const createDraftPayrunSuccess = (state) => ({
   alert: undefined,
 });
 
+const setIsBusinessOnboarded = (state, { isBusinessOnboarded }) => ({
+  ...state,
+  isBusinessOnboarded,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_INITIAL_STATE]: setInitialState,
@@ -174,6 +180,7 @@ const handlers = {
   [CREATE_DRAFT_PAY_RUN_FAILED]: createDraftPayrunFailed,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
+  [SET_IS_BUSINESS_ONBOARDED]: setIsBusinessOnboarded,
 };
 
 const payRunReducer = createReducer(getDefaultState(), handlers);

@@ -20,13 +20,19 @@ import TestStore from '../../../../../../store/TestStore';
 import payRunReducer from '../../payRunReducer';
 
 describe('RecordPayRunSubModule', () => {
-  const constructRecordPayRunSubModule = () => {
+  const constructRecordPayRunSubModule = (
+    featureToggles = {
+      isPaydayFilingEnabled: false,
+    }
+  ) => {
     const store = new TestStore(payRunReducer);
     const integration = new TestIntegration();
-
+    const navigateToName = jest.fn();
     const recordPayRunSubModule = new RecordPayRunSubModule({
       integration,
       store,
+      featureToggles,
+      navigateToName,
     });
 
     const view = recordPayRunSubModule.render();
