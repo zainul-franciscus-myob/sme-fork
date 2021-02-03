@@ -1,6 +1,10 @@
 import {
+  CLOSE_REMOVE_AUTHORISATION_MODAL,
+  DELETE_ONBOARD_USER,
   LOAD_PAYDAY_USER_SESSION,
+  OPEN_REMOVE_AUTHORISATION_MODAL,
   SET_ALERT,
+  SET_ARE_MULTIPLE_USERS_ONBOARDED,
   SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_TAB,
@@ -60,6 +64,34 @@ const createPaydayFilingDispatcher = (store) => ({
     store.dispatch({
       intent: SET_IS_BUSINESS_ONBOARDED,
       isBusinessOnboarded,
+    });
+  },
+
+  setMultipleUsersOnboarded: (areMultipleUsersOnboarded) => {
+    store.dispatch({
+      intent: SET_ARE_MULTIPLE_USERS_ONBOARDED,
+      areMultipleUsersOnboarded,
+    });
+  },
+
+  openRemoveAuthorisationModal: () => {
+    const intent = OPEN_REMOVE_AUTHORISATION_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  closeRemoveAuthorisationModal: () => {
+    const intent = CLOSE_REMOVE_AUTHORISATION_MODAL;
+    store.dispatch({
+      intent,
+    });
+  },
+
+  removeUserAuthorisation: () => {
+    const intent = DELETE_ONBOARD_USER;
+    store.dispatch({
+      intent,
     });
   },
 });

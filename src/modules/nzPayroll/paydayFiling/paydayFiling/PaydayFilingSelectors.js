@@ -11,6 +11,9 @@ export const getUrlParams = createSelector(getSelectedTab, (selectedTab) => ({
 
 export const getIsBusinessOnboarded = (state) => state.isBusinessOnboarded;
 
+export const getAreMultipleUsersOnboarded = (state) =>
+  state.areMultipleUsersOnboarded;
+
 export const isUserAuthorised = (state) =>
   state.userSession.onboarded && state.userSession.validEhSession;
 
@@ -19,3 +22,8 @@ export const getUserStatusMessage = createSelector(
   (isAuthorised) =>
     isAuthorised ? 'You have authorised MYOB' : 'You have not authorised MYOB'
 );
+
+export const getIsRemoveAuthorisationModalOpen = (state) =>
+  state.removeAuthorisationModalIsOpen;
+
+export const getUserGuid = (state) => state.userSession.userGuid;

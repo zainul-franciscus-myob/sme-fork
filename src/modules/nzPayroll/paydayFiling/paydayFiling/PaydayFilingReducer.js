@@ -1,6 +1,9 @@
 import {
+  CLOSE_REMOVE_AUTHORISATION_MODAL,
   LOAD_PAYDAY_USER_SESSION,
+  OPEN_REMOVE_AUTHORISATION_MODAL,
   SET_ALERT,
+  SET_ARE_MULTIPLE_USERS_ONBOARDED,
   SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_TAB,
@@ -21,6 +24,8 @@ const getDefaultState = () => ({
   tab: '',
   userSession: null,
   [tabIds.eiSubmissions]: getEiSubmissionsDefaultState(),
+  removeAuthorisationModalIsOpen: false,
+  areMultipleUsersOnboarded: false,
 });
 
 const setValidTab = (tab) => {
@@ -62,9 +67,24 @@ const setIsBusinessOnboarded = (state, { isBusinessOnboarded }) => ({
   isBusinessOnboarded,
 });
 
+const setMultipleUsersOnboarded = (state, { areMultipleUsersOnboarded }) => ({
+  ...state,
+  areMultipleUsersOnboarded,
+});
+
 const setUserSession = (state, { userSession }) => ({
   ...state,
   userSession,
+});
+
+const openRemoveAuthorisationModal = (state) => ({
+  ...state,
+  removeAuthorisationModalIsOpen: true,
+});
+
+const closeRemoveAuthorisationModal = (state) => ({
+  ...state,
+  removeAuthorisationModalIsOpen: false,
 });
 
 const handlers = {
@@ -74,8 +94,11 @@ const handlers = {
   [SET_ALERT]: setAlert,
   [SET_TAB]: setTab,
   [SET_IS_BUSINESS_ONBOARDED]: setIsBusinessOnboarded,
+  [SET_ARE_MULTIPLE_USERS_ONBOARDED]: setMultipleUsersOnboarded,
   [LOAD_PAYDAY_USER_SESSION]: setUserSession,
   ...wrapHandlers(tabIds.eiSubmissions, eiSubmissionsHandlers),
+  [OPEN_REMOVE_AUTHORISATION_MODAL]: openRemoveAuthorisationModal,
+  [CLOSE_REMOVE_AUTHORISATION_MODAL]: closeRemoveAuthorisationModal,
 };
 
 const paydayFilingReducer = createReducer(getDefaultState(), handlers);

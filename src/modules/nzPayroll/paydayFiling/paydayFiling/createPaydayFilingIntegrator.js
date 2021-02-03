@@ -1,17 +1,20 @@
 import {
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  DELETE_ONBOARD_USER,
+  LOAD_BUSINESS_ONBOARDED_DETAILS,
   LOAD_PAYDAY_USER_SESSION,
 } from './PaydayFilingIntents';
-import { getBusinessId } from './PaydayFilingSelectors';
+import { getBusinessId, getUserGuid } from './PaydayFilingSelectors';
 
 const createPaydayFilingIntegrator = (store, integration) => ({
-  loadBusinessOnboardedStatus: ({ onSuccess, onFailure }) => {
+  loadBusinessOnboardedDetails: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_BUSINESS_ONBOARDED_DETAILS;
+    const state = store.getState();
     const urlParams = {
-      businessId: getBusinessId(store.getState()),
+      businessId: getBusinessId(state),
     };
 
     integration.read({
-      intent: LOAD_BUSINESS_ONBOARDED_STATUS,
+      intent,
       urlParams,
       onSuccess,
       onFailure,
@@ -23,6 +26,22 @@ const createPaydayFilingIntegrator = (store, integration) => ({
     const state = store.getState();
     const urlParams = {
       businessId: getBusinessId(state),
+    };
+
+    integration.read({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  removeUserAuthorisation: ({ onSuccess, onFailure }) => {
+    const intent = DELETE_ONBOARD_USER;
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      userGuid: getUserGuid(state),
     };
 
     integration.read({

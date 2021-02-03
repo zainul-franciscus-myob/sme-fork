@@ -1,17 +1,22 @@
 import { mount } from 'enzyme';
 
 import {
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  DELETE_ONBOARD_USER,
+  LOAD_BUSINESS_ONBOARDED_DETAILS,
   LOAD_PAYDAY_USER_SESSION,
 } from '../PaydayFilingIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
+import InlandRevenueSettingsActions from '../inlandRevenueSettings/components/InlandRevenueSettingsActions';
 import InlandRevenueSettingsView from '../inlandRevenueSettings/components/InlandRevenueSettingsView';
 import PaydayFilingModule from '../PaydayFilingModule';
+import RemoveAuthorisationModal from '../components/RemoveAuthorisationModal';
 import RouteName from '../../../../../router/RouteName';
 import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
+import createPaydayFilingIntegrator from '../createPaydayFilingIntegrator';
 import paydayFilingDispatchers from '../createPaydayFilingDispatcher';
 import paydayFilingReducer from '../PaydayFilingReducer';
+import paydayUserSession from '../mappings/data/paydayUserSession.json';
 
 describe('PaydayFilingModule', () => {
   const constructPaydayFilingModule = (
@@ -43,7 +48,12 @@ describe('PaydayFilingModule', () => {
     });
 
     paydayFilingModule.dispatcher = paydayFilingDispatchers(store);
+    paydayFilingModule.integrator = createPaydayFilingIntegrator(
+      store,
+      integration
+    );
     paydayFilingModule.run({});
+    integration.resetRequests();
 
     if (featureToggles.isPaydayFilingEnabled) wrapper.update();
     return {
@@ -82,7 +92,7 @@ describe('PaydayFilingModule', () => {
   describe('Business onboarded status check', () => {
     it('should load payday filing if business is onboarded', () => {
       const { wrapper, integration, module } = constructPaydayFilingModule();
-      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_STATUS, {
+      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_DETAILS, {
         isBusinessOnboarded: true,
       });
       module.run({});
@@ -94,7 +104,7 @@ describe('PaydayFilingModule', () => {
 
     it('should redirect to onboarding page if business is not onboarded', () => {
       const { integration, module } = constructPaydayFilingModule();
-      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_STATUS, {
+      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_DETAILS, {
         isBusinessOnboarded: false,
       });
       module.run({});
@@ -109,7 +119,7 @@ describe('PaydayFilingModule', () => {
     it('should display InlandRevenueSettingsView', () => {
       const { wrapper, integration, module } = constructPaydayFilingModule();
 
-      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_STATUS, {
+      integration.mapSuccess(LOAD_BUSINESS_ONBOARDED_DETAILS, {
         isBusinessOnboarded: true,
       });
 
@@ -127,7 +137,53 @@ describe('PaydayFilingModule', () => {
         .simulate('click');
 
       const component = wrapper.find(InlandRevenueSettingsView);
+      const componentActions = wrapper.find(InlandRevenueSettingsActions);
       expect(component).toHaveLength(1);
+      expect(componentActions).toHaveLength(1);
+    });
+  });
+
+  describe('Integration tests', () => {
+    const context = { businessId: '1' };
+    afterEach(jest.clearAllMocks);
+    it('should delete onboarded user when user clicks remove authorisation', () => {
+      const {
+        store,
+        integration,
+        module,
+        wrapper,
+      } = constructPaydayFilingModule();
+
+      integration.mapSuccess(DELETE_ONBOARD_USER);
+      store.setState({
+        ...store.getState(),
+        removeAuthorisationModalIsOpen: true,
+        userSession: paydayUserSession,
+      });
+      module.run(context);
+      wrapper.update();
+      const removeAuthButton = wrapper
+        .find(RemoveAuthorisationModal)
+        .find({ name: 'removeAuth' })
+        .find('button');
+
+      removeAuthButton.simulate('click');
+
+      expect(integration.getRequests()).toContainEqual(
+        expect.objectContaining({
+          intent: DELETE_ONBOARD_USER,
+          urlParams: {
+            ...context,
+            userGuid: 'eacef4d8-7f5c-4936-a2f8-4383c333304d',
+          },
+        }),
+        expect.objectContaining({
+          intent: LOAD_BUSINESS_ONBOARDED_DETAILS,
+          urlParams: {
+            ...context,
+          },
+        })
+      );
     });
   });
 });

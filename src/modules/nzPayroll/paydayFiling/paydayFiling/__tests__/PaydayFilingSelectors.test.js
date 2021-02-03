@@ -1,5 +1,7 @@
 import {
+  getAreMultipleUsersOnboarded,
   getIsBusinessOnboarded,
+  getIsRemoveAuthorisationModalOpen,
   getUrlParams,
   getUserStatusMessage,
   isUserAuthorised,
@@ -27,6 +29,19 @@ describe('PaydayFilingSelectors', () => {
       const actual = getIsBusinessOnboarded(state);
 
       expect(actual).toEqual(businessOnboardedStatus);
+    });
+  });
+
+  describe('getAreMultipleUsersOnboarded', () => {
+    it('should get the multiple business users onboarded status', () => {
+      const multipleUsersOnboardedStatus = { areMultipleUsersOnboarded: true };
+      const state = {
+        areMultipleUsersOnboarded: multipleUsersOnboardedStatus,
+      };
+
+      const actual = getAreMultipleUsersOnboarded(state);
+
+      expect(actual).toEqual(multipleUsersOnboardedStatus);
     });
   });
 
@@ -127,6 +142,18 @@ describe('PaydayFilingSelectors', () => {
 
         expect(result).toEqual('You have not authorised MYOB');
       });
+    });
+  });
+
+  describe('getRemoveAuthorisationModalIsOpen', () => {
+    it('should get the remove authorisation modal state', () => {
+      const expected = true;
+
+      const state = {
+        removeAuthorisationModalIsOpen: expected,
+      };
+
+      expect(getIsRemoveAuthorisationModalOpen(state)).toEqual(expected);
     });
   });
 });

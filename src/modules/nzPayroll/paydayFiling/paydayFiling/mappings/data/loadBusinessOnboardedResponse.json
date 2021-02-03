@@ -1,3 +1,4 @@
 {
-  "isBusinessOnboarded": true
+  "isBusinessOnboarded": true,
+  "areMultipleUsersOnboarded": false
 }

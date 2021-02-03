@@ -1,5 +1,8 @@
 import {
+  CLOSE_REMOVE_AUTHORISATION_MODAL,
   LOAD_PAYDAY_USER_SESSION,
+  OPEN_REMOVE_AUTHORISATION_MODAL,
+  SET_ARE_MULTIPLE_USERS_ONBOARDED,
   SET_IS_BUSINESS_ONBOARDED,
   SET_TAB,
 } from '../PaydayFilingIntents';
@@ -94,6 +97,25 @@ describe('PaydayFilingReducer', () => {
     });
   });
 
+  describe('setAreMultipleUsersOnboarded', () => {
+    it('should set the multiple users onboarded status', () => {
+      const state = {
+        areMultipleUsersOnboarded: '',
+      };
+
+      const action = {
+        intent: SET_ARE_MULTIPLE_USERS_ONBOARDED,
+        areMultipleUsersOnboarded: true,
+      };
+
+      const result = PaydayFilingReducer(state, action);
+
+      expect(result).toEqual({
+        areMultipleUsersOnboarded: true,
+      });
+    });
+  });
+
   describe('setUserSession', () => {
     it('should set userSession from dispatcher into the state', () => {
       const state = { userSession: null };
@@ -118,6 +140,46 @@ describe('PaydayFilingReducer', () => {
       const result = PaydayFilingReducer(state, action);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('Open remove authorisation modal', () => {
+    it('should set removeAuthorisationModalIsOpen to true', () => {
+      const state = {
+        removeAuthorisationModalIsOpen: false,
+      };
+
+      const action = {
+        intent: OPEN_REMOVE_AUTHORISATION_MODAL,
+      };
+
+      const expected = {
+        removeAuthorisationModalIsOpen: true,
+      };
+
+      const actual = PaydayFilingReducer(state, action);
+
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('Close remove authorisation modal', () => {
+    it('should set removeAuthorisationModalIsOpen to false', () => {
+      const state = {
+        removeAuthorisationModalIsOpen: true,
+      };
+
+      const action = {
+        intent: CLOSE_REMOVE_AUTHORISATION_MODAL,
+      };
+
+      const expected = {
+        removeAuthorisationModalIsOpen: false,
+      };
+
+      const actual = PaydayFilingReducer(state, action);
+
+      expect(actual).toEqual(expected);
     });
   });
 });

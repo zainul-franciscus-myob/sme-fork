@@ -45,6 +45,7 @@ export default class PaydayFilingModule {
       }),
       [tabIds.irdSettings]: new InlandRevenueSettingsModule({
         integration: this.integration,
+        store: this.store,
         context,
       }),
     };
@@ -101,12 +102,13 @@ export default class PaydayFilingModule {
     this.integrator.loadUserSession({ onSuccess, onFailure });
   };
 
-  loadBusinessOnboardedStatus = () => {
+  paydayFilingInit = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     const onSuccess = (response) => {
-      const { isBusinessOnboarded } = response;
+      const { isBusinessOnboarded, areMultipleUsersOnboarded } = response;
       this.dispatcher.setIsBusinessOnboarded(isBusinessOnboarded);
+      this.dispatcher.setMultipleUsersOnboarded(areMultipleUsersOnboarded);
       if (isBusinessOnboarded) {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.loadUserSession();
@@ -120,14 +122,32 @@ export default class PaydayFilingModule {
       this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
     };
 
-    this.integrator.loadBusinessOnboardedStatus({ onSuccess, onFailure });
+    this.integrator.loadBusinessOnboardedDetails({ onSuccess, onFailure });
+  };
+
+  closeRemoveAuthorisationModal = () => {
+    this.dispatcher.closeRemoveAuthorisationModal();
+  };
+
+  onRemoveAuthorisation = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    this.integrator.removeUserAuthorisation({
+      onSuccess: () => {
+        this.closeRemoveAuthorisationModal();
+        this.paydayFilingInit();
+      },
+      onFailure: () => {
+        this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+      },
+    });
   };
 
   run(context) {
     if (this.featureToggles.isPaydayFilingEnabled) {
       this.setupSubModules(context);
       this.dispatcher.setInitialState(context);
-      this.loadBusinessOnboardedStatus();
+      this.paydayFilingInit();
       this.render();
     } else this.redirectToBusinessList();
   }
@@ -140,6 +160,8 @@ export default class PaydayFilingModule {
           onDismissAlert={this.dispatcher.clearAlert}
           onTabSelected={this.setSelectedTab}
           featureToggles={this.featureToggles}
+          onCloseRemoveAuthorisationModal={this.closeRemoveAuthorisationModal}
+          onRemoveAuthorisation={this.onRemoveAuthorisation}
         />
       </Provider>
     );

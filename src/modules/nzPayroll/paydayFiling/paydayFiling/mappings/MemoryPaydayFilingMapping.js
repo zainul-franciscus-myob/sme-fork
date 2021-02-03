@@ -1,5 +1,6 @@
 import {
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  DELETE_ONBOARD_USER,
+  LOAD_BUSINESS_ONBOARDED_DETAILS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYDAY_USER_SESSION,
 } from '../PaydayFilingIntents';
@@ -13,9 +14,14 @@ const loadBusinessOnboarded = ({ onSuccess }) => {
   onSuccess(loadBusinessOnboardedResponse);
 };
 
+const removeUserAuthorisation = ({ onSuccess }) => {
+  onSuccess();
+};
+
 const PaydayFilingMapping = {
   [LOAD_PAYDAY_USER_SESSION]: loadUserSession,
-  [LOAD_BUSINESS_ONBOARDED_STATUS]: loadBusinessOnboarded,
+  [LOAD_BUSINESS_ONBOARDED_DETAILS]: loadBusinessOnboarded,
+  [DELETE_ONBOARD_USER]: removeUserAuthorisation,
   [LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS]: ({ onSuccess }) =>
     onSuccess(loadInitialEiSubmissions),
 };
