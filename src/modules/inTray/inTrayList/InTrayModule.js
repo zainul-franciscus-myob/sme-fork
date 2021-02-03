@@ -30,6 +30,7 @@ import {
   getRegion,
 } from './selectors/InTraySelectors';
 import { getEmail } from './selectors/UploadOptionsSelectors';
+import { trackUserEvent } from '../../../telemetry';
 import InTrayUploadOptionsModalModule from '../inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -291,6 +292,13 @@ export default class InTrayModule {
 
     if (config.SMARTME_TASK) {
       this.globalCallbacks.refreshTaskEvent(true);
+      trackUserEvent({
+        eventName: 'tasks',
+        customProperties: {
+          action: 'create_via_event',
+          task: 'SmartMeLearn',
+        },
+      });
     }
     this.openInSameTab(`/#/${region}/${businessId}/bill/new`);
   };
