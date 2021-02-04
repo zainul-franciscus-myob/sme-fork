@@ -67,7 +67,7 @@ export default class SmartMeLearnModule {
           </Column>
 
           <Column>
-            <LearnVideo hashedId="5tbg16n8ps" />
+            <LearnVideo hashedId="m5y4qkpnzg" />
           </Column>
         </Row>
       </LearnTemplate>
