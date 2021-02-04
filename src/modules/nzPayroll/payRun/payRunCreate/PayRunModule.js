@@ -96,8 +96,7 @@ export default class PayRunModule {
 
     const onSuccess = (response) => {
       if (this.featureToggles.isPaydayFilingEnabled) {
-        const onLoadStatusSuccess = (response2) => {
-          const { isBusinessOnboarded } = response2;
+        const onLoadStatusSuccess = ({ isBusinessOnboarded }) => {
           this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
           this.dispatcher.setIsBusinessOnboarded(isBusinessOnboarded);
           this.dispatcher.startNewPayRun(response);
