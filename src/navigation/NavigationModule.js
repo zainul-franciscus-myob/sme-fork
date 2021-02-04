@@ -4,6 +4,7 @@ import React from 'react';
 import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
+  SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
   SET_LOADING_STATE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
@@ -59,6 +60,8 @@ export default class NavigationModule {
     this.toggleHelp = toggleHelp;
     this.toggleTasks = toggleTasks;
     this.navigateTo = navigateTo;
+    this.shouldDisplayAccountBillingMenuText =
+      featureToggles?.shouldDisplayAccountBillingMenuText;
   }
 
   setLoadingState = (isLoading) => {
@@ -327,6 +330,14 @@ export default class NavigationModule {
     });
   };
 
+  setAccountBillingMenuTextFeatureToggle = () => {
+    this.store.dispatch({
+      intent: SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
+      shouldDisplayAccountBillingMenuText: this
+        .shouldDisplayAccountBillingMenuText,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -338,6 +349,7 @@ export default class NavigationModule {
     this.setPayRunsViewFeatureToggle();
     this.setNzPayrollAccountingFeatureToggle();
     this.setPaydayFilingFeatureToggle();
+    this.setAccountBillingMenuTextFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

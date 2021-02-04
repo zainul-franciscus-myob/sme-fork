@@ -1,6 +1,7 @@
 import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
+  SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
   SET_LOADING_STATE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
@@ -95,9 +96,18 @@ const setPaydayFilingFeatureToggle = (state, { isPaydayFilingEnabled }) => ({
   isPaydayFilingEnabled,
 });
 
+const setAccountBillingMenuTextFeatureToggle = (
+  state,
+  { shouldDisplayAccountBillingMenuText }
+) => ({
+  ...state,
+  shouldDisplayAccountBillingMenuText,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
+  [SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT]: setAccountBillingMenuTextFeatureToggle,
   [SET_ROUTE_INFO]: setRouteInfo,
   [SET_URLS]: setUrls,
   [LOAD_CONFIG]: loadConfig,

@@ -13,6 +13,8 @@ const getEnabledFeatures = (state) => state.enabledFeatures;
 export const getIsReadOnly = (state) => state.isReadOnly;
 const getCurrentRouteName = (state) => state.currentRouteName;
 export const getIsCurrentUserAdvisor = (state) => state.isCurrentUserAdvisor;
+export const getShouldDisplayAccountBillingMenuText = (state) =>
+  state.shouldDisplayAccountBillingMenuText;
 
 const getUrls = (state) => state.urls;
 export const getTrialEndDate = (state) => state.trialEndDate;

@@ -15,3 +15,6 @@ export const SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE = Symbol(
 export const SET_PAYDAY_FILING_FEATURE_TOGGLE = Symbol(
   'Set payday filing feature toggle'
 );
+export const SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT = Symbol(
+  'Display Account Billing Menu Text'
+);

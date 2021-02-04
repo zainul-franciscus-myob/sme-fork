@@ -21,6 +21,7 @@ import {
   getIsCurrentUserAdvisor,
   getIsReadOnly,
   getSerialNumber,
+  getShouldDisplayAccountBillingMenuText,
   getShouldShowMoveToMYOB,
   getShouldShowPaymentDetail,
   getUserEmail,
@@ -74,6 +75,7 @@ const getItems = ({
   shouldShowPaymentDetail,
   urls,
   userEmail,
+  shouldDisplayAccountBillingMenuText,
 }) =>
   [
     urls.businessDetails &&
@@ -135,7 +137,9 @@ const getItems = ({
     shouldShowPaymentDetail &&
       getMenuLink({
         icon: <WalletIcon />,
-        label: 'Billing and payments',
+        label: shouldDisplayAccountBillingMenuText
+          ? 'My account and billing'
+          : 'Billing and Payments',
         target: '_blank',
         url: urls.paymentDetail,
       }),
@@ -215,6 +219,7 @@ const BusinessMenu = ({
   shouldShowPaymentDetail,
   urls,
   userEmail,
+  shouldDisplayAccountBillingMenuText,
 }) => (
   <div className={styles.businessMenu}>
     <Navigation.Menu
@@ -242,6 +247,7 @@ const BusinessMenu = ({
         shouldShowPaymentDetail,
         urls,
         userEmail,
+        shouldDisplayAccountBillingMenuText,
       })}
       onSelect={onMenuSelect}
       active={activeNav === 'business'}
@@ -258,6 +264,9 @@ const mapStateToProps = (state) => ({
   shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
   urls: getBusinessUrls(state),
   userEmail: getUserEmail(state),
+  shouldDisplayAccountBillingMenuText: getShouldDisplayAccountBillingMenuText(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(BusinessMenu);
