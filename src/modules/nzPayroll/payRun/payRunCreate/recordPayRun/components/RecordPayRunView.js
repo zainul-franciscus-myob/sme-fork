@@ -43,19 +43,26 @@ const RecordPayRunView = ({
         }?`}
         testid="testFieldGroup"
       >
-        View the payroll verification report to check everything is correct.
+        <div className={styles.withPaddingBottom}>
+          View the payroll verification report to check everything is correct.
+        </div>
+
         {isPaydayFilingEnabled && !isBusinessOnboarded && (
           <Alert type="info">
-            This business is not connected to Payday filing. To submit
-            employment information to Inland Revenue,{' '}
-            <Button
-              type="link"
-              testid="paydayFilingReportButton"
-              onClick={onOpenPaydayFilingClick}
-            >
-              save pay run and connect to Payday filing
-            </Button>{' '}
-            <b>before</b> recording this pay run.
+            <div className={styles.alertWithLinkButton}>
+              This business is not connected to Payday filing. To submit
+              employment information to Inland Revenue,
+              <Button
+                className={styles.withPaddingRight}
+                type="link"
+                testid="paydayFilingReportButton"
+                onClick={onOpenPaydayFilingClick}
+              >
+                save pay run and connect to Payday filing
+              </Button>
+              <b className={styles.withPaddingRight}>before</b> recording this
+              pay run.
+            </div>
           </Alert>
         )}
       </FieldGroup>

@@ -62,7 +62,7 @@ describe('RecordPayRunActions', () => {
     const wrapper = mountWithProvider(<RecordPayRunActions {...onboarded} />);
     expect(
       wrapper.find({ testid: 'saveWithoutFilingButton' }).first().text()
-    ).toEqual('Record pay run without filing with IR');
+    ).toEqual('Record without filing with IR');
     expect(wrapper.find({ testid: 'saveButton' }).length).toBe(0);
   });
 

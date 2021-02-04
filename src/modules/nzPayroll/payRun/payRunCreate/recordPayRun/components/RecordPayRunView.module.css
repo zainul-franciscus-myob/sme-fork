@@ -1,3 +1,21 @@
 .stepper {
   padding: 1.6rem 0;
 }
+
+.withPaddingBottom {
+  padding-bottom: 0.5em;
+}
+
+.alertWithLinkButton {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  word-spacing: 0.02em;
+}
+
+.withPaddingRight {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-right: 0.15em;
+}

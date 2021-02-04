@@ -49,7 +49,7 @@ const RecordPayRunActions = ({
           onClick={onRecordButtonClick}
           testid="saveWithoutFilingButton"
         >
-          Record pay run without filing with IR
+          Record without filing with IR
         </Button>
       ),
     ]}
