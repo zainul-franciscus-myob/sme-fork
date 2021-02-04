@@ -28,14 +28,10 @@ const SendEInvoiceModal = ({
 }) => {
   const infoBlock = (
     <Alert type="info" className={styles.alertModal}>
-      <h4>Just a few things you should know:</h4>
-      <ul>
-        <li>You can&apos;t edit e-invoices after sending.</li>
-        <li>
-          E-invoice delivery confirmation depends on your customer&apos;s system
-          and won&apos;t be instant.
-        </li>
-      </ul>
+      <p>
+        E-invoice delivery confirmation depends on your customer&apos;s system
+        and and won&apos;t be instant.
+      </p>
     </Alert>
   );
 
