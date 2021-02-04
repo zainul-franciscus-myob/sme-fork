@@ -1,4 +1,4 @@
 .eInvoiceHero {
-  margin-bottom: 1.6rem;
+  margin-bottom: var(--flx-spacing-small);
   max-width: 100%;
 }

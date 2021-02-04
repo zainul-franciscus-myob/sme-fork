@@ -19,6 +19,16 @@ export default (region, cdfguid) => [
     template: 'drawer',
   },
   {
+    action: `/#/${region}/${cdfguid}/smartme/learn`,
+    description:
+      'Auto-compare your energy bills and switch on-line in less than 2 minutes',
+    key: 'InTraySmartME',
+    title: 'Spend less energy finding the right energy plan',
+    closeEvent: 'smartMEUpdated',
+    isComplete: false,
+    template: 'drawer',
+  },
+  {
     action: `/#/${region}/${cdfguid}/account?appcue=-Lu0msE2mc6XUByI2ivu`,
     description:
       'Ensure the right accounts are setup for easy allocation in the future',

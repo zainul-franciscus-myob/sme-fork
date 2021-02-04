@@ -107,7 +107,6 @@ const createInTrayIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-
   generateNewEmail: ({ onSuccess, onFailure }) => {
     const intent = GENERATE_IN_TRAY_EMAIL;
     const businessId = getBusinessId(store.getState());
