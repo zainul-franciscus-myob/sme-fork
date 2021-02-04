@@ -30,16 +30,17 @@ import {
   getRegion,
 } from './selectors/InTraySelectors';
 import { getEmail } from './selectors/UploadOptionsSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { trackUserEvent } from '../../../telemetry';
 import InTrayUploadOptionsModalModule from '../inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import actionTypes from './actionTypes';
-import config from '../../../Config';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import debounce from '../../../common/debounce/debounce';
+import featureToggle from '../../../FeatureToggles';
 import inTrayReducer from './reducer/inTrayReducer';
 import openBlob from '../../../common/blobOpener/openBlob';
 
@@ -290,7 +291,7 @@ export default class InTrayModule {
       inTrayDocumentId: id,
     });
 
-    if (config.SMARTME_TASK) {
+    if (isToggleOn(featureToggle.SmartMeTask)) {
       this.globalCallbacks.refreshTaskEvent(true);
       trackUserEvent({
         eventName: 'tasks',
@@ -300,6 +301,7 @@ export default class InTrayModule {
         },
       });
     }
+
     this.openInSameTab(`/#/${region}/${businessId}/bill/new`);
   };
 

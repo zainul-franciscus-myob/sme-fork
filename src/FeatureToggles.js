@@ -6,4 +6,5 @@ export default Object.freeze({
   FindAndRecode: 'essentials-find-and-recode',
   BankTransactionsAllBankAccounts: 'essentials-banking-all-bank-accounts',
   TaxCodesDetail: 'essentials-tax-codes-crud',
+  SmartMeTask: 'essential-smartme-task-toggle',
 });
