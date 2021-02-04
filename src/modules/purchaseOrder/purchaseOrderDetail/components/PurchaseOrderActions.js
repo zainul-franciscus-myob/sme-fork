@@ -66,7 +66,7 @@ const PurchaseOrderActions = ({
       onSelect={onSaveAndButtonClick}
       toggle={
         <Dropdown.Toggle disabled={isBlocking}>
-          Save and new
+          Save and...
           <Icons.Caret />
         </Dropdown.Toggle>
       }
