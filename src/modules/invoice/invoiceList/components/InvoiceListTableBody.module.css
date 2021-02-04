@@ -2,22 +2,22 @@
   min-height: 60vh;
 }
 
-.warningIcon {  
-  color: var(--flx-palette-crown);  
- }
-
- .warningIcon svg path{  
-  fill: var(--flx-palette-crown);      
+.warningIcon {
+  color: var(--flx-palette-crown);
 }
- 
- .warningIcon svg path:first-child{  
-   fill: var(--flx-palette-pineapple);      
- }
- 
- .icons > * {
-   vertical-align: middle;
- }
- 
- .icons svg:first-child {
-   margin-right: var(--flx-spacing-tiny);
- }
+
+.warningIcon svg path {
+  fill: var(--flx-palette-crown);
+}
+
+.warningIcon svg path:first-child {
+  fill: var(--flx-palette-pineapple);
+}
+
+.icons > * {
+  vertical-align: middle;
+}
+
+.icons svg:first-child {
+  margin-right: var(--flx-spacing-tiny);
+}

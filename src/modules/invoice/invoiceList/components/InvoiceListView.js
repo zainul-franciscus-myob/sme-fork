@@ -12,17 +12,53 @@ import InvoiceListTable from './InvoiceListTable';
 import InvoiceListTableHeader from './InvoiceListTableHeader';
 import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
+import styles from './InvoiceListView.module.css';
 
 const tableConfig = {
-  dateIssued: { columnName: 'Issue date', valign: 'top' },
-  number: { columnName: 'Invoice no', valign: 'top' },
-  customer: { columnName: 'Customer', valign: 'top' },
-  purchaseOrder: { columnName: 'Customer PO no', valign: 'top' },
-  invoiceAmount: { columnName: 'Amount ($)', valign: 'top', align: 'right' },
-  invoiceDue: { columnName: 'Balance due ($)', valign: 'top', align: 'right' },
-  dateDue: { columnName: 'Due date', valign: 'top', align: 'left' },
-  status: { columnName: 'Status', valign: 'middle', align: 'left' },
-  activity: { columnName: 'Activity', valign: 'middle', align: 'left' },
+  dateIssued: {
+    columnName: 'Issue date',
+    valign: 'top',
+  },
+  number: {
+    columnName: 'Invoice no',
+    valign: 'top',
+  },
+  customer: {
+    columnName: 'Customer',
+    valign: 'top',
+  },
+  purchaseOrder: {
+    columnName: 'Customer PO no',
+    valign: 'top',
+    className: styles.columnPurchaseOrder,
+  },
+  invoiceAmount: {
+    columnName: 'Amount ($)',
+    valign: 'top',
+    align: 'right',
+  },
+  invoiceDue: {
+    columnName: 'Balance due ($)',
+    valign: 'top',
+    align: 'right',
+  },
+  dateDue: {
+    columnName: 'Due date',
+    valign: 'top',
+    width: '10rem',
+    textWrap: 'wrap',
+  },
+  status: {
+    columnName: 'Status',
+    valign: 'top',
+    width: '7.5rem',
+    textWrap: 'wrap',
+  },
+  activity: {
+    columnName: 'Activity',
+    valign: 'top',
+    className: styles.columnActivity,
+  },
 };
 
 const InvoiceListView = ({
