@@ -1,17 +1,19 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import Config from '../../../Config';
 import SmartMeLearnView from './components/SmartMeLearnView';
 import Store from '../../../store/Store';
 import createSmartMeDispatcher from './createSmartMeDispatcher';
 import smartMeReducer from './smartMeReducer';
 
 export default class SmartMeLearnModule {
-  constructor({ setRootView, globalCallbacks }) {
+  constructor({ setRootView, globalCallbacks, navigateTo }) {
     this.setRootView = setRootView;
     this.store = new Store(smartMeReducer);
     this.dispatcher = createSmartMeDispatcher(this.store);
     this.globalCallbacks = globalCallbacks;
+    this.navigateTo = navigateTo;
   }
 
   onClick = () => {
@@ -24,7 +26,10 @@ export default class SmartMeLearnModule {
   };
 
   onOpenRedirectToSmartMe = () => {
-    // todo implement in PBM-842
+    this.dispatcher.closeSmartMeRedirectModal();
+    const url = Config.SMART_ME_URL;
+    const openInNewTab = true;
+    this.navigateTo(url, openInNewTab);
   };
 
   render = () => {
