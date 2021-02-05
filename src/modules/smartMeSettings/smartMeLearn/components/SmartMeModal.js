@@ -12,11 +12,10 @@ const SmartMeModal = ({ onCancelButtonClick, onContinueButtonClick }) => (
       </div>
       <div className={style.headerOnly}>
         You&apos;re now being taken to one of MYOB&apos;s
-      </div>
-      <div className={style.headerOnly}>
+        <br />
         trusted partners to continue the sign up*
       </div>
-      <p />
+
       <div className={style.disclaimer}>
         <em>
           *You are being re-directed to a third-party supplier of products or

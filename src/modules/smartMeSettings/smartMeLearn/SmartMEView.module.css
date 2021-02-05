@@ -1,19 +1,16 @@
 .headerOnly {
   font-weight: var(--flx-font-weight-bold);
   font-size: var(--flx-font-size-heading-medium);
+
   text-align: center;
 }
-.headerOnly > div > h1 {
-  font-family: 'SF Pro Text' !important;
-  font-size: '24' !important;
-  font-weight: 'bold' !important;
-}
 .disclaimer {
-  font-size: 0.8em;
+  margin-top: var(--flx-spacing-x-large);
+  font-size: var(--flx-font-size-text-small);
 }
 .imageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 16px;
+  padding-bottom: var(--flx-spacing-tiny);
 }

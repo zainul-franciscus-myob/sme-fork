@@ -57,7 +57,7 @@ const SmartMeLearnView = ({
         <LearnCallToAction>
           <ButtonRow
             secondary={[
-              <Button type="primary" key="setupPayroll" onClick={onClick}>
+              <Button type="primary" key="connectBills" onClick={onClick}>
                 Connect bills
               </Button>,
             ]}
