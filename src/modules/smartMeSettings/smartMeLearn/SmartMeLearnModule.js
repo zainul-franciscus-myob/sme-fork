@@ -31,6 +31,13 @@ export default class SmartMeLearnModule {
 
   onCloseModal = () => {
     this.dispatcher.closeSmartMeRedirectModal();
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_cancelOpenSmartMePortal',
+        page: 'smartMe/learning',
+      },
+    });
   };
 
   onOpenRedirectToSmartMe = () => {
@@ -38,6 +45,13 @@ export default class SmartMeLearnModule {
     const url = Config.SMART_ME_URL;
     const openInNewTab = true;
     this.navigateTo(url, openInNewTab);
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_continueOpenSmartMePortal',
+        page: 'smartMe/learning',
+      },
+    });
   };
 
   render = () => {
