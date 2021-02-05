@@ -8,6 +8,7 @@ import {
   getTableEntries,
 } from '../selectors/InTrayListSelectors';
 import DropZoneHorizontal from '../../../../components/DropZone/DropZoneHorizontal';
+import ScanIcon from '../../../../components/Icon/scan-icon/ScanIcon';
 import actionTypes from '../actionTypes';
 import styles from './InTrayListTableBody.module.css';
 
@@ -24,10 +25,17 @@ const ThumbnailComponent = ({ isUploading, thumbnailUri, alt }) => {
   );
 };
 
-const LoadingComponent = () => (
+const UploadingComponent = () => (
   <div className={styles.loading}>
     <Spinner size="small" />
-    <span>Processing</span>
+    <span>Uploading</span>
+  </div>
+);
+
+const ScanningComponent = () => (
+  <div className={styles.loading}>
+    <ScanIcon />
+    <span>Scanning</span>
   </div>
 );
 
@@ -43,8 +51,12 @@ const UploadDateComponent = ({
   isOcrInProgress,
   isSubmitting,
 }) => {
-  if (isUploading || isOcrInProgress) {
-    return LoadingComponent();
+  if (isUploading) {
+    return UploadingComponent();
+  }
+
+  if (isOcrInProgress) {
+    return ScanningComponent();
   }
 
   if (isSubmitting) {
