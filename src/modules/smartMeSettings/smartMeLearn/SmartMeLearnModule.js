@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { trackUserEvent } from '../../../telemetry';
 import Config from '../../../Config';
 import SmartMeLearnView from './components/SmartMeLearnView';
 import Store from '../../../store/Store';
@@ -19,6 +20,13 @@ export default class SmartMeLearnModule {
   onClick = () => {
     this.globalCallbacks.smartMEUpdated();
     this.dispatcher.openSmartMeRedirectModal();
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_ConnectBills',
+        page: 'smartMe/learning',
+      },
+    });
   };
 
   onCloseModal = () => {
