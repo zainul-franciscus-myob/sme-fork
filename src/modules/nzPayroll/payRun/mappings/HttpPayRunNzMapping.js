@@ -52,7 +52,7 @@ const PayRunMapping = {
   [LOAD_BUSINESS_ONBOARDED_STATUS]: {
     method: 'GET',
     getPath: ({ businessId }) =>
-      `/${businessId}/nz-payroll/paydayFiling/load_business_onboarded_details`,
+      `/${businessId}/nz-payroll/payRun/load_business_onboarded_details`,
   },
 };
 
