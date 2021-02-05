@@ -30,7 +30,7 @@ const SendEInvoiceModal = ({
     <Alert type="info" className={styles.alertModal}>
       <p>
         E-invoice delivery confirmation depends on your customer&apos;s system
-        and and won&apos;t be instant.
+        and won&apos;t be instant.
       </p>
     </Alert>
   );
