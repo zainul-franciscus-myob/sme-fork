@@ -1,5 +1,4 @@
 export default Object.freeze({
-  BankTransactionsPagination: 'bank-transactions-pagination',
   BankLinkPayee: 'banklink-payee',
   InProductBankFeeds: 'in-product-bank-feeds',
   RecurringTransactions: 'essentials-recurring-transactions',

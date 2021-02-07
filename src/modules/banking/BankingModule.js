@@ -1852,8 +1852,6 @@ export default class BankingModule {
   /* */
 
   run(context) {
-    const hasPagination = isToggleOn(FeatureToggle.BankTransactionsPagination);
-
     const isPrefillSplitAllocationEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
       isEarlyAccess: isToggleOn(FeatureToggle.BankLinkPayee),
@@ -1865,7 +1863,6 @@ export default class BankingModule {
 
     this.dispatcher.setInitialState({
       ...context,
-      hasPagination,
       hasAllBankAccounts,
       isPrefillSplitAllocationEnabled,
     });

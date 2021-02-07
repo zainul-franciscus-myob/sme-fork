@@ -503,8 +503,6 @@ export const getLoadMoreButtonStatus = (state) => {
   return LoadMoreButtonStatuses.SHOWN;
 };
 
-const getHasPagination = (state) => state.hasPagination;
-
 export const getHasAllBankAccounts = (state) => state.hasAllBankAccounts;
 
 export const getLoadBankBalancesUrlParams = createSelector(
@@ -517,12 +515,10 @@ export const getLoadBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  getHasPagination,
-  (filterOptions, sortOrder, orderBy, hasPagination) => ({
+  (filterOptions, sortOrder, orderBy) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
-    hasPagination,
   })
 );
 
@@ -540,13 +536,11 @@ export const getLoadBankTransactionsNextPageParams = createSelector(
   getSortOrder,
   getOrderBy,
   getOffset,
-  getHasPagination,
-  (filterOptions, sortOrder, orderBy, offset, hasPagination) => ({
+  (filterOptions, sortOrder, orderBy, offset) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset,
-    hasPagination,
   })
 );
 
@@ -558,13 +552,11 @@ export const getFilterBankTransactionsParams = createSelector(
   getFilterOptions,
   getSortOrder,
   getOrderBy,
-  getHasPagination,
-  (filterOptions, sortOrder, orderBy, hasPagination) => ({
+  (filterOptions, sortOrder, orderBy) => ({
     ...filterOptions,
     sortOrder,
     orderBy,
     offset: 0,
-    hasPagination,
   })
 );
 
@@ -577,7 +569,6 @@ export const getSortBankTransactionsParams = (state, orderBy) => ({
   sortOrder: getFlipSortOrder(state),
   orderBy,
   offset: 0,
-  hasPagination: getHasPagination(state),
 });
 
 export const getIsSelected = (state, index) =>
