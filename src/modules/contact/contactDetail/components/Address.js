@@ -37,6 +37,7 @@ const Address = ({
   phoneNumbers,
   fax,
   email,
+  website,
   hasAddPhoneButton,
   isStateDropdown,
   stateOptions,
@@ -137,6 +138,13 @@ const Address = ({
           phoneNumbers={phoneNumbers}
           hasAddPhoneButton={hasAddPhoneButton}
           onPhoneNumbersChange={onPhoneNumberChange(onAddressChange)}
+        />
+        <Input
+          name="website"
+          label="Website"
+          value={website}
+          onChange={onInputChange(onAddressChange)}
+          width="lg"
         />
       </fieldset>
     </FieldGroup>
