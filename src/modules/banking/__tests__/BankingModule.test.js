@@ -335,7 +335,6 @@ describe('BankingModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             isPrefillSplitAllocationEnabled: true,
-            hasAllBankAccounts: true,
           },
         },
         {
@@ -389,7 +388,6 @@ describe('BankingModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             isPrefillSplitAllocationEnabled: true,
-            hasAllBankAccounts: true,
           },
         },
         {

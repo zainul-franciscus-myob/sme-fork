@@ -1857,13 +1857,8 @@ export default class BankingModule {
       isEarlyAccess: isToggleOn(FeatureToggle.BankLinkPayee),
     });
 
-    const hasAllBankAccounts = isToggleOn(
-      FeatureToggle.BankTransactionsAllBankAccounts
-    );
-
     this.dispatcher.setInitialState({
       ...context,
-      hasAllBankAccounts,
       isPrefillSplitAllocationEnabled,
     });
 

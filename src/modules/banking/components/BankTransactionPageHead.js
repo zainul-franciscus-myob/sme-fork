@@ -12,7 +12,6 @@ import {
   getActiveBankAccounts,
   getBankAccountForPageHead,
   getDisplayBalances,
-  getHasAllBankAccounts,
 } from '../selectors';
 import { getBankReconciliationUrl } from '../selectors/redirectSelectors';
 import AccountCombobox from '../../../components/combobox/AccountCombobox';
@@ -31,7 +30,6 @@ const BankTransactionPageHead = ({
   balances: { bankBalance, myobBalance, unallocated, balanceTooltip },
   onBankAccountChange,
   onImportStatementButtonClick,
-  hasAllBankAccounts,
 }) => {
   const totalItems = [
     <Tooltip>{balanceTooltip}</Tooltip>,
@@ -52,19 +50,10 @@ const BankTransactionPageHead = ({
     />,
   ];
 
-  const accountCombobox = hasAllBankAccounts ? (
+  const accountCombobox = (
     <AccountCombobox
       hintText="All"
       hasAllItem
-      items={bankAccounts}
-      selectedId={bankAccount}
-      onChange={onComboBoxChange(onBankAccountChange)}
-      label="Bank account"
-      hideLabel={false}
-      className={styles.accountCombobox}
-    />
-  ) : (
-    <AccountCombobox
       items={bankAccounts}
       selectedId={bankAccount}
       onChange={onComboBoxChange(onBankAccountChange)}
@@ -106,7 +95,6 @@ const mapStateToProps = (state) => ({
   bankAccounts: getActiveBankAccounts(state),
   balances: getDisplayBalances(state),
   bankReconciliationUrl: getBankReconciliationUrl(state),
-  hasAllBankAccounts: getHasAllBankAccounts(state),
 });
 
 export default connect(mapStateToProps)(BankTransactionPageHead);

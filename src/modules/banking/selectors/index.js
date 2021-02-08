@@ -503,8 +503,6 @@ export const getLoadMoreButtonStatus = (state) => {
   return LoadMoreButtonStatuses.SHOWN;
 };
 
-export const getHasAllBankAccounts = (state) => state.hasAllBankAccounts;
-
 export const getLoadBankBalancesUrlParams = createSelector(
   getBusinessId,
   getBankAccount,
