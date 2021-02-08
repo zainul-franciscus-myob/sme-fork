@@ -41,10 +41,8 @@ import {
   getURLParams,
 } from './selectors/transactionListSelectors';
 import { getIsCreditsAndDebitsLoaded } from './selectors/creditsAndDebitsSelectors';
-import { isToggleOn } from '../../splitToggle';
 import { loadSettings, saveSettings } from '../../store/localStorageDriver';
 import { mapTab } from './tabItems';
-import FeatureToggles from '../../FeatureToggles';
 import FindAndRecodeModule from './findAndRecode/FindAndRecodeModule';
 import LoadingState from '../../components/PageView/LoadingState';
 import ModalType from './findAndRecode/types/ModalType';
@@ -406,11 +404,9 @@ export default class TransactionListModule {
       RouteName.TRANSACTION_LIST
     );
 
-    const isFindAndRecodeEnabled = isToggleOn(FeatureToggles.FindAndRecode);
     this.setInitialState(
       {
         ...context,
-        isFindAndRecodeEnabled,
       },
       settings
     );

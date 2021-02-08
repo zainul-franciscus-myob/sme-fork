@@ -46,6 +46,5 @@ export const getDefaultState = () => ({
     loadMoreButtonStatus: LoadMoreButtonStatuses.HIDDEN,
     pagination: {},
   },
-  isFindAndRecodeEnabled: false,
   lastMonthInFinancialYear: undefined,
 });

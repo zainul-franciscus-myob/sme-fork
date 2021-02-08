@@ -98,6 +98,3 @@ export const getFindAndRecodeContext = createSelector(
     taxCodeList,
   })
 );
-
-export const getIsFindAndRecodeEnabled = (state) =>
-  state.isFindAndRecodeEnabled;

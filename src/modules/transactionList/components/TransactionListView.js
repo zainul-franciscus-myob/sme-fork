@@ -5,7 +5,6 @@ import React from 'react';
 import {
   getActiveTab,
   getAlert,
-  getIsFindAndRecodeEnabled,
   getModalType,
 } from '../selectors/transactionListSelectors';
 import { tabItemIds } from '../tabItems';
@@ -26,7 +25,6 @@ const TransactionListView = ({
   onSort,
   onLoadMoreButtonClick,
   onRenderFindAndRecode,
-  isFindAndRecodeEnabled,
   discardAndRedirect,
   closeModal,
   modalType,
@@ -36,16 +34,7 @@ const TransactionListView = ({
       items={[
         { id: tabItemIds.debitsAndCredits, label: 'Debits and credits' },
         { id: tabItemIds.journal, label: 'Transactions' },
-        // destructuring empty array does not add extra element
-        // undefined elements cause Tabs to crash
-        ...(isFindAndRecodeEnabled
-          ? [
-              {
-                id: tabItemIds.findAndRecode,
-                label: 'Find and replace',
-              },
-            ]
-          : []),
+        { id: tabItemIds.findAndRecode, label: 'Find and replace' },
       ]}
       selected={selectedTab}
       onSelected={onTabSelected}
@@ -112,7 +101,6 @@ const TransactionListView = ({
 const mapStateToProps = (state) => ({
   selectedTab: getActiveTab(state),
   alert: getAlert(state),
-  isFindAndRecodeEnabled: getIsFindAndRecodeEnabled(state),
   modalType: getModalType(state),
 });
 

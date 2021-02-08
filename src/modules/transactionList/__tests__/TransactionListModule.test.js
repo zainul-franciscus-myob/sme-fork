@@ -127,9 +127,7 @@ describe('TransactionListModule', () => {
           settings: {
             filterOptions: {},
           },
-          context: {
-            isFindAndRecodeEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_LAST_LOADING_TAB,
@@ -168,9 +166,7 @@ describe('TransactionListModule', () => {
             activeTab: JOURNAL_TRANSACTIONS,
             filterOptions: {},
           },
-          context: {
-            isFindAndRecodeEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_TAB,
@@ -221,9 +217,7 @@ describe('TransactionListModule', () => {
             activeTab: FIND_AND_RECODE,
             filterOptions: {},
           },
-          context: {
-            isFindAndRecodeEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_TAB,
@@ -254,9 +248,7 @@ describe('TransactionListModule', () => {
           settings: {
             filterOptions: {},
           },
-          context: {
-            isFindAndRecodeEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_LAST_LOADING_TAB,
