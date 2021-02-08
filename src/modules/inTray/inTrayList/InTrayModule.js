@@ -291,7 +291,12 @@ export default class InTrayModule {
       inTrayDocumentId: id,
     });
 
-    if (isToggleOn(featureToggle.SmartMeTask)) {
+    const activeBill =
+      state.inTrayList?.entries.find((x) => x.id === id) || null;
+    if (
+      isToggleOn(featureToggle.SmartMeTask) &&
+      activeBill?.abn !== undefined
+    ) {
       this.globalCallbacks.refreshTaskEvent(true);
       trackUserEvent({
         eventName: 'tasks',
