@@ -2,6 +2,8 @@
   position: relative;
   width: var(--flx-spacing-x-large);
   height: var(--flx-spacing-medium);
+  margin-right: var(--flx-spacing-x-tiny);
+  margin-top: -5px;
 }
 
 .bar {
