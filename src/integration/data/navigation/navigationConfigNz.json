@@ -68,7 +68,9 @@
     "productManagementDetail",
     "subscription",
     "appMarketplace",
-    "moveToMYOB"
+    "moveToMYOB",
+    "purchaseOrderList",
+    "purchaseOrderCreate"
   ],
   "isReadOnly": false,
   "isCurrentUserAdvisor": true

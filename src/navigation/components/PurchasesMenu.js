@@ -50,6 +50,15 @@ const getItems = (urls, onMenuLinkClick) => {
     urls.billList && getMenuLink(urls.billList, 'Bills', onMenuLinkClick),
     urls.billCreate &&
       getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
+    urls.purchaseOrderList &&
+      getMenuLink(urls.purchaseOrderList, 'Purchase orders', onMenuLinkClick),
+    urls.purchaseOrderCreate &&
+      getMenuLink(
+        urls.purchaseOrderCreate,
+        'Create purchase order',
+        onMenuLinkClick
+      ),
+
     urls.billPaymentCreate &&
       getMenuLinkWithTrackingEvent(
         urls.billPaymentCreate,

@@ -5,4 +5,5 @@ export default Object.freeze({
   BankTransactionsAllBankAccounts: 'essentials-banking-all-bank-accounts',
   TaxCodesDetail: 'essentials-tax-codes-crud',
   SmartMeTask: 'essential-smartme-task-toggle',
+  PurchaseOrders: 'essentials-purchase-orders',
 });

@@ -27,4 +27,5 @@ export default {
   isJobMakerTabEnabled: true,
   isJobMakerDeclarationEnabled: false,
   shouldDisplayAccountBillingMenuText: true,
+  isPurchaseOrdersEnabled: true,
 };

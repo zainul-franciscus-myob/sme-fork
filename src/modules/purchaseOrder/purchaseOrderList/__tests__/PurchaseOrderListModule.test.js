@@ -32,11 +32,13 @@ describe('PurchaseOrderListModule', () => {
     const popMessages = () => [];
     const store = new TestStore(purchaseOrderListReducer);
     const integration = new TestIntegration();
+    const featureToggles = { isPurchaseOrderEnabled: false };
 
     const module = new PurchaseOrderListModule({
       integration,
       setRootView,
       popMessages,
+      featureToggles,
     });
     module.store = store;
 
@@ -69,7 +71,9 @@ describe('PurchaseOrderListModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: {
+            isPurchaseOrderEnabled: false,
+          },
         },
         expect.objectContaining({
           intent: LOAD_PURCHASE_ORDER_LIST,
@@ -92,7 +96,7 @@ describe('PurchaseOrderListModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {},
+          context: { isPurchaseOrderEnabled: false },
         },
         { intent: LOAD_PURCHASE_ORDER_LIST_FAIL },
       ]);

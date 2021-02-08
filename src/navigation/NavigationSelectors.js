@@ -277,12 +277,19 @@ export const getShouldShowPaymentDetail = createSelector(
   (businessUrls, isTrial) => Boolean(businessUrls.paymentDetail) && !isTrial
 );
 
+const getIsPurchaseOrderEnabled = (state) => state.isPurchaseOrderEnabled;
+
 export const getPurchasesUrls = createSelector(
   getEnabledUrls,
-  (enabledUrls) => {
+  getIsPurchaseOrderEnabled,
+  (enabledUrls, isPurchaseOrderEnabled) => {
     return {
-      purchaseOrderList: enabledUrls.purchaseOrderList,
-      purchaseOrderCreate: enabledUrls.purchaseOrderCreate,
+      purchaseOrderList: isPurchaseOrderEnabled
+        ? enabledUrls.purchaseOrderList
+        : undefined,
+      purchaseOrderCreate: isPurchaseOrderEnabled
+        ? enabledUrls.purchaseOrderCreate
+        : undefined,
       billList: enabledUrls.billList,
       billCreate: enabledUrls.billCreate,
       billPaymentCreate: enabledUrls.billPaymentCreate,

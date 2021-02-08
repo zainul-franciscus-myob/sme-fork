@@ -2,6 +2,7 @@ import {
   getBankingUrls,
   getIsNzPayrollOnly,
   getMenuLogoUrl,
+  getPurchasesUrls,
   getSalesUrls,
   getShouldDisplayAccountingMenu,
   getShouldDisplayPayrollMenu,
@@ -63,6 +64,38 @@ describe('NavigationSelectors', () => {
       Object.keys(actual).forEach((key) => {
         expect(actual[key]).toEqual(undefined);
       });
+    });
+
+    it('should not return purchase order list url if feature toggle is off', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isPurchaseOrderEnabled: false,
+        enabledFeatures: ['purchaseOrderList'],
+        urls: { purchaseOrderList: 'some-url' },
+        currentRouteName: 'purchaseOrder/purchaseOrderList',
+      };
+
+      const actual = getPurchasesUrls(state);
+      expect(actual.purchaseOrderList).toBeUndefined();
+    });
+
+    it('should return purchase order list url if feature toggle is on and feature is returned as enabled from bff', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isPurchaseOrderEnabled: true,
+        enabledFeatures: ['purchaseOrderList'],
+        urls: { purchaseOrderList: 'some-url' },
+        currentRouteName: 'purchaseOrder/purchaseOrderList',
+      };
+
+      const actual = getPurchasesUrls(state);
+      expect(actual.purchaseOrderList).toBeDefined();
     });
 
     it('should not return recurring transaction sales list url if feature toggle is off', () => {

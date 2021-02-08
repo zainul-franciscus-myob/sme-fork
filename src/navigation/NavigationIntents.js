@@ -18,3 +18,6 @@ export const SET_PAYDAY_FILING_FEATURE_TOGGLE = Symbol(
 export const SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT = Symbol(
   'Display Account Billing Menu Text'
 );
+export const SET_PURCHASE_ORDER_FEATURE_TOGGLE = Symbol(
+  'Set purchase order feature toggle'
+);

@@ -121,3 +121,10 @@ export const getLoadMoreButtonStatus = (state) => {
   }
   return LoadMoreButtonStatuses.SHOWN;
 };
+
+const getIsPurchaseOrderEnabled = (state) => state.isPurchaseOrderEnabled;
+
+export const getIsFeatureAvailable = createSelector(
+  getIsPurchaseOrderEnabled,
+  (isPurchaseOrderEnabled) => isPurchaseOrderEnabled
+);

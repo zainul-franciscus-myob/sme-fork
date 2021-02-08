@@ -57,11 +57,13 @@ import {
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/PurchaseOrderModuleSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
@@ -70,6 +72,7 @@ import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import createPurchaseOrderDispatcher from './createPurchaseOrderDispatcher';
 import createPurchaseOrderIntegrator from './createPurchaseOrderIntegrator';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import purchaseOrderReducer from './reducer/purchaseOrderReducer';
@@ -113,6 +116,7 @@ class PurchaseOrderModule {
       onAlert: this.openAlert,
       featureToggles,
     });
+    this.featureToggles = featureToggles;
   }
 
   openAccountModal = (onChange) => {
@@ -917,7 +921,12 @@ class PurchaseOrderModule {
   };
 
   run(context) {
-    this.setInitialState(context);
+    const isPurchaseOrderEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPurchaseOrderEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.PurchaseOrders),
+    });
+
+    this.setInitialState({ ...context, isPurchaseOrderEnabled });
     setupHotKeys(keyMap, {
       SAVE_ACTION: this.savePurchaseOrder,
     });

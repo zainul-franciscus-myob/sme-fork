@@ -11,13 +11,16 @@ import {
   getRegion,
   getSettings,
 } from './purchaseOrderListSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { loadSettings, saveSettings } from '../../../store/localStorageDriver';
+import FeatureToggles from '../../../FeatureToggles';
 import PurchaseOrderListView from './components/PurchaseOrderListView';
 import RouteName from '../../../router/RouteName';
 import Store from '../../../store/Store';
 import createPurchaseOrderListDispatcher from './createPurchaseOrderListDispatcher';
 import createPurchaseOrderListIntegrator from './createPurchaseOrderListIntegrator';
 import debounce from '../../../common/debounce/debounce';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import purchaseOrderListReducer from './purchaseOrderListReducer';
 
 const messageTypes = [
@@ -27,7 +30,7 @@ const messageTypes = [
 ];
 
 export default class PurchaseOrderListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({ integration, setRootView, popMessages, featureToggles }) {
     this.store = new Store(purchaseOrderListReducer);
     this.integrator = createPurchaseOrderListIntegrator(
       this.store,
@@ -37,6 +40,7 @@ export default class PurchaseOrderListModule {
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.featureToggles = featureToggles;
   }
 
   render = () => {
@@ -153,11 +157,19 @@ export default class PurchaseOrderListModule {
   resetState = () => this.dispatcher.resetState();
 
   run(context) {
+    const isPurchaseOrderEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPurchaseOrderEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.PurchaseOrders),
+    });
+
     const settings = loadSettings(
       context.businessId,
       RouteName.PURCHASE_ORDER_LIST
     );
-    this.dispatcher.setInitialState(context, settings);
+    this.dispatcher.setInitialState(
+      { ...context, isPurchaseOrderEnabled },
+      settings
+    );
     this.render();
     this.readMessages();
     this.store.subscribe((state) =>

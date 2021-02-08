@@ -351,3 +351,5 @@ export const getContactComboboxContext = (state) => {
 };
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getIsFeatureAvailable = (state) => state.isPurchaseOrderEnabled;

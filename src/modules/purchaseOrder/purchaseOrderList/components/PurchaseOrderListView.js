@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAlert,
+  getIsFeatureAvailable,
   getLoadMoreButtonStatus,
   getLoadingState,
   getOrder,
@@ -12,6 +13,7 @@ import PageView from '../../../../components/PageView/PageView';
 import PaginatedListTemplate from '../../../../components/PaginatedListTemplate/PaginatedListTemplate';
 import PurchaseOrderListFilterOptions from './PurchaseOrderListFilterOptions';
 import PurchaseOrderListTable from './PurchaseOrderListTable';
+import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
 import style from './PurchaseOrderListView.module.css';
 import widthConfig from './widthConfig';
 
@@ -52,7 +54,12 @@ const PurchaseOrderListView = (props) => {
     onSort,
     onCreateButtonClick,
     onLoadMoreButtonClick,
+    isFeatureAvailable,
   } = props;
+
+  if (!isFeatureAvailable) {
+    return <WrongPageState />;
+  }
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -152,6 +159,7 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   order: getOrder(state),
   loadMoreButtonStatus: getLoadMoreButtonStatus(state),
+  isFeatureAvailable: getIsFeatureAvailable(state),
 });
 
 export default connect(mapStateToProps)(PurchaseOrderListView);

@@ -57,6 +57,7 @@ export const setUp = () => {
   const replaceURLParams = () => {};
   const navigateTo = jest.fn();
   const integration = new TestIntegration();
+  const featureToggles = { isPurchaseOrderEnabled: false };
 
   const module = new PurchaseOrderModule({
     integration,
@@ -65,6 +66,7 @@ export const setUp = () => {
     popMessages,
     replaceURLParams,
     navigateTo,
+    featureToggles,
   });
   const store = new TestStore(purchaseOrderReducer);
   module.store = store;
@@ -145,6 +147,7 @@ describe('PurchaseOrderModule', () => {
         recordPurchaseOrderPayment: {
           isElectronicPaymentEnabled: false,
         },
+        isPurchaseOrderEnabled: false,
       };
       module.run(context);
 
@@ -173,6 +176,7 @@ describe('PurchaseOrderModule', () => {
         recordPurchaseOrderPayment: {
           isElectronicPaymentEnabled: false,
         },
+        isPurchaseOrderEnabled: false,
       };
       module.run(context);
 
@@ -216,6 +220,7 @@ describe('PurchaseOrderModule', () => {
           recordPurchaseOrderPayment: {
             isElectronicPaymentEnabled: false,
           },
+          isPurchaseOrderEnabled: false,
         };
         module.run(context);
 
@@ -255,6 +260,7 @@ describe('PurchaseOrderModule', () => {
         recordPurchaseOrderPayment: {
           isElectronicPaymentEnabled: false,
         },
+        isPurchaseOrderEnabled: false,
       };
       module.run(context);
 
@@ -310,6 +316,7 @@ describe('PurchaseOrderModule', () => {
         recordPurchaseOrderPayment: {
           isElectronicPaymentEnabled: false,
         },
+        isPurchaseOrderEnabled: false,
       };
 
       module.run(context);

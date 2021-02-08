@@ -6,6 +6,7 @@ import {
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_PAYDAY_FILING_FEATURE_TOGGLE,
+  SET_PURCHASE_ORDER_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -104,6 +105,11 @@ const setAccountBillingMenuTextFeatureToggle = (
   shouldDisplayAccountBillingMenuText,
 });
 
+const setPurchaseOrderFeatureToggle = (state, { isPurchaseOrderEnabled }) => ({
+  ...state,
+  isPurchaseOrderEnabled,
+});
+
 const handlers = {
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_NAVIGATION_CONFIG]: loadBusinessDetails,
@@ -115,6 +121,7 @@ const handlers = {
   [SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE]: setPayRunsViewFeatureToggle,
   [SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE]: setNzPayrollAccountingFeatureToggle,
   [SET_PAYDAY_FILING_FEATURE_TOGGLE]: setPaydayFilingFeatureToggle,
+  [SET_PURCHASE_ORDER_FEATURE_TOGGLE]: setPurchaseOrderFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);

@@ -77,7 +77,9 @@
     "productManagementDetail",
     "subscription",
     "appMarketplace",
-    "moveToMYOB"
+    "moveToMYOB",
+    "purchaseOrderList",
+    "purchaseOrderCreate"
   ],
   "isTrial": false,
   "isReadOnly": true,

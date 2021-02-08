@@ -9,6 +9,7 @@ import {
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_PAYDAY_FILING_FEATURE_TOGGLE,
+  SET_PURCHASE_ORDER_FEATURE_TOGGLE,
   SET_RECURRING_TRANSACTION_FEATURE_TOGGLE,
   SET_ROUTE_INFO,
   SET_URLS,
@@ -297,6 +298,18 @@ export default class NavigationModule {
     });
   };
 
+  setPurchaseOrderFeatureToggle = () => {
+    const isPurchaseOrderEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPurchaseOrderEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.PurchaseOrders),
+    });
+
+    this.store.dispatch({
+      intent: SET_PURCHASE_ORDER_FEATURE_TOGGLE,
+      isPurchaseOrderEnabled,
+    });
+  };
+
   setPayRunsViewFeatureToggle = () => {
     const isNzPayRunsViewEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isNzPayRunsViewEnabled,
@@ -350,6 +363,7 @@ export default class NavigationModule {
     this.setNzPayrollAccountingFeatureToggle();
     this.setPaydayFilingFeatureToggle();
     this.setAccountBillingMenuTextFeatureToggle();
+    this.setPurchaseOrderFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });
