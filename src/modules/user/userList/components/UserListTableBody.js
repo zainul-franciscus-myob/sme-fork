@@ -2,13 +2,19 @@ import { Badge, Button, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getIsSubmitting, getTableEntries } from '../userListSelectors';
+import {
+  getCurrentOnlineUserType,
+  getIsSubmitting,
+  getShouldShowActionColumn,
+  getTableEntries,
+} from '../userListSelectors';
 
 const UserListTableBody = (props) => {
   const {
     tableConfig,
     entries,
     isSubmitting,
+    shouldShowActionColumn,
     onResendInvitation,
     onCancelInvitation,
     onRemoveAccessClick,
@@ -44,15 +50,6 @@ const UserListTableBody = (props) => {
     </Button>
   );
 
-  const resendOrCancelEnabled = (user) =>
-    user.myDotInvitationSatus === 'Pending';
-
-  const removeButtonEnabled = (user) =>
-    user.myDotInvitationSatus === 'Accepted' &&
-    user.myDotInvitationType !== 'Owner' &&
-    user.myDotInvitationType !== 'AdminUser' &&
-    !user.isCurrentUser;
-
   const rows = entries.map((user, userIndex) => (
     <Table.Row key={user.id}>
       <Table.RowItem {...tableConfig.name}>
@@ -67,14 +64,16 @@ const UserListTableBody = (props) => {
           <Badge color="light-grey">{user.status}</Badge>
         )}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.action}>
-        {resendOrCancelEnabled(user) && (
-          <ResendOrCancelButtons userIndex={userIndex} />
-        )}
-        {removeButtonEnabled(user) && (
-          <RemoveAccessButton userIndex={userIndex} />
-        )}
-      </Table.RowItem>
+      {shouldShowActionColumn && (
+        <Table.RowItem {...tableConfig.action}>
+          {user.resendOrCancelEnabled && (
+            <ResendOrCancelButtons userIndex={userIndex} />
+          )}
+          {user.removeButtonEnabled && (
+            <RemoveAccessButton userIndex={userIndex} />
+          )}
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 
@@ -84,6 +83,8 @@ const UserListTableBody = (props) => {
 const mapStateToProps = (state, props) => ({
   entries: getTableEntries(state, props),
   isSubmitting: getIsSubmitting(state),
+  shouldShowActionColumn: getShouldShowActionColumn(state),
+  currentOnlineUserType: getCurrentOnlineUserType(state),
 });
 
 export default connect(mapStateToProps)(UserListTableBody);

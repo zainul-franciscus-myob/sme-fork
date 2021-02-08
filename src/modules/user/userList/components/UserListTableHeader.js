@@ -2,9 +2,14 @@ import { HeaderSort, Table } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getOrder } from '../userListSelectors';
+import { getOrder, getShouldShowActionColumn } from '../userListSelectors';
 
-const UserListTableHeader = ({ order, onSort, tableConfig }) => (
+const UserListTableHeader = ({
+  order,
+  onSort,
+  tableConfig,
+  shouldShowActionColumn,
+}) => (
   <Table>
     <Table.Header>
       <Table.HeaderItem {...tableConfig.name}>
@@ -39,20 +44,23 @@ const UserListTableHeader = ({ order, onSort, tableConfig }) => (
           onSort={onSort}
         />
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.action}>
-        <HeaderSort
-          title={tableConfig.action.columnName}
-          sortName="Action"
-          activeSort={order}
-          onSort={onSort}
-        />
-      </Table.HeaderItem>
+      {shouldShowActionColumn && (
+        <Table.HeaderItem {...tableConfig.action}>
+          <HeaderSort
+            title={tableConfig.action.columnName}
+            sortName="Action"
+            activeSort={order}
+            onSort={onSort}
+          />
+        </Table.HeaderItem>
+      )}
     </Table.Header>
   </Table>
 );
 
 const mapStateToProps = (state) => ({
   order: getOrder(state),
+  shouldShowActionColumn: getShouldShowActionColumn(state),
 });
 
 export default connect(mapStateToProps)(UserListTableHeader);

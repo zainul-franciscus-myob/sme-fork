@@ -17,6 +17,24 @@ export const getIsTableEmpty = ({ entries }) => entries.length === 0;
 
 export const getIsTableLoading = (state) => state.isTableLoading;
 
+export const getCurrentOnlineUserType = (state) => state.currentUserUserType;
+
+const canCurrentUserOperate = (currentUserType, user) =>
+  currentUserType === null ||
+  currentUserType === 'Owner' ||
+  (currentUserType === 'AdminUser' && user.myDotInvitationType === 'FileUser');
+
+const resendOrCancelEnabled = (currentUserType, user) =>
+  canCurrentUserOperate(currentUserType, user) &&
+  user.myDotInvitationStatus === 'Pending';
+
+const removeButtonEnabled = (currentUserType, user) =>
+  canCurrentUserOperate(currentUserType, user) &&
+  user.myDotInvitationStatus === 'Accepted' &&
+  user.myDotInvitationType !== 'Owner' &&
+  user.myDotInvitationType !== 'AdminUser' &&
+  !user.isCurrentUser;
+
 export const getIsCurrentUserOnlineAdmin = (state) =>
   state.isCurrentUserOnlineAdmin;
 
@@ -44,13 +62,16 @@ export const getRegion = (state) => state.region;
 export const getSortOrder = (state) => state.sortOrder;
 
 export const getTableEntries = createSelector(
+  getCurrentOnlineUserType,
   getRegion,
   getBusinessId,
   getEntries,
-  (region, businessId, entries) =>
+  (currentUserUserType, region, businessId, entries) =>
     entries.map((entry) => ({
       ...entry,
       link: `/#/${region}/${businessId}/user/${entry.id}`,
+      resendOrCancelEnabled: resendOrCancelEnabled(currentUserUserType, entry),
+      removeButtonEnabled: removeButtonEnabled(currentUserUserType, entry),
     }))
 );
 
@@ -62,6 +83,9 @@ export const getShouldShowPractices = (state) =>
 export const getShouldShowPracticesError = (state) => state.loadPracticesError;
 
 export const getShouldShowManageMydotUserLink = (state) =>
+  state.currentUserUserType !== 'FileUser';
+
+export const getShouldShowActionColumn = (state) =>
   state.currentUserUserType !== 'FileUser';
 
 export const getMyDotMyobLink = createSelector(

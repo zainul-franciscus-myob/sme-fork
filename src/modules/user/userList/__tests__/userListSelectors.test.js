@@ -2,9 +2,147 @@ import {
   getRemoveAccessModalBody,
   getRemovePracticeAccessModalBody,
   getShouldShowPractices,
+  getTableEntries,
 } from '../userListSelectors';
 
 describe('User List Selectors', () => {
+  describe('getTableEntries', () => {
+    it('should assign user detail link to entry', () => {
+      const state = {
+        businessId: '1111-2222-3333-4444',
+        region: 'AU',
+        entries: [
+          {
+            id: '1',
+          },
+          {
+            id: '2',
+          },
+        ],
+      };
+
+      const actual = getTableEntries(state);
+
+      expect(actual[0].link).toEqual('/#/AU/1111-2222-3333-4444/user/1');
+      expect(actual[1].link).toEqual('/#/AU/1111-2222-3333-4444/user/2');
+    });
+
+    it.each([
+      ['Accepted', false],
+      ['Declined', false],
+      ['Cancelled', false],
+      ['Failed', false],
+      ['Expired', false],
+      ['Revoked', false],
+      ['Pending', true],
+    ])(
+      'when myDotInvitationStatus is %s and current user is AdminUser resendOrCancelEnabled should be %s',
+      (myDotInvitationStatus, expected) => {
+        const state = {
+          currentUserUserType: 'AdminUser',
+          entries: [
+            {
+              myDotInvitationStatus,
+              myDotInvitationType: 'FileUser',
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].resendOrCancelEnabled).toEqual(expected);
+      }
+    );
+
+    it.each([
+      ['Owner', 'AdminUser', true],
+      ['Owner', 'Owner', true],
+      ['Owner', 'FileUser', true],
+      ['AdminUser', 'Owner', false],
+      ['AdminUser', 'AdminUser', false],
+      ['AdminUser', 'FileUser', true],
+      ['FileUser', 'Owner', false],
+      ['FileUser', 'AdminUser', false],
+      ['FileUser', 'FileUser', false],
+      [null, 'FileUser', true],
+    ])(
+      'when currentUserUserType is %s and user is %s and invitationType is Pending, resendOrCancelEnabled should be %s',
+      (currentUserUserType, myDotInvitationType, expected) => {
+        const state = {
+          currentUserUserType,
+          entries: [
+            {
+              myDotInvitationStatus: 'Pending',
+              myDotInvitationType,
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].resendOrCancelEnabled).toEqual(expected);
+      }
+    );
+
+    it.each([
+      ['Accepted', true],
+      ['Declined', false],
+      ['Cancelled', false],
+      ['Failed', false],
+      ['Expired', false],
+      ['Revoked', false],
+      ['Pending', false],
+    ])(
+      'when myDotInvitationStatus is %s and current user is AdminUser and user is FileUser removeButtonEnabled should be %s',
+      (myDotInvitationStatus, expected) => {
+        const state = {
+          currentUserUserType: 'AdminUser',
+          entries: [
+            {
+              myDotInvitationStatus,
+              myDotInvitationType: 'FileUser',
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].removeButtonEnabled).toEqual(expected);
+      }
+    );
+
+    it.each([
+      ['Owner', 'AdminUser', false],
+      ['Owner', 'Owner', false],
+      ['Owner', 'FileUser', true],
+      ['AdminUser', 'Owner', false],
+      ['AdminUser', 'AdminUser', false],
+      ['AdminUser', 'FileUser', true],
+      ['FileUser', 'Owner', false],
+      ['FileUser', 'AdminUser', false],
+      ['FileUser', 'FileUser', false],
+      [null, 'FileUser', true],
+      [null, 'AdminUser', false],
+    ])(
+      'when currentUserUserType is %s and user is %s and invitationType is Accepted, removeButtonEnabled should be %s',
+      (currentUserUserType, myDotInvitationType, expected) => {
+        const state = {
+          currentUserUserType,
+          entries: [
+            {
+              myDotInvitationStatus: 'Accepted',
+              myDotInvitationType,
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].removeButtonEnabled).toEqual(expected);
+      }
+    );
+  });
+
   describe('getShouldShowPractices', () => {
     it('should return false when practices is empty', () => {
       const state = {
