@@ -61,14 +61,14 @@ export const getSaveTaxDetailContent = (state) => ({
   taxCollectedAccountId: state.taxCollectedAccountId,
   taxPaidAccountId: state.taxPaidAccountId,
   linkedContactId: state.linkedContactId,
-  threshold: state.threshold,
+  threshold: state.luxuryCarTax,
   includeInGstReturn: state.includeInGSTReturn,
 });
 
 export const getIsGstReturnShown = createSelector(
   getRegion,
   getTaxType,
-  (region, taxType) => Region.nz && taxType === TaxTypes.GST_VAT
+  (region, taxType) => region === Region.nz && taxType === TaxTypes.GST_VAT
 );
 
 export const getTaxCodeLabel = createSelector(getRegion, (region) =>
