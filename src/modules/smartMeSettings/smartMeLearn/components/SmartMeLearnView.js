@@ -9,9 +9,8 @@ import {
   Row,
 } from '../../../../components/LearnTemplate/LearnTemplate';
 import SmartMeModal from './SmartMeModal';
-import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
+import energyPlan from '../assets/energyPlan.svg';
 import getIsReportingModalOpen from '../smartMeSelectors';
-import styles from './SmartMeLearnView.module.css';
 
 const SmartMeLearnView = ({
   isReportingModalOpen,
@@ -61,11 +60,9 @@ const SmartMeLearnView = ({
         </LearnCallToAction>
       </Column>
       <Column>
-        <WistiaVideoPlayer
-          hashedId="m5y4qkpnzg"
-          className={styles.videoContainer}
-          controlsVisibleOnLoad={false}
-        />
+        <div>
+          <img alt="EnergyPlan" src={energyPlan} />
+        </div>
       </Column>
     </Row>
   </LearnTemplate>
