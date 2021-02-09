@@ -9,8 +9,8 @@ import {
 
 describe('taxDetailSelectors', () => {
   describe('getIsGstReturnShown', () => {
-    it('should be true when nz region', () => {
-      const state = { region: 'nz' };
+    it('should be true when nz region && tax type is gst', () => {
+      const state = { region: 'nz', type: 'GST_VAT' };
       const actual = getIsGstReturnShown(state);
 
       expect(actual).toEqual(true);

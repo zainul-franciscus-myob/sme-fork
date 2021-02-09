@@ -12,7 +12,9 @@ import {
   getAccountOptions,
   getIncludeInGSTReturn,
   getIsGstReturnShown,
+  getIsNTTaxCode,
   getIsReadOnly,
+  getIsSTaxCode,
   getLinkedContactLabel,
   getTaxCodeDetails,
   getTaxCodeLabel,
@@ -26,6 +28,7 @@ import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
 import FormattedAmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import TaxDetailTable from './TaxDetailTable';
+import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 
@@ -40,6 +43,8 @@ const TaxDetailBody = ({
   taxCodeLabel,
   taxTypeLabel,
   isReadOnly,
+  isNTTaxCode,
+  isSTaxCode,
   isGstReturnShown,
   includeInGSTReturn,
   onChangeTaxField,
@@ -73,6 +78,7 @@ const TaxDetailBody = ({
         value={code}
         width="lg"
         maxLength={3}
+        disabled={isNTTaxCode}
         onChange={handleInputChange(onChangeTaxField)}
       />
       <Input
@@ -90,7 +96,7 @@ const TaxDetailBody = ({
         items={taxTypeOptions}
         selected={{ type }}
         width="lg"
-        disabled={isReadOnly}
+        disabled={isReadOnly} // disable all until Edit tax type feature is implemented
       />
       {isTaxRateShown && (
         <AmountInput
@@ -100,6 +106,7 @@ const TaxDetailBody = ({
           value={rate}
           width="lg"
           numeralIntegerScale={3}
+          disabled={isNTTaxCode}
           onChange={handleInputChange(onChangeTaxField)}
         />
       )}
@@ -111,7 +118,8 @@ const TaxDetailBody = ({
               name="includeInGSTReturn"
               label="GST code is reported on GST return"
               checked={includeInGSTReturn}
-              disabled={isReadOnly}
+              disabled={isSTaxCode}
+              onChange={handleCheckboxChange(onChangeTaxField)}
             />
           )}
         />
@@ -142,12 +150,13 @@ const TaxDetailBody = ({
       )}
       {isLinkedContactShown &&
         renderContactCombobox({
+          name: 'linkedContactId',
           selectedId: linkedContactId,
           label: linkedContactLabel,
           hideLabel: false,
           allowClear: true,
           width: 'lg',
-          disabled: { isReadOnly },
+          onChange: handleComboboxChange('linkedContactId', onChangeTaxField),
         })}
       {isLuxuryCarTaxThresholdShown && (
         <FormattedAmountInput
@@ -159,7 +168,7 @@ const TaxDetailBody = ({
           numeralDecimalScaleMin={2}
           numeralDecimalScaleMax={2}
           numeralIntegerScale={13}
-          disabled={isReadOnly}
+          onChange={handleInputChange(onChangeTaxField)}
         />
       )}
       <br />
@@ -181,6 +190,8 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   isGstReturnShown: getIsGstReturnShown(state),
   includeInGSTReturn: getIncludeInGSTReturn(state),
+  isNTTaxCode: getIsNTTaxCode(state),
+  isSTaxCode: getIsSTaxCode(state),
 });
 
 export default connect(mapStateToProps)(TaxDetailBody);

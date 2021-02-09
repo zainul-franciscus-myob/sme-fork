@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 
 import ContactType from '../../contact/contactCombobox/types/ContactType';
 import DisplayMode from '../../contact/contactCombobox/types/DisplayMode';
+import Region from '../../../common/types/Region';
 import TaxTypes, {
   hasChildrenTaxCodes,
   hasLinkedContact,
@@ -27,6 +28,9 @@ export const getIsPageEdited = (state) => state.isPageEdited;
 export const getAlert = (state) => state.alert;
 export const getModal = (state) => state.modal;
 export const getModalUrl = (state) => state.modal?.url;
+export const getIsNTTaxCode = (state) => state.code === 'N-T';
+export const getIsSTaxCode = (state) =>
+  state.code === 'S' || state.code === 'S15';
 
 export const getTaxCodeDetails = (state) => ({
   code: state.code,
@@ -56,19 +60,23 @@ export const getSaveTaxDetailContent = (state) => ({
   rate: state.rate,
   taxCollectedAccountId: state.taxCollectedAccountId,
   taxPaidAccountId: state.taxPaidAccountId,
+  linkedContactId: state.linkedContactId,
+  threshold: state.threshold,
+  includeInGstReturn: state.includeInGSTReturn,
 });
 
 export const getIsGstReturnShown = createSelector(
   getRegion,
-  (region) => region === 'nz'
+  getTaxType,
+  (region, taxType) => Region.nz && taxType === TaxTypes.GST_VAT
 );
 
 export const getTaxCodeLabel = createSelector(getRegion, (region) =>
-  region === 'nz' ? 'GST code' : 'Tax code'
+  region === Region.nz ? 'GST code' : 'Tax code'
 );
 
 export const getTaxTypeLabel = createSelector(getRegion, (region) =>
-  region === 'nz' ? 'GST type' : 'Tax type'
+  region === Region.nz ? 'GST type' : 'Tax type'
 );
 
 export const getTaxCollectedAccountLabel = (state) =>
