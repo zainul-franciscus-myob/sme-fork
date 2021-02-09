@@ -6,11 +6,12 @@ import {
   Column,
   LearnCallToAction,
   LearnTemplate,
-  LearnVideo,
   Row,
 } from '../../../../components/LearnTemplate/LearnTemplate';
 import SmartMeModal from './SmartMeModal';
+import WistiaVideoPlayer from '../../../../components/WistiaVideoPlayer/WistiaVideoPlayer';
 import getIsReportingModalOpen from '../smartMeSelectors';
+import styles from './SmartMeLearnView.module.css';
 
 const SmartMeLearnView = ({
   isReportingModalOpen,
@@ -32,16 +33,12 @@ const SmartMeLearnView = ({
           bill you upload into MYOB with great electricity and gas plans from
           the energy market.
         </p>
-
         <p>It&apos;s quick and easy, no call centers, no lengthy forms.</p>
-
         <p>
           Connect your bills to SmartMe Once and never wonder whether your
           business is paying too much again.
         </p>
-
         <h3>How to connect your bills:</h3>
-
         <ol>
           <li>Click the &apos;Connect bills&apos; button below</li>
           <li>
@@ -53,7 +50,6 @@ const SmartMeLearnView = ({
             connected to within your MYOB account
           </li>
         </ol>
-
         <LearnCallToAction>
           <ButtonRow
             secondary={[
@@ -64,16 +60,17 @@ const SmartMeLearnView = ({
           />
         </LearnCallToAction>
       </Column>
-
       <Column>
-        <LearnVideo hashedId="m5y4qkpnzg" />
+        <WistiaVideoPlayer
+          hashedId="m5y4qkpnzg"
+          className={styles.videoContainer}
+          controlsVisibleOnLoad={false}
+        />
       </Column>
     </Row>
   </LearnTemplate>
 );
-
 const mapStateToProps = (state) => ({
   isReportingModalOpen: getIsReportingModalOpen(state),
 });
-
 export default connect(mapStateToProps)(SmartMeLearnView);

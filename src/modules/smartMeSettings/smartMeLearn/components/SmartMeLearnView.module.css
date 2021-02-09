@@ -1,0 +1,15 @@
+.videoContainer {
+  padding: 0;
+}
+.videoContainer > div {
+  max-width: 100%;
+  position: unset;
+}
+@media screen and (max-width: 800px) {
+  .videoContainer {
+    margin-top: var(--flx-spacing-medium);
+  }
+  .videoContainer > div {
+    position: inherit;
+  }
+}
