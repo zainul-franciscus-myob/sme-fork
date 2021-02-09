@@ -55,23 +55,18 @@ describe('ruleDetailsSelectors', () => {
     it.each([
       [
         'allows on receive money when no condition rule is allowed',
-        true,
         RuleTypes.receiveMoney,
         true,
       ],
       [
         'allows on spend money when no condition rule is allowed',
-        true,
         RuleTypes.spendMoney,
         true,
       ],
-      ['does not allow on bill', true, RuleTypes.bill, false],
-      ['does not allow on invoice', true, RuleTypes.invoice, false],
-    ])('%s', (_, isNoConditionRuleAllowed, ruleType, expected) => {
-      const actual = getIsNoConditionRuleAllowed.resultFunc(
-        isNoConditionRuleAllowed,
-        ruleType
-      );
+      ['does not allow on bill', RuleTypes.bill, false],
+      ['does not allow on invoice', RuleTypes.invoice, false],
+    ])('%s', (_, ruleType, expected) => {
+      const actual = getIsNoConditionRuleAllowed.resultFunc(ruleType);
 
       expect(actual).toEqual(expected);
     });

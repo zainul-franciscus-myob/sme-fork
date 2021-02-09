@@ -35,7 +35,6 @@ const getDefaultState = () => ({
   modal: undefined,
   isPaymentReportable: undefined,
   contactType: undefined,
-  isNoConditionRuleEnabled: false,
   viewedAccountToolTip: false,
 });
 

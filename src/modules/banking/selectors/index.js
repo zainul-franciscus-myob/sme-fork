@@ -53,9 +53,6 @@ export const getWithdrawalAccounts = (state) => state.withdrawalAccounts;
 export const getDepositAccounts = (state) => state.depositAccounts;
 export const getTransferAccounts = (state) => state.transferAccounts;
 
-export const getIsPrefillSplitAllocationEnabled = (state) =>
-  state.isPrefillSplitAllocationEnabled;
-
 export const getBankTableData = createSelector(
   (state) => state.entries.length,
   (len) => Array(len).fill({})
@@ -398,7 +395,6 @@ export const getBankingRuleModuleContext = createSelector(
   getTaxCodes,
   getWithdrawalAccounts,
   getDepositAccounts,
-  getIsPrefillSplitAllocationEnabled,
   (
     businessId,
     region,
@@ -408,8 +404,7 @@ export const getBankingRuleModuleContext = createSelector(
     jobs,
     taxCodes,
     withdrawalAccounts,
-    depositAccounts,
-    isPrefillSplitAllocationEnabled
+    depositAccounts
   ) => {
     const {
       date,
@@ -450,7 +445,6 @@ export const getBankingRuleModuleContext = createSelector(
       taxCodes,
       withdrawalAccounts,
       depositAccounts,
-      isNoConditionRuleAllowed: isPrefillSplitAllocationEnabled,
     };
   }
 );

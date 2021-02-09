@@ -130,27 +130,19 @@ describe('bankingRuleDetailSelectors', () => {
 
   describe('getIsNoConditionRuleAllowed', () => {
     it.each([
-      ['on', true, RuleTypes.spendMoney, true],
-      ['on', true, RuleTypes.receiveMoney, true],
-      ['on', true, RuleTypes.bill, false],
-      ['on', true, RuleTypes.invoice, false],
-      ['off', false, RuleTypes.spendMoney, false],
-      ['off', false, RuleTypes.receiveMoney, false],
-      ['off', false, RuleTypes.bill, false],
-      ['off', false, RuleTypes.invoice, false],
-    ])(
-      'With banklink-payee feature toggle %s, it should return %s',
-      (_, isFeatureToggleOn, ruleType, expected) => {
-        const state = {
-          bankingRuleId: 'new',
-          isNoConditionRuleEnabled: isFeatureToggleOn,
-          ruleType,
-        };
+      [RuleTypes.spendMoney, true],
+      [RuleTypes.receiveMoney, true],
+      [RuleTypes.bill, false],
+      [RuleTypes.invoice, false],
+    ])('When rule type is %s, it should return %s', (ruleType, expected) => {
+      const state = {
+        bankingRuleId: 'new',
+        ruleType,
+      };
 
-        const actual = getIsNoConditionRuleAllowed(state);
-        expect(actual).toEqual(expected);
-      }
-    );
+      const actual = getIsNoConditionRuleAllowed(state);
+      expect(actual).toEqual(expected);
+    });
   });
 
   describe('getAllocationAccounts', () => {

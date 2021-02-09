@@ -15,7 +15,6 @@ export default {
   isJobKeeperTierSuggestionEnabled: true,
   isJobKeeperTierVisualCueEnabled: true,
   isAllowNegativesInPayRuns: true,
-  isBankLinkPayeeEnabled: true,
   isRecurringTransactionEnabled: true,
   isItemBuyingPriceTaxInclusiveEnabled: true,
   isHolidaysAndLeaveLinesEnabled: true,

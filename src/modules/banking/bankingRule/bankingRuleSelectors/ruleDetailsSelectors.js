@@ -163,11 +163,9 @@ export const getAutomatedRuleType = (state) =>
   state.bankingRule.automatedRuleType;
 
 export const getIsNoConditionRuleAllowed = createSelector(
-  (state) => state.isNoConditionRuleAllowed,
   getRuleType,
-  (isNoConditionRuleAllowed, ruleType) =>
-    isNoConditionRuleAllowed &&
-    (ruleType === RuleTypes.receiveMoney || ruleType === RuleTypes.spendMoney)
+  (ruleType) =>
+    ruleType === RuleTypes.receiveMoney || ruleType === RuleTypes.spendMoney
 );
 
 export const getShowAutomatedRuleType = createSelector(

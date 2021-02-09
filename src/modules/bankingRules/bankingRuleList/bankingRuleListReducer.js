@@ -13,7 +13,6 @@ import LoadingState from '../../../components/PageView/LoadingState';
 import createReducer from '../../../store/createReducer';
 
 const getDefaultState = () => ({
-  isNoConditionRuleEnabled: false,
   alert: undefined,
   loadingState: LoadingState.LOADING,
   sortOrder: '',

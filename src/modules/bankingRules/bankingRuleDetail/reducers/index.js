@@ -26,13 +26,7 @@ import getDefaultState from './getDefaultState';
 const resetState = () => getDefaultState();
 
 const setInitialState = (state, { context }) => {
-  const {
-    businessId,
-    region,
-    bankingRuleId,
-    ruleType,
-    isNoConditionRuleEnabled,
-  } = context;
+  const { businessId, region, bankingRuleId, ruleType } = context;
 
   return {
     ...getDefaultState(),
@@ -40,7 +34,6 @@ const setInitialState = (state, { context }) => {
     bankingRuleId,
     region,
     ruleType: ruleType || state.ruleType,
-    isNoConditionRuleEnabled,
   };
 };
 

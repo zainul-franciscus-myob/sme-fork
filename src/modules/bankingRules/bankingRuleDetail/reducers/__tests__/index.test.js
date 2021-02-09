@@ -218,7 +218,6 @@ describe('bankingRuleReducer', () => {
     describe('ruleType', () => {
       it('sets automated rule type', () => {
         const state = {
-          isNoConditionRuleEnabled: true,
           automatedRuleType: AutomatedRuleTypes.MANUAL,
         };
 
@@ -233,22 +232,8 @@ describe('bankingRuleReducer', () => {
         expect(actual.automatedRuleType).toEqual(AutomatedRuleTypes.MANUAL);
       });
 
-      it('defaults automated rule type if early access is disabled', () => {
-        const state = { isNoConditionRuleEnabled: false };
-
-        const action = {
-          intent: UPDATE_FORM,
-          key: 'ruleType',
-          value: RuleTypes.spendMoney,
-        };
-
-        const actual = bankingRuleDetailReducer(state, action);
-
-        expect(actual.automatedRuleType).toEqual(AutomatedRuleTypes.AUTOMATED);
-      });
-
       it('defaults automated rule type if rule type is not support', () => {
-        const state = { isNoConditionRuleEnabled: true };
+        const state = {};
 
         const action = {
           intent: UPDATE_FORM,

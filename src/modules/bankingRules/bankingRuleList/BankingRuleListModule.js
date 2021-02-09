@@ -6,16 +6,13 @@ import {
   SUCCESSFULLY_SAVED_BANKING_RULE,
 } from '../../../common/types/MessageTypes';
 import { getSelectedBankingRuleUrl } from './BankingRuleListSelectors';
-import { isToggleOn } from '../../../splitToggle';
 import BankingRuleListView from './components/BankingRuleListView';
-import FeatureToggles from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import bankingRuleListReducer from './bankingRuleListReducer';
 import createBankingRuleListDispatcher from './createBankingRuleListDispatcher';
 import createBankingRuleListIntegrator from './createBankingRuleListIntegrator';
 import debounce from '../../../common/debounce/debounce';
-import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 
 const messageTypes = [
   SUCCESSFULLY_DELETED_BANKING_RULE,
@@ -23,13 +20,12 @@ const messageTypes = [
 ];
 
 export default class BankingRuleListModule {
-  constructor({ integration, setRootView, popMessages, featureToggles }) {
+  constructor({ integration, setRootView, popMessages }) {
     this.setRootView = setRootView;
     this.store = new Store(bankingRuleListReducer);
     this.popMessages = popMessages;
     this.dispatcher = createBankingRuleListDispatcher(this.store);
     this.integrator = createBankingRuleListIntegrator(this.store, integration);
-    this.featureToggles = featureToggles;
   }
 
   loadBankingList = () => {
@@ -134,12 +130,7 @@ export default class BankingRuleListModule {
   };
 
   run(context) {
-    const isNoConditionRuleEnabled = isFeatureEnabled({
-      isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
-      isEarlyAccess: isToggleOn(FeatureToggles.BankLinkPayee),
-    });
-
-    this.dispatcher.setInitialState({ isNoConditionRuleEnabled, ...context });
+    this.dispatcher.setInitialState(context);
     this.render();
     this.readMessages();
     this.loadBankingList();

@@ -333,9 +333,7 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {
-            isPrefillSplitAllocationEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_LOADING_STATE,
@@ -386,9 +384,7 @@ describe('BankingModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: {
-            isPrefillSplitAllocationEnabled: true,
-          },
+          context: {},
         },
         {
           intent: SET_LOADING_STATE,

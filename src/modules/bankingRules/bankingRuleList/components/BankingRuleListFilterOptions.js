@@ -4,7 +4,6 @@ import React from 'react';
 
 import {
   getFilterOptions,
-  getIsNoConditionRuleEnabled,
   getRuleIntentOptions,
 } from '../BankingRuleListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
@@ -18,22 +17,19 @@ const BankingRuleListFilterOptions = ({
   onResetFilters,
   filterOptions: { ruleIntent, keywords, showInactive },
   ruleIntentOptions,
-  isNoConditionRuleEnabled,
 }) => (
   <FilterBar onReset={onResetFilters}>
-    {isNoConditionRuleEnabled && (
-      <Select
-        name="ruleIntent"
-        label="Rule type"
-        value={ruleIntent}
-        onChange={handleSelectChange(onUpdateFilters)}
-      >
-        <Select.Option value="" label="All" key="All" />
-        {ruleIntentOptions.map(({ label, value }) => (
-          <Select.Option value={value} label={label} key={value} />
-        ))}
-      </Select>
-    )}
+    <Select
+      name="ruleIntent"
+      label="Rule type"
+      value={ruleIntent}
+      onChange={handleSelectChange(onUpdateFilters)}
+    >
+      <Select.Option value="" label="All" key="All" />
+      {ruleIntentOptions.map(({ label, value }) => (
+        <Select.Option value={value} label={label} key={value} />
+      ))}
+    </Select>
     <FilterBarSearch
       name="keywords"
       value={keywords}
@@ -53,7 +49,6 @@ const BankingRuleListFilterOptions = ({
 const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   ruleIntentOptions: getRuleIntentOptions(state),
-  isNoConditionRuleEnabled: getIsNoConditionRuleEnabled(state),
 });
 
 export default connect(mapStateToProps)(BankingRuleListFilterOptions);

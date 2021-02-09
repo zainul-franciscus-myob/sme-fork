@@ -187,9 +187,8 @@ export const getIsPaymentReportableCheckboxDisabled = (state) =>
   state.contactType !== ContactType.SUPPLIER;
 
 export const getIsNoConditionRuleAllowed = (state) =>
-  state.isNoConditionRuleEnabled &&
-  (state.ruleType === RuleTypes.spendMoney ||
-    state.ruleType === RuleTypes.receiveMoney);
+  state.ruleType === RuleTypes.spendMoney ||
+  state.ruleType === RuleTypes.receiveMoney;
 
 export const getIsAutomatedRuleTypeEnabled = createSelector(
   getIsNoConditionRuleAllowed,

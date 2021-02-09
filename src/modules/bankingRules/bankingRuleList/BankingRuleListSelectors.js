@@ -4,8 +4,6 @@ import getQueryFromParams from '../../../common/getQueryFromParams/getQueryFromP
 
 export const getRegion = (state) => state.region;
 export const getBusinessId = (state) => state.businessId;
-export const getIsNoConditionRuleEnabled = (state) =>
-  state.isNoConditionRuleEnabled;
 export const getLoadingState = (state) => state.loadingState;
 export const getSortOrder = (state) => state.sortOrder;
 export const getOrderBy = (state) => state.orderBy;

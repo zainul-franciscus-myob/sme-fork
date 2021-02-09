@@ -40,7 +40,6 @@ import {
   getIsEntryLoading,
   getIsOpenEntryEdited,
   getIsOpenTransactionWithdrawal,
-  getIsPrefillSplitAllocationEnabled,
   getIsTabDisabled,
   getIsTransactionLineTabDisabled,
   getLastAllocatedAccount,
@@ -76,14 +75,12 @@ import {
   getMatchTransferMoneyFlipSortOrder,
   getMatchTransferMoneyOrderBy,
 } from './tabs/transferMoney/transferMoneySelectors';
-import { isToggleOn } from '../../splitToggle';
 import { trackUserEvent } from '../../telemetry';
 import AccountModalModule from '../account/accountModal/AccountModalModule';
 import BankingRuleComboboxModule from '../bankingRules/bankingRuleCombobox/BankingRuleComboboxModule';
 import BankingRuleModule from './bankingRule/BankingRuleModule';
 import BankingView from './components/BankingView';
 import ContactComboboxModule from '../contact/contactCombobox/ContactComboboxModule';
-import FeatureToggle from '../../FeatureToggles';
 import FocusLocations from './types/FocusLocations';
 import HelpPageRoutes from '../../drawer/help/HelpPageRoutes';
 import HotkeyLocations from './hotkeys/HotkeyLocations';
@@ -98,7 +95,6 @@ import bankingReducer from './reducers';
 import createBankingDispatcher from './BankingDispatcher';
 import createBankingIntegrator from './BankingIntegrator';
 import debounce from '../../common/debounce/debounce';
-import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
 import openBlob from '../../common/blobOpener/openBlob';
 
 export default class BankingModule {
@@ -204,27 +200,11 @@ export default class BankingModule {
     };
 
     const renderReceiveMoneyBankingRuleCombobox = (props) => {
-      const state = this.store.getState();
-      const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
-        state
-      );
-
-      return isPrefillSplitAllocationEnabled &&
-        this.receiveMoneyBankingRuleComboboxModule
-        ? this.receiveMoneyBankingRuleComboboxModule.render(props)
-        : null;
+      return this.receiveMoneyBankingRuleComboboxModule.render(props);
     };
 
     const renderSpendMoneyBankingRuleCombobox = (props) => {
-      const state = this.store.getState();
-      const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
-        state
-      );
-
-      return isPrefillSplitAllocationEnabled &&
-        this.spendMoneyBankingRuleComboboxModule
-        ? this.spendMoneyBankingRuleComboboxModule.render(props)
-        : null;
+      return this.spendMoneyBankingRuleComboboxModule.render(props);
     };
 
     const hotkeyHandlers = this.buildHotkeyHandlers();
@@ -1450,26 +1430,18 @@ export default class BankingModule {
   loadSplitAllocationBankingRuleCombobox = () => {
     const state = this.store.getState();
 
-    const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
-      state
-    );
-    if (isPrefillSplitAllocationEnabled) {
-      const smContext = getSpendMoneyBankingRuleComboboxContext(state);
-      this.spendMoneyBankingRuleComboboxModule.run(smContext);
+    const smContext = getSpendMoneyBankingRuleComboboxContext(state);
+    this.spendMoneyBankingRuleComboboxModule.run(smContext);
 
-      const rmContext = getReceiveMoneyBankingRuleComboboxContext(state);
-      this.receiveMoneyBankingRuleComboboxModule.run(rmContext);
-    }
+    const rmContext = getReceiveMoneyBankingRuleComboboxContext(state);
+    this.receiveMoneyBankingRuleComboboxModule.run(rmContext);
   };
 
   updateSplitAllocationBankingRuleCombobox = () => {
     const state = this.store.getState();
 
-    const isPrefillSplitAllocationEnabled = getIsPrefillSplitAllocationEnabled(
-      state
-    );
     const bankingRuleId = getBankingRuleId(state);
-    if (isPrefillSplitAllocationEnabled && bankingRuleId) {
+    if (bankingRuleId) {
       const isSpendMoney = getIsSpendMoney(state);
       if (isSpendMoney) {
         this.spendMoneyBankingRuleComboboxModule.load(bankingRuleId);
@@ -1849,25 +1821,11 @@ export default class BankingModule {
     };
   };
 
-  /* */
-
   run(context) {
-    const isPrefillSplitAllocationEnabled = isFeatureEnabled({
-      isFeatureCompleted: this.featureToggles.isBankLinkPayeeEnabled,
-      isEarlyAccess: isToggleOn(FeatureToggle.BankLinkPayee),
-    });
-
-    this.dispatcher.setInitialState({
-      ...context,
-      isPrefillSplitAllocationEnabled,
-    });
-
+    this.dispatcher.setInitialState(context);
     this.render();
     this.dispatcher.setLoadingState(LoadingState.LOADING);
     this.loadBankTransactions();
-
-    if (isPrefillSplitAllocationEnabled) {
-      this.loadSplitAllocationBankingRuleCombobox();
-    }
+    this.loadSplitAllocationBankingRuleCombobox();
   }
 }

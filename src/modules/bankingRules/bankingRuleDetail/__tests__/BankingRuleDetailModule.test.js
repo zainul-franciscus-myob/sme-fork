@@ -39,15 +39,9 @@ describe('BankingRuleDetailModule', () => {
     const store = new TestStore(bankingRuleDetailReducer);
     const integration = new TestIntegration();
 
-    // @TODO: To be deleted alongside our disposable test when we no longer need featureToggles
-    const featureToggles = {
-      isBankLinkPayeeEnabled: false,
-    };
-
     const module = new BankingRuleDetailModule({
       integration,
       setRootView,
-      featureToggles,
     });
 
     module.store = store;
@@ -123,7 +117,6 @@ describe('BankingRuleDetailModule', () => {
                 businessId: '🐛',
                 region: 'au',
                 bankingRuleId: test.bankingRuleId,
-                isNoConditionRuleEnabled: true,
               },
             },
             {
@@ -165,7 +158,6 @@ describe('BankingRuleDetailModule', () => {
                 businessId: '🐛',
                 region: 'au',
                 bankingRuleId: test.bankingRuleId,
-                isNoConditionRuleEnabled: true,
               },
             },
             {

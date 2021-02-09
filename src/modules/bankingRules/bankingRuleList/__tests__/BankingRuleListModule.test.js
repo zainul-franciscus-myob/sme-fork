@@ -24,13 +24,11 @@ describe('BankingRuleListModule', () => {
     const popMessages = () => [];
     const store = new TestStore(bankingRuleListReducer);
     const integration = new TestIntegration();
-    const featureToggles = { isNoConditionRuleEnabled: false };
 
     const module = new BankingRuleListModule({
       integration,
       setRootView,
       popMessages,
-      featureToggles,
     });
     module.store = store;
     module.dispatcher = createBankingRuleListDispatcher(store);
@@ -63,7 +61,7 @@ describe('BankingRuleListModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isNoConditionRuleEnabled: false },
+          context: {},
         },
         {
           intent: SET_LOADING_STATE,
@@ -92,7 +90,7 @@ describe('BankingRuleListModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isNoConditionRuleEnabled: false },
+          context: {},
         },
         {
           intent: SET_LOADING_STATE,
