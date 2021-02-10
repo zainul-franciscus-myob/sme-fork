@@ -1,6 +1,8 @@
 import { addMonths, addYears, endOfMonth, format } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import buildMyAccountLink from '../../../common/links/buildMyAccountLink';
+
 export const getLoadingState = (state) => state.loadingState;
 export const getAlertMessage = (state) => state.alertMessage;
 export const getIsSubmitting = (state) => state.isSubmitting;
@@ -77,6 +79,11 @@ export const getBusinessDetails = createStructuredSelector({
   region: (state) => state.businessDetails.region,
   clientCode: (state) => state.businessDetails.clientCode,
 });
+
+export const getMyAccountLink = createSelector(
+  getBusinessId,
+  buildMyAccountLink
+);
 
 export const getAuTaxDetails = createStructuredSelector({
   abn: (state) => state.businessDetails.abn,

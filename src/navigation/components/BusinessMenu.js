@@ -9,6 +9,7 @@ import {
   SignOutIcon,
   SwitchIcon,
   Tooltip,
+  UserProfileIcon,
   WalletIcon,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
@@ -136,7 +137,11 @@ const getItems = ({
       }),
     shouldShowPaymentDetail &&
       getMenuLink({
-        icon: <WalletIcon />,
+        icon: shouldDisplayAccountBillingMenuText ? (
+          <UserProfileIcon />
+        ) : (
+          <WalletIcon />
+        ),
         label: shouldDisplayAccountBillingMenuText
           ? 'My account and billing'
           : 'Billing and Payments',

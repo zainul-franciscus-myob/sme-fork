@@ -29,6 +29,7 @@ export default class BusinessSettingsModule {
     navigateTo,
     loadGlobalBusinessDetails,
     replaceURLParams,
+    featureToggles,
   }) {
     this.integration = integration;
     this.setRootView = setRootView;
@@ -39,6 +40,8 @@ export default class BusinessSettingsModule {
     this.navigateTo = navigateTo;
     this.loadGlobalBusinessDetails = loadGlobalBusinessDetails;
     this.replaceURLParams = replaceURLParams;
+    this.shouldDisplayAccountBillingMenuText =
+      featureToggles?.shouldDisplayAccountBillingMenuText;
   }
 
   loadBusinessSettings = () => {
@@ -251,6 +254,9 @@ export default class BusinessSettingsModule {
         onTabSelect={this.switchTab}
         onUpdateGstSettings={this.updateGstSettingsField}
         onUpdatePreferences={this.updatePreferencesField}
+        shouldDisplayAccountBillingMenuText={
+          this.shouldDisplayAccountBillingMenuText
+        }
       />
     );
 

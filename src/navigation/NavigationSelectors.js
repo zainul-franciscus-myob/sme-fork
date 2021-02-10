@@ -32,8 +32,11 @@ const getSelfServicePortalUrl = (state) => state.selfServicePortalUrl;
 export const getPaymentDetailUrl = createSelector(
   getSelfServicePortalUrl,
   getBusinessId,
-  (selfServicePortalUrl, businessId) =>
-    `${selfServicePortalUrl}/#/billingAndPayments?businessId=${businessId}`
+  getShouldDisplayAccountBillingMenuText,
+  (selfServicePortalUrl, businessId, shouldDisplayAccountBillingMenuText) =>
+    shouldDisplayAccountBillingMenuText
+      ? `${selfServicePortalUrl}/#/accountDetails?businessId=${businessId}`
+      : `${selfServicePortalUrl}/#/billingAndPayments?businessId=${businessId}`
 );
 
 const getMyobUrl = (state) => state.myobUrl;
