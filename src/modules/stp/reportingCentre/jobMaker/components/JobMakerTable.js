@@ -1,15 +1,19 @@
 import {
+  Button,
   Card,
   Dropdown,
   Icons,
   MoreIcon,
+  OpenExternalLinkIcon,
   PageState,
+  Popover,
   Table,
   Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import TableView from '../../../../../components/TableView/TableView';
+import styles from './JobMakerView.module.css';
 
 const tableConfig = {
   firstName: {
@@ -43,6 +47,30 @@ const tableConfig = {
 };
 
 const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
+  const popOverContent = (
+    <div testid="Popover">
+      <p>
+        Check employee nomination status by logging into either service below.
+        Updates may take up to 72 hours to show with the ATO.
+      </p>{' '}
+      <a
+        href="https://my.gov.au/LoginServices/main/login?execution=e5s1"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <OpenExternalLinkIcon /> ATO online services
+      </a>
+      <br></br>
+      <a
+        href="https://bp.ato.gov.au/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <OpenExternalLinkIcon /> The Business portal
+      </a>
+    </div>
+  );
+
   const dropdownItems = [
     <Dropdown.Item key="action1" label="Nominate employee" value="action1" />,
     <Dropdown.Item
@@ -103,7 +131,17 @@ const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
       <Table.RowItem {...tableConfig.firstName}>{row.firstName}</Table.RowItem>
       <Table.RowItem {...tableConfig.lastName}>{row.lastName}</Table.RowItem>
       <Table.RowItem {...tableConfig.nomination}>
-        {row.nomination}
+        <Popover
+          body={<Popover.Body child={popOverContent} />}
+          preferPlace={'below'}
+          isOpen={false}
+          closeOnOuterAction
+          classes={[styles.atoPopOver]}
+        >
+          <Button type="link" testid={`nomination-button-${row.employeeId}`}>
+            {row.nomination}
+          </Button>
+        </Popover>
       </Table.RowItem>
       <Table.RowItem {...tableConfig.declaration}>
         {row.declaration}
@@ -141,7 +179,7 @@ const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
       </h3>
       <div>
         <p>
-          Only employees between 16 and 35, who started employment after 7
+          Only employees between 16 and 35, who started employment from 7
           October 2020 are listed. Visit our help for a full list of&nbsp;
           <a
             href="https://help.myob.com/wiki/x/mAaFAw#expand-3Nominateeligibleemployees"

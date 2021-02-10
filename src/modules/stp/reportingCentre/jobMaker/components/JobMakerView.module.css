@@ -6,3 +6,11 @@
 .jobmakerTemplate :global(.sticky-header) {
   padding-top: 0;
 }
+
+a > svg {
+  fill: #8241AA !important;
+}
+
+.atoPopOver {
+  width: 245px !important;
+}
