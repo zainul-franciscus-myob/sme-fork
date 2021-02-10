@@ -18,7 +18,6 @@ export default class SmartMeLearnModule {
   }
 
   onClick = () => {
-    this.globalCallbacks.smartMEUpdated();
     this.dispatcher.openSmartMeRedirectModal();
     trackUserEvent({
       eventName: 'elementClicked',
@@ -70,6 +69,7 @@ export default class SmartMeLearnModule {
 
   run = (context) => {
     this.dispatcher.setInitialState(context);
+    this.globalCallbacks.smartMEUpdated();
     this.render();
   };
 
