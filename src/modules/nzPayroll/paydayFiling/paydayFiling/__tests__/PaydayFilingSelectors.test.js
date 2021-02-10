@@ -2,8 +2,11 @@ import {
   getAreMultipleUsersOnboarded,
   getIsBusinessOnboarded,
   getIsRemoveAuthorisationModalOpen,
+  getOnSuccessCallbackUrl,
+  getPaydayFilingUrl,
   getUrlParams,
   getUserStatusMessage,
+  isIrdAuthorisationComplete,
   isUserAuthorised,
 } from '../PaydayFilingSelectors';
 
@@ -154,6 +157,60 @@ describe('PaydayFilingSelectors', () => {
       };
 
       expect(getIsRemoveAuthorisationModalOpen(state)).toEqual(expected);
+    });
+  });
+
+  describe('isIrdAuthorisationComplete', () => {
+    [
+      { authorisation: 'complete#12345667', expected: true },
+      { authorisation: 'invalid call back', expected: false },
+      { authorisation: 'invalid call back#', expected: false },
+      { authorisation: 'complete#', expected: false },
+      { authorisation: '', expected: false },
+    ].forEach(({ authorisation, expected }) => {
+      it(`returns ${expected} with ${
+        expected ? 'valid' : 'invalid'
+      } authorisation callback of '${authorisation}'`, () => {
+        const state = {
+          authorisation,
+        };
+        const actual = isIrdAuthorisationComplete(state);
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe('getOnboardUserQueryString', () => {
+    it('should return encoded callback url', () => {
+      const successUrl = btoa(
+        window.location.origin.concat(
+          '/#/nz/123/paydayFiling?authorisation=complete'
+        )
+      );
+
+      const businessId = '123';
+      const state = {
+        businessId,
+      };
+
+      const expected = successUrl;
+
+      const actual = getOnSuccessCallbackUrl(state);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('getPaydayFilingUrl', () => {
+    it('should return relative url for payday filing', () => {
+      const businessId = '123';
+      const state = {
+        businessId,
+      };
+
+      const expected = `/#/nz/${businessId}/paydayFiling`;
+
+      const actual = getPaydayFilingUrl(state);
+      expect(actual).toEqual(expected);
     });
   });
 });

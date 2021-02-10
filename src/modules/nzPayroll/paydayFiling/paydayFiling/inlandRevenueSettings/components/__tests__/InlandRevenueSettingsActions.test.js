@@ -20,15 +20,19 @@ describe('InlandRevenueSettingsActions', () => {
       expect(props.onRemoveAuthorisationClick).toHaveBeenCalledTimes(1);
     });
 
-    it('should render the authorise button if user is not onboarded', () => {
+    it('should call onAuthoriseClick when clicked', () => {
       const props = {
         isUserAuthorised: false,
+        onAuthoriseClick: jest.fn(),
       };
 
       const wrapper = mount(<InlandRevenueSettingsActions {...props} />);
       const authoriseButton = wrapper.find('button');
 
+      authoriseButton.simulate('click');
+
       expect(authoriseButton.text()).toEqual('Authorise MYOB');
+      expect(props.onAuthoriseClick).toHaveBeenCalledTimes(1);
     });
   });
 });

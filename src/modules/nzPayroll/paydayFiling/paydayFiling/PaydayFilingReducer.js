@@ -26,6 +26,7 @@ const getDefaultState = () => ({
   [tabIds.eiSubmissions]: getEiSubmissionsDefaultState(),
   removeAuthorisationModalIsOpen: false,
   areMultipleUsersOnboarded: false,
+  authorisation: '',
 });
 
 const setValidTab = (tab) => {

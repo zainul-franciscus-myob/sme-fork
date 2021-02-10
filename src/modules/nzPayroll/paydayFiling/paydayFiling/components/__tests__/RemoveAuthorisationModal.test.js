@@ -6,7 +6,7 @@ import RemoveAuthorisationModal from '../RemoveAuthorisationModal';
 describe('RemoveAuthorisationModal', () => {
   const props = {
     onCancel: jest.fn(),
-    onRemoveAuthorisation: jest.fn(),
+    onModalRemoveAuthorisation: jest.fn(),
   };
 
   afterEach(jest.clearAllMocks);
@@ -31,7 +31,7 @@ describe('RemoveAuthorisationModal', () => {
 
       removeAuthButton.simulate('click');
 
-      expect(props.onRemoveAuthorisation).toHaveBeenCalledTimes(1);
+      expect(props.onModalRemoveAuthorisation).toHaveBeenCalledTimes(1);
     });
   });
 

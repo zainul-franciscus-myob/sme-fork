@@ -18,6 +18,8 @@ export const CLOSE_REMOVE_AUTHORISATION_MODAL = Symbol(
 export const DELETE_ONBOARD_USER = Symbol(
   'Remove onboarded user authorisation'
 );
+export const CREATE_ONBOARD_USER = Symbol('Create onboard user');
+export const UPDATE_ONBOARD_USER = Symbol('Update onboard user');
 export const SET_SELECTED_PAYROLL_YEAR = Symbol('Set selected payroll year');
 export const LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS = Symbol(
   'Load initial payday filing details'

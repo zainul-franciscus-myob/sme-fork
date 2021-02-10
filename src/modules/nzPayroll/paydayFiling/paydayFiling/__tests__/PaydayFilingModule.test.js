@@ -4,10 +4,15 @@ import {
   DELETE_ONBOARD_USER,
   LOAD_BUSINESS_ONBOARDED_DETAILS,
   LOAD_PAYDAY_USER_SESSION,
+  SET_ALERT,
+  SET_LOADING_STATE,
+  SET_TAB,
+  UPDATE_ONBOARD_USER,
 } from '../PaydayFilingIntents';
 import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import InlandRevenueSettingsActions from '../inlandRevenueSettings/components/InlandRevenueSettingsActions';
 import InlandRevenueSettingsView from '../inlandRevenueSettings/components/InlandRevenueSettingsView';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 import PaydayFilingModule from '../PaydayFilingModule';
 import RemoveAuthorisationModal from '../components/RemoveAuthorisationModal';
 import RouteName from '../../../../../router/RouteName';
@@ -19,6 +24,8 @@ import paydayFilingReducer from '../PaydayFilingReducer';
 import paydayUserSession from '../mappings/data/paydayUserSession.json';
 
 describe('PaydayFilingModule', () => {
+  const replaceURLParams = jest.fn();
+
   const constructPaydayFilingModule = (
     featureToggles = { isPaydayFilingEnabled: true },
     auth = ''
@@ -33,6 +40,7 @@ describe('PaydayFilingModule', () => {
     const paydayFilingModule = new PaydayFilingModule({
       integration,
       setRootView,
+      replaceURLParams,
       featureToggles,
       navigateToName: jest.fn(),
     });
@@ -140,6 +148,72 @@ describe('PaydayFilingModule', () => {
       const componentActions = wrapper.find(InlandRevenueSettingsActions);
       expect(component).toHaveLength(1);
       expect(componentActions).toHaveLength(1);
+    });
+  });
+
+  describe('Update onboard user', () => {
+    const authorisation = 'complete#1234';
+
+    it('should display a success alert if it is an auth callback from ir', () => {
+      const message = 'success';
+      const { store, integration, module } = constructPaydayFilingModule(
+        { isPaydayFilingEnabled: true },
+        authorisation
+      );
+
+      integration.mapSuccess(UPDATE_ONBOARD_USER, { message });
+
+      module.run({});
+
+      expect(store.actions).toEqual(
+        expect.arrayContaining([
+          {
+            intent: SET_ALERT,
+            alert: { message, type: 'success' },
+          },
+          {
+            intent: SET_TAB,
+            tab: 'irdSettings',
+          },
+          {
+            intent: SET_LOADING_STATE,
+            loadingState: LoadingState.LOADING_SUCCESS,
+          },
+        ])
+      );
+    });
+
+    it('should display an error alert and clear url params when updating onboard user fails', () => {
+      const message = 'this failed';
+      const { store, integration, module } = constructPaydayFilingModule(
+        { isPaydayFilingEnabled: true },
+        authorisation
+      );
+
+      integration.mapFailure(UPDATE_ONBOARD_USER, { message });
+
+      module.run({});
+
+      expect(store.actions).toEqual(
+        expect.arrayContaining([
+          {
+            intent: SET_ALERT,
+            alert: { message, type: 'danger' },
+          },
+          {
+            intent: SET_TAB,
+            tab: 'irdSettings',
+          },
+          {
+            intent: SET_LOADING_STATE,
+            loadingState: LoadingState.LOADING_SUCCESS,
+          },
+        ])
+      );
+
+      expect(replaceURLParams).toHaveBeenCalledWith({
+        authorisation: undefined,
+      });
     });
   });
 

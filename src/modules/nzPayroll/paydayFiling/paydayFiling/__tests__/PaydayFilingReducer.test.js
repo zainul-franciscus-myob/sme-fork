@@ -2,6 +2,7 @@ import {
   CLOSE_REMOVE_AUTHORISATION_MODAL,
   LOAD_PAYDAY_USER_SESSION,
   OPEN_REMOVE_AUTHORISATION_MODAL,
+  SET_ALERT,
   SET_ARE_MULTIPLE_USERS_ONBOARDED,
   SET_IS_BUSINESS_ONBOARDED,
   SET_TAB,
@@ -180,6 +181,24 @@ describe('PaydayFilingReducer', () => {
       const actual = PaydayFilingReducer(state, action);
 
       expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('setAlert', () => {
+    it('should set alert', () => {
+      const state = {
+        alert: undefined,
+      };
+
+      const alert = { message: 'success message', type: 'success' };
+
+      const action = {
+        intent: SET_ALERT,
+        alert,
+      };
+
+      const result = PaydayFilingReducer(state, action);
+      expect(result).toEqual({ alert });
     });
   });
 });

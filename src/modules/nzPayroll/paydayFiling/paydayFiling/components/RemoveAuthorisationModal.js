@@ -6,7 +6,7 @@ import RemoveOnboardedUserMessage from './RemoveOnboardedUserMessage';
 
 const RemoveAuthorisationModal = ({
   onCancel,
-  onRemoveAuthorisation,
+  onModalRemoveAuthorisation,
   multipleUsersOnboarded,
   title = 'Remove authorisation',
   description = multipleUsersOnboarded ? (
@@ -21,7 +21,11 @@ const RemoveAuthorisationModal = ({
       <Button name="cancel" type="secondary" onClick={onCancel}>
         Cancel
       </Button>
-      <Button name="removeAuth" type="delete" onClick={onRemoveAuthorisation}>
+      <Button
+        name="removeAuth"
+        type="delete"
+        onClick={onModalRemoveAuthorisation}
+      >
         Remove authorisation
       </Button>
     </Modal.Footer>

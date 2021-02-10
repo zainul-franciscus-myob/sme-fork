@@ -22,7 +22,7 @@ const PaydayFilingView = ({
   onTabSelected,
   removeAuthorisationModalIsOpen,
   onCloseRemoveAuthorisationModal,
-  onRemoveAuthorisation,
+  onModalRemoveAuthorisation,
   multipleUsersOnboarded,
 }) => {
   const actions = <div />;
@@ -43,7 +43,7 @@ const PaydayFilingView = ({
   const removeAuthorisationModal = removeAuthorisationModalIsOpen && (
     <RemoveAuthorisationModal
       onCancel={onCloseRemoveAuthorisationModal}
-      onRemoveAuthorisation={onRemoveAuthorisation}
+      onModalRemoveAuthorisation={onModalRemoveAuthorisation}
       multipleUsersOnboarded={multipleUsersOnboarded}
     />
   );

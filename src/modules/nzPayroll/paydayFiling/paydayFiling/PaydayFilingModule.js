@@ -1,7 +1,11 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getSelectedTab, getUrlParams } from './PaydayFilingSelectors';
+import {
+  getSelectedTab,
+  getUrlParams,
+  isIrdAuthorisationComplete,
+} from './PaydayFilingSelectors';
 import { tabIds } from './TabItems';
 import EiSubmissionsModule from './eiSubmissions/EiSubmissionsModule';
 import InlandRevenueSettingsModule from './inlandRevenueSettings/InlandRevenueSettingsModule';
@@ -22,6 +26,7 @@ export default class PaydayFilingModule {
     pushMessage,
     popMessages,
     navigateToName,
+    navigateTo,
   }) {
     this.setRootView = setRootView;
     this.integration = integration;
@@ -34,6 +39,7 @@ export default class PaydayFilingModule {
     this.pushMessage = pushMessage;
     this.subModules = {};
     this.navigateToName = navigateToName;
+    this.navigateTo = navigateTo;
   }
 
   setupSubModules = (context) => {
@@ -46,6 +52,7 @@ export default class PaydayFilingModule {
       [tabIds.irdSettings]: new InlandRevenueSettingsModule({
         integration: this.integration,
         store: this.store,
+        navigateTo: this.navigateTo,
         context,
       }),
     };
@@ -112,7 +119,6 @@ export default class PaydayFilingModule {
       if (isBusinessOnboarded) {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
         this.loadUserSession();
-        this.runTab();
       } else {
         this.redirectToOnboardingPage();
       }
@@ -125,11 +131,37 @@ export default class PaydayFilingModule {
     this.integrator.loadBusinessOnboardedDetails({ onSuccess, onFailure });
   };
 
+  checkAuthorisation = () => {
+    const state = this.store.getState();
+
+    if (isIrdAuthorisationComplete(state)) {
+      this.updateOnboardUser();
+    }
+  };
+
+  updateOnboardUser = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    this.setSelectedTab(tabIds.irdSettings);
+
+    const onSuccess = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setAlert({ message, type: 'success' });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.replaceURLParams({ authorisation: undefined });
+      this.dispatcher.setAlert({ message, type: 'danger' });
+    };
+
+    this.integrator.updateOnboardUser({ onSuccess, onFailure });
+  };
+
   closeRemoveAuthorisationModal = () => {
     this.dispatcher.closeRemoveAuthorisationModal();
   };
 
-  onRemoveAuthorisation = () => {
+  onModalRemoveAuthorisation = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
 
     this.integrator.removeUserAuthorisation({
@@ -148,6 +180,8 @@ export default class PaydayFilingModule {
       this.setupSubModules(context);
       this.dispatcher.setInitialState(context);
       this.paydayFilingInit();
+      this.checkAuthorisation();
+      this.runTab();
       this.render();
     } else this.redirectToBusinessList();
   }
@@ -161,7 +195,7 @@ export default class PaydayFilingModule {
           onTabSelected={this.setSelectedTab}
           featureToggles={this.featureToggles}
           onCloseRemoveAuthorisationModal={this.closeRemoveAuthorisationModal}
-          onRemoveAuthorisation={this.onRemoveAuthorisation}
+          onModalRemoveAuthorisation={this.onModalRemoveAuthorisation}
         />
       </Provider>
     );
