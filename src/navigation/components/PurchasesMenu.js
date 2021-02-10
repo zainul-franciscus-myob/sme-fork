@@ -9,6 +9,9 @@ import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 const isSeparatorRequired = (urls) =>
   urls.billList || urls.billCreate || urls.billPaymentCreate;
 
+const isPurchaseOrderSeparatorRequired = (urls) =>
+  urls.purchaseOrderList || urls.purchaseOrderCreate;
+
 const getMenuLinkWithTrackingEvent = (
   url,
   label,
@@ -47,9 +50,6 @@ const getItems = (urls, onMenuLinkClick) => {
   };
 
   return [
-    urls.billList && getMenuLink(urls.billList, 'Bills', onMenuLinkClick),
-    urls.billCreate &&
-      getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
     urls.purchaseOrderList &&
       getMenuLink(urls.purchaseOrderList, 'Purchase orders', onMenuLinkClick),
     urls.purchaseOrderCreate &&
@@ -58,6 +58,12 @@ const getItems = (urls, onMenuLinkClick) => {
         'Create purchase order',
         onMenuLinkClick
       ),
+    isPurchaseOrderSeparatorRequired(urls) && (
+      <Navigation.Separator key="separator" />
+    ),
+    urls.billList && getMenuLink(urls.billList, 'Bills', onMenuLinkClick),
+    urls.billCreate &&
+      getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
 
     urls.billPaymentCreate &&
       getMenuLinkWithTrackingEvent(
