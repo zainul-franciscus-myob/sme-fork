@@ -50,9 +50,12 @@ export default class RecordPayRunSubModule {
     this.integrator.loadPayrollVerificationReport({ onSuccess, onFailure });
   };
 
-  onNext = () => {
-    this.recordPayments();
+  openRecordPayRunIRFileModal = () => {
+    this.dispatcher.openRecordPayRunIRFileModal();
   };
+
+  closeRecordPayRunIRFileModal = () =>
+    this.dispatcher.closeRecordPayRunIRFileModal();
 
   goToPreviousStep = () => {
     this.dispatcher.setTotalTakeHomePay(null);
@@ -71,11 +74,13 @@ export default class RecordPayRunSubModule {
     return (
       <>
         <RecordPayRunView
-          recordPayments={this.onNext}
+          onNext={this.openRecordPayRunIRFileModal}
+          recordPayments={this.recordPayments}
           onViewPayrollVerifyReportClick={this.payrollVerificationReport}
           onPreviousButtonClick={this.goToPreviousStep}
           isPaydayFilingEnabled={this.featureToggles.isPaydayFilingEnabled}
           onOpenPaydayFilingClick={this.openPaydayFilingReport}
+          onCloseRecordPayRunIRFileModal={this.closeRecordPayRunIRFileModal}
         />
       </>
     );

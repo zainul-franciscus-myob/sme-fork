@@ -139,4 +139,26 @@ export const getAlert = (state) => state.alert;
 export const isNavigationToSelf = (state) =>
   window.location.href.endsWith(state.redirectUrl);
 
-export const getIsBusinessOnboarded = (state) => state.isBusinessOnboarded;
+export const getIsBusinessOnboarded = (state) =>
+  state.payDayOnboardedStatus.isBusinessOnboarded;
+
+export const getIsUserOnboarded = (state) =>
+  state.payDayOnboardedStatus.isUserOnboarded;
+
+export const getRecordPayRunIRFileModal = (state) =>
+  state.recordPayRunIRFileModal;
+
+export const displayRecordPayRunIRFileModal = createSelector(
+  getIsBusinessOnboarded,
+  getIsUserOnboarded,
+  getRecordPayRunIRFileModal,
+  (isBusinessOnboarded, isUserOnboarded, isRecordPayRunIRFileModal) =>
+    isBusinessOnboarded && isUserOnboarded && isRecordPayRunIRFileModal
+);
+
+export const getIsBusinessAndUserOnboarded = createSelector(
+  getIsBusinessOnboarded,
+  getIsUserOnboarded,
+  (isBusinessOnboarded, isUserOnboarded) =>
+    isBusinessOnboarded && isUserOnboarded
+);

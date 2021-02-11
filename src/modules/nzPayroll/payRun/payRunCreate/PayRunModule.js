@@ -27,10 +27,12 @@ export default class PayRunModule {
     setRootView,
     pushMessage,
     subscribeOrUpgrade,
+    navigateTo,
     navigateToName,
     featureToggles,
   }) {
     this.integration = integration;
+    this.navigateTo = navigateTo;
     this.navigateToName = navigateToName;
     this.setRootView = setRootView;
     this.store = new Store(payRunReducer);
@@ -96,19 +98,18 @@ export default class PayRunModule {
 
     const onSuccess = (response) => {
       if (this.featureToggles.isPaydayFilingEnabled) {
-        const onLoadStatusSuccess = ({ isBusinessOnboarded }) => {
+        const onLoadStatusSuccess = (payDayOnboardedStatus) => {
           this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-          this.dispatcher.setIsBusinessOnboarded(isBusinessOnboarded);
+          this.dispatcher.setPayDayOnboardedStatus(payDayOnboardedStatus);
           this.dispatcher.startNewPayRun(response);
         };
 
-        this.integrator.loadBusinessOnboardedStatus({
+        this.integrator.loadPayDayOnboardedStatus({
           onSuccess: onLoadStatusSuccess,
           onFailure,
         });
       } else {
         this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-        this.dispatcher.setIsBusinessOnboarded(false);
         this.dispatcher.startNewPayRun(response);
       }
     };

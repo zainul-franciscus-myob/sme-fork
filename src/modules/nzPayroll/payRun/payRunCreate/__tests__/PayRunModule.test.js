@@ -2,9 +2,8 @@ import { mount } from 'enzyme';
 
 import {
   DELETE_DRAFT_PAY_RUN,
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   RESTART_PAY_RUN,
-  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   START_NEW_PAY_RUN,
 } from '../PayRunIntents';
@@ -19,7 +18,7 @@ import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 import createPayRunIntegrator from '../createPayRunIntegrator';
-import loadBusinessOnboardedStatus from '../../mappings/data/payRun/loadBusinessOnboardedResponse';
+import loadPayDayOnboardedStatus from '../../mappings/data/payRun/loadPayDayOnboardedStatusResponse';
 import payRunReducer from '../payRunReducer';
 import startNewPayRunResponse from '../../mappings/data/payRun/startNewPayRun';
 
@@ -158,10 +157,6 @@ describe('PayRunModule', () => {
           loadingState: LoadingState.LOADING_SUCCESS,
         },
         {
-          intent: SET_IS_BUSINESS_ONBOARDED,
-          isBusinessOnboarded: false,
-        },
-        {
           intent: START_NEW_PAY_RUN,
           newPayRunDetails: startNewPayRunResponse.newPayRunDetails,
         },
@@ -186,8 +181,8 @@ describe('PayRunModule', () => {
 
       integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
       integration.mapSuccess(
-        LOAD_BUSINESS_ONBOARDED_STATUS,
-        loadBusinessOnboardedStatus
+        LOAD_PAYDAY_ONBOARDED_STATUS,
+        loadPayDayOnboardedStatus
       );
 
       module.run(context);
@@ -206,8 +201,11 @@ describe('PayRunModule', () => {
           loadingState: LoadingState.LOADING_SUCCESS,
         },
         {
-          intent: SET_IS_BUSINESS_ONBOARDED,
-          isBusinessOnboarded: true,
+          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+          payDayOnboardedStatus: {
+            isBusinessOnboarded: true,
+            isUserOnboarded: true,
+          },
         },
         {
           intent: START_NEW_PAY_RUN,
@@ -221,7 +219,7 @@ describe('PayRunModule', () => {
           urlParams: { ...context },
         }),
         expect.objectContaining({
-          intent: LOAD_BUSINESS_ONBOARDED_STATUS,
+          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
         }),
       ]);
 
@@ -286,13 +284,13 @@ describe('PayRunModule', () => {
       ]);
     });
 
-    it('should display LoadingFailPageState when LOAD_BUSINESS_ONBOARDED_STATUS call failed  with paydayfilling enabled', () => {
+    it('should display LoadingFailPageState when LOAD_PAYDAY_ONBOARDED_STATUS call failed  with paydayfilling enabled', () => {
       const { store, integration, module, wrapper } = setup({
         isPaydayFilingEnabled: true,
       });
 
       integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
-      integration.mapFailure(LOAD_BUSINESS_ONBOARDED_STATUS);
+      integration.mapFailure(LOAD_PAYDAY_ONBOARDED_STATUS);
 
       module.run(context);
 
@@ -317,7 +315,7 @@ describe('PayRunModule', () => {
           urlParams: { ...context },
         }),
         expect.objectContaining({
-          intent: LOAD_BUSINESS_ONBOARDED_STATUS,
+          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
         }),
       ]);
 

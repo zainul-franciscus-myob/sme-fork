@@ -1,19 +1,21 @@
 import {
   CLOSE_DISCARD_MODAL,
   CLOSE_PREVIOUS_STEP_MODAL,
+  CLOSE_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
   CREATE_DRAFT_PAY_RUN_FAILED,
   CREATE_DRAFT_PAY_RUN_SUCCESS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
   LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
   NEXT_STEP,
   OPEN_DISCARD_AND_REDIRECT_MODAL,
   OPEN_PREVIOUS_STEP_MODAL,
+  OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_ALERT,
   SET_DRAFT_PAY_RUN_ID,
-  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
@@ -44,6 +46,8 @@ const getDefaultState = () => ({
   previousStepModalIsOpen: false,
   totalTakeHomePay: undefined,
   alert: undefined,
+  payDayOnboardedStatus: { isBusinessOnboarded: false, isUserOnboarded: false },
+  recordPayRunIRFileModal: false,
 });
 
 const resetState = () => ({ ...getDefaultState() });
@@ -152,9 +156,19 @@ const createDraftPayrunSuccess = (state) => ({
   alert: undefined,
 });
 
-const setIsBusinessOnboarded = (state, { isBusinessOnboarded }) => ({
+const loadPayDayOnboardedStatus = (state, { payDayOnboardedStatus }) => ({
   ...state,
-  isBusinessOnboarded,
+  payDayOnboardedStatus,
+});
+
+const openRecordPayRunIRFileModal = (state) => ({
+  ...state,
+  recordPayRunIRFileModal: true,
+});
+
+const closeRecordPayRunIRFileModal = (state) => ({
+  ...state,
+  recordPayRunIRFileModal: false,
 });
 
 const handlers = {
@@ -180,7 +194,9 @@ const handlers = {
   [CREATE_DRAFT_PAY_RUN_FAILED]: createDraftPayrunFailed,
   ...wrapHandlers(START_PAY_RUN.key, startPayRunHandlers),
   ...wrapHandlers(DRAFT_PAY_RUN.key, draftPayRunHandlers),
-  [SET_IS_BUSINESS_ONBOARDED]: setIsBusinessOnboarded,
+  [OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL]: openRecordPayRunIRFileModal,
+  [CLOSE_RECORD_PAYRUN_WITH_IR_FILING_MODAL]: closeRecordPayRunIRFileModal,
+  [LOAD_PAYDAY_ONBOARDED_STATUS]: loadPayDayOnboardedStatus,
 };
 
 const payRunReducer = createReducer(getDefaultState(), handlers);

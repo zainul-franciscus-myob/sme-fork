@@ -11,6 +11,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsBusinessOnboarded,
+  getIsUserOnboarded,
   getPayOnDate,
   getStepNumber,
   getStepperSteps,
@@ -26,7 +28,14 @@ const PayRunDoneView = ({
   stepNumber,
   payRunSteps,
   isPaydayFilingEnabled,
+  isBusinessOnboarded,
+  isUserOnboarded,
 }) => {
+  const title =
+    isPaydayFilingEnabled && isBusinessOnboarded && isUserOnboarded
+      ? 'Pay run recorded and sent to Inland Revenue'
+      : 'Well done! This pay run is finished!';
+
   return (
     <React.Fragment>
       <PageHead title="Pay run done!" />
@@ -36,7 +45,7 @@ const PayRunDoneView = ({
       <EmployeePayHeader />
       <Card>
         <PageState
-          title="Well done! This pay run is finished!"
+          title={title}
           description={`Make sure your employees are paid by ${paymentDate}.`}
           image={<img src={payRunDoneImage} alt="Pay Run Finished!" />}
           actions={
@@ -76,6 +85,8 @@ const mapStateToProps = (state) => ({
   paymentDate: getPayOnDate(state),
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
+  isBusinessOnboarded: getIsBusinessOnboarded(state),
+  isUserOnboarded: getIsUserOnboarded(state),
 });
 
 export default connect(mapStateToProps)(PayRunDoneView);

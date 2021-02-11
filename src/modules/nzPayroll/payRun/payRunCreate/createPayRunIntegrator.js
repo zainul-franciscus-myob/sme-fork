@@ -1,6 +1,6 @@
 import {
   DELETE_DRAFT_PAY_RUN,
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   START_NEW_PAY_RUN,
 } from './PayRunIntents';
 import { getBusinessId, getDraftPayRunId } from './PayRunSelectors';
@@ -36,8 +36,9 @@ const createPayRunIntegrator = (store, integration) => ({
       onFailure,
     });
   },
-  loadBusinessOnboardedStatus: ({ onSuccess, onFailure }) => {
-    const intent = LOAD_BUSINESS_ONBOARDED_STATUS;
+
+  loadPayDayOnboardedStatus: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_PAYDAY_ONBOARDED_STATUS;
     const urlParams = {
       businessId: getBusinessId(store.getState()),
     };

@@ -66,8 +66,14 @@ export const CANCEL_ADD_HOLIDAYS_AND_LEAVE_MODAL = Symbol(
   'Cancel add holidays and leave modal dialog'
 );
 
-export const SET_IS_BUSINESS_ONBOARDED = Symbol('Set is business onboarded');
+export const LOAD_PAYDAY_ONBOARDED_STATUS = Symbol(
+  'Load payday onboarded status'
+);
 
-export const LOAD_BUSINESS_ONBOARDED_STATUS = Symbol(
-  'Load business onboarded status'
+export const OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL = Symbol(
+  'Open record payrun with IR filing modal'
+);
+
+export const CLOSE_RECORD_PAYRUN_WITH_IR_FILING_MODAL = Symbol(
+  'Close record payrun with IR filing modal'
 );

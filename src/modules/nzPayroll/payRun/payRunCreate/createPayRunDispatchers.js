@@ -1,6 +1,7 @@
 import {
   CLOSE_DISCARD_MODAL,
   CLOSE_PREVIOUS_STEP_MODAL,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   LOAD_PAYROLL_VERIFICATION_REPORT_FAILED,
   LOAD_PAYROLL_VERIFICATION_REPORT_SUCCESS,
@@ -10,7 +11,6 @@ import {
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_ALERT,
-  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
   SET_SUBMITTING_STATE,
@@ -134,11 +134,11 @@ const createPayRunDispatchers = (store) => ({
     });
   },
 
-  setIsBusinessOnboarded: (isBusinessOnboarded) => {
-    const intent = SET_IS_BUSINESS_ONBOARDED;
+  setPayDayOnboardedStatus: (payDayOnboardedStatus) => {
+    const intent = LOAD_PAYDAY_ONBOARDED_STATUS;
     store.dispatch({
       intent,
-      isBusinessOnboarded,
+      payDayOnboardedStatus,
     });
   },
 });

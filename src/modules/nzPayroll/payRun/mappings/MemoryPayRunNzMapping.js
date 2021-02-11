@@ -1,7 +1,7 @@
 import {
   CREATE_DRAFT_PAY_RUN,
   DELETE_DRAFT_PAY_RUN,
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
@@ -11,7 +11,7 @@ import {
 import { SORT_AND_FILTER_PAY_RUN_LIST } from '../payRunList/PayRunListIntents';
 import createDraftPayRun from './data/payRun/createDraftPayRun';
 import filterPayRunList from './data/payRun/filterPayRunList';
-import loadBusinessOnBoardedStatus from './data/payRun/loadBusinessOnboardedResponse';
+import loadPayDayOnboardedStatus from './data/payRun/loadPayDayOnboardedStatusResponse';
 import startNewPayRun from './data/payRun/startNewPayRun';
 import updatedEmployeePay from './data/payRun/updatedEmployeePay';
 
@@ -26,8 +26,8 @@ const PayRunMapping = {
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [SORT_AND_FILTER_PAY_RUN_LIST]: ({ onSuccess }) =>
     onSuccess(filterPayRunList),
-  [LOAD_BUSINESS_ONBOARDED_STATUS]: ({ onSuccess }) =>
-    onSuccess(loadBusinessOnBoardedStatus),
+  [LOAD_PAYDAY_ONBOARDED_STATUS]: ({ onSuccess }) =>
+    onSuccess(loadPayDayOnboardedStatus),
 };
 
 export default PayRunMapping;

@@ -2,12 +2,12 @@ import {
   CLOSE_PREVIOUS_STEP_MODAL,
   CREATE_DRAFT_PAY_RUN_FAILED,
   CREATE_DRAFT_PAY_RUN_SUCCESS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   NEXT_STEP,
   OPEN_PREVIOUS_STEP_MODAL,
   PREVIOUS_STEP,
   RESTART_PAY_RUN,
   SET_DRAFT_PAY_RUN_ID,
-  SET_IS_BUSINESS_ONBOARDED,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
   SET_TOTAL_TAKE_HOME_PAY,
@@ -185,8 +185,13 @@ describe('NZ Payrun reducer', () => {
         },
         draftPayRunId: -1,
         isSubmitting: false,
+        payDayOnboardedStatus: {
+          isBusinessOnboarded: false,
+          isUserOnboarded: false,
+        },
         loadingState: 'LOADING',
         previousStepModalIsOpen: false,
+        recordPayRunIRFileModal: false,
         region: 'NZ',
         startPayRun: {
           currentEditingPayRun: {
@@ -298,19 +303,25 @@ describe('NZ Payrun reducer', () => {
     });
   });
 
-  describe('Set IsBusinessOnboarded', () => {
-    it('should set IsBusinessOnboarded', () => {
+  describe('Set pay day onboarded status', () => {
+    it('should set payDayOnboardedStatus', () => {
       const state = {
-        isBusinessOnboarded: false,
+        payDayOnboardedStatus: undefined,
       };
 
       const action = {
-        intent: SET_IS_BUSINESS_ONBOARDED,
-        isBusinessOnboarded: true,
+        intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+        payDayOnboardedStatus: {
+          isBusinessOnboarded: true,
+          isUserOnboarded: true,
+        },
       };
 
       const expected = {
-        isBusinessOnboarded: true,
+        payDayOnboardedStatus: {
+          isBusinessOnboarded: true,
+          isUserOnboarded: true,
+        },
       };
 
       const actual = payRunReducer(state, action);

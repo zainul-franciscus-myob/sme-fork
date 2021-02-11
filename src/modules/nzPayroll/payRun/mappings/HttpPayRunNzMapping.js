@@ -1,7 +1,7 @@
 import {
   CREATE_DRAFT_PAY_RUN,
   DELETE_DRAFT_PAY_RUN,
-  LOAD_BUSINESS_ONBOARDED_STATUS,
+  LOAD_PAYDAY_ONBOARDED_STATUS,
   LOAD_PAYROLL_VERIFICATION_REPORT,
   RECORD_PAYMENTS,
   START_NEW_PAY_RUN,
@@ -49,10 +49,11 @@ const PayRunMapping = {
     getPath: ({ businessId }) =>
       `/${businessId}/nz-payroll/payRun/filter_pay_run_list`,
   },
-  [LOAD_BUSINESS_ONBOARDED_STATUS]: {
+
+  [LOAD_PAYDAY_ONBOARDED_STATUS]: {
     method: 'GET',
     getPath: ({ businessId }) =>
-      `/${businessId}/nz-payroll/payRun/load_business_onboarded_details`,
+      `/${businessId}/nz-payroll/payRun/payday_onboarded_status`,
   },
 };
 

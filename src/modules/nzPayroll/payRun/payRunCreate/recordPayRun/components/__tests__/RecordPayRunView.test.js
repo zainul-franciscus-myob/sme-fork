@@ -15,6 +15,7 @@ describe('RecordPayRunView', () => {
     onOpenPaydayFilingClick: jest.fn(),
     isPaydayFilingEnabled: false,
     isBusinessOnboarded: false,
+    isUserOnboarded: false,
   };
 
   beforeEach(() => {
@@ -111,113 +112,209 @@ describe('RecordPayRunView', () => {
       );
     });
 
-    it('should not display payday filing alert when paydayfiling is not enabled', () => {
-      const draftPayRun = {
-        lines: [
-          {
-            employeeId: '21',
-            isSelected: true,
-            payLines: [],
-          },
-        ],
-      };
+    describe('when PayDayFiling is enabled', () => {
+      it('should display payday filing alert and Record without filing with IR Action when business is not onboarded', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
 
-      store.setState({
-        ...store.getState(),
-        draftPayRun,
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+        });
+
+        const updated = { ...props, isPaydayFilingEnabled: true };
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+
+        expect(
+          wrapper.find({ testid: 'paydayFilingReportButton' }).first().text()
+        ).toEqual('save pay run and connect to Payday filing');
+        expect(
+          wrapper.find({ testid: 'recordWithoutFilingButton' }).first().text()
+        ).toEqual('Record without filing with IR');
+        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+          false
+        );
       });
 
-      const wrapper = mountWithProvider(<RecordPayRunView {...props} />);
+      it('should have Next Action and not display payday filing alert when business is onboarded', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
 
-      expect(
-        wrapper.find({ testid: 'paydayFilingReportButton' }).length
-      ).toEqual(0);
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+          payDayOnboardedStatus: {
+            isBusinessOnboarded: true,
+            isUserOnboarded: true,
+          },
+        });
+
+        const updated = {
+          ...props,
+          isPaydayFilingEnabled: true,
+        };
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+
+        expect(
+          wrapper.find({ testid: 'paydayFilingReportButton' }).length
+        ).toEqual(0);
+        expect(wrapper.find({ testid: 'nextButton' }).first().text()).toEqual(
+          'Next'
+        );
+      });
+
+      it('should call onOpenPaydayFilingClick when clicked payday filing button business is not onboarded', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
+
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+          payDayOnboardedStatus: {
+            isBusinessOnboarded: false,
+            isUserOnboarded: false,
+          },
+        });
+
+        const updated = {
+          ...props,
+          isPaydayFilingEnabled: true,
+        };
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+        const button = wrapper
+          .find({ testid: 'paydayFilingReportButton' })
+          .first();
+
+        button.simulate('click');
+
+        expect(props.onOpenPaydayFilingClick).toHaveBeenCalled();
+      });
+
+      it('should have RecordPayRunWithIRFilingModal when business and user are onboarded', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
+
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+          payDayOnboardedStatus: {
+            isBusinessOnboarded: true,
+            isUserOnboarded: true,
+          },
+          recordPayRunIRFileModal: true,
+        });
+
+        const updated = {
+          ...props,
+          isPaydayFilingEnabled: true,
+        };
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+          true
+        );
+      });
+
+      it('should not have RecordPayRunWithIRFilingModal when only business is onboarded', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
+
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+          payDayOnboardedStatus: {
+            isBusinessOnboarded: true,
+            isUserOnboarded: false,
+          },
+          recordPayRunIRFileModal: true,
+        });
+
+        const updated = {
+          ...props,
+          isPaydayFilingEnabled: true,
+        };
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+
+        expect(
+          wrapper.find({ testid: 'paydayFilingReportButton' }).length
+        ).toEqual(0);
+        expect(wrapper.find({ testid: 'recordButton' }).first().text()).toEqual(
+          'Record'
+        );
+        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+          false
+        );
+      });
     });
 
-    it('should display payday filing alert when paydayfiling is enabled', () => {
-      const draftPayRun = {
-        lines: [
-          {
-            employeeId: '21',
-            isSelected: true,
-            payLines: [],
-          },
-        ],
-      };
+    describe('when PayDayFiling is disabled', () => {
+      it('should have record action and not display payday filing alert', () => {
+        const draftPayRun = {
+          lines: [
+            {
+              employeeId: '21',
+              isSelected: true,
+              payLines: [],
+            },
+          ],
+        };
 
-      store.setState({
-        ...store.getState(),
-        draftPayRun,
+        store.setState({
+          ...store.getState(),
+          draftPayRun,
+        });
+
+        const wrapper = mountWithProvider(<RecordPayRunView {...props} />);
+
+        expect(
+          wrapper.find({ testid: 'paydayFilingReportButton' }).length
+        ).toEqual(0);
+        expect(wrapper.find({ testid: 'recordButton' }).first().text()).toEqual(
+          'Record'
+        );
+        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+          false
+        );
       });
-
-      const updated = { ...props, isPaydayFilingEnabled: true };
-
-      const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-
-      expect(
-        wrapper.find({ testid: 'paydayFilingReportButton' }).first().text()
-      ).toEqual('save pay run and connect to Payday filing');
-    });
-
-    it('should not display payday filing alert when business onboarded is true', () => {
-      const draftPayRun = {
-        lines: [
-          {
-            employeeId: '21',
-            isSelected: true,
-            payLines: [],
-          },
-        ],
-      };
-
-      store.setState({
-        ...store.getState(),
-        draftPayRun,
-        isBusinessOnboarded: true,
-      });
-
-      const updated = {
-        ...props,
-        isPaydayFilingEnabled: true,
-      };
-
-      const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-
-      expect(
-        wrapper.find({ testid: 'paydayFilingReportButton' }).length
-      ).toEqual(0);
-    });
-
-    it('should call onOpenPaydayFilingClick when clicked payday filing button', () => {
-      const draftPayRun = {
-        lines: [
-          {
-            employeeId: '21',
-            isSelected: true,
-            payLines: [],
-          },
-        ],
-      };
-
-      store.setState({
-        ...store.getState(),
-        draftPayRun,
-        isBusinessOnboarded: false,
-      });
-
-      const updated = {
-        ...props,
-        isPaydayFilingEnabled: true,
-      };
-
-      const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-      const button = wrapper
-        .find({ testid: 'paydayFilingReportButton' })
-        .first();
-
-      button.simulate('click');
-
-      expect(props.onOpenPaydayFilingClick).toHaveBeenCalled();
     });
   });
 });
