@@ -20,7 +20,6 @@ export default {
   isHolidaysAndLeaveLinesEnabled: true,
   isPaydayFilingEnabled: true,
   isNzPayrollAccountingEnabled: true,
-  isEInvoicingEnabled: true,
   isNzPayRunsViewEnabled: true,
   isInvoiceListActivityColumnEnabled: true,
   isJobMakerTabEnabled: true,

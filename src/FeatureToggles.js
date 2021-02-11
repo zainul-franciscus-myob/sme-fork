@@ -4,4 +4,5 @@ export default Object.freeze({
   TaxCodesDetail: 'essentials-tax-codes-crud',
   SmartMeTask: 'essential-smartme-task-toggle',
   PurchaseOrders: 'essentials-purchase-orders',
+  Einvoicing: 'essential-einvoicing-toggling',
 });

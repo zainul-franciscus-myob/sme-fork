@@ -20,6 +20,7 @@ import {
   getSortOrder,
   getTabData,
 } from './SalesSettingsDetailSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { mainTabIds } from './tabItems';
 import { trackUserEvent } from '../../../telemetry';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -28,6 +29,7 @@ import Store from '../../../store/Store';
 import actionTypes from './components/templates/actionTypes';
 import createSalesSettingsDispatcher from './createSalesSettingsDispatcher';
 import createSalesSettingsIntegrator from './createSalesSettingsIntegrator';
+import featureToggle from '../../../FeatureToggles';
 import keyMap from '../../../hotKeys/keyMap';
 import loadSubscriptionUrl from '../../settings/subscription/loadSubscriptionUrl';
 import modalTypes from './modalTypes';
@@ -308,9 +310,13 @@ export default class SalesSettingsModule {
   };
 
   run = (context) => {
+    const state = this.store.getState();
     const fullContext = {
       ...context,
-      isEInvoicingEnabled: this.featureToggles?.isEInvoicingEnabled,
+      isEInvoicingEnabled: isToggleOn(
+        featureToggle.Einvoicing,
+        getBusinessId(state)
+      ),
     };
     this.dispatcher.setInitialState(fullContext);
     this.dispatcher.setLoadingState(LoadingState.LOADING);
