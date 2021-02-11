@@ -310,12 +310,11 @@ export default class SalesSettingsModule {
   };
 
   run = (context) => {
-    const state = this.store.getState();
     const fullContext = {
       ...context,
       isEInvoicingEnabled: isToggleOn(
         featureToggle.Einvoicing,
-        getBusinessId(state)
+        context.businessId
       ),
     };
     this.dispatcher.setInitialState(fullContext);
