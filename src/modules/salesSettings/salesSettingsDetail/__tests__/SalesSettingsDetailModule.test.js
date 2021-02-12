@@ -69,7 +69,7 @@ describe('SalesSettingsDetailModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             businessId: '🦖',
-            isEInvoicingEnabled: false,
+            isEInvoicingEnabled: true,
             region: 'au',
           },
         },
@@ -120,7 +120,7 @@ describe('SalesSettingsDetailModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             businessId: '🦖',
-            isEInvoicingEnabled: false,
+            isEInvoicingEnabled: true,
             region: 'au',
           },
         },
@@ -169,7 +169,7 @@ describe('SalesSettingsDetailModule', () => {
           intent: SET_INITIAL_STATE,
           context: {
             businessId: '🦖',
-            isEInvoicingEnabled: false,
+            isEInvoicingEnabled: true,
             region: 'au',
           },
         },
