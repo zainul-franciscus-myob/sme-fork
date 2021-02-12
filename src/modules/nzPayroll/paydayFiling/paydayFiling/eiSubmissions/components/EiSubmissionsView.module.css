@@ -5,6 +5,7 @@
 
 .eiSubmissionsTemplate :global(.sticky-header) {
   padding-top: 0;
+  margin-bottom: 1rem;
 }
 
 .flex {

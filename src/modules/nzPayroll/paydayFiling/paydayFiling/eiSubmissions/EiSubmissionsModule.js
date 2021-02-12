@@ -13,8 +13,23 @@ export default class EiSubmissionsModule {
     this.integrator = createEiSubmissionsIntegrator(this.store, integration);
   }
 
-  loadEiSubmissions = () => {
-    // TODO: NZPR-1587 Add integration call to load ei submissions
+  loadFilteredEiSubmissions = () => {
+    this.dispatcher.setTableLoadingState(true);
+    this.dispatcher.clearEiSubmissionsList();
+
+    const onSuccess = (response) => {
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setFilteredEiSubmissions(response);
+    };
+
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+
+    this.integrator.loadFilteredEiSubmissions({
+      onSuccess,
+      onFailure,
+    });
   };
 
   loadInitialEiSubmissionsAndPayrollYearOptions = () => {
@@ -37,13 +52,13 @@ export default class EiSubmissionsModule {
 
   updatePayrollYearAndLoadEiSubmissions = (selectedPayrollYear) => {
     this.dispatcher.setSelectedPayrollYear(selectedPayrollYear);
-    this.loadEiSubmissions();
+    this.loadFilteredEiSubmissions();
   };
 
   getView = () => (
     <EiSubmissionsView
       onPayrollYearChange={this.updatePayrollYearAndLoadEiSubmissions}
-      onRefreshClick={this.loadEiSubmissions()}
+      onRefreshClick={this.loadFilteredEiSubmissions}
     />
   );
 
@@ -54,7 +69,7 @@ export default class EiSubmissionsModule {
     if (isMissingSelectedPayrollYear) {
       this.loadInitialEiSubmissionsAndPayrollYearOptions();
     } else {
-      this.loadEiSubmissions();
+      this.loadFilteredEiSubmissions();
     }
   };
 }

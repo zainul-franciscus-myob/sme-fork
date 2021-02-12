@@ -2,6 +2,7 @@ import {
   CREATE_ONBOARD_USER,
   DELETE_ONBOARD_USER,
   LOAD_BUSINESS_ONBOARDED_DETAILS,
+  LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYDAY_USER_SESSION,
   UPDATE_ONBOARD_USER,
@@ -42,6 +43,12 @@ const PaydayFilingMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/nz-payroll/paydayFiling/load_ei_submissions_initial`,
+  },
+
+  [LOAD_FILTERED_EI_SUBMISSIONS]: {
+    method: 'GET',
+    getPath: ({ businessId }) =>
+      `/${businessId}/nz-payroll/paydayFiling/load_filtered_ei_submissions`,
   },
 };
 

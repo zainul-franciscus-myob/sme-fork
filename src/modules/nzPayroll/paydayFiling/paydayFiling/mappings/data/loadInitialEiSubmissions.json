@@ -1,4 +1,76 @@
 {
+  "payRuns": [
+    {
+      "id": "1234d3e7-4c5b-4a50-a114-3e652c123456",
+      "payPeriod": "01/10/2020 - 15/10/2020",
+      "payOnDate": "01/10/2020",
+      "dateRecorded": "2020-10-01T07:18:14.174Z",
+      "totalPaye": "3,400.00",
+      "totalGross": "13,340.00",
+      "employeeCount": 2,
+      "status": "Submitting",
+      "username": "payday@mailinator.com",
+      "responseCode": "",
+      "submissionKey": "",
+      "detail": ""
+    },
+    {
+      "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+      "payPeriod": "15/09/2020 - 30/09/2020",
+      "payOnDate": "28/09/2020",
+      "dateRecorded": "2020-09-15T02:22:52.174Z",
+      "totalPaye": "3,400.00",
+      "totalGross": "13,340.00",
+      "employeeCount": 2,
+      "status": "Submitted",
+      "username": "payday@mailinator.com",
+      "responseCode": "0",
+      "submissionKey": "123456789",
+      "detail": "Submitted"
+    },
+    {
+      "id": "e84cd3e7-4c5b-4a50-a114-3e652c123456",
+      "payPeriod": "01/09/2020 - 15/09/2020",
+      "payOnDate": "01/09/2020",
+      "dateRecorded": "2020-09-01T00:08:52.174Z",
+      "totalPaye": "3,400.00",
+      "totalGross": "13,340.00",
+      "employeeCount": 2,
+      "status": "Rejected",
+      "username": "payday@mailinator.com",
+      "responseCode": "1",
+      "submissionKey": "",
+      "detail": "Error code 1: Unauthorised delegation"
+    },
+    {
+      "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+      "payPeriod": "15/08/2020 - 30/08/2020",
+      "payOnDate": "28/08/2020",
+      "dateRecorded": "2020-08-15T00:10:11.174Z",
+      "totalPaye": "3,400.00",
+      "totalGross": "13,340.00",
+      "employeeCount": 2,
+      "status": "Not submitted",
+      "username": "payday@mailinator.com",
+      "responseCode": "0",
+      "submissionKey": "123456789",
+      "detail": "Submitted"
+    },
+    {
+      "id": "e84cd3e7-4c5b-4a50-a114-3e652c123789",
+      "payPeriod": "01/08/2020 - 15/08/2020",
+      "payOnDate": "01/08/2020",
+      "dateRecorded": "2020-08-01T00:07:14.174Z",
+      "totalPaye": "3,400.00",
+      "totalGross": "13,340.00",
+      "employeeCount": 2,
+      "status": "Error",
+      "username": "payday@mailinator.com",
+      "responseCode": "Error code: 163",
+      "submissionKey": "",
+      "detail": "Pay period end date before pay period start"
+    }
+  ],
   "payrollYears" : [
       {
         "label": "2020/21",

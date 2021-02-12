@@ -1,0 +1,60 @@
+{
+  "payRuns": [
+    {
+      "id": "e84cd3e7-1234-4a50-a114-3e652c634657",
+      "payPeriod": "15/09/2019 - 30/09/2019",
+      "payOnDate": "28/09/2019",
+      "dateRecorded": "2019-09-15T02:22:52.174Z",
+      "totalPaye": "2,821.00",
+      "totalGross": "11,240.00",
+      "employeeCount": 2,
+      "status": "Submitted",
+      "username": "payday@mailinator.com",
+      "responseCode": "0",
+      "submissionKey": "123456789",
+      "detail": "Submitted"
+    },
+    {
+      "id": "e84cd3e7-4567-4a50-a114-3e652c123456",
+      "payPeriod": "01/09/2019 - 15/09/2019",
+      "payOnDate": "01/09/2019",
+      "dateRecorded": "2019-09-01T00:08:52.174Z",
+      "totalPaye": "2,821.00",
+      "totalGross": "11,240.00",
+      "employeeCount": 2,
+      "status": "Rejected",
+      "username": "payday@mailinator.com",
+      "responseCode": "1",
+      "submissionKey": "",
+      "detail": "Error code 1: Unauthorised delegation"
+    },
+    {
+      "id": "e84cd3e7-7890-4a50-a114-3e652c634657",
+      "payPeriod": "15/08/2019 - 30/08/2019",
+      "payOnDate": "28/08/2019",
+      "dateRecorded": "2019-08-15T00:10:11.174Z",
+      "totalPaye": "2,821.00",
+      "totalGross": "11,240.00",
+      "employeeCount": 2,
+      "status": "Not submitted",
+      "username": "payday@mailinator.com",
+      "responseCode": "",
+      "submissionKey": "",
+      "detail": "Not submitted"
+    },
+    {
+      "id": "e84cd3e7-1111-4a50-a114-3e652c123789",
+      "payPeriod": "01/08/2019 - 15/08/2019",
+      "payOnDate": "01/08/2019",
+      "dateRecorded": "2019-08-01T00:07:14.174Z",
+      "totalPaye": "2,821.00",
+      "totalGross": "11,240.00",
+      "employeeCount": 2,
+      "status": "Error",
+      "username": "payday@mailinator.com",
+      "responseCode": "Error code: 160",
+      "submissionKey": "",
+      "detail": "Duplicate payday submission"
+    }
+  ]
+}
