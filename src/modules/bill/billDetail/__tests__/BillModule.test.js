@@ -917,9 +917,14 @@ describe('BillModule', () => {
           expect.objectContaining({
             intent: LOAD_SUPPLIER_DETAIL,
           }),
+          expect.objectContaining({
+            intent: GET_TAX_CALCULATIONS,
+          }),
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
           { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
-          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+          expect.objectContaining({
+            intent: LOAD_ABN_FROM_SUPPLIER,
+          }),
         ]);
 
         expect(integration.getRequests()).toEqual([

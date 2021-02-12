@@ -5,6 +5,7 @@ import classnames from 'classnames';
 
 import {
   getAccountOptions,
+  getExpenseAccountId,
   getIsSubmitting,
   getIsSupplierBlocking,
   getLineDataByIndexSelector,
@@ -47,6 +48,7 @@ const SpendMoneyDetailRow = (props) => {
   const {
     renderJobCombobox,
     index,
+    expenseAccountId,
     onRowInputBlur,
     onChange,
     isNewLineRow,
@@ -80,7 +82,7 @@ const SpendMoneyDetailRow = (props) => {
         label="Accounts"
         hideLabel={false}
         items={accountOptions}
-        selectedId={accountId}
+        selectedId={accountId || expenseAccountId}
         onChange={onComboboxChange('accountId', onChange)}
         disabled={isSupplierBlocking || isSubmitting}
         addNewAccount={() => onAddAccount(onChangeAccountId)}
@@ -151,6 +153,7 @@ const SpendMoneyDetailRow = (props) => {
 const makeMapRowStateToProps = () => {
   const lineDataByIndex = getLineDataByIndexSelector();
   return (state, ownProps) => ({
+    expenseAccountId: getExpenseAccountId(state),
     lineData: lineDataByIndex(state, ownProps),
     newLineData: getNewLineData(state),
     accountOptions: getAccountOptions(state),

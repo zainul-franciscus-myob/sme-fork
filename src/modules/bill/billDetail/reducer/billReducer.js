@@ -370,9 +370,17 @@ const updateBillLine = (state, action) => ({
                   accountId: action.value,
                   accountOptions: state.accountOptions,
                 })
-              : line.taxCodeId,
+              : line.taxCodeId ||
+                getDefaultTaxCodeId({
+                  accountId: state.bill.expenseAccountId,
+                  accountOptions: state.accountOptions,
+                }),
           type,
           lineSubTypeId: getLineSubTypeId(type),
+          accountId:
+            action.key === 'accountId'
+              ? action.value
+              : line.accountId || state.bill.expenseAccountId,
           prefillStatus: line.prefillStatus
             ? getLinePrefillStatus(action.key, line.prefillStatus)
             : undefined,
@@ -401,12 +409,10 @@ const loadSupplierDetail = (state, action) => ({
   bill: {
     ...state.bill,
     supplierAddress: action.response.supplierAddress,
-    expenseAccountId: getIsCreatingFromInTray(state)
-      ? action.response.expenseAccountId
-      : state.bill.expenseAccountId,
+    expenseAccountId: action.response.expenseAccountId,
     isReportable: action.response.isReportable,
     lines:
-      state.bill.lines.length > 0 && getIsCreatingFromInTray(state)
+      state.bill.lines.length > 0
         ? updateAllLinesWithExpenseAccount(
             state.bill.lines,
             state.accountOptions,

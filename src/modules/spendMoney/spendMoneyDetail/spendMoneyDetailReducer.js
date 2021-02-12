@@ -150,7 +150,12 @@ const getLinePrefillStatus = (key, currentStateLinePrefillStatus) => {
     : currentStateLinePrefillStatus;
 };
 
-const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
+const updateSpendMoneyLine = (
+  line,
+  { lineKey, lineValue },
+  accounts,
+  expenseAccountId
+) => {
   const isUpdateAccount = lineKey === 'accountId';
 
   const updatedLine = {
@@ -161,6 +166,8 @@ const updateSpendMoneyLine = (line, { lineKey, lineValue }, accounts) => {
     prefillStatus: line.prefillStatus
       ? getLinePrefillStatus(lineKey, line.prefillStatus)
       : undefined,
+    accountId:
+      lineKey === 'accountId' ? lineValue : line.accountId || expenseAccountId,
     [lineKey]: lineValue,
   };
   return updatedLine;
@@ -173,7 +180,12 @@ const updateLine = (state, action) => ({
     ...state.spendMoney,
     lines: state.spendMoney.lines.map((line, index) =>
       index === action.lineIndex
-        ? updateSpendMoneyLine(line, action, state.accounts)
+        ? updateSpendMoneyLine(
+            line,
+            action,
+            state.accounts,
+            state.spendMoney.expenseAccountId
+          )
         : line
     ),
   },
@@ -189,8 +201,13 @@ const addLine = (state, action) => ({
       {
         ...state.newLine,
         ...action.line,
+        accountId: action.line.accountId
+          ? action.line.accountId
+          : state.spendMoney.expenseAccountId,
         taxCodeId: getDefaultTaxCodeId({
-          accountId: action.line.accountId,
+          accountId: action.line.accountId
+            ? action.line.accountId
+            : state.spendMoney.expenseAccountId,
           accounts: state.accounts,
         }),
       },

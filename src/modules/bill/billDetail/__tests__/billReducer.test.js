@@ -441,32 +441,6 @@ describe('billReducer', () => {
       expect(actual.bill.lines).toEqual(expectedLines);
       expect(actual.bill.expenseAccountId).toEqual('1');
     });
-
-    it('does not update expenseAccountId or lines with the accountId if not is creating new bill from intray', () => {
-      const state = {
-        billId: 'new',
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = bill.lines;
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('2');
-    });
-
-    it('does not update expenseAccountId or lines with the accountId if not is creating new bill', () => {
-      const state = {
-        billId: 'id',
-        bill,
-      };
-
-      const actual = billReducer(state, action);
-      const expectedLines = bill.lines;
-
-      expect(actual.bill.lines).toEqual(expectedLines);
-      expect(actual.bill.expenseAccountId).toEqual('2');
-    });
   });
 
   describe('ADD_BILL_LINE', () => {
@@ -545,6 +519,7 @@ describe('billReducer', () => {
             },
           ],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -564,6 +539,7 @@ describe('billReducer', () => {
         bill: {
           lines: [{}],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -583,6 +559,7 @@ describe('billReducer', () => {
         bill: {
           lines: [{}],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -632,6 +609,7 @@ describe('billReducer', () => {
         bill: {
           lines: [{}],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -652,6 +630,7 @@ describe('billReducer', () => {
         bill: {
           lines: [{ type: BillLineType.SERVICE, id: '1' }],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -678,6 +657,7 @@ describe('billReducer', () => {
         bill: {
           lines: [{}],
         },
+        accountOptions: [],
       };
       const actual = billReducer(state, action);
 
@@ -694,6 +674,7 @@ describe('billReducer', () => {
             },
           ],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -720,6 +701,7 @@ describe('billReducer', () => {
             },
           ],
         },
+        accountOptions: [],
       };
 
       const action = {
@@ -794,6 +776,7 @@ describe('billReducer', () => {
                 },
               ],
             },
+            accountOptions: [],
           };
 
           const action = {
@@ -818,6 +801,7 @@ describe('billReducer', () => {
               },
             ],
           },
+          accountOptions: [],
         };
 
         const action = {
