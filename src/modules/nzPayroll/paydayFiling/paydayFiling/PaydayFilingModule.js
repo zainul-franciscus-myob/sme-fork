@@ -179,8 +179,8 @@ export default class PaydayFilingModule {
     if (this.featureToggles.isPaydayFilingEnabled) {
       this.setupSubModules(context);
       this.dispatcher.setInitialState(context);
-      this.paydayFilingInit();
       this.checkAuthorisation();
+      this.paydayFilingInit();
       this.runTab();
       this.render();
     } else this.redirectToBusinessList();
