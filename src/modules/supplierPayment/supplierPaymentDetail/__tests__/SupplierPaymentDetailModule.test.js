@@ -50,6 +50,7 @@ describe('SupplierPaymentDetailModule', () => {
     const navigateTo = jest.fn((url) => {
       window.location.href = url;
     });
+    const featureToggles = { isPurchaseOrderEnabled: false };
 
     const module = new SupplierPaymentModule({
       integration,
@@ -58,6 +59,7 @@ describe('SupplierPaymentDetailModule', () => {
       navigateTo,
       replaceURLParams,
       popMessages,
+      featureToggles,
     });
     module.store = store;
     module.dispatcher = createSupplierPaymentDetailDispatcher(store);

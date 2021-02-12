@@ -18,12 +18,15 @@ import {
   getShouldSendRemittanceAdvice,
 } from './SupplierPaymentDetailSelectors';
 import { getReferenceId } from '../../billPayment/billPaymentDetail/BillPaymentDetailSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import SupplierPaymentView from './components/SupplierPaymentDetailView';
 import createSupplierPaymentDetailDispatcher from './createSupplierPaymentDetailDispatcher';
 import createSupplierPaymentDetailIntegrator from './createSupplierPaymentDetailIntegrator';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
@@ -40,6 +43,7 @@ export default class SupplierPaymentModule {
     replaceURLParams,
     navigateTo,
     popMessages,
+    featureToggles,
   }) {
     this.store = new Store(supplierPaymentReducer);
     this.setRootView = setRootView;
@@ -54,6 +58,7 @@ export default class SupplierPaymentModule {
     );
     this.navigateTo = navigateTo;
     this.contactComboboxModule = new ContactComboboxModule({ integration });
+    this.featureToggles = featureToggles;
   }
 
   loadSupplierPayment = (onSuccessFn) => {
@@ -374,8 +379,14 @@ export default class SupplierPaymentModule {
   };
 
   run = (context) => {
+    const isPurchaseOrderEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPurchaseOrderEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.PurchaseOrders),
+    });
+
     this.dispatcher.setInitialState({
       ...context,
+      isPurchaseOrderEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

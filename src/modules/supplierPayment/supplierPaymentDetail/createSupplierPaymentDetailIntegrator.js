@@ -7,6 +7,8 @@ import {
   UPDATE_REFERENCE_ID,
 } from '../SupplierPaymentIntents';
 import {
+  getIsPurchaseOrderFeatureEnabled,
+  getLoadPaymentLinesParams,
   getLoadSupplierDetailsParams,
   getLoadSupplierDetailsUrlParams,
   getLoadSupplierPaymentIntent,
@@ -89,10 +91,15 @@ const createSupplierPaymentDetailIntegrator = (store, integration) => ({
   loadSupplierPurchaseList: ({ onSuccess, onFailure }) => {
     const state = store.getState();
 
+    let paymentLineType = 'Bill';
+    if (getIsPurchaseOrderFeatureEnabled(state) === true) {
+      paymentLineType = 'All';
+    }
+
     integration.read({
       intent: LOAD_SUPPLIER_PURCHASE_LIST,
       urlParams: getLoadSupplierDetailsUrlParams(state),
-      params: getLoadSupplierDetailsParams(state),
+      params: getLoadPaymentLinesParams(state, paymentLineType),
       onSuccess,
       onFailure,
     });

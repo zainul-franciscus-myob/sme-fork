@@ -2,6 +2,7 @@ import {
   getDefaultAccountId,
   getIsBeforeStartOfFinancialYear,
   getIsElectronicPayment,
+  getLoadPaymentLinesParams,
   getPurchaseEntries,
   getSaveSupplierPaymentPayload,
   getShouldDisableSupplier,
@@ -477,6 +478,19 @@ describe('SupplierPaymentSelector', () => {
       const actual = getDefaultAccountId(state);
 
       expect(actual).toBeUndefined();
+    });
+  });
+
+  describe('getLoadPaymentLinesParams', () => {
+    it('return get payment lines query parameters', () => {
+      const state = {
+        showPaidBills: false,
+      };
+      const result = getLoadPaymentLinesParams(state, 'Bill');
+      expect(result).toEqual({
+        showPaidBills: false,
+        paymentLineType: 'Bill',
+      });
     });
   });
 });

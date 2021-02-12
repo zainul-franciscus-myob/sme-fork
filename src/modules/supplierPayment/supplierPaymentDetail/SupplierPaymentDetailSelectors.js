@@ -57,6 +57,8 @@ export const getRemittanceAdviceType = createSelector(
 );
 export const getTemplateOptions = (state) => state.templateOptions;
 export const getIsActionsDisabled = (state) => state.isSubmitting;
+export const getIsPurchaseOrderFeatureEnabled = (state) =>
+  state.isPurchaseOrderEnabled;
 
 export const getTitle = createSelector(
   getIsCreating,
@@ -258,6 +260,11 @@ export const getLoadSupplierDetailsParams = createSelector(
     showPaidBills,
   })
 );
+
+export const getLoadPaymentLinesParams = (state, paymentLineType) => ({
+  showPaidBills: getShowPaidBills(state),
+  paymentLineType,
+});
 
 export const getIsTableEmpty = (state) => state.entries.length === 0;
 
