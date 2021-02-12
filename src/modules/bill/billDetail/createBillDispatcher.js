@@ -14,6 +14,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_NEW_BILL_PAYMENT,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -461,6 +462,10 @@ const createBillDispatcher = (store) => ({
       intent: UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
       shouldSendRemittanceAdvice: value,
     });
+  },
+
+  loadPrefillFromRecurringBill: (data) => {
+    store.dispatch({ intent: LOAD_PREFILL_FROM_RECURRING_BILL, ...data });
   },
 });
 

@@ -3,6 +3,7 @@ import {
   CONVERT_TO_PRE_CONVERSION_BILL,
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_BILL,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   RELOAD_BILL,
@@ -1335,5 +1336,28 @@ describe('billReducer', () => {
 
       expect(actual.subscription.monthlyLimit).toEqual(expectedMonthlyLimit);
     });
+  });
+
+  describe('LOAD_PREFILL_FROM_RECURRING_BILL', () => {
+    it.each([
+      [true, '10'],
+      [false, '9.99'],
+    ])(
+      'set bill and calculates line amounts when tax inclusive is %s',
+      (isTaxInclusive, expected) => {
+        const state = {};
+        const action = {
+          intent: LOAD_PREFILL_FROM_RECURRING_BILL,
+          bill: {
+            isTaxInclusive,
+            lines: [{ taxExclusiveAmount: '9.99', taxAmount: '0.01' }],
+          },
+        };
+
+        const actual = billReducer(state, action);
+
+        expect(actual.bill.lines[0].amount).toEqual(expected);
+      }
+    );
   });
 });

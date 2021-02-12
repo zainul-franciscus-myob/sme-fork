@@ -1,0 +1,56 @@
+{
+  "bill": {
+    "id": "1",
+    "uid": "123e4567-e89b-12d3-a456-426655440000",
+    "layout": "itemAndService",
+    "supplierId": "2",
+    "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "supplierInvoiceNumber": "inv012",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
+    "isTaxInclusive": true,
+    "isReportable": true,
+    "note": "Some note/description",
+    "memo": "Not displayed on UI",
+    "billNumber": "00000123",
+    "issueDate": "2018-11-02",
+    "amountPaid": "77.77",
+    "status": "Open",
+    "taxExclusiveFreightAmount": "0",
+    "freightTaxAmount": "0",
+    "freightTaxCodeId": "2",
+    "isForeignCurrency": false,
+    "lines": [
+      {
+        "type": "item",
+        "id": "1",
+        "units": "2",
+        "itemId": "133",
+        "accountId": "123",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "jobId": "2",
+        "taxCodeId": "123",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
+        "lineSubTypeId": "13"
+      },
+      {
+        "type": "service",
+        "id": "2",
+        "description": "Cooler Extra Large",
+        "accountId": "123",
+        "itemId": "",
+        "jobId": "3",
+        "taxCodeId": "124",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
+        "unitPrice": "",
+        "discount": "",
+        "units": "",
+        "lineSubTypeId": "11"
+      }
+    ]
+  }
+}

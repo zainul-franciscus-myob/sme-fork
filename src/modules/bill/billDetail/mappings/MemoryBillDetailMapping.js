@@ -17,6 +17,7 @@ import {
   LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -33,6 +34,7 @@ import loadNewBill from './data/loadNewBill';
 import loadNewBillPaymentWithSupplier from './data/loadNewBillPaymentWithSupplier.json';
 import loadNewDuplicateItemAndServiceBill from './data/loadNewDuplicateItemAndServiceBill';
 import loadPreConversionBill from './data/loadPreConversionBill';
+import loadPrefillFromRecurringBillResponse from './data/loadPrefillFromRecurringBillResponse';
 import loadReadOnlyItemAndServiceBill from './data/loadReadOnlyItemAndServiceBill';
 import loadReadOnlyMiscellaneousBill from './data/loadReadOnlyMiscellaneousBill';
 import loadReadOnlyProfessionalBill from './data/loadReadOnlyProfessionalBill';
@@ -112,6 +114,8 @@ const MemoryBillDetailMapping = {
   [GET_REFERENCE_ID]: ({ onSuccess }) => onSuccess(billPaymentReferenceId),
   [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: ({ onSuccess }) =>
     onSuccess(loadItemAndServiceBill),
+  [LOAD_PREFILL_FROM_RECURRING_BILL]: ({ onSuccess }) =>
+    onSuccess(loadPrefillFromRecurringBillResponse),
 };
 
 export default MemoryBillDetailMapping;

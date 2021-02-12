@@ -250,3 +250,12 @@ export const getLinkInTrayContentWithoutIds = createSelector(
     expenseAccountId: isCreatingFromInTray ? expenseAccountId : undefined,
   })
 );
+
+export const getLoadPrefillFromRecurringBillUrlParams = (
+  state,
+  recurringTransactionId
+) => {
+  const businessId = getBusinessId(state);
+
+  return { businessId, recurringTransactionId };
+};

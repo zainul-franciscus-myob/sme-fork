@@ -7,6 +7,7 @@ import {
   LOAD_BILL,
   LOAD_NEW_BILL,
   LOAD_NEW_DUPLICATE_BILL,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -35,6 +36,7 @@ import {
   SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
 } from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import BillLayout from '../types/BillLayout';
 import BillModule from '../BillModule';
 import InTrayModalModule from '../../../inTray/inTrayModal/InTrayModalModule';
 import ModalType from '../types/ModalType';
@@ -44,6 +46,7 @@ import billReducer from '../reducer/billReducer';
 import createBillDispatcher from '../createBillDispatcher';
 import createBillIntegrator from '../createBillIntegrator';
 import loadItemAndServiceBill from '../mappings/data/loadItemAndServiceBill.json';
+import loadPrefillFromRecurringBillResponse from '../mappings/data/loadPrefillFromRecurringBillResponse';
 import prefillBillFromInTrayResponse from '../mappings/data/prefillBillFromSupplierFeed';
 
 export const mockCreateObjectUrl = () => {
@@ -65,6 +68,7 @@ export const setUp = () => {
   const globalCallbacks = {
     inTrayBillSaved: jest.fn(),
   };
+  const featureToggles = { isRecurringTransactionEnabled: false };
   const integration = new TestIntegration();
 
   const module = new BillModule({
@@ -75,6 +79,7 @@ export const setUp = () => {
     replaceURLParams,
     globalCallbacks,
     navigateTo,
+    featureToggles,
   });
   const store = new TestStore(billReducer);
   module.store = store;
@@ -202,6 +207,7 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
+        isRecurringTransactionEnabled: false,
       };
       module.run(context);
 
@@ -227,6 +233,7 @@ describe('BillModule', () => {
         billId,
         businessId: '🐷',
         region: 'au',
+        isRecurringTransactionEnabled: false,
       };
       module.run(context);
 
@@ -267,6 +274,7 @@ describe('BillModule', () => {
           billId: test.billId,
           businessId: '🐷',
           region: 'au',
+          isRecurringTransactionEnabled: false,
         };
         module.run(context);
 
@@ -303,6 +311,7 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        isRecurringTransactionEnabled: false,
       };
       module.run(context);
 
@@ -355,6 +364,7 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        isRecurringTransactionEnabled: false,
       };
 
       module.run(context);
@@ -456,6 +466,7 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          isRecurringTransactionEnabled: false,
         };
         module.run(context);
 
@@ -505,6 +516,7 @@ describe('BillModule', () => {
           billId: '🐀',
           businessId: '🐷',
           region: 'au',
+          isRecurringTransactionEnabled: false,
         };
         module.run(context);
 
@@ -554,6 +566,7 @@ describe('BillModule', () => {
         billId: 'new',
         businessId: '🐷',
         region: 'au',
+        isRecurringTransactionEnabled: false,
       };
 
       const expectedActionsWithoutPrefillAndTaxCalc = [
@@ -1304,6 +1317,61 @@ describe('BillModule', () => {
         ]);
         expect(integration.getRequests().length).toBe(0);
       });
+    });
+  });
+
+  describe('loadPrefillFromRecurringBill', () => {
+    it('prefills bill with recurring transaction', () => {
+      const { store, integration, module } = setUpWithRun({ isCreating: true });
+
+      module.loadPrefillFromRecurringBill('id');
+
+      expect(store.getActions()).toEqual([
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+        expect.objectContaining({
+          intent: LOAD_PREFILL_FROM_RECURRING_BILL,
+        }),
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: true },
+        { intent: SET_ABN_LOADING_STATE, isAbnLoading: false },
+        expect.objectContaining({
+          intent: LOAD_ABN_FROM_SUPPLIER,
+        }),
+      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_PREFILL_FROM_RECURRING_BILL,
+          }),
+          expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
+        ])
+      );
+    });
+
+    it('does not prefill bill if recurring transaction is read-only', () => {
+      const { store, integration, module } = setUpWithRun({ isCreating: true });
+      integration.mapSuccess(LOAD_PREFILL_FROM_RECURRING_BILL, {
+        ...loadPrefillFromRecurringBillResponse,
+        bill: {
+          ...loadPrefillFromRecurringBillResponse.bill,
+          layout: BillLayout.MISCELLANEOUS,
+        },
+      });
+
+      module.loadPrefillFromRecurringBill('id');
+
+      expect(store.getActions()).toEqual([
+        { intent: START_BLOCKING },
+        { intent: STOP_BLOCKING },
+        expect.objectContaining({ intent: OPEN_ALERT }),
+      ]);
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_PREFILL_FROM_RECURRING_BILL,
+          }),
+        ])
+      );
     });
   });
 });

@@ -76,7 +76,12 @@ import {
   getIsSupplierIdKey,
   getIsTaxInclusiveKey,
 } from './selectors/BillModuleSelectors';
+import {
+  getIsRecurringTransactionReadOnly,
+  getRecurringTransactionListModalContext,
+} from './selectors/recurringBillSelectors';
 import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/BillSaveSelectors';
 import { trackUserEvent } from '../../../telemetry';
 import AbnStatus from '../../../components/autoFormatter/AbnInput/AbnStatus';
@@ -84,17 +89,20 @@ import AccountModalModule from '../../account/accountModal/AccountModalModule';
 import AlertType from '../../../common/types/AlertType';
 import BillView from './components/BillView';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
+import FeatureToggles from '../../../FeatureToggles';
 import InTrayModalModule from '../../inTray/inTrayModal/InTrayModalModule';
 import ItemComboboxModule from '../../inventory/itemCombobox/ItemComboboxModule';
 import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
+import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import billReducer from './reducer/billReducer';
 import createBillDispatcher from './createBillDispatcher';
 import createBillIntegrator from './createBillIntegrator';
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
@@ -115,6 +123,8 @@ class BillModule {
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
     this.replaceURLParams = replaceURLParams;
+    this.featureToggles = featureToggles;
+
     this.store = new Store(billReducer);
     this.dispatcher = createBillDispatcher(this.store);
     this.integrator = createBillIntegrator(this.store, integration);
@@ -142,6 +152,9 @@ class BillModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
+    this.recurringTransactionListModal = new RecurringTransactionListModalModule(
+      { integration }
+    );
   }
 
   openAccountModal = (onChange) => {
@@ -205,6 +218,18 @@ class BillModule {
     this.integrator.loadJobAfterCreate({ id, onSuccess, onFailure });
   };
 
+  updateComponentsAfterLoadBill = () => {
+    this.updateContactCombobox();
+    this.updateItemCombobox();
+    this.updateJobCombobox();
+
+    const state = this.store.getState();
+    const shouldShowAbn = getShouldShowAbn(state);
+    if (shouldShowAbn) {
+      this.loadAbnFromSupplier();
+    }
+  };
+
   prefillBillFromInTray() {
     const onSuccess = (response) => {
       this.dispatcher.setDocumentLoadingState(false);
@@ -241,14 +266,7 @@ class BillModule {
       if (getIsCreatingFromInTray(state)) {
         this.prefillBillFromInTray();
       } else {
-        this.updateContactCombobox();
-        this.updateItemCombobox();
-        this.updateJobCombobox();
-
-        const shouldShowAbn = getShouldShowAbn(state);
-        if (shouldShowAbn) {
-          this.loadAbnFromSupplier();
-        }
+        this.updateComponentsAfterLoadBill();
       }
     };
 
@@ -893,6 +911,55 @@ class BillModule {
     }
   };
 
+  openRecurringTransactionListModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionListModal.run({
+      context: getRecurringTransactionListModalContext(state),
+      onComplete: ({ id }) => {
+        this.recurringTransactionListModal.close();
+
+        if (id) {
+          this.loadPrefillFromRecurringBill(id);
+        }
+      },
+      onLoadFailure: (message) => {
+        this.recurringTransactionListModal.close();
+        this.dispatcher.openDangerAlert({ message });
+      },
+    });
+  };
+
+  loadPrefillFromRecurringBill = (recurringTransactionId) => {
+    this.dispatcher.startBlocking();
+
+    const onSuccess = (data) => {
+      this.dispatcher.stopBlocking();
+
+      const isReadOnly = getIsRecurringTransactionReadOnly(data);
+      if (isReadOnly) {
+        this.dispatcher.openDangerAlert({
+          message:
+            'Unable to prefill bill. The selected recurring transaction contains unsupported feature.',
+        });
+      } else {
+        this.dispatcher.loadPrefillFromRecurringBill(data);
+        this.updateComponentsAfterLoadBill();
+      }
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopBlocking();
+      this.dispatcher.openDangerAlert({ message });
+    };
+
+    this.integrator.loadPrefillFromRecurringBill({
+      recurringTransactionId,
+      onSuccess,
+      onFailure,
+    });
+  };
+
   redirectToCreateNewBill = () => {
     const state = this.store.getState();
     const url = getCreateNewBillUrl(state);
@@ -1140,6 +1207,7 @@ class BillModule {
     const accountModal = this.accountModalModule.render();
     const jobModal = this.jobModalModule.render();
     const inTrayModal = this.inTrayModalModule.render();
+    const recurringListModal = this.recurringTransactionListModal.render();
 
     const view = (
       <Provider store={this.store}>
@@ -1150,6 +1218,7 @@ class BillModule {
           inTrayModal={inTrayModal}
           accountModal={accountModal}
           jobModal={jobModal}
+          recurringListModal={recurringListModal}
           onSaveButtonClick={this.handleSaveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
           onConfirmSaveAndRedirect={this.saveAndRedirect}
@@ -1190,6 +1259,9 @@ class BillModule {
             onViewedAccountToolTip: this.viewedAccountToolTip,
           }}
           onPrefillButtonClick={this.openInTrayModal}
+          onPrefillFromRecurringButtonClick={
+            this.openRecurringTransactionListModal
+          }
           exportPdfModalListeners={{
             onCancel: this.closeModal,
             onConfirm: this.exportPdf,
@@ -1242,6 +1314,7 @@ class BillModule {
     this.itemComboboxModule.resetState();
     this.accountModalModule.resetState();
     this.inTrayModalModule.resetState();
+    this.recurringTransactionListModal.resetState();
     this.dispatcher.resetState();
   };
 
@@ -1249,10 +1322,27 @@ class BillModule {
     this.store.unsubscribeAll();
   };
 
+  saveHandler = () => {
+    if (this.recurringTransactionListModal.isOpened()) {
+      this.recurringTransactionListModal.complete();
+      return;
+    }
+
+    this.saveBill();
+  };
+
   run(context) {
-    this.setInitialState(context);
+    const isRecurringTransactionEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
+    });
+
+    this.setInitialState({
+      isRecurringTransactionEnabled,
+      ...context,
+    });
     setupHotKeys(keyMap, {
-      SAVE_ACTION: this.saveBill,
+      SAVE_ACTION: this.saveHandler,
     });
     this.render();
     this.readMessages();

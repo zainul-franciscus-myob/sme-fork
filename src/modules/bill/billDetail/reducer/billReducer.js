@@ -17,6 +17,7 @@ import {
   LOAD_BILL,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_NEW_BILL_PAYMENT,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   OPEN_ALERT,
   OPEN_MODAL,
@@ -117,6 +118,14 @@ const getIsBeforeConversionDate = (date, conversionDate) =>
   Boolean(conversionDate) &&
   isBefore(new Date(date), new Date(conversionDate));
 
+const getLoadBillLine = (line, isTaxInclusive) => {
+  const amount = isTaxInclusive
+    ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
+    : new Decimal(line.taxExclusiveAmount).valueOf();
+
+  return { ...line, amount };
+};
+
 const loadBill = (state, action) => {
   const defaultState = getDefaultState();
 
@@ -136,23 +145,15 @@ const loadBill = (state, action) => {
       issueDate: isCreating
         ? formatIsoDate(state.today)
         : action.response.bill.issueDate,
-      lines: action.response.bill.lines.map((line) => {
-        if (
-          [
-            BillLineType.SERVICE,
-            BillLineType.ITEM,
-            BillLineType.SUB_TOTAL,
-          ].includes(line.type)
-        ) {
-          const amount = action.response.bill.isTaxInclusive
-            ? new Decimal(line.taxExclusiveAmount).add(line.taxAmount).valueOf()
-            : new Decimal(line.taxExclusiveAmount).valueOf();
-
-          return { ...line, amount };
-        }
-
-        return line;
-      }),
+      lines: action.response.bill.lines.map((line) =>
+        [
+          BillLineType.SERVICE,
+          BillLineType.ITEM,
+          BillLineType.SUB_TOTAL,
+        ].includes(line.type)
+          ? getLoadBillLine(line, action.response.bill.isTaxInclusive)
+          : line
+      ),
     },
     originalAmountDue: setOriginalAmountDue(action.response.bill),
     newLine: {
@@ -709,6 +710,27 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
   viewedAccountToolTip,
 });
 
+const loadPrefillFromRecurringBill = (state, { bill }) => {
+  const defaultState = getDefaultState();
+
+  const unlinkedInTrayState = unlinkInTrayDocument(state);
+
+  return {
+    ...unlinkedInTrayState,
+    isPageEdited: true,
+    bill: {
+      ...defaultState.bill,
+      ...bill,
+      issueDate: defaultState.bill.issueDate,
+      lines: bill.lines.map((line) =>
+        getLoadBillLine(line, bill.isTaxInclusive)
+      ),
+    },
+    originalAmountDue: defaultState.originalAmountDue,
+    orderId: defaultState.orderId,
+  };
+};
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -767,6 +789,7 @@ const handlers = {
   [UPDATE_BANK_STATEMENT_TEXT]: updateBankStatementText,
   [UPDATE_BILL_PAYMENT_ID]: updateBillPaymentId,
   [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: updateShouldSendRemittanceAdvice,
+  [LOAD_PREFILL_FROM_RECURRING_BILL]: loadPrefillFromRecurringBill,
 };
 
 const billReducer = createReducer(getDefaultState(), handlers);

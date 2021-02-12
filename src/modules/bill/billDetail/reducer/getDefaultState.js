@@ -139,4 +139,5 @@ export const getDefaultState = () => ({
     shouldSendRemittanceAdvice: false,
   },
   viewedAccountToolTip: false,
+  isRecurringTransactionEnabled: false,
 });

@@ -17,6 +17,7 @@ import {
   LOAD_NEW_BILL_DETAIL_FROM_ORDER,
   LOAD_NEW_BILL_PAYMENT,
   LOAD_NEW_DUPLICATE_BILL,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -132,6 +133,11 @@ const HttpBillDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, orderId }) =>
       `/${businessId}/bill/load_new_bill_detail_from_order/${orderId}`,
+  },
+  [LOAD_PREFILL_FROM_RECURRING_BILL]: {
+    method: 'GET',
+    getPath: ({ businessId, recurringTransactionId }) =>
+      `/${businessId}/bill/load_prefill_from_recurring_bill/${recurringTransactionId}`,
   },
 };
 

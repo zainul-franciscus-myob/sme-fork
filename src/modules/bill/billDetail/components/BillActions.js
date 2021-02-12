@@ -16,6 +16,7 @@ import {
   getIsReadOnly,
   getShowExportPdfButton,
 } from '../selectors/billSelectors';
+import { getShowPrefillRecurringButton } from '../selectors/recurringBillSelectors';
 import SaveActionType from '../types/SaveActionType';
 
 const BillActions = ({
@@ -24,12 +25,14 @@ const BillActions = ({
   isReadOnly,
   isForeignCurrency,
   showExportPdfButton,
+  showPrefillRecurringButton,
   onSaveButtonClick,
   onSaveAndButtonClick,
   onCancelButtonClick,
   onDeleteButtonClick,
   onExportPdfButtonClick,
   onRecordPaymentClick,
+  onPrefillFromRecurringButtonClick,
   isPreConversion,
 }) => {
   const exportPdfButton = (
@@ -121,6 +124,18 @@ const BillActions = ({
     </Button>
   );
 
+  const prefillButton = (
+    <Button
+      key="prefill"
+      name="prefill"
+      type="secondary"
+      onClick={onPrefillFromRecurringButtonClick}
+      disabled={isBlocking}
+    >
+      Prefill from recurring
+    </Button>
+  );
+
   const backButton = (
     <Button
       key="back"
@@ -166,6 +181,7 @@ const BillActions = ({
         !isCreating && separator,
         !isCreating && recordPaymentButton,
         exportPdfButton,
+        showPrefillRecurringButton && prefillButton,
       ]}
     />
   );
@@ -178,6 +194,7 @@ const mapStateToProps = (state) => ({
   isForeignCurrency: getIsForeignCurrency(state),
   showExportPdfButton: getShowExportPdfButton(state),
   isPreConversion: getIsPreConversion(state),
+  showPrefillRecurringButton: getShowPrefillRecurringButton(state),
 });
 
 export default connect(mapStateToProps)(BillActions);

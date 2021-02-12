@@ -98,3 +98,7 @@ export const UPDATE_SHOULD_SEND_REMITTANCE_ADVICE = Symbol(
 export const LOAD_NEW_BILL_DETAIL_FROM_ORDER = Symbol(
   'Load a new bill from an order'
 );
+
+export const LOAD_PREFILL_FROM_RECURRING_BILL = Symbol(
+  'Load prefill from recurring bill'
+);

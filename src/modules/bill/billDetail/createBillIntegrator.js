@@ -10,6 +10,7 @@ import {
   LOAD_ACCOUNT_AFTER_CREATE,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_NEW_BILL_PAYMENT,
+  LOAD_PREFILL_FROM_RECURRING_BILL,
   LOAD_SUPPLIER_DETAIL,
   PREFILL_BILL_FROM_IN_TRAY,
   UNLINK_IN_TRAY_DOCUMENT,
@@ -26,6 +27,7 @@ import {
   getLoadAddedAccountUrlParams,
   getLoadBillIntent,
   getLoadBillUrlParams,
+  getLoadPrefillFromRecurringBillUrlParams,
   getLoadSupplierDetailUrlParams,
   getSaveBillContent,
   getSaveBillIntent,
@@ -271,6 +273,22 @@ const createBillIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
     });
+  },
+
+  loadPrefillFromRecurringBill: ({
+    recurringTransactionId,
+    onSuccess,
+    onFailure,
+  }) => {
+    const state = store.getState();
+
+    const intent = LOAD_PREFILL_FROM_RECURRING_BILL;
+    const urlParams = getLoadPrefillFromRecurringBillUrlParams(
+      state,
+      recurringTransactionId
+    );
+
+    integration.read({ intent, urlParams, onSuccess, onFailure });
   },
 });
 

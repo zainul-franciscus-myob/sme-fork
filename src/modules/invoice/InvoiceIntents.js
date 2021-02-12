@@ -129,9 +129,6 @@ export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
 
-export const SAVE_INVOICE_AS_RECURRING_TRANSACTION = Symbol(
-  'Save invoice as recurring transaction'
-);
 export const LOAD_PREFILL_FROM_RECURRING_INVOICE = Symbol(
   'Load prefill from recurring invoice'
 );
