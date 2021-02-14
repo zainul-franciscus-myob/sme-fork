@@ -13,7 +13,7 @@ const RecordPayRunWithIRFilingModal = ({
   <Modal title={title} size="medium" onCancel={onGoBack}>
     <Modal.Body>
       <div className={styles.irLogo}>
-        <img src={inlandRevenueImg} alt="Inland Revenue" />
+        <img src={inlandRevenueImg} width="200" alt="Inland Revenue" />
       </div>
       {description}
     </Modal.Body>
