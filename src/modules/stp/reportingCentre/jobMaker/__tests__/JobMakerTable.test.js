@@ -26,6 +26,13 @@ describe('JobMakerTable', () => {
         nomination: 'nomination',
         declaration: 'declaration',
       },
+      {
+        employeeId: '003',
+        firstName: 'lastname',
+        lastName: ' firstname',
+        nomination: null,
+        declaration: 'declaration',
+      },
     ];
     currentPeriodDetails = {
       period: 1,
@@ -40,15 +47,23 @@ describe('JobMakerTable', () => {
       />
     );
   });
+
   it('should not render popover when first render the page', () => {
     // assert
     expect(wrapper.find({ testid: 'Popover' }).exists()).toBe(false);
   });
-  it('should render popver when nomination row button is clicked ', () => {
+
+  it('should render popover when nomination row button is clicked ', () => {
     const queryButton = `nomination-button-${employees[0].employeeId}`;
     const button = findButtonWithTestId(wrapper, queryButton);
     button.simulate('click');
     // assert
     expect(wrapper.find({ testid: 'Popover' }).exists()).toBe(true);
+  });
+
+  it('should not find popover link button when no nomination returned', () => {
+    expect(
+      findButtonWithTestId(wrapper, 'nomination-button-003').exists()
+    ).toBe(false);
   });
 });

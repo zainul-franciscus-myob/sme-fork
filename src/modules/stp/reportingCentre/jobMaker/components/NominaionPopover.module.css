@@ -1,0 +1,7 @@
+.atoPopOver {
+  max-width: var(--flx-width-field-m);
+}
+
+.atoPopOver a > svg {
+  fill: var(--flx-color-link);
+}
