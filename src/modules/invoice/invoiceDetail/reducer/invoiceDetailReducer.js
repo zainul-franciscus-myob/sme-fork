@@ -227,6 +227,7 @@ const loadInvoiceDetail = (state, action) => {
     },
     isPreConversion,
     showPreConversionAlert: isPreConversion,
+    eligibility: action.eligibility,
   };
 };
 

@@ -16,7 +16,7 @@
     "chargeForLatePayment": 123.12,
     "discountForEarlyPayment": 546.34,
     "numberOfDaysForDiscount": 10,
-    "amountPaid": "10.00",
+    "amountPaid": "850.91",
     "status": "Open",
     "taxExclusiveFreightAmount": "0",
     "freightTaxAmount": "0",
@@ -185,5 +185,10 @@
   },
   "conversionDate": "2014-07-23T00:00:00",
   "startOfFinancialYearDate": "2019-07-01T00:00:00",
-  "linkedAccountId": "123"
+  "linkedAccountId": "123",
+  "eligibility": {
+    "eligible": true,
+    "entryUrl": "https://invoicefinance.myob.com",
+    "message": "Get paid now"
+  }
 }

@@ -178,5 +178,10 @@
     "isTrial": false
   },
   "conversionDate": "2014-07-23T00:00",
-  "linkedAccountId": "123"
+  "linkedAccountId": "123",
+  "eligibility": {
+    "eligible": true,
+    "entryUrl": "https://invoicefinance.myob.com",
+    "message": "Get paid now"
+  }
 }

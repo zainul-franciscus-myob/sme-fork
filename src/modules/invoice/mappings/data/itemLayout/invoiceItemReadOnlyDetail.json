@@ -182,5 +182,10 @@
   },
   "subscription": {
     "isTrial": false
+  },
+  "eligibility": {
+    "eligible": true,
+    "entryUrl": "https://invoicefinance.myob.com",
+    "message": "Get paid now"
   }
 }

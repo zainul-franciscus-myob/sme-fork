@@ -9,6 +9,11 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getInvoiceFinanceEntryUrl,
+  getInvoiceFinanceMessage,
+  getShowInvoiceFinanceButton,
+} from '../selectors/invoiceFinanceSelectors';
+import {
   getIsCreating,
   getIsForeignCurrency,
   getIsPreConversion,
@@ -34,6 +39,9 @@ const InvoiceDetailActions = ({
   showExportPdfButton,
   showSaveAsRecurring,
   showPrefillRecurringButton,
+  showInvoiceFinanceButton,
+  invoiceFinanceUrl,
+  invoiceFinanceButtonMessage,
   listeners: {
     onSaveButtonClick,
     onSaveAsRecurringButtonClick,
@@ -45,6 +53,7 @@ const InvoiceDetailActions = ({
     onPrefillButtonClick,
     onCancelButtonClick,
     onDeleteButtonClick,
+    onInvoiceFinanceClick,
   },
 }) => {
   const recordPaymentText = isCreating ? 'Record payment' : 'Create payment';
@@ -195,6 +204,18 @@ const InvoiceDetailActions = ({
     </Button>
   );
 
+  const invoiceFinanceButton = (
+    <Button
+      key="invoiceFinance"
+      name="invoiceFinance"
+      type="secondary"
+      onClick={() => onInvoiceFinanceClick(invoiceFinanceUrl)}
+      disabled={isSubmitting}
+    >
+      {invoiceFinanceButtonMessage}
+    </Button>
+  );
+
   const separator = <Separator direction="vertical" />;
 
   if (isReadOnly) {
@@ -235,6 +256,7 @@ const InvoiceDetailActions = ({
         showEInvoiceButton && saveAndSendEInvoiceButton,
         showSaveAsRecurring && saveAsRecurringButton,
         showPrefillRecurringButton && prefillButton,
+        showInvoiceFinanceButton && invoiceFinanceButton,
       ]}
     />
   );
@@ -251,6 +273,9 @@ const mapStateToProps = (state) => ({
   isForeignCurrency: getIsForeignCurrency(state),
   showEInvoiceButton: getShowEInvoiceButton(state),
   showPrefillRecurringButton: getShowPrefillRecurringButton(state),
+  showInvoiceFinanceButton: getShowInvoiceFinanceButton(state),
+  invoiceFinanceUrl: getInvoiceFinanceEntryUrl(state),
+  invoiceFinanceButtonMessage: getInvoiceFinanceMessage(state),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailActions);

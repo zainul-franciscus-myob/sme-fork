@@ -1288,6 +1288,8 @@ export default class InvoiceDetailModule {
     }
   };
 
+  openInvoiceFinanceTab = (url) => this.navigateTo(url, true);
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const recurringListModal = this.recurringTransactionListModal.render();
@@ -1329,6 +1331,7 @@ export default class InvoiceDetailModule {
           onPrefillButtonClick: this.openRecurringTransactionListModal,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
+          onInvoiceFinanceClick: this.openInvoiceFinanceTab,
         }}
         confirmModalListeners={{
           onCancelModalConfirm: this.redirectToInvoiceList,
