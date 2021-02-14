@@ -25,7 +25,7 @@ import DrawerModule from '../drawer/DrawerModule';
 import LicenceService from './services/licence';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationModule from '../navigation/NavigationModule';
-import OnboardingModule from '../onboarding/OnboardingModule';
+import OnboardingModule from '../modules/onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';

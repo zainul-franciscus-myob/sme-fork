@@ -124,6 +124,7 @@ const RouteName = {
   PAYDAY_FILING_ONBOARDING: 'paydayFiling/onboarding',
   PAYDAY_FILING: 'paydayFiling',
   MOVE_TO_MYOB: 'moveToMYOB',
+  ONBOARDING: 'onboarding',
 };
 
 export default RouteName;

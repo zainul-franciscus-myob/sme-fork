@@ -19,7 +19,7 @@ import {
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
 import createReducer from '../store/createReducer';
-import shouldShowOnboarding from './services/shouldShowOnboarding';
+import shouldShowOnboarding from '../modules/onboarding/components/shouldShowOnboarding';
 
 const getDefaultState = () => ({
   tasks: [],

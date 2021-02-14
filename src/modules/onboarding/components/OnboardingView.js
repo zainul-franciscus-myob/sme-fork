@@ -15,14 +15,14 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import BusinessRoles from '../fixtures/businessRoles';
-import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
-import handleComboboxChange from '../../components/handlers/handleComboboxChange';
-import handleInputChange from '../../components/handlers/handleInputChange';
-import handleRadioButtonChange from '../../components/handlers/handleRadioButtonChange';
-import industries from '../fixtures/Industries';
+import BusinessRoles from './businessRoles';
+import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
+import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
+import handleInputChange from '../../../components/handlers/handleInputChange';
+import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
+import industries from './Industries';
 import styles from './OnboardingView.module.css';
-import welcomeImage from '../assets/welcome.svg';
+import welcomeImage from './welcome.svg';
 
 const industryData = [
   { columnName: 'title', showData: true },

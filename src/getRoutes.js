@@ -34,6 +34,7 @@ import getLinkUserRoutes from './modules/linkUser/getLinkUserRoutes';
 import getLinkedAccountsRoutes from './modules/linkedAccounts/getLinkedAccountsRoutes';
 import getLogoutRoutes from './modules/logout/getLogoutRoutes';
 import getMoveToMYOBRoutes from './modules/moveToMYOB/getMoveToMYOBRoutes';
+import getOnboardingRoutes from './modules/onboarding/getOnboardingRoutes';
 import getOnlineTaxRoutes from './modules/onlineTax/getOnlineTaxRoutes';
 import getPayItemRoutes from './modules/payItem/getPayItemRoutes';
 import getPayRefundRoutes from './modules/payRefund/getPayRefundRoutes';
@@ -135,6 +136,7 @@ const getRoutes = (moduleParams) => [
   ...getPaydayFilingRoutes(moduleParams),
   ...getEmployeePayNzRoutes(moduleParams),
   ...getMoveToMYOBRoutes(moduleParams),
+  ...getOnboardingRoutes(moduleParams),
 ];
 
 export default getRoutes;

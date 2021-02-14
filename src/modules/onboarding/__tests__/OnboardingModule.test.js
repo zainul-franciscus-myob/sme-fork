@@ -1,7 +1,7 @@
-import { recordPageVisit } from '../../telemetry';
+import { recordPageVisit } from '../../../telemetry';
 import OnboardingModule from '../OnboardingModule';
 
-jest.mock('../../telemetry', () => ({
+jest.mock('../../../telemetry', () => ({
   recordPageVisit: jest.fn(),
 }));
 

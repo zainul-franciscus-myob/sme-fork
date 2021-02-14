@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { recordPageVisit } from '../telemetry';
+import { recordPageVisit } from '../../telemetry';
 import OnboardingView from './components/OnboardingView';
 
 class OnboardingModule {
