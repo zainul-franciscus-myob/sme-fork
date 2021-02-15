@@ -126,8 +126,7 @@ const HttpBillDetailMapping = {
   },
   [CREATE_SUPPLIER_PAYMENT]: {
     method: 'POST',
-    getPath: ({ businessId }) =>
-      `/${businessId}/supplierPayment/create_supplier_payment`,
+    getPath: ({ businessId }) => `/${businessId}/bill/create_supplier_payment`,
   },
   [LOAD_NEW_BILL_DETAIL_FROM_ORDER]: {
     method: 'GET',

@@ -1280,8 +1280,7 @@ class BillModule {
             onCancel: this.closeModal,
             onChangeBankStatementText: this.changeBankStatementText,
             onEditSupplierClick: this.redirectToContactDetail,
-            // TODO Need change it to redirectToSupplierPayment after release supplier payment module
-            onRecordMultiplePayments: this.redirectToBillPayment,
+            onRecordMultiplePayments: this.redirectToSupplierPayment,
             onRecordPaymentModalOpen: this.loadNewBillPayment,
             onShouldSendRemittanceAdviceChange: this.dispatcher
               .updateShouldSendRemittanceAdvice,

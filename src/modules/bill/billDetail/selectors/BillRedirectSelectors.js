@@ -83,5 +83,5 @@ export const getSavedBillPaymentUrl = (state) => {
     modalType: getShouldSendRemittanceAdvice(state) ? 'remittanceAdvice' : '',
   };
   const urlParams = getQueryFromParams(redirectParams);
-  return `${baseUrl}/billPayment/${getBillPaymentId(state)}${urlParams}`;
+  return `${baseUrl}/supplierPayment/${getBillPaymentId(state)}${urlParams}`;
 };

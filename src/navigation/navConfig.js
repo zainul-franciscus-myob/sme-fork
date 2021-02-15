@@ -21,6 +21,7 @@ export const activeMapping = {
   [RouteName.BILL_DETAIL]: 'purchases',
   [RouteName.PURCHASE_ORDER_DETAIL]: 'purchases',
   [RouteName.BILL_PAYMENT_DETAIL]: 'purchases',
+  [RouteName.SUPPLIER_PAYMENT_DETAIL]: 'purchases',
   [RouteName.SUPPLIER_RETURN_LIST]: 'purchases',
   [RouteName.SUPPLIER_RETURN_RECEIVE_REFUND]: 'purchases',
   [RouteName.SUPPLIER_RETURN_PURCHASE]: 'purchases',
@@ -122,6 +123,10 @@ export const featuresConfig = {
   billPaymentCreate: {
     routeName: RouteName.BILL_PAYMENT_DETAIL,
     params: { billPaymentId: 'new' },
+  },
+  supplierPaymentCreate: {
+    routeName: RouteName.SUPPLIER_PAYMENT_DETAIL,
+    params: { supplierPaymentId: 'new' },
   },
   supplierReturnList: { routeName: RouteName.SUPPLIER_RETURN_LIST },
 

@@ -1,5 +1,5 @@
 import {
-  CREATE_BILL_PAYMENT,
+  CREATE_SUPPLIER_PAYMENT,
   DELETE_BILL,
   DELETE_PRE_CONVERSION_BILL_DETAIL,
   DOWNLOAD_IN_TRAY_DOCUMENT,
@@ -266,8 +266,10 @@ const createBillIntegrator = (store, integration) => ({
     const state = store.getState();
 
     integration.write({
-      // TODO Chane intent to CREATE_SUPPLIER_PAYMENT once release supplier payment to replace bill payment module
-      intent: CREATE_BILL_PAYMENT,
+      // TODO get rid of comment intent after monitoring supplier payment flow
+
+      // intent: CREATE_BILL_PAYMENT,
+      intent: CREATE_SUPPLIER_PAYMENT,
       urlParams: getLoadBillPaymentUrlParams(state),
       content: getCreateBillPaymentPayload(state),
       onSuccess,

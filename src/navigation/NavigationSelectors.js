@@ -296,6 +296,7 @@ export const getPurchasesUrls = createSelector(
       billList: enabledUrls.billList,
       billCreate: enabledUrls.billCreate,
       billPaymentCreate: enabledUrls.billPaymentCreate,
+      supplierPaymentCreate: enabledUrls.supplierPaymentCreate,
       supplierReturnList: enabledUrls.supplierReturnList,
       itemList: enabledUrls.itemList,
     };

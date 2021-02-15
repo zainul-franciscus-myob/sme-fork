@@ -7,7 +7,7 @@ import { trackUserEvent } from '../../telemetry';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
 const isSeparatorRequired = (urls) =>
-  urls.billList || urls.billCreate || urls.billPaymentCreate;
+  urls.billList || urls.billCreate || urls.supplierPaymentCreate;
 
 const isPurchaseOrderSeparatorRequired = (urls) =>
   urls.purchaseOrderList || urls.purchaseOrderCreate;
@@ -39,12 +39,12 @@ const getMenuLink = (url, label, onMenuLinkClick) => (
 );
 
 const getItems = (urls, onMenuLinkClick) => {
-  const trackCreateBillPayment = () => {
+  const trackCreateSupplierPayment = () => {
     trackUserEvent({
       eventName: 'elementClicked',
       customProperties: {
-        action: 'create_bill_payment_clicked_in_navbar',
-        page: 'BillPayment',
+        action: 'create_supplier_payment_clicked_in_navbar',
+        page: 'SupplierPayment',
       },
     });
   };
@@ -65,12 +65,12 @@ const getItems = (urls, onMenuLinkClick) => {
     urls.billCreate &&
       getMenuLink(urls.billCreate, 'Create bill', onMenuLinkClick),
 
-    urls.billPaymentCreate &&
+    urls.supplierPaymentCreate &&
       getMenuLinkWithTrackingEvent(
-        urls.billPaymentCreate,
-        'Create bill payment',
+        urls.supplierPaymentCreate,
+        'Create supplier payment',
         onMenuLinkClick,
-        trackCreateBillPayment
+        trackCreateSupplierPayment
       ),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
     urls.supplierReturnList &&

@@ -3,7 +3,9 @@ export const businessEventTypes = {
   spendMoney: 'CashPayment',
   receiveMoney: 'CashReceipt',
   transferMoney: 'TransferMoney',
-  billPayment: 'PayBill',
+  supplierPayment: 'PayBill',
+  // TODO Remove the comment code after monitoring Supplier payment flow
+  // billPayment: 'PayBill',
   invoicePayment: 'ReceivePayment',
   receiveRefund: 'ReceiveRefund',
   settlePurchaseReturn: 'SettlePurchaseReturn',
@@ -22,7 +24,9 @@ export const businessEventToFeatureMap = {
   [businessEventTypes.spendMoney]: 'spendMoney',
   [businessEventTypes.receiveMoney]: 'receiveMoney',
   [businessEventTypes.transferMoney]: 'transferMoney',
-  [businessEventTypes.billPayment]: 'billPayment',
+  [businessEventTypes.supplierPayment]: 'supplierPayment',
+  // TODO Remove the comment code after monitoring Supplier payment flow
+  // [businessEventTypes.billPayment]: 'billPayment',
   [businessEventTypes.invoicePayment]: 'invoicePayment',
   [businessEventTypes.receiveRefund]: 'receiveRefund',
   [businessEventTypes.settlePurchaseReturn]: 'appliedPurchaseReturn',

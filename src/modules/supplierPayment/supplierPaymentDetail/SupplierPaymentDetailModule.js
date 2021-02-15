@@ -15,9 +15,9 @@ import {
   getIsReferenceIdDirty,
   getModalType,
   getRedirectUrl,
+  getReferenceId,
   getShouldSendRemittanceAdvice,
 } from './SupplierPaymentDetailSelectors';
-import { getReferenceId } from '../../billPayment/billPaymentDetail/BillPaymentDetailSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import ContactComboboxModule from '../../contact/contactCombobox/ContactComboboxModule';
 import FeatureToggles from '../../../FeatureToggles';

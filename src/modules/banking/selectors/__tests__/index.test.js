@@ -270,7 +270,7 @@ describe('Bank transactions index selectors', () => {
         test.each([
           [businessEventTypes.generalJournal],
           [businessEventTypes.transferMoney],
-          [businessEventTypes.billPayment],
+          [businessEventTypes.supplierPayment],
           [businessEventTypes.invoicePayment],
           [businessEventTypes.receiveRefund],
           [businessEventTypes.settlePurchaseReturn],
@@ -332,7 +332,7 @@ describe('Bank transactions index selectors', () => {
           [businessEventTypes.generalJournal],
           [businessEventTypes.spendMoney],
           [businessEventTypes.receiveMoney],
-          [businessEventTypes.billPayment],
+          [businessEventTypes.supplierPayment],
           [businessEventTypes.invoicePayment],
           [businessEventTypes.receiveRefund],
           [businessEventTypes.settlePurchaseReturn],

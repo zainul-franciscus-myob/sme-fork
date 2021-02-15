@@ -17,6 +17,7 @@
     "billList",
     "billCreate",
     "billPaymentCreate",
+    "supplierPaymentCreate",
     "supplierReturnList",
 
     "bankTransactionList",

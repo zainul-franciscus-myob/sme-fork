@@ -8,7 +8,7 @@ import {
 } from '../BillRecordPaymentSelectors';
 import BillLineType from '../../types/BillLineType';
 
-describe('BillInTrayDocumentSelectors', () => {
+describe('BillRecordPaymentSelectors', () => {
   describe('getIsBeforeStartOfFinancialYear', () => {
     it.each([
       ['2014-07-01', '2010-01-01', true],
@@ -121,7 +121,7 @@ describe('BillInTrayDocumentSelectors', () => {
         entries: [
           {
             paidAmount: '100.05',
-            id: '356',
+            billId: '356',
             discountAmount: '20.85',
           },
         ],

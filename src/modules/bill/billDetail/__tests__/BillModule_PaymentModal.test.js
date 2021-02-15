@@ -1,6 +1,6 @@
 import {
   CLOSE_MODAL,
-  CREATE_BILL_PAYMENT,
+  CREATE_SUPPLIER_PAYMENT,
   GET_REFERENCE_ID,
   LOAD_BILL,
   LOAD_NEW_BILL_PAYMENT,
@@ -241,7 +241,7 @@ describe('BillModule_RecordBillPaymentModal', () => {
       expect(integration.getRequests()).toEqual(
         expect.arrayContaining([
           expect.objectContaining({
-            intent: CREATE_BILL_PAYMENT,
+            intent: CREATE_SUPPLIER_PAYMENT,
           }),
           expect.objectContaining({
             intent: LOAD_BILL,
@@ -252,7 +252,7 @@ describe('BillModule_RecordBillPaymentModal', () => {
 
     it(`fails to create bill payment`, () => {
       const { module, store, integration } = setupWithExisting();
-      integration.mapFailure(CREATE_BILL_PAYMENT);
+      integration.mapFailure(CREATE_SUPPLIER_PAYMENT);
 
       module.saveBillPayment();
 
@@ -275,7 +275,7 @@ describe('BillModule_RecordBillPaymentModal', () => {
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
-          intent: CREATE_BILL_PAYMENT,
+          intent: CREATE_SUPPLIER_PAYMENT,
         }),
       ]);
     });
