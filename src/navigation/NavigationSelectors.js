@@ -399,6 +399,8 @@ export const getShouldShowMoveToMYOB = createSelector(
     Boolean(businessUrls.moveToMYOB) && isTrial && isMoveToMyobEnabled
 );
 
-export const getMoveToMYOBUrl = createSelector(getRegion, (region) =>
-  region === Region.au ? Config.MOVE_TO_MYOB_URL_AU : Config.MOVE_TO_MYOB_URL_NZ
+export const getMoveToMYOBUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `#/${region}/${businessId}/moveToMYOB`
 );

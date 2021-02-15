@@ -246,7 +246,7 @@ export default class NavigationModule {
       },
     });
 
-    this.navigateTo(getMoveToMYOBUrl(this.store.getState()), true);
+    this.navigateTo(getMoveToMYOBUrl(this.store.getState()));
   };
 
   render = (tasks, businessName = '', serialNumber = '', businessRole = '') => {

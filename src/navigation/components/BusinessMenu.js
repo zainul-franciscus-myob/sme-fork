@@ -125,7 +125,6 @@ const getItems = ({
         icon: <InventoryIcon />,
         label: 'Move to MYOB',
         onClick: onMoveToMYOB,
-        target: '_blank',
         url: urls.moveToMYOB,
       }),
     urls.productManagementDetail &&
