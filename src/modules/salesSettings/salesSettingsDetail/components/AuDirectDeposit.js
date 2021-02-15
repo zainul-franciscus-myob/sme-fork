@@ -26,7 +26,7 @@ const AuPaymentOptions = ({ salesSettings, onUpdateSalesSettingsItem }) => {
         name="accountName"
         label="Account name"
         requiredLabel="This field is required"
-        maxLength={30}
+        maxLength={60}
         value={salesSettings.accountName}
         onChange={handleInputChange(onUpdateSalesSettingsItem)}
       />
