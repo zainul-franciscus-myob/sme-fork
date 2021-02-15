@@ -24,6 +24,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_PAYMENT_OPTIONS,
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
@@ -156,6 +157,11 @@ const HttpInvoiceMapping = {
     method: 'GET',
     getPath: ({ businessId, recurringTransactionId }) =>
       `/${businessId}/invoice/load_prefill_from_recurring_invoice/${recurringTransactionId}`,
+  },
+  [UPDATE_PAYMENT_OPTIONS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) =>
+      `/${businessId}/invoice/update_payment_options`,
   },
 };
 

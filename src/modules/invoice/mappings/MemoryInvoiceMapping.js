@@ -24,6 +24,7 @@ import {
   SEND_EMAIL,
   SORT_AND_FILTER_INVOICE_LIST,
   UPDATE_INVOICE_DETAIL,
+  UPDATE_PAYMENT_OPTIONS,
   UPDATE_PRE_CONVERSION_INVOICE_DETAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from '../InvoiceIntents';
@@ -145,6 +146,7 @@ const MemoryInvoiceMapping = {
     onSuccess(loadCustomerQuotesResponse),
   [LOAD_PREFILL_FROM_RECURRING_INVOICE]: ({ onSuccess }) =>
     onSuccess(loadPrefillFromRecurringInvoiceResponse),
+  [UPDATE_PAYMENT_OPTIONS]: ({ onSuccess }) => onSuccess(successResponse),
 };
 
 export default MemoryInvoiceMapping;
