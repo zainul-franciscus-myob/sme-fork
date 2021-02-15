@@ -72,10 +72,23 @@ const SalesSettingsEmailDetails = (props) => {
     </Card>
   );
 
+  const learnMoreLink = (
+    <a
+      href="https://help.myob.com/wiki/x/X69qAg"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Learn more
+    </a>
+  );
+
   const quoteEmail = (
     <Card>
       <FieldGroup label="Default invoice email">
-        <p>Customise the default email text sent with your invoices.</p>
+        <p>
+          Customise the default email text sent with your invoices. You can use
+          variables to personalise your email. {learnMoreLink}
+        </p>
         <Input
           name="invoiceEmailSubject"
           label="Subject"
@@ -109,7 +122,10 @@ const SalesSettingsEmailDetails = (props) => {
   const invoiceEmail = (
     <Card>
       <FieldGroup label="Default quote email">
-        <p>Customise the default email text sent with your quotes.</p>
+        <p>
+          Customise the default email text sent with your quotes. You can use
+          variables to personalise your email. {learnMoreLink}
+        </p>
         <Input
           name="quoteEmailSubject"
           label="Subject"
@@ -143,7 +159,10 @@ const SalesSettingsEmailDetails = (props) => {
   const statementEmail = (
     <Card>
       <FieldGroup label="Default statement email">
-        <p>Customise the default email text sent with your statements.</p>
+        <p>
+          Customise the default email text sent with your statements. You can
+          use variables to personalise your email. {learnMoreLink}
+        </p>
         <Input
           name="statementEmailSubject"
           label="Subject"
