@@ -389,13 +389,14 @@ export const getIsNzPayrollOnly = createSelector(
     hasNzPayroll && !hasPurchase && !hasSales && !hasBanking
 );
 
+const getIsMoveToMyobEnabled = (state) => state.isMoveToMyobEnabled;
+
 export const getShouldShowMoveToMYOB = createSelector(
   getBusinessUrls,
   getIsTrial,
-  (businessUrls, isTrial) =>
-    Boolean(businessUrls.moveToMYOB) &&
-    isTrial &&
-    process.env.NODE_ENV !== 'production'
+  getIsMoveToMyobEnabled,
+  (businessUrls, isTrial, isMoveToMyobEnabled) =>
+    Boolean(businessUrls.moveToMYOB) && isTrial && isMoveToMyobEnabled
 );
 
 export const getMoveToMYOBUrl = createSelector(getRegion, (region) =>

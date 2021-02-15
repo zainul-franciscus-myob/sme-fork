@@ -3,6 +3,7 @@ import {
   LOAD_NAVIGATION_CONFIG,
   SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
   SET_LOADING_STATE,
+  SET_MOVE_TO_MYOB_FEATURE_TOGGLE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_PAYDAY_FILING_FEATURE_TOGGLE,
@@ -97,6 +98,11 @@ const setPaydayFilingFeatureToggle = (state, { isPaydayFilingEnabled }) => ({
   isPaydayFilingEnabled,
 });
 
+const setMoveToMyobFeatureToggle = (state, { isMoveToMyobEnabled }) => ({
+  ...state,
+  isMoveToMyobEnabled,
+});
+
 const setAccountBillingMenuTextFeatureToggle = (
   state,
   { shouldDisplayAccountBillingMenuText }
@@ -122,6 +128,7 @@ const handlers = {
   [SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE]: setNzPayrollAccountingFeatureToggle,
   [SET_PAYDAY_FILING_FEATURE_TOGGLE]: setPaydayFilingFeatureToggle,
   [SET_PURCHASE_ORDER_FEATURE_TOGGLE]: setPurchaseOrderFeatureToggle,
+  [SET_MOVE_TO_MYOB_FEATURE_TOGGLE]: setMoveToMyobFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);

@@ -22,9 +22,17 @@ import Store from '../../store/Store';
 import createDashboardDispatcher from './createDashboardDispatcher';
 import createDashboardIntegrator from './createDashboardIntegrator';
 import dashboardReducer from './reducers/dashboardReducer';
+import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
 
 export default class DashboardModule {
-  constructor({ globalCallbacks, integration, setRootView, navigateTo }) {
+  constructor({
+    globalCallbacks,
+    integration,
+    setRootView,
+    navigateTo,
+    constructPath,
+    featureToggles,
+  }) {
     this.integration = integration;
     this.store = new Store(dashboardReducer);
     this.setRootView = setRootView;
@@ -36,6 +44,9 @@ export default class DashboardModule {
       integration,
       navigateTo,
     });
+    this.globalCallbacks = globalCallbacks;
+    this.constructPath = constructPath;
+    this.featureToggles = featureToggles;
   }
 
   loadDashboard = () => {
@@ -44,6 +55,7 @@ export default class DashboardModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadDashboard(payload);
+      this.loadDashboardTasks();
       this.loadSales();
       this.loadPurchase();
       this.loadTracking();
@@ -64,6 +76,16 @@ export default class DashboardModule {
     this.dispatcher.loadConfig({
       myReportsUrl: Config.MY_REPORTS_URL,
     });
+  };
+
+  loadDashboardTasks = () => {
+    const onSuccess = (dashboardTasks) => {
+      this.dispatcher.setDashboardTasks(dashboardTasks);
+    };
+
+    const onFailure = () => {};
+
+    this.integrator.loadTasks({ onSuccess, onFailure });
   };
 
   loadInTray = () => {
@@ -305,6 +327,20 @@ export default class DashboardModule {
     });
   };
 
+  closeTask = (closeEvent) => {
+    const onSuccess = (response) => {
+      this.dispatcher.setDashboardTasks(response);
+    };
+
+    const onFailure = () => {};
+
+    this.integrator.closeTask({
+      onSuccess,
+      onFailure,
+      closeEvent,
+    });
+  };
+
   redirectToUrl = (url) => {
     this.navigateTo(url);
   };
@@ -330,6 +366,10 @@ export default class DashboardModule {
           onMoreWaysToUploadButtonClick: this.openInTrayUploadOptionsModal,
           onUpload: this.uploadInTrayFiles,
         }}
+        tasksListeners={{
+          closeTask: this.closeTask,
+          constructPath: this.constructPath,
+        }}
       />
     );
 
@@ -350,11 +390,15 @@ export default class DashboardModule {
   };
 
   run = (context) => {
+    const isMoveToMyobEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isMoveToMyobEnabled,
+    });
+
     this.setInitialState({
       ...context,
+      isMoveToMyobEnabled,
     });
     this.render();
-
     this.loadConfig();
     this.loadDashboard();
   };

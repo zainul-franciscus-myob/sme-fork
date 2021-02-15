@@ -57,3 +57,6 @@ export const SET_IN_TRAY_ALERT = Symbol('Set in tray alert');
 export const SET_IN_TRAY_UPLOADING_STATE = Symbol(
   'Set in tray uploading state'
 );
+export const SET_DASHBOARD_TASKS = Symbol('Set dashboard tasks');
+export const LOAD_TASKS = Symbol('Load tasks');
+export const CLOSE_TASK = Symbol('Close task');

@@ -2,6 +2,7 @@ import React from 'react';
 
 import { recordPageVisit } from '../../telemetry';
 import OnboardingView from './components/OnboardingView';
+import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
 
 class OnboardingModule {
   constructor({
@@ -10,15 +11,22 @@ class OnboardingModule {
     tasksService,
     toggleTasks,
     businessDetailsService,
+    featureToggles,
   }) {
     this.dispatcher = dispatcher;
     this.settingsService = settingsService;
     this.tasksService = tasksService;
     this.toggleTasks = toggleTasks;
     this.businessDetailsService = businessDetailsService;
+    this.isMoveToMyobEnabled = isFeatureEnabled({
+      isFeatureCompleted: featureToggles?.isMoveToMyobEnabled,
+    });
   }
 
-  save = async (event, { businessName, businessRole, industryId }) => {
+  save = async (
+    event,
+    { businessName, businessRole, industryId, usingCompetitorProduct }
+  ) => {
     event.preventDefault();
 
     const onboardingData = {
@@ -28,6 +36,7 @@ class OnboardingModule {
       businessId: this.businessId,
       region: this.region,
       onboardingComplete: true,
+      usingCompetitorProduct,
     };
 
     await this.settingsService.save(onboardingData);
@@ -40,7 +49,13 @@ class OnboardingModule {
   onboardingVisited = () => recordPageVisit(this.routeProps);
 
   render = (updateOnboardingSettingsFailure) => {
-    const { dispatcher, save, onboardingVisited, businessId } = this;
+    const {
+      dispatcher,
+      save,
+      onboardingVisited,
+      businessId,
+      isMoveToMyobEnabled,
+    } = this;
 
     return (
       <OnboardingView
@@ -49,6 +64,7 @@ class OnboardingModule {
         dispatcher={dispatcher}
         onLoad={onboardingVisited}
         updateOnboardingSettingsFailure={updateOnboardingSettingsFailure}
+        isMoveToMyobEnabled={isMoveToMyobEnabled}
       />
     );
   };

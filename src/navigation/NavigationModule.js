@@ -6,6 +6,7 @@ import {
   LOAD_NAVIGATION_CONFIG,
   SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
   SET_LOADING_STATE,
+  SET_MOVE_TO_MYOB_FEATURE_TOGGLE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
   SET_NZPAYROLL_PAYRUNS_VIEW_FEATURE_TOGGLE,
   SET_PAYDAY_FILING_FEATURE_TOGGLE,
@@ -351,6 +352,17 @@ export default class NavigationModule {
     });
   };
 
+  setMoveToMyobFeatureToggle = () => {
+    const isMoveToMyobEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isMoveToMyobEnabled,
+    });
+
+    this.store.dispatch({
+      intent: SET_MOVE_TO_MYOB_FEATURE_TOGGLE,
+      isMoveToMyobEnabled,
+    });
+  };
+
   run = ({ routeProps, onPageTransition, action = {} }) => {
     const { routeParams, currentRouteName } = routeProps;
     this.routeProps = routeProps;
@@ -364,6 +376,7 @@ export default class NavigationModule {
     this.setPaydayFilingFeatureToggle();
     this.setAccountBillingMenuTextFeatureToggle();
     this.setPurchaseOrderFeatureToggle();
+    this.setMoveToMyobFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

@@ -16,6 +16,7 @@ import {
   SET_BANKING_ERROR_STATE,
   SET_BANKING_LOADING_STATE,
   SET_BANK_FEED_ACCOUNT_ID,
+  SET_DASHBOARD_TASKS,
   SET_IN_TRAY_ALERT,
   SET_IN_TRAY_ERROR_STATE,
   SET_IN_TRAY_LOADING_STATE,
@@ -236,6 +237,11 @@ const createDashboardDispatcher = (store) => ({
       intent,
       alert: undefined,
     });
+  },
+
+  setDashboardTasks: (tasks) => {
+    const intent = SET_DASHBOARD_TASKS;
+    store.dispatch({ intent, tasks });
   },
 });
 

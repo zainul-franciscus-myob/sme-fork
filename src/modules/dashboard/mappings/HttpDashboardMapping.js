@@ -1,4 +1,5 @@
 import {
+  CLOSE_TASK,
   CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
@@ -8,6 +9,7 @@ import {
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
+  LOAD_TASKS,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
 } from '../DashboardIntents';
@@ -61,6 +63,15 @@ const HttpDashboardMapping = {
     method: 'POST',
     getPath: ({ businessId }) =>
       `/${businessId}/inTray/create_in_tray_document`,
+  },
+  [LOAD_TASKS]: {
+    method: 'GET',
+    getPath: ({ businessId }) => `/${businessId}/dashboard/load_tasks`,
+  },
+  [CLOSE_TASK]: {
+    method: 'POST',
+    getPath: ({ businessId, closeEvent }) =>
+      `/${businessId}/dashboard/update_with_event/${closeEvent}`,
   },
 };
 

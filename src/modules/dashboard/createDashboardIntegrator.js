@@ -1,4 +1,5 @@
 import {
+  CLOSE_TASK,
   CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
@@ -8,6 +9,7 @@ import {
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
+  LOAD_TASKS,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
 } from './DashboardIntents';
@@ -189,6 +191,34 @@ const createDashboardIntegrator = (store, integration) => ({
       onSuccess,
       onFailure,
       onComplete,
+    });
+  },
+
+  loadTasks: ({ onSuccess, onFailure }) => {
+    const intent = LOAD_TASKS;
+    const state = store.getState();
+    const businessId = getBusinessId(state);
+
+    integration.read({
+      intent,
+      urlParams: { businessId },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  closeTask: ({ onSuccess, onFailure, closeEvent }) => {
+    const urlParams = {
+      businessId: getBusinessId(store.getState()),
+      closeEvent,
+    };
+
+    integration.write({
+      intent: CLOSE_TASK,
+      urlParams,
+      onSuccess,
+      onFailure,
+      allowParallelRequests: true,
     });
   },
 });

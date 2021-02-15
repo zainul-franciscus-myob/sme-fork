@@ -93,6 +93,7 @@ export default class RootModule {
       tasksService: this.tasksService,
       toggleTasks: this.drawer.toggleTasks,
       businessDetailsService: this.businessDetailsService,
+      featureToggles,
     });
 
     this.globalCallbacks = buildGlobalCallbacks({

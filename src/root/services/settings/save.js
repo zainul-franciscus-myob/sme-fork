@@ -10,6 +10,7 @@ const save = async (
     industry,
     region,
     onboardingComplete,
+    usingCompetitorProduct,
   }
 ) => {
   const intent = SAVE_SETTINGS;
@@ -28,6 +29,7 @@ const save = async (
           industry,
           region,
           onboardingComplete,
+          usingCompetitorProduct,
         },
         onSuccess: resolve,
         onFailure: () => {

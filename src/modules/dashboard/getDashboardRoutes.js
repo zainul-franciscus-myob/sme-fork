@@ -7,6 +7,8 @@ const getDashboardRoutes = ({
   integration,
   setRootView,
   navigateTo,
+  constructPath,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -17,6 +19,8 @@ const getDashboardRoutes = ({
         setRootView,
         navigateTo,
         globalCallbacks,
+        constructPath,
+        featureToggles,
       }),
       documentTitle: 'Dashboard',
     },

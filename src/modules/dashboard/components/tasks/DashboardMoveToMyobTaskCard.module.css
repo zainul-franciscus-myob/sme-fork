@@ -1,0 +1,26 @@
+.taskContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task {
+  display: flex;
+  align-items: center;
+}
+
+.task > svg {
+  flex-shrink: 0;
+}
+
+.taskDesc {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-left: var(--flx-spacing-tiny);
+}
+
+.taskDesc > span {
+  line-height: var(--flx-line-height-reset);
+  margin-right: var(--flx-spacing-tiny);
+}

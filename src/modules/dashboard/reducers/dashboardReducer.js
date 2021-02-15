@@ -12,6 +12,7 @@ import dashboardPayrollReducerHandlers from './dashboardPayrollReducer';
 import dashboardPayrollReportsReducerHandlers from './dashboardPayrollReportsReducer';
 import dashboardPurchaseReducerHandlers from './dashboardPurchaseReducer';
 import dashboardSalesReducerHandlers from './dashboardSalesReducer';
+import dashboardTasksReducerHandlers from './dashboardTasksReducer';
 import dashboardTrackingReducerHandlers from './dashboardTrackingReducer';
 
 const getDefaultState = () => ({
@@ -28,6 +29,8 @@ const getDefaultState = () => ({
   config: {
     myReportsUrl: '',
   },
+
+  tasks: [],
 
   sales: {
     layout: '',
@@ -197,6 +200,7 @@ const handlers = {
   ...dashboardPayrollReducerHandlers,
   ...dashboardPayrollReportsReducerHandlers,
   ...dashboardInTrayReducerHandlers,
+  ...dashboardTasksReducerHandlers,
 };
 
 const dashboardReducer = createReducer(getDefaultState(), handlers);

@@ -28,7 +28,7 @@ const RootView = ({
   }
 
   const drawerTasks = {
-    tasks,
+    tasks: tasks.filter((t) => !t.location),
     updateTasksFailure,
     getTasksListFailure,
   };

@@ -1,4 +1,4 @@
-import { createStructuredSelector } from 'reselect';
+import { createSelector, createStructuredSelector } from 'reselect';
 import { getHours, subYears } from 'date-fns';
 
 import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoDate';
@@ -66,3 +66,17 @@ export const getLast12MonthsDateRange = () => {
     dateTo,
   };
 };
+
+export const getTasks = (state) => state.tasks;
+
+export const getMoveToMyobTask = (state) =>
+  state.tasks?.find((t) => t.key === 'moveToMYOB');
+
+const getIsMoveToMyobEnabled = (state) => state.isMoveToMyobEnabled;
+
+export const getShouldShowMoveToMyobTask = createSelector(
+  getMoveToMyobTask,
+  getIsMoveToMyobEnabled,
+  (moveToMyobTask, isMoveToMyobEnabled) =>
+    Boolean(moveToMyobTask) && isMoveToMyobEnabled
+);

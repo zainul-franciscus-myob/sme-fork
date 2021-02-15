@@ -3,6 +3,8 @@ import {
   Button,
   ButtonRow,
   Card,
+  Checkbox,
+  CheckboxGroup,
   Combobox,
   Icons,
   Input,
@@ -17,6 +19,7 @@ import classNames from 'classnames';
 
 import BusinessRoles from './businessRoles';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
@@ -72,7 +75,7 @@ class OnboardingView extends Component {
   save = (event) => {
     event.preventDefault();
     const {
-      props: { businessName, businessRole, industryId },
+      props: { businessName, businessRole, industryId, usingCompetitorProduct },
     } = this;
 
     let businessNameError = null;
@@ -87,7 +90,12 @@ class OnboardingView extends Component {
     this.setState({ businessNameError, industryError, businessRoleError });
 
     if (!businessNameError && !industryError && !businessRoleError) {
-      this.onSave(event, { businessName, businessRole, industryId });
+      this.onSave(event, {
+        businessName,
+        businessRole,
+        industryId,
+        usingCompetitorProduct,
+      });
     }
   };
 
@@ -103,12 +111,26 @@ class OnboardingView extends Component {
     this.dispatcher.setViewData({ businessRole: businessRole.value });
   };
 
+  onSelectUsingCompetitorProduct = (usingCompetitorProduct) => {
+    this.dispatcher.setViewData({
+      usingCompetitorProduct: usingCompetitorProduct.value,
+    });
+  };
+
   render() {
     const {
       onChangeBusinessName,
       onChangeBusinessRole,
       onChangeIndustry,
-      props: { businessId, businessName, businessRole, industryId },
+      onSelectUsingCompetitorProduct,
+      props: {
+        businessId,
+        businessName,
+        businessRole,
+        industryId,
+        usingCompetitorProduct,
+        isMoveToMyobEnabled,
+      },
     } = this;
 
     if (!businessId) return <LoadingPageState />;
@@ -202,6 +224,22 @@ class OnboardingView extends Component {
                 }}
               />
             </div>
+            {isMoveToMyobEnabled && (
+              <div>
+                <CheckboxGroup
+                  renderCheckbox={() => (
+                    <Checkbox
+                      name="usingCompetitorProduct"
+                      label="I currently use Xero, QuickBooks or Reckon"
+                      onChange={handleCheckboxChange(
+                        onSelectUsingCompetitorProduct
+                      )}
+                      checked={usingCompetitorProduct}
+                    />
+                  )}
+                />
+              </div>
+            )}
           </Card>
           {this.alert && (
             <Alert type={this.alert.type}>{this.alert.message}</Alert>
@@ -221,10 +259,12 @@ const mapStateToProps = ({
   businessRole,
   industryId,
   proposedBusinessName,
+  usingCompetitorProduct,
 }) => ({
   businessName: proposedBusinessName,
   businessRole: businessRole || '',
   industryId: industryId || '',
+  usingCompetitorProduct,
 });
 
 export { OnboardingView as View };

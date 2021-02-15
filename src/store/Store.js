@@ -11,6 +11,7 @@ class Store {
 
   subscribe = (subscriber) => {
     this.subscribers.push(subscriber);
+    subscriber(this.state);
 
     const unsubscribe = () => {
       this.subscribers = this.subscribers.filter((item) => item !== subscriber);

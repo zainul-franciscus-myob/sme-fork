@@ -37,4 +37,5 @@ export default ({ closeTasks, loadTasks }) => ({
     closeTasks({ closeEvent: 'bankFeedsUpdated', force: true }),
   smartMEUpdated: () => closeTasks({ closeEvent: 'smartMEUpdated' }),
   refreshTaskEvent: (compareEnergyBill) => loadTasks(compareEnergyBill),
+  closeTask: (closeEvent) => closeTasks({ closeEvent }),
 });

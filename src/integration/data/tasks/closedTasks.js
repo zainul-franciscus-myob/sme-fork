@@ -87,4 +87,14 @@ export default (region, cdfguid) => [
       },
     ],
   },
+  {
+    routeName: 'moveToMYOB',
+    closeEvent: 'moveToMYOBViewed',
+    description:
+      'Want to move your data into MYOB from Xero, QuickBooks or Reckon?',
+    key: 'moveToMYOB',
+    location: 'dashboard',
+    title: 'Read this first',
+    isComplete: true,
+  },
 ];

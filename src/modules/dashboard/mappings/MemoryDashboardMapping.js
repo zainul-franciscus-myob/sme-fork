@@ -1,4 +1,5 @@
 import {
+  CLOSE_TASK,
   CREATE_IN_TRAY_DOCUMENT,
   LOAD_ACCOUNT_BANKING,
   LOAD_DASHBOARD,
@@ -8,6 +9,7 @@ import {
   LOAD_PAYROLL_REPORTS,
   LOAD_PURCHASE,
   LOAD_SALES,
+  LOAD_TASKS,
   LOAD_TRACKING,
   LOAD_TRACKING_DETAIL,
 } from '../DashboardIntents';
@@ -20,6 +22,7 @@ import loadPayrollReportsResponse from './data/loadPayrollReportsResponse';
 import loadPayrollResponse from './data/loadPayrollResponse';
 import loadPurchaseResponse from './data/loadPurchaseResponse';
 import loadSalesResponse from './data/loadSalesResponse';
+import loadTasksResponse from './data/loadTasksResponse.json';
 import loadTrackingDetailResponse from './data/loadTrackingDetailResponse';
 import loadTrackingResponse from './data/loadTrackingResponse';
 
@@ -45,6 +48,8 @@ const MemoryDashboardMapping = {
     const entry = { ...res, id: `${id}-${Math.random()}` };
     onSuccess({ ...createInTrayFileResponse, entry });
   },
+  [LOAD_TASKS]: ({ onSuccess }) => onSuccess(loadTasksResponse),
+  [CLOSE_TASK]: ({ onSuccess }) => onSuccess([]),
 };
 
 export default MemoryDashboardMapping;

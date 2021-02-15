@@ -21,3 +21,6 @@ export const SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT = Symbol(
 export const SET_PURCHASE_ORDER_FEATURE_TOGGLE = Symbol(
   'Set purchase order feature toggle'
 );
+export const SET_MOVE_TO_MYOB_FEATURE_TOGGLE = Symbol(
+  'Set move to MYOB feature toggle'
+);

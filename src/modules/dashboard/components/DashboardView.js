@@ -9,6 +9,7 @@ import {
   getShouldShowBanking,
   getShouldShowInTray,
   getShouldShowLeanEngage,
+  getShouldShowMoveToMyobTask,
   getShouldShowPayroll,
   getShouldShowPurchases,
   getShouldShowSales,
@@ -21,6 +22,7 @@ import DashboardBankingCard from './banking/DashboardBankingCard';
 import DashboardHeader from './DashboardHeader';
 import DashboardInTrayCard from './inTray/DashboardInTrayCard';
 import DashboardLeanEngageCard from './DashboardLeanEngageCard';
+import DashboardMoveToMyobTaskCard from './tasks/DashboardMoveToMyobTaskCard';
 import DashboardPayrollPayrunsCard from './payroll/DashboardPayrollPayrunsCard';
 import DashboardPurchaseCard from './purchase/DashboardPurchaseCard';
 import DashboardSalesCard from './sales/DashboardSalesCard';
@@ -54,6 +56,8 @@ const DashboardView = ({
   shouldShowPayroll,
   shouldShowInTray,
   region,
+  tasksListeners,
+  shouldShowMoveToMyobTask,
 }) => {
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -76,6 +80,13 @@ const DashboardView = ({
   const body = (
     <div className={styles.body}>
       <div className={styles.primary}>
+        {shouldShowMoveToMyobTask && (
+          <DashboardMoveToMyobTaskCard
+            closeTask={tasksListeners.closeTask}
+            constructPath={tasksListeners.constructPath}
+            onLinkClick={onLinkClick}
+          />
+        )}
         {shouldShowSales && (
           <DashboardSalesCard
             onLinkClick={onLinkClick}
@@ -171,6 +182,7 @@ const mapStateToProps = (state) => ({
   shouldUsePayrollLayout: getShouldUsePayrollLayout(state),
   shouldShowPayroll: getShouldShowPayroll(state),
   shouldShowInTray: getShouldShowInTray(state),
+  shouldShowMoveToMyobTask: getShouldShowMoveToMyobTask(state),
   isLoading: getIsLoading(state),
   alert: getAlert(state),
   region: getRegion(state),

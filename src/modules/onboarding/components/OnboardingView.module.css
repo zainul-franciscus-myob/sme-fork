@@ -75,6 +75,7 @@
   .fullScreen :global(label),
   .fullScreen :global(input),
   .fullScreen :global(select),
+  .fullScreen :global(.checkbox),
   .fullScreen :global(.combobox td) {
     font-size: var(--flx-size-font-size-x-large);
     font-weight: 300;
@@ -106,7 +107,13 @@
   }
 
   .fullScreen :global(.magic-radio + label::before),
-  .fullScreen :global(.magic-radio + label::after) {
+  .fullScreen :global(.magic-radio + label::after),
+  .fullScreen :global(.magic-checkbox + label::before),
+  .fullScreen :global(.magic-checkbox + label::after) {
     margin-top: var(--flx-spacing-tiny);
+  }
+
+  .fullScreen :global(.alert-icon) {
+    align-items: center;
   }
 }
