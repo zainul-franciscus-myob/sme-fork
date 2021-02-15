@@ -1,5 +1,6 @@
 import { mount } from 'enzyme';
 
+import * as telemetry from '../../../../telemetry/index';
 import { LOAD_INVOICE_DETAIL } from '../../InvoiceIntents';
 import InvoiceDetailModule from '../InvoiceDetailModule';
 import TestIntegration from '../../../../integration/TestIntegration';
@@ -10,6 +11,14 @@ import defaultResponse from '../../mappings/data/serviceLayout/invoiceServiceDet
 import invoiceDetailReducer from '../reducer/invoiceDetailReducer';
 
 describe('InvoiceDetailModule_InvoiceFinance', () => {
+  beforeEach(() => {
+    telemetry.trackUserEvent = jest.fn();
+  });
+
+  afterEach(() => {
+    telemetry.trackUserEvent.mockClear();
+  });
+
   const line = {
     id: '345',
     type: 'service',
@@ -207,6 +216,65 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
     expect(invoiceFinanceButton).toHaveLength(0);
   });
 
+  it('should send telemetry when the button is visible', () => {
+    setup({
+      invoiceId: '123',
+      desiredResponse: {
+        ...defaultResponse,
+        invoice: {
+          ...defaultResponse.invoice,
+          lines: [
+            {
+              ...line,
+              taxExclusiveAmount: '48',
+            },
+          ],
+          amountPaid: '0',
+        },
+        eligibility: {
+          eligible: true,
+          entryUrl: 'www.myob_invoice_finance_url.com',
+          message: 'Get paid now',
+        },
+      },
+    });
+
+    expect(telemetry.trackUserEvent).toHaveBeenCalledWith({
+      customProperties: {
+        action: 'load_invoice_finance_button',
+        label: 'load_invoice_finance_button',
+        productLine: 'Lending',
+      },
+      eventName: 'invoiceFinance',
+    });
+  });
+
+  it('should not send telemetry when the button is not visible', () => {
+    setup({
+      invoiceId: '123',
+      desiredResponse: {
+        ...defaultResponse,
+        invoice: {
+          ...defaultResponse.invoice,
+          lines: [
+            {
+              ...line,
+              taxExclusiveAmount: '48',
+            },
+          ],
+          amountPaid: '0',
+        },
+        eligibility: {
+          eligible: false,
+          entryUrl: 'www.myob_invoice_finance_url.com',
+          message: 'Get paid now',
+        },
+      },
+    });
+
+    expect(telemetry.trackUserEvent).toHaveBeenCalledTimes(0);
+  });
+
   it('should open invoice finance url in new tab when invoice finance button is clicked', () => {
     const { wrapper, module } = setup({
       invoiceId: '123',
@@ -240,5 +308,42 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
       'www.myob_invoice_finance_url.com',
       true
     );
+  });
+
+  it('should send telementry when button is clicked', () => {
+    const { wrapper, module } = setup({
+      invoiceId: '123',
+      desiredResponse: {
+        ...defaultResponse,
+        invoice: {
+          ...defaultResponse.invoice,
+          lines: [
+            {
+              ...line,
+              taxExclusiveAmount: '48',
+            },
+          ],
+          amountPaid: '0',
+        },
+        eligibility: {
+          eligible: true,
+          entryUrl: 'www.myob_invoice_finance_url.com',
+          message: 'Get paid now',
+        },
+      },
+    });
+
+    module.navigateTo = jest.fn();
+    const invoiceFinanceButton = wrapper.find('button[name="invoiceFinance"]');
+    invoiceFinanceButton.simulate('click');
+
+    expect(telemetry.trackUserEvent).toHaveBeenCalledWith({
+      customProperties: {
+        action: 'click_invoice_finance_button',
+        label: 'click_invoice_finance_button',
+        productLine: 'Lending',
+      },
+      eventName: 'invoiceFinance',
+    });
   });
 });

@@ -1,3 +1,4 @@
+import * as telemetry from '../../../../telemetry/index';
 import {
   ADD_EINVOICE_ATTACHMENTS,
   CREATE_INVOICE_DETAIL,
@@ -105,6 +106,12 @@ const setupWithPreConversion = (isCreating = false, isPageEdited = false) => {
 };
 
 describe('InvoiceDetailModule', () => {
+  telemetry.trackUserEvent = jest.fn();
+
+  afterAll(() => {
+    telemetry.trackUserEvent.mockClear();
+  });
+
   describe('run', () => {
     describe('existing invoice', () => {
       const { store, integration, module } = setup();

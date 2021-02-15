@@ -58,6 +58,7 @@ import {
   getRecurringTransactionModalContext,
 } from './selectors/recurringInvoiceSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
+import { getShowInvoiceFinanceButton } from './selectors/invoiceFinanceSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
 import { trackUserEvent } from '../../../telemetry';
@@ -189,6 +190,10 @@ export default class InvoiceDetailModule {
 
     if (getShouldLoadCustomerQuote(state)) {
       this.loadCustomerQuotes();
+    }
+
+    if (getShowInvoiceFinanceButton(state)) {
+      this.sendInvoiceFinanceTelemetry('load_invoice_finance_button');
     }
   };
 
@@ -1288,7 +1293,20 @@ export default class InvoiceDetailModule {
     }
   };
 
-  openInvoiceFinanceTab = (url) => this.navigateTo(url, true);
+  openInvoiceFinanceTab = (url) => {
+    this.sendInvoiceFinanceTelemetry('click_invoice_finance_button');
+    this.navigateTo(url, true);
+  };
+
+  sendInvoiceFinanceTelemetry = (action) =>
+    trackUserEvent({
+      eventName: 'invoiceFinance',
+      customProperties: {
+        action,
+        productLine: 'Lending',
+        label: action,
+      },
+    });
 
   render = () => {
     const accountModal = this.accountModalModule.render();
