@@ -40,9 +40,7 @@ const NominaionPopover = ({ nomination, testid }) => {
         {nomination}
       </Button>
     </Popover>
-  ) : (
-    nomination
-  );
+  ) : null;
 };
 
 export default NominaionPopover;

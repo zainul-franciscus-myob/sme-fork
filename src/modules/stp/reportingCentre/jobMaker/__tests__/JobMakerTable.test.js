@@ -33,6 +33,11 @@ describe('JobMakerTable', () => {
         nomination: null,
         declaration: 'declaration',
       },
+      {
+        employeeId: '004',
+        firstName: 'lastname',
+        lastName: ' firstname',
+      },
     ];
     currentPeriodDetails = {
       period: 1,
@@ -64,6 +69,9 @@ describe('JobMakerTable', () => {
   it('should not find popover link button when no nomination returned', () => {
     expect(
       findButtonWithTestId(wrapper, 'nomination-button-003').exists()
+    ).toBe(false);
+    expect(
+      findButtonWithTestId(wrapper, 'nomination-button-004').exists()
     ).toBe(false);
   });
 });
