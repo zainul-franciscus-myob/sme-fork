@@ -11,7 +11,6 @@ import {
 import {
   getDropdownAction,
   getDropdownActionEmployee,
-  getEventId,
   getIsShowingJobMakerActionModal,
 } from '../JobMakerSelector';
 import JobMakerActionTypes from '../JobMakerActionTypes';
@@ -252,9 +251,18 @@ describe('JobMakerModule', () => {
 
         it('set new eventId and call createJobMakerEmployeeAction', () => {
           module.createJobMakerEmployeeAction = jest.fn();
+          const spy = jest.spyOn(module.stpDeclarationModule, 'run');
+
           module.openStpDeclarationModal();
+
           const state = store.getState();
-          expect(getEventId(state)).not.toBe(undefined);
+          const { eventId, businessId } = state;
+          expect(eventId).not.toBe(undefined);
+          expect(spy).toHaveBeenCalledWith(
+            { eventId, businessId },
+            module.createJobMakerEmployeeAction
+          );
+
           module.stpDeclarationModule.recordDeclaration();
           expect(module.createJobMakerEmployeeAction).toHaveBeenCalled();
         });

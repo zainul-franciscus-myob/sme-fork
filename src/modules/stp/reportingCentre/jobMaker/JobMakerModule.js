@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getEventId } from './JobMakerSelector';
 import { isValidJobMakerAction } from './JobMakerActionTypes';
 import JobMakerView from './components/JobMakerView';
 import LoadingState from '../../../../components/PageView/LoadingState';
@@ -46,6 +47,7 @@ export default class JobMakerModule {
     this.dispatcher.setNewEventId();
     const state = this.store.getState();
     const context = {
+      eventId: getEventId(state),
       businessId: state.businessId,
     };
     this.stpDeclarationModule.run(context, this.createJobMakerEmployeeAction);
