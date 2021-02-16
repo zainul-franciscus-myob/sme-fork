@@ -230,7 +230,7 @@ class OnboardingView extends Component {
                   renderCheckbox={() => (
                     <Checkbox
                       name="usingCompetitorProduct"
-                      label="I currently use Xero, QuickBooks or Reckon"
+                      label="I currently use Xero, QuickBooks desktop or Reckon desktop"
                       onChange={handleCheckboxChange(
                         onSelectUsingCompetitorProduct
                       )}

@@ -24,7 +24,7 @@ const MoveToMYOBView = ({
   loadingState,
 }) => {
   const view = (
-    <LearnTemplate title="Move your data from Xero, Quickbooks or Reckon">
+    <LearnTemplate title="Move your data from Xero, Quickbooks desktop or Reckon desktop">
       <Row>
         <Column>
           <h3>Right now it&apos;s our shout</h3>
