@@ -33,7 +33,6 @@ const BankFeedsView = ({
   alert,
   isBankFeedsEmpty,
   loadingState,
-  // isActionDisabled,
   modalType,
   myDotBankFeedUrl,
   shouldShowDisabledMessaging,
@@ -46,9 +45,9 @@ const BankFeedsView = ({
   onDeleteBankFeedAccountClick,
   onDeleteBankFeedAccountConfirm,
   onDismissAlert,
+  onLearnMoreButtonClick,
   onSaveButtonClick,
   onUpdateBankFeedsLoginDetails,
-  // onUpdateButtonClick,
 }) => {
   const actions = !isBankFeedsEmpty && (
     <BankFeedsActions onSaveButtonClick={onSaveButtonClick} />
@@ -76,15 +75,20 @@ const BankFeedsView = ({
   }[modalType];
 
   const tableView = isBankFeedsEmpty ? (
-    <BankFeedsEmptyView />
+    <BankFeedsEmptyView
+      onCreateBankFeedButtonClick={onCreateBankFeedButtonClick}
+      onLearnMoreButtonClick={onLearnMoreButtonClick}
+    />
   ) : (
     <>
       <BankAccounts
         onBankAccountLinkedAccountChange={onBankAccountLinkedAccountChange}
+        onCreateBankFeedButtonClick={onCreateBankFeedButtonClick}
         onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
       />
       <CreditCards
         onCreditCardLinkedAccountChange={onCreditCardLinkedAccountChange}
+        onCreateBankFeedButtonClick={onCreateBankFeedButtonClick}
         onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
       />
     </>

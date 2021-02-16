@@ -1,10 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import {
-  getCreateBankFeedsUrl,
-  getNewBankFeedsAccess,
-} from './BankingLearnSelectors';
+import { getCreateBankFeedsUrl } from './BankingLearnSelectors';
 import BankingLearnView from './components/bankingLearnView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -60,13 +57,7 @@ export default class BankingLearnModule {
 
   onClick = () => {
     this.learnBankingCompleted();
-    const state = this.store.getState();
-
-    if (getNewBankFeedsAccess(state)) {
-      this.navigateTo(getCreateBankFeedsUrl(state));
-    } else {
-      this.navigateTo(getCreateBankFeedsUrl(state), true);
-    }
+    this.navigateTo(getCreateBankFeedsUrl(this.store.getState()));
   };
 
   render = () => {

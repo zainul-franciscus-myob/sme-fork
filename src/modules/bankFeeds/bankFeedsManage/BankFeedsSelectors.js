@@ -100,6 +100,8 @@ export const getCreateBankFeedsUrl = createSelector(
     useInProductBankFeeds ? smeUrl : myDotUrl
 );
 
+export const getLearnMoreUrl = () => 'https://help.myob.com/wiki/x/GaRqAg';
+
 export const getShouldShowDisabledMessaging = (state) =>
   getBankFeedsBankAccounts(state).some(
     (account) => !account.isAccountSelectionEnabled

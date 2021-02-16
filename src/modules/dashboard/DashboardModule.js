@@ -1,6 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
+import { getAddBankFeedUrl } from './selectors/DashboardBankingSelectors';
 import {
   getInTrayUploadOptionsModalContext,
   getUploadCompleteAlert,
@@ -263,6 +264,10 @@ export default class DashboardModule {
     this.loadBanking();
   };
 
+  redirectToCreateNewBankFeed = () => {
+    this.navigateTo(getAddBankFeedUrl(this.store.getState()));
+  };
+
   openInTrayUploadOptionsModal = () => {
     const state = this.store.getState();
     const modalContext = getInTrayUploadOptionsModalContext(state);
@@ -361,6 +366,7 @@ export default class DashboardModule {
         onPayrollReload={this.loadPayroll}
         onPayrollReportsReload={this.loadPayrollReports}
         onBankFeedAccountChange={this.updateBankFeedAccount}
+        onAddBankFeedButtonClick={this.redirectToCreateNewBankFeed}
         inTrayListeners={{
           onDismissAlert: this.dispatcher.dismissInTrayAlert,
           onMoreWaysToUploadButtonClick: this.openInTrayUploadOptionsModal,

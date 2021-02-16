@@ -1,4 +1,4 @@
-import { Icons } from '@myob/myob-widgets';
+import { AddIcon, Button } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -9,7 +9,6 @@ import {
 } from '../BankFeedsSelectors';
 import BankAccountsTableBody from './BankAccountsTableBody';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
-import LinkButton from '../../../../components/Button/LinkButton';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
@@ -35,18 +34,17 @@ const BankAccountsTable = ({
   isBankAccountsEmpty,
   isTableLoading,
   onBankAccountLinkedAccountChange,
+  onCreateBankFeedButtonClick,
   onDeleteBankFeedAccountClick,
-  manageBankFeedsLink,
 }) => {
   const emptyViewActions = [
-    <LinkButton
-      key={1}
-      icon={<Icons.Add />}
-      href={manageBankFeedsLink}
-      isOpenInNewTab
+    <Button
+      type="link"
+      icon={<AddIcon />}
+      onClick={onCreateBankFeedButtonClick}
     >
       Create bank feed
-    </LinkButton>,
+    </Button>,
   ];
 
   const emptyView = (

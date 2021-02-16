@@ -2,10 +2,10 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import {
-  getCreateBankFeedsUrl,
   getIsSubmitting,
+  getLearnMoreUrl,
   getModalType,
-  getNewBankFeedsAccess,
+  getSmeBankFeedUrl,
 } from './BankFeedsSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import BankFeedsView from './components/BankFeedsView';
@@ -62,11 +62,11 @@ class BankFeedsModule {
   };
 
   redirectToCreateNewBankFeed = () => {
-    const state = this.store.getState();
-    const url = getCreateBankFeedsUrl(state);
-    const openInNewTab = !getNewBankFeedsAccess(state);
+    this.navigateTo(getSmeBankFeedUrl(this.store.getState()));
+  };
 
-    this.navigateTo(url, openInNewTab);
+  redirectToLearnMorePage = () => {
+    this.navigateTo(getLearnMoreUrl(this.store.getState()), true);
   };
 
   openDeleteModalAndSetAccountToBeDeleted = (
@@ -208,6 +208,7 @@ class BankFeedsModule {
         <BankFeedsView
           onSaveButtonClick={this.saveBankFeeds}
           onCreateBankFeedButtonClick={this.redirectToCreateNewBankFeed}
+          onLearnMoreButtonClick={this.redirectToLearnMorePage}
           onDismissAlert={this.dispatcher.dismissAlert}
           onCloseDeleteModal={this.closeDeleteModal}
           onBankAccountLinkedAccountChange={

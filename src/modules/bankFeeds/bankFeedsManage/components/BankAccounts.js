@@ -6,12 +6,14 @@ import styles from './BankAccounts.module.css';
 
 const BankAccounts = ({
   onBankAccountLinkedAccountChange,
+  onCreateBankFeedButtonClick,
   onDeleteBankFeedAccountClick,
 }) => (
   <Card>
     <FieldGroup label="Bank accounts" className={styles.fieldGroup}>
       <BankAccountsTable
         onBankAccountLinkedAccountChange={onBankAccountLinkedAccountChange}
+        onCreateBankFeedButtonClick={onCreateBankFeedButtonClick}
         onDeleteBankFeedAccountClick={onDeleteBankFeedAccountClick}
       />
     </FieldGroup>

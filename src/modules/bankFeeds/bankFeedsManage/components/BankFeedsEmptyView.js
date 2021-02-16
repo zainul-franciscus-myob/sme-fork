@@ -1,4 +1,4 @@
-import { Card, Icons } from '@myob/myob-widgets';
+import { AddIcon, Button, Card, InfoIcon } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -8,28 +8,25 @@ import {
 } from '../BankFeedsSelectors';
 import { tableConfig } from './BankAccountsTable';
 import BankAccountsTableHeader from './BankAccountsTableHeader';
-import LinkButton from '../../../../components/Button/LinkButton';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
 import getBankAccountsTableResponsiveConfig from './getBankAccountsTableResponsiveConfig';
 
 const BankFeedsEmptyView = ({
-  manageBankFeedsLink,
-  hasAccessToNewBankFeeds,
+  onCreateBankFeedButtonClick,
+  onLearnMoreButtonClick,
 }) => {
-  const learnMoreBankFeedsLink = 'https://help.myob.com/wiki/x/GaRqAg';
   const emptyViewActions = [
-    <LinkButton key={1} icon={<Icons.Info />} href={learnMoreBankFeedsLink}>
-      Learn more
-    </LinkButton>,
-    <LinkButton
-      key={2}
-      icon={<Icons.Add />}
-      href={manageBankFeedsLink}
-      isOpenInNewTab={!hasAccessToNewBankFeeds}
+    <Button type="link" icon={<InfoIcon />} onClick={onLearnMoreButtonClick}>
+      Learn More
+    </Button>,
+    <Button
+      type="link"
+      icon={<AddIcon />}
+      onClick={onCreateBankFeedButtonClick}
     >
       Create bank feed
-    </LinkButton>,
+    </Button>,
   ];
 
   const emptyView = (

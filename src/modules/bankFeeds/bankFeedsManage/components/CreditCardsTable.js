@@ -1,15 +1,13 @@
-import { Icons } from '@myob/myob-widgets';
+import { AddIcon, Button } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-  getCreateBankFeedsUrl,
   getIsCreditCardsEmpty,
   getIsTableLoading,
 } from '../BankFeedsSelectors';
 import CreditCardsTableBody from './CreditCardsTableBody';
 import CreditCardsTableHeader from './CreditCardsTableHeader';
-import LinkButton from '../../../../components/Button/LinkButton';
 import NoResultPageState from '../../../../components/NoResultPageState/NoResultPageState';
 import TableView from '../../../../components/TableView/TableView';
 import getCreditCardsTableResponsiveConfig from './getCreditCardsTableResponsiveConfig';
@@ -33,19 +31,18 @@ const tableConfig = {
 const CreditCardsTable = ({
   isCreditCardsEmpty,
   isTableLoading,
-  manageBankFeedsLink,
   onCreditCardLinkedAccountChange,
+  onCreateBankFeedButtonClick,
   onDeleteBankFeedAccountClick,
 }) => {
   const emptyViewActions = [
-    <LinkButton
-      key={1}
-      icon={<Icons.Add />}
-      href={manageBankFeedsLink}
-      isOpenInNewTab
+    <Button
+      type="link"
+      icon={<AddIcon />}
+      onClick={onCreateBankFeedButtonClick}
     >
       Create bank feed
-    </LinkButton>,
+    </Button>,
   ];
 
   const emptyView = (
@@ -78,7 +75,6 @@ const CreditCardsTable = ({
 
 const mapStateToProps = (state) => ({
   isCreditCardsEmpty: getIsCreditCardsEmpty(state),
-  manageBankFeedsLink: getCreateBankFeedsUrl(state),
   isTableLoading: getIsTableLoading(state),
 });
 

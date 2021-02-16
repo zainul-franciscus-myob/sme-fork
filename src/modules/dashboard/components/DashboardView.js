@@ -37,6 +37,7 @@ const DashboardView = ({
   inTrayListeners,
   inTrayUploadOptionsModal,
   isLoading,
+  onAddBankFeedButtonClick,
   onDismissAlert,
   onLinkClick,
   onSalesReload,
@@ -112,6 +113,7 @@ const DashboardView = ({
             <DashboardBankingCard
               onReload={onBankingReload}
               onBankFeedAccountChange={onBankFeedAccountChange}
+              onAddBankFeedButtonClick={onAddBankFeedButtonClick}
             />
           )}
           {shouldShowInTray && (
