@@ -1237,7 +1237,7 @@ describe('SpendMoneyDetailModule', () => {
         ];
 
         it('should load expense account id, calls tax calc. if contact is supplier and has default expense account', () => {
-          const { module, store, integration } = setupWithNew();
+          const { module, store, integration } = setUpWithNewFromInTray();
           module.addSpendMoneyLine({ amount: '10' });
           store.resetActions();
           integration.resetRequests();
@@ -1247,29 +1247,17 @@ describe('SpendMoneyDetailModule', () => {
             value: '2',
           });
 
-          expect(store.getActions()).toEqual([
-            ...updateSpendMoneyHeaderSupplier,
-            {
-              intent: GET_TAX_CALCULATIONS,
-              taxCalculations: expect.any(Object),
-            },
-            {
-              intent: SET_SUPPLIER_BLOCKING_STATE,
-              isSupplierBlocking: true,
-            },
-            {
-              intent: SET_SUPPLIER_BLOCKING_STATE,
-              isSupplierBlocking: false,
-            },
-            expect.objectContaining({
-              intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
-            }),
-            {
-              intent: GET_TAX_CALCULATIONS,
-              taxCalculations: expect.any(Object),
-            },
-            ...loadingAbnActions,
-          ]);
+          expect(store.getActions()).toEqual(
+            expect.arrayContaining([
+              expect.objectContaining({
+                intent: LOAD_SUPPLIER_EXPENSE_ACCOUNT,
+              }),
+              {
+                intent: GET_TAX_CALCULATIONS,
+                taxCalculations: expect.any(Object),
+              },
+            ])
+          );
 
           expect(integration.getRequests()).toEqual([
             expect.objectContaining({
@@ -1288,7 +1276,7 @@ describe('SpendMoneyDetailModule', () => {
         });
 
         it('should not load expense account id if contact is not supplier', () => {
-          const { module, store, integration } = setupWithNew();
+          const { module, store, integration } = setUpWithNewFromInTray();
 
           integration.mapSuccess(LOAD_CONTACT, {
             contactType: 'Customer',
@@ -1322,14 +1310,15 @@ describe('SpendMoneyDetailModule', () => {
               expenseAccountId: '123',
             },
             {
-              intent: RESET_TOTALS,
+              intent: GET_TAX_CALCULATIONS,
+              taxCalculations: expect.any(Object),
             },
             ...loadingAbnActions,
           ]);
         });
 
         it('should load expense account id but not call tax calc. if contact is supplier but does not have default expense account', () => {
-          const { module, store, integration } = setupWithNew();
+          const { module, store, integration } = setUpWithNewFromInTray();
 
           integration.mapSuccess(LOAD_SUPPLIER_EXPENSE_ACCOUNT, {});
           module.updateHeaderOptions({
@@ -1340,7 +1329,8 @@ describe('SpendMoneyDetailModule', () => {
           expect(store.getActions()).toEqual([
             ...updateSpendMoneyHeaderSupplier,
             {
-              intent: RESET_TOTALS,
+              intent: GET_TAX_CALCULATIONS,
+              taxCalculations: expect.any(Object),
             },
             {
               intent: SET_SUPPLIER_BLOCKING_STATE,

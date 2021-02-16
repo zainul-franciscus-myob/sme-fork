@@ -761,6 +761,31 @@ describe('spendMoneyDetailReducer', () => {
       expect(actual.spendMoney.expenseAccountId).toEqual('456');
       expect(actual.spendMoney.lines[0].accountId).toEqual('456');
     });
+
+    it('should not update lines accountId if spend money lines was not prefilled', () => {
+      const updatedState = {
+        ...state,
+        inTrayDocumentId: undefined,
+      };
+
+      const updatedContact = {
+        ...newContact,
+        contactType: 'Supplier',
+        isReportable: true,
+      };
+
+      const action = {
+        intent: PREFILL_SPEND_MONEY_ON_CONTACT,
+        ...updatedContact,
+      };
+
+      const actual = spendMoneyReducer(updatedState, action);
+
+      expect(actual.contactType).toEqual('Supplier');
+      expect(actual.spendMoney.isReportable).toEqual(true);
+      expect(actual.spendMoney.expenseAccountId).toEqual('123');
+      expect(actual.spendMoney.lines[0].accountId).toEqual('123');
+    });
   });
 
   describe('setContactType', () => {

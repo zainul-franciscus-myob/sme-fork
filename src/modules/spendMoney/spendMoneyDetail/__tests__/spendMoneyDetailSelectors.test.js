@@ -322,41 +322,57 @@ describe('spendMoneySelectors', () => {
 
   describe('getShouldShowAccountCode', () => {
     it('returns true if is creating and selected contact is a supplier', () => {
-      const state = {
-        spendMoneyId: 'new',
-        spendMoney: {
-          selectedPayToContactId: '2',
-        },
-        contactType: 'Supplier',
-      };
+      const actual = getShouldShowAccountCode.resultFunc(
+        true,
+        '2',
+        'Supplier',
+        true
+      );
 
-      const actual = getShouldShowAccountCode(state);
       expect(actual).toBeTruthy();
     });
 
     it('returns false if is creating and selected contact is not a supplier', () => {
-      const state = {
-        spendMoneyId: 'new',
-        spendMoney: {
-          selectedPayToContactId: '1',
-        },
-        contactType: 'Customer',
-      };
+      const actual = getShouldShowAccountCode.resultFunc(
+        true,
+        '1',
+        'Customer',
+        true
+      );
 
-      const actual = getShouldShowAccountCode(state);
       expect(actual).toBeFalsy();
     });
 
     it('returns false if is not creating', () => {
-      const state = {
-        spendMoneyId: '1',
-        spendMoney: {
-          selectedPayToContactId: '1',
-        },
-        contactType: 'Supplier',
-      };
+      const actual = getShouldShowAccountCode.resultFunc(
+        false,
+        '1',
+        'Supplier',
+        true
+      );
 
-      const actual = getShouldShowAccountCode(state);
+      expect(actual).toBeFalsy();
+    });
+
+    it('returns true if prefill from in tray', () => {
+      const actual = getShouldShowAccountCode.resultFunc(
+        true,
+        'contactId',
+        'Supplier',
+        true
+      );
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false if not prefill from in tray', () => {
+      const actual = getShouldShowAccountCode.resultFunc(
+        true,
+        'contactId',
+        'Supplier',
+        false
+      );
+
       expect(actual).toBeFalsy();
     });
   });

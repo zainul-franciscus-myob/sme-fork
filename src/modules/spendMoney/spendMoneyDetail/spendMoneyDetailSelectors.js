@@ -84,8 +84,12 @@ export const getShouldShowAccountCode = createSelector(
   getIsCreating,
   getSelectedPayToContactId,
   getContactType,
-  (isCreating, contactId, contactType) =>
-    isCreating && contactId && contactType === 'Supplier'
+  getIsCreatingFromInTray,
+  (isCreating, contactId, contactType, isCreatingFromIntray) =>
+    isCreating &&
+    contactId &&
+    contactType === 'Supplier' &&
+    isCreatingFromIntray
 );
 
 export const getShowBankStatementText = createSelector(

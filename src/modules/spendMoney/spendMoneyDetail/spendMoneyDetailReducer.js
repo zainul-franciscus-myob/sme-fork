@@ -49,6 +49,7 @@ import {
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   getIsCreating,
+  getIsCreatingFromInTray,
   getShowBankStatementText,
 } from './spendMoneyDetailSelectors';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -606,7 +607,11 @@ const prefillSpendMoneyOnContact = (
   state,
   { contactType, isReportable, expenseAccountId }
 ) => {
-  if (getIsCreating(state) && contactType === 'Supplier') {
+  if (
+    getIsCreating(state) &&
+    contactType === 'Supplier' &&
+    getIsCreatingFromInTray(state)
+  ) {
     return {
       ...state,
       contactType,
