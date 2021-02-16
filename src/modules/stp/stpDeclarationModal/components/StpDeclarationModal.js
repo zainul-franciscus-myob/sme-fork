@@ -65,6 +65,7 @@ const StpDeclarationModal = ({
 
   return isOpen ? (
     <Modal
+      testid="stp-declaration-modal"
       title="Send payroll information to the ATO"
       onCancel={onCancelStpDeclaration}
     >

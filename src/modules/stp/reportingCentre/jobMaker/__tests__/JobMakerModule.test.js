@@ -1,7 +1,20 @@
 import { Card, Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
-import { SET_JOB_MAKER_INITIAL, SET_LOADING_STATE } from '../JobMakerIntents';
+import {
+  SET_DROPDOWN_ACTION,
+  SET_DROPDOWN_ACTION_EMPLOYEE,
+  SET_IS_SHOWING_JOB_MAKER_ACTION_MODAL,
+  SET_JOB_MAKER_INITIAL,
+  SET_LOADING_STATE,
+} from '../JobMakerIntents';
+import {
+  getDropdownAction,
+  getDropdownActionEmployee,
+  getEventId,
+  getIsShowingJobMakerActionModal,
+} from '../JobMakerSelector';
+import JobMakerActionTypes from '../JobMakerActionTypes';
 import JobMakerModule from '../JobMakerModule';
 import JobMakerReducer from '../JobMakerReducer';
 import LoadingState from '../../../../../components/PageView/LoadingState';
@@ -11,14 +24,14 @@ import loadJobMakerInitialEmployees from '../../mappings/data/loadJobMakerInitia
 
 describe('JobMakerModule', () => {
   const currentJobMakerInfo = {
-    currentPayrollYearLabel: '2020/2021',
+    currentPayrollYearLabel: '2020/21',
     currentPeriodDetails: {
       period: 1,
       periodStart: '7 Oct 2020',
       periodEnd: '6 Jan 2021',
-      claimStart: '1 February 2021',
-      claimBestBefore: '27 March 2021',
-      claimEnd: '30 March 2021',
+      claimStart: '1 February',
+      claimBestBefore: '27 March',
+      claimEnd: '30 March',
     },
   };
 
@@ -38,7 +51,7 @@ describe('JobMakerModule', () => {
     module.run({});
     const wrapper = mount(module.getView());
     wrapper.update();
-    return { store, wrapper };
+    return { store, wrapper, module };
   };
 
   describe('run', () => {
@@ -92,8 +105,105 @@ describe('JobMakerModule', () => {
         ).toHaveLength(1);
         expect(wrapper.find({ testid: 'JM-table-header' })).toHaveLength(1);
         expect(
-          wrapper.find({ testid: 'JM-column-declaration-tooltip' })
-        ).toHaveLength(1);
+          wrapper.find({ testid: 'JM-column-declaration-tooltip' }).exists()
+        ).toBeTruthy();
+      });
+      describe('onJobmakerTableDropdownItemClicked', () => {
+        let module;
+        let store;
+        let wrapper;
+        const integration = {
+          write: ({ onSuccess }) => onSuccess({}),
+          read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+        };
+        beforeEach(() => {
+          const component = setupModule(featureToggleOn, integration);
+          module = component.module;
+          wrapper = component.wrapper;
+          store = component.store;
+        });
+
+        it('should show nomination modal when nomination dropdown action clicked', () => {
+          const mockEmployee = { employeeId: '001' };
+
+          module.onJobmakerTableDropdownItemClicked(
+            mockEmployee,
+            JobMakerActionTypes.Nominate
+          );
+          wrapper.update();
+
+          const state = store.getState();
+          expect(getDropdownActionEmployee(state)).toEqual(mockEmployee);
+          expect(getDropdownAction(state)).toBe(JobMakerActionTypes.Nominate);
+          expect(getIsShowingJobMakerActionModal(state)).toBe(true);
+
+          const modal = wrapper.find('JobMakerNominationModal').first();
+          expect(modal.exists()).toBe(true);
+        });
+
+        it('does not set employee and action and call appropriate item is not valid', () => {
+          module.openStpDeclarationModal = jest.fn();
+          const mockEmployee = { employeeId: '001' };
+          module.onJobmakerTableDropdownItemClicked(
+            mockEmployee,
+            'invalid item'
+          );
+          const state = store.getState();
+
+          expect(getDropdownActionEmployee(state)).toEqual(undefined);
+          expect(getDropdownAction(state)).toBe(undefined);
+        });
+
+        it('should call correct functions per action', () => {
+          const selectedEmployee = loadJobMakerInitialEmployees.employees[0];
+
+          const dropdown = wrapper
+            .find({ testid: `dropdownlist-${selectedEmployee.employeeId}` })
+            .first();
+          expect(dropdown.exists()).toBeTruthy();
+
+          dropdown.prop('onSelect')(JobMakerActionTypes.Nominate);
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING,
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING_SUCCESS,
+            },
+            {
+              intent: SET_JOB_MAKER_INITIAL,
+              response: loadJobMakerInitialEmployees,
+            },
+            {
+              intent: SET_DROPDOWN_ACTION_EMPLOYEE,
+              employee: selectedEmployee,
+            },
+            {
+              intent: SET_DROPDOWN_ACTION,
+              action: JobMakerActionTypes.Nominate,
+            },
+            {
+              intent: SET_IS_SHOWING_JOB_MAKER_ACTION_MODAL,
+              isShowingJobMakerActionModal: true,
+            },
+          ]);
+        });
+
+        it('should not call any setting dropdown actions with invalid action', () => {
+          const selectedEmployee = loadJobMakerInitialEmployees.employees[0];
+          const invalidAction = 'invalidAction';
+          const dropdown = wrapper
+            .find({ testid: `dropdownlist-${selectedEmployee.employeeId}` })
+            .first();
+          dropdown.prop('onSelect')(invalidAction);
+
+          expect(store.getActions()).not.toContainEqual({
+            intent: SET_DROPDOWN_ACTION,
+            action: invalidAction,
+          });
+        });
       });
 
       describe('loadInitialEmployeesAndHeaderDetails', () => {
@@ -124,6 +234,106 @@ describe('JobMakerModule', () => {
             wrapper.find({ testid: 'JM-emptyEmployee-state' })
           ).toHaveLength(0);
           expect(wrapper.find(Table.Row)).toHaveLength(3);
+        });
+      });
+
+      describe('openStpDeclarationModal', () => {
+        let module;
+        let store;
+        const integration = {
+          write: ({ onSuccess }) => onSuccess({}),
+          read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+        };
+        beforeEach(() => {
+          const component = setupModule(featureToggleOn, integration);
+          module = component.module;
+          store = component.store;
+        });
+
+        it('set new eventId and call createJobMakerEmployeeAction', () => {
+          module.createJobMakerEmployeeAction = jest.fn();
+          module.openStpDeclarationModal();
+          const state = store.getState();
+          expect(getEventId(state)).not.toBe(undefined);
+          module.stpDeclarationModule.recordDeclaration();
+          expect(module.createJobMakerEmployeeAction).toHaveBeenCalled();
+        });
+      });
+
+      describe('onModalActionClicked', () => {
+        let module;
+        let wrapper;
+        let store;
+        const integration = {
+          write: ({ onSuccess }) => onSuccess({}),
+          read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+        };
+        beforeEach(() => {
+          const component = setupModule(featureToggleOn, integration);
+          module = component.module;
+          wrapper = component.wrapper;
+          store = component.store;
+        });
+
+        it('should close the jobmaker action modal and open stp declaration modal', () => {
+          module.onModalActionClicked();
+          wrapper.update();
+
+          const state = store.getState();
+          expect(getIsShowingJobMakerActionModal(state)).toBe(false);
+
+          const stpDeclarationModal = wrapper.find({
+            testid: 'stp-declaration-modal',
+          });
+          expect(stpDeclarationModal.exists()).toBe(true);
+        });
+      });
+
+      describe('onCloseModal', () => {
+        let module;
+        let wrapper;
+        let store;
+        const integration = {
+          write: ({ onSuccess }) => onSuccess({}),
+          read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+        };
+        beforeEach(() => {
+          const component = setupModule(featureToggleOn, integration);
+          module = component.module;
+          wrapper = component.wrapper;
+          store = component.store;
+        });
+
+        it('should close the jobmaker action modal without showing stp declaration modal', () => {
+          module.onCloseModal();
+          wrapper.update();
+
+          const state = store.getState();
+          expect(getIsShowingJobMakerActionModal(state)).toBe(false);
+          expect(getDropdownAction(state)).toBeUndefined();
+          expect(getDropdownActionEmployee(state)).toEqual({});
+
+          const stpDeclarationModal = wrapper.find({
+            testid: 'stp-declaration-modal',
+          });
+          expect(stpDeclarationModal.exists()).toBe(false);
+        });
+      });
+
+      describe('createJobMakerEmployeeAction', () => {
+        it('should call set alert with correct message', () => {
+          const message = 'sample';
+          const integration = {
+            write: ({ onFailure }) => onFailure({ message }),
+            read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+          };
+          const { module } = setupModule(featureToggleOn, integration);
+          module.setAlert = jest.fn();
+          module.createJobMakerEmployeeAction();
+          expect(module.setAlert).toHaveBeenCalledWith({
+            type: 'danger',
+            message,
+          });
         });
       });
     });

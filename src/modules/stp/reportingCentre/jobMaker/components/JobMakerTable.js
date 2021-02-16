@@ -9,7 +9,8 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import NominaionPopover from './NominaionPopover';
+import JobMakerActionTypes from '../JobMakerActionTypes';
+import NominationPopover from './NominationPopover';
 import TableView from '../../../../../components/TableView/TableView';
 
 const tableConfig = {
@@ -37,42 +38,60 @@ const tableConfig = {
   },
   actions: {
     title: 'More Options',
+    columnName: 'Actions',
     cellRole: 'actions',
-    width: '36px',
+    width: '90px',
     valign: 'middle',
   },
 };
 
-const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
-  const dropdownItems = [
-    <Dropdown.Item key="action1" label="Nominate employee" value="action1" />,
-    <Dropdown.Item
-      key="action2"
-      label="Declare for claim period"
-      value="action2"
-    />,
-    <Dropdown.Item key="action3" label="Remove declaration" value="action3" />,
-    <Dropdown.Item key="action4" label="Remove nomination" value="action4" />,
-    <Dropdown.Item
-      key="action5"
-      label="Update employee details"
-      value="action5"
-    />,
+const JobMakerTable = ({
+  isTableLoading,
+  currentPeriodDetails,
+  employees,
+  onDropdownItemClicked,
+}) => {
+  const dropDownItemsList = [
+    {
+      key: 'nominateEmployee',
+      value: JobMakerActionTypes.Nominate,
+      label: 'Nominate employee',
+      disabled: false,
+    },
+    {
+      key: 'declareEmployee',
+      value: JobMakerActionTypes.Claim,
+      label: 'Declare for claim period',
+      disabled: true,
+    },
+    {
+      key: 'removeDeclaration',
+      value: JobMakerActionTypes.CancelClaim,
+      label: 'Remove declaration',
+      disabled: true,
+    },
+    {
+      key: 'removeNomination',
+      value: JobMakerActionTypes.CancelNominate,
+      label: 'Remove nomination',
+      disabled: true,
+    },
+    {
+      key: 'updateEmployeeDetails',
+      value: JobMakerActionTypes.UpdateEmployee,
+      label: 'Update employee details',
+      disabled: true,
+    },
   ];
+  const dropdownItems = dropDownItemsList.map((dropdownItem) => {
+    return <Dropdown.Item {...dropdownItem}></Dropdown.Item>;
+  });
+
   const dropdownToggle = (
     <Dropdown.Toggle type="clear" aria-label="more options" size="xs">
       <MoreIcon size="16px" />
     </Dropdown.Toggle>
   );
-  const dropdown = (
-    <Dropdown
-      right
-      items={dropdownItems}
-      onSelect={(e) => console.log(`${e} clicked`)}
-      toggle={dropdownToggle}
-    />
-  );
-
   const header = (
     <Table.Header>
       <Table.HeaderItem {...tableConfig.firstName}>
@@ -93,9 +112,21 @@ const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
               Employee worked on average more than 20 hours per week.
             </Tooltip>
           </span>
+          <br />
+          <sub>Coming soon</sub>
         </div>
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.actions} />
+      <Table.HeaderItem {...tableConfig.actions}>
+        <div>
+          {tableConfig.actions.columnName}
+          <span testid="JM-column-action-tooltip">
+            &nbsp;
+            <Tooltip triggerContent={<Icons.Info />} placement="top">
+              Declarations and employee updates are coming soon.
+            </Tooltip>
+          </span>
+        </div>
+      </Table.HeaderItem>
     </Table.Header>
   );
 
@@ -104,7 +135,7 @@ const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
       <Table.RowItem {...tableConfig.firstName}>{row.firstName}</Table.RowItem>
       <Table.RowItem {...tableConfig.lastName}>{row.lastName}</Table.RowItem>
       <Table.RowItem {...tableConfig.nomination}>
-        <NominaionPopover
+        <NominationPopover
           nomination={row.nomination}
           testid={`nomination-button-${row.employeeId}`}
         />
@@ -112,7 +143,15 @@ const JobMakerTable = ({ isTableLoading, currentPeriodDetails, employees }) => {
       <Table.RowItem {...tableConfig.declaration}>
         {row.declaration}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.actions}>{dropdown}</Table.RowItem>
+      <Table.RowItem {...tableConfig.actions}>
+        <Dropdown
+          left
+          items={dropdownItems}
+          onSelect={(actionType) => onDropdownItemClicked(row, actionType)}
+          toggle={dropdownToggle}
+          testid={`dropdownlist-${row.employeeId}`}
+        />
+      </Table.RowItem>
     </Table.Row>
   ));
 

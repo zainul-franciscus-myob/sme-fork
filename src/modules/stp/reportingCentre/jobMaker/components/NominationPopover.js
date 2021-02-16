@@ -1,9 +1,9 @@
 import { Button, OpenExternalLinkIcon, Popover } from '@myob/myob-widgets';
 import React from 'react';
 
-import styles from './NominaionPopover.module.css';
+import styles from './NominationPopover.module.css';
 
-const NominaionPopover = ({ nomination, testid }) => {
+const NominationPopover = ({ nomination, testid }) => {
   const popOverContent = (
     <div testid="Popover">
       <p>
@@ -43,4 +43,4 @@ const NominaionPopover = ({ nomination, testid }) => {
   ) : null;
 };
 
-export default NominaionPopover;
+export default NominationPopover;

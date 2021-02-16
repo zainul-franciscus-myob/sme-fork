@@ -1,4 +1,8 @@
 import { CALCULATE_TURNOVER } from '../gstCalculator/GstCalculatorIntents';
+import {
+  CREATE_JOB_MAKER_EMPLOYEE_ACTION,
+  LOAD_INITIAL_JOB_MAKER_EMPLOYEES,
+} from '../jobMaker/JobMakerIntents';
 import { DELETE_EMPLOYEE_ETP, LOAD_EMPLOYEE_ETP } from '../etps/EtpIntents';
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
@@ -33,7 +37,6 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
-import { LOAD_INITIAL_JOB_MAKER_EMPLOYEES } from '../jobMaker/JobMakerIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -168,6 +171,10 @@ const HttpStpReportingCentreMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/stp/job_maker_employees_initial`,
+  },
+  [CREATE_JOB_MAKER_EMPLOYEE_ACTION]: {
+    method: 'POST',
+    getPath: ({ businessId }) => `/${businessId}/stp/jobmaker`,
   },
 };
 

@@ -1,4 +1,8 @@
 import { CALCULATE_TURNOVER } from '../gstCalculator/GstCalculatorIntents';
+import {
+  CREATE_JOB_MAKER_EMPLOYEE_ACTION,
+  LOAD_INITIAL_JOB_MAKER_EMPLOYEES,
+} from '../jobMaker/JobMakerIntents';
 import { DELETE_EMPLOYEE_ETP, LOAD_EMPLOYEE_ETP } from '../etps/EtpIntents';
 import {
   FILTER_JOB_KEEPER_EMPLOYEES,
@@ -34,7 +38,6 @@ import {
   SUBMIT_EMPLOYEES_FINALISATION,
   SUBMIT_EMPLOYEES_REMOVE_FINALISATION,
 } from '../finalisation/FinalisationIntents';
-import { LOAD_INITIAL_JOB_MAKER_EMPLOYEES } from '../jobMaker/JobMakerIntents';
 import {
   LOAD_STP_REGISTRATION_STATUS,
   UPDATE_STP_EMPLOYEES,
@@ -115,6 +118,7 @@ const MemoryStpReportingCentreMapping = {
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_INITIAL_JOB_MAKER_EMPLOYEES]: ({ onSuccess }) =>
     onSuccess(loadJobMakerInitialEmployees),
+  [CREATE_JOB_MAKER_EMPLOYEE_ACTION]: ({ onSuccess }) => onSuccess({}),
 };
 
 export default MemoryStpReportingCentreMapping;
