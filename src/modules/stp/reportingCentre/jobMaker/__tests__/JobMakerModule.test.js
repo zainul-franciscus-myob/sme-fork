@@ -343,6 +343,21 @@ describe('JobMakerModule', () => {
             message,
           });
         });
+
+        it('should load jobmaker employees after job maker creation is success', () => {
+          const integration = {
+            write: ({ onSuccess }) => onSuccess(),
+            read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+          };
+          const { module } = setupModule(featureToggleOn, integration);
+          module.loadInitialEmployeesAndHeaderDetails = jest.fn();
+
+          module.createJobMakerEmployeeAction();
+
+          expect(
+            module.loadInitialEmployeesAndHeaderDetails
+          ).toHaveBeenCalled();
+        });
       });
     });
   });
