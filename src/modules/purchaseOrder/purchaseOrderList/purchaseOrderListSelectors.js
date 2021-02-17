@@ -40,6 +40,8 @@ export const getOrderBy = ({ orderBy }) => orderBy;
 
 export const getTotal = (state) => state.total;
 
+export const getTotalDue = (state) => state.totalDue;
+
 export const flipSortOrder = ({ sortOrder }) =>
   sortOrder === 'desc' ? 'asc' : 'desc';
 

@@ -7,7 +7,7 @@
 }
 
 .total .totalAmount {
-  font-weight: bold;
+  font-weight: normal;
 }
 
 .total .hasOverdue {
@@ -26,4 +26,8 @@
   .total div {
     display: inline-block;
   }
+}
+
+.balanceDue {
+  font-weight: bold;
 }

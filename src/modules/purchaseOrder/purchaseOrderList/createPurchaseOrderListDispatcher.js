@@ -75,13 +75,19 @@ const createPurchaseOrderListDispatcher = (store) => ({
     });
   },
 
-  sortAndFilterPurchaseOrderList: ({ pagination, entries, total }) => {
+  sortAndFilterPurchaseOrderList: ({
+    pagination,
+    entries,
+    total,
+    totalDue,
+  }) => {
     const intent = SORT_AND_FILTER_PURCHASE_ORDER_LIST;
     store.dispatch({
       intent,
       pagination,
       entries,
       total,
+      totalDue,
     });
   },
 

@@ -37,6 +37,7 @@ const getDefaultState = () => ({
   sortOrder: 'desc',
   orderBy: 'DateOccurred',
   total: '',
+  totalDue: '',
   entries: [],
   loadingState: LoadingState.LOADING,
   isTableLoading: false,
@@ -180,6 +181,7 @@ const sortAndFilterPurchaseOrderList = (state, action) => ({
   isTableLoading: false,
   entries: action.entries,
   total: action.total,
+  totalDue: action.totalDue,
   pagination: {
     ...action.pagination,
   },
@@ -211,6 +213,7 @@ const loadPurchaseOrderList = (state, action) => {
     loadingState: LoadingState.LOADING_SUCCESS,
     entries: action.entries,
     total: action.total,
+    totalDue: action.totalDue,
     supplierFilters: action.supplierFilters,
     pagination: action.pagination,
   };

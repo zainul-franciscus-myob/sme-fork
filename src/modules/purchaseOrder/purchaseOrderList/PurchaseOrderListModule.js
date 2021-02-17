@@ -80,11 +80,12 @@ export default class PurchaseOrderListModule {
   sortAndFilterPurchaseOrderList = () => {
     this.dispatcher.setTableLoadingState(true);
 
-    const onSuccess = ({ entries, pagination, total }) => {
+    const onSuccess = ({ entries, pagination, total, totalDue }) => {
       this.dispatcher.sortAndFilterPurchaseOrderList({
         pagination,
         entries,
         total,
+        totalDue,
       });
     };
 

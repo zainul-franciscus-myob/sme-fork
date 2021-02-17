@@ -6,6 +6,7 @@ import {
   getFilterOptions,
   getSupplierFilterOptions,
   getTotal,
+  getTotalDue,
 } from '../purchaseOrderListSelectors';
 import FilterBarSearch from '../../../../components/FilterBarSearch/FilterBarSearch';
 import SupplierCombobox from '../../../../components/combobox/SupplierCombobox';
@@ -18,6 +19,7 @@ const PurchaseOrderListFilterOptions = ({
   filterOptions: { supplierId, dateFrom, dateTo, keywords },
   supplierFilterOptions,
   total,
+  totalDue,
   onUpdateFilters,
   onResetFilters,
 }) => (
@@ -59,6 +61,7 @@ const PurchaseOrderListFilterOptions = ({
     <hr />
     <div className={styles.total}>
       <div className={styles.totalAmount}>{`Total amount ${total}`}</div>
+      <div className={styles.balanceDue}>{`Balance Due ${totalDue}`}</div>
     </div>
   </React.Fragment>
 );
@@ -67,6 +70,7 @@ const mapStateToProps = (state) => ({
   filterOptions: getFilterOptions(state),
   supplierFilterOptions: getSupplierFilterOptions(state),
   total: getTotal(state),
+  totalDue: getTotalDue(state),
 });
 
 export default connect(mapStateToProps)(PurchaseOrderListFilterOptions);
