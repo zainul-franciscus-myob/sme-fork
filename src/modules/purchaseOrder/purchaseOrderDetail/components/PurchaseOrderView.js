@@ -6,7 +6,6 @@ import {
   getIsAlertShown,
   getIsBlocking,
   getIsCreating,
-  getIsFeatureAvailable,
   getIsModalShown,
   getIsReadOnly,
   getLoadingState,
@@ -26,7 +25,6 @@ import PurchaseOrderPrimaryOptions from './PurchaseOrderPrimaryOptions';
 import PurchaseOrderSecondaryOptions from './PurchaseOrderSecondaryOptions';
 import PurchaseOrderServiceTable from './PurchaseOrderServiceTable';
 import UpgradeModal from './UpgradeModal';
-import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
 import styles from './PurchaseOrderView.module.css';
 
 const getOptionInfo = ({ isReadOnly, readOnlyMessage }) => {
@@ -81,12 +79,7 @@ const PurchaseOrderView = ({
   onSaveAndEmailButtonClick,
   emailPurchaseOrderDetailModalListeners,
   emailSettingsModalListeners,
-  isFeatureAvailable,
 }) => {
-  if (!isFeatureAvailable) {
-    return <WrongPageState />;
-  }
-
   const tableLayoutOption = (
     <PurchaseOrderLayoutPopover
       layout={layout}
@@ -237,7 +230,6 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   readOnlyMessage: getReadOnlyMessage(state),
   isCreating: getIsCreating(state),
-  isFeatureAvailable: getIsFeatureAvailable(state),
 });
 
 export default connect(mapStateToProps)(PurchaseOrderView);
