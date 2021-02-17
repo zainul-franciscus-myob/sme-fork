@@ -17,6 +17,7 @@ const InvoiceDetailHeader = ({
   const actions = [
     <Button
       key="activityHistory"
+      name="activityHistory"
       type="link"
       icon={<Icons.History />}
       onClick={onFocusActivityHistory}
@@ -25,6 +26,7 @@ const InvoiceDetailHeader = ({
     </Button>,
     <Button
       key="createPayment"
+      name="createPaymentHeader"
       type="link"
       icon={<Icons.Dollar />}
       onClick={onRedirectToCreatePayment}

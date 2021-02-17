@@ -254,6 +254,8 @@ export default class InvoiceDetailModule {
     } else {
       this.saveInvoice();
     }
+
+    this.sendInvoiceTelemetry('click_save_button');
   };
 
   saveInvoice = () => {
@@ -340,6 +342,8 @@ export default class InvoiceDetailModule {
     } else {
       this.openEmailModal();
     }
+
+    this.sendInvoiceTelemetry('click_send_email_invoice_button');
   };
 
   saveAndSendEInvoice = () => {
@@ -360,6 +364,8 @@ export default class InvoiceDetailModule {
     } else {
       openModal();
     }
+
+    this.sendInvoiceTelemetry('click_send_einvoice_button');
   };
 
   openSendEInvoiceAbnWarningModal = () => {
@@ -452,6 +458,11 @@ export default class InvoiceDetailModule {
         onFailure,
       });
     }
+  };
+
+  onCreatePaymentHeaderClicked = () => {
+    this.redirectToInvoicePayment();
+    this.sendInvoiceTelemetry('click_create_payment_header_button');
   };
 
   redirectToInvoiceList = () => {
@@ -670,6 +681,8 @@ export default class InvoiceDetailModule {
     } else {
       this.redirectToInvoiceList();
     }
+
+    this.sendInvoiceTelemetry('click_cancel_button');
   };
 
   redirectToRefUrl = () => {
@@ -705,15 +718,19 @@ export default class InvoiceDetailModule {
     this.createOrUpdateInvoice({ onSuccess });
   };
 
-  openDeleteModal = () =>
+  openDeleteModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.DELETE);
+    this.sendInvoiceTelemetry('click_delete_button');
+  };
 
   openSaveAndCreateNewModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_CREATE_NEW);
+    this.sendInvoiceTelemetry('click_save_and_create_new_button');
   };
 
   openSaveAndDuplicateModal = () => {
     this.dispatcher.setModalType(InvoiceDetailModalType.SAVE_AND_DUPLICATE);
+    this.sendInvoiceTelemetry('click_save_and_duplicate_button');
   };
 
   openExportPdfModal = () => {
@@ -738,6 +755,7 @@ export default class InvoiceDetailModule {
       );
     } else {
       this.redirectToInvoicePayment();
+      this.sendInvoiceTelemetry('click_create_payment_bottom_button');
     }
   };
 
@@ -890,6 +908,8 @@ export default class InvoiceDetailModule {
     } else {
       this.openExportPdfModal();
     }
+
+    this.sendInvoiceTelemetry('click_view_pdf');
   };
 
   openRecurringTransactionListModal = () => {
@@ -954,6 +974,8 @@ export default class InvoiceDetailModule {
         this.displaySuccessAlert(message);
       },
     });
+
+    this.sendInvoiceTelemetry('click_save_as_recurring_button');
   };
 
   loadAbnFromCustomer = () => {
@@ -1157,6 +1179,8 @@ export default class InvoiceDetailModule {
       InvoiceDetailElementId.ACTIVITY_HISTORY_ELEMENT_ID
     );
     element.scrollIntoView();
+
+    this.sendInvoiceTelemetry('click_activity_history_button');
   };
 
   loadAccounts = ({ keywords, onSuccess }) => {
@@ -1293,6 +1317,15 @@ export default class InvoiceDetailModule {
     }
   };
 
+  sendInvoiceTelemetry = (action) =>
+    trackUserEvent({
+      eventName: 'invoice',
+      customProperties: {
+        action,
+        label: action,
+      },
+    });
+
   openInvoiceFinanceTab = (url) => {
     this.sendInvoiceFinanceTelemetry('click_invoice_finance_button');
     this.navigateTo(url, true);
@@ -1307,6 +1340,10 @@ export default class InvoiceDetailModule {
         label: action,
       },
     });
+
+  onSaveAndButtonClick = () => {
+    this.sendInvoiceTelemetry('click_save_and_action_button');
+  };
 
   render = () => {
     const accountModal = this.accountModalModule.render();
@@ -1341,7 +1378,8 @@ export default class InvoiceDetailModule {
         invoiceActionListeners={{
           onSaveButtonClick: this.handleSaveInvoice,
           onSaveAsRecurringButtonClick: this.openRecurringTransactionModal,
-          onSaveAndButtonClick: this.executeSaveAndAction,
+          onSaveAndButtonSelect: this.executeSaveAndAction,
+          onSaveAndButtonClick: this.onSaveAndButtonClick,
           onSaveAndEmailButtonClick: this.saveAndEmailInvoice,
           onSaveAndSendEInvoiceClick: this.saveAndSendEInvoice,
           onPayInvoiceButtonClick: this.payInvoice,
@@ -1424,7 +1462,7 @@ export default class InvoiceDetailModule {
         onAccordionOpen={this.accordionOpened}
         onClickOnRefNo={this.redirectToRefPage}
         onFocusActivityHistory={this.focusActivityHistory}
-        onRedirectToCreatePayment={this.redirectToInvoicePayment}
+        onRedirectToCreatePayment={this.onCreatePaymentHeaderClicked}
         onDismissPreConversionAlert={this.dismissPreConversionAlert}
         redirectToSetUpOnlinePayments={this.redirectToSetUpOnlinePayments}
       />

@@ -1,3 +1,5 @@
+import { mount } from 'enzyme';
+
 import * as telemetry from '../../../../telemetry/index';
 import {
   ADD_EINVOICE_ATTACHMENTS,
@@ -38,12 +40,14 @@ import {
   SUCCESSFULLY_SENT_EINVOICE,
 } from '../../../../common/types/MessageTypes';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+import { trackUserEvent } from '../../../../telemetry';
 import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceDetailModule from '../InvoiceDetailModule';
 import InvoiceLayout from '../types/InvoiceLayout';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Region from '../../../../common/types/Region';
+import SaveActionType from '../types/SaveActionType';
 import TestIntegration from '../../../../integration/TestIntegration';
 import TestStore from '../../../../store/TestStore';
 import createInvoiceDetailDispatcher from '../createInvoiceDetailDispatcher';
@@ -52,17 +56,17 @@ import invoiceDetailReducer from '../reducer/invoiceDetailReducer';
 import loadInvoiceDetailResponse from '../../mappings/data/serviceLayout/invoiceServiceDetail';
 import loadPrefillFromRecurringInvoiceResponse from '../../mappings/data/loadPrefillFromRecurringInvoiceResponse';
 
-export const setup = () => {
+export const setup = (setRootView = () => {}) => {
   const store = new TestStore(invoiceDetailReducer);
   const integration = new TestIntegration();
   const module = new InvoiceDetailModule({
     integration,
-    setRootView: () => {},
+    setRootView,
     pushMessage: () => {},
     popMessages: () => [],
     replaceURLParams: () => {},
     reload: () => {},
-    featureToggles: { isRecurringTransactionEnabled: false },
+    featureToggles: { isRecurringTransactionEnabled: true },
     isToggleOn: () => {},
   });
   module.store = store;
@@ -103,6 +107,32 @@ const setupWithPreConversion = (isCreating = false, isPageEdited = false) => {
   integration.resetRequests();
 
   return { module, integration, store };
+};
+
+export const setupWithRootView = (integrationOverride) => {
+  let wrapper;
+  const setRootView = (component) => {
+    wrapper = mount(component);
+  };
+
+  const { module, store, integration } = setup(setRootView);
+
+  if (integrationOverride) {
+    integration.overrideMapping(integrationOverride.intent, ({ onSuccess }) => {
+      onSuccess(integrationOverride.response);
+    });
+  }
+
+  module.run({
+    businessId: 'businessId',
+    region: Region.au,
+    invoiceId: 'invoiceId',
+  });
+  store.resetActions();
+  integration.resetRequests();
+  wrapper.update();
+
+  return { store, integration, module, wrapper };
 };
 
 describe('InvoiceDetailModule', () => {
@@ -461,6 +491,42 @@ describe('InvoiceDetailModule', () => {
         },
       ]);
     });
+
+    it('should send telemetry data with specified payload', () => {
+      const { wrapper } = setupWithRootView();
+
+      const saveButton = wrapper.find('button[name="save"]');
+      saveButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_save_button',
+          label: 'click_save_button',
+        },
+      });
+    });
+  });
+
+  describe('openRecurringTransactionModal', () => {
+    it('should send telemetry data with specified payload', () => {
+      const { wrapper } = setupWithRootView();
+
+      const saveAsRecurringButton = wrapper.find(
+        'button[name="saveAsRecurring"]'
+      );
+      saveAsRecurringButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_save_as_recurring_button',
+          label: 'click_save_as_recurring_button',
+        },
+      });
+    });
   });
 
   describe('saveInvoice', () => {
@@ -709,6 +775,23 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         ]);
+      });
+
+      it('send telemetry data with specified payload', () => {
+        const { module, wrapper } = setupWithRootView();
+        module.replaceURLParams = jest.fn();
+
+        const saveAndActionButton = wrapper.find('button[name="saveAndEmail"]');
+        saveAndActionButton.simulate('click');
+        wrapper.update();
+
+        expect(trackUserEvent).toBeCalledWith({
+          eventName: 'invoice',
+          customProperties: {
+            action: 'click_send_email_invoice_button',
+            label: 'click_send_email_invoice_button',
+          },
+        });
       });
     });
 
@@ -1009,6 +1092,34 @@ describe('InvoiceDetailModule', () => {
           },
         ]);
       });
+
+      it('send telemetry data with specified payload', () => {
+        const integrationOverride = {
+          intent: LOAD_INVOICE_DETAIL,
+          response: {
+            ...loadInvoiceDetailResponse,
+            eInvoice: {
+              appName: 'appName',
+            },
+          },
+        };
+
+        const { wrapper } = setupWithRootView(integrationOverride);
+
+        const saveAndSendEInvoiceButton = wrapper.find(
+          'button[name="saveAndSendEInvoice"]'
+        );
+        saveAndSendEInvoiceButton.simulate('click');
+        wrapper.update();
+
+        expect(trackUserEvent).toBeCalledWith({
+          eventName: 'invoice',
+          customProperties: {
+            action: 'click_send_einvoice_button',
+            label: 'click_send_einvoice_button',
+          },
+        });
+      });
     });
 
     describe('invalid ABN', () => {
@@ -1220,6 +1331,22 @@ describe('InvoiceDetailModule', () => {
           expect.objectContaining({ intent: CREATE_INVOICE_DETAIL }),
           expect.objectContaining({ intent: LOAD_INVOICE_DETAIL }),
         ]);
+      });
+
+      it('send telemetry data with specified payload', () => {
+        const { wrapper } = setupWithRootView();
+
+        const viewPDFButton = wrapper.find('button[name="exportPdf"]');
+        viewPDFButton.simulate('click');
+        wrapper.update();
+
+        expect(trackUserEvent).toBeCalledWith({
+          eventName: 'invoice',
+          customProperties: {
+            action: 'click_view_pdf',
+            label: 'click_view_pdf',
+          },
+        });
       });
     });
 
@@ -1773,6 +1900,162 @@ describe('InvoiceDetailModule', () => {
           }),
         ])
       );
+    });
+  });
+
+  describe('executeSaveAndAction', () => {
+    it('send telemetry data with specified payload when save action is create new', () => {
+      const { module } = setupWithRun({
+        isCreating: false,
+      });
+
+      module.executeSaveAndAction(SaveActionType.SAVE_AND_CREATE_NEW);
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_save_and_create_new_button',
+          label: 'click_save_and_create_new_button',
+        },
+      });
+    });
+    it('send telemetry data with specified payload when save action is save and duplicate', () => {
+      const { module } = setupWithRun({
+        isCreating: false,
+      });
+
+      module.executeSaveAndAction(SaveActionType.SAVE_AND_DUPLICATE);
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_save_and_duplicate_button',
+          label: 'click_save_and_duplicate_button',
+        },
+      });
+    });
+  });
+
+  describe('onCreatePaymentHeaderClicked', () => {
+    it('send telemetry data with specified payload', () => {
+      const { module, wrapper } = setupWithRootView();
+      module.navigateTo = jest.fn();
+
+      const createPaymentHeaderButton = wrapper.find(
+        'button[name="createPaymentHeader"]'
+      );
+      createPaymentHeaderButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_create_payment_header_button',
+          label: 'click_create_payment_header_button',
+        },
+      });
+    });
+  });
+
+  describe('payInvoice', () => {
+    it('send telemetry data with specified payload', () => {
+      const { module, wrapper } = setupWithRootView();
+      module.navigateTo = jest.fn();
+
+      const createPaymentBottomButton = wrapper.find(
+        'button[name="payInvoice"]'
+      );
+      createPaymentBottomButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_create_payment_bottom_button',
+          label: 'click_create_payment_bottom_button',
+        },
+      });
+    });
+  });
+
+  describe('focusActivityHistory', () => {
+    it('send telemetry data with specified payload', () => {
+      const { wrapper } = setupWithRootView();
+
+      const element = jest.fn();
+      element.scrollIntoView = jest.fn();
+      document.getElementById = jest.fn();
+      document.getElementById.mockReturnValue(element);
+
+      const activityHistoryButton = wrapper.find(
+        'button[name="activityHistory"]'
+      );
+      activityHistoryButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_activity_history_button',
+          label: 'click_activity_history_button',
+        },
+      });
+    });
+  });
+
+  describe('openDeleteModal', () => {
+    it('send telemetry data with specified payload', () => {
+      const { wrapper } = setupWithRootView();
+
+      const deleteButton = wrapper.find('button[name="delete"]');
+      deleteButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_delete_button',
+          label: 'click_delete_button',
+        },
+      });
+    });
+  });
+
+  describe('openCancelModal', () => {
+    it('send telemetry data with specified payload', () => {
+      const { module, wrapper } = setupWithRootView();
+      module.navigateTo = jest.fn();
+
+      const cancelButton = wrapper.find('button[name="cancel"]');
+      cancelButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_cancel_button',
+          label: 'click_cancel_button',
+        },
+      });
+    });
+  });
+
+  describe('onSaveAndButtonClick', () => {
+    it('send telemetry data with specified payload', () => {
+      const { module, wrapper } = setupWithRootView();
+      module.navigateTo = jest.fn();
+
+      const saveAndActionButton = wrapper.find('button[name="saveAndAction"]');
+      saveAndActionButton.simulate('click');
+      wrapper.update();
+
+      expect(trackUserEvent).toBeCalledWith({
+        eventName: 'invoice',
+        customProperties: {
+          action: 'click_save_and_action_button',
+          label: 'click_save_and_action_button',
+        },
+      });
     });
   });
 });

@@ -28,6 +28,7 @@ import { getShowEInvoiceButton } from '../selectors/eInvoiceSelectors';
 import { getShowEmailButton } from '../selectors/emailSelectors';
 import { getShowExportPdfButton } from '../selectors/exportPdfSelectors';
 import SaveActionType from '../types/SaveActionType';
+import styles from './InvoiceDetailActions.module.css';
 
 const InvoiceDetailActions = ({
   isCreating,
@@ -45,6 +46,7 @@ const InvoiceDetailActions = ({
   listeners: {
     onSaveButtonClick,
     onSaveAsRecurringButtonClick,
+    onSaveAndButtonSelect,
     onSaveAndButtonClick,
     onSaveAndEmailButtonClick,
     onSaveAndSendEInvoiceClick,
@@ -113,6 +115,7 @@ const InvoiceDetailActions = ({
     />,
     <Dropdown.Item
       key={SaveActionType.SAVE_AND_DUPLICATE}
+      name="saveAndDuplicate"
       label="Save and duplicate"
       value={SaveActionType.SAVE_AND_DUPLICATE}
     />,
@@ -121,11 +124,18 @@ const InvoiceDetailActions = ({
   const saveAndButton = (
     <Dropdown
       key="saveAnd"
-      onSelect={onSaveAndButtonClick}
+      onSelect={onSaveAndButtonSelect}
       toggle={
         <Dropdown.Toggle disabled={isSubmitting}>
-          Save and...
-          <Icons.Caret />
+          <button
+            onClick={onSaveAndButtonClick}
+            className={styles.buttonWrapper}
+            type="button"
+            name="saveAndAction"
+          >
+            Save and...
+            <Icons.Caret />
+          </button>
         </Dropdown.Toggle>
       }
       items={dropdownActionItems}
