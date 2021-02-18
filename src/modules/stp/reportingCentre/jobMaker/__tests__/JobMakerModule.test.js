@@ -107,6 +107,7 @@ describe('JobMakerModule', () => {
           wrapper.find({ testid: 'JM-column-declaration-tooltip' }).exists()
         ).toBeTruthy();
       });
+
       describe('onJobmakerTableDropdownItemClicked', () => {
         let module;
         let store;
@@ -122,25 +123,31 @@ describe('JobMakerModule', () => {
           store = component.store;
         });
 
-        it('should show nomination modal when nomination dropdown action clicked', () => {
-          const mockEmployee = { employeeId: '001' };
+        const testActions = [
+          JobMakerActionTypes.Nominate,
+          JobMakerActionTypes.CancelNominate,
+        ];
 
-          module.onJobmakerTableDropdownItemClicked(
-            mockEmployee,
-            JobMakerActionTypes.Nominate
-          );
-          wrapper.update();
+        testActions.forEach((action) => {
+          it(`should show ${action} modal when ${action} dropdown item clicked`, () => {
+            const mockEmployee = { employeeId: '001' };
 
-          const state = store.getState();
-          expect(getDropdownActionEmployee(state)).toEqual(mockEmployee);
-          expect(getDropdownAction(state)).toBe(JobMakerActionTypes.Nominate);
-          expect(getIsShowingJobMakerActionModal(state)).toBe(true);
+            module.onJobmakerTableDropdownItemClicked(mockEmployee, action);
+            wrapper.update();
 
-          const modal = wrapper.find('JobMakerNominationModal').first();
-          expect(modal.exists()).toBe(true);
+            const state = store.getState();
+            expect(getDropdownActionEmployee(state)).toEqual(mockEmployee);
+            expect(getDropdownAction(state)).toBe(action);
+            expect(getIsShowingJobMakerActionModal(state)).toBe(true);
+
+            const modal = wrapper.find({
+              testid: `jobmakerAction-modal-${action}`,
+            });
+            expect(modal.exists()).toBe(true);
+          });
         });
 
-        it('does not set employee and action and call appropriate item is not valid', () => {
+        it('does not set employee and action with invalid dropdown item', () => {
           module.openStpDeclarationModal = jest.fn();
           const mockEmployee = { employeeId: '001' };
           module.onJobmakerTableDropdownItemClicked(
@@ -153,44 +160,46 @@ describe('JobMakerModule', () => {
           expect(getDropdownAction(state)).toBe(undefined);
         });
 
-        it('should call correct functions per action', () => {
-          const selectedEmployee = loadJobMakerInitialEmployees.employees[0];
+        testActions.forEach((action) => {
+          it(`should call correct intents per ${action} action`, () => {
+            const selectedEmployee = loadJobMakerInitialEmployees.employees[0];
+            const dropdown = wrapper
+              .find({ testid: `dropdownlist-${selectedEmployee.employeeId}` })
+              .first();
+            expect(dropdown.exists()).toBeTruthy();
 
-          const dropdown = wrapper
-            .find({ testid: `dropdownlist-${selectedEmployee.employeeId}` })
-            .first();
-          expect(dropdown.exists()).toBeTruthy();
+            dropdown.prop('onSelect')(action);
 
-          dropdown.prop('onSelect')(JobMakerActionTypes.Nominate);
-          expect(store.getActions()).toEqual([
-            {
-              intent: SET_LOADING_STATE,
-              loadingState: LoadingState.LOADING,
-            },
-            {
-              intent: SET_LOADING_STATE,
-              loadingState: LoadingState.LOADING_SUCCESS,
-            },
-            {
-              intent: SET_JOB_MAKER_INITIAL,
-              response: loadJobMakerInitialEmployees,
-            },
-            {
-              intent: SET_DROPDOWN_ACTION_EMPLOYEE,
-              employee: selectedEmployee,
-            },
-            {
-              intent: SET_DROPDOWN_ACTION,
-              action: JobMakerActionTypes.Nominate,
-            },
-            {
-              intent: SET_IS_SHOWING_JOB_MAKER_ACTION_MODAL,
-              isShowingJobMakerActionModal: true,
-            },
-          ]);
+            expect(store.getActions()).toEqual([
+              {
+                intent: SET_LOADING_STATE,
+                loadingState: LoadingState.LOADING,
+              },
+              {
+                intent: SET_LOADING_STATE,
+                loadingState: LoadingState.LOADING_SUCCESS,
+              },
+              {
+                intent: SET_JOB_MAKER_INITIAL,
+                response: loadJobMakerInitialEmployees,
+              },
+              {
+                intent: SET_DROPDOWN_ACTION_EMPLOYEE,
+                employee: selectedEmployee,
+              },
+              {
+                intent: SET_DROPDOWN_ACTION,
+                action,
+              },
+              {
+                intent: SET_IS_SHOWING_JOB_MAKER_ACTION_MODAL,
+                isShowingJobMakerActionModal: true,
+              },
+            ]);
+          });
         });
 
-        it('should not call any setting dropdown actions with invalid action', () => {
+        it('should not call any setting dropdown actions with invalid dropdown item', () => {
           const selectedEmployee = loadJobMakerInitialEmployees.employees[0];
           const invalidAction = 'invalidAction';
           const dropdown = wrapper

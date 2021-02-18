@@ -90,20 +90,20 @@ describe('JobMakerTable', () => {
 
     it('should enable items and actions correctly', () => {
       const { employeeId } = employees[0];
-      const dropdown = wrapper
-        .find({ testid: `dropdownlist-${employeeId}` })
-        .first();
+      const expectedEnabledActions = [
+        JobMakerActionTypes.Nominate,
+        JobMakerActionTypes.CancelNominate,
+      ];
 
-      const expectedEnabledActions = [JobMakerActionTypes.Nominate];
-      const enabledAction = dropdown
+      const enabledAction = wrapper
+        .find({ testid: `dropdownlist-${employeeId}` })
+        .first()
         .prop('items')
         .map((i) => i.props)
         .filter((p) => !p.disabled)
         .map((i) => i.value);
 
-      expect(enabledAction).toEqual(
-        expect.arrayContaining(expectedEnabledActions)
-      );
+      expect(enabledAction).toEqual(expectedEnabledActions);
     });
 
     it('should call onclicked with right action and employeeId', () => {

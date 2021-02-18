@@ -11,16 +11,15 @@ import {
   getIsTableLoading,
   getLoadingState,
 } from '../JobMakerSelector';
+import JobMakerActionModal from './JobMakerActionModal';
 import JobMakerActionTypes, {
   isValidJobMakerAction,
 } from '../JobMakerActionTypes';
 import JobMakerHeader from './JobMakerHeader';
 import JobMakerLanding from './JobMakerLanding';
-import JobMakerNominationModal from './JobMakerNominationModal';
 import JobMakerTable from './JobMakerTable';
 import PageView from '../../../../../components/PageView/PageView';
 import styles from './JobMakerView.module.css';
-// import JobMakerRemoveNominationModal from './JobMakerRemoveNominationModal';
 
 const JobMakerView = ({
   featureToggles,
@@ -34,6 +33,33 @@ const JobMakerView = ({
   onCloseModal,
   onModalActionClicked,
 }) => {
+  const actionModalConfigsList = Object.freeze([
+    {
+      key: JobMakerActionTypes.Nominate,
+      actionButtonLabel: 'Nominate',
+      title: 'Nominate Employee',
+      body: 'I nominate this employee for the JobMaker Hiring Credit.',
+    },
+    {
+      key: JobMakerActionTypes.CancelNominate,
+      actionButtonLabel: 'Remove',
+      title: 'Remove Nomination',
+      body:
+        'Removing this nomination will remove the employee from JobMaker claims with the ATO.',
+    },
+  ]);
+  const actionModalConfigs = {};
+  actionModalConfigsList.forEach((x) => {
+    const { actionButtonLabel, title, body } = x;
+    actionModalConfigs[x.key] = {
+      actionButtonLabel,
+      title,
+      body,
+      testid: `jobmakerAction-modal-${x.key}`,
+    };
+  });
+  // make sure cannot be modified afterward
+  Object.freeze(actionModalConfigs);
   const infoComponent = (
     <Alert type="info">
       Employee nominations and declarations for claim period&nbsp;
@@ -51,28 +77,24 @@ const JobMakerView = ({
       </a>
     </Alert>
   );
-  const JobMakerActionModal = () => {
+  const renderJobMakerActionModal = () => {
     if (!isShowingJobMakerActionModal || !isValidJobMakerAction(dropDownAction))
       return null;
-    switch (dropDownAction) {
-      case JobMakerActionTypes.Nominate:
-        return (
-          <JobMakerNominationModal
-            onNominate={onModalActionClicked}
-            onCloseModal={onCloseModal}
-          />
-        );
-      // case JobMakerActionTypes.CancelNominate:
-      //   return (
-      //     <JobMakerRemoveNominationModal
-      //       onNominate={onModalActionClicked}
-      //       onCloseModal={onCloseModal}
-      //     />
-      //   );
-      default:
-        return null;
-    }
+    const modalConfig = actionModalConfigs[dropDownAction];
+    if (!modalConfig) return null;
+    const { body, title, actionButtonLabel, testid } = modalConfig;
+    return (
+      <JobMakerActionModal
+        onConfirmAction={onModalActionClicked}
+        onCloseModal={onCloseModal}
+        body={body}
+        title={title}
+        actionButtonLabel={actionButtonLabel}
+        testid={testid}
+      />
+    );
   };
+
   const jobMakerTable = (
     <JobMakerTable
       isTableLoading={isTableLoading}
@@ -92,7 +114,7 @@ const JobMakerView = ({
         currentPeriodDetails={currentPeriodDetails}
       />
       {infoComponent}
-      {JobMakerActionModal()}
+      {renderJobMakerActionModal()}
       {jobMakerTable}
     </BaseTemplate>
   ) : (

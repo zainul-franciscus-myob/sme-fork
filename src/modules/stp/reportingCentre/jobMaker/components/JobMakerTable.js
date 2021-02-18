@@ -74,7 +74,7 @@ const JobMakerTable = ({
       key: 'removeNomination',
       value: JobMakerActionTypes.CancelNominate,
       label: 'Remove nomination',
-      disabled: true,
+      disabled: false,
     },
     {
       key: 'updateEmployeeDetails',
