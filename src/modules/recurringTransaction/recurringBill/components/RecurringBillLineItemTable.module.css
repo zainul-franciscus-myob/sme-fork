@@ -1,0 +1,35 @@
+.notesAndTotals {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.notesAndTotals :global(.line-item__total) {
+  border: none;
+  padding: var(--flx-spacing-medium) var(--flx-spacing-tiny);
+}
+
+@media (min-width: 768px) {
+  .notesAndTotals {
+    flex-direction: initial;
+    justify-content: space-between;
+    padding: var(--flx-spacing-small) var(--flx-spacing-large) 0;
+  }
+
+  .notes {
+    width: var(--flx-width-field-xl);
+  }
+
+  .notes div {
+    margin-bottom: var(--flx-spacing-tiny);
+  }
+
+  .notes div:last-child {
+    margin-bottom: auto;
+  }
+
+  .notes :global(textarea) {
+    min-width: var(--flx-width-field-xl);
+    max-width: 70rem;
+  }
+}
+

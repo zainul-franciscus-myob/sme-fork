@@ -8,18 +8,6 @@
   padding: var(--flx-spacing-medium) var(--flx-spacing-tiny);
 }
 
-.disabledTable :global(.line-item__icon-right button) {
-  display: none;
-}
-
-.disabledTable :global(.line-item--body .line-item__data) {
-  background-color: #eef0f2;
-}
-
-.disabledTable :global(.line-item__row-wrapper:last-child) {
-  display: none;
-}
-
 @media (min-width: 768px) {
   .notesAndTotals {
     flex-direction: initial;

@@ -1,0 +1,129 @@
+{
+  "bill": {
+    "id": "1",
+    "uid": "123e4567-e89b-12d3-a456-426655440000",
+    "layout": "itemAndService",
+    "supplierId": "2",
+    "supplierAddress": "Patrick Bateman\n34 Bailey Avenue\nMoorabbin Victoria 3025\nAustralia",
+    "expirationTerm": "OnADayOfTheMonth",
+    "expirationDays": "4",
+    "isTaxInclusive": true,
+    "isReportable": true,
+    "note": "Some note/description",
+    "memo": "Not displayed on UI",
+    "lines": [
+      {
+        "type": "item",
+        "id": "1",
+        "units": "2",
+        "itemId": "3",
+        "accountId": "123",
+        "description": "Cooler Large",
+        "unitPrice": "520",
+        "discount": "10",
+        "jobId": "2",
+        "taxCodeId": "123",
+        "taxAmount": "0.9101",
+        "taxExclusiveAmount": "850",
+        "lineSubTypeId": "13"
+      }
+    ]
+  },
+  "accountOptions": [
+    {
+      "id": "123",
+      "displayName": "My Sales Account 1",
+      "accountType": "Sales",
+      "taxCodeId": "123",
+      "displayId": "4-123"
+    },
+    {
+      "id": "456",
+      "displayName": "Sales Account 2",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "4-456"
+    },
+    {
+      "id": "789",
+      "displayName": "Expense Account",
+      "accountType": "Assets",
+      "taxCodeId": "124",
+      "displayId": "6-789"
+    }
+  ],
+  "taxCodeOptions": [
+    {
+      "id": "2",
+      "displayName": "GST",
+      "description": "Goods & Service Tax",
+      "displayRate": "10%",
+      "codeType": "GST_VAT",
+      "rate": 10,
+      "threshold": 0,
+      "childrenCalculationCollection": [],
+      "calculationMethod": 2,
+      "roundingMethod": 2,
+      "collectedBehaviour": 1,
+      "payedBehaviour": 1,
+      "isWithholding": false,
+      "thresholdRate": 10,
+      "includeInGstReturn": false
+    },
+    {
+      "id": "4",
+      "displayName": "WET",
+      "description": "GST FREE",
+      "displayRate": "29%",
+      "codeType": "SalesTax",
+      "rate": 29,
+      "threshold": 0,
+      "childrenCalculationCollection": [],
+      "calculationMethod": 2,
+      "roundingMethod": 2,
+      "collectedBehaviour": 1,
+      "payedBehaviour": 3,
+      "isWithholding": false,
+      "thresholdRate": 10,
+      "includeInGstReturn": false
+    }
+  ],
+  "expirationTermOptions": [
+    {
+      "value": "OnADayOfTheMonth",
+      "name": "On a day of the month"
+    },
+    {
+      "value": "InAGivenNumberOfDays",
+      "name": "In a given no. of days"
+    },
+    {
+      "value": "DayOfMonthAfterEOM",
+      "name": "Day of month after EOM"
+    },
+    {
+      "value": "NumberOfDaysAfterEOM",
+      "name": "No. of days after EOM"
+    },
+    {
+      "value": "Prepaid",
+      "name": "Prepaid"
+    },
+    {
+      "value": "CashOnDelivery",
+      "name": "C.O.D."
+    }
+  ],
+  "newLine": {
+    "type": "",
+    "itemId": "",
+    "description": "",
+    "accountId": "",
+    "units": "",
+    "unitPrice": "",
+    "discount": "",
+    "jobId": "",
+    "taxCodeId": "",
+    "lineSubTypeId": ""
+  }
+}

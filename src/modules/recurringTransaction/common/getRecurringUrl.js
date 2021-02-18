@@ -9,6 +9,8 @@ const getRecurringUrl = ({
   const baseUrl = `/#/${region}/${businessId}/recurringTransaction`;
 
   switch (transactionType) {
+    case TransactionType.BILL:
+      return `${baseUrl}/${recurringTransactionId}/bill`;
     case TransactionType.INVOICE:
       return `${baseUrl}/${recurringTransactionId}/invoice`;
     case TransactionType.SPEND_MONEY:

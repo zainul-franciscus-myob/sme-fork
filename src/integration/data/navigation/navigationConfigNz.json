@@ -18,6 +18,7 @@
     "billCreate",
     "billPaymentCreate",
     "supplierPaymentCreate",
+    "recurringTransactionPurchaseList",
     "supplierReturnList",
 
     "bankTransactionList",

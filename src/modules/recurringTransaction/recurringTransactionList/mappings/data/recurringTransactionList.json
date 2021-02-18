@@ -46,6 +46,17 @@
       "displayNextDue": "30/11/2020",
       "nextDue": "2020-11-30T00:00:00",
       "amount": "5,652.00"
+    },
+    {
+      "id": "4",
+      "transactionName": "Kira the Pup",
+      "transactionType": "Bill",
+      "displayTransactionType": "Bill",
+      "frequency": "Annually",
+      "lastPosted": "01/01/2021",
+      "displayNextDue": "01/01/2022",
+      "nextDue": "2022-01-01T00:00:00",
+      "amount": "100,100.99"
     }
   ]
 }

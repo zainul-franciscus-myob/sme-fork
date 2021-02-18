@@ -301,19 +301,19 @@ describe('recurringInvoiceSelectors', () => {
         false,
         'Blah',
         false,
-        "This invoice is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
+        "This recurring transaction is read only because the Blah layout isn't supported in the browser. Switch to AccountRight desktop to edit this recurring transaction.",
       ],
       [
         true,
         '',
         false,
-        'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.',
+        'This recurring transaction is read only because it contains unsupported features. Switch to AccountRight desktop to edit this recurring transaction.',
       ],
       [
         true,
         '',
         true,
-        "This invoice is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.",
+        "This recurring transaction is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this recurring transaction.",
       ],
     ])(
       'isLayoutSupported %s, layout %s, hasFreightAmount %s',

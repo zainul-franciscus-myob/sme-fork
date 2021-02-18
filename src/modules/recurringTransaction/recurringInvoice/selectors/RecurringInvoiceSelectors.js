@@ -158,16 +158,16 @@ export const getReadOnlyMessage = createSelector(
   getHasFreightAmount,
   (isLayoutSupported, layout, hasFreightAmount) => {
     if (!isLayoutSupported) {
-      return `This invoice is read only because the ${getLayoutDisplayName(
+      return `This recurring transaction is read only because the ${getLayoutDisplayName(
         layout
-      )} layout isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.`;
+      )} layout isn't supported in the browser. Switch to AccountRight desktop to edit this recurring transaction.`;
     }
 
     if (hasFreightAmount) {
-      return "This invoice is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this invoice.";
+      return "This recurring transaction is read only because freight isn't supported in the browser. Switch to AccountRight desktop to edit this recurring transaction.";
     }
 
-    return 'This invoice is read only because it contains unsupported features. Switch to AccountRight desktop to edit this invoice.';
+    return 'This recurring transaction is read only because it contains unsupported features. Switch to AccountRight desktop to edit this recurring transaction.';
   }
 );
 

@@ -1,7 +1,10 @@
+import RecurringBillModule from './recurringBill/RecurringBillModule';
 import RecurringInvoiceModule from './recurringInvoice/RecurringInvoiceModule';
 import RecurringSpendMoneyModule from './recurringSpendMoney/RecurringSpendMoneyModule';
 import RecurringTransactionListModule from './recurringTransactionList/RecurringTransactionListModule';
 import RouteName from '../../router/RouteName';
+
+const documentTitle = 'Recurring transactions';
 
 const getRecurringTransactionRoutes = ({
   integration,
@@ -28,6 +31,22 @@ const getRecurringTransactionRoutes = ({
       documentTitle: 'Recurring transactions',
     },
     {
+      name: RouteName.RECURRING_BILL,
+      path:
+        '/:region/:businessId/recurringTransaction/:recurringTransactionId/bill',
+      allowedParams: ['layout'],
+      module: new RecurringBillModule({
+        integration,
+        setRootView,
+        pushMessage,
+        popMessages,
+        replaceURLParams,
+        navigateTo,
+        featureToggles,
+      }),
+      documentTitle,
+    },
+    {
       name: RouteName.RECURRING_INVOICE,
       path:
         '/:region/:businessId/recurringTransaction/:recurringTransactionId/invoice',
@@ -41,7 +60,7 @@ const getRecurringTransactionRoutes = ({
         navigateTo,
         featureToggles,
       }),
-      documentTitle: 'Recurring transaction',
+      documentTitle,
     },
     {
       name: RouteName.RECURRING_SPEND_MONEY,
@@ -55,7 +74,7 @@ const getRecurringTransactionRoutes = ({
         navigateTo,
         featureToggles,
       }),
-      documentTitle: 'Recurring transaction',
+      documentTitle,
     },
   ];
 

@@ -128,6 +128,9 @@ export const featuresConfig = {
     routeName: RouteName.SUPPLIER_PAYMENT_DETAIL,
     params: { supplierPaymentId: 'new' },
   },
+  recurringTransactionPurchaseList: {
+    routeName: RouteName.RECURRING_TRANSACTION_LIST,
+  },
   supplierReturnList: { routeName: RouteName.SUPPLIER_RETURN_LIST },
 
   bankTransactionList: { routeName: RouteName.BANKING_TRANSACTION_LIST },

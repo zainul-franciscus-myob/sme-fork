@@ -1,3 +1,4 @@
+import MemoryRecurringBillMapping from '../recurringBill/mappings/MemoryRecurringBillMapping';
 import MemoryRecurringInvoiceMapping from '../recurringInvoice/mappings/MemoryRecurringInvoiceMapping';
 import MemoryRecurringSpendMoneyMapping from '../recurringSpendMoney/mappings/MemoryRecurringSpendMoneyMapping';
 import MemoryRecurringTransactionListMapping from '../recurringTransactionList/mappings/MemoryRecurringTransactionListMapping';
@@ -8,6 +9,7 @@ const MemoryRecurringTransactionMapping = {
   ...MemoryRecurringTransactionListMapping,
   ...MemoryRecurringTransactionListModalMapping,
   ...MemoryRecurringTransactionModalMapping,
+  ...MemoryRecurringBillMapping,
   ...MemoryRecurringInvoiceMapping,
   ...MemoryRecurringSpendMoneyMapping,
 };

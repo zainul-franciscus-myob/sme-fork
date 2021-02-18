@@ -7,7 +7,10 @@ import { trackUserEvent } from '../../telemetry';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
 
 const isSeparatorRequired = (urls) =>
-  urls.billList || urls.billCreate || urls.supplierPaymentCreate;
+  urls.billList ||
+  urls.billCreate ||
+  urls.supplierPaymentCreate ||
+  urls.recurringTransactionPurchaseList;
 
 const isPurchaseOrderSeparatorRequired = (urls) =>
   urls.purchaseOrderList || urls.purchaseOrderCreate;
@@ -71,6 +74,12 @@ const getItems = (urls, onMenuLinkClick) => {
         'Create supplier payment',
         onMenuLinkClick,
         trackCreateSupplierPayment
+      ),
+    urls.recurringTransactionPurchaseList &&
+      getMenuLink(
+        urls.recurringTransactionPurchaseList,
+        'Recurring transactions',
+        onMenuLinkClick
       ),
     isSeparatorRequired(urls) && <Navigation.Separator key="separator" />,
     urls.supplierReturnList &&

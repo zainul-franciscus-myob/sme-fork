@@ -1,0 +1,34 @@
+/*
+  Long labels cause undesirable wrapping with the Feelix DetailHeader on desktop.
+  To thix this, we just increase the width.
+*/
+@media (min-width: 768px) {
+  .secondaryOptions :global .flx-detail-header__secondary > * {
+    width: 50rem;
+  }
+}
+
+.wrapper {
+  --prefill-background-color: #d5e3f9;
+}
+
+.disabledTable :global(.line-item__icon-right button) {
+  display: none;
+}
+
+.disabledTable :global(.line-item--body .line-item__data) {
+  background-color: #eef0f2;
+}
+
+.disabledTable :global(.line-item__row-wrapper:last-child) {
+  display: none;
+}
+
+/**
+  @FEELIX:
+  To have the abn popover next to the contact combobox, we need to extend
+  the width of the primary header option.
+**/
+.detail :global(.flx-detail-header__primary) {
+  max-width: 42.2rem;
+}

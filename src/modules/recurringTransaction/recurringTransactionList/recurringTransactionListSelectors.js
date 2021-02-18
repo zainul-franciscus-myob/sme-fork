@@ -35,6 +35,7 @@ export const getTableEntries = createSelector(
     entries.map((entry) => {
       const { id, transactionType } = entry;
       const link =
+        transactionType === TransactionType.BILL ||
         transactionType === TransactionType.INVOICE ||
         transactionType === TransactionType.SPEND_MONEY
           ? getRecurringUrl({

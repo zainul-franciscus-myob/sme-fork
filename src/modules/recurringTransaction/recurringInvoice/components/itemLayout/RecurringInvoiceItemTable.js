@@ -71,7 +71,7 @@ const RecurringInvoiceItemTable = ({
       config: [
         {
           columnName: itemIdLabel,
-          styles: { width: '10.6rem' },
+          styles: { width: '10rem' },
         },
         {
           columnName: unitOfMeasureLabel,
@@ -79,19 +79,19 @@ const RecurringInvoiceItemTable = ({
         },
         {
           columnName: unitLabel,
-          styles: { width: '8.4rem' },
+          styles: { width: '8rem' },
         },
         {
           columnName: accountLabel,
-          styles: { width: '16.8rem' },
+          styles: { width: '16rem' },
         },
         {
           columnName: unitPriceLabel,
-          styles: { width: '12.4rem', align: 'right' },
+          styles: { width: '12rem', align: 'right' },
         },
         {
           columnName: discountLabel,
-          styles: { width: '12.4rem', align: 'right' },
+          styles: { width: '12rem', align: 'right' },
         },
         {
           columnName: jobLabel,
@@ -99,7 +99,7 @@ const RecurringInvoiceItemTable = ({
         },
         {
           columnName: amountLabel,
-          styles: { width: '12.4rem', align: 'right' },
+          styles: { width: '12rem', align: 'right' },
         },
         {
           columnName: taxCodeLabel,

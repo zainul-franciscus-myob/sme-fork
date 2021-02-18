@@ -3,7 +3,7 @@ import getRecurringUrl from '../getRecurringUrl';
 
 describe('getRecurringUrl', () => {
   it.each([
-    [TransactionType.BILL, '/#/au/bizId/recurringTransaction'],
+    [TransactionType.BILL, '/#/au/bizId/recurringTransaction/45/bill'],
     [TransactionType.GENERAL_JOURNAL, '/#/au/bizId/recurringTransaction'],
     [TransactionType.INVOICE, '/#/au/bizId/recurringTransaction/45/invoice'],
     [TransactionType.QUOTE, '/#/au/bizId/recurringTransaction'],

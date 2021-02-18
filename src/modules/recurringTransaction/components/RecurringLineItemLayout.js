@@ -1,16 +1,24 @@
 import { Separator } from '@myob/myob-widgets';
 import React from 'react';
+import classNames from 'classnames';
 
 import styles from './RecurringLineItemLayout.module.css';
 
-const RecurringLineItemLayout = ({ options, tableLayoutOption, table }) => (
+const RecurringLineItemLayout = ({
+  options,
+  tableLayoutOption,
+  table,
+  isReadOnly,
+}) => (
   <>
     {options}
     <div className={styles.separator}>
       <Separator />
       {tableLayoutOption}
     </div>
-    {table}
+    <div className={classNames(isReadOnly && styles.disabledTable)}>
+      {table}
+    </div>
   </>
 );
 

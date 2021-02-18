@@ -130,6 +130,38 @@ describe('NavigationSelectors', () => {
       expect(actual.recurringTransactionSalesList).toBeDefined();
     });
 
+    it('should not return recurring transaction purchase list url if feature toggle is off', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: false,
+        enabledFeatures: ['recurringTransactionPurchaseList'],
+        urls: { recurringTransactionPurchaseList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getPurchasesUrls(state);
+      expect(actual.recurringTransactionPurchaseList).toBeUndefined();
+    });
+
+    it('should return recurring transaction purchase list url if feature toggle is on and feature is returned as enabled from bff', () => {
+      const state = {
+        routeParams: {
+          businessId: '1',
+          region: 'au',
+        },
+        isRecurringTransactionEnabled: true,
+        enabledFeatures: ['recurringTransactionPurchaseList'],
+        urls: { recurringTransactionPurchaseList: 'some-url' },
+        currentRouteName: 'bill/billList',
+      };
+
+      const actual = getPurchasesUrls(state);
+      expect(actual.recurringTransactionPurchaseList).toBeDefined();
+    });
+
     it('should not return recurring transaction banking list url if feature toggle is off', () => {
       const state = {
         routeParams: {

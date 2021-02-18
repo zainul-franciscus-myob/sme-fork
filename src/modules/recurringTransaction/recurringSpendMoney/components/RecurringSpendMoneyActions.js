@@ -30,7 +30,7 @@ const RecurringSpendMoneyActions = ({
         onClick={onSaveButtonClick}
         disabled={isActionsDisabled}
       >
-        Save
+        Record
       </Button>,
     ]}
     secondary={[

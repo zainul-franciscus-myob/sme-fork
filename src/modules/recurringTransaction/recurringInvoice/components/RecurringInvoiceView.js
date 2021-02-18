@@ -1,7 +1,6 @@
 import { Alert, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
-import classNames from 'classnames';
 
 import {
   getAlert,
@@ -11,19 +10,20 @@ import {
   getLayout,
   getLoadingState,
   getModalType,
+  getReadOnlyMessage,
   getTitle,
 } from '../selectors/RecurringInvoiceSelectors';
 import InvoiceItemTable from './itemLayout/RecurringInvoiceItemTable';
 import InvoiceServiceTable from './serviceLayout/RecurringInvoiceServiceTable';
 import PageView from '../../../../components/PageView/PageView';
 import RecurringInvoiceActions from './RecurringInvoiceActions';
-import RecurringInvoiceLayoutPopover from './RecurringInvoiceLayoutPopover';
 import RecurringInvoiceModal from './RecurringInvoiceModal';
 import RecurringInvoiceNotes from './RecurringInvoiceNotes';
 import RecurringInvoiceOptions from './RecurringInvoiceOptions';
 import RecurringInvoiceScheduleOptions from './RecurringInvoiceScheduleOptions';
 import RecurringInvoiceTotals from './RecurringInvoiceTotals';
 import RecurringLineItemLayout from '../../components/RecurringLineItemLayout';
+import RecurringLineItemLayoutOptions from '../../components/RecurringLineItemLayoutOptions';
 import RecurringTemplate from '../../components/RecurringTemplate';
 import SalesLayout from '../../types/SalesLayout';
 import WrongPageState from '../../../../components/WrongPageState/WrongPageState';
@@ -38,6 +38,7 @@ const RecurringInvoiceView = ({
   modalType,
   isActionsDisabled,
   isReadOnly,
+  readOnlyMessage,
   isFeatureAvailable,
   onDismissAlert,
   serviceLayoutListeners,
@@ -57,10 +58,15 @@ const RecurringInvoiceView = ({
     return <WrongPageState />;
   }
 
-  const alerts = alert && (
-    <Alert type={alert.type} onDismiss={onDismissAlert}>
-      {alert.message}
-    </Alert>
+  const alerts = (
+    <>
+      {alert && (
+        <Alert type={alert.type} onDismiss={onDismissAlert}>
+          {alert.message}
+        </Alert>
+      )}
+      {isReadOnly && <Alert type="info">{readOnlyMessage}</Alert>}
+    </>
   );
 
   const pageHead = <PageHead title={title} />;
@@ -95,7 +101,7 @@ const RecurringInvoiceView = ({
     />
   );
 
-  const notesAndTotals = (
+  const footer = (
     <div className={styles.notesAndTotals}>
       <RecurringInvoiceNotes onUpdateHeaderOptions={onUpdateHeaderOptions} />
       <RecurringInvoiceTotals />
@@ -105,7 +111,7 @@ const RecurringInvoiceView = ({
   const serviceTable = (
     <InvoiceServiceTable
       listeners={serviceLayoutListeners}
-      footer={notesAndTotals}
+      footer={footer}
       renderJobCombobox={renderJobCombobox}
     />
   );
@@ -113,34 +119,36 @@ const RecurringInvoiceView = ({
   const itemAndServiceTable = (
     <InvoiceItemTable
       listeners={itemLayoutListeners}
-      footer={notesAndTotals}
+      footer={footer}
       renderItemCombobox={renderItemCombobox}
       renderJobCombobox={renderJobCombobox}
     />
   );
 
   const tableLayoutOption = (
-    <RecurringInvoiceLayoutPopover
-      onUpdateInvoiceLayout={onUpdateInvoiceLayout}
+    <RecurringLineItemLayoutOptions
+      layout={layout}
+      layoutOptions={[
+        { label: 'Services', value: SalesLayout.SERVICE },
+        { label: 'Services and items', value: SalesLayout.ITEM_AND_SERVICE },
+      ]}
+      isReadOnly={isReadOnly}
+      isDisabled={isActionsDisabled}
+      onUpdateLayout={onUpdateInvoiceLayout}
     />
   );
 
-  const lineItemTable = {
+  const table = {
     [SalesLayout.SERVICE]: serviceTable,
     [SalesLayout.ITEM_AND_SERVICE]: itemAndServiceTable,
   }[layout];
-
-  const table = (
-    <div className={classNames(isReadOnly && styles.disabledTable)}>
-      {lineItemTable}
-    </div>
-  );
 
   const transaction = (
     <RecurringLineItemLayout
       options={options}
       tableLayoutOption={tableLayoutOption}
       table={table}
+      isReadOnly={isReadOnly}
     />
   );
 
@@ -170,6 +178,7 @@ const mapStateToProps = (state) => ({
   isActionsDisabled: getIsSubmitting(state),
   layout: getLayout(state),
   isReadOnly: getIsReadOnly(state),
+  readOnlyMessage: getReadOnlyMessage(state),
   isFeatureAvailable: getIsFeatureAvailable(state),
 });
 

@@ -285,7 +285,8 @@ const getIsPurchaseOrderEnabled = (state) => state.isPurchaseOrderEnabled;
 export const getPurchasesUrls = createSelector(
   getEnabledUrls,
   getIsPurchaseOrderEnabled,
-  (enabledUrls, isPurchaseOrderEnabled) => {
+  getIsRecurringTransactionEnabled,
+  (enabledUrls, isPurchaseOrderEnabled, isRecurringTransactionEnabled) => {
     return {
       purchaseOrderList: isPurchaseOrderEnabled
         ? enabledUrls.purchaseOrderList
@@ -297,6 +298,9 @@ export const getPurchasesUrls = createSelector(
       billCreate: enabledUrls.billCreate,
       billPaymentCreate: enabledUrls.billPaymentCreate,
       supplierPaymentCreate: enabledUrls.supplierPaymentCreate,
+      recurringTransactionPurchaseList: isRecurringTransactionEnabled
+        ? enabledUrls.recurringTransactionPurchaseList
+        : undefined,
       supplierReturnList: enabledUrls.supplierReturnList,
       itemList: enabledUrls.itemList,
     };

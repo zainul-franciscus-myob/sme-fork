@@ -117,6 +117,7 @@ const RouteName = {
   QUOTE_WITH_STATUS_DETAIL: 'quoteWithList/quoteDetail',
   REPORTS_SUBSCRIBE_NOW: 'reportsSubscribeNow',
   REPORT_SETTINGS: 'reportSettings',
+  RECURRING_BILL: 'recurringTransaction/recurringBill',
   RECURRING_INVOICE: 'recurringTransaction/recurringInvoice',
   RECURRING_SPEND_MONEY: 'recurringTransaction/recurringSpendMoney',
   RECURRING_TRANSACTION_LIST: 'recurringTransaction/recurringTransactionList',

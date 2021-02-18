@@ -9,7 +9,7 @@ import TransactionType from '../../types/TransactionType';
 describe('recurringTransactionListSelector', () => {
   describe('getTableEntries', () => {
     it.each([
-      [TransactionType.BILL, false],
+      [TransactionType.BILL, true],
       [TransactionType.GENERAL_JOURNAL, false],
       [TransactionType.INVOICE, true],
       [TransactionType.QUOTE, false],

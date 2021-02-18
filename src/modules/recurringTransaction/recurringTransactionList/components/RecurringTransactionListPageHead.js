@@ -5,6 +5,11 @@ import TransactionType from '../../types/TransactionType';
 
 const items = [
   <Dropdown.Item
+    key={TransactionType.BILL}
+    label="Bill"
+    value={TransactionType.BILL}
+  />,
+  <Dropdown.Item
     key={TransactionType.INVOICE}
     label="Invoice"
     value={TransactionType.INVOICE}
