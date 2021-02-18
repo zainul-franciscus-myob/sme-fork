@@ -67,6 +67,7 @@ const BillView = ({
   accountModal,
   jobModal,
   recurringListModal,
+  recurringModal,
   isAlertShown,
   isModalShown,
   isSplitViewShown,
@@ -100,6 +101,7 @@ const BillView = ({
   onAddSupplierButtonClick,
   onPrefillButtonClick,
   onPrefillFromRecurringButtonClick,
+  onSaveAsRecurringButtonClick,
   onOpenSplitViewButtonClick,
   onCloseSplitViewButtonClick,
   onUnlinkDocumentButtonClick,
@@ -183,6 +185,7 @@ const BillView = ({
       {jobModal}
       {inTrayModal}
       {recurringListModal}
+      {recurringModal}
       {upgradeModal}
       {isModalShown && (
         <BillModal
@@ -262,6 +265,7 @@ const BillView = ({
           onExportPdfButtonClick={onExportPdfButtonClick}
           onRecordPaymentClick={onRecordPaymentClick}
           onPrefillFromRecurringButtonClick={onPrefillFromRecurringButtonClick}
+          onSaveAsRecurringButtonClick={onSaveAsRecurringButtonClick}
         />
       }
       subHeadChildren={subHeaderChildren}

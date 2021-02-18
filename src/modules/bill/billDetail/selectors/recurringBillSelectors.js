@@ -8,7 +8,7 @@ import {
 } from './billSelectors';
 import { getSaveBillContent } from './BillIntegratorSelectors';
 
-export const getShouldShowSaveAsRecurring = (state) =>
+export const getShowSaveAsRecurringButton = (state) =>
   state.isRecurringTransactionEnabled;
 
 const getIsRecurringTransactionEnabled = (state) =>

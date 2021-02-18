@@ -79,6 +79,7 @@ import {
 import {
   getIsRecurringTransactionReadOnly,
   getRecurringTransactionListModalContext,
+  getRecurringTransactionModalContext,
 } from './selectors/recurringBillSelectors';
 import { getLinkInTrayContentWithoutIds } from './selectors/BillIntegratorSelectors';
 import { isToggleOn } from '../../../splitToggle';
@@ -96,6 +97,7 @@ import JobComboboxModule from '../../job/jobCombobox/JobComboboxModule';
 import JobModalModule from '../../job/jobModal/JobModalModule';
 import ModalType from './types/ModalType';
 import RecurringTransactionListModalModule from '../../recurringTransaction/recurringTransactionListModal/RecurringTransactionListModalModule';
+import RecurringTransactionModalModule from '../../recurringTransaction/recurringTransactionModal/RecurringTransactionModalModule';
 import SaveActionType from './types/SaveActionType';
 import Store from '../../../store/Store';
 import billReducer from './reducer/billReducer';
@@ -155,6 +157,9 @@ class BillModule {
     this.recurringTransactionListModal = new RecurringTransactionListModalModule(
       { integration }
     );
+    this.recurringTransactionModal = new RecurringTransactionModalModule({
+      integration,
+    });
   }
 
   openAccountModal = (onChange) => {
@@ -960,6 +965,22 @@ class BillModule {
     });
   };
 
+  openRecurringTransactionModal = () => {
+    const state = this.store.getState();
+
+    this.recurringTransactionModal.run({
+      context: getRecurringTransactionModalContext(state),
+      onLoadFailure: (message) => {
+        this.recurringTransactionModal.close();
+        this.dispatcher.openDangerAlert({ message });
+      },
+      onSaveSuccess: ({ message }) => {
+        this.recurringTransactionModal.close();
+        this.dispatcher.openSuccessAlert({ message });
+      },
+    });
+  };
+
   redirectToCreateNewBill = () => {
     const state = this.store.getState();
     const url = getCreateNewBillUrl(state);
@@ -1208,6 +1229,7 @@ class BillModule {
     const jobModal = this.jobModalModule.render();
     const inTrayModal = this.inTrayModalModule.render();
     const recurringListModal = this.recurringTransactionListModal.render();
+    const recurringModal = this.recurringTransactionModal.render();
 
     const view = (
       <Provider store={this.store}>
@@ -1219,6 +1241,7 @@ class BillModule {
           accountModal={accountModal}
           jobModal={jobModal}
           recurringListModal={recurringListModal}
+          recurringModal={recurringModal}
           onSaveButtonClick={this.handleSaveBill}
           onSaveAndButtonClick={this.openSaveAndModal}
           onConfirmSaveAndRedirect={this.saveAndRedirect}
@@ -1262,6 +1285,7 @@ class BillModule {
           onPrefillFromRecurringButtonClick={
             this.openRecurringTransactionListModal
           }
+          onSaveAsRecurringButtonClick={this.openRecurringTransactionModal}
           exportPdfModalListeners={{
             onCancel: this.closeModal,
             onConfirm: this.exportPdf,
@@ -1314,6 +1338,7 @@ class BillModule {
     this.accountModalModule.resetState();
     this.inTrayModalModule.resetState();
     this.recurringTransactionListModal.resetState();
+    this.recurringTransactionModal.resetState();
     this.dispatcher.resetState();
   };
 
@@ -1324,6 +1349,11 @@ class BillModule {
   saveHandler = () => {
     if (this.recurringTransactionListModal.isOpened()) {
       this.recurringTransactionListModal.complete();
+      return;
+    }
+
+    if (this.recurringTransactionModal.isOpened()) {
+      this.recurringTransactionModal.save();
       return;
     }
 
