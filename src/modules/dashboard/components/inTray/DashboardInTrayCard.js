@@ -13,7 +13,6 @@ import {
   getEntries,
   getHasError,
   getInTrayAlert,
-  getInTrayLink,
   getIsLoading,
   getIsUploading,
 } from '../../selectors/DashboardInTraySelectors';
@@ -23,22 +22,17 @@ import DropZoneHorizontal from '../../../../components/DropZone/DropZoneHorizont
 import ErrorCard from '../ErrorCard';
 import styles from './DashboardInTrayCard.module.css';
 
-const handleLinkClick = (handler, link) => () => {
-  handler(link);
-};
-
 const DashboardInTrayCard = ({
   alert,
   entries,
   hasError,
-  inTrayLink,
   isLoading,
   isUploading,
   onDismissAlert,
-  onLinkClick,
   onMoreWaysToUploadButtonClick,
   onReload,
   onUpload,
+  onIntrayLinkDocumentsClick,
 }) => {
   if (hasError) return <ErrorCard onTry={onReload} />;
 
@@ -59,7 +53,7 @@ const DashboardInTrayCard = ({
     <div className={styles.linkDocuments}>
       <Badge color="purple">{entries.length}</Badge>
       <span>Documents in your In Tray</span>
-      <Button type="link" onClick={handleLinkClick(onLinkClick, inTrayLink)}>
+      <Button type="link" onClick={onIntrayLinkDocumentsClick}>
         Link documents
       </Button>
     </div>
@@ -95,7 +89,6 @@ const mapStateToProps = (state) => ({
   hasError: getHasError(state),
   isLoading: getIsLoading(state),
   isUploading: getIsUploading(state),
-  inTrayLink: getInTrayLink(state),
   entries: getEntries(state),
 });
 

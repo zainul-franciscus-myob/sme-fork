@@ -3,6 +3,7 @@ import React from 'react';
 
 import { getAddBankFeedUrl } from './selectors/DashboardBankingSelectors';
 import {
+  getInTrayLink,
   getInTrayUploadOptionsModalContext,
   getUploadCompleteAlert,
   getUploadingEntry,
@@ -16,6 +17,7 @@ import {
   getShouldShowSales,
   getShouldShowTracking,
 } from './selectors/DashboardSelectors';
+import { trackUserEvent } from '../../telemetry';
 import Config from '../../Config';
 import DashboardView from './components/DashboardView';
 import InTrayUploadOptionsModalModule from '../inTray/inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
@@ -269,6 +271,13 @@ export default class DashboardModule {
   };
 
   openInTrayUploadOptionsModal = () => {
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'opened_dashboard_intray_upload_modal',
+        page: 'dashboard',
+      },
+    });
     const state = this.store.getState();
     const modalContext = getInTrayUploadOptionsModalContext(state);
     this.inTrayUploadOptionsModalModule.run({
@@ -297,6 +306,13 @@ export default class DashboardModule {
     }, []);
 
     if (entries.length) {
+      trackUserEvent({
+        eventName: 'elementClicked',
+        customProperties: {
+          action: 'used_dashboard_intray_upload',
+          page: 'dashboard',
+        },
+      });
       this.createInTrayDocuments(entries);
     }
   };
@@ -350,6 +366,17 @@ export default class DashboardModule {
     this.navigateTo(url);
   };
 
+  onIntrayLinkDocumentsClick = () => {
+    trackUserEvent({
+      eventName: 'elementClicked',
+      customProperties: {
+        action: 'clicked_dashboard_intray_link_documents',
+        page: 'dashboard',
+      },
+    });
+    this.navigateTo(getInTrayLink(this.store.getState()));
+  };
+
   render = () => {
     const inTrayUploadOptionsModal = this.inTrayUploadOptionsModalModule.render();
 
@@ -371,6 +398,7 @@ export default class DashboardModule {
           onDismissAlert: this.dispatcher.dismissInTrayAlert,
           onMoreWaysToUploadButtonClick: this.openInTrayUploadOptionsModal,
           onUpload: this.uploadInTrayFiles,
+          onIntrayLinkDocumentsClick: this.onIntrayLinkDocumentsClick,
         }}
         tasksListeners={{
           closeTask: this.closeTask,

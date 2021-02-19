@@ -62,7 +62,7 @@ const HttpDashboardMapping = {
   [CREATE_IN_TRAY_DOCUMENT]: {
     method: 'POST',
     getPath: ({ businessId }) =>
-      `/${businessId}/inTray/create_in_tray_document`,
+      `/${businessId}/dashboard/create_in_tray_document`,
   },
   [LOAD_TASKS]: {
     method: 'GET',

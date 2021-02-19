@@ -124,6 +124,9 @@ const DashboardView = ({
                 inTrayListeners.onMoreWaysToUploadButtonClick
               }
               onUpload={inTrayListeners.onUpload}
+              onIntrayLinkDocumentsClick={
+                inTrayListeners.onIntrayLinkDocumentsClick
+              }
             />
           )}
 
