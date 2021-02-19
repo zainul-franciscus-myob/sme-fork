@@ -1,4 +1,5 @@
 import { Provider } from 'react-redux';
+import { Table } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -6,12 +7,14 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SELECTED_PAYRUN,
 } from '../../PaydayFilingIntents';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
 import EiSubmissionsEmptyTable from '../components/EiSubmissionsEmptyTable';
 import EiSubmissionsFilter from '../components/EiSubmissionsFilter';
 import EiSubmissionsModule from '../EiSubmissionsModule';
 import EiSubmissionsTable from '../components/EiSubmissionsTable';
+import EiSubmissionsTruncatedTable from '../components/EiSubmissionsTruncatedTable';
 import PageView from '../../../../../../components/PageView/PageView';
 import PaydayFilingReducer from '../../PaydayFilingReducer';
 import TestIntegration from '../../../../../../integration/TestIntegration';
@@ -100,6 +103,23 @@ describe('EiSubmissionsModule', () => {
       expect(wrapper.find(EiSubmissionsTable).exists()).toBe(true);
       expect(wrapper.find(EiSubmissionsEmptyTable).exists()).toBe(true);
     });
+
+    it('should truncate ei submission table on row select', () => {
+      const { wrapper } = constructEiSubmissionsModule();
+
+      wrapper.find(Table.Row).first().simulate('click');
+      expect(wrapper.find(EiSubmissionsTruncatedTable).exists()).toBe(true);
+      expect(wrapper.find(EiSubmissionsTable).exists()).toBe(false);
+    });
+
+    it('clicking esc on submission details will display non-truncated ei submissions table', () => {
+      const { wrapper } = constructEiSubmissionsModule();
+
+      wrapper.find(Table.Row).first().simulate('click');
+      wrapper.find({ testid: 'onCloseTestId' }).first().simulate('click');
+      expect(wrapper.find(EiSubmissionsTruncatedTable).exists()).toBe(false);
+      expect(wrapper.find(EiSubmissionsTable).exists()).toBe(true);
+    });
   });
 
   describe('Loading initial ei submission', () => {
@@ -175,6 +195,60 @@ describe('EiSubmissionsModule', () => {
           intent: LOAD_FILTERED_EI_SUBMISSIONS,
         }),
       ]);
+    });
+
+    it(' should clear any selected payrun', () => {
+      const payRun = {
+        id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+        payPeriod: '01/10/2020 - 15/10/2020',
+        payOnDate: '01/10/2020',
+        dateRecorded: '2020-10-01T07:18:14.174Z',
+        totalPaye: '3,400.00',
+        totalGross: '13,340.00',
+        employeeCount: 2,
+        status: 'Submitted',
+        username: 'payday@mailinator.com',
+        responseCode: '0',
+        submissionKey: '123456789',
+        detail: 'Submitted successfully',
+      };
+
+      store.setState({
+        ...store.getState(),
+        region: 'nz',
+        businessId: '123',
+        eiSubmissions: {
+          payRuns: [payRun],
+          selectedPayRun: payRun,
+          payrollYears: [
+            {
+              label: '2020/21',
+              year: '2021',
+              startDate: '2020-04-01',
+              endDate: '2021-03-31',
+            },
+            {
+              label: '2019/20',
+              year: '2020',
+              startDate: '2019-04-01',
+              endDate: '2020-03-31',
+            },
+            {
+              label: '2018/19',
+              year: '2019',
+              startDate: '2018-04-01',
+              endDate: '2019-03-31',
+            },
+          ],
+          selectedPayrollYear: '2021',
+        },
+      });
+      constructEiSubmissionsModule();
+
+      expect(store.getActions()).toContainEqual({
+        intent: SET_SELECTED_PAYRUN,
+        selectedPayRunId: '',
+      });
     });
   });
 

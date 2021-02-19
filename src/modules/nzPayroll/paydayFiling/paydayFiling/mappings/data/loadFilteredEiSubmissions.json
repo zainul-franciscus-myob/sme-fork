@@ -1,7 +1,7 @@
 {
   "payRuns": [
     {
-      "id": "e84cd3e7-1234-4a50-a114-3e652c634657",
+      "id": "fbf24657-2849-4b54-a422-14fa62242930",
       "payPeriod": "15/09/2019 - 30/09/2019",
       "payOnDate": "28/09/2019",
       "dateRecorded": "2019-09-15T02:22:52.174Z",
@@ -15,7 +15,7 @@
       "detail": "Submitted"
     },
     {
-      "id": "e84cd3e7-4567-4a50-a114-3e652c123456",
+      "id": "411907e1-5df2-41f7-bd43-9d0830fae41d",
       "payPeriod": "01/09/2019 - 15/09/2019",
       "payOnDate": "01/09/2019",
       "dateRecorded": "2019-09-01T00:08:52.174Z",
@@ -26,10 +26,10 @@
       "username": "payday@mailinator.com",
       "responseCode": "1",
       "submissionKey": "",
-      "detail": "Error code 1: Unauthorised delegation"
+      "detail": "Unauthorised delegation"
     },
     {
-      "id": "e84cd3e7-7890-4a50-a114-3e652c634657",
+      "id": "adefecf9-0881-421e-81e4-30c4ef5f3e70",
       "payPeriod": "15/08/2019 - 30/08/2019",
       "payOnDate": "28/08/2019",
       "dateRecorded": "2019-08-15T00:10:11.174Z",
@@ -43,7 +43,7 @@
       "detail": "Not submitted"
     },
     {
-      "id": "e84cd3e7-1111-4a50-a114-3e652c123789",
+      "id": "9ce09656-26a1-4670-9caf-debedad51da0",
       "payPeriod": "01/08/2019 - 15/08/2019",
       "payOnDate": "01/08/2019",
       "dateRecorded": "2019-08-01T00:07:14.174Z",
@@ -52,7 +52,7 @@
       "employeeCount": 2,
       "status": "Error",
       "username": "payday@mailinator.com",
-      "responseCode": "Error code: 160",
+      "responseCode": "160",
       "submissionKey": "",
       "detail": "Duplicate payday submission"
     }

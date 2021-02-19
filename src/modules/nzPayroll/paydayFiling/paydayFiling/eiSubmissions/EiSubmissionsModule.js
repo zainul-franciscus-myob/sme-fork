@@ -16,6 +16,7 @@ export default class EiSubmissionsModule {
   loadFilteredEiSubmissions = () => {
     this.dispatcher.setTableLoadingState(true);
     this.dispatcher.clearEiSubmissionsList();
+    this.dispatcher.clearSelectedPayRun();
 
     const onSuccess = (response) => {
       this.dispatcher.setTableLoadingState(false);
@@ -55,10 +56,20 @@ export default class EiSubmissionsModule {
     this.loadFilteredEiSubmissions();
   };
 
+  setSelectedPayRun = (selectedPayRunId) => {
+    this.dispatcher.setSelectedPayRun(selectedPayRunId);
+  };
+
+  clearSelectedPayRun = () => {
+    this.dispatcher.clearSelectedPayRun();
+  };
+
   getView = () => (
     <EiSubmissionsView
       onPayrollYearChange={this.updatePayrollYearAndLoadEiSubmissions}
       onRefreshClick={this.loadFilteredEiSubmissions}
+      onRowSelect={this.setSelectedPayRun}
+      onClosePayRunDetails={this.clearSelectedPayRun}
     />
   );
 

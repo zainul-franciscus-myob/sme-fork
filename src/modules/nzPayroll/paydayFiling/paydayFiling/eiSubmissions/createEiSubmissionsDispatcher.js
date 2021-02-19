@@ -3,6 +3,7 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   SET_SELECTED_PAYROLL_YEAR,
+  SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
 } from '../PaydayFilingIntents';
 import createPaydayFilingDispatcher from '../createPaydayFilingDispatcher';
@@ -21,6 +22,20 @@ const createEiSubmissionsDispatcher = (store) => ({
     store.dispatch({
       intent: SET_SELECTED_PAYROLL_YEAR,
       selectedPayrollYear,
+    });
+  },
+
+  setSelectedPayRun: (selectedPayRunId) => {
+    store.dispatch({
+      intent: SET_SELECTED_PAYRUN,
+      selectedPayRunId,
+    });
+  },
+
+  clearSelectedPayRun: () => {
+    store.dispatch({
+      intent: SET_SELECTED_PAYRUN,
+      selectedPayRunId: '',
     });
   },
 

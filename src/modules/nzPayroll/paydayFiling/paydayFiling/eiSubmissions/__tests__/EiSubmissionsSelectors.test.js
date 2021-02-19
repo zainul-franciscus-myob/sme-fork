@@ -1,9 +1,12 @@
 import {
   getFilterEiSubmissionsParams,
+  getHasSelectedPayRun,
   getIsTableLoading,
   getPayRuns,
   getPayrollYears,
+  getSelectedPayRun,
   getSelectedPayrollYear,
+  getShouldDisplaySubmissionInfo,
 } from '../EiSubmissionsSelector';
 import formatDateTime from '../../../../../../common/valueFormatters/formatDate/formatDateTime';
 
@@ -166,6 +169,178 @@ describe('EiSubmissionSelectors', () => {
 
         expect(result).toEqual(expected);
       });
+    });
+  });
+
+  describe('getSelectedPayRun', () => {
+    [
+      {
+        status: 'Not submitted',
+        colour: 'orange',
+      },
+      {
+        status: 'Submitting',
+        colour: 'blue',
+      },
+      {
+        status: 'Submitted',
+        colour: 'green',
+      },
+      {
+        status: 'Error',
+        colour: 'red',
+      },
+      {
+        status: 'Rejected',
+        colour: 'red',
+      },
+    ].forEach(({ status, colour }) => {
+      it(`should get selected payrun with status ${status}`, () => {
+        const selectedPayRun = {
+          id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+          payPeriod: '01/10/2020 - 15/10/2020',
+          payOnDate: '01/10/2020',
+          dateRecorded: '2020-10-01T07:18:14.174Z',
+          totalPaye: '3,400.00',
+          totalGross: '13,340.00',
+          employeeCount: 2,
+          status,
+          username: 'payday@mailinator.com',
+          responseCode: '1',
+          submissionKey: '',
+          detail: 'Error code 1: Unauthorised delegation',
+        };
+        const expected = {
+          id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+          payPeriod: '01/10/2020 - 15/10/2020',
+          payOnDate: '01/10/2020',
+          dateRecorded: formatDateTime('2020-10-01T07:18:14.174Z'),
+          totalPaye: '3,400.00',
+          totalGross: '13,340.00',
+          employeeCount: 2,
+          status: {
+            label: status,
+            colour,
+          },
+          username: 'payday@mailinator.com',
+          responseCode: '1',
+          submissionKey: '',
+          detail: 'Error code 1: Unauthorised delegation',
+        };
+        const state = { eiSubmissions: { selectedPayRun } };
+
+        const result = getSelectedPayRun(state);
+
+        expect(result).toEqual(expected);
+      });
+    });
+
+    it(`should be empty when there is no selected payrun`, () => {
+      const selectedPayRun = undefined;
+
+      const expected = {};
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getSelectedPayRun(state);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getHasSelectedPayRun', () => {
+    it('should be true when selected payrun present', () => {
+      const selectedPayRun = {
+        id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+        payPeriod: '01/10/2020 - 15/10/2020',
+        payOnDate: '01/10/2020',
+        dateRecorded: formatDateTime('2020-10-01T07:18:14.174Z'),
+        totalPaye: '3,400.00',
+        totalGross: '13,340.00',
+        employeeCount: 2,
+        status: {
+          label: 'Submitted',
+          color: 'green',
+        },
+        username: 'payday@mailinator.com',
+        responseCode: '1',
+        submissionKey: '',
+        detail: 'Error code 1: Unauthorised delegation',
+      };
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getHasSelectedPayRun(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('should be false when selected payrun not available', () => {
+      const selectedPayRun = undefined;
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getHasSelectedPayRun(state);
+
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('getShouldDisplaySubmissionInfo', () => {
+    it("should be true when selected payrun present and is any status other than 'not-submitted' ", () => {
+      const selectedPayRun = {
+        id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+        payPeriod: '01/10/2020 - 15/10/2020',
+        payOnDate: '01/10/2020',
+        dateRecorded: '2020-10-01T07:18:14.174Z',
+        totalPaye: '3,400.00',
+        totalGross: '13,340.00',
+        employeeCount: 2,
+        status: 'Submitted',
+        username: 'payday@mailinator.com',
+        responseCode: '1',
+        submissionKey: '',
+        detail: 'Error code 1: Unauthorised delegation',
+      };
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getShouldDisplaySubmissionInfo(state);
+
+      expect(result).toEqual(true);
+    });
+
+    it('should be false when selected payrun not available', () => {
+      const selectedPayRun = undefined;
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getShouldDisplaySubmissionInfo(state);
+
+      expect(result).toEqual(false);
+    });
+
+    it("should be false when selected payrun is available but status is 'not submitted'", () => {
+      const selectedPayRun = {
+        id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+        payPeriod: '01/10/2020 - 15/10/2020',
+        payOnDate: '01/10/2020',
+        dateRecorded: '2020-10-01T07:18:14.174Z',
+        totalPaye: '3,400.00',
+        totalGross: '13,340.00',
+        employeeCount: 2,
+        status: 'Not submitted',
+        username: 'payday@mailinator.com',
+        responseCode: '1',
+        submissionKey: '',
+        detail: 'Error code 1: Unauthorised delegation',
+      };
+
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getShouldDisplaySubmissionInfo(state);
+
+      expect(result).toEqual(false);
     });
   });
 });

@@ -5,7 +5,7 @@ import EiSubmissionsEmptyTable from './EiSubmissionsEmptyTable';
 import EiSubmissionsStatusLabel from './EiSubmissionsStatusLabel';
 import TableView from '../../../../../../components/TableView/TableView';
 
-const EiSubmissionsTable = ({
+const EiSubmissionsTruncatedTable = ({
   tableConfig,
   isTableLoading,
   payRuns,
@@ -16,14 +16,8 @@ const EiSubmissionsTable = ({
       <Table.HeaderItem {...tableConfig.payPeriod}>
         {tableConfig.payPeriod.columnName}
       </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.payOnDate}>
-        {tableConfig.payOnDate.columnName}
-      </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.dateRecorded}>
         {tableConfig.dateRecorded.columnName}
-      </Table.HeaderItem>
-      <Table.HeaderItem {...tableConfig.totalPaye}>
-        {tableConfig.totalPaye.columnName}
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.status}>
         {tableConfig.status.columnName}
@@ -38,14 +32,11 @@ const EiSubmissionsTable = ({
       isSelected={row.isSelected}
       isActive={row.isSelected}
       onRowSelect={onRowSelect}
-      testId={'payRunRowTestId'}
     >
       <Table.RowItem {...tableConfig.payPeriod}>{row.payPeriod}</Table.RowItem>
-      <Table.RowItem {...tableConfig.payOnDate}>{row.payOnDate}</Table.RowItem>
       <Table.RowItem {...tableConfig.dateRecorded}>
         {row.dateRecorded}
       </Table.RowItem>
-      <Table.RowItem {...tableConfig.totalPaye}>{row.totalPaye}</Table.RowItem>
       <Table.RowItem {...tableConfig.status}>
         <EiSubmissionsStatusLabel status={row.status} />
       </Table.RowItem>
@@ -66,4 +57,4 @@ const EiSubmissionsTable = ({
   return <Card body={table} />;
 };
 
-export default EiSubmissionsTable;
+export default EiSubmissionsTruncatedTable;

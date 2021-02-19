@@ -1,9 +1,28 @@
+import { createSelector } from 'reselect';
+
 import formatDateTime from '../../../../../common/valueFormatters/formatDate/formatDateTime';
 
-export const getPayrollYears = (state) => state.eiSubmissions.payrollYears;
-export const getSelectedPayrollYear = (state) =>
-  state.eiSubmissions.selectedPayrollYear;
-export const getIsTableLoading = (state) => state.eiSubmissions.isTableLoading;
+const getEiSubmissionState = (state) => state.eiSubmissions;
+
+export const getPayrollYears = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => eiSubmissions.payrollYears
+);
+
+export const getSelectedPayrollYear = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => eiSubmissions.selectedPayrollYear
+);
+
+export const getIsTableLoading = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => eiSubmissions.isTableLoading
+);
+
+export const getHasSelectedPayRun = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => !!eiSubmissions.selectedPayRun
+);
 
 const getStatusColour = (status) => {
   const colourMap = {
@@ -20,12 +39,33 @@ const getStatusColour = (status) => {
   };
 };
 
-export const getPayRuns = (state) =>
-  state.eiSubmissions.payRuns.map((payRun) => ({
-    ...payRun,
-    status: getStatusColour(payRun.status),
-    dateRecorded: formatDateTime(payRun.dateRecorded),
-  }));
+export const getPayRuns = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) =>
+    eiSubmissions.payRuns.map((payRun) => ({
+      ...payRun,
+      status: getStatusColour(payRun.status),
+      dateRecorded: formatDateTime(payRun.dateRecorded),
+    }))
+);
+
+export const getSelectedPayRun = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => {
+    const payRun = eiSubmissions.selectedPayRun;
+    return payRun
+      ? {
+          ...payRun,
+          status: getStatusColour(payRun.status),
+          dateRecorded: formatDateTime(payRun.dateRecorded),
+        }
+      : {};
+  }
+);
+
+export const getShouldDisplaySubmissionInfo = (state) =>
+  getHasSelectedPayRun(state) &&
+  getSelectedPayRun(state).status.label !== 'Not submitted';
 
 export const getFilterEiSubmissionsParams = (state) => {
   const selectedYear = getSelectedPayrollYear(state);

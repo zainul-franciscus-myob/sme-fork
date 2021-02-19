@@ -21,3 +21,19 @@
 .text {
   margin: 0 0 0.5rem 0;
 }
+
+.payRunStatusContainer :global(.alert) {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.payRunStatusContainer :global(.alert) a {
+  color: #8241aa;
+  box-shadow: unset;
+}
+
+.payRunDetailTitle h2 {
+  display: flex;
+  align-items: center;
+}
+

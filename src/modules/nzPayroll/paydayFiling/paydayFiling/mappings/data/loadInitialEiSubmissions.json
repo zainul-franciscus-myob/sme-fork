@@ -15,7 +15,7 @@
       "detail": ""
     },
     {
-      "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+      "id": "aeb8ce3c-ff14-49b6-a7e6-3d09613bb6ea",
       "payPeriod": "15/09/2020 - 30/09/2020",
       "payOnDate": "28/09/2020",
       "dateRecorded": "2020-09-15T02:22:52.174Z",
@@ -29,7 +29,7 @@
       "detail": "Submitted"
     },
     {
-      "id": "e84cd3e7-4c5b-4a50-a114-3e652c123456",
+      "id": "276097fd-7b23-4e42-8641-550e97389fe9",
       "payPeriod": "01/09/2020 - 15/09/2020",
       "payOnDate": "01/09/2020",
       "dateRecorded": "2020-09-01T00:08:52.174Z",
@@ -40,10 +40,10 @@
       "username": "payday@mailinator.com",
       "responseCode": "1",
       "submissionKey": "",
-      "detail": "Error code 1: Unauthorised delegation"
+      "detail": "Unauthorised delegation"
     },
     {
-      "id": "e84cd3e7-4c5b-4a50-a114-3e652c634657",
+      "id": "4d0f1e8d-69f7-4dd2-beca-6824cbbf5bca",
       "payPeriod": "15/08/2020 - 30/08/2020",
       "payOnDate": "28/08/2020",
       "dateRecorded": "2020-08-15T00:10:11.174Z",
@@ -52,12 +52,12 @@
       "employeeCount": 2,
       "status": "Not submitted",
       "username": "payday@mailinator.com",
-      "responseCode": "0",
-      "submissionKey": "123456789",
-      "detail": "Submitted"
+      "responseCode": "",
+      "submissionKey": "",
+      "detail": ""
     },
     {
-      "id": "e84cd3e7-4c5b-4a50-a114-3e652c123789",
+      "id": "de68e399-aa5a-43a6-907f-4164ceb02cb9",
       "payPeriod": "01/08/2020 - 15/08/2020",
       "payOnDate": "01/08/2020",
       "dateRecorded": "2020-08-01T00:07:14.174Z",
@@ -66,7 +66,7 @@
       "employeeCount": 2,
       "status": "Error",
       "username": "payday@mailinator.com",
-      "responseCode": "Error code: 163",
+      "responseCode": "163",
       "submissionKey": "",
       "detail": "Pay period end date before pay period start"
     }

@@ -3,14 +3,19 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getHasSelectedPayRun,
   getIsTableLoading,
   getPayRuns,
   getPayrollYears,
+  getSelectedPayRun,
   getSelectedPayrollYear,
+  getShouldDisplaySubmissionInfo,
 } from '../EiSubmissionsSelector';
 import { getLoadingState } from '../../PaydayFilingSelectors';
+import EiSubmissionsDetailView from './EiSubmissionsDetailView';
 import EiSubmissionsFilter from './EiSubmissionsFilter';
 import EiSubmissionsTable from './EiSubmissionsTable';
+import EiSubmissionsTruncatedTable from './EiSubmissionsTruncatedTable';
 import PageView from '../../../../../../components/PageView/PageView';
 import styles from './EiSubmissionsView.module.css';
 
@@ -22,7 +27,12 @@ const EiSubmissionsView = ({
   onRefreshClick,
   isTableLoading,
   payRuns,
-  onRowSelect = () => {},
+  hasRowSelected,
+  onRowSelect,
+  selectedPayRun,
+  onViewPayRunReportClick = () => {},
+  onClosePayRunDetails,
+  shouldDisplaySubmissionInfo,
 }) => {
   const tableConfig = {
     payPeriod: {
@@ -39,7 +49,7 @@ const EiSubmissionsView = ({
       valign: 'middle',
     },
     totalPaye: {
-      columnName: 'PAYG and/or schedular tax ($)',
+      columnName: 'PAYE and/or schedular tax ($)',
       valign: 'middle',
       width: 'flex-1',
 
@@ -62,12 +72,28 @@ const EiSubmissionsView = ({
     />
   );
 
-  const table = (
+  const table = hasRowSelected ? (
+    <EiSubmissionsTruncatedTable
+      tableConfig={tableConfig}
+      isTableLoading={isTableLoading}
+      payRuns={payRuns}
+      onRowSelect={onRowSelect}
+    />
+  ) : (
     <EiSubmissionsTable
       tableConfig={tableConfig}
       isTableLoading={isTableLoading}
       payRuns={payRuns}
       onRowSelect={onRowSelect}
+    />
+  );
+
+  const detail = (
+    <EiSubmissionsDetailView
+      payRun={selectedPayRun}
+      onClose={onClosePayRunDetails}
+      onViewPayRunReportClick={onViewPayRunReportClick}
+      shouldDisplaySubmissionInfo={shouldDisplaySubmissionInfo}
     />
   );
 
@@ -77,7 +103,9 @@ const EiSubmissionsView = ({
       containerClassName={styles.eiSubmissionsContainer}
       pageHead={pageHeader}
       master={table}
-      detailWidth="47%"
+      detail={detail}
+      showDetail={hasRowSelected}
+      detailWidth="45%"
     />
   );
 
@@ -88,8 +116,11 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   payrollYears: getPayrollYears(state),
   selectedPayrollYear: getSelectedPayrollYear(state),
+  hasRowSelected: getHasSelectedPayRun(state),
   isTableLoading: getIsTableLoading(state),
   payRuns: getPayRuns(state),
+  selectedPayRun: getSelectedPayRun(state),
+  shouldDisplaySubmissionInfo: getShouldDisplaySubmissionInfo(state),
 });
 
 export default connect(mapStateToProps)(EiSubmissionsView);
