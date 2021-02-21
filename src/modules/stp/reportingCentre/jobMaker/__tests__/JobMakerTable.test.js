@@ -93,6 +93,8 @@ describe('JobMakerTable', () => {
       const expectedEnabledActions = [
         JobMakerActionTypes.Nominate,
         JobMakerActionTypes.CancelNominate,
+        JobMakerActionTypes.CancelClaim,
+        JobMakerActionTypes.Claim,
       ];
 
       const enabledAction = wrapper
@@ -103,7 +105,7 @@ describe('JobMakerTable', () => {
         .filter((p) => !p.disabled)
         .map((i) => i.value);
 
-      expect(enabledAction).toEqual(expectedEnabledActions);
+      expect(enabledAction.sort()).toEqual(expectedEnabledActions.sort());
     });
 
     it('should call onclicked with right action and employeeId', () => {

@@ -126,6 +126,8 @@ describe('JobMakerModule', () => {
         const testActions = [
           JobMakerActionTypes.Nominate,
           JobMakerActionTypes.CancelNominate,
+          JobMakerActionTypes.Claim,
+          JobMakerActionTypes.CancelClaim,
         ];
 
         testActions.forEach((action) => {
