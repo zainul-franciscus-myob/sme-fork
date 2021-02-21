@@ -62,13 +62,13 @@ const JobMakerTable = ({
       key: 'declareEmployee',
       value: JobMakerActionTypes.Claim,
       label: 'Declare for claim period',
-      disabled: false,
+      disabled: true,
     },
     {
       key: 'removeDeclaration',
       value: JobMakerActionTypes.CancelClaim,
       label: 'Remove declaration',
-      disabled: false,
+      disabled: true,
     },
     {
       key: 'removeNomination',
