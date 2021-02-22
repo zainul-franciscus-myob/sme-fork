@@ -81,6 +81,7 @@ import {
   UPLOAD_ATTACHMENT,
   UPLOAD_ATTACHMENT_FAILED,
 } from '../BankingIntents';
+import { ALL_BANK_ACCOUNTS } from '../types/BankAccountEnums';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import {
   addAttachments,
@@ -297,7 +298,10 @@ const setInitialState = (state, action) => {
 
   const filterOptions = {
     transactionType,
-    bankAccount,
+    bankAccount:
+      bankAccount === undefined || bankAccount === null || bankAccount === ''
+        ? ALL_BANK_ACCOUNTS
+        : bankAccount,
     keywords,
     dateFrom: isValidDate(dateFrom)
       ? parseDate(dateFrom)

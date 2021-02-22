@@ -36,6 +36,7 @@ import {
   getBusinessId,
   getDefaultTabFocusLocation,
   getIndexOfNextUnapprovedLine,
+  getIsAllBankAccountsSelected,
   getIsAllocated,
   getIsEntryLoading,
   getIsOpenEntryEdited,
@@ -510,7 +511,9 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadBankTransactions(payload);
-      this.loadBankBalance();
+      if (!getIsAllBankAccountsSelected(this.store.getState())) {
+        this.loadBankBalance();
+      }
     };
 
     const onFailure = () => {
@@ -580,7 +583,9 @@ export default class BankingModule {
     const onSuccess = (payload) => {
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.sortAndFilterBankTransactions(false, payload);
-      this.loadBankBalance();
+      if (!getIsAllBankAccountsSelected(this.store.getState())) {
+        this.loadBankBalance();
+      }
     };
 
     const onFailure = ({ message }) => {

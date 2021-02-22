@@ -74,6 +74,7 @@ import {
   UPDATE_SPLIT_ALLOCATION_LINE,
   UPLOAD_ATTACHMENT,
 } from '../BankingIntents';
+import { ALL_BANK_ACCOUNTS } from '../types/BankAccountEnums';
 import { LOAD_MATCH_TRANSACTIONS } from '../tabs/matchTransaction/MatchTransactionIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
 import { isToggleOn } from '../../../splitToggle';
@@ -361,6 +362,32 @@ describe('BankingModule', () => {
         expect.arrayContaining([
           expect.objectContaining({
             intent: LOAD_BANK_TRANSACTIONS,
+          }),
+        ])
+      );
+    });
+
+    it('successfully loads bank transactions without loading bank balances if All bank accounts selected', () => {
+      const { store, integration, module } = setUp();
+
+      integration.mapSuccess(LOAD_BANK_TRANSACTIONS, {
+        ...bankTransactions,
+        bankAccount: ALL_BANK_ACCOUNTS,
+      });
+      module.run({});
+
+      expect(store.getActions()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_BANK_BALANCES,
+          }),
+        ])
+      );
+
+      expect(integration.getRequests()).toEqual(
+        expect.not.arrayContaining([
+          expect.objectContaining({
+            intent: LOAD_BANK_BALANCES,
           }),
         ])
       );
@@ -1621,8 +1648,8 @@ describe('BankingModule', () => {
     ];
 
     describe('updateFilterOptions', () => {
-      const filterName = 'transactionType';
-      const value = TransactionTypes.ALL;
+      let filterName = 'transactionType';
+      let value = TransactionTypes.ALL;
 
       it('successfully filters', () => {
         const { module, store, integration } = setupWithReplaceURLParams();
@@ -1655,6 +1682,34 @@ describe('BankingModule', () => {
           expect.objectContaining({
             [filterName]: value,
           })
+        );
+      });
+
+      it('successfully filters without loading bank balances if All Bank Accounts has been selected', () => {
+        const { module, store, integration } = setupWithReplaceURLParams();
+
+        filterName = 'bankAccount';
+        value = ALL_BANK_ACCOUNTS;
+
+        module.updateFilterOptions({
+          filterName,
+          value,
+        });
+
+        expect(store.getActions()).toEqual(
+          expect.not.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_BANK_BALANCES,
+            }),
+          ])
+        );
+
+        expect(integration.getRequests()).toEqual(
+          expect.not.arrayContaining([
+            expect.objectContaining({
+              intent: LOAD_BANK_BALANCES,
+            }),
+          ])
         );
       });
 
