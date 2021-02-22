@@ -31,7 +31,7 @@ const tableConfig = {
     textWrap: 'wrap',
   },
   declaration: {
-    columnName: 'Claim period declaration',
+    columnName: 'Period declaration',
     width: 'flex-3',
     valign: 'middle',
     textWrap: 'wrap',
@@ -178,7 +178,7 @@ const JobMakerTable = ({
   const cardBody = (
     <>
       <h3 testid="JM-table-header">
-        JobMaker claim period {currentPeriodDetails.period}&nbsp;(
+        JobMaker period {currentPeriodDetails.period}&nbsp;(
         {currentPeriodDetails.periodStart} -&nbsp;
         {currentPeriodDetails.periodEnd})
       </h3>

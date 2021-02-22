@@ -103,7 +103,7 @@ const JobMakerView = ({
   Object.freeze(actionModalConfigs);
   const infoComponent = (
     <Alert type="info">
-      Employee nominations and declarations for claim period&nbsp;
+      Employee nominations and declarations for JobMaker period&nbsp;
       {currentPeriodDetails.period} can be made from the&nbsp;
       {currentPeriodDetails.claimStart} till the&nbsp;
       {currentPeriodDetails.claimBestBefore}. Claims through the ATO service

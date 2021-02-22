@@ -19,7 +19,7 @@ const JobMakerHeader = ({ currentPayrollYearLabel, currentPeriodDetails }) => {
       <span className={styles.divider} />
       <Field
         testid="JM-period-header-current"
-        label="Current JobMaker claim period"
+        label="Current JobMaker period"
         renderField={() => (
           <React.Fragment>
             Period {currentPeriodDetails.period}&nbsp;&nbsp;
