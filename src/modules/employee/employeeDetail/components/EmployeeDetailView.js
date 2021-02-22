@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAlert,
+  getIsCreating,
   getIsPayrollSetup,
   getLoadingState,
   getMainTab,
@@ -18,6 +19,7 @@ import PageView from '../../../../components/PageView/PageView';
 import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 
 const EmployeeDetailView = ({
+  isCreating,
   isPayrollSetup,
   tabViews,
   selectedTab,
@@ -70,7 +72,11 @@ const EmployeeDetailView = ({
     </BaseTemplate>
   ) : (
     <PayrollNotSetup
-      description="Before you can create an employee, you’ll need to setup your general payroll information."
+      description={
+        isCreating
+          ? 'Before you can create an employee, you’ll need to setup your general payroll information.'
+          : 'Finish setting up some general payroll information to view this employee.'
+      }
       payrollSettingsLink={payrollSettingsLink}
     />
   );
@@ -85,6 +91,7 @@ const mapStateToProps = (state) => ({
   modal: getModal(state),
   pageHeadTitle: getPageHeadTitle(state),
   isPayrollSetup: getIsPayrollSetup(state),
+  isCreating: getIsCreating(state),
   payrollSettingsLink: getPayrollSettingsLink(state),
 });
 

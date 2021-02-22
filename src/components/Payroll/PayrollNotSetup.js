@@ -7,14 +7,14 @@ import noAccessImage from './no-access.svg';
 const PayrollNotSetup = ({ payrollSettingsLink, description }) => {
   const actions = (
     <LinkButton href={payrollSettingsLink} icon={<Icons.Settings />}>
-      Check and save your payroll settings
+      Complete and save payroll settings
     </LinkButton>
   );
 
   return (
     <StandardTemplate testid="payrollNotSetup">
       <PageState
-        description={description}
+        title={description}
         image={<img src={noAccessImage} alt="no access" />}
         actions={actions}
       />

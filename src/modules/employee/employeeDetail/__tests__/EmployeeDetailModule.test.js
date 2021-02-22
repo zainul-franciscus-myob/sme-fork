@@ -7,14 +7,21 @@ import {
 import { mainTabIds } from '../tabItems';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import EmployeeDetailModule from '../EmployeeDetailModule';
+import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 import TerminationConfirmModal from '../components/TerminationConfirmModal';
 import employeeDetailLoadResponse from '../../mappings/data/employeeDetailEntry';
 
 describe('EmployeeDetailModule', () => {
-  const constructEmployeeDetailModule = () => {
+  const defaultIsPayrollSetup = {
+    isPayrollSetup: true,
+  };
+
+  const constructEmployeeDetailModule = (
+    isPayrollSetup = defaultIsPayrollSetup
+  ) => {
     const integration = {
       read: ({ onSuccess }) => {
-        onSuccess({ ...employeeDetailLoadResponse, isPayrollSetup: true });
+        onSuccess({ ...employeeDetailLoadResponse, isPayrollSetup });
       },
       write: () => {},
     };
@@ -31,9 +38,7 @@ describe('EmployeeDetailModule', () => {
       pushMessage: [],
       replaceURLParams: () => {},
     });
-    employeeDetailModule.run({
-      isPayrollSetup: true,
-    });
+    employeeDetailModule.run(isPayrollSetup);
 
     wrapper.update();
     return { wrapper, module: employeeDetailModule };
@@ -95,6 +100,26 @@ describe('EmployeeDetailModule', () => {
 
         expect(wrapper.find(TerminationConfirmModal)).toHaveLength(0);
       });
+    });
+  });
+
+  describe('PayrollNotSetup page state view', () => {
+    it('shows payroll not set up view when isPayrollSetup is false', () => {
+      const { wrapper } = constructEmployeeDetailModule({
+        isPayrollSetup: false,
+      });
+
+      const payrollNotSetUpView = wrapper.find(PayrollNotSetup);
+
+      expect(payrollNotSetUpView).toHaveLength(1);
+    });
+
+    it('does not show payroll not set up view when isPayrollSetup is true', () => {
+      const { wrapper } = constructEmployeeDetailModule();
+
+      const payrollNotSetUpView = wrapper.find(PayrollNotSetup);
+
+      expect(payrollNotSetUpView).toHaveLength(0);
     });
   });
 });
