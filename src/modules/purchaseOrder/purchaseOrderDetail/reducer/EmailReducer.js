@@ -1,3 +1,15 @@
+export const saveEmailSettings = (state) => ({
+  ...state,
+  emailPurchaseOrder: {
+    ...state.emailPurchaseOrder,
+    hasEmailReplyDetails: true,
+  },
+  emailPurchaseOrderDefaultState: {
+    ...state.emailPurchaseOrder,
+    hasEmailReplyDetails: true,
+  },
+});
+
 export const updateEmailPurchaseOrderDetail = (state, action) => ({
   ...state,
   emailPurchaseOrder: {

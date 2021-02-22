@@ -10,6 +10,7 @@ import {
   LOAD_NEW_PURCHASE_ORDER,
   LOAD_PURCHASE_ORDER,
   LOAD_SUPPLIER_DETAIL,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPDATE_PURCHASE_ORDER,
   UPLOAD_EMAIL_ATTACHMENT,
@@ -29,6 +30,7 @@ import loadReadOnlyServicePurchaseOrder from './data/loadReadOnlyServicePurchase
 import loadServicePurchaseOrder from './data/loadServicePurchaseOrder';
 import loadServicePurchaseOrderWithFreight from './data/loadServicePurchaseOrderWithFreight';
 import loadSupplierDetail from './data/loadSupplierDetail';
+import saveEmailSettingsSuccessResponse from './data/saveEmailSettingsSuccessResponse.json';
 import successResponse from './data/success';
 import updatedLineForItemDetail from './data/updatedLineForItemDetail';
 import uploadEmailAttachmentResponse from './data/uploadEmailAttachmentResponse';
@@ -80,6 +82,8 @@ const MemoryPurchaseOrderDetailMapping = {
   [LOAD_JOB_AFTER_CREATE]: ({ onSuccess }) => onSuccess(loadAddedJobResponse),
   [LOAD_ABN_FROM_SUPPLIER]: ({ onSuccess }) => onSuccess(loadAbnDetail),
   [SEND_EMAIL]: ({ onSuccess }) => onSuccess(successResponse),
+  [SAVE_EMAIL_SETTINGS]: ({ onSuccess }) =>
+    onSuccess(saveEmailSettingsSuccessResponse),
   [UPLOAD_EMAIL_ATTACHMENT]: ({ onSuccess }) =>
     onSuccess(uploadEmailAttachmentResponse),
 };

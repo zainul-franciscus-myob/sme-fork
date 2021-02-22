@@ -80,6 +80,7 @@ export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
 export const SET_SUBMITTING_STATE = Symbol('Set submitting state');
 export const SET_MODAL_ALERT = Symbol('Set modal alert');
 
+export const SAVE_EMAIL_SETTINGS = Symbol('Save email settings');
 export const SAVE_PURCHASE_ORDER_FAILED = Symbol('Save purchase order failed');
 
 export const SEND_EMAIL = Symbol('Send email');

@@ -6,6 +6,7 @@ import {
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_JOB_AFTER_CREATE,
   LOAD_SUPPLIER_DETAIL,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPLOAD_EMAIL_ATTACHMENT,
 } from './PurchaseOrderIntents';
@@ -20,6 +21,8 @@ import {
   getLoadPurchaseOrderIntent,
   getLoadPurchaseOrderUrlParams,
   getLoadSupplierDetailUrlParams,
+  getSaveEmailSettingsContent,
+  getSaveEmailSettingsUrlParams,
   getSavePurchaseOrderContent,
   getSavePurchaseOrderIntent,
   getSavePurchaseOrderUrlParams,
@@ -108,6 +111,22 @@ const createPurchaseOrderIntegrator = (store, integration) => ({
 
     integration.write({
       intent: LOAD_ITEM_DETAIL_FOR_LINE,
+      urlParams,
+      content,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  saveEmailSettings: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+
+    const intent = SAVE_EMAIL_SETTINGS;
+    const urlParams = getSaveEmailSettingsUrlParams(state);
+    const content = getSaveEmailSettingsContent(state);
+
+    integration.write({
+      intent,
       urlParams,
       content,
       onSuccess,

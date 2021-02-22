@@ -129,6 +129,12 @@ export const getSavePurchaseOrderContent = createSelector(
   }
 );
 
+export const getSaveEmailSettingsUrlParams = (state) => ({
+  businessId: getBusinessId(state),
+});
+
+export const getSaveEmailSettingsContent = (state) => state.emailPurchaseOrder;
+
 export const getSendEmailUrlParams = (state) => {
   const businessId = getBusinessId(state);
   const purchaseOrderId = getPurchaseOrderId(state);

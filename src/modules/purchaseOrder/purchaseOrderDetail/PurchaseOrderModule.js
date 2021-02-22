@@ -15,6 +15,11 @@ import {
   createTaxCalculator,
 } from '../../../common/taxCalculator';
 import {
+  getCanSaveEmailSettings,
+  getEmailModalType,
+  getFilesForUpload,
+} from './selectors/EmailSelectors';
+import {
   getContactComboboxContext,
   getHasLineBeenPrefilled,
   getIsBeforeConversionDate,
@@ -45,10 +50,6 @@ import {
   getPurchaseOrderListUrl,
   getPurchasesSettingsUrl,
 } from './selectors/PurchaseOrderRedirectSelectors';
-import {
-  getEmailModalType,
-  getFilesForUpload,
-} from './selectors/EmailSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import {
   getIsLineAccountIdKey,
@@ -811,6 +812,40 @@ class PurchaseOrderModule {
     this.dispatcher.resetOpenSendEmail();
   };
 
+  handleSaveEmailSettings = () => {
+    if (getCanSaveEmailSettings(this.store.getState())) {
+      this.saveEmailSettings();
+    } else {
+      this.dispatcher.setModalAlert({
+        type: 'danger',
+        message: 'Reply-to email address is required',
+      });
+    }
+  };
+
+  saveEmailSettings = () => {
+    this.dispatcher.startModalBlocking();
+
+    const onSuccess = (response) => {
+      this.dispatcher.saveEmailSettings();
+      this.closeModal();
+      this.dispatcher.stopModalBlocking();
+
+      this.openEmailModal();
+      this.dispatcher.setModalAlert({
+        type: 'success',
+        message: response.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.stopModalBlocking();
+      this.dispatcher.setModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.saveEmailSettings({ onSuccess, onFailure });
+  };
+
   openPurchasesSettingsTabAndCloseModal = () => {
     this.closeEmailSettingsModal();
     this.redirectToPurchasesSettings();
@@ -882,7 +917,8 @@ class PurchaseOrderModule {
             onChange: this.dispatcher.updateExportPdfDetail,
           }}
           emailSettingsModalListeners={{
-            onConfirm: this.openPurchasesSettingsTabAndCloseModal,
+            onChange: this.updateEmailPurchaseOrderDetail,
+            onConfirm: this.handleSaveEmailSettings,
             onCloseModal: this.closeEmailModal,
             onDismissAlert: this.dispatcher.dismissModalAlert,
           }}

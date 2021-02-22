@@ -10,6 +10,7 @@ import {
   LOAD_NEW_PURCHASE_ORDER,
   LOAD_PURCHASE_ORDER,
   LOAD_SUPPLIER_DETAIL,
+  SAVE_EMAIL_SETTINGS,
   SEND_EMAIL,
   UPDATE_PURCHASE_ORDER,
   UPLOAD_EMAIL_ATTACHMENT,
@@ -75,6 +76,11 @@ const HttpPurchaseOrderDetailMapping = {
     method: 'GET',
     getPath: ({ businessId, supplierId }) =>
       `/${businessId}/purchaseOrder/load_abn_from_supplier/${supplierId}`,
+  },
+  [SAVE_EMAIL_SETTINGS]: {
+    method: 'PUT',
+    getPath: ({ businessId }) =>
+      `/${businessId}/purchaseOrder/save_email_settings`,
   },
   [SEND_EMAIL]: {
     method: 'POST',

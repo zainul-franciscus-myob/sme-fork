@@ -18,6 +18,12 @@ const getHasEmailReplyDetails = (state) =>
 export const getFromName = (state) => state.emailPurchaseOrder.fromName;
 export const getFromEmail = (state) => state.emailPurchaseOrder.fromEmail;
 
+export const getCanSaveEmailSettings = createSelector(
+  getFromEmail,
+  getFromName,
+  (fromEmail, fromName) => fromEmail && fromName
+);
+
 export const getEmailPurchaseOrderDetail = createSelector(
   getEmailToAddresses,
   getCcEmailToAddresses,

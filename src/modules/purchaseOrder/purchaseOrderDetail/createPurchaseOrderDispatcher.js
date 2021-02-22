@@ -28,6 +28,7 @@ import {
   RESET_EMAIL_PURCHASE_ORDER_DETAIL,
   RESET_OPEN_SEND_EMAIL,
   RESET_SUPPLIER,
+  SAVE_EMAIL_SETTINGS,
   SAVE_PURCHASE_ORDER_FAILED,
   SET_ABN_LOADING_STATE,
   SET_DUPLICATE_ID,
@@ -406,6 +407,11 @@ const createPurchaseOrderDispatcher = (store) => ({
     store.dispatch({
       intent: SET_SUBMITTING_STATE,
       isSubmitting,
+    }),
+
+  saveEmailSettings: () =>
+    store.dispatch({
+      intent: SAVE_EMAIL_SETTINGS,
     }),
 
   updateEmailPurchaseOrderDetail: (key, value) =>

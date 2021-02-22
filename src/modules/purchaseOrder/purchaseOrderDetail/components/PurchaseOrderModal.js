@@ -92,11 +92,10 @@ const PurchaseOrderModal = ({
     ),
     [ModalType.EMAIL_SETTINGS]: (
       <EmailSettingsModal
+        onChange={emailSettingsModalListeners.onChange}
         onCancel={emailSettingsModalListeners.onCloseModal}
         onConfirm={emailSettingsModalListeners.onConfirm}
         alert={modalAlert}
-        title="Enter email reply details in settings"
-        description="Looks like there are no email reply details for your business in Purchases settings. You'll need to enter these details before you can send this email."
         onDismissAlert={emailSettingsModalListeners.onDismissAlert}
       />
     ),
