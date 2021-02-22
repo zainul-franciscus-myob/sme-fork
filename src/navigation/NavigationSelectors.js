@@ -35,7 +35,7 @@ export const getPaymentDetailUrl = createSelector(
   getShouldDisplayAccountBillingMenuText,
   (selfServicePortalUrl, businessId, shouldDisplayAccountBillingMenuText) =>
     shouldDisplayAccountBillingMenuText
-      ? `${selfServicePortalUrl}/#/accountDetails?businessId=${businessId}`
+      ? `${selfServicePortalUrl}/accountDetails?businessId=${businessId}`
       : `${selfServicePortalUrl}/#/billingAndPayments?businessId=${businessId}`
 );
 
