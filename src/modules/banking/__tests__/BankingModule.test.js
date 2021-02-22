@@ -105,6 +105,7 @@ describe('BankingModule', () => {
     const pushMessage = () => {};
     const popMessages = () => [];
     const loadHelpContentBasedOnRoute = () => {};
+    const navigateTo = jest.fn();
     const featureToggles = {};
 
     isToggleOn.mockReturnValue(isFastModeLoadBankTransactions);
@@ -116,6 +117,7 @@ describe('BankingModule', () => {
       setRootView,
       pushMessage,
       popMessages,
+      navigateTo,
       featureToggles,
       loadHelpContentBasedOnRoute,
     });
@@ -139,6 +141,7 @@ describe('BankingModule', () => {
       store,
       integration,
       pushMessage,
+      navigateTo,
     };
   };
 
@@ -146,7 +149,10 @@ describe('BankingModule', () => {
     const toolbox = setUp();
     const { module, store, integration } = toolbox;
 
-    module.run({});
+    module.run({
+      businessId: 'bizId',
+      region: 'au',
+    });
     store.resetActions();
     integration.resetRequests();
 
@@ -1233,6 +1239,24 @@ describe('BankingModule', () => {
             intent: REMOVE_ATTACHMENT,
           }),
         ]);
+      });
+    });
+  });
+
+  describe('in tray modal', () => {
+    it('runs inTrayModalModule when modal opens', () => {
+      const { module } = setUpWithOpenTransactionOnAllocateTab();
+      module.inTrayModalModule.run = jest.fn();
+
+      module.openInTrayModal();
+      expect(module.inTrayModalModule.run).toHaveBeenCalledWith({
+        context: {
+          businessId: 'bizId',
+          region: 'au',
+          isUploadAllowed: false,
+        },
+        onSaveSuccess: expect.any(Function),
+        onLoadFailure: expect.any(Function),
       });
     });
   });

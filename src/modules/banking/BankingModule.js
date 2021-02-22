@@ -104,6 +104,7 @@ export default class BankingModule {
     replaceURLParams,
     featureToggles,
     loadHelpContentBasedOnRoute,
+    navigateTo,
   }) {
     this.store = new Store(bankingReducer);
     this.setRootView = setRootView;
@@ -116,7 +117,8 @@ export default class BankingModule {
       integration,
       featureToggles,
     });
-    this.inTrayModalModule = new InTrayModalModule({ integration });
+    this.inTrayModalModule = new InTrayModalModule({ integration, navigateTo });
+    this.navigateTo = navigateTo;
     this.accountModalModule = new AccountModalModule({
       integration,
     });
