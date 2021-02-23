@@ -3,10 +3,14 @@ import React from 'react';
 
 import { getFormattedShippingAddress } from '../contactDetailSelectors';
 import Address from './Address';
+import AutocompleteAddress from './AutocompleteAddress';
 
-const ShippingAddress = (props) => (
-  <Address title="Shipping address" {...props} />
-);
+const ShippingAddress = ({ isAutocompleteAddressEnabled, ...otherProps }) =>
+  isAutocompleteAddressEnabled ? (
+    <AutocompleteAddress title="Shipping address" {...otherProps} />
+  ) : (
+    <Address title="Shipping address" {...otherProps} />
+  );
 
 const mapStateToProps = (state) => getFormattedShippingAddress(state);
 

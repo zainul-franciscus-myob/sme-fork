@@ -1,0 +1,12 @@
+.hideArrow a[type=button] {
+  display: none;
+}
+
+.hideArrow input {
+  border-top-right-radius: var(--flx-border-radius-card) !important;
+  border-bottom-right-radius: var(--flx-border-radius-card) !important;
+}
+
+.hideErrorMessage div[class="combobox-menu"] td:empty {
+  display: none;
+}

@@ -11,6 +11,8 @@ import {
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
+  UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -93,6 +95,7 @@ const getDefaultState = () => ({
   },
   abnValidationResult: undefined,
   isValidatingAbn: false,
+  isAutocompleteAddressEnabled: false,
 });
 
 const resetState = () => getDefaultState();
@@ -246,6 +249,38 @@ const clearAbnValidationResult = (state) => ({
   abnValidationResult: undefined,
 });
 
+const updateAutocompleteBillingAddress = (state, { addressInfo }) => ({
+  ...state,
+  contact: {
+    ...state.contact,
+    billingAddress: {
+      ...state.contact.billingAddress,
+      street: addressInfo.address,
+      city: addressInfo.info?.suburb ?? state.contact.billingAddress.city,
+      state: addressInfo.info?.state ?? state.contact.billingAddress.state,
+      postcode:
+        addressInfo.info?.postcode ?? state.contact.billingAddress.postcode,
+    },
+  },
+  ...pageEdited,
+});
+
+const updateAutocompleteShippingAddress = (state, { addressInfo }) => ({
+  ...state,
+  contact: {
+    ...state.contact,
+    shippingAddress: {
+      ...state.contact.shippingAddress,
+      street: addressInfo.address,
+      city: addressInfo.info?.suburb ?? state.contact.shippingAddress.city,
+      state: addressInfo.info?.state ?? state.contact.shippingAddress.state,
+      postcode:
+        addressInfo.info?.postcode ?? state.contact.shippingAddress.postcode,
+    },
+  },
+  ...pageEdited,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [LOAD_NEW_CONTACT]: loadContactDetail,
@@ -265,6 +300,8 @@ const handlers = {
   [SET_ABN_VALIDATE_STATE]: setAbnValidateState,
   [LOAD_ABN_VALIDATION_RESULT]: setAbnValidationResult,
   [CLEAR_ABN_VALIDATION_RESULT]: clearAbnValidationResult,
+  [UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS]: updateAutocompleteShippingAddress,
+  [UPDATE_AUTOCOMPLETE_BILLING_ADDRESS]: updateAutocompleteBillingAddress,
 };
 
 const contactDetailReducer = createReducer(getDefaultState(), handlers);

@@ -8,14 +8,17 @@ import {
 import {
   getAbn,
   getAccountModalContext,
+  getBillingAddressStreet,
   getBusinessId,
   getIsCreating,
   getModalType,
   getRegion,
+  getShippingAddressStreet,
   isPageEdited,
 } from './contactDetailSelectors';
 import { getIsSubmitting } from '../contactModal/ContactModalSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
+import AuAddressAutocompleteComboboxModule from '../auAddressAutocompleteComboboxModule/AuAddressAutocompleteComboboxModule';
 import ContactDetailView from './components/ContactDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
@@ -26,7 +29,7 @@ import keyMap from '../../../hotKeys/keyMap';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
 export default class ContactDetailModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.integration = integration;
     this.store = new Store(contactDetailReducer);
     this.setRootView = setRootView;
@@ -36,6 +39,15 @@ export default class ContactDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
+    this.billingAddressAutocompleteAddressComboboxModule = new AuAddressAutocompleteComboboxModule(
+      { integration, name: 'street' }
+    );
+    this.shippingAddressAutoCompleteComboboxModule = new AuAddressAutocompleteComboboxModule(
+      { integration, name: 'street' }
+    );
+
+    this.isAutocompleteAddressEnabled =
+      featureToggles?.isAutocompleteAddressEnabled;
   }
 
   openAccountModal = () => {
@@ -69,6 +81,8 @@ export default class ContactDetailModule {
 
   render = () => {
     const accountModal = this.accountModalModule.render();
+    const billingAddressAutocompleteAddressCombobox = this.billingAddressAutocompleteAddressComboboxModule.render();
+    const shippingAddressAutoCompleteCombobox = this.shippingAddressAutoCompleteComboboxModule.render();
 
     const contactDetailView = (
       <ContactDetailView
@@ -86,6 +100,12 @@ export default class ContactDetailModule {
         accountModal={accountModal}
         onAddAccount={this.openAccountModal}
         onAbnBlur={this.validateAbn}
+        billingAddressAutoCompleteCombobox={
+          billingAddressAutocompleteAddressCombobox
+        }
+        shippingAddressAutoCompleteCombobox={
+          shippingAddressAutoCompleteCombobox
+        }
       />
     );
 
@@ -155,6 +175,19 @@ export default class ContactDetailModule {
     }
   };
 
+  runAutocompleteAddressModule = () => {
+    const state = this.store.getState();
+    const billingAddressStreet = getBillingAddressStreet(state);
+    const shippingAddressStreet = getShippingAddressStreet(state);
+
+    this.runBillingAddressAutocompleteAddressComboboxModule({
+      street: billingAddressStreet,
+    });
+    this.runShippingAddressAutoCompleteComboboxModule({
+      street: shippingAddressStreet,
+    });
+  };
+
   loadContactDetail = () => {
     const state = this.store.getState();
     const isCreating = getIsCreating(state);
@@ -169,6 +202,7 @@ export default class ContactDetailModule {
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadContactDetail(payload);
+      this.runAutocompleteAddressModule();
     };
 
     const onFailure = () => {
@@ -258,9 +292,22 @@ export default class ContactDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
+  runBillingAddressAutocompleteAddressComboboxModule = ({ street }) =>
+    this.billingAddressAutocompleteAddressComboboxModule.run({
+      onSelected: this.dispatcher.updateAutocompleteBillingAddress,
+      street,
+    });
+
+  runShippingAddressAutoCompleteComboboxModule = ({ street }) =>
+    this.shippingAddressAutoCompleteComboboxModule.run({
+      onSelected: this.dispatcher.updateAutocompleteShippingAddress,
+      street,
+    });
+
   run(context) {
     this.dispatcher.setInitialState({
       ...context,
+      isAutocompleteAddressEnabled: this.isAutocompleteAddressEnabled,
     });
     setupHotKeys(keyMap, this.handlers);
     this.render();

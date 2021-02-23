@@ -11,6 +11,8 @@ import {
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
   SET_SUBMITTING_STATE,
+  UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
+  UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
@@ -129,6 +131,20 @@ const createContactDetailDispatcher = (store) => ({
   clearAbnValidationResult: () => {
     store.dispatch({
       intent: CLEAR_ABN_VALIDATION_RESULT,
+    });
+  },
+
+  updateAutocompleteBillingAddress: (addressInfo) => {
+    store.dispatch({
+      intent: UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
+      addressInfo,
+    });
+  },
+
+  updateAutocompleteShippingAddress: (addressInfo) => {
+    store.dispatch({
+      intent: UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
+      addressInfo,
     });
   },
 });

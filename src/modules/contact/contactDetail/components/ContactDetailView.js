@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getAlertMessage,
+  getIsAutocompleteAddressEnabled,
   getIsCreating,
   getLoadingState,
   getModalType,
@@ -43,6 +44,9 @@ const ContactDetailView = ({
   onAddAccount,
   onAbnBlur,
   paymentDetails,
+  billingAddressAutoCompleteCombobox,
+  shippingAddressAutoCompleteCombobox,
+  isAutocompleteAddressEnabled,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -86,8 +90,16 @@ const ContactDetailView = ({
           onAddAccount={onAddAccount}
           onAbnBlur={onAbnBlur}
         />
-        <BillingAddress onAddressChange={onBillingAddressChange} />
-        <ShippingAddress onAddressChange={onShippingAddressChange} />
+        <BillingAddress
+          onAddressChange={onBillingAddressChange}
+          autoCompleteCombobox={billingAddressAutoCompleteCombobox}
+          isAutocompleteAddressEnabled={isAutocompleteAddressEnabled}
+        />
+        <ShippingAddress
+          onAddressChange={onShippingAddressChange}
+          autoCompleteCombobox={shippingAddressAutoCompleteCombobox}
+          isAutocompleteAddressEnabled={isAutocompleteAddressEnabled}
+        />
         {shouldShowPaymentDetails && (
           <PaymentDetails
             {...paymentDetails}
@@ -109,6 +121,7 @@ const mapStateToProps = (state) => ({
   alertMessage: getAlertMessage(state),
   shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
   paymentDetails: getPaymentDetails(state),
+  isAutocompleteAddressEnabled: getIsAutocompleteAddressEnabled(state),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

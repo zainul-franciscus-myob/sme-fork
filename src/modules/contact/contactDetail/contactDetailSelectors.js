@@ -99,6 +99,7 @@ const formatAddress = (address) => {
     compareStateByValue
   );
   const isStateDropdown = stateOptions.length > 0;
+  const shouldShowAutocompleteAddressCombobox = address.country === 'Australia';
 
   return {
     ...address,
@@ -106,6 +107,7 @@ const formatAddress = (address) => {
     hasAddPhoneButton,
     isStateDropdown,
     stateOptions,
+    shouldShowAutocompleteAddressCombobox,
   };
 };
 
@@ -159,3 +161,16 @@ export const getShouldShowPaymentDetails = createSelector(
   getIsSupplier,
   (region, isSupplier) => region === 'au' && isSupplier
 );
+
+export const getBillingAddressStreet = createSelector(
+  getBillingAddress,
+  (address) => address.street
+);
+
+export const getShippingAddressStreet = createSelector(
+  getShippingAddress,
+  (address) => address.street
+);
+
+export const getIsAutocompleteAddressEnabled = (state) =>
+  state.isAutocompleteAddressEnabled;

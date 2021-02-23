@@ -4,6 +4,7 @@ import {
   DELETE_CONTACT,
   LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
+  LOAD_AUTOCOMPLETE_ADDRESSES,
   LOAD_CONTACT_COMBOBOX_OPTIONS,
   LOAD_CONTACT_COMBOBOX_OPTION_BY_ID,
   LOAD_CONTACT_DETAIL,
@@ -21,6 +22,7 @@ import contactListLoadResponse from './data/contactList';
 import contactListNextPageResponse from './data/contactListNextPage';
 import createContactModalResponse from './data/createContactModalResponse';
 import loadAddedAccountResponse from './data/loadAddedAccountResponse';
+import loadAutoCompleteAddressesResponse from './data/loadAutoCompleteAddressesResponse.json';
 import loadContactOptionByIdResponse from './data/loadContactComboboxOptionByIdResponse.json';
 import loadContactOptionsResponse from './data/loadContactComboboxOptionsResponse.json';
 import loadContactSearchResponse from './data/loadSearchContactCombobxResponse.json';
@@ -42,6 +44,8 @@ const updateContact = ({ onSuccess }) => onSuccess(success);
 const createContact = ({ onSuccess }) => onSuccess(success);
 const loadNewAccount = ({ onSuccess }) => onSuccess(loadAddedAccountResponse);
 const validateAbn = ({ onSuccess }) => onSuccess(validateAbnResponse);
+const loadAutoCompleteAddresses = ({ onSuccess }) =>
+  onSuccess(loadAutoCompleteAddressesResponse);
 
 const ContactListMapping = {
   [LOAD_CONTACT_LIST]: loadContactList,
@@ -77,6 +81,7 @@ const ContactListMapping = {
   },
   [SEARCH_CONTACT_COMBOBOX]: ({ onSuccess }) =>
     onSuccess(loadContactSearchResponse),
+  [LOAD_AUTOCOMPLETE_ADDRESSES]: loadAutoCompleteAddresses,
 };
 
 export default ContactListMapping;
