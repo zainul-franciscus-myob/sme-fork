@@ -49,6 +49,39 @@ export const getTitle = createSelector(
   }
 );
 
+export const getShouldShowManageMydotUserLink = (state) =>
+  !!state.currentUser && state.currentUser.userType !== 'FileUser';
+
+export const getShouldEnableUserType = (state) =>
+  getIsCreating(state) ||
+  (!!state.currentUser.onlineUserId &&
+    state.currentUser.userType === 'Owner' &&
+    state.user.userType === 'FileUser');
+
+export const getShouldShowUserTypeOptions = (state) =>
+  getIsCreating(state) ||
+  (!!state.currentUser.onlineUserId &&
+    !!state.user.userType &&
+    state.user.userType !== 'Unknown' &&
+    state.user.userType !== 'Owner');
+
+export const getUserTypeOptions = createSelector(
+  getShouldShowUserTypeOptions,
+  (shouldShowUserTypeOptions) => {
+    if (shouldShowUserTypeOptions) {
+      return [
+        { name: 'File User', value: 'FileUser' },
+        { name: 'Admin User', value: 'AdminUser' },
+      ];
+    }
+
+    return [
+      { value: null, name: '' },
+      { name: 'Owner', value: 'Owner' },
+    ];
+  }
+);
+
 export const getSubtitle = createSelector(
   getIsCreating,
   getIsAdvisor,
@@ -70,6 +103,8 @@ export const getUserForUpdate = (state) => {
   const { roles, ...strippedUser } = state.user;
   return {
     ...strippedUser,
+    inviterContactId: state.currentUser.onlineUserId,
+    inviterIdentityId: state.currentUser.identityGuid,
     roleIds: state.user.roles
       .filter((role) => role.selected)
       .map((role) => Number(role.id)),

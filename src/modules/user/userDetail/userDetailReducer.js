@@ -30,6 +30,15 @@ const getDefaultState = () => ({
     isAdvisor: false,
     isReadOnly: false,
     isInactive: false,
+    userType: '',
+    newUserType: '',
+    inviteeFirstName: '',
+    inviteeLastName: '',
+  },
+  currentUser: {
+    userType: '',
+    onlineUserId: '',
+    identityGuid: '',
   },
   isCurrentUserOnlineAdmin: false,
   loadingState: LoadingState.LOADING,
@@ -69,12 +78,22 @@ const closeModal = (state) => ({
 
 const loadUserDetail = (
   state,
-  { user, isCurrentUserOnlineAdmin, serialNumber, showAccessMessage }
+  {
+    user,
+    currentUser,
+    isCurrentUserOnlineAdmin,
+    serialNumber,
+    showAccessMessage,
+  }
 ) => ({
   ...state,
   user: {
     ...state.user,
     ...user,
+  },
+  currentUser: {
+    ...state.currentUser,
+    ...currentUser,
   },
   isCurrentUserOnlineAdmin,
   serialNumber,

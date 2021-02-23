@@ -1,8 +1,11 @@
 import {
+  getShouldEnableUserType,
+  getShouldShowManageMydotUserLink,
   getShowAdvisorRoleAlert,
   getTitle,
   getUserDetails,
   getUserForCreate,
+  getUserTypeOptions,
 } from '../userDetailSelectors';
 import RoleTypes from '../../../../common/types/RoleTypes';
 
@@ -211,6 +214,274 @@ describe('User Detail Selectors', () => {
       };
       const actual = getShowAdvisorRoleAlert(state);
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getShouldShowManageMydotUserLink', () => {
+    const defaultState = {
+      userId: '1',
+      user: {
+        roles: [
+          { type: RoleTypes.INVENTORY_MANAGEMENT, selected: false },
+          { type: RoleTypes.ADMINISTRATOR, selected: true },
+        ],
+      },
+    };
+
+    it('returns false on File user', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'FileUser',
+        },
+      };
+
+      const actual = getShouldShowManageMydotUserLink(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false on mydot fail', () => {
+      const state = {
+        ...defaultState,
+        currentUser: null,
+      };
+
+      const actual = getShouldShowManageMydotUserLink(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns true on Admin User', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'AdminUser',
+        },
+      };
+
+      const actual = getShouldShowManageMydotUserLink(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('returns true on Owner', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'Owner',
+        },
+      };
+
+      const actual = getShouldShowManageMydotUserLink(state);
+      expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getShouldEnableUserType', () => {
+    const defaultState = {
+      userId: '1',
+      user: {
+        roles: [
+          { type: RoleTypes.INVENTORY_MANAGEMENT, selected: false },
+          { type: RoleTypes.ADMINISTRATOR, selected: true },
+        ],
+      },
+    };
+
+    it('returns false if mydot fail(currentUser.onlineUserId is null)', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'FileUser',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false if userType is Owner', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'Owner',
+          onlineUserId: 'fake id',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false if current userType is Unknown', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'Unknown',
+          onlineUserId: 'fake id',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns false if user userType is Unknown', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'Owner',
+          onlineUserId: 'fake id',
+        },
+        user: {
+          userType: 'Unknown',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('returns true if current userType is Owner & user userType is FileUser', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          userType: 'Owner',
+          onlineUserId: 'fake id',
+        },
+        user: {
+          userType: 'FileUser',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('returns true on creating', () => {
+      const state = {
+        ...defaultState,
+        userId: 'new',
+        currentUser: {
+          userType: 'Owner',
+        },
+      };
+
+      const actual = getShouldEnableUserType(state);
+      expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getUserTypeOptions', () => {
+    const defaultState = {
+      userId: '1',
+      user: {
+        roles: [
+          { type: RoleTypes.INVENTORY_MANAGEMENT, selected: false },
+          { type: RoleTypes.ADMINISTRATOR, selected: true },
+        ],
+      },
+    };
+
+    const userTypeOptionsForSelect = [
+      { name: 'File User', value: 'FileUser' },
+      { name: 'Admin User', value: 'AdminUser' },
+    ];
+
+    const userTypeOptionsForDisabled = [
+      { value: null, name: '' },
+      { name: 'Owner', value: 'Owner' },
+    ];
+
+    it('returns userTypeOptionsForSelect when creating user', () => {
+      const state = {
+        ...defaultState,
+        userId: 'new',
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForSelect);
+    });
+
+    it('returns userTypeOptionsForSelect when creating advisor', () => {
+      const state = {
+        ...defaultState,
+        userId: 'new-advisor',
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForSelect);
+    });
+
+    it('returns userTypeOptionsForSelect when user userType is FileUser', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          onlineUserId: 'fake Id',
+        },
+        user: {
+          userType: 'FileUser',
+        },
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForSelect);
+    });
+
+    it('returns userTypeOptionsForSelect when user userType is AdminUser', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          onlineUserId: 'fake Id',
+        },
+        user: {
+          userType: 'AdminUser',
+        },
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForSelect);
+    });
+
+    it('returns userTypeOptionsForDisabled when user userType is Unknown', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          onlineUserId: 'fake Id',
+        },
+        user: {
+          userType: 'Unknown',
+        },
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForDisabled);
+    });
+
+    it('returns userTypeOptionsForDisabled when user userType is Owner', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {
+          onlineUserId: 'fake Id',
+        },
+        user: {
+          userType: 'Owner',
+        },
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForDisabled);
+    });
+
+    it('returns userTypeOptionsForDisabled when mydot fail', () => {
+      const state = {
+        ...defaultState,
+        currentUser: {},
+        user: {
+          userType: 'FileUser',
+        },
+      };
+
+      const actual = getUserTypeOptions(state);
+      expect(actual).toEqual(userTypeOptionsForDisabled);
     });
   });
 });

@@ -21,7 +21,15 @@
       }
     ],
     "isOnlineAdministrator": false,
-    "isAdvisor": false
+    "isAdvisor": false,
+    "userType": "FileUser",
+    "inviteeFirstName": "partner",
+    "inviteeLastName": "InviteeLastName",
+    "currentUser": {
+      "userType": "Owner",
+      "onlineUserId": "SAC-1232",
+      "dentityGuid": "8b8d017b-a126-4015-bf33-dd8de699bed4"
+    }
   },
   "isCurrentUserOnlineAdmin": true
 }

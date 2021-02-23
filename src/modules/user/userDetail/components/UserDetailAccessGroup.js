@@ -8,17 +8,22 @@ import {
   Icons,
   RadioButton,
   RadioButtonGroup,
-  ReadOnly,
+  Select,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getShouldEnableUserType,
+  getShouldShowManageMydotUserLink,
+  getShouldShowUserTypeOptions,
   getShowAccessMessage,
   getShowAdvisorRoleAlert,
   getUserDetails,
+  getUserTypeOptions,
 } from '../userDetailSelectors';
 import handleCheckboxChange from '../../../../components/handlers/handleCheckboxChange';
+import handleSelectChange from '../../../../components/handlers/handleSelectChange';
 import styles from './UserDetailAccessGroup.module.css';
 
 const onRadioButtonChange = (handler) => (e) => {
@@ -27,18 +32,21 @@ const onRadioButtonChange = (handler) => (e) => {
 };
 
 const UserDetailAccessGroup = ({
+  enableUserType,
   isCreating,
   roles,
   isReadOnly,
   isAdmin,
-  isOnlineAdministrator,
   isAdvisor,
   showReadOnly,
+  newUserType,
   onUserDetailsChange,
   onUserRolesChange,
   onMyMyobClick,
   showAccessMessage,
   showAdvisorRoleAlert,
+  showMyMyobLink,
+  userTypeOptions,
 }) => {
   const rolesAndPermsField = (
     <div className={styles.roles}>
@@ -115,43 +123,20 @@ const UserDetailAccessGroup = ({
     />
   );
 
-  const businessAccessRadioGroup = (
-    <RadioButtonGroup
-      label="Business access"
-      name="isAdmin"
-      renderRadios={() => [
-        <RadioButton
-          key="1"
-          name="isOnlineAdministrator"
-          label="This business"
-          value="false"
-          checked={!isOnlineAdministrator}
-          onChange={onRadioButtonChange(onUserDetailsChange)}
-        />,
-        <RadioButton
-          key="2"
-          name="isOnlineAdministrator"
-          label="All businesses with this serial number"
-          value="true"
-          checked={isOnlineAdministrator}
-          onChange={onRadioButtonChange(onUserDetailsChange)}
-        />,
-      ]}
-    />
+  const userTypeSelect = (
+    <Select
+      label="User Type"
+      name="newUserType"
+      value={newUserType}
+      onChange={handleSelectChange(onUserDetailsChange)}
+      width="sm"
+      disabled={!enableUserType || (isCreating && isAdvisor)}
+    >
+      {userTypeOptions.map(({ name, value }) => (
+        <Select.Option key={value} value={value} label={name} />
+      ))}
+    </Select>
   );
-
-  const businessAccessReadOnly = (
-    <ReadOnly label="Business access" name="isOnlineAdministrator">
-      {isOnlineAdministrator
-        ? 'All businesses with this serial number'
-        : 'This business'}
-    </ReadOnly>
-  );
-
-  const businessAccessGroup =
-    isCreating && !isAdvisor
-      ? businessAccessRadioGroup
-      : businessAccessReadOnly;
 
   const accessMessage = showAccessMessage && (
     <Field
@@ -185,9 +170,9 @@ const UserDetailAccessGroup = ({
       {rolesAndPerms}
       {advisorRoleAlert}
       {accessLevel}
-      {businessAccessGroup}
+      {userTypeSelect}
       {accessMessage}
-      {myMyobLink}
+      {showMyMyobLink && myMyobLink}
     </FieldGroup>
   );
 };
@@ -196,6 +181,10 @@ const mapStateToProps = (state) => ({
   ...getUserDetails(state),
   showAccessMessage: getShowAccessMessage(state),
   showAdvisorRoleAlert: getShowAdvisorRoleAlert(state),
+  showMyMyobLink: getShouldShowManageMydotUserLink(state),
+  enableUserType: getShouldEnableUserType(state),
+  showUserTypeOptions: getShouldShowUserTypeOptions(state),
+  userTypeOptions: getUserTypeOptions(state),
 });
 
 export default connect(mapStateToProps)(UserDetailAccessGroup);
