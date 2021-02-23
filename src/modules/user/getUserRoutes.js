@@ -7,6 +7,7 @@ const getUserRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
+  featureToggles,
   globalCallbacks: { usersInvited },
 }) => {
   const routes = [
@@ -17,6 +18,7 @@ const getUserRoutes = ({
         integration,
         setRootView,
         popMessages,
+        featureToggles,
       }),
       documentTitle: 'Users',
     },

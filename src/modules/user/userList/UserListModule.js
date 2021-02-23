@@ -29,12 +29,14 @@ import userListReducer from './userListReducer';
 const messageTypes = [SUCCESSFULLY_DELETED_USER, SUCCESSFULLY_SAVED_USER];
 
 export default class UserListModule {
-  constructor({ integration, setRootView, popMessages }) {
+  constructor({ integration, setRootView, popMessages, featureToggles }) {
     this.integration = integration;
     this.store = new Store(userListReducer);
     this.setRootView = setRootView;
     this.popMessages = popMessages;
     this.messageTypes = messageTypes;
+    this.shouldDisplayRemovePracticeAccessButton =
+      featureToggles?.isRemovePracticeAccessEnabled;
     this.dispatcher = createUserListDispatcher(this.store);
     this.integrator = createUserListIntegrator(this.store, integration);
   }
@@ -217,6 +219,9 @@ export default class UserListModule {
         onRemovePracticeAccessModal={this.removePracticeAccess}
         onUpdateFilterOptions={this.updateFilterOptions}
         setShowStatusFilterOptions={this.setShowStatusFilterOptions}
+        shouldDisplayRemovePracticeAccessButton={
+          this.shouldDisplayRemovePracticeAccessButton
+        }
       />
     );
 

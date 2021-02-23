@@ -61,6 +61,7 @@ const UserListView = (props) => {
     shouldShowManageMydotUserLink,
     removeAccessModalBody,
     removePracticeAccessModalBody,
+    shouldDisplayRemovePracticeAccessButton,
   } = props;
 
   const alertComponent = alert && (
@@ -155,6 +156,9 @@ const UserListView = (props) => {
           <ExistingAdvisorList
             onSort={onSortPracticeList}
             onRemovePracticeAccessClick={onRemovePracticeAccessClick}
+            shouldDisplayRemovePracticeAccessButton={
+              shouldDisplayRemovePracticeAccessButton
+            }
           />
         </StandardTemplate>
       )}

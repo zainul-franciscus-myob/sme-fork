@@ -14,19 +14,22 @@ const ExistingAdvisorList = ({
   order,
   onRemovePracticeAccessClick,
   isSubmitting,
+  shouldDisplayRemovePracticeAccessButton,
 }) => {
   const practiceRows = practices.map((practice) => (
     <Table.Row key={practice.practiceId}>
       <Table.RowItem>{practice.practiceName}</Table.RowItem>
-      <Table.RowItem align="right">
-        <Button
-          disabled={isSubmitting}
-          type="link"
-          onClick={() => onRemovePracticeAccessClick(practice.practiceId)}
-        >
-          Remove access
-        </Button>
-      </Table.RowItem>
+      {shouldDisplayRemovePracticeAccessButton && (
+        <Table.RowItem align="right">
+          <Button
+            disabled={isSubmitting}
+            type="link"
+            onClick={() => onRemovePracticeAccessClick(practice.practiceId)}
+          >
+            Remove access
+          </Button>
+        </Table.RowItem>
+      )}
     </Table.Row>
   ));
 
