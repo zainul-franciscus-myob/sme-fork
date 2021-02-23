@@ -513,6 +513,8 @@ export default class BankingModule {
       this.dispatcher.loadBankTransactions(payload);
       if (!getIsAllBankAccountsSelected(this.store.getState())) {
         this.loadBankBalance();
+      } else {
+        this.dispatcher.resetBankBalances();
       }
     };
 
@@ -585,6 +587,8 @@ export default class BankingModule {
       this.dispatcher.sortAndFilterBankTransactions(false, payload);
       if (!getIsAllBankAccountsSelected(this.store.getState())) {
         this.loadBankBalance();
+      } else {
+        this.dispatcher.resetBankBalances();
       }
     };
 

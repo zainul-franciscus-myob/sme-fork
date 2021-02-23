@@ -377,6 +377,14 @@ describe('BankingModule', () => {
       module.run({});
 
       expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          {
+            intent: RESET_BANK_BALANCES,
+          },
+        ])
+      );
+
+      expect(store.getActions()).toEqual(
         expect.not.arrayContaining([
           expect.objectContaining({
             intent: LOAD_BANK_BALANCES,
@@ -1695,6 +1703,14 @@ describe('BankingModule', () => {
           filterName,
           value,
         });
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: RESET_BANK_BALANCES,
+            },
+          ])
+        );
 
         expect(store.getActions()).toEqual(
           expect.not.arrayContaining([
