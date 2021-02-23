@@ -8,7 +8,6 @@ import {
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
-  getShouldShowPaymentDetail,
   getShowUrls,
   noOpRouteNames,
 } from '../NavigationSelectors';
@@ -237,48 +236,6 @@ describe('NavigationSelectors', () => {
       const currentUrl = 'currentUrl';
       const actual = getMenuLogoUrl(state)(currentUrl);
       expect(actual).toEqual(`#/nz/${businessId}/dashboard`);
-    });
-  });
-
-  describe('shouldShowPaymentDetail', () => {
-    const state = {
-      routeParams: {
-        businessId: '🍟',
-        region: '🇦🇺',
-      },
-      urls: {
-        [RouteName.PAYMENT_DETAIL]: 'payment-detail-url',
-      },
-      enabledFeatures: [RouteName.PAYMENT_DETAIL],
-      isTrial: false,
-    };
-
-    it('shows by default', () => {
-      const actual = getShouldShowPaymentDetail(state);
-
-      expect(actual).toEqual(true);
-    });
-
-    it('does not show when it is not enabled', () => {
-      const modifiedState = {
-        ...state,
-        enabledFeatures: [],
-      };
-
-      const actual = getShouldShowPaymentDetail(modifiedState);
-
-      expect(actual).toEqual(false);
-    });
-
-    it('does not show when is trial', () => {
-      const modifiedState = {
-        ...state,
-        isTrial: true,
-      };
-
-      const actual = getShouldShowPaymentDetail(modifiedState);
-
-      expect(actual).toEqual(false);
     });
   });
 

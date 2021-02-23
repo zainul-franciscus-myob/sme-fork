@@ -24,7 +24,6 @@ import {
   getSerialNumber,
   getShouldDisplayAccountBillingMenuText,
   getShouldShowMoveToMYOB,
-  getShouldShowPaymentDetail,
   getUserEmail,
 } from '../NavigationSelectors';
 import BusinessAvatar from '../../components/BusinessAvatar/BusinessAvatar';
@@ -73,7 +72,6 @@ const getItems = ({
   onLogoutLinkClick,
   serialNumber,
   shouldShowMoveToMYOB,
-  shouldShowPaymentDetail,
   urls,
   userEmail,
   shouldDisplayAccountBillingMenuText,
@@ -134,7 +132,7 @@ const getItems = ({
         onClick: onManageMyProductClick,
         url: urls.productManagementDetail,
       }),
-    shouldShowPaymentDetail &&
+    urls.paymentDetail &&
       getMenuLink({
         icon: shouldDisplayAccountBillingMenuText ? (
           <UserProfileIcon />
@@ -220,7 +218,6 @@ const BusinessMenu = ({
   onMenuSelect,
   serialNumber,
   shouldShowMoveToMYOB,
-  shouldShowPaymentDetail,
   urls,
   userEmail,
   shouldDisplayAccountBillingMenuText,
@@ -248,7 +245,6 @@ const BusinessMenu = ({
         onLogoutLinkClick,
         serialNumber,
         shouldShowMoveToMYOB,
-        shouldShowPaymentDetail,
         urls,
         userEmail,
         shouldDisplayAccountBillingMenuText,
@@ -265,7 +261,6 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   serialNumber: getSerialNumber(state),
   shouldShowMoveToMYOB: getShouldShowMoveToMYOB(state),
-  shouldShowPaymentDetail: getShouldShowPaymentDetail(state),
   urls: getBusinessUrls(state),
   userEmail: getUserEmail(state),
   shouldDisplayAccountBillingMenuText: getShouldDisplayAccountBillingMenuText(
