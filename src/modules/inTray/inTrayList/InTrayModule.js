@@ -30,8 +30,6 @@ import {
   getRegion,
 } from './selectors/InTraySelectors';
 import { getEmail } from './selectors/UploadOptionsSelectors';
-import { isToggleOn } from '../../../splitToggle';
-import { trackUserEvent } from '../../../telemetry';
 import InTrayUploadOptionsModalModule from '../inTrayUploadOptionsModal/InTrayUploadOptionsModalModule';
 import InTrayView from './components/InTrayView';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -40,7 +38,6 @@ import actionTypes from './actionTypes';
 import createInTrayDispatcher from './createInTrayDispatcher';
 import createInTrayIntegrator from './createInTrayIntegrator';
 import debounce from '../../../common/debounce/debounce';
-import featureToggle from '../../../FeatureToggles';
 import inTrayReducer from './reducer/inTrayReducer';
 import openBlob from '../../../common/blobOpener/openBlob';
 
@@ -290,22 +287,6 @@ export default class InTrayModule {
       type: PREFILL_INTRAY_DOCUMENT_FOR_BILL,
       inTrayDocumentId: id,
     });
-
-    const activeBill =
-      state.inTrayList?.entries.find((x) => x.id === id) || null;
-    if (
-      activeBill?.abn !== undefined &&
-      isToggleOn(featureToggle.SmartMeTask)
-    ) {
-      this.globalCallbacks.refreshTaskEvent(true);
-      trackUserEvent({
-        eventName: 'tasks',
-        customProperties: {
-          action: 'create_via_event',
-          task: 'SmartMeLearn',
-        },
-      });
-    }
 
     this.openInSameTab(`/#/${region}/${businessId}/bill/new`);
   };

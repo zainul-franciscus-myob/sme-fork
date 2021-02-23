@@ -398,6 +398,16 @@ class BillModule {
       const onSuccess = ({ message }) => {
         this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
         this.globalCallbacks.inTrayBillSaved();
+        if (state.abn !== undefined && isToggleOn(FeatureToggles.SmartMeTask)) {
+          this.globalCallbacks.refreshTaskEvent(true);
+          trackUserEvent({
+            eventName: 'tasks',
+            customProperties: {
+              action: 'create_via_event',
+              task: 'SmartMeLearn',
+            },
+          });
+        }
         this.redirectToInTray();
       };
       this.saveBillAnd({ onSuccess });
