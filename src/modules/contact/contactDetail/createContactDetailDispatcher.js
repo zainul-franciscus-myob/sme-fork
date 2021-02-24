@@ -10,6 +10,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
+  SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
   SET_SUBMITTING_STATE,
   UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
   UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
@@ -147,6 +148,14 @@ const createContactDetailDispatcher = (store) => ({
       addressInfo,
     });
   },
+
+  setShippingAddressSameAsBillingAddress: (
+    isShippingAddressSameAsBillingAddress
+  ) =>
+    store.dispatch({
+      intent: SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
+      isShippingAddressSameAsBillingAddress,
+    }),
 });
 
 export default createContactDetailDispatcher;

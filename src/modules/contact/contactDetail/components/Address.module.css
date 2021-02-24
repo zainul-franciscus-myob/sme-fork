@@ -5,3 +5,7 @@
 .phone {
   max-width: var(--flx-width-field-m);
 }
+
+.sameAsBilling {
+  padding-bottom: var(--flx-spacing-small);
+}

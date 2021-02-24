@@ -1,6 +1,8 @@
 import {
+  SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
   UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
   UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
+  UPDATE_BILLING_ADDRESS,
   UPDATE_PAYMENT_DETAILS,
 } from '../../ContactIntents';
 import contactDetailReducer from '../contactDetailReducer';
@@ -278,6 +280,144 @@ describe('contactDetailReducer', () => {
       expect(actual.contact.billingAddress.city).toBe('NEDLANDS');
       expect(actual.contact.billingAddress.state).toBe('WA');
       expect(actual.contact.billingAddress.postcode).toBe('6009');
+    });
+  });
+
+  describe('setShippingAddressSameAsBillingAddress', () => {
+    it('update shippingAddress same as billingAddress given isShippingAddressSameAsBillingAddress is true', () => {
+      const state = {
+        contact: {
+          billingAddress: {
+            street: 'West 57 Street',
+            city: 'New New York',
+            state: 'NY',
+            postcode: '10985',
+            country: 'United States',
+            phoneNumbers: ['03 93883848', '03 93883843'],
+            fax: '03 93883848',
+            email: 'curbys@example.com,curbys1@example.com',
+            website: 'curbys.stands',
+            businessContact: 'Vinny',
+            salutation: '',
+          },
+          shippingAddress: {
+            street: '',
+            city: '',
+            state: '',
+            postcode: '',
+            country: '',
+            phoneNumbers: [],
+            fax: '',
+            email: '',
+            website: '',
+            businessContact: '',
+            salutation: '',
+          },
+          isShippingAddressSameAsBillingAddress: false,
+        },
+      };
+      const action = {
+        intent: SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
+        isShippingAddressSameAsBillingAddress: true,
+      };
+      const actual = contactDetailReducer(state, action);
+
+      expect(actual.contact.shippingAddress).toEqual(
+        actual.contact.billingAddress
+      );
+      expect(actual.contact.isShippingAddressSameAsBillingAddress).toBe(true);
+    });
+
+    it('do not update shippingAddress given isShippingAddressSameAsBillingAddress is false', () => {
+      const state = {
+        contact: {
+          billingAddress: {
+            street: 'West 57 Street',
+            city: 'New New York',
+            state: 'NY',
+            postcode: '10985',
+            country: 'United States',
+            phoneNumbers: ['03 93883848', '03 93883843'],
+            fax: '03 93883848',
+            email: 'curbys@example.com,curbys1@example.com',
+            website: 'curbys.stands',
+            businessContact: 'Vinny',
+            salutation: '',
+          },
+          shippingAddress: {
+            street: '',
+            city: '',
+            state: '',
+            postcode: '',
+            country: '',
+            phoneNumbers: [],
+            fax: '',
+            email: '',
+            website: '',
+            businessContact: '',
+            salutation: '',
+          },
+          isShippingAddressSameAsBillingAddress: false,
+        },
+      };
+      const action = {
+        intent: SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
+        isShippingAddressSameAsBillingAddress: false,
+      };
+      const actual = contactDetailReducer(state, action);
+
+      expect(actual.contact.shippingAddress).toEqual(
+        state.contact.shippingAddress
+      );
+      expect(actual.contact.isShippingAddressSameAsBillingAddress).toBe(false);
+    });
+  });
+
+  describe('updateBillingAddress', () => {
+    it('update billing address and update shipping address same as billing address given isShippingAddressSameAsBillingAddress is true', () => {
+      const state = {
+        contact: {
+          billingAddress: {
+            street: 'West 57 Street',
+          },
+          shippingAddress: {
+            street: 'East 58 Street',
+          },
+          isShippingAddressSameAsBillingAddress: true,
+        },
+      };
+      const action = {
+        intent: UPDATE_BILLING_ADDRESS,
+        key: 'street',
+        value: 'A new address',
+      };
+      const actual = contactDetailReducer(state, action);
+
+      expect(actual.contact.billingAddress.street).toBe('A new address');
+      expect(actual.contact.shippingAddress.street).toBe('A new address');
+    });
+
+    it('update billing address but do not update shipping address given isShippingAddressSameAsBillingAddress is false', () => {
+      const state = {
+        contact: {
+          billingAddress: {
+            street: 'West 57 Street',
+          },
+          shippingAddress: {
+            street: 'East 58 Street',
+          },
+          isShippingAddressSameAsBillingAddress: false,
+        },
+      };
+      const action = {
+        intent: UPDATE_BILLING_ADDRESS,
+        key: 'street',
+        value: 'A new address',
+      };
+      const actual = contactDetailReducer(state, action);
+
+      expect(actual.contact.billingAddress.street).toBe('A new address');
+      expect(actual.contact.shippingAddress.street).toBe('East 58 Street');
     });
   });
 });

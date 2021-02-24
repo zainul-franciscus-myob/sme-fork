@@ -7,11 +7,16 @@ import AutocompleteAddress from './AutocompleteAddress';
 
 const BillingAddress = ({ isAutocompleteAddressEnabled, ...otherProps }) =>
   isAutocompleteAddressEnabled ? (
-    <AutocompleteAddress title="Billing address" {...otherProps} />
+    <AutocompleteAddress
+      title="Billing address"
+      {...otherProps}
+      showSameAsBillingAddress={false}
+    />
   ) : (
     <Address title="Billing address" {...otherProps} />
   );
 
-const mapStateToProps = (state) => getFormattedBillingAddress(state);
+const mapStateToProps = (state, { disabled }) =>
+  getFormattedBillingAddress(state, { disabled });
 
 export default connect(mapStateToProps)(BillingAddress);

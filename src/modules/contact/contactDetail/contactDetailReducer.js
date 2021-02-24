@@ -10,6 +10,7 @@ import {
   SET_ALERT_MESSAGE,
   SET_LOADING_SINGLE_ACCOUNT_STATE,
   SET_LOADING_STATE,
+  SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
   SET_SUBMITTING_STATE,
   UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
   UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
@@ -70,6 +71,7 @@ const getDefaultState = () => ({
       email: '',
     },
     uid: '',
+    isShippingAddressSameAsBillingAddress: false,
   },
   readonly: {
     title: '',
@@ -180,6 +182,12 @@ const updateBillingAddress = (state, action) => ({
       ...state.contact.billingAddress,
       [action.key]: action.value,
     },
+    shippingAddress: state.contact.isShippingAddressSameAsBillingAddress
+      ? {
+          ...state.contact.billingAddress,
+          [action.key]: action.value,
+        }
+      : { ...state.contact.shippingAddress },
   },
   ...pageEdited,
 });
@@ -249,21 +257,28 @@ const clearAbnValidationResult = (state) => ({
   abnValidationResult: undefined,
 });
 
-const updateAutocompleteBillingAddress = (state, { addressInfo }) => ({
-  ...state,
-  contact: {
-    ...state.contact,
-    billingAddress: {
-      ...state.contact.billingAddress,
-      street: addressInfo.address,
-      city: addressInfo.info?.suburb ?? state.contact.billingAddress.city,
-      state: addressInfo.info?.state ?? state.contact.billingAddress.state,
-      postcode:
-        addressInfo.info?.postcode ?? state.contact.billingAddress.postcode,
+const updateAutocompleteBillingAddress = (state, { addressInfo }) => {
+  const updatedBillingAddress = {
+    ...state.contact.billingAddress,
+    street: addressInfo.address,
+    city: addressInfo.info?.suburb ?? state.contact.billingAddress.city,
+    state: addressInfo.info?.state ?? state.contact.billingAddress.state,
+    postcode:
+      addressInfo.info?.postcode ?? state.contact.billingAddress.postcode,
+  };
+
+  return {
+    ...state,
+    contact: {
+      ...state.contact,
+      billingAddress: { ...updatedBillingAddress },
+      shippingAddress: state.contact.isShippingAddressSameAsBillingAddress
+        ? { ...updatedBillingAddress }
+        : { ...state.contact.shippingAddress },
     },
-  },
-  ...pageEdited,
-});
+    ...pageEdited,
+  };
+};
 
 const updateAutocompleteShippingAddress = (state, { addressInfo }) => ({
   ...state,
@@ -277,6 +292,21 @@ const updateAutocompleteShippingAddress = (state, { addressInfo }) => ({
       postcode:
         addressInfo.info?.postcode ?? state.contact.shippingAddress.postcode,
     },
+  },
+  ...pageEdited,
+});
+
+const setShippingAddressSameAsBillingAddress = (
+  state,
+  { isShippingAddressSameAsBillingAddress }
+) => ({
+  ...state,
+  contact: {
+    ...state.contact,
+    shippingAddress: isShippingAddressSameAsBillingAddress
+      ? { ...state.contact.billingAddress }
+      : { ...state.contact.shippingAddress },
+    isShippingAddressSameAsBillingAddress,
   },
   ...pageEdited,
 });
@@ -302,6 +332,7 @@ const handlers = {
   [CLEAR_ABN_VALIDATION_RESULT]: clearAbnValidationResult,
   [UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS]: updateAutocompleteShippingAddress,
   [UPDATE_AUTOCOMPLETE_BILLING_ADDRESS]: updateAutocompleteBillingAddress,
+  [SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS]: setShippingAddressSameAsBillingAddress,
 };
 
 const contactDetailReducer = createReducer(getDefaultState(), handlers);

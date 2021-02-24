@@ -90,7 +90,7 @@ const findStatesInCountry = (selectedCountry) => {
   return states;
 };
 
-const formatAddress = (address) => {
+const formatAddress = ({ disabled, ...address }) => {
   const numberOfAddedPhoneNumbers = address.phoneNumbers.length;
   const phoneNumbers =
     numberOfAddedPhoneNumbers === 0 ? [''] : address.phoneNumbers;
@@ -99,7 +99,8 @@ const formatAddress = (address) => {
     compareStateByValue
   );
   const isStateDropdown = stateOptions.length > 0;
-  const shouldShowAutocompleteAddressCombobox = address.country === 'Australia';
+  const shouldShowAutocompleteAddressCombobox =
+    address.country === 'Australia' && !disabled;
 
   return {
     ...address,
@@ -111,14 +112,23 @@ const formatAddress = (address) => {
   };
 };
 
-const getShippingAddress = (state) => state.contact.shippingAddress;
+const getShippingAddress = (state, ownProps) => ({
+  disabled: ownProps?.disabled,
+  ...state.contact.shippingAddress,
+});
+
+export const getIsShippingAddressSameAsBillingAddress = (state) =>
+  state.contact.isShippingAddressSameAsBillingAddress;
 
 export const getFormattedShippingAddress = createSelector(
   getShippingAddress,
   formatAddress
 );
 
-const getBillingAddress = (state) => state.contact.billingAddress;
+const getBillingAddress = (state, ownProps) => ({
+  disabled: ownProps?.disabled,
+  ...state.contact.billingAddress,
+});
 
 export const getFormattedBillingAddress = createSelector(
   getBillingAddress,

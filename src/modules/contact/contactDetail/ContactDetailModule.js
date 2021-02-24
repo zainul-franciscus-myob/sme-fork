@@ -106,6 +106,9 @@ export default class ContactDetailModule {
         shippingAddressAutoCompleteCombobox={
           shippingAddressAutoCompleteCombobox
         }
+        onSameAsBillingAddressChange={
+          this.dispatcher.setShippingAddressSameAsBillingAddress
+        }
       />
     );
 

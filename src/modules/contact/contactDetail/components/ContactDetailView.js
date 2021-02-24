@@ -6,6 +6,7 @@ import {
   getAlertMessage,
   getIsAutocompleteAddressEnabled,
   getIsCreating,
+  getIsShippingAddressSameAsBillingAddress,
   getLoadingState,
   getModalType,
   getPaymentDetails,
@@ -47,6 +48,8 @@ const ContactDetailView = ({
   billingAddressAutoCompleteCombobox,
   shippingAddressAutoCompleteCombobox,
   isAutocompleteAddressEnabled,
+  isShippingAddressSameAsBillingAddress,
+  onSameAsBillingAddressChange,
 }) => {
   const alertComponent = alertMessage && (
     <Alert type="danger" onDismiss={onDismissAlert}>
@@ -94,11 +97,17 @@ const ContactDetailView = ({
           onAddressChange={onBillingAddressChange}
           autoCompleteCombobox={billingAddressAutoCompleteCombobox}
           isAutocompleteAddressEnabled={isAutocompleteAddressEnabled}
+          disabled={false}
         />
         <ShippingAddress
           onAddressChange={onShippingAddressChange}
           autoCompleteCombobox={shippingAddressAutoCompleteCombobox}
           isAutocompleteAddressEnabled={isAutocompleteAddressEnabled}
+          disabled={isShippingAddressSameAsBillingAddress}
+          isShippingAddressSameAsBillingAddress={
+            isShippingAddressSameAsBillingAddress
+          }
+          onSameAsBillingAddressChange={onSameAsBillingAddressChange}
         />
         {shouldShowPaymentDetails && (
           <PaymentDetails
@@ -122,6 +131,9 @@ const mapStateToProps = (state) => ({
   shouldShowPaymentDetails: getShouldShowPaymentDetails(state),
   paymentDetails: getPaymentDetails(state),
   isAutocompleteAddressEnabled: getIsAutocompleteAddressEnabled(state),
+  isShippingAddressSameAsBillingAddress: getIsShippingAddressSameAsBillingAddress(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(ContactDetailView);

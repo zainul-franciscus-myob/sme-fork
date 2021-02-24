@@ -101,3 +101,6 @@ export const UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS = Symbol(
 export const UPDATE_AUTOCOMPLETE_BILLING_ADDRESS = Symbol(
   'Update autocomplete billing address'
 );
+export const SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS = Symbol(
+  'Set shipping address same as billing address'
+);

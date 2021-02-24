@@ -1,4 +1,12 @@
-import { FieldGroup, Icons, Input, Select, Tooltip } from '@myob/myob-widgets';
+import {
+  Checkbox,
+  CheckboxGroup,
+  FieldGroup,
+  Icons,
+  Input,
+  Select,
+  Tooltip,
+} from '@myob/myob-widgets';
 import React from 'react';
 
 import CountryCombobox from '../../../../components/combobox/CountryCombobox';
@@ -28,6 +36,10 @@ const AutocompleteAddress = ({
   stateOptions,
   onAddressChange,
   autoCompleteCombobox,
+  disabled,
+  isShippingAddressSameAsBillingAddress,
+  onSameAsBillingAddressChange,
+  showSameAsBillingAddress,
   shouldShowAutocompleteAddressCombobox,
 }) => {
   const stateInput = isStateDropdown ? (
@@ -37,6 +49,7 @@ const AutocompleteAddress = ({
       value={state}
       onChange={handleInputChange(onAddressChange)}
       width="xs"
+      disabled={disabled}
     >
       {[<Select.Option value="placeholder" label="" hidden />].concat(
         stateOptions.map(({ name, id }) => (
@@ -50,6 +63,7 @@ const AutocompleteAddress = ({
       name="state"
       value={state}
       onChange={handleInputChange(onAddressChange)}
+      disabled={disabled}
     />
   );
 
@@ -66,11 +80,35 @@ const AutocompleteAddress = ({
       value={street}
       onChange={handleInputChange(onAddressChange)}
       width="lg"
+      disabled={disabled}
     />
   );
 
   return (
     <FieldGroup label={title}>
+      {showSameAsBillingAddress && (
+        <fieldset className={style.sameAsBilling}>
+          <legend className="sr-only">
+            Make shipping address same as billing address
+          </legend>
+          <CheckboxGroup
+            label="Same as billing address"
+            hideLabel
+            renderCheckbox={() => (
+              <Checkbox
+                name="isSameAsBillingAddress"
+                label="Same as billing address"
+                checked={isShippingAddressSameAsBillingAddress}
+                onChange={() =>
+                  onSameAsBillingAddressChange(
+                    !isShippingAddressSameAsBillingAddress
+                  )
+                }
+              />
+            )}
+          />
+        </fieldset>
+      )}
       <fieldset className={style.addressGroup}>
         <legend className="sr-only">Address</legend>
         <CountryCombobox
@@ -80,6 +118,7 @@ const AutocompleteAddress = ({
           selectedId={country}
           onChange={handleComboboxChange('country', onAddressChange)}
           width="lg"
+          disabled={disabled}
         />
         {address}
         <Input
@@ -88,6 +127,7 @@ const AutocompleteAddress = ({
           value={city}
           onChange={handleInputChange(onAddressChange)}
           width="lg"
+          disabled={disabled}
         />
         {stateInput}
         <Input
@@ -96,6 +136,7 @@ const AutocompleteAddress = ({
           value={postcode}
           onChange={handleInputChange(onAddressChange)}
           width="xs"
+          disabled={disabled}
         />
       </fieldset>
       <fieldset>
@@ -106,6 +147,7 @@ const AutocompleteAddress = ({
           value={businessContact}
           onChange={handleInputChange(onAddressChange)}
           width="lg"
+          disabled={disabled}
         />
         <Input
           name="email"
@@ -118,6 +160,7 @@ const AutocompleteAddress = ({
           value={email}
           onChange={handleInputChange(onAddressChange)}
           width="lg"
+          disabled={disabled}
         />
         <Input
           name="fax"
@@ -125,12 +168,14 @@ const AutocompleteAddress = ({
           value={fax}
           onChange={handleInputChange(onAddressChange)}
           width="md"
+          disabled={disabled}
         />
         <PhoneNumberList
           inputClassName={style.phone}
           phoneNumbers={phoneNumbers}
           hasAddPhoneButton={hasAddPhoneButton}
           onPhoneNumbersChange={onPhoneNumberChange(onAddressChange)}
+          disabled={disabled}
         />
         <Input
           name="website"
@@ -138,6 +183,7 @@ const AutocompleteAddress = ({
           value={website}
           onChange={handleInputChange(onAddressChange)}
           width="lg"
+          disabled={disabled}
         />
       </fieldset>
     </FieldGroup>
