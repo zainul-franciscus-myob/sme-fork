@@ -21,6 +21,7 @@ const BusinessDetailsSection = ({
   isAu,
   onChange,
   clientCode,
+  industry,
 }) => (
   <FieldGroup label="Business details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
@@ -55,6 +56,9 @@ const BusinessDetailsSection = ({
       maxLength={10}
       width="sm"
     />
+    <ReadOnly name="BusinessDivision" label="Business Industry">
+      <strong>{industry}</strong>
+    </ReadOnly>
   </FieldGroup>
 );
 

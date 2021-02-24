@@ -11,7 +11,6 @@ export const getAlert = (state) => state.alert;
 export const getModal = (state) => state.modal;
 export const getModalUrl = (state) => state.modal && state.modal.url;
 export const getSelectedTab = (state) => state.selectedTab;
-
 export const getIsRegionAu = (state) => state.businessDetails.region === 'AU';
 export const getIsPageEdited = (state) => state.isPageEdited;
 export const getPageTitle = (state) => state.pageTitle;
@@ -78,6 +77,7 @@ export const getBusinessDetails = createStructuredSelector({
   tradingName: (state) => state.businessDetails.tradingName,
   region: (state) => state.businessDetails.region,
   clientCode: (state) => state.businessDetails.clientCode,
+  industry: (state) => state.businessDetails.industry,
 });
 
 export const getMyAccountLink = createSelector(
