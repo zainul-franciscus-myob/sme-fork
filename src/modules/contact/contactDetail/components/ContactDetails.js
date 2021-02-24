@@ -47,6 +47,7 @@ const ContactDetails = ({
   isCompany,
   firstName,
   isSupplier,
+  isPersonalContactType,
   lastName,
   contactTypes,
   accountOptions,
@@ -130,10 +131,12 @@ const ContactDetails = ({
         }
       />
     )}
-    <AbnSection
-      onContactDetailsChange={onContactDetailsChange}
-      onBlur={onAbnBlur}
-    />
+    {!isPersonalContactType && (
+      <AbnSection
+        onContactDetailsChange={onContactDetailsChange}
+        onBlur={onAbnBlur}
+      />
+    )}
     {isSupplier && (
       <AccountCombobox
         disabled={isLoadingAccount}

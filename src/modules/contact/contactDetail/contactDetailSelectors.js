@@ -19,6 +19,9 @@ const getIsCompany = (state) => state.contact.designation === 'Company';
 export const getIsSupplier = (state) =>
   state.contact.selectedContactType === 'Supplier';
 
+export const getIsPersonalContactType = (state) =>
+  state.contact.selectedContactType === 'Other';
+
 export const getAbn = (state) => state.contact.abn;
 
 export const getIsReportable = (state) => state.contact.isReportable;
@@ -44,6 +47,7 @@ export const getContactDetails = createStructuredSelector({
   lastName: (state) => state.contact.lastName,
   isCompany: getIsCompany,
   isSupplier: getIsSupplier,
+  isPersonalContactType: getIsPersonalContactType,
   contactTypes: (state) => state.contactTypes,
   accountOptions: (state) => state.accountOptions,
   region: getRegion,

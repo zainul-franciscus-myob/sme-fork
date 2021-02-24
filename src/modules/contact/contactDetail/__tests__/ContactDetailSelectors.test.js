@@ -1,6 +1,7 @@
 import {
   getFormattedBillingAddress,
   getFormattedShippingAddress,
+  getIsPersonalContactType,
   getReminderLink,
   getShouldShowPaymentDetails,
 } from '../contactDetailSelectors';
@@ -49,6 +50,30 @@ describe('contactDetailSelectors', () => {
 
       const actual = getShouldShowPaymentDetails(state);
       expect(actual).toBe(false);
+    });
+  });
+
+  describe('getIsPersonalContactType', () => {
+    it('return false when selected contact type is not other', () => {
+      const state = {
+        contact: {
+          selectedContactType: 'Customer',
+        },
+      };
+
+      const actual = getIsPersonalContactType(state);
+      expect(actual).toBe(false);
+    });
+
+    it('return true when selected contact type is other', () => {
+      const state = {
+        contact: {
+          selectedContactType: 'Other',
+        },
+      };
+
+      const actual = getIsPersonalContactType(state);
+      expect(actual).toBe(true);
     });
   });
 
