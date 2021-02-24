@@ -355,19 +355,25 @@ describe('JobMakerModule', () => {
           });
         });
 
-        it('should load jobmaker employees after job maker creation is success', () => {
+        it('should load jobmaker employees and set success message after job maker creation is success', () => {
+          const expectedMessage = 'all good';
           const integration = {
-            write: ({ onSuccess }) => onSuccess(),
+            write: ({ onSuccess }) => onSuccess({ message: expectedMessage }),
             read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
           };
           const { module } = setupModule(featureToggleOn, integration);
           module.loadInitialEmployeesAndHeaderDetails = jest.fn();
+          module.setAlert = jest.fn();
 
           module.createJobMakerEmployeeAction();
 
           expect(
             module.loadInitialEmployeesAndHeaderDetails
           ).toHaveBeenCalled();
+          expect(module.setAlert).toHaveBeenCalledWith({
+            type: 'success',
+            message: expectedMessage,
+          });
         });
       });
     });

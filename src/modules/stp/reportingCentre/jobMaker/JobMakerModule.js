@@ -55,9 +55,10 @@ export default class JobMakerModule {
 
   createJobMakerEmployeeAction = () => {
     this.dispatcher.setLoadingState(LoadingState.LOADING);
-    const onSuccess = () => {
+    const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.loadInitialEmployeesAndHeaderDetails();
+      this.setAlert({ type: 'success', message });
     };
 
     const onFailure = ({ message }) => {

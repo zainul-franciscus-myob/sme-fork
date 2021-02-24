@@ -61,6 +61,7 @@ const JobMakerView = ({
   isShowingJobMakerActionModal,
   onCloseModal,
   onModalActionClicked,
+  loadingState,
 }) => {
   const actionModalConfigsList = Object.freeze([
     {
@@ -162,7 +163,7 @@ const JobMakerView = ({
     <JobMakerLanding />
   );
 
-  return <PageView view={view} />;
+  return <PageView loadingState={loadingState} view={view} />;
 };
 
 const mapStateToProps = (state) => ({

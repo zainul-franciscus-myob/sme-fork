@@ -118,7 +118,8 @@ const MemoryStpReportingCentreMapping = {
     onSuccess(new Blob([], { type: 'application/pdf' })),
   [LOAD_INITIAL_JOB_MAKER_EMPLOYEES]: ({ onSuccess }) =>
     onSuccess(loadJobMakerInitialEmployees),
-  [CREATE_JOB_MAKER_EMPLOYEE_ACTION]: ({ onSuccess }) => onSuccess({}),
+  [CREATE_JOB_MAKER_EMPLOYEE_ACTION]: ({ onSuccess }) =>
+    onSuccess({ message: 'Success!' }),
 };
 
 export default MemoryStpReportingCentreMapping;
