@@ -10,8 +10,10 @@ import {
   getPendingTab,
   getSelectedTab,
 } from './businessSettingsSelectors';
+import { isToggleOn } from '../../../splitToggle';
 import { mainTabIds } from './tabItems';
 import BusinessSettingsView from './components/BusinessSettingsView';
+import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';
 import businessDetailReducer from './businessSettingsReducer';
@@ -42,6 +44,9 @@ export default class BusinessSettingsModule {
     this.replaceURLParams = replaceURLParams;
     this.shouldDisplayAccountBillingMenuText =
       featureToggles?.shouldDisplayAccountBillingMenuText;
+    this.shouldDisplaySpecificIndustry = isToggleOn(
+      FeatureToggle.SpecificIndustry
+    );
   }
 
   loadBusinessSettings = () => {
@@ -257,6 +262,7 @@ export default class BusinessSettingsModule {
         shouldDisplayAccountBillingMenuText={
           this.shouldDisplayAccountBillingMenuText
         }
+        shouldDisplaySpecificIndustry={this.shouldDisplaySpecificIndustry}
       />
     );
 

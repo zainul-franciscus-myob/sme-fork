@@ -21,6 +21,7 @@ const BusinessDetailView = ({
   onOpenFinancialYearModal,
   onCloseFinancialYearModal,
   shouldDisplayAccountBillingMenuText,
+  shouldDisplaySpecificIndustry,
   myAccountLink,
 }) => {
   const view = (
@@ -33,7 +34,10 @@ const BusinessDetailView = ({
           <a href={myAccountLink}>My Account.</a>
         </Alert>
       )}
-      <BusinessDetailsSection onChange={onChange} />
+      <BusinessDetailsSection
+        onChange={onChange}
+        shouldDisplaySpecificIndustry={shouldDisplaySpecificIndustry}
+      />
       <ContactDetailsSection onChange={onChange} />
       <FinancialYearSection
         onFinancialYearSettingsChange={onFinancialYearSettingsChange}

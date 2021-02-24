@@ -48,6 +48,7 @@ const BusinessSettingsView = ({
   pageTitle,
   selectedTab,
   shouldDisplayAccountBillingMenuText,
+  shouldDisplaySpecificIndustry,
   onUpdatePreferences,
 }) => {
   const Content = {
@@ -65,6 +66,7 @@ const BusinessSettingsView = ({
       onOpenFinancialYearModal,
       onStartNewFinancialYear,
       shouldDisplayAccountBillingMenuText,
+      shouldDisplaySpecificIndustry,
     },
     [mainTabIds.gstSettings]: { onUpdateGstSettings },
     [mainTabIds.preferences]: { onUpdatePreferences },

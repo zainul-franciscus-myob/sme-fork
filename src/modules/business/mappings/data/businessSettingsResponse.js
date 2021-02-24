@@ -24,6 +24,33 @@ export default {
     isFinancialYearClosed: false,
     hasTransactions: false,
     payeeNumber: '00000000', // only be used for AU business
+    industryCodeOptions: [
+      {
+        Code: '0114',
+        Display: 'Floriculture Production (Under Cover)',
+        Searchable: 'flowers florist',
+      },
+      {
+        Code: '2292',
+        Display: 'Nut, Bolt, Screw and Rivet Manufacturing',
+        Searchable: 'hardware',
+      },
+      {
+        Code: '6611',
+        Display: 'Passenger Car Rental and Hiring',
+        Searchable: 'uber taxi',
+      },
+      {
+        Code: '0141',
+        Display: 'Sheep Farming (Specialised)',
+        Searchable: 'farmer',
+      },
+      {
+        Code: '4121',
+        Display: 'Fresh Meat, Fish and Poultry Retailing',
+        Searchable: 'butcher',
+      },
+    ],
   },
   gstSettings: {
     reportingFrequency: 'Quarterly',

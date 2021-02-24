@@ -61,6 +61,7 @@ const getDefaultState = () => ({
     isFinancialYearClosed: false,
     hasTransactions: false,
     payeeNumber: undefined,
+    industryCodeOptions: [],
   },
   gstSettings: {
     accountingBasis: 'Cash',

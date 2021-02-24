@@ -1,4 +1,11 @@
-import { FieldGroup, Input, ReadOnly } from '@myob/myob-widgets';
+import {
+  Combobox,
+  FieldGroup,
+  InfoIcon,
+  Input,
+  ReadOnly,
+  Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -14,6 +21,12 @@ const onInputChange = (handler) => (e) => {
   handler({ key: name, value });
 };
 
+const industryCodeMetaData = [
+  { columnName: 'Display', showData: 'true', columnWidth: '128px' },
+  { columnName: 'Code', columnWidth: '0px' },
+  { columnName: 'Searchable', columnWidth: '0px' },
+];
+
 const BusinessDetailsSection = ({
   serialNumber,
   organisationName,
@@ -21,6 +34,8 @@ const BusinessDetailsSection = ({
   isAu,
   onChange,
   clientCode,
+  industryCodeOptions,
+  shouldDisplaySpecificIndustry,
   industry,
 }) => (
   <FieldGroup label="Business details">
@@ -56,9 +71,28 @@ const BusinessDetailsSection = ({
       maxLength={10}
       width="sm"
     />
-    <ReadOnly name="BusinessDivision" label="Business Industry">
-      <strong>{industry}</strong>
-    </ReadOnly>
+    {shouldDisplaySpecificIndustry && (
+      <ReadOnly name="BusinessDivision" label="Business Industry">
+        <strong>{industry}</strong>
+      </ReadOnly>
+    )}
+    {shouldDisplaySpecificIndustry && (
+      <Combobox
+        items={industryCodeOptions}
+        metaData={industryCodeMetaData}
+        name="ANZSICCode"
+        label="Specific Industry"
+        renderItem={(columnName, item) => {
+          return columnName === 'Display' ? item.Display : '';
+        }}
+        onChange={() => {}}
+        labelAccessory={
+          <Tooltip triggerContent={<InfoIcon />}>
+            Choose the industry most like yours
+          </Tooltip>
+        }
+      />
+    )}
   </FieldGroup>
 );
 

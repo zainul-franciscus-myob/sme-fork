@@ -5,4 +5,5 @@ export default Object.freeze({
   SmartMeTask: 'essential-smartme-task-toggle',
   PurchaseOrders: 'essentials-purchase-orders',
   Einvoicing: 'essential-einvoicing-toggling',
+  SpecificIndustry: 'essential-specificIndustry-toggling',
 });
