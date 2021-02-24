@@ -112,8 +112,6 @@ const JobMakerTable = ({
               Employee worked on average more than 20 hours per week.
             </Tooltip>
           </span>
-          <br />
-          <sub>Coming soon</sub>
         </div>
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.actions}>
@@ -122,7 +120,7 @@ const JobMakerTable = ({
           <span testid="JM-column-action-tooltip">
             &nbsp;
             <Tooltip triggerContent={<Icons.Info />} placement="top">
-              Declarations and employee updates are coming soon.
+              Employee updates coming soon.
             </Tooltip>
           </span>
         </div>
@@ -145,7 +143,7 @@ const JobMakerTable = ({
       </Table.RowItem>
       <Table.RowItem {...tableConfig.actions}>
         <Dropdown
-          left
+          right
           items={dropdownItems}
           onSelect={(actionType) => onDropdownItemClicked(row, actionType)}
           toggle={dropdownToggle}

@@ -5,3 +5,7 @@
 .atoPopOver a > svg {
   fill: var(--flx-color-link);
 }
+
+.aBtn:hover {
+  cursor: pointer;
+}

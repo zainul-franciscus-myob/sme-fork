@@ -1,4 +1,4 @@
-import { Button, OpenExternalLinkIcon, Popover } from '@myob/myob-widgets';
+import { OpenExternalLinkIcon, Popover } from '@myob/myob-widgets';
 import React from 'react';
 
 import styles from './NominationPopover.module.css';
@@ -36,9 +36,9 @@ const NominationPopover = ({ nomination, testid }) => {
       closeOnOuterAction
       classes={[styles.atoPopOver]}
     >
-      <Button type="link" testid={testid}>
+      <a className={styles.aBtn} href testid={testid}>
         {nomination}
-      </Button>
+      </a>
     </Popover>
   ) : null;
 };

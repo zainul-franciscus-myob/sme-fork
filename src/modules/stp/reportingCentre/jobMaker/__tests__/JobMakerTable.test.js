@@ -1,7 +1,7 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
-import { findButtonWithTestId } from '../../../../../common/tests/selectors';
+import { findComponentWithTestId } from '../../../../../common/tests/selectors';
 import JobMakerActionTypes from '../JobMakerActionTypes';
 import JobMakerTable from '../components/JobMakerTable';
 
@@ -63,7 +63,7 @@ describe('JobMakerTable', () => {
 
   it('should render popover when nomination row button is clicked ', () => {
     const queryButton = `nomination-button-${employees[0].employeeId}`;
-    const button = findButtonWithTestId(wrapper, queryButton);
+    const button = findComponentWithTestId(wrapper, queryButton, 'a');
     button.simulate('click');
     // assert
     expect(wrapper.find({ testid: 'Popover' }).exists()).toBe(true);
@@ -71,10 +71,10 @@ describe('JobMakerTable', () => {
 
   it('should not find popover link button when no nomination returned', () => {
     expect(
-      findButtonWithTestId(wrapper, 'nomination-button-003').exists()
+      findComponentWithTestId(wrapper, 'nomination-button-003', 'a').exists()
     ).toBe(false);
     expect(
-      findButtonWithTestId(wrapper, 'nomination-button-004').exists()
+      findComponentWithTestId(wrapper, 'nomination-button-004', 'a').exists()
     ).toBe(false);
   });
 
