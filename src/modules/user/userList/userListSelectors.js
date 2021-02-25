@@ -35,6 +35,10 @@ const removeButtonEnabled = (currentUserType, user) =>
   user.myDotInvitationType !== 'AdminUser' &&
   !user.isCurrentUser;
 
+const onlyResendEnabled = (currentUserType, user) =>
+  canCurrentUserOperate(currentUserType, user) &&
+  user.myDotInvitationStatus === 'Revoked';
+
 export const getIsCurrentUserOnlineAdmin = (state) =>
   state.isCurrentUserOnlineAdmin;
 
@@ -72,6 +76,7 @@ export const getTableEntries = createSelector(
       link: `/#/${region}/${businessId}/user/${entry.id}`,
       resendOrCancelEnabled: resendOrCancelEnabled(currentUserUserType, entry),
       removeButtonEnabled: removeButtonEnabled(currentUserUserType, entry),
+      onlyResendEnabled: onlyResendEnabled(currentUserUserType, entry),
     }))
 );
 

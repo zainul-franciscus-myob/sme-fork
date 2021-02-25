@@ -33,6 +33,63 @@ describe('User List Selectors', () => {
       ['Cancelled', false],
       ['Failed', false],
       ['Expired', false],
+      ['Revoked', true],
+      ['Pending', false],
+    ])(
+      'when myDotInvitationStatus is %s and current user is AdminUser onlyResendEnabled should be %s',
+      (myDotInvitationStatus, expected) => {
+        const state = {
+          currentUserUserType: 'AdminUser',
+          entries: [
+            {
+              myDotInvitationStatus,
+              myDotInvitationType: 'FileUser',
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].onlyResendEnabled).toEqual(expected);
+      }
+    );
+
+    it.each([
+      ['Owner', 'AdminUser', true],
+      ['Owner', 'Owner', true],
+      ['Owner', 'FileUser', true],
+      ['AdminUser', 'Owner', false],
+      ['AdminUser', 'AdminUser', false],
+      ['AdminUser', 'FileUser', true],
+      ['FileUser', 'Owner', false],
+      ['FileUser', 'AdminUser', false],
+      ['FileUser', 'FileUser', false],
+      [null, 'FileUser', true],
+    ])(
+      'when currentUserUserType is %s and user is %s and invitationType is Revoked, onlyResendEnabled should be %s',
+      (currentUserUserType, myDotInvitationType, expected) => {
+        const state = {
+          currentUserUserType,
+          entries: [
+            {
+              myDotInvitationStatus: 'Revoked',
+              myDotInvitationType,
+            },
+          ],
+        };
+
+        const actual = getTableEntries(state);
+
+        expect(actual[0].onlyResendEnabled).toEqual(expected);
+      }
+    );
+
+    it.each([
+      ['Accepted', false],
+      ['Declined', false],
+      ['Cancelled', false],
+      ['Failed', false],
+      ['Expired', false],
       ['Revoked', false],
       ['Pending', true],
     ])(

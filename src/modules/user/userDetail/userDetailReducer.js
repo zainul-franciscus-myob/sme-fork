@@ -31,7 +31,7 @@ const getDefaultState = () => ({
     isReadOnly: false,
     isInactive: false,
     userType: '',
-    newUserType: '',
+    newUserType: 'FileUser',
     inviteeFirstName: '',
     inviteeLastName: '',
   },

@@ -128,6 +128,20 @@
       "invitationId": "1-NE1AAO9",
       "myDotInvitationType": "Owner",
       "isCurrentUser": false
+    },
+    {
+      "id":"911",
+      "name": "The Revoked Admin User",
+      "email":"therevokedadminuser@hotmail.com",
+      "type":"AdminUser",
+      "status":"Access removed",
+      "isActive": true,
+      "myDotInvitationStatus": "Revoked",
+      "inviterContactId": "1-EN11CO9",
+      "inviterIdentityId": "8b8d017b-a126-4015-bf33-dd8de699bed9",
+      "invitationId": "1-213FEI",
+      "myDotInvitationType": "AdminUser",
+      "isCurrentUser": false
     }
   ],
   "serialNumber": "000000000000",

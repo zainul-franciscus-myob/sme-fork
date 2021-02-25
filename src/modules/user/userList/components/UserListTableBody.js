@@ -40,6 +40,18 @@ const UserListTableBody = (props) => {
     </>
   );
 
+  const ResendButton = ({ userIndex }) => (
+    <>
+      <Button
+        disabled={isSubmitting}
+        type="link"
+        onClick={() => onResendInvitation(userIndex)}
+      >
+        Resend invitation
+      </Button>
+    </>
+  );
+
   const RemoveAccessButton = ({ userIndex }) => (
     <Button
       disabled={isSubmitting}
@@ -69,6 +81,7 @@ const UserListTableBody = (props) => {
           {user.resendOrCancelEnabled && (
             <ResendOrCancelButtons userIndex={userIndex} />
           )}
+          {user.onlyResendEnabled && <ResendButton userIndex={userIndex} />}
           {user.removeButtonEnabled && (
             <RemoveAccessButton userIndex={userIndex} />
           )}
