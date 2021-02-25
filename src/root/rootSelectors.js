@@ -12,12 +12,16 @@ export const getSubscription = (state) => state.subscription;
 export const getBusinessDetails = (state) => state.businessDetails;
 export const getCurrentUser = (state) => state.currentUser;
 export const getRegion = (state) => state.region;
+export const getIsMaximisedModule = (state) => state.isMaximisedModule;
+export const getIsLoading = (state) => state.isLoading;
 export const getAreOnboardingSettingsLoaded = (state) =>
   state.areOnboardingSettingsLoaded;
 export const getPreviousSettingsBusinessId = (state) =>
   state.previousSettingsBusinessId;
 export const getUpdateTasksFailure = (state) => state.updateTasksFailure;
-export const getGetTasksListFailure = (state) => state.getGetTasksListFailure;
+export const getGetTasksListFailure = (state) => state.getTasksListFailure;
+export const getTasks = (state) => state.tasks;
+export const getBrowserAlert = (state) => state.browserAlert;
 
 export const getHasCheckedBrowserAlert = (state) =>
   state.hasCheckedBrowserAlert;
@@ -31,6 +35,12 @@ export const getErrorPageUrl = createSelector(
   getBusinessId,
   getRegion,
   (businessId, region) => `/#/${region}/${businessId}/error`
+);
+
+export const getOnboardingUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) => `/#/${region}/${businessId}/onboarding`
 );
 
 export const getLeanEngageInfo = createStructuredSelector({

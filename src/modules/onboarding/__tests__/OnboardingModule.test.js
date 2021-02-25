@@ -1,38 +1,105 @@
-import { recordPageVisit } from '../../../telemetry';
+import {
+  LOAD_ONBOARDING,
+  SET_LOADING_STATE,
+  SET_ONBOARDING_DETAILS,
+} from '../OnboardingIntents';
+import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import LoadingState from '../../../components/PageView/LoadingState';
 import OnboardingModule from '../OnboardingModule';
-
-jest.mock('../../../telemetry', () => ({
-  recordPageVisit: jest.fn(),
-}));
+import TestIntegration from '../../../integration/TestIntegration';
+import TestStore from '../../../store/TestStore';
+import createOnboardingDispatcher from '../createOnboardingDispatcher';
+import createOnboardingIntegrator from '../createOnboardingIntegrator';
+import onboardingReducer from '../onboardingReducer';
 
 describe('OnboardingModule', () => {
-  it('can be instantiated', () => {
-    const dispatcher = jest.fn();
-    const settingsService = jest.fn();
+  const setup = () => {
+    const setRootView = () => {};
 
-    const onboardingModule = new OnboardingModule({
-      dispatcher,
-      settingsService,
+    const store = new TestStore(onboardingReducer);
+    const integration = new TestIntegration();
+
+    const module = new OnboardingModule({
+      integration,
+      featureToggles: { isMoveToMyobEnabled: true },
+      setRootView,
     });
-    expect(onboardingModule).toBeDefined();
-  });
+    module.store = store;
+    module.dispatcher = createOnboardingDispatcher(store);
+    module.integrator = createOnboardingIntegrator(store, integration);
 
-  it('sends telemetry event with expected payload when onboarding view first loads', () => {
-    const onboardingModule = new OnboardingModule({});
-
-    const routeProps = {
-      routeParams: {
-        businessId: 'bizId',
-      },
+    return {
+      store,
+      module,
+      integration,
     };
-    onboardingModule.run(routeProps);
-    onboardingModule.onboardingVisited();
+  };
 
-    expect(recordPageVisit).toHaveBeenCalledTimes(1);
-    expect(recordPageVisit).toBeCalledWith(
-      expect.objectContaining({
-        currentRouteName: 'onboarding',
-      })
-    );
+  describe('run', () => {
+    it('successfully load', () => {
+      const { store, integration, module } = setup();
+      const context = {
+        businessId: '123456',
+        region: 'au',
+        isMoveToMyobEnabled: true,
+      };
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_INITIAL_STATE,
+          context,
+        },
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+        expect.objectContaining({
+          intent: SET_ONBOARDING_DETAILS,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING_SUCCESS,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ONBOARDING,
+        }),
+      ]);
+    });
+
+    it('fails to load and redirect to dashboard', () => {
+      const { store, integration, module } = setup();
+      const context = {
+        businessId: '123456',
+        region: 'au',
+        isMoveToMyobEnabled: true,
+      };
+      integration.mapFailure(LOAD_ONBOARDING);
+      module.navigateTo = jest.fn();
+
+      module.run(context);
+
+      expect(store.getActions()).toEqual([
+        expect.objectContaining({
+          intent: SET_INITIAL_STATE,
+          context,
+        }),
+        {
+          intent: SET_LOADING_STATE,
+          loadingState: LoadingState.LOADING,
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({
+          intent: LOAD_ONBOARDING,
+        }),
+      ]);
+
+      expect(module.navigateTo).toHaveBeenCalledWith('/#/au/123456/dashboard');
+    });
   });
 });

@@ -6,8 +6,6 @@ import {
   LOAD_SETTINGS_FAILURE,
   LOAD_SHARED_INFO,
   LOAD_SUBSCRIPTION,
-  SAVE_SETTINGS,
-  SAVE_SETTINGS_FAILURE,
   SET_BROWSER_ALERT,
   SET_BUSINESS_ID,
   SET_HAS_CHECKED_BROWSER_ALERT,
@@ -18,8 +16,8 @@ import {
   UPDATE_TASKS_FAILURE,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
+import { SET_INITIAL_STATE } from '../SystemIntents';
 import createReducer from '../store/createReducer';
-import shouldShowOnboarding from '../modules/onboarding/components/shouldShowOnboarding';
 
 const getDefaultState = () => ({
   tasks: [],
@@ -34,8 +32,12 @@ const getDefaultState = () => ({
   proposedBusinessName: '',
   updateTasksFailure: false,
   getTasksListFailure: false,
-  getOnboardingSettingsFailure: false,
-  updateOnboardingSettingsFailure: false,
+  isMaximisedModule: false,
+});
+
+const setInitialState = (state, { context }) => ({
+  ...state,
+  ...context,
 });
 
 const setBusinessId = (state, { businessId }) => ({
@@ -56,9 +58,7 @@ const setLoading = (state, action) => ({
 const setOnboarding = (state, action) => ({
   ...state,
   ...action.settings,
-  shouldShowOnboarding: shouldShowOnboarding(action.settings),
   areOnboardingSettingsLoaded: true,
-  getOnboardingSettingsFailure: false,
 });
 
 const setViewData = (state, action) => ({
@@ -109,16 +109,6 @@ const setUpdateTasksFailure = (state, { updateTasksFailure }) => {
   };
 };
 
-const setUpdateOnboardingSettingsFailure = (
-  state,
-  { updateOnboardingSettingsFailure }
-) => {
-  return {
-    ...state,
-    updateOnboardingSettingsFailure,
-  };
-};
-
 const setGetTasksListFailure = (state, { getTasksListFailure }) => {
   return {
     ...state,
@@ -126,15 +116,10 @@ const setGetTasksListFailure = (state, { getTasksListFailure }) => {
   };
 };
 
-const setGetOnboardingSettingsFailure = (
-  state,
-  { getOnboardingSettingsFailure }
-) => {
+const setGetOnboardingSettingsFailure = (state) => {
   return {
     ...state,
-    getOnboardingSettingsFailure,
-    shouldShowOnboarding: false,
-    areOnboardingSettingsLoaded: false,
+    areOnboardingSettingsLoaded: true,
   };
 };
 
@@ -177,8 +162,6 @@ const handlers = {
   [SET_LOADING_STATE]: setLoading,
   [LOAD_SETTINGS]: setOnboarding,
   [LOAD_SETTINGS_FAILURE]: setGetOnboardingSettingsFailure,
-  [SAVE_SETTINGS]: setOnboarding,
-  [SAVE_SETTINGS_FAILURE]: setUpdateOnboardingSettingsFailure,
   [SET_VIEW_DATA]: setViewData,
   [SET_BUSINESS_ID]: setBusinessId,
   [SET_REGION]: setRegion,
@@ -192,6 +175,7 @@ const handlers = {
   [LOAD_SUBSCRIPTION]: loadSubscription,
   [SET_BROWSER_ALERT]: setBrowserAlert,
   [SET_HAS_CHECKED_BROWSER_ALERT]: setHasCheckedBrowserAlert,
+  [SET_INITIAL_STATE]: setInitialState,
 };
 
 const rootReducer = createReducer(getDefaultState(), handlers);

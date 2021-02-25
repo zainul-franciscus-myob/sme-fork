@@ -1,4 +1,4 @@
-export default ({ closeTasks, loadTasks }) => ({
+export default ({ closeTasks, loadTasks, toggleTasks }) => ({
   businessDetailsConfirmed: () =>
     closeTasks({ closeEvent: 'businessDetailsConfirmed' }),
   usersInvited: () => closeTasks({ closeEvent: 'usersInvited' }),
@@ -38,4 +38,5 @@ export default ({ closeTasks, loadTasks }) => ({
   smartMEUpdated: () => closeTasks({ closeEvent: 'smartMEUpdated' }),
   refreshTaskEvent: (compareEnergyBill) => loadTasks(compareEnergyBill),
   closeTask: (closeEvent) => closeTasks({ closeEvent }),
+  toggleTasks: () => toggleTasks(),
 });

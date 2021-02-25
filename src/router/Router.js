@@ -153,6 +153,7 @@ export default class Router {
         routeParams: route.params,
         currentRouteName: route.name,
         previousRouteName: previousRoute ? previousRoute.name : undefined,
+        isMaximisedModule: mappedRoute.isMaximisedModule,
       };
 
       beforeAll({ routeProps });

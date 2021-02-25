@@ -1,4 +1,4 @@
-import { LOAD_SETTINGS, SAVE_SETTINGS } from '../../root/rootIntents';
+import { LOAD_SETTINGS } from '../../root/rootIntents';
 import settings from '../data/settings/settingsList';
 
 const ROBS_CUPCAKES = '000e39e6-5415-4bc0-ac0d-21d0992dfae8';
@@ -15,7 +15,6 @@ const loadSettingsList = ({ onSuccess, urlParams }) => {
 
 const SettingMapping = {
   [LOAD_SETTINGS]: loadSettingsList,
-  [SAVE_SETTINGS]: ({ onSuccess }) => onSuccess(onboardingCompleteSettings),
 };
 
 export default SettingMapping;

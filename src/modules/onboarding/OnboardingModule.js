@@ -1,84 +1,132 @@
+import { Provider } from 'react-redux';
 import React from 'react';
 
-import { recordPageVisit } from '../../telemetry';
+import { getDashboardUrl } from './OnboardingSelectors';
 import OnboardingView from './components/OnboardingView';
+import Store from '../../store/Store';
+import createOnboardingDispatcher from './createOnboardingDispatcher';
+import createOnboardingIntegrator from './createOnboardingIntegrator';
 import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
+import loadingState from '../../components/PageView/LoadingState';
+import onboardingReducer from './onboardingReducer';
 
 class OnboardingModule {
   constructor({
-    dispatcher,
-    settingsService,
-    tasksService,
-    toggleTasks,
-    businessDetailsService,
+    integration,
     featureToggles,
+    setRootView,
+    globalCallbacks,
+    loadGlobalBusinessDetails,
+    navigateTo,
   }) {
-    this.dispatcher = dispatcher;
-    this.settingsService = settingsService;
-    this.tasksService = tasksService;
-    this.toggleTasks = toggleTasks;
-    this.businessDetailsService = businessDetailsService;
+    this.setRootView = setRootView;
+    this.globalCallbacks = globalCallbacks;
+    this.loadGlobalBusinessDetails = loadGlobalBusinessDetails;
+    this.navigateTo = navigateTo;
+    this.store = new Store(onboardingReducer);
+    this.integrator = createOnboardingIntegrator(this.store, integration);
+    this.dispatcher = createOnboardingDispatcher(this.store);
     this.isMoveToMyobEnabled = isFeatureEnabled({
       isFeatureCompleted: featureToggles?.isMoveToMyobEnabled,
     });
   }
 
-  save = async (
-    event,
-    { businessName, businessRole, industryId, usingCompetitorProduct }
-  ) => {
+  save = async (event) => {
     event.preventDefault();
 
-    const onboardingData = {
-      businessName,
-      businessRole,
-      industry: industryId,
-      businessId: this.businessId,
-      region: this.region,
-      onboardingComplete: true,
-      usingCompetitorProduct,
+    const onSuccess = () => {
+      this.dispatcher.setAlert(undefined);
+      this.globalCallbacks.refreshTaskEvent();
+      this.loadGlobalBusinessDetails();
+      this.globalCallbacks.toggleTasks();
+
+      this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS);
+      this.redirectToDashboard();
+    };
+    const onFailure = () => {
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message: 'Sorry, something went wrong on our end. Please try again.',
+      });
+      this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS); // For soft faliure
     };
 
-    await this.settingsService.save(onboardingData);
-    await this.tasksService.load();
-    await this.businessDetailsService.load();
-
-    this.toggleTasks();
+    this.dispatcher.setLoadingState(loadingState.LOADING);
+    await this.integrator.saveOnboarding({
+      onSuccess,
+      onFailure,
+    });
   };
 
-  onboardingVisited = () => recordPageVisit(this.routeProps);
+  loadOnboarding = () => {
+    this.dispatcher.setLoadingState(loadingState.LOADING);
 
-  render = (updateOnboardingSettingsFailure) => {
-    const {
-      dispatcher,
-      save,
-      onboardingVisited,
-      businessId,
-      isMoveToMyobEnabled,
-    } = this;
+    const onSuccess = (response) => {
+      this.dispatcher.setOnboardingDetails(response);
+      this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS);
+    };
 
-    return (
-      <OnboardingView
-        businessId={businessId}
-        onSave={save}
-        dispatcher={dispatcher}
-        onLoad={onboardingVisited}
-        updateOnboardingSettingsFailure={updateOnboardingSettingsFailure}
-        isMoveToMyobEnabled={isMoveToMyobEnabled}
-      />
+    const onFailure = () => {
+      this.redirectToDashboard();
+    };
+
+    this.integrator.loadOnboarding({ onSuccess, onFailure });
+  };
+
+  redirectToDashboard = () => {
+    const state = this.store.getState();
+    const dashboardUrl = getDashboardUrl(state);
+    this.navigateTo(dashboardUrl);
+  };
+
+  onChangeBusinessName = (businessName) => {
+    this.dispatcher.setBusinessName(businessName.value);
+  };
+
+  onChangeIndustry = (industryId) => {
+    this.dispatcher.setIndustry(industryId.value);
+  };
+
+  onChangeBusinessRole = (businessRole) => {
+    this.dispatcher.setBusinessRole(businessRole.value);
+  };
+
+  onSelectUsingCompetitorProduct = (usingCompetitorProduct) => {
+    this.dispatcher.setUsingCompetitorProduct(usingCompetitorProduct.value);
+  };
+
+  render = () => {
+    const view = (
+      <Provider store={this.store}>
+        <OnboardingView
+          onChangeBusinessName={this.onChangeBusinessName}
+          onChangeBusinessRole={this.onChangeBusinessRole}
+          onChangeIndustry={this.onChangeIndustry}
+          onDismissAlert={this.dispatcher.dismissAlert}
+          onSave={this.save}
+          onSelectUsingCompetitorProduct={this.onSelectUsingCompetitorProduct}
+        />
+      </Provider>
     );
+    this.setRootView(view);
+  };
+
+  setInitialState = (context) => {
+    this.dispatcher.setInitialState({
+      ...context,
+    });
   };
 
   resetState = () => null;
 
-  run = (routeProps) => {
-    const {
-      routeParams: { businessId, region },
-    } = routeProps;
+  run = (context) => {
+    this.setInitialState({
+      ...context,
+      isMoveToMyobEnabled: this.isMoveToMyobEnabled,
+    });
 
-    this.businessId = businessId;
-    this.region = region;
-    this.routeProps = { ...routeProps, currentRouteName: 'onboarding' };
+    this.loadOnboarding();
+    this.render();
   };
 
   unsubscribeFromStore = () => null;

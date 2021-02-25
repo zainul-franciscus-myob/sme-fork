@@ -14,258 +14,194 @@ import {
   Tooltip,
 } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
-import React, { Component } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
-import BusinessRoles from './businessRoles';
+import {
+  getAlert,
+  getIndustryItems,
+  getIndustryMetaData,
+  getIsMoveToMyobEnabled,
+  getLoadingState,
+  getOnboardingDetails,
+  getPageEditedDetails,
+} from '../OnboardingSelectors';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
+import PageView from '../../../components/PageView/PageView';
 import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleComboboxChange from '../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import handleRadioButtonChange from '../../../components/handlers/handleRadioButtonChange';
-import industries from './Industries';
 import styles from './OnboardingView.module.css';
 import welcomeImage from './welcome.svg';
 
-const industryData = [
-  { columnName: 'title', showData: true },
-  { columnName: 'secondary' },
-];
-
-const industryItems = industries.map((industry) => ({
-  id: industry.id,
-  title: industry.title,
-  secondary: industry.examples && `Eg. ${industry.examples.join(', ')}`,
-}));
-
-class OnboardingView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      businessNameError: '',
-      industryError: '',
-      businessRoleError: '',
-      hasRendered: false,
-    };
-    this.dispatcher = props.dispatcher;
-    this.onSave = props.onSave;
-    this.businessId = props.businessId;
-
-    this.alert = props.updateOnboardingSettingsFailure
-      ? {
-          type: 'danger',
-          message: 'Sorry, something went wrong on our end. Please try again.',
-        }
-      : null;
-  }
-
-  componentDidMount() {
-    this.onFirstRender();
-  }
-
-  onFirstRender = () => {
-    const { hasRendered } = this.state;
-    const { onLoad } = this.props;
-    if (hasRendered) return;
-
-    this.setState({ hasRendered: true });
-    onLoad();
-  };
-
-  save = (event) => {
-    event.preventDefault();
-    const {
-      props: { businessName, businessRole, industryId, usingCompetitorProduct },
-    } = this;
-
-    let businessNameError = null;
-    let industryError = null;
-    let businessRoleError = null;
-
-    if (businessName === '')
-      businessNameError = 'You need to enter a business name';
-    if (industryId === '') industryError = 'You need to select an industry';
-    if (businessRole === '') businessRoleError = 'You need to select your role';
-
-    this.setState({ businessNameError, industryError, businessRoleError });
-
-    if (!businessNameError && !industryError && !businessRoleError) {
-      this.onSave(event, {
-        businessName,
-        businessRole,
-        industryId,
-        usingCompetitorProduct,
-      });
-    }
-  };
-
-  onChangeBusinessName = (businessName) => {
-    this.dispatcher.setViewData({ proposedBusinessName: businessName.value });
-  };
-
-  onChangeIndustry = (industry) => {
-    this.dispatcher.setViewData({ industryId: industry.value });
-  };
-
-  onChangeBusinessRole = (businessRole) => {
-    this.dispatcher.setViewData({ businessRole: businessRole.value });
-  };
-
-  onSelectUsingCompetitorProduct = (usingCompetitorProduct) => {
-    this.dispatcher.setViewData({
-      usingCompetitorProduct: usingCompetitorProduct.value,
-    });
-  };
-
-  render() {
-    const {
-      onChangeBusinessName,
-      onChangeBusinessRole,
-      onChangeIndustry,
-      onSelectUsingCompetitorProduct,
-      props: {
-        businessId,
-        businessName,
-        businessRole,
-        industryId,
-        usingCompetitorProduct,
-        isMoveToMyobEnabled,
-      },
-    } = this;
-
-    if (!businessId) return <LoadingPageState />;
-
-    const { businessNameError, industryError, businessRoleError } = this.state;
-
-    return (
-      <div className={styles.fullScreen}>
-        <div className={styles.logo}>
-          <MYOBLogo />
-        </div>
-
-        <div className={classNames(styles.column, styles.img)}>
-          <img
-            src={welcomeImage}
-            alt="Grid of 20 people from different industries, including trades, retail and food service"
-            width="100%"
-            height="auto"
-          />
-        </div>
-
-        <div className={classNames(styles.column, styles.form)}>
-          <h1>Welcome to MYOB!</h1>
-
-          <Card classes={[styles.card]}>
-            <p className={styles.intro}>
-              Let&apos;s start with a few details that will help us personalise
-              your experience.
-            </p>
-
-            <div>
-              <Input
-                autoComplete="off"
-                autoFocus
-                className={styles.input}
-                errorMessage={businessNameError}
-                name="businessName"
-                label="What's the name of your business?"
-                onChange={handleInputChange(onChangeBusinessName)}
-                requiredLabel="This is required"
-                value={businessName}
-              />
-            </div>
-
-            <div>
-              <Combobox
-                defaultItem={industryItems.find((ind) => ind.id === industryId)}
-                errorMessage={industryError}
-                items={industryItems}
-                label="What industry is your business in?"
-                metaData={industryData}
-                name="industry"
-                noMatchFoundMessage="No match found"
-                onChange={handleComboboxChange('industry', onChangeIndustry)}
-                requiredLabel="This is required"
-              />
-            </div>
-
-            <div>
-              <RadioButtonGroup
-                label="How would you best describe your role?"
-                name="businessRole"
-                onChange={handleRadioButtonChange(
-                  'businessRole',
-                  onChangeBusinessRole
-                )}
-                value={businessRole}
-                requiredLabel="This is required"
-                errorMessage={businessRoleError}
-                renderRadios={({ id, value, ...props }) => {
-                  return BusinessRoles.map((businessType) => (
-                    <RadioButton
-                      {...props}
-                      className={styles.radioButtons}
-                      checked={value === businessType.id}
-                      key={businessType.id}
-                      value={businessType.id}
-                      label={businessType.title}
-                      labelAccessory={
-                        businessType.id === 'Student' ? (
-                          <Tooltip triggerContent={<Icons.Info />}>
-                            As a student or teacher using this trial you still
-                            get access to all our features
-                          </Tooltip>
-                        ) : (
-                          ''
-                        )
-                      }
-                    />
-                  ));
-                }}
-              />
-            </div>
-            {isMoveToMyobEnabled && (
-              <div>
-                <CheckboxGroup
-                  renderCheckbox={() => (
-                    <Checkbox
-                      name="usingCompetitorProduct"
-                      label="I currently use Xero, QuickBooks desktop or Reckon desktop"
-                      onChange={handleCheckboxChange(
-                        onSelectUsingCompetitorProduct
-                      )}
-                      checked={usingCompetitorProduct}
-                    />
-                  )}
-                />
-              </div>
-            )}
-          </Card>
-          {this.alert && (
-            <Alert type={this.alert.type}>{this.alert.message}</Alert>
-          )}
-          <div>
-            <ButtonRow>
-              <Button onClick={this.save}>Get down to business</Button>
-            </ButtonRow>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = ({
+const OnboardingView = ({
+  alert,
+  businessId,
+  businessName,
   businessRole,
+  businessRoles,
+  industryMetaData,
   industryId,
-  proposedBusinessName,
+  industryItems,
+  isBusinessNameEdited,
+  isBusinessRoleEdited,
+  isIndustryEdited,
+  isMoveToMyobEnabled,
+  onChangeBusinessName,
+  onChangeBusinessRole,
+  onChangeIndustry,
+  onDismissAlert,
+  onSave,
+  onSelectUsingCompetitorProduct,
   usingCompetitorProduct,
-}) => ({
-  businessName: proposedBusinessName,
-  businessRole: businessRole || '',
-  industryId: industryId || '',
-  usingCompetitorProduct,
+  loadingState,
+}) => {
+  if (!businessId) return <LoadingPageState />;
+
+  const businessNameError = 'You need to enter a business name';
+  const industryError = 'You need to select an industry';
+  const businessRoleError = 'You need to select your role';
+
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlert}>
+      {alert.message}
+    </Alert>
+  );
+
+  const action = (
+    <div>
+      <ButtonRow>
+        <Button onClick={onSave}>Get down to business</Button>
+      </ButtonRow>
+    </div>
+  );
+
+  const view = (
+    <div className={styles.fullScreen}>
+      <div className={styles.logo}>
+        <MYOBLogo />
+      </div>
+
+      <div className={classNames(styles.column, styles.img)}>
+        <img
+          src={welcomeImage}
+          alt="Grid of 20 people from different industries, including trades, retail and food service"
+          width="100%"
+          height="auto"
+        />
+      </div>
+
+      <div className={classNames(styles.column, styles.form)}>
+        <h1>Welcome to MYOB!</h1>
+
+        <Card classes={[styles.card]}>
+          <p className={styles.intro}>
+            Let&apos;s start with a few details that will help us personalise
+            your experience.
+          </p>
+
+          <div>
+            <Input
+              autoComplete="off"
+              autoFocus
+              className={styles.input}
+              errorMessage={
+                !businessName && isBusinessNameEdited && businessNameError
+              }
+              name="businessName"
+              label="What's the name of your business?"
+              onChange={handleInputChange(onChangeBusinessName)}
+              requiredLabel="This is required"
+              value={businessName}
+            />
+          </div>
+
+          <div>
+            <Combobox
+              defaultItem={industryItems.find((ind) => ind.id === industryId)}
+              errorMessage={!industryId && isIndustryEdited && industryError}
+              items={industryItems}
+              label="What industry is your business in?"
+              metaData={industryMetaData}
+              name="industry"
+              noMatchFoundMessage="No match found"
+              onChange={handleComboboxChange('industry', onChangeIndustry)}
+              requiredLabel="This is required"
+            />
+          </div>
+
+          <div>
+            <RadioButtonGroup
+              label="How would you best describe your role?"
+              name="businessRole"
+              onChange={handleRadioButtonChange(
+                'businessRole',
+                onChangeBusinessRole
+              )}
+              value={businessRole}
+              requiredLabel="This is required"
+              errorMessage={
+                !businessRole && isBusinessRoleEdited && businessRoleError
+              }
+              renderRadios={({ id, value, ...props }) => {
+                return businessRoles.map((businessType) => (
+                  <RadioButton
+                    {...props}
+                    className={styles.radioButtons}
+                    checked={value === businessType.id}
+                    key={businessType.id}
+                    value={businessType.id}
+                    label={businessType.title}
+                    labelAccessory={
+                      businessType.id === 'Student' ? (
+                        <Tooltip triggerContent={<Icons.Info />}>
+                          As a student or teacher using this trial you still get
+                          access to all our features
+                        </Tooltip>
+                      ) : (
+                        ''
+                      )
+                    }
+                  />
+                ));
+              }}
+            />
+          </div>
+          {isMoveToMyobEnabled && (
+            <div>
+              <CheckboxGroup
+                renderCheckbox={() => (
+                  <Checkbox
+                    name="usingCompetitorProduct"
+                    label="I currently use Xero, QuickBooks desktop or Reckon desktop"
+                    onChange={handleCheckboxChange(
+                      onSelectUsingCompetitorProduct
+                    )}
+                    checked={usingCompetitorProduct}
+                  />
+                )}
+              />
+            </div>
+          )}
+        </Card>
+        {alertComponent}
+        {action}
+      </div>
+    </div>
+  );
+
+  return <PageView loadingState={loadingState} view={view} />;
+};
+
+const mapStateToProps = (state) => ({
+  alert: getAlert(state),
+  ...getOnboardingDetails(state),
+  isMoveToMyobEnabled: getIsMoveToMyobEnabled(state),
+  ...getPageEditedDetails(state),
+  loadingState: getLoadingState(state),
+  industryItems: getIndustryItems(state),
+  industryMetaData: getIndustryMetaData(),
 });
 
-export { OnboardingView as View };
 export default connect(mapStateToProps)(OnboardingView);

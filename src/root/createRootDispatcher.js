@@ -6,8 +6,6 @@ import {
   LOAD_SETTINGS_FAILURE,
   LOAD_SHARED_INFO,
   LOAD_SUBSCRIPTION,
-  SAVE_SETTINGS,
-  SAVE_SETTINGS_FAILURE,
   SET_BROWSER_ALERT,
   SET_BUSINESS_ID,
   SET_HAS_CHECKED_BROWSER_ALERT,
@@ -18,6 +16,7 @@ import {
   UPDATE_TASKS_FAILURE,
 } from './rootIntents';
 import { LOAD_GLOBAL_BUSINESS_DETAILS } from './services/businessDetails/BusinessDetailsIntents';
+import { SET_INITIAL_STATE } from '../SystemIntents';
 
 const createRootDispatcher = (store) => ({
   loadSettings: (settings) => {
@@ -27,17 +26,7 @@ const createRootDispatcher = (store) => ({
 
   loadSettingsFailure: () => {
     const intent = LOAD_SETTINGS_FAILURE;
-    store.dispatch({ intent, getOnboardingSettingsFailure: true });
-  },
-
-  saveSettings: (settings) => {
-    const intent = SAVE_SETTINGS;
-    store.dispatch({ intent, settings });
-  },
-
-  saveSettingsFailure: () => {
-    const intent = SAVE_SETTINGS_FAILURE;
-    store.dispatch({ intent, updateOnboardingSettingsFailure: true });
+    store.dispatch({ intent });
   },
 
   loadTasks: (payload) => {
@@ -73,6 +62,11 @@ const createRootDispatcher = (store) => ({
   setBusinessId: (businessId) => {
     const intent = SET_BUSINESS_ID;
     store.dispatch({ intent, businessId });
+  },
+
+  setInitialState: (context) => {
+    const intent = SET_INITIAL_STATE;
+    store.dispatch({ intent, context });
   },
 
   setRegion: (region) => {

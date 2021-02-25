@@ -9,6 +9,7 @@ describe('getRouteNameToModuleMapping', () => {
         module: {
           run: () => '🐧',
         },
+        isMaximisedModule: true,
       },
       {
         name: 'freddo',
@@ -26,10 +27,12 @@ describe('getRouteNameToModuleMapping', () => {
       pingu: {
         module: routes[0].module,
         title: '🐧',
+        isMaximisedModule: true,
       },
       freddo: {
         loadModule: routes[1].loadModule,
         title: '🐸',
+        isMaximisedModule: false,
       },
     });
   });

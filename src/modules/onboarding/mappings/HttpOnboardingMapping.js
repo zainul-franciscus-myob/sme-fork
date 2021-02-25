@@ -1,9 +1,14 @@
-import { GET_BUSINESS_NAME } from '../OnboardingIntents';
+import { LOAD_ONBOARDING, SAVE_ONBOARDING } from '../OnboardingIntents';
 
 const HttpOnboardingMapping = {
-  [GET_BUSINESS_NAME]: {
+  [LOAD_ONBOARDING]: {
     method: 'GET',
-    getPath: ({ businessId }) => `/${businessId}/onboarding/get_business_name`,
+    getPath: ({ businessId }) => `/${businessId}/settings/load_onboarding`,
+  },
+  [SAVE_ONBOARDING]: {
+    method: 'PUT',
+    getPath: ({ businessId }) =>
+      `/${businessId}/settings/update_onboarding_state`,
   },
 };
 

@@ -1,8 +1,8 @@
-import { GET_BUSINESS_NAME } from '../OnboardingIntents';
+import { LOAD_ONBOARDING } from '../OnboardingIntents';
+import loadOnboardingResponse from './data/loadOnboardingResponse.json';
 
 const MemoryOnboardingMapping = {
-  [GET_BUSINESS_NAME]: ({ onSuccess }) =>
-    onSuccess({ businessName: "Rob's cupcakes" }),
+  [LOAD_ONBOARDING]: ({ onSuccess }) => onSuccess(loadOnboardingResponse),
 };
 
 export default MemoryOnboardingMapping;

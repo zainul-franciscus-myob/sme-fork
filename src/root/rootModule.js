@@ -25,7 +25,6 @@ import DrawerModule from '../drawer/DrawerModule';
 import LicenceService from './services/licence';
 import ModuleAction from '../common/types/ModuleAction';
 import NavigationModule from '../navigation/NavigationModule';
-import OnboardingModule from '../modules/onboarding/OnboardingModule';
 import RootReducer from './rootReducer';
 import RootView from './components/RootView';
 import SettingsService from './services/settings';
@@ -59,7 +58,8 @@ export default class RootModule {
     this.settingsService = SettingsService(
       this.dispatcher,
       integration,
-      this.store
+      this.store,
+      this.navigateTo
     );
     this.businessDetailsService = BusinessDetailsService(
       this.dispatcher,
@@ -87,18 +87,10 @@ export default class RootModule {
       navigateTo: this.navigateTo,
     });
 
-    this.onboarding = new OnboardingModule({
-      dispatcher: this.dispatcher,
-      settingsService: this.settingsService,
-      tasksService: this.tasksService,
-      toggleTasks: this.drawer.toggleTasks,
-      businessDetailsService: this.businessDetailsService,
-      featureToggles,
-    });
-
     this.globalCallbacks = buildGlobalCallbacks({
       closeTasks: this.tasksService.closeTasks,
       loadTasks: this.tasksService.load,
+      toggleTasks: this.drawer.toggleTasks,
     });
   };
 
@@ -150,7 +142,6 @@ export default class RootModule {
         <RootView
           drawer={this.drawer}
           nav={this.nav}
-          onboarding={this.onboarding}
           onDismissBrowserAlert={this.closeBrowserAlert}
         >
           {component}
@@ -210,11 +201,11 @@ export default class RootModule {
       routeParams: { businessId, region },
       currentRouteName,
       previousRouteName,
+      isMaximisedModule,
     } = routeProps;
     this.routeProps = routeProps;
 
-    this.dispatcher.setBusinessId(businessId);
-    this.dispatcher.setRegion(region);
+    this.dispatcher.setInitialState({ businessId, region, isMaximisedModule });
 
     const action = getModuleAction({
       currentBusinessId: businessId,
@@ -256,7 +247,6 @@ export default class RootModule {
       onPageTransition: module.handlePageTransition,
       action,
     });
-    this.onboarding.run(routeProps);
 
     module.resetState();
     module.run(context);

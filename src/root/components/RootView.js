@@ -2,29 +2,37 @@ import { Alert } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getBrowserAlert,
+  getBusinessDetails,
+  getBusinessRole,
+  getGetTasksListFailure,
+  getIsLoading,
+  getIsMaximisedModule,
+  getTasks,
+  getUpdateTasksFailure,
+} from '../rootSelectors';
 import LoadingPageState from '../../components/LoadingPageState/LoadingPageState';
 import style from './RootView.module.css';
 
 const RootView = ({
   businessName,
+  browserAlert,
   businessRole,
   children,
   drawer,
   isLoading,
   nav,
-  onboarding,
   serialNumber,
-  shouldShowOnboarding,
   tasks,
-  browserAlert,
   onDismissBrowserAlert,
   updateTasksFailure,
   getTasksListFailure,
-  updateOnboardingSettingsFailure,
+  isMaximisedModule,
 }) => {
   if (isLoading) return <LoadingPageState />;
-  if (shouldShowOnboarding) {
-    return onboarding.render(updateOnboardingSettingsFailure);
+  if (isMaximisedModule) {
+    return children;
   }
 
   const drawerTasks = {
@@ -51,27 +59,16 @@ const RootView = ({
   );
 };
 
-const mapStateToProps = ({
-  businessDetails: { organisationName, serialNumber },
-  businessRole,
-  isLoading,
-  shouldShowOnboarding,
-  tasks,
-  browserAlert,
-  updateTasksFailure,
-  getTasksListFailure,
-  updateOnboardingSettingsFailure,
-}) => ({
-  businessName: organisationName,
-  businessRole,
-  isLoading,
-  serialNumber,
-  shouldShowOnboarding,
-  tasks,
-  browserAlert,
-  updateTasksFailure,
-  getTasksListFailure,
-  updateOnboardingSettingsFailure,
+const mapStateToProps = (state) => ({
+  businessName: getBusinessDetails(state).organisationName,
+  businessRole: getBusinessRole(state),
+  isLoading: getIsLoading(state),
+  serialNumber: getBusinessDetails(state).serialNumber,
+  tasks: getTasks(state),
+  browserAlert: getBrowserAlert(state),
+  updateTasksFailure: getUpdateTasksFailure(state),
+  getTasksListFailure: getGetTasksListFailure(state),
+  isMaximisedModule: getIsMaximisedModule(state),
 });
 
 export default connect(mapStateToProps)(RootView);

@@ -2,10 +2,11 @@ import { LOAD_SETTINGS } from '../../rootIntents';
 import {
   getAreOnboardingSettingsLoaded,
   getBusinessId,
+  getOnboardingUrl,
   getPreviousSettingsBusinessId,
 } from '../../rootSelectors';
 
-const load = async (dispatcher, integration, store) => {
+const load = async (dispatcher, integration, store, navigateTo) => {
   const state = store.getState();
   const businessId = getBusinessId(state);
   const previousSettingsBusinessId = getPreviousSettingsBusinessId(state);
@@ -34,6 +35,7 @@ const load = async (dispatcher, integration, store) => {
       ...settings,
       previousSettingsBusinessId: businessId,
     });
+    if (!settings.onboardingComplete) navigateTo(getOnboardingUrl(state));
   }
 };
 
