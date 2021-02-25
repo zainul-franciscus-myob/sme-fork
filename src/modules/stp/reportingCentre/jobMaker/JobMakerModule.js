@@ -2,7 +2,9 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getEventId } from './JobMakerSelector';
-import { isValidJobMakerAction } from './JobMakerActionTypes';
+import JobMakerActionTypes, {
+  isValidJobMakerAction,
+} from './JobMakerActionTypes';
 import JobMakerView from './components/JobMakerView';
 import LoadingState from '../../../../components/PageView/LoadingState';
 import Store from '../../../../store/Store';
@@ -88,6 +90,25 @@ export default class JobMakerModule {
     this.dispatcher.setIsShowingJobMakerActionModal(false);
   };
 
+  onActionModalCheckboxChanged(actionTypes) {
+    switch (actionTypes) {
+      case JobMakerActionTypes.CancelNominate:
+        this.dispatcher.setDropdownAction(JobMakerActionTypes.CancelReNominate);
+        break;
+      case JobMakerActionTypes.Nominate:
+        this.dispatcher.setDropdownAction(JobMakerActionTypes.ReNominate);
+        break;
+      case JobMakerActionTypes.ReNominate:
+        this.dispatcher.setDropdownAction(JobMakerActionTypes.Nominate);
+        break;
+      case JobMakerActionTypes.CancelReNominate:
+        this.dispatcher.setDropdownAction(JobMakerActionTypes.CancelNominate);
+        break;
+      default:
+        break;
+    }
+  }
+
   run = () => {
     this.loadInitialEmployeesAndHeaderDetails();
   };
@@ -99,6 +120,9 @@ export default class JobMakerModule {
         {declarationModal}
         <JobMakerView
           featureToggles={this.featureToggles}
+          onModalCheckboxChanged={(action) =>
+            this.onActionModalCheckboxChanged(action)
+          }
           onJobMakerTableDropdownItemClicked={
             this.onJobmakerTableDropdownItemClicked
           }

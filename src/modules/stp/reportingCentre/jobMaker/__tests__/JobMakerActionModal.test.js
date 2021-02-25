@@ -1,7 +1,160 @@
 import { shallow } from 'enzyme';
 import React from 'react';
 
-import JobMakerActionModal from '../components/JobMakerActionModal';
+import JobMakerActionModal, {
+  JobMakerActionCancelClaimModalBody,
+  JobMakerActionCancelNominationModalBody,
+  JobMakerActionClaimModalBody,
+  JobMakerActionNominationModalBody,
+  generateModalConfig,
+} from '../components/JobMakerActionModal';
+import JobMakerActionTypes from '../JobMakerActionTypes';
+
+describe('JobMakerActionNominationModalBody', () => {
+  [
+    {
+      action: JobMakerActionTypes.Nominate,
+      expected: false,
+    },
+    {
+      action: JobMakerActionTypes.ReNominate,
+      expected: true,
+    },
+  ].forEach(({ action, expected }) => {
+    it(`has correct checkbox state ${
+      expected ? 'checked' : 'unchecked'
+    } when action is ${action}`, () => {
+      const wrapper = shallow(
+        <JobMakerActionNominationModalBody currentDropDownAction={action} />
+      );
+
+      expect(wrapper.find('Checkbox').prop('checked')).toEqual(expected);
+    });
+  });
+
+  it(`unchecked the checkbox when action is not valid for the modal type`, () => {
+    const wrapper = shallow(
+      <JobMakerActionNominationModalBody
+        currentDropDownAction={JobMakerActionTypes.Claim}
+      />
+    );
+    expect(wrapper.find('Checkbox').prop('checked')).toEqual(false);
+  });
+
+  it('call onModalCheckboxChanged with correct action when checkbox changed', () => {
+    const onModalCheckboxChanged = jest.fn();
+    const action = JobMakerActionTypes.ReNominate;
+    const wrapper = shallow(
+      <JobMakerActionNominationModalBody
+        onModalCheckboxChanged={onModalCheckboxChanged}
+        currentDropDownAction={action}
+      />
+    );
+    const checkbox = wrapper.find('Checkbox');
+    checkbox.simulate('change');
+    expect(onModalCheckboxChanged).toHaveBeenCalledWith(action);
+  });
+});
+
+describe('JobMakerActionCancelNominationModalBody', () => {
+  [
+    {
+      action: JobMakerActionTypes.CancelNominate,
+      expected: false,
+    },
+    {
+      action: JobMakerActionTypes.CancelReNominate,
+      expected: true,
+    },
+  ].forEach(({ action, expected }) => {
+    it(`has correct checkbox state ${
+      expected ? 'checked' : 'unchecked'
+    } when action is ${action}`, () => {
+      const wrapper = shallow(
+        <JobMakerActionCancelNominationModalBody
+          currentDropDownAction={action}
+        />
+      );
+
+      expect(wrapper.find('Checkbox').prop('checked')).toEqual(expected);
+    });
+  });
+
+  it(`unchecked the checkbox when action is not valid for the modal type`, () => {
+    const wrapper = shallow(
+      <JobMakerActionCancelNominationModalBody
+        currentDropDownAction={JobMakerActionTypes.CancelClaim}
+      />
+    );
+
+    expect(wrapper.find('Checkbox').prop('checked')).toEqual(false);
+  });
+
+  it('call onModalCheckboxChanged with correct action when checkbox changed', () => {
+    const onModalCheckboxChanged = jest.fn();
+    const action = JobMakerActionTypes.CancelNominate;
+    const wrapper = shallow(
+      <JobMakerActionCancelNominationModalBody
+        onModalCheckboxChanged={onModalCheckboxChanged}
+        currentDropDownAction={action}
+      />
+    );
+    const checkbox = wrapper.find('Checkbox');
+    checkbox.simulate('change');
+    expect(onModalCheckboxChanged).toHaveBeenCalledWith(action);
+  });
+});
+
+describe('generateModalConfig', () => {
+  [
+    {
+      action: JobMakerActionTypes.Claim,
+      expected: <JobMakerActionClaimModalBody />,
+    },
+    {
+      action: JobMakerActionTypes.CancelClaim,
+      expected: <JobMakerActionCancelClaimModalBody />,
+    },
+    {
+      action: JobMakerActionTypes.Nominate,
+      expected: (
+        <JobMakerActionNominationModalBody
+          currentDropDownAction={JobMakerActionTypes.Nominate}
+        />
+      ),
+    },
+    {
+      action: JobMakerActionTypes.ReNominate,
+      expected: (
+        <JobMakerActionNominationModalBody
+          currentDropDownAction={JobMakerActionTypes.ReNominate}
+        />
+      ),
+    },
+    {
+      action: JobMakerActionTypes.CancelNominate,
+      expected: (
+        <JobMakerActionCancelNominationModalBody
+          currentDropDownAction={JobMakerActionTypes.CancelNominate}
+        />
+      ),
+    },
+    {
+      action: JobMakerActionTypes.CancelReNominate,
+      expected: (
+        <JobMakerActionCancelNominationModalBody
+          currentDropDownAction={JobMakerActionTypes.CancelReNominate}
+        />
+      ),
+    },
+  ].forEach(({ action, expected }) => {
+    it(`should generate correct modal body for action type ${action} `, () => {
+      const { body } = generateModalConfig(action);
+
+      expect(body).toEqual(expected);
+    });
+  });
+});
 
 describe('JobMakerNominationModal', () => {
   let wrapper;
@@ -14,6 +167,7 @@ describe('JobMakerNominationModal', () => {
       <JobMakerActionModal
         onConfirmAction={onConfirmAction}
         onCloseModal={onCloseModal}
+        dropDownAction={JobMakerActionTypes.Claim}
       />
     );
   });

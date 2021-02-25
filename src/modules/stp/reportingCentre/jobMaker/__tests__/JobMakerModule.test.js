@@ -376,6 +376,57 @@ describe('JobMakerModule', () => {
           });
         });
       });
+      describe('onActionModalCheckboxChanged', () => {
+        let module;
+
+        const integration = {
+          write: ({ onSuccess }) => onSuccess({}),
+          read: ({ onSuccess }) => onSuccess(),
+        };
+        beforeEach(() => {
+          const component = setupModule(featureToggleOn, integration);
+          module = component.module;
+        });
+
+        [
+          {
+            action: JobMakerActionTypes.CancelNominate,
+            expected: JobMakerActionTypes.CancelReNominate,
+          },
+          {
+            action: JobMakerActionTypes.CancelReNominate,
+            expected: JobMakerActionTypes.CancelNominate,
+          },
+          {
+            action: JobMakerActionTypes.Nominate,
+            expected: JobMakerActionTypes.ReNominate,
+          },
+          {
+            action: JobMakerActionTypes.ReNominate,
+            expected: JobMakerActionTypes.Nominate,
+          },
+        ].forEach(({ action, expected }) => {
+          it(`should change from ${action} to be ${expected} by calling dispatcher.setDropdownAction`, () => {
+            module.dispatcher.setDropdownAction = jest.fn();
+            module.onActionModalCheckboxChanged(action);
+            expect(module.dispatcher.setDropdownAction).toHaveBeenCalledWith(
+              expected
+            );
+          });
+        });
+
+        [
+          JobMakerActionTypes.Claim,
+          JobMakerActionTypes.CancelClaim,
+          JobMakerActionTypes.UpdateEmployee,
+        ].forEach((action) => {
+          it(`should not change for action that does not support renomination: ${action}`, () => {
+            module.dispatcher.setDropdownAction = jest.fn();
+            module.onActionModalCheckboxChanged(action);
+            expect(module.dispatcher.setDropdownAction).not.toHaveBeenCalled();
+          });
+        });
+      });
     });
   });
 });
