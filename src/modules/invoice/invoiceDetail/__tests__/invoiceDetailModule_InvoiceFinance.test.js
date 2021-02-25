@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { mount } from 'enzyme';
 
 import * as telemetry from '../../../../telemetry/index';
@@ -28,6 +29,24 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
     taxExclusiveAmount: '48',
     taxCodeId: '2',
     lineTypeId: 17,
+  };
+
+  const getOntimeExpiration = () => {
+    const today = new Date();
+    const issueDate = format(today, 'yyyy-MM-dd');
+    const expirationTerm = 'InAGivenNumberOfDays';
+    const expirationDays = '1';
+    return { issueDate, expirationTerm, expirationDays };
+  };
+
+  const getOverdueExpiration = () => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const issueDate = format(yesterday, 'yyyy-MM-dd');
+    const expirationTerm = 'InAGivenNumberOfDays';
+    const expirationDays = '1';
+    return { issueDate, expirationTerm, expirationDays };
   };
 
   const setup = ({ invoiceId, desiredResponse }) => {
@@ -61,7 +80,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
     return { wrapper, module };
   };
 
-  it('should show invoice finance button to eligible companies', () => {
+  it('should show invoice finance button to eligible companies when the invoice is not overdue and open', () => {
     const { wrapper } = setup({
       invoiceId: '123',
       desiredResponse: {
@@ -75,6 +94,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -102,6 +122,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: null,
       },
@@ -125,6 +146,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: false,
@@ -152,6 +174,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -178,6 +201,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '48',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -204,6 +228,61 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '100',
+          ...getOntimeExpiration(),
+        },
+        eligibility: {
+          eligible: true,
+          entryUrl: 'www.myob_invoice_finance_url.com',
+          message: 'Get paid now',
+        },
+      },
+    });
+    const invoiceFinanceButton = wrapper.find('button[name="invoiceFinance"]');
+    expect(invoiceFinanceButton).toHaveLength(0);
+  });
+
+  it('should not show invoice finance button when it is closed', () => {
+    const { wrapper } = setup({
+      invoiceId: '123',
+      desiredResponse: {
+        ...defaultResponse,
+        invoice: {
+          ...defaultResponse.invoice,
+          lines: [
+            {
+              ...line,
+              taxExclusiveAmount: '48',
+            },
+          ],
+          amountPaid: '48',
+          ...getOntimeExpiration(),
+        },
+        eligibility: {
+          eligible: true,
+          entryUrl: 'www.myob_invoice_finance_url.com',
+          message: 'Get paid now',
+        },
+      },
+    });
+    const invoiceFinanceButton = wrapper.find('button[name="invoiceFinance"]');
+    expect(invoiceFinanceButton).toHaveLength(0);
+  });
+
+  it('should not show invoice finance button when it is overdue', () => {
+    const { wrapper } = setup({
+      invoiceId: '123',
+      desiredResponse: {
+        ...defaultResponse,
+        invoice: {
+          ...defaultResponse.invoice,
+          lines: [
+            {
+              ...line,
+              taxExclusiveAmount: '48',
+            },
+          ],
+          amountPaid: '0',
+          ...getOverdueExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -230,6 +309,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -289,6 +369,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,
@@ -324,6 +405,7 @@ describe('InvoiceDetailModule_InvoiceFinance', () => {
             },
           ],
           amountPaid: '0',
+          ...getOntimeExpiration(),
         },
         eligibility: {
           eligible: true,

@@ -1,5 +1,5 @@
-import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
-import getExpiredDate from '../getExpiredDate';
+import formatSlashDate from '../../valueFormatters/formatDate/formatSlashDate';
+import getExpiredDate from '../expiredDate';
 
 describe('getExpiredDate with term', () => {
   describe('OnADayOfTheMonth', () => {

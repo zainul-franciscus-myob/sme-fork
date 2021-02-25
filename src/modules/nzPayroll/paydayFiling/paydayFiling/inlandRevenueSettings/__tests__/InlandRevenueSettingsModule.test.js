@@ -41,7 +41,6 @@ describe('InlandRevenueSettingsModule', () => {
         module,
       } = constructInlandRevenueSettingsModule();
 
-      console.log(wrapper.debug());
       const authoriseButton = wrapper
         .find(InlandRevenueSettingsActions)
         .find({ name: 'authorise' })

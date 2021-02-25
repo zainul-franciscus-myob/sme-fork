@@ -1357,6 +1357,7 @@ export default class InvoiceDetailModule {
         accountModal={accountModal}
         onDismissAlert={this.dispatcher.dismissAlert}
         onChangeAmountToPay={this.dispatcher.updateInvoicePaymentAmount}
+        onInvoiceFinanceClick={this.openInvoiceFinanceTab}
         serviceLayoutListeners={{
           onAddRow: this.addInvoiceLine,
           onRemoveRow: this.removeInvoiceLine,
@@ -1387,7 +1388,6 @@ export default class InvoiceDetailModule {
           onPrefillButtonClick: this.openRecurringTransactionListModal,
           onCancelButtonClick: this.openCancelModal,
           onDeleteButtonClick: this.openDeleteModal,
-          onInvoiceFinanceClick: this.openInvoiceFinanceTab,
         }}
         confirmModalListeners={{
           onCancelModalConfirm: this.redirectToInvoiceList,

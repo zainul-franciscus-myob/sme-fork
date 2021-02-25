@@ -13,7 +13,7 @@ import ModalType from '../ModalType';
 import QuoteLayout from '../QuoteLayout';
 import QuoteLineType from '../QuoteLineType';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
-import getExpiredDate from '../../../../components/PaymentTerms/handlers/getExpiredDate';
+import getExpiredDate from '../../../../common/expiredDate/expiredDate';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.quote);

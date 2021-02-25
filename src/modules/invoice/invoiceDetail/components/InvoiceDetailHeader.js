@@ -1,9 +1,11 @@
-import { Button, Icons, TotalsHeader } from '@myob/myob-widgets';
+import { Button, Icons, Label, TotalsHeader } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import { getInvoiceDetailTotalHeader } from '../selectors/invoiceDetailSelectors';
+import { getInvoiceFinanceInfo } from '../selectors/invoiceFinanceSelectors';
 import TotalsHeaderItemFormattedCurrency from '../../../../components/TotalsHeader/TotalsHeaderItemFormattedCurrency';
+import styles from './invoiceDetailHeader.module.css';
 
 const InvoiceDetailHeader = ({
   totalAmount,
@@ -13,7 +15,35 @@ const InvoiceDetailHeader = ({
   isCreating,
   onFocusActivityHistory,
   onRedirectToCreatePayment,
+  onInvoiceFinanceClick,
+  statusLabel,
+  statusColor,
+  invoiceFinanceEntryUrl,
+  invoiceFinanceMessage,
+  showInvoiceFinanceButton,
 }) => {
+  const statusItem = (
+    <div className={styles.capitalFirst} name="statusLabel">
+      <Label color={statusColor} type="boxed">
+        {statusLabel}
+      </Label>
+    </div>
+  );
+
+  const invoiceFinanceAction = (
+    <div className={styles.topRight}>
+      <Button
+        name="invoiceFinance"
+        key="invoiceFinance"
+        type="link"
+        icon={<Icons.Dollar />}
+        onClick={() => onInvoiceFinanceClick(invoiceFinanceEntryUrl)}
+      >
+        {invoiceFinanceMessage}
+      </Button>
+    </div>
+  );
+
   const actions = [
     <Button
       key="activityHistory"
@@ -28,7 +58,7 @@ const InvoiceDetailHeader = ({
       key="createPayment"
       name="createPaymentHeader"
       type="link"
-      icon={<Icons.Dollar />}
+      icon={<Icons.Add />}
       onClick={onRedirectToCreatePayment}
     >
       Create payment
@@ -54,14 +84,21 @@ const InvoiceDetailHeader = ({
   ];
 
   return (
-    <TotalsHeader
-      title={title}
-      actions={!isCreating && actions}
-      totalItems={!isCreating && totalItems}
-    />
+    <div className={styles.titleWrapper}>
+      <TotalsHeader
+        title={title}
+        actions={!isCreating && actions}
+        tag={!isCreating && statusItem}
+        totalItems={!isCreating && totalItems}
+      />
+      {showInvoiceFinanceButton && invoiceFinanceAction}
+    </div>
   );
 };
 
-const mapStateToProps = (state) => getInvoiceDetailTotalHeader(state);
+const mapStateToProps = (state) => ({
+  ...getInvoiceDetailTotalHeader(state),
+  ...getInvoiceFinanceInfo(state),
+});
 
 export default connect(mapStateToProps)(InvoiceDetailHeader);

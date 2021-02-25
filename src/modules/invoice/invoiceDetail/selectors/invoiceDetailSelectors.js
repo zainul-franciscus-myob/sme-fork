@@ -14,6 +14,7 @@ import ItemTypes from '../../../inventory/itemCombobox/ItemTypes';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
+import getExpiredDate from '../../../../common/expiredDate/expiredDate';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
 
 const calculate = createTaxCalculator(TaxCalculatorTypes.invoice);
@@ -303,6 +304,12 @@ export const getInvoiceDetailTotals = createSelector(
   })
 );
 
+export const getAmountDue = createSelector(
+  getTotals,
+  getAmountPaid,
+  ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid)
+);
+
 const getTitle = createSelector(
   getInvoiceNumber,
   getIsCreating,
@@ -310,24 +317,52 @@ const getTitle = createSelector(
     isCreating ? 'Create invoice' : `Invoice ${invoiceNumber}`
 );
 
+export const getIsOverDue = (state) => {
+  const { issueDate, expirationTerm, expirationDays } = state.invoice;
+  const dueDate = getExpiredDate({ issueDate, expirationTerm, expirationDays });
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+  return !isBefore(startOfToday, dueDate);
+};
+
+export const getInvoicePaymentStatusLabel = (state) => {
+  const amountDue = Math.round(getAmountDue(state));
+  if (amountDue > 0) return 'open';
+  if (amountDue === 0) return 'closed';
+  return 'credit';
+};
+
+export const getInvoicePaymentStatusColor = (state) => {
+  const isOverdue = getIsOverDue(state);
+  const status = getInvoicePaymentStatusLabel(state);
+  const colorMap = {
+    open: isOverdue ? 'red' : 'white',
+    closed: 'green',
+    credit: 'blue',
+  };
+  return colorMap[status];
+};
+
+export const getInvoicePaymentStatus = createSelector(
+  getInvoicePaymentStatusLabel,
+  getInvoicePaymentStatusColor,
+  (statusLabel, statusColor) => ({ statusLabel, statusColor })
+);
+
 export const getInvoiceDetailTotalHeader = createSelector(
   getTotals,
   getAmountPaid,
   getTitle,
   getIsCreating,
-  (totals, amountPaid, title, isCreating) => ({
+  getInvoicePaymentStatus,
+  (totals, amountPaid, title, isCreating, invoicePaymentStatus) => ({
     totalAmount: totals.totalAmount,
     amountPaid,
     amountDue: calculateAmountDue(totals.totalAmount, amountPaid),
     title,
     isCreating,
+    ...invoicePaymentStatus,
   })
-);
-
-export const getAmountDue = createSelector(
-  getTotals,
-  getAmountPaid,
-  ({ totalAmount }, amountPaid) => calculateAmountDue(totalAmount, amountPaid)
 );
 
 export const getTableData = createSelector(getLength, (len) =>

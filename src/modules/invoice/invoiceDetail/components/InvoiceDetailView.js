@@ -76,6 +76,7 @@ const InvoiceDetailView = ({
   onFocusActivityHistory,
   onRedirectToCreatePayment,
   onOpenQuickQuote,
+  onInvoiceFinanceClick,
   quickQuoteModalListeners,
   redirectToSetUpOnlinePayments,
   sendEInvoiceModalListeners,
@@ -172,6 +173,7 @@ const InvoiceDetailView = ({
           <InvoiceDetailHeader
             onFocusActivityHistory={onFocusActivityHistory}
             onRedirectToCreatePayment={onRedirectToCreatePayment}
+            onInvoiceFinanceClick={onInvoiceFinanceClick}
           />
         }
         alert={alertComponent}

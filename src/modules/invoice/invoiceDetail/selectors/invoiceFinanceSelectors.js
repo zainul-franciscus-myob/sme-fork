@@ -1,14 +1,26 @@
-import { getAmountDue } from './invoiceDetailSelectors';
+import { createStructuredSelector } from 'reselect';
+
+import {
+  getInvoicePaymentStatusLabel,
+  getIsOverDue,
+} from './invoiceDetailSelectors';
 
 export const getShowInvoiceFinanceButton = (state) => {
   if (!state.eligibility) return false;
-  const notFullyPaid = Math.round(getAmountDue(state)) > 0;
+  const isOpenAndNotOverdue =
+    !getIsOverDue(state) && getInvoicePaymentStatusLabel(state) === 'open';
   const isExistingInvoice = state.invoiceId !== 'new';
-  return state.eligibility.eligible && notFullyPaid && isExistingInvoice;
+  return state.eligibility.eligible && isOpenAndNotOverdue && isExistingInvoice;
 };
 
-export const getInvoiceFinanceEntryUrl = (state) =>
+const getInvoiceFinanceEntryUrl = (state) =>
   state.eligibility ? state.eligibility.entryUrl : '';
 
-export const getInvoiceFinanceMessage = (state) =>
-  state.eligibility ? state.eligibility.message : 'Get paid now';
+const getInvoiceFinanceMessage = (state) =>
+  state.eligibility ? state.eligibility.message : 'Fund this invoice';
+
+export const getInvoiceFinanceInfo = createStructuredSelector({
+  invoiceFinanceEntryUrl: getInvoiceFinanceEntryUrl,
+  invoiceFinanceMessage: getInvoiceFinanceMessage,
+  showInvoiceFinanceButton: getShowInvoiceFinanceButton,
+});

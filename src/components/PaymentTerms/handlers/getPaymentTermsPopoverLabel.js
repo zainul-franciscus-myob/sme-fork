@@ -1,5 +1,5 @@
 import formatSlashDate from '../../../common/valueFormatters/formatDate/formatSlashDate';
-import getExpiredDate from './getExpiredDate';
+import getExpiredDate from '../../../common/expiredDate/expiredDate';
 
 const getPaymentTermsPopoverLabel = ({
   issueDate,
