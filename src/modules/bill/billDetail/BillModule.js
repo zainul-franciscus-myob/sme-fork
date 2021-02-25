@@ -385,6 +385,24 @@ class BillModule {
     }
   };
 
+  createSmartMeTask = () => {
+    const state = this.store.getState();
+    if (
+      getIsCreatingFromInTray(state) &&
+      state.abn !== undefined &&
+      isToggleOn(FeatureToggles.SmartMeTask)
+    ) {
+      this.globalCallbacks.refreshTaskEvent(true);
+      trackUserEvent({
+        eventName: 'tasks',
+        customProperties: {
+          action: 'create_via_event',
+          task: 'SmartMeLearn',
+        },
+      });
+    }
+  };
+
   saveBill = () => {
     const state = this.store.getState();
 
@@ -398,16 +416,7 @@ class BillModule {
       const onSuccess = ({ message }) => {
         this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
         this.globalCallbacks.inTrayBillSaved();
-        if (state.abn !== undefined && isToggleOn(FeatureToggles.SmartMeTask)) {
-          this.globalCallbacks.refreshTaskEvent(true);
-          trackUserEvent({
-            eventName: 'tasks',
-            customProperties: {
-              action: 'create_via_event',
-              task: 'SmartMeLearn',
-            },
-          });
-        }
+        this.createSmartMeTask();
         this.redirectToInTray();
       };
       this.saveBillAnd({ onSuccess });
@@ -443,7 +452,7 @@ class BillModule {
     const onSuccess = ({ message }) => {
       this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
-
+      this.createSmartMeTask();
       this.redirectToCreateNewBill();
     };
 
@@ -461,6 +470,7 @@ class BillModule {
       this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.pushMessage({ type: DUPLICATE_BILL, duplicateId });
+      this.createSmartMeTask();
 
       this.redirectToCreateNewBill();
     };
