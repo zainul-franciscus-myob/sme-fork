@@ -97,24 +97,23 @@ export default class PayRunModule {
     };
 
     const onSuccess = (response) => {
-      if (this.featureToggles.isPaydayFilingEnabled) {
-        const onLoadStatusSuccess = (payDayOnboardedStatus) => {
-          this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-          this.dispatcher.setPayDayOnboardedStatus(payDayOnboardedStatus);
-          this.dispatcher.startNewPayRun(response);
-        };
-
-        this.integrator.loadPayDayOnboardedStatus({
-          onSuccess: onLoadStatusSuccess,
-          onFailure,
-        });
-      } else {
-        this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
-        this.dispatcher.startNewPayRun(response);
-      }
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.startNewPayRun(response);
     };
 
     this.integrator.startNewPayRun({ onSuccess, onFailure });
+  };
+
+  loadPaydayOnboardedStatus = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+    const onSuccess = (response) => {
+      this.dispatcher.setPayDayOnboardedStatus(response);
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+    };
+    const onFailure = () => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+    };
+    this.integrator.loadPayDayOnboardedStatus({ onSuccess, onFailure });
   };
 
   discardDraftAndStartNewPayRun = () => {
@@ -173,6 +172,9 @@ export default class PayRunModule {
     this.dispatcher.setInitialState({
       ...context,
     });
+    if (this.featureToggles.isPaydayFilingEnabled) {
+      this.loadPaydayOnboardedStatus();
+    }
     this.render();
     this.startNewPayRun();
   }

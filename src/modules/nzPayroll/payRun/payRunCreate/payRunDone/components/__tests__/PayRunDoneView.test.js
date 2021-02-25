@@ -28,6 +28,7 @@ describe('PayRunDoneView', () => {
     payDayOnboardedStatus: {
       isBusinessOnboarded: true,
       isUserOnboarded: false,
+      isUserSessionValid: false,
     },
   };
 
@@ -70,11 +71,13 @@ describe('PayRunDoneView', () => {
       it('should display correct message when business and user are onboarded', () => {
         const wrapper = mountWithProvider(<PayRunDoneView {...props(true)} />);
         const expected = 'Pay run recorded and sent to Inland Revenue';
+
         store.dispatch({
           intent: LOAD_PAYDAY_ONBOARDED_STATUS,
           payDayOnboardedStatus: {
             isBusinessOnboarded: true,
             isUserOnboarded: true,
+            isUserSessionValid: true,
           },
         });
         wrapper.update();

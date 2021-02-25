@@ -143,17 +143,17 @@ export const getIsBusinessOnboarded = (state) =>
   state.payDayOnboardedStatus.isBusinessOnboarded;
 
 export const getIsUserOnboarded = (state) =>
-  state.payDayOnboardedStatus.isUserOnboarded;
+  state.payDayOnboardedStatus.isUserOnboarded &&
+  state.payDayOnboardedStatus.isUserSessionValid;
 
 export const getRecordPayRunIRFileModal = (state) =>
   state.recordPayRunIRFileModal;
 
 export const displayRecordPayRunIRFileModal = createSelector(
   getIsBusinessOnboarded,
-  getIsUserOnboarded,
   getRecordPayRunIRFileModal,
-  (isBusinessOnboarded, isUserOnboarded, isRecordPayRunIRFileModal) =>
-    isBusinessOnboarded && isUserOnboarded && isRecordPayRunIRFileModal
+  (isBusinessOnboarded, isRecordPayRunIRFileModal) =>
+    isBusinessOnboarded && isRecordPayRunIRFileModal
 );
 
 export const getIsBusinessAndUserOnboarded = createSelector(

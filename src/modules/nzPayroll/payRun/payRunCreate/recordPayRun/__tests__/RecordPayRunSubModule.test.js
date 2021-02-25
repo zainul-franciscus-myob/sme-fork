@@ -122,12 +122,11 @@ describe('RecordPayRunSubModule', () => {
     });
 
     describe('Payday Filing enabled', () => {
+      const featureToggles = {
+        isPaydayFilingEnabled: true,
+      };
       describe('Business and user are not onboarded', () => {
         it('should proceed to prepare payslips step', () => {
-          const featureToggles = {
-            isPaydayFilingEnabled: true,
-          };
-
           const {
             store,
             wrapper,
@@ -165,7 +164,7 @@ describe('RecordPayRunSubModule', () => {
             },
           ]);
           expect(store.getState().step.key).toEqual('preparePaySlips');
-          expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+          expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
             false
           );
           expect(integration.getRequests()).toContainEqual(
@@ -179,81 +178,7 @@ describe('RecordPayRunSubModule', () => {
       });
 
       describe('Business is onboarded and user is not onboarded', () => {
-        it('should proceed to prepare payslips step', () => {
-          const featureToggles = {
-            isPaydayFilingEnabled: true,
-          };
-
-          const {
-            store,
-            wrapper,
-            integration,
-          } = constructRecordPayRunSubModule(featureToggles);
-
-          store.setState({
-            ...store.getState(),
-            step: RECORD_AND_REPORT,
-            totalTakeHomePay: 10,
-          });
-
-          store.dispatch({
-            intent: LOAD_PAYDAY_ONBOARDED_STATUS,
-            payDayOnboardedStatus: {
-              isBusinessOnboarded: true,
-              isUserOnboarded: false,
-            },
-          });
-
-          wrapper.update();
-          const nextButton = findButtonWithTestId(wrapper, 'recordButton');
-
-          nextButton.simulate('click');
-
-          expect(store.getActions()).toEqual([
-            {
-              intent: LOAD_PAYDAY_ONBOARDED_STATUS,
-              payDayOnboardedStatus: {
-                isBusinessOnboarded: true,
-                isUserOnboarded: false,
-              },
-            },
-            {
-              intent: SET_LOADING_STATE,
-              loadingState: LoadingState.LOADING,
-            },
-            {
-              intent: SET_LOADING_STATE,
-              loadingState: LoadingState.LOADING_SUCCESS,
-            },
-            {
-              intent: SET_ALERT,
-              alert: undefined,
-            },
-            {
-              intent: NEXT_STEP,
-            },
-          ]);
-
-          expect(store.getState().step.key).toEqual('preparePaySlips');
-          expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-            false
-          );
-          expect(integration.getRequests()).toContainEqual(
-            expect.objectContaining({
-              intent: RECORD_PAYMENTS,
-              urlParams: { businessId: undefined, draftPayRunId: -1 },
-              params: undefined,
-            })
-          );
-        });
-      });
-
-      describe('Business and user are onboarded', () => {
-        it('should display RecordPayRunWithIRFilingModal', () => {
-          const featureToggles = {
-            isPaydayFilingEnabled: true,
-          };
-
+        it('should display RecordPayRunIRFilingModal', () => {
           const { store, wrapper } = constructRecordPayRunSubModule(
             featureToggles
           );
@@ -268,7 +193,8 @@ describe('RecordPayRunSubModule', () => {
             intent: LOAD_PAYDAY_ONBOARDED_STATUS,
             payDayOnboardedStatus: {
               isBusinessOnboarded: true,
-              isUserOnboarded: true,
+              isUserOnboarded: false,
+              isUserSessionValid: false,
             },
           });
 
@@ -282,7 +208,8 @@ describe('RecordPayRunSubModule', () => {
               intent: LOAD_PAYDAY_ONBOARDED_STATUS,
               payDayOnboardedStatus: {
                 isBusinessOnboarded: true,
-                isUserOnboarded: true,
+                isUserOnboarded: false,
+                isUserSessionValid: false,
               },
             },
             {
@@ -290,17 +217,10 @@ describe('RecordPayRunSubModule', () => {
             },
           ]);
 
-          expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-            true
-          );
+          expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(true);
         });
-
-        describe('RecordPayRunWithIRFilingModal is open and Record is pressed', () => {
-          it('should close modal', () => {
-            const featureToggles = {
-              isPaydayFilingEnabled: true,
-            };
-
+        describe('RecordPayRunIRFilingModal is open and recordWithoutFiling is pressed', () => {
+          it('should proceed to prepare payslips step', () => {
             const {
               store,
               wrapper,
@@ -317,7 +237,8 @@ describe('RecordPayRunSubModule', () => {
               intent: LOAD_PAYDAY_ONBOARDED_STATUS,
               payDayOnboardedStatus: {
                 isBusinessOnboarded: true,
-                isUserOnboarded: true,
+                isUserOnboarded: false,
+                isUserSessionValid: false,
               },
             });
 
@@ -326,18 +247,19 @@ describe('RecordPayRunSubModule', () => {
 
             nextButton.simulate('click');
 
-            const recordAndFile = wrapper
-              .find({ name: 'recordAndFile' })
+            const recordWithoutFiling = wrapper
+              .find({ name: 'recordWithoutFiling' })
               .find('button');
 
-            recordAndFile.simulate('click');
+            recordWithoutFiling.simulate('click');
 
             expect(store.getActions()).toEqual([
               {
                 intent: LOAD_PAYDAY_ONBOARDED_STATUS,
                 payDayOnboardedStatus: {
                   isBusinessOnboarded: true,
-                  isUserOnboarded: true,
+                  isUserOnboarded: false,
+                  isUserSessionValid: false,
                 },
               },
               {
@@ -360,7 +282,180 @@ describe('RecordPayRunSubModule', () => {
               },
             ]);
 
-            expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+            expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
+              true
+            );
+
+            expect(integration.getRequests()).toContainEqual(
+              expect.objectContaining({
+                intent: RECORD_PAYMENTS,
+                urlParams: { businessId: undefined, draftPayRunId: -1 },
+                params: undefined,
+              })
+            );
+          });
+        });
+        describe('RecordPayRunIRFilingModal is open and Go Back is pressed', () => {
+          it('should close modal and return to Record and report', () => {
+            const { store, wrapper } = constructRecordPayRunSubModule(
+              featureToggles
+            );
+
+            store.setState({
+              ...store.getState(),
+              step: RECORD_AND_REPORT,
+              totalTakeHomePay: 10,
+            });
+
+            store.dispatch({
+              intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: false,
+                isUserSessionValid: false,
+              },
+            });
+
+            wrapper.update();
+            const nextButton = findButtonWithTestId(wrapper, 'nextButton');
+
+            nextButton.simulate('click');
+
+            const goBack = wrapper.find({ name: 'goBack' }).find('button');
+
+            goBack.simulate('click');
+
+            expect(store.getActions()).toEqual([
+              {
+                intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+                payDayOnboardedStatus: {
+                  isBusinessOnboarded: true,
+                  isUserOnboarded: false,
+                  isUserSessionValid: false,
+                },
+              },
+              {
+                intent: OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
+              },
+              {
+                intent: CLOSE_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
+              },
+            ]);
+
+            expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
+              false
+            );
+          });
+        });
+      });
+
+      describe('Business and user are onboarded', () => {
+        it('should display RecordPayRunIRFilingModal', () => {
+          const { store, wrapper } = constructRecordPayRunSubModule(
+            featureToggles
+          );
+
+          store.setState({
+            ...store.getState(),
+            step: RECORD_AND_REPORT,
+            totalTakeHomePay: 10,
+          });
+
+          store.dispatch({
+            intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+            payDayOnboardedStatus: {
+              isBusinessOnboarded: true,
+              isUserOnboarded: true,
+              isUserSessionValid: true,
+            },
+          });
+
+          wrapper.update();
+          const nextButton = findButtonWithTestId(wrapper, 'nextButton');
+
+          nextButton.simulate('click');
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: true,
+                isUserSessionValid: true,
+              },
+            },
+            {
+              intent: OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
+            },
+          ]);
+
+          expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(true);
+        });
+
+        describe('RecordPayRunIRFilingModal is open and recordAndFile is pressed', () => {
+          it('should proceed to prepare payslips step', () => {
+            const {
+              store,
+              wrapper,
+              integration,
+            } = constructRecordPayRunSubModule(featureToggles);
+
+            store.setState({
+              ...store.getState(),
+              step: RECORD_AND_REPORT,
+              totalTakeHomePay: 10,
+            });
+
+            store.dispatch({
+              intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: true,
+                isUserSessionValid: true,
+              },
+            });
+
+            wrapper.update();
+            const nextButton = findButtonWithTestId(wrapper, 'nextButton');
+
+            nextButton.simulate('click');
+
+            const recordAndFile = wrapper
+              .find({ name: 'recordAndFile' })
+              .find('button');
+
+            recordAndFile.simulate('click');
+
+            expect(store.getActions()).toEqual([
+              {
+                intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+                payDayOnboardedStatus: {
+                  isBusinessOnboarded: true,
+                  isUserOnboarded: true,
+                  isUserSessionValid: true,
+                },
+              },
+              {
+                intent: OPEN_RECORD_PAYRUN_WITH_IR_FILING_MODAL,
+              },
+              {
+                intent: SET_LOADING_STATE,
+                loadingState: LoadingState.LOADING,
+              },
+              {
+                intent: SET_LOADING_STATE,
+                loadingState: LoadingState.LOADING_SUCCESS,
+              },
+              {
+                intent: SET_ALERT,
+                alert: undefined,
+              },
+              {
+                intent: NEXT_STEP,
+              },
+            ]);
+
+            expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
               true
             );
 
@@ -374,12 +469,8 @@ describe('RecordPayRunSubModule', () => {
           });
         });
 
-        describe('RecordPayRunWithIRFilingModal is open and Go Back is pressed', () => {
+        describe('RecordPayRunIRFilingModal is open and Go Back is pressed', () => {
           it('should close modal and return to Record and report', () => {
-            const featureToggles = {
-              isPaydayFilingEnabled: true,
-            };
-
             const { store, wrapper } = constructRecordPayRunSubModule(
               featureToggles
             );
@@ -395,6 +486,7 @@ describe('RecordPayRunSubModule', () => {
               payDayOnboardedStatus: {
                 isBusinessOnboarded: true,
                 isUserOnboarded: true,
+                isUserSessionValid: true,
               },
             });
 
@@ -413,6 +505,7 @@ describe('RecordPayRunSubModule', () => {
                 payDayOnboardedStatus: {
                   isBusinessOnboarded: true,
                   isUserOnboarded: true,
+                  isUserSessionValid: true,
                 },
               },
               {
@@ -423,7 +516,7 @@ describe('RecordPayRunSubModule', () => {
               },
             ]);
 
-            expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
+            expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
               false
             );
           });

@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Button,
-  Card,
-  FieldGroup,
-  PageHead,
-  Stepper,
-} from '@myob/myob-widgets';
+import { Card, FieldGroup, PageHead, Stepper } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -13,13 +6,15 @@ import {
   displayRecordPayRunIRFileModal,
   getIsBusinessAndUserOnboarded,
   getIsBusinessOnboarded,
+  getIsUserOnboarded,
   getStepNumber,
   getStepperSteps,
 } from '../../PayRunSelectors';
 import EmployeePayHeader from '../../components/EmployeePayHeader';
 import MainActionType from './RecordPayRunMainActionType';
 import RecordPayRunActions from './RecordPayRunActions';
-import RecordPayRunWithIRFilingModal from './RecordPayRunWithIRFilingModal';
+import RecordPayRunIRFilingModal from './RecordPayRunIRFilingModal';
+import RecordPayRunPaydayFilingAlert from './RecordPayRunPaydayFilingAlert';
 import getNumberOfSelected from '../RecordPayRunSelectors';
 import styles from './RecordPayRunView.module.css';
 
@@ -33,12 +28,13 @@ const RecordPayRunView = ({
   onPreviousButtonClick,
   isPaydayFilingEnabled,
   isBusinessOnboarded,
+  isUserOnboarded,
   isBusinessAndUserOnboarded,
   onOpenPaydayFilingClick,
   isDisplayRecordPayRunIRFileModal,
   onCloseRecordPayRunIRFileModal,
 }) => {
-  let recordPayRunWithIRFilingModal;
+  let recordPayRunIRFilingModal;
   let message =
     'View the payroll verification report to check everything is correct.';
   let mainActionType = MainActionType.RECORD;
@@ -46,20 +42,23 @@ const RecordPayRunView = ({
 
   if (isPaydayFilingEnabled) {
     if (isDisplayRecordPayRunIRFileModal) {
-      recordPayRunWithIRFilingModal = (
-        <RecordPayRunWithIRFilingModal
+      recordPayRunIRFilingModal = (
+        <RecordPayRunIRFilingModal
           onGoBack={onCloseRecordPayRunIRFileModal}
-          onRecordAndFile={recordPayments}
+          onRecord={recordPayments}
+          userOnboarded={isUserOnboarded}
         />
       );
     }
 
-    if (isBusinessAndUserOnboarded) {
+    if (isBusinessOnboarded) {
       onRecordButtonClick = onNext;
       mainActionType = MainActionType.NEXT;
-      message =
-        'View the payroll verification report to check everything is correct. Once you’ve recorded these payments, the information is sent to Inland Revenue as part of Payday Filing.';
-    } else if (!isBusinessOnboarded) {
+      if (isBusinessAndUserOnboarded) {
+        message =
+          'View the payroll verification report to check everything is correct. Once you’ve recorded these payments, the information is sent to Inland Revenue as part of Payday Filing.';
+      }
+    } else {
       mainActionType = MainActionType.RECORD_WITHOUT_FILING;
     }
   }
@@ -80,23 +79,12 @@ const RecordPayRunView = ({
         >
           <div className={styles.withPaddingBottom}>{message}</div>
 
-          {isPaydayFilingEnabled && !isBusinessOnboarded && (
-            <Alert type="info">
-              <div className={styles.alertWithLinkButton}>
-                This business is not connected to Payday filing. To submit
-                employment information to Inland Revenue,
-                <Button
-                  className={styles.withPaddingRight}
-                  type="link"
-                  testid="paydayFilingReportButton"
-                  onClick={onOpenPaydayFilingClick}
-                >
-                  save pay run and connect to Payday filing
-                </Button>
-                <b className={styles.withPaddingRight}>before</b> recording this
-                pay run.
-              </div>
-            </Alert>
+          {isPaydayFilingEnabled && !isBusinessAndUserOnboarded && (
+            <RecordPayRunPaydayFilingAlert
+              isBusinessOnboarded={isBusinessOnboarded}
+              isUserOnboarded={isUserOnboarded}
+              onOpenPaydayFilingClick={onOpenPaydayFilingClick}
+            />
           )}
         </FieldGroup>
       </Card>
@@ -107,7 +95,7 @@ const RecordPayRunView = ({
         onPreviousButtonClick={onPreviousButtonClick}
         isPaydayFilingEnabled={isPaydayFilingEnabled}
       />
-      {recordPayRunWithIRFilingModal}
+      {recordPayRunIRFilingModal}
     </>
   );
 };
@@ -117,6 +105,7 @@ const mapStateToProps = (state) => ({
   stepNumber: getStepNumber(state),
   payRunSteps: getStepperSteps(state),
   isBusinessOnboarded: getIsBusinessOnboarded(state),
+  isUserOnboarded: getIsUserOnboarded(state),
   isDisplayRecordPayRunIRFileModal: displayRecordPayRunIRFileModal(state),
   isBusinessAndUserOnboarded: getIsBusinessAndUserOnboarded(state),
 });

@@ -49,7 +49,6 @@ const PayRunMapping = {
     getPath: ({ businessId }) =>
       `/${businessId}/nz-payroll/payRun/filter_pay_run_list`,
   },
-
   [LOAD_PAYDAY_ONBOARDED_STATUS]: {
     method: 'GET',
     getPath: ({ businessId }) =>

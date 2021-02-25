@@ -6,6 +6,7 @@ import {
   getEmployeeHeader,
   getIsBusinessOnboarded,
   getIsSubmitting,
+  getIsUserOnboarded,
   getLoadingState,
   getPayOnDate,
   getPreviousStepModalIsOpen,
@@ -320,7 +321,7 @@ describe('PayRunSelectors', () => {
   });
 
   describe('getIsBusinessOnboarded', () => {
-    it('should get is business on boarded', () => {
+    it('should get is business onboarded', () => {
       const expected = true;
 
       const state = {
@@ -329,16 +330,41 @@ describe('PayRunSelectors', () => {
 
       expect(getIsBusinessOnboarded(state)).toEqual(expected);
     });
+    it('should get is user onboarded based on valid user session', () => {
+      const expected = true;
+
+      const state = {
+        payDayOnboardedStatus: {
+          isUserOnboarded: true,
+          isUserSessionValid: true,
+        },
+      };
+
+      expect(getIsUserOnboarded(state)).toEqual(expected);
+    });
+    it('should get is user onboarded based on invalid user session', () => {
+      const expected = false;
+
+      const state = {
+        payDayOnboardedStatus: {
+          isUserOnboarded: true,
+          isUserSessionValid: false,
+        },
+      };
+
+      expect(getIsUserOnboarded(state)).toEqual(expected);
+    });
   });
 
   describe('displayRecordPayRunIRFileModal', () => {
-    it('should get display RecordPayRunIRFileModal', () => {
+    it('should get display RecordPayRunIRFileModal if a business and user are onboarded', () => {
       const expected = true;
 
       const state = {
         payDayOnboardedStatus: {
           isBusinessOnboarded: true,
           isUserOnboarded: true,
+          isUserSessionValid: true,
         },
         recordPayRunIRFileModal: true,
       };
@@ -346,13 +372,29 @@ describe('PayRunSelectors', () => {
       expect(displayRecordPayRunIRFileModal(state)).toEqual(expected);
     });
 
-    it('should get not display RecordPayRunIRFileModal', () => {
+    it('should get display RecordPayRunIRFileModal if a business is onboarded but user is not', () => {
+      const expected = true;
+
+      const state = {
+        payDayOnboardedStatus: {
+          isBusinessOnboarded: true,
+          isUserOnboarded: false,
+          isUserSessionValid: false,
+        },
+        recordPayRunIRFileModal: true,
+      };
+
+      expect(displayRecordPayRunIRFileModal(state)).toEqual(expected);
+    });
+
+    it('should not display RecordPayRunIRFileModal', () => {
       const expected = false;
 
       const state = {
         payDayOnboardedStatus: {
           isBusinessOnboarded: true,
           isUserOnboarded: true,
+          isUserSessionValid: true,
         },
         recordPayRunIRFileModal: false,
       };
@@ -367,6 +409,7 @@ describe('PayRunSelectors', () => {
         payDayOnboardedStatus: {
           isBusinessOnboarded: false,
           isUserOnboarded: false,
+          isUserSessionValid: false,
         },
         recordPayRunIRFileModal: true,
       };
@@ -381,6 +424,7 @@ describe('PayRunSelectors', () => {
         payDayOnboardedStatus: {
           isBusinessOnboarded: false,
           isUserOnboarded: false,
+          isUserSessionValid: false,
         },
         recordPayRunIRFileModal: false,
       };

@@ -18,7 +18,7 @@ import TestIntegration from '../../../../../integration/TestIntegration';
 import TestStore from '../../../../../store/TestStore';
 import createPayRunDispatchers from '../createPayRunDispatchers';
 import createPayRunIntegrator from '../createPayRunIntegrator';
-import loadPayDayOnboardedStatus from '../../mappings/data/payRun/loadPayDayOnboardedStatusResponse';
+import loadPaydayOnboardedStatus from '../../mappings/data/payRun/loadPayDayOnboardedStatusResponse';
 import payRunReducer from '../payRunReducer';
 import startNewPayRunResponse from '../../mappings/data/payRun/startNewPayRun';
 
@@ -174,60 +174,6 @@ describe('PayRunModule', () => {
       expect(wrapper.find(LoadingFailPageState).exists()).toBe(false);
     });
 
-    it('should display LoadingSuccessPageState when integration call succeeds with paydayfilling enabled', () => {
-      const { store, integration, module, wrapper } = setup({
-        isPaydayFilingEnabled: true,
-      });
-
-      integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
-      integration.mapSuccess(
-        LOAD_PAYDAY_ONBOARDED_STATUS,
-        loadPayDayOnboardedStatus
-      );
-
-      module.run(context);
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_INITIAL_STATE,
-          context,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_SUCCESS,
-        },
-        {
-          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
-          payDayOnboardedStatus: {
-            isBusinessOnboarded: true,
-            isUserOnboarded: true,
-          },
-        },
-        {
-          intent: START_NEW_PAY_RUN,
-          newPayRunDetails: startNewPayRunResponse.newPayRunDetails,
-        },
-      ]);
-
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: START_NEW_PAY_RUN,
-          urlParams: { ...context },
-        }),
-        expect.objectContaining({
-          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
-        }),
-      ]);
-
-      wrapper.update();
-      expect(wrapper.find(StartPayrunView).exists()).toBe(true);
-      expect(wrapper.find(LoadingFailPageState).exists()).toBe(false);
-    });
-
     it('should delete draft pay run and start new pay run when draft pay run is discarded', () => {
       const { store, integration, module, wrapper } = setup();
 
@@ -284,45 +230,81 @@ describe('PayRunModule', () => {
       ]);
     });
 
-    it('should display LoadingFailPageState when LOAD_PAYDAY_ONBOARDED_STATUS call failed  with paydayfilling enabled', () => {
-      const { store, integration, module, wrapper } = setup({
+    describe('when payday filing is enabled', () => {
+      const paydayFeatureToggle = {
         isPaydayFilingEnabled: true,
+      };
+      it('should set LoadingSuccessState when payday integration call succeeds', () => {
+        const { store, integration, module } = setup(paydayFeatureToggle);
+
+        integration.mapSuccess(
+          LOAD_PAYDAY_ONBOARDED_STATUS,
+          loadPaydayOnboardedStatus
+        );
+
+        module.run(context);
+
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING,
+            },
+            {
+              intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: true,
+                isUserSessionValid: true,
+              },
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING_SUCCESS,
+            },
+          ])
+        );
+
+        expect(integration.getRequests()).toEqual([
+          expect.objectContaining({
+            intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+          }),
+          expect.objectContaining({
+            intent: START_NEW_PAY_RUN,
+            urlParams: { ...context },
+          }),
+        ]);
       });
+      it('should set LoadingFailPageState when onboarding status integration call fails', () => {
+        const { store, integration, module } = setup(paydayFeatureToggle);
 
-      integration.mapSuccess(START_NEW_PAY_RUN, startNewPayRunResponse);
-      integration.mapFailure(LOAD_PAYDAY_ONBOARDED_STATUS);
+        integration.mapFailure(LOAD_PAYDAY_ONBOARDED_STATUS);
 
-      module.run(context);
+        module.run(context);
 
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_INITIAL_STATE,
-          context,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING,
-        },
-        {
-          intent: SET_LOADING_STATE,
-          loadingState: LoadingState.LOADING_FAIL,
-        },
-      ]);
+        expect(store.getActions()).toEqual(
+          expect.arrayContaining([
+            {
+              intent: SET_INITIAL_STATE,
+              context,
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING,
+            },
+            {
+              intent: SET_LOADING_STATE,
+              loadingState: LoadingState.LOADING_FAIL,
+            },
+          ])
+        );
 
-      expect(integration.getRequests()).toEqual([
-        expect.objectContaining({
-          intent: START_NEW_PAY_RUN,
-          urlParams: { ...context },
-        }),
-        expect.objectContaining({
-          intent: LOAD_PAYDAY_ONBOARDED_STATUS,
-        }),
-      ]);
-
-      wrapper.update();
-      expect(wrapper.find(PayRunView).exists()).toBe(true);
-      expect(wrapper.find(StartPayrunView).exists()).toBe(false);
-      expect(wrapper.find(LoadingFailPageState).exists()).toBe(true);
+        expect(integration.getRequests()).toContainEqual(
+          expect.objectContaining({
+            intent: LOAD_PAYDAY_ONBOARDED_STATUS,
+          })
+        );
+      });
     });
   });
 });

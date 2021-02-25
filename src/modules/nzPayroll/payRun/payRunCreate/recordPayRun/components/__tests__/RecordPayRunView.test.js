@@ -113,176 +113,198 @@ describe('RecordPayRunView', () => {
     });
 
     describe('when PayDayFiling is enabled', () => {
-      it('should display payday filing alert and Record without filing with IR Action when business is not onboarded', () => {
-        const draftPayRun = {
-          lines: [
-            {
-              employeeId: '21',
-              isSelected: true,
-              payLines: [],
-            },
-          ],
-        };
+      describe('when business is not onboarded', () => {
+        it('should display payday filing alert and Record without filing with IR Action', () => {
+          const draftPayRun = {
+            lines: [
+              {
+                employeeId: '21',
+                isSelected: true,
+                payLines: [],
+              },
+            ],
+          };
 
-        store.setState({
-          ...store.getState(),
-          draftPayRun,
+          store.setState({
+            ...store.getState(),
+            draftPayRun,
+          });
+
+          const updated = { ...props, isPaydayFilingEnabled: true };
+
+          const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+
+          expect(
+            wrapper.find({ testid: 'paydayFilingReportButton' }).first().text()
+          ).toEqual('save pay run and connect to Payday filing');
+          expect(
+            wrapper.find({ testid: 'recordWithoutFilingButton' }).first().text()
+          ).toEqual('Record without filing with IR');
+          expect(wrapper.find({ testid: 'nextButton' }).length).toEqual(0);
+          expect(
+            wrapper.find({ name: 'businessNotOnboardedAlert' }).exists()
+          ).toBe(true);
+          expect(wrapper.find('RecordPayRunIRFilingModal').exists()).toBe(
+            false
+          );
         });
-
-        const updated = { ...props, isPaydayFilingEnabled: true };
-
-        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-
-        expect(
-          wrapper.find({ testid: 'paydayFilingReportButton' }).first().text()
-        ).toEqual('save pay run and connect to Payday filing');
-        expect(
-          wrapper.find({ testid: 'recordWithoutFilingButton' }).first().text()
-        ).toEqual('Record without filing with IR');
-        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-          false
-        );
       });
 
-      it('should have Next Action and not display payday filing alert when business is onboarded', () => {
-        const draftPayRun = {
-          lines: [
-            {
-              employeeId: '21',
-              isSelected: true,
-              payLines: [],
-            },
-          ],
-        };
+      describe('when business is onboarded', () => {
+        describe('when user is onboarded', () => {
+          it('should have Next Action and not display payday filing alert', () => {
+            const draftPayRun = {
+              lines: [
+                {
+                  employeeId: '21',
+                  isSelected: true,
+                  payLines: [],
+                },
+              ],
+            };
 
-        store.setState({
-          ...store.getState(),
-          draftPayRun,
-          payDayOnboardedStatus: {
-            isBusinessOnboarded: true,
-            isUserOnboarded: true,
-          },
+            store.setState({
+              ...store.getState(),
+              draftPayRun,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: true,
+                isUserSessionValid: true,
+              },
+            });
+
+            const updated = {
+              ...props,
+              isPaydayFilingEnabled: true,
+            };
+
+            const wrapper = mountWithProvider(
+              <RecordPayRunView {...updated} />
+            );
+
+            expect(
+              wrapper.find({ testid: 'paydayFilingReportButton' }).length
+            ).toEqual(0);
+            expect(
+              wrapper.find({ testid: 'nextButton' }).first().text()
+            ).toEqual('Next');
+            expect(wrapper.find('Alert').exists()).toBe(false);
+          });
+
+          it('should have RecordPayRunIRFilingModal', () => {
+            const draftPayRun = {
+              lines: [
+                {
+                  employeeId: '21',
+                  isSelected: true,
+                  payLines: [],
+                },
+              ],
+            };
+
+            store.setState({
+              ...store.getState(),
+              draftPayRun,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: true,
+                isUserSessionValid: true,
+              },
+              recordPayRunIRFileModal: true,
+            });
+
+            const updated = {
+              ...props,
+              isPaydayFilingEnabled: true,
+            };
+
+            const wrapper = mountWithProvider(
+              <RecordPayRunView {...updated} />
+            );
+            const irFileModal = wrapper.find('RecordPayRunIRFilingModal');
+            expect(irFileModal.exists()).toBe(true);
+          });
         });
 
-        const updated = {
-          ...props,
-          isPaydayFilingEnabled: true,
-        };
+        describe('when user is not onboarded', () => {
+          it('should have Next Action and display payday filing alert', () => {
+            const draftPayRun = {
+              lines: [
+                {
+                  employeeId: '21',
+                  isSelected: true,
+                  payLines: [],
+                },
+              ],
+            };
 
-        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
+            store.setState({
+              ...store.getState(),
+              draftPayRun,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: false,
+                isUserSessionValid: false,
+              },
+            });
 
-        expect(
-          wrapper.find({ testid: 'paydayFilingReportButton' }).length
-        ).toEqual(0);
-        expect(wrapper.find({ testid: 'nextButton' }).first().text()).toEqual(
-          'Next'
-        );
-      });
+            const updated = {
+              ...props,
+              isPaydayFilingEnabled: true,
+            };
 
-      it('should call onOpenPaydayFilingClick when clicked payday filing button business is not onboarded', () => {
-        const draftPayRun = {
-          lines: [
-            {
-              employeeId: '21',
-              isSelected: true,
-              payLines: [],
-            },
-          ],
-        };
+            const wrapper = mountWithProvider(
+              <RecordPayRunView {...updated} />
+            );
 
-        store.setState({
-          ...store.getState(),
-          draftPayRun,
-          payDayOnboardedStatus: {
-            isBusinessOnboarded: false,
-            isUserOnboarded: false,
-          },
+            expect(
+              wrapper.find({ testid: 'paydayFilingReportButton' }).length
+            ).toEqual(0);
+            expect(
+              wrapper.find({ testid: 'nextButton' }).first().text()
+            ).toEqual('Next');
+            expect(
+              wrapper.find({ name: 'userNotOnboardedAlert' }).exists()
+            ).toBe(true);
+          });
+
+          it('should have RecordPayRunIRFilingModal', () => {
+            const draftPayRun = {
+              lines: [
+                {
+                  employeeId: '21',
+                  isSelected: true,
+                  payLines: [],
+                },
+              ],
+            };
+
+            store.setState({
+              ...store.getState(),
+              draftPayRun,
+              payDayOnboardedStatus: {
+                isBusinessOnboarded: true,
+                isUserOnboarded: false,
+                isUserSessionValid: false,
+              },
+              recordPayRunIRFileModal: true,
+            });
+
+            const updated = {
+              ...props,
+              isPaydayFilingEnabled: true,
+            };
+
+            const wrapper = mountWithProvider(
+              <RecordPayRunView {...updated} />
+            );
+            const irFileModal = wrapper.find('RecordPayRunIRFilingModal');
+            expect(
+              wrapper.find({ testid: 'paydayFilingReportButton' }).length
+            ).toEqual(0);
+            expect(irFileModal.exists()).toBe(true);
+          });
         });
-
-        const updated = {
-          ...props,
-          isPaydayFilingEnabled: true,
-        };
-
-        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-        const button = wrapper
-          .find({ testid: 'paydayFilingReportButton' })
-          .first();
-
-        button.simulate('click');
-
-        expect(props.onOpenPaydayFilingClick).toHaveBeenCalled();
-      });
-
-      it('should have RecordPayRunWithIRFilingModal when business and user are onboarded', () => {
-        const draftPayRun = {
-          lines: [
-            {
-              employeeId: '21',
-              isSelected: true,
-              payLines: [],
-            },
-          ],
-        };
-
-        store.setState({
-          ...store.getState(),
-          draftPayRun,
-          payDayOnboardedStatus: {
-            isBusinessOnboarded: true,
-            isUserOnboarded: true,
-          },
-          recordPayRunIRFileModal: true,
-        });
-
-        const updated = {
-          ...props,
-          isPaydayFilingEnabled: true,
-        };
-
-        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-          true
-        );
-      });
-
-      it('should not have RecordPayRunWithIRFilingModal when only business is onboarded', () => {
-        const draftPayRun = {
-          lines: [
-            {
-              employeeId: '21',
-              isSelected: true,
-              payLines: [],
-            },
-          ],
-        };
-
-        store.setState({
-          ...store.getState(),
-          draftPayRun,
-          payDayOnboardedStatus: {
-            isBusinessOnboarded: true,
-            isUserOnboarded: false,
-          },
-          recordPayRunIRFileModal: true,
-        });
-
-        const updated = {
-          ...props,
-          isPaydayFilingEnabled: true,
-        };
-
-        const wrapper = mountWithProvider(<RecordPayRunView {...updated} />);
-
-        expect(
-          wrapper.find({ testid: 'paydayFilingReportButton' }).length
-        ).toEqual(0);
-        expect(wrapper.find({ testid: 'recordButton' }).first().text()).toEqual(
-          'Record'
-        );
-        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-          false
-        );
       });
     });
 
@@ -311,9 +333,7 @@ describe('RecordPayRunView', () => {
         expect(wrapper.find({ testid: 'recordButton' }).first().text()).toEqual(
           'Record'
         );
-        expect(wrapper.find('RecordPayRunWithIRFilingModal').exists()).toBe(
-          false
-        );
+        expect(wrapper.find('recordPayRunIRFilingModal').exists()).toBe(false);
       });
     });
   });

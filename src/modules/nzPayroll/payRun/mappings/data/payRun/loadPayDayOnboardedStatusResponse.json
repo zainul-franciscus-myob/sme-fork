@@ -1,4 +1,5 @@
 {
   "isBusinessOnboarded": true,
-  "isUserOnboarded": true
+  "isUserOnboarded": true,
+  "isUserSessionValid": true
 }

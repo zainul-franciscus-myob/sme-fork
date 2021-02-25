@@ -46,7 +46,11 @@ const getDefaultState = () => ({
   previousStepModalIsOpen: false,
   totalTakeHomePay: undefined,
   alert: undefined,
-  payDayOnboardedStatus: { isBusinessOnboarded: false, isUserOnboarded: false },
+  payDayOnboardedStatus: {
+    isBusinessOnboarded: false,
+    isUserOnboarded: false,
+    isUserSessionValid: false,
+  },
   recordPayRunIRFileModal: false,
 });
 

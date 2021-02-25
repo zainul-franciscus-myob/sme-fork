@@ -188,6 +188,7 @@ describe('NZ Payrun reducer', () => {
         payDayOnboardedStatus: {
           isBusinessOnboarded: false,
           isUserOnboarded: false,
+          isUserSessionValid: false,
         },
         loadingState: 'LOADING',
         previousStepModalIsOpen: false,
@@ -314,6 +315,7 @@ describe('NZ Payrun reducer', () => {
         payDayOnboardedStatus: {
           isBusinessOnboarded: true,
           isUserOnboarded: true,
+          isUserSessionValid: true,
         },
       };
 
@@ -321,6 +323,7 @@ describe('NZ Payrun reducer', () => {
         payDayOnboardedStatus: {
           isBusinessOnboarded: true,
           isUserOnboarded: true,
+          isUserSessionValid: true,
         },
       };
 
