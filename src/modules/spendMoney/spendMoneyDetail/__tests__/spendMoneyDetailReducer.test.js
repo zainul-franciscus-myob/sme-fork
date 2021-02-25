@@ -762,7 +762,7 @@ describe('spendMoneyDetailReducer', () => {
       expect(actual.spendMoney.lines[0].accountId).toEqual('456');
     });
 
-    it('should not update lines accountId if spend money lines was not prefilled', () => {
+    it('should not update lines accountId when update contact', () => {
       const updatedState = {
         ...state,
         inTrayDocumentId: undefined,
@@ -783,8 +783,8 @@ describe('spendMoneyDetailReducer', () => {
 
       expect(actual.contactType).toEqual('Supplier');
       expect(actual.spendMoney.isReportable).toEqual(true);
-      expect(actual.spendMoney.expenseAccountId).toEqual('123');
-      expect(actual.spendMoney.lines[0].accountId).toEqual('123');
+      expect(actual.spendMoney.expenseAccountId).toEqual('456');
+      expect(actual.spendMoney.lines[0].accountId).toEqual('456');
     });
   });
 

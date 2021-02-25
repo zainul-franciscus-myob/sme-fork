@@ -337,7 +337,7 @@ export default class SpendMoneyDetailModule {
           this.dispatcher.prefillSpendMoneyOnContact(
             contactType,
             isReportable,
-            expenseAccountId
+            expenseAccountId.expenseAccountId || expenseAccountId
           );
         });
       } else {
