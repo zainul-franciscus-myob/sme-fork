@@ -6,9 +6,8 @@
 
 .onlinePaymentMethodsImageSetUp {
   height: 2.1rem;
-  padding-top: var(--flx-spacing-x-tiny);
+  padding-bottom: var(--flx-spacing-x-tiny);
   width: auto;
-  padding-right: var(--flx-spacing-small);
 }
 
 .onlinePaymentCheckboxGroup > * {

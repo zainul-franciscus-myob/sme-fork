@@ -113,23 +113,24 @@ const InvoiceDetailOnlinePaymentMethod = ({
 
   const setUpOnlinePayment = (
     <Field
-      label={label}
+      label={
+        <img
+          src={OnlinePaymentMethodsImage}
+          alt={imgAlt}
+          className={styles.onlinePaymentMethodsImageSetUp}
+        />
+      }
       renderField={() => (
         <>
           <span>
-            <img
-              src={OnlinePaymentMethodsImage}
-              alt={imgAlt}
-              className={styles.onlinePaymentMethodsImageSetUp}
-            />
             <Button
               disabled={disabled}
               type="link"
               icon={<Icons.OpenExternalLink />}
-              iconLeft
+              iconRight
               onClick={redirectToSetUpOnlinePayments}
             >
-              Set up
+              Start getting paid online
             </Button>
           </span>
         </>
