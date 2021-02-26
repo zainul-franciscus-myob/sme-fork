@@ -87,6 +87,10 @@ export default class BusinessSettingsModule {
     this.dispatcher.updateBusinessDetails({ key, value });
   };
 
+  updateBusinessIndustry = (item) => {
+    this.updateBusinessDetailField({ key: 'industry', value: item.Division });
+  };
+
   updateGstSettingsField = ({ key, value }) => {
     this.dispatcher.setPageEditedState(true);
     this.dispatcher.updateGstSettings({ key, value });
@@ -263,6 +267,7 @@ export default class BusinessSettingsModule {
           this.shouldDisplayAccountBillingMenuText
         }
         shouldDisplaySpecificIndustry={this.shouldDisplaySpecificIndustry}
+        onIndustryChange={this.updateBusinessIndustry}
       />
     );
 

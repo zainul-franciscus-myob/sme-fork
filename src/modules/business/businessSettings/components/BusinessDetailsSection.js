@@ -25,6 +25,7 @@ const industryCodeMetaData = [
   { columnName: 'Display', showData: 'true', columnWidth: '128px' },
   { columnName: 'Code', columnWidth: '0px' },
   { columnName: 'Searchable', columnWidth: '0px' },
+  { columnName: 'Division', columnWidth: '0px' },
 ];
 
 const BusinessDetailsSection = ({
@@ -36,6 +37,7 @@ const BusinessDetailsSection = ({
   clientCode,
   industryCodeOptions,
   shouldDisplaySpecificIndustry,
+  onIndustryChange,
   industry,
 }) => (
   <FieldGroup label="Business details">
@@ -85,12 +87,13 @@ const BusinessDetailsSection = ({
         renderItem={(columnName, item) => {
           return columnName === 'Display' ? item.Display : '';
         }}
-        onChange={() => {}}
+        onChange={onIndustryChange}
         labelAccessory={
           <Tooltip triggerContent={<InfoIcon />}>
-            Choose the industry most like yours
+            Choose or search for the industry most like yours
           </Tooltip>
         }
+        noMatchFoundMessage="There seems to be no industry matching your clues. Please try another clue"
       />
     )}
   </FieldGroup>
