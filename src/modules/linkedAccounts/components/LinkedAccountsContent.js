@@ -2,9 +2,10 @@ import { Card } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getSelectedTab } from '../LinkedAccountsSelectors';
+import { getIsNzBusiness, getSelectedTab } from '../LinkedAccountsSelectors';
 import AccountsAndBankingTabContent from './AccountsAndBankingTabContent';
 import PayrollTabContent from './PayrollTabContent';
+import PayrollTabContentNz from './PayrollTabContentNz';
 import PurchasesTabContent from './PurchasesTabContent';
 import SalesTabContent from './SalesTabContent';
 import TabItem from '../TabItem';
@@ -15,6 +16,7 @@ const LinkedAccountsContent = ({
   onCreateAccountButtonClick,
   onHasAccountOptionChange,
   selectedTab,
+  isNzBusiness,
 }) => (
   <Card>
     {
@@ -43,11 +45,21 @@ const LinkedAccountsContent = ({
           />
         ),
         [TabItem.PAYROLL]: (
-          <PayrollTabContent
-            onAccountChange={onAccountChange}
-            onAccountBlur={onAccountBlur}
-            onCreateAccountButtonClick={onCreateAccountButtonClick}
-          />
+          <>
+            {isNzBusiness ? (
+              <PayrollTabContentNz
+                onAccountChange={onAccountChange}
+                onAccountBlur={onAccountBlur}
+                onCreateAccountButtonClick={onCreateAccountButtonClick}
+              />
+            ) : (
+              <PayrollTabContent
+                onAccountChange={onAccountChange}
+                onAccountBlur={onAccountBlur}
+                onCreateAccountButtonClick={onCreateAccountButtonClick}
+              />
+            )}
+          </>
         ),
       }[selectedTab]
     }
@@ -56,6 +68,7 @@ const LinkedAccountsContent = ({
 
 const mapStateToProps = (state) => ({
   selectedTab: getSelectedTab(state),
+  isNzBusiness: getIsNzBusiness(state),
 });
 
 export default connect(mapStateToProps)(LinkedAccountsContent);

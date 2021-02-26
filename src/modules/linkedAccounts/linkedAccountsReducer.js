@@ -135,6 +135,18 @@ const getDefaultState = () => ({
       accounts: [],
       selectedAccountId: '',
     },
+    kiwiSaverExpenseAccount: {
+      accounts: [],
+      selectedAccountId: '',
+    },
+    employerDeductionsPayableAccount: {
+      accounts: [],
+      selectedAccountId: '',
+    },
+    otherDeductionsPayableAccount: {
+      accounts: [],
+      selectedAccountId: '',
+    },
   },
   savedLinkedAccounts: {
     equityAccountCurrentEarnings: 0,
@@ -159,6 +171,9 @@ const getDefaultState = () => ({
     employmentExpenseAccount: 0,
     wagesExpenseAccount: 0,
     taxDeductionsPayableAccount: 0,
+    kiwiSaverExpenseAccount: 0,
+    employerDeductionsPayableAccount: 0,
+    otherDeductionsPayableAccount: 0,
   },
 });
 
@@ -235,6 +250,9 @@ const loadLinkedAccounts = (state, action) => ({
     employmentExpenseAccount: action.employmentExpenseAccount,
     wagesExpenseAccount: action.wagesExpenseAccount,
     taxDeductionsPayableAccount: action.taxDeductionsPayableAccount,
+    kiwiSaverExpenseAccount: action.kiwiSaverExpenseAccount,
+    employerDeductionsPayableAccount: action.employerDeductionsPayableAccount,
+    otherDeductionsPayableAccount: action.otherDeductionsPayableAccount,
   },
   savedLinkedAccounts: {
     equityAccountCurrentEarnings: action.equityAccountCurrentEarnings.accountId,
@@ -265,6 +283,11 @@ const loadLinkedAccounts = (state, action) => ({
     employmentExpenseAccount: action.employmentExpenseAccount.accountId,
     wagesExpenseAccount: action.wagesExpenseAccount.accountId,
     taxDeductionsPayableAccount: action.taxDeductionsPayableAccount.accountId,
+    kiwiSaverExpenseAccount: action.kiwiSaverExpenseAccount.accountId,
+    employerDeductionsPayableAccount:
+      action.employerDeductionsPayableAccount.accountId,
+    otherDeductionsPayableAccount:
+      action.otherDeductionsPayableAccount.accountId,
   },
 });
 
@@ -416,6 +439,27 @@ const loadAccountAfterCreate = (state, { intent, ...accounts }) => ({
       ...state.linkedAccounts.taxDeductionsPayableAccount,
       accounts: [
         ...state.linkedAccounts.taxDeductionsPayableAccount.accounts,
+        accounts,
+      ],
+    },
+    kiwiSaverExpenseAccount: {
+      ...state.linkedAccounts.kiwiSaverExpenseAccount,
+      accounts: [
+        ...state.linkedAccounts.kiwiSaverExpenseAccount.accounts,
+        accounts,
+      ],
+    },
+    employerDeductionsPayableAccount: {
+      ...state.linkedAccounts.employerDeductionsPayableAccount,
+      accounts: [
+        ...state.linkedAccounts.employerDeductionsPayableAccount.accounts,
+        accounts,
+      ],
+    },
+    otherDeductionsPayableAccount: {
+      ...state.linkedAccounts.otherDeductionsPayableAccount,
+      accounts: [
+        ...state.linkedAccounts.otherDeductionsPayableAccount.accounts,
         accounts,
       ],
     },

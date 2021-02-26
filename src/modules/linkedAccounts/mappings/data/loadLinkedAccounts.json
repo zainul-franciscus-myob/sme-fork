@@ -499,6 +499,75 @@
     ],
     "accountId": "1"
   },
+  "kiwiSaverExpenseAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "3"
+  },
+  "employerDeductionsPayableAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Payable 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Payable 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Payable 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "3"
+  },
+  "otherDeductionsPayableAccount": {
+    "accounts": [
+      {
+        "id": "1",
+        "displayName": "Expense 1",
+        "accountType": "Expense",
+        "displayId": "6-134"
+      },
+      {
+        "id": "2",
+        "displayName": "Expense 2",
+        "accountType": "Expense",
+        "displayId": "6-135"
+      },
+      {
+        "id": "3",
+        "displayName": "Expense 3",
+        "accountType": "Expense",
+        "displayId": "6-136"
+      }
+    ],
+    "accountId": "3"
+  },
   "shouldDisplayAccountsBankingTab": true,
   "shouldDisplaySalesTab": false,
   "shouldDisplayPurchasesTab": false,

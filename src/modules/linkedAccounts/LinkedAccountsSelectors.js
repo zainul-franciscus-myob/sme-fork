@@ -16,6 +16,7 @@ export const getIsLateChargeRequired = (state) => state.isLateChargeRequired;
 
 export const getBusinessId = (state) => state.businessId;
 export const getRegion = (state) => state.region;
+export const getIsNzBusiness = (state) => state.region?.toUpperCase() === 'NZ';
 
 export const getEquityAccountCurrentEarnings = (state) =>
   state.linkedAccounts.equityAccountCurrentEarnings;
@@ -63,6 +64,13 @@ export const getWagesExpenseAccount = (state) =>
   state.linkedAccounts.wagesExpenseAccount;
 export const getTaxDeductionsPayableAccount = (state) =>
   state.linkedAccounts.taxDeductionsPayableAccount;
+
+export const getKiwiSaverExpenseAccount = (state) =>
+  state.linkedAccounts.kiwiSaverExpenseAccount;
+export const getEmployerDeductionsPayableAccount = (state) =>
+  state.linkedAccounts.employerDeductionsPayableAccount;
+export const getOtherDeductionsPayableAccount = (state) =>
+  state.linkedAccounts.otherDeductionsPayableAccount;
 
 export const getSaveLinkedAccountsPayload = (state) => ({
   equityAccountCurrentEarnings: {
@@ -143,6 +151,15 @@ export const getSaveLinkedAccountsPayload = (state) => ({
   },
   taxDeductionsPayableAccount: {
     accountId: state.linkedAccounts.taxDeductionsPayableAccount.accountId,
+  },
+  kiwiSaverExpenseAccount: {
+    accountId: state.linkedAccounts.kiwiSaverExpenseAccount.accountId,
+  },
+  employerDeductionsPayableAccount: {
+    accountId: state.linkedAccounts.employerDeductionsPayableAccount.accountId,
+  },
+  otherDeductionsPayableAccount: {
+    accountId: state.linkedAccounts.otherDeductionsPayableAccount.accountId,
   },
 });
 
