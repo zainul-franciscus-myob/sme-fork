@@ -61,7 +61,6 @@ export const getBusinessDetailsForUpdate = createStructuredSelector({
   website: (state) => state.businessDetails.website,
   clientCode: (state) => state.businessDetails.clientCode,
   payeeNumber: (state) => state.businessDetails.payeeNumber,
-  industryCodeOptions: (state) => state.businessDetails.industryCodeOptions,
 });
 
 export const getGstSettingsForUpdate = createStructuredSelector({
@@ -78,6 +77,9 @@ export const getBusinessDetails = createStructuredSelector({
   tradingName: (state) => state.businessDetails.tradingName,
   region: (state) => state.businessDetails.region,
   clientCode: (state) => state.businessDetails.clientCode,
+});
+
+export const getIndustryDetails = createStructuredSelector({
   industryCodeOptions: (state) => state.businessDetails.industryCodeOptions,
   industry: (state) => state.businessDetails.industry,
 });

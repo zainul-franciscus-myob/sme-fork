@@ -9,6 +9,7 @@ import {
 import BusinessDetailsSection from './BusinessDetailsSection';
 import ContactDetailsSection from './ContactDetailsSection';
 import FinancialYearSection from './FinancialYearSection';
+import IndustryDetailsSection from './IndustryDetailsSection';
 import LockDateSection from './LockDateSection';
 import PageView from '../../../../components/PageView/PageView';
 
@@ -35,7 +36,8 @@ const BusinessDetailView = ({
           <a href={myAccountLink}>My Account.</a>
         </Alert>
       )}
-      <BusinessDetailsSection
+      <BusinessDetailsSection onChange={onChange} />
+      <IndustryDetailsSection
         onChange={onChange}
         shouldDisplaySpecificIndustry={shouldDisplaySpecificIndustry}
         onIndustryChange={onIndustryChange}
