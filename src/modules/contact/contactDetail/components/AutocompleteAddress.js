@@ -9,7 +9,7 @@ import {
 } from '@myob/myob-widgets';
 import React from 'react';
 
-import CountryCombobox from '../../../../components/combobox/CountryCombobox';
+import CountryEditableCombobox from '../../../../components/combobox/CountryEditableCombobox';
 import PhoneNumberList from '../../../../components/phoneNumberList/PhoneNumberList';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
@@ -111,7 +111,7 @@ const AutocompleteAddress = ({
       )}
       <fieldset className={style.addressGroup}>
         <legend className="sr-only">Address</legend>
-        <CountryCombobox
+        <CountryEditableCombobox
           hideLabel={false}
           label="Country"
           name="country"

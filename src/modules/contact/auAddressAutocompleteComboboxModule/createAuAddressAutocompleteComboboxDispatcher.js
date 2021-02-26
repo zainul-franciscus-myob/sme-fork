@@ -1,7 +1,7 @@
 import {
+  AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-  SET_SELECTED_AUTOCOMPLETE_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -17,22 +17,22 @@ const createAuAddressAutocompleteComboboxDispatcher = ({ store }) => ({
       context: {},
     });
   },
-  setAutocompleteAddresses: (payload) => {
+  loadAutocompleteAddresses: (addresses) => {
     store.dispatch({
       intent: LOAD_AUTOCOMPLETE_ADDRESSES,
-      payload,
+      addresses,
     });
   },
-  setSelectedAutocompleteAddress: (payload) => {
+  autocompleteAddressSelected: (selectedAutocompleteAddress) => {
     store.dispatch({
-      intent: SET_SELECTED_AUTOCOMPLETE_ADDRESS,
-      payload,
+      intent: AUTOCOMPLETE_ADDRESS_SELECTED,
+      selectedAutocompleteAddress,
     });
   },
-  setAutocompleteAddressKeywords: (payload) => {
+  setAutocompleteAddressKeywords: (keywords) => {
     store.dispatch({
       intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-      payload,
+      keywords,
     });
   },
 });

@@ -1,7 +1,7 @@
 import {
+  AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-  SET_SELECTED_AUTOCOMPLETE_ADDRESS,
 } from '../../ContactIntents';
 import auAddressAutocompleteComboboxReducer from '../auAddressAutocompleteComboboxReducer';
 
@@ -12,7 +12,7 @@ describe('AutocompleteAddressComboboxReducer', () => {
     };
     const action = {
       intent: LOAD_AUTOCOMPLETE_ADDRESSES,
-      payload: [
+      addresses: [
         {
           address:
             'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
@@ -69,8 +69,8 @@ describe('AutocompleteAddressComboboxReducer', () => {
         },
       };
       const action = {
-        intent: SET_SELECTED_AUTOCOMPLETE_ADDRESS,
-        payload: {
+        intent: AUTOCOMPLETE_ADDRESS_SELECTED,
+        selectedAutocompleteAddress: {
           address:
             'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
           info: {
@@ -102,7 +102,7 @@ describe('AutocompleteAddressComboboxReducer', () => {
       };
       const action = {
         intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-        payload: 'queen',
+        keywords: 'queen',
       };
 
       const actual = auAddressAutocompleteComboboxReducer(state, action);

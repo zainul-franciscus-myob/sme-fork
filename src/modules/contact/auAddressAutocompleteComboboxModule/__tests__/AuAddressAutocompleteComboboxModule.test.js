@@ -1,6 +1,6 @@
 import {
+  AUTOCOMPLETE_ADDRESS_SELECTED,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-  SET_SELECTED_AUTOCOMPLETE_ADDRESS,
 } from '../../ContactIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import AuAddressAutocompleteComboboxModule from '../AuAddressAutocompleteComboboxModule';
@@ -49,7 +49,7 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           context: {},
         },
         expect.objectContaining({
-          intent: SET_SELECTED_AUTOCOMPLETE_ADDRESS,
+          intent: AUTOCOMPLETE_ADDRESS_SELECTED,
         }),
       ]);
     });
@@ -88,7 +88,7 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           intent: SET_INITIAL_STATE,
           context: {},
         },
-        { intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS, payload: 'queen' },
+        { intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS, keywords: 'queen' },
       ]);
     });
   });
@@ -118,8 +118,8 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           context: {},
         },
         {
-          intent: SET_SELECTED_AUTOCOMPLETE_ADDRESS,
-          payload: selectedAddress,
+          intent: AUTOCOMPLETE_ADDRESS_SELECTED,
+          selectedAutocompleteAddress: selectedAddress,
         },
       ]);
       expect(module.onSelected).toBeCalledWith(selectedAddress);
@@ -148,21 +148,15 @@ describe('AuAddressAutocompleteComboboxModule', () => {
         },
         {
           intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-          payload: 'abcdefg',
+          keywords: 'abcdefg',
         },
         {
-          intent: SET_SELECTED_AUTOCOMPLETE_ADDRESS,
-          payload: {
-            address: 'abcdefg',
-            info: null,
-          },
+          intent: AUTOCOMPLETE_ADDRESS_SELECTED,
+          selectedAutocompleteAddress: 'abcdefg',
         },
       ]);
 
-      expect(module.onSelected).toBeCalledWith({
-        address: 'abcdefg',
-        info: null,
-      });
+      expect(module.onSelected).toBeCalledWith('abcdefg');
     });
 
     it('does nothing if has selected address', () => {

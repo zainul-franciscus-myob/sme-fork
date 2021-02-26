@@ -79,6 +79,23 @@ export default class ContactDetailModule {
     this.integrator.loadAccountAfterCreate({ id, onSuccess, onFailure });
   };
 
+  onSameAsBillingAddressChange = (isShippingAddressSameAsBillingAddress) => {
+    this.dispatcher.setShippingAddressSameAsBillingAddress(
+      isShippingAddressSameAsBillingAddress
+    );
+
+    if (!isShippingAddressSameAsBillingAddress) {
+      this.reRunShippingAddressAutoCompleteComboboxModule();
+    }
+  };
+
+  reRunShippingAddressAutoCompleteComboboxModule = () => {
+    const state = this.store.getState();
+    const shippingAddressStreet = getShippingAddressStreet(state);
+    this.shippingAddressAutoCompleteComboboxModule.resetState();
+    this.runShippingAddressAutoCompleteComboboxModule(shippingAddressStreet);
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const billingAddressAutocompleteAddressCombobox = this.billingAddressAutocompleteAddressComboboxModule.render();
@@ -106,9 +123,7 @@ export default class ContactDetailModule {
         shippingAddressAutoCompleteCombobox={
           shippingAddressAutoCompleteCombobox
         }
-        onSameAsBillingAddressChange={
-          this.dispatcher.setShippingAddressSameAsBillingAddress
-        }
+        onSameAsBillingAddressChange={this.onSameAsBillingAddressChange}
       />
     );
 
@@ -183,12 +198,15 @@ export default class ContactDetailModule {
     const billingAddressStreet = getBillingAddressStreet(state);
     const shippingAddressStreet = getShippingAddressStreet(state);
 
-    this.runBillingAddressAutocompleteAddressComboboxModule({
-      street: billingAddressStreet,
-    });
-    this.runShippingAddressAutoCompleteComboboxModule({
-      street: shippingAddressStreet,
-    });
+    this.runBillingAddressAutocompleteAddressComboboxModule(
+      billingAddressStreet
+    );
+    this.runShippingAddressAutoCompleteComboboxModule(shippingAddressStreet);
+  };
+
+  runAutocompleteAddressModuleForNewContact = () => {
+    this.runBillingAddressAutocompleteAddressComboboxModule();
+    this.runShippingAddressAutoCompleteComboboxModule();
   };
 
   loadContactDetail = () => {
@@ -197,6 +215,7 @@ export default class ContactDetailModule {
 
     if (isCreating) {
       this.loadNewContact();
+      this.runAutocompleteAddressModuleForNewContact();
       return;
     }
 
@@ -295,13 +314,13 @@ export default class ContactDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
-  runBillingAddressAutocompleteAddressComboboxModule = ({ street }) =>
+  runBillingAddressAutocompleteAddressComboboxModule = (street) =>
     this.billingAddressAutocompleteAddressComboboxModule.run({
       onSelected: this.dispatcher.updateAutocompleteBillingAddress,
       street,
     });
 
-  runShippingAddressAutoCompleteComboboxModule = ({ street }) =>
+  runShippingAddressAutoCompleteComboboxModule = (street) =>
     this.shippingAddressAutoCompleteComboboxModule.run({
       onSelected: this.dispatcher.updateAutocompleteShippingAddress,
       street,
@@ -320,5 +339,7 @@ export default class ContactDetailModule {
   resetState() {
     this.dispatcher.resetState();
     this.accountModalModule.resetState();
+    this.shippingAddressAutoCompleteComboboxModule.resetState();
+    this.billingAddressAutocompleteAddressComboboxModule.resetState();
   }
 }

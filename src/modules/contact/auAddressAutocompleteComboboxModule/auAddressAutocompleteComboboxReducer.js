@@ -1,7 +1,7 @@
 import {
+  AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-  SET_SELECTED_AUTOCOMPLETE_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
@@ -25,26 +25,34 @@ const setInitialState = (state) => ({
 
 const resetState = () => getDefaultState();
 
-const loadAutocompleteAddresses = (state, { payload }) => ({
+const loadAutocompleteAddresses = (state, { addresses }) => ({
   ...state,
-  addresses: [...payload],
+  addresses,
 });
 
-const setSelectedAutocompleteAddress = (state, { payload }) => ({
+const autocompleteAddressSelected = (
+  state,
+  { selectedAutocompleteAddress }
+) => ({
   ...state,
-  selected: payload,
+  selected: selectedAutocompleteAddress.address
+    ? selectedAutocompleteAddress
+    : {
+        ...state.selected,
+        address: selectedAutocompleteAddress,
+      },
 });
 
-const setAutocompleteAddressKeywords = (state, { payload }) => ({
+const setAutocompleteAddressKeywords = (state, { keywords }) => ({
   ...state,
-  keywords: payload,
+  keywords,
 });
 
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
   [LOAD_AUTOCOMPLETE_ADDRESSES]: loadAutocompleteAddresses,
-  [SET_SELECTED_AUTOCOMPLETE_ADDRESS]: setSelectedAutocompleteAddress,
+  [AUTOCOMPLETE_ADDRESS_SELECTED]: autocompleteAddressSelected,
   [SET_AUTOCOMPLETE_ADDRESS_KEYWORDS]: setAutocompleteAddressKeywords,
 };
 

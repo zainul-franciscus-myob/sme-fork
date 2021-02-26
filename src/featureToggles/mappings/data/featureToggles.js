@@ -27,4 +27,5 @@ export default {
   isJobMakerDeclarationEnabled: true,
   shouldDisplayAccountBillingMenuText: true,
   isPurchaseOrdersEnabled: true,
+  isAutocompleteAddressEnabled: true,
 };

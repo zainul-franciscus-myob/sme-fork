@@ -260,7 +260,7 @@ const clearAbnValidationResult = (state) => ({
 const updateAutocompleteBillingAddress = (state, { addressInfo }) => {
   const updatedBillingAddress = {
     ...state.contact.billingAddress,
-    street: addressInfo.address,
+    street: addressInfo?.address ?? addressInfo,
     city: addressInfo.info?.suburb ?? state.contact.billingAddress.city,
     state: addressInfo.info?.state ?? state.contact.billingAddress.state,
     postcode:
@@ -286,7 +286,7 @@ const updateAutocompleteShippingAddress = (state, { addressInfo }) => ({
     ...state.contact,
     shippingAddress: {
       ...state.contact.shippingAddress,
-      street: addressInfo.address,
+      street: addressInfo?.address ?? addressInfo,
       city: addressInfo.info?.suburb ?? state.contact.shippingAddress.city,
       state: addressInfo.info?.state ?? state.contact.shippingAddress.state,
       postcode:
