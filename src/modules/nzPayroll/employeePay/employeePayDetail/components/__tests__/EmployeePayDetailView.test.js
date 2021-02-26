@@ -6,6 +6,8 @@ import {
   SET_EMPLOYEE_PAY_DETAIL,
   SET_LOADING_STATE,
 } from '../../EmployeePayDetailIntents';
+import DeleteConfirmationModal from '../DeleteConfirmationModal';
+import EmployeePayDetailButtons from '../EmployeePayDetailButtons';
 import EmployeePayDetailHeader from '../EmployeePayDetailHeader';
 import EmployeePayDetailTable from '../EmployeePayDetailTable';
 import EmployeePayDetailView from '../EmployeePayDetailView';
@@ -49,5 +51,17 @@ describe('<EmployeePayDetailView />', () => {
     wrapper.update();
     expect(wrapper.find(EmployeePayDetailTable).exists()).toEqual(true);
     expect(wrapper.find({ columnName: 'Pay items' }).exists()).toEqual(true);
+  });
+
+  it('should render the EmployeePayDetailButtons', () => {
+    const wrapper = setup();
+    wrapper.update();
+    expect(wrapper.find(EmployeePayDetailButtons).exists()).toEqual(true);
+  });
+
+  it('should not render delete confirmation modal by default', () => {
+    const wrapper = setup();
+    wrapper.update();
+    expect(wrapper.find(DeleteConfirmationModal).exists()).toEqual(false);
   });
 });

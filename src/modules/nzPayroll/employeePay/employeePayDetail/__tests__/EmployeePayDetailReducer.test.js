@@ -1,8 +1,11 @@
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import {
+  CLOSE_DELETE_MODAL,
+  DELETE_EMPLOYEE_PAY_DETAIL_FAILED,
+  OPEN_DELETE_MODAL,
   SET_EMPLOYEE_PAY_DETAIL,
   SET_LOADING_STATE,
 } from '../EmployeePayDetailIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import employeePayDetailReducer from '../employeePayDetailReducer';
 import employeePayDetails from '../../mappings/data/loadEmployeePayDetail';
@@ -61,5 +64,53 @@ describe('Employee Pay Detail Reducer', () => {
     const actual = employeePayDetailReducer(state, action);
 
     expect(actual.loadingState).toEqual(LoadingState.LOADING_FAIL);
+  });
+
+  it('should populate delete modal display flag if intent OPEN_DELETE_MODAL dispatched', () => {
+    const state = {
+      employeePay: { employeeId: 1 },
+      loadingState: LoadingState.LOADING,
+    };
+
+    const action = {
+      intent: OPEN_DELETE_MODAL,
+      displayDeleteConfirmation: true,
+    };
+
+    const actual = employeePayDetailReducer(state, action);
+    expect(actual.displayDeleteConfirmation).toEqual(true);
+  });
+
+  it('should populate delete modal display flag if intent CLOSE_DELETE_MODAL dispatched', () => {
+    const state = {
+      employeePay: { employeeId: 1 },
+      loadingState: LoadingState.LOADING,
+    };
+
+    const action = {
+      intent: CLOSE_DELETE_MODAL,
+      displayDeleteConfirmation: false,
+    };
+
+    const actual = employeePayDetailReducer(state, action);
+    expect(actual.displayDeleteConfirmation).toEqual(false);
+  });
+
+  it('should show alert message if intent DELETE_EMPLOYEE_PAY_DETAIL_FAILED dispatched', () => {
+    const state = {
+      employeePay: { employeeId: 1 },
+      loadingState: LoadingState.LOADING,
+    };
+
+    const action = {
+      intent: DELETE_EMPLOYEE_PAY_DETAIL_FAILED,
+      message: 'failed message',
+    };
+
+    const actual = employeePayDetailReducer(state, action);
+    expect(actual.alert).toMatchObject({
+      type: 'danger',
+      message: 'failed message',
+    });
   });
 });

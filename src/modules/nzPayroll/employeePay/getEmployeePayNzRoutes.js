@@ -6,6 +6,7 @@ const getEmployeePayNzRoutes = ({
   setRootView,
   pushMessage,
   featureToggles,
+  navigateToName,
 }) => {
   const routes = [
     {
@@ -18,6 +19,7 @@ const getEmployeePayNzRoutes = ({
         setRootView,
         pushMessage,
         featureToggles,
+        navigateToName,
       }),
     },
   ];

@@ -1,12 +1,21 @@
-import { BaseTemplate, Card, PageHead, Separator } from '@myob/myob-widgets';
+import {
+  Alert,
+  BaseTemplate,
+  Card,
+  PageHead,
+  Separator,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getAlert,
+  getDisplayDeleteModal,
   getEmployeePay,
   getLoadingState,
   getPageTitle,
 } from '../EmployeePayDetailSelectors';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
 import EmployeePayDetailButtons from './EmployeePayDetailButtons';
 import EmployeePayDetailHeader from './EmployeePayDetailHeader';
 import EmployeePayDetailTable from './EmployeePayDetailTable';
@@ -16,8 +25,13 @@ import styles from './EmployeePayDetailView.module.css';
 const EmployeePayDetailView = ({
   loadingState,
   onGoBackClick,
+  onDeleteClick,
+  displayDeleteConfirmation = false,
+  confirmModalListeners,
   employeePay,
   pageTitle,
+  alert,
+  onDismissAlertClick,
 }) => {
   const {
     paymentMethod,
@@ -42,12 +56,26 @@ const EmployeePayDetailView = ({
     </div>
   );
 
+  const deleteConfirmationModal = displayDeleteConfirmation && (
+    <DeleteConfirmationModal confirmModalListeners={confirmModalListeners} />
+  );
+
   const modalButtons = (
-    <EmployeePayDetailButtons onGoBackClick={onGoBackClick} />
+    <EmployeePayDetailButtons
+      onGoBackClick={onGoBackClick}
+      onDeleteClick={onDeleteClick}
+    />
+  );
+
+  const alertComponent = alert && (
+    <Alert type={alert.type} onDismiss={onDismissAlertClick}>
+      {alert.message}
+    </Alert>
   );
 
   const view = (
     <BaseTemplate>
+      {alertComponent}
       <PageHead title={pageTitle} />
       <Card footer={totalsFooter}>
         <EmployeePayDetailHeader
@@ -65,6 +93,7 @@ const EmployeePayDetailView = ({
         <EmployeePayDetailTable payItemGroups={lines} />
       </Card>
       {modalButtons}
+      {deleteConfirmationModal}
     </BaseTemplate>
   );
 
@@ -75,6 +104,8 @@ const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
   employeePay: getEmployeePay(state),
   pageTitle: getPageTitle(state),
+  displayDeleteConfirmation: getDisplayDeleteModal(state),
+  alert: getAlert(state),
 });
 
 export default connect(mapStateToProps)(EmployeePayDetailView);
