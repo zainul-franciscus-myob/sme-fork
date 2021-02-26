@@ -293,3 +293,6 @@ export const SUCCESSFULLY_DELETED_RECURRING_TRANSACTION = Symbol(
 export const SUCCESSFULLY_SAVED_TAX_CODE = Symbol(
   'Successfully saved a tax code'
 );
+export const SUCCESSFULLY_COMBINED_TAX_CODES = Symbol(
+  'Successfully combined tax codes'
+);

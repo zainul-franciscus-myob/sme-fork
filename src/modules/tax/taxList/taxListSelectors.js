@@ -7,11 +7,18 @@ export const getBusinessId = (state) => state.businessId;
 export const getAlert = (state) => state.alert;
 
 export const getIsTaxDetailEnabled = (state) => state.isTaxDetailEnabled;
+export const getIsTaxCombineEnabled = (state) => state.isTaxCombineEnabled;
 
 const getTaxDetailUrl = (state, id) => {
   const region = getRegion(state);
   const businessId = getBusinessId(state);
   return `/#/${region}/${businessId}/tax/${id}`;
+};
+
+export const getTaxCombineUrl = (state) => {
+  const region = getRegion(state);
+  const businessId = getBusinessId(state);
+  return `/#/${region}/${businessId}/tax/combine`;
 };
 
 export const getTableEntries = (state) =>
@@ -34,4 +41,9 @@ export const getTableHeaderTexts = createSelector(getRegion, (region) => {
 
 export const getPageHead = createSelector(getRegion, (region) =>
   getRegionToDialectText(region)('Tax codes')
+);
+
+export const getCombineButtonLabel = createSelector(
+  getRegion,
+  (region) => `Combine ${getRegionToDialectText(region)('tax codes')}`
 );

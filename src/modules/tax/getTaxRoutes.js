@@ -1,4 +1,5 @@
 import RouteName from '../../router/RouteName';
+import TaxCombineModule from './taxCombine/TaxCombineModule';
 import TaxDetailModule from './taxDetail/TaxDetailModule';
 import TaxListModule from './taxList/TaxListModule';
 
@@ -13,7 +14,12 @@ const getTaxRoutes = ({
     {
       name: RouteName.TAX_LIST,
       path: '/:region/:businessId/tax/',
-      module: new TaxListModule({ integration, setRootView, popMessages }),
+      module: new TaxListModule({
+        integration,
+        setRootView,
+        navigateTo,
+        popMessages,
+      }),
       documentTitle: 'Tax codes',
     },
     {
@@ -26,6 +32,17 @@ const getTaxRoutes = ({
         pushMessage,
       }),
       documentTitle: 'Tax code',
+    },
+    {
+      name: RouteName.TAX_COMBINE,
+      path: '/:region/:businessId/tax/combine',
+      module: new TaxCombineModule({
+        integration,
+        setRootView,
+        navigateTo,
+        pushMessage,
+      }),
+      documentTitle: 'Combine tax codes',
     },
   ];
 

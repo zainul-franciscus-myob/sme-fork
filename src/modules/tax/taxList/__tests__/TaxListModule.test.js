@@ -14,14 +14,14 @@ jest.mock('../../../../splitToggle', () => ({
 }));
 
 describe('TaxListModule', () => {
-  const setup = (isTaxDetailEnabled = true) => {
+  const setup = (featureTogglesEnabled = true) => {
     const store = new TestStore(taxListReducer);
     const integration = new TestIntegration();
     const setRootView = () => {};
     const popMessages = () => [];
     const module = new TaxListModule({ integration, setRootView, popMessages });
 
-    isToggleOn.mockReturnValue(isTaxDetailEnabled);
+    isToggleOn.mockReturnValue(featureTogglesEnabled);
 
     module.store = store;
     module.dispatcher = createTaxListDispatcher(store);
@@ -32,15 +32,18 @@ describe('TaxListModule', () => {
 
   describe('run', () => {
     it('successfully load', () => {
-      const isTaxDetailEnabled = true;
-      const { store, integration, module } = setup(isTaxDetailEnabled);
+      const featureTogglesEnabled = true;
+      const { store, integration, module } = setup(featureTogglesEnabled);
 
       module.run({});
 
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isTaxDetailEnabled },
+          context: {
+            isTaxDetailEnabled: featureTogglesEnabled,
+            isTaxCombineEnabled: featureTogglesEnabled,
+          },
         },
         {
           intent: SET_LOADING_STATE,
@@ -62,8 +65,8 @@ describe('TaxListModule', () => {
     });
 
     it('fails to load', () => {
-      const isTaxDetailEnabled = true;
-      const { store, integration, module } = setup(isTaxDetailEnabled);
+      const featureTogglesEnabled = true;
+      const { store, integration, module } = setup(featureTogglesEnabled);
       integration.mapFailure(LOAD_TAX_LIST);
 
       module.run({});
@@ -71,7 +74,10 @@ describe('TaxListModule', () => {
       expect(store.getActions()).toEqual([
         {
           intent: SET_INITIAL_STATE,
-          context: { isTaxDetailEnabled },
+          context: {
+            isTaxDetailEnabled: featureTogglesEnabled,
+            isTaxCombineEnabled: featureTogglesEnabled,
+          },
         },
         {
           intent: SET_LOADING_STATE,
