@@ -50,6 +50,7 @@ import getQuoteRoutes from './modules/quote/getQuoteRoutes';
 import getReceiveMoneyRoutes from './modules/receiveMoney/getReceiveMoneyRoutes';
 import getReceiveRefundRoutes from './modules/receiveRefund/getReceiveRefundRoutes';
 import getRecurringTransactionRoutes from './modules/recurringTransaction/getRecurringTransactionRoutes';
+import getRemittanceAdviceRoutes from './modules/remittanceAdvice/getRemittanceAdviceRoutes';
 import getReportsSubscribeNowRoutes from './modules/reportsSubscribeNow/getReportsSubscribeNowRoutes';
 import getSalesSettingsRoutes from './modules/salesSettings/getSalesSettingsRoutes';
 import getSmartMeSettingsRoutes from './modules/smartMeSettings/getSmartMeSettingsRoutes';
@@ -79,6 +80,7 @@ const getRoutes = (moduleParams) => [
   ...getQuoteRoutes(moduleParams),
   ...getInvoiceRoutes(moduleParams),
   ...getBillPaymentRoutes(moduleParams),
+  ...getRemittanceAdviceRoutes(moduleParams),
   ...getSupplierPaymentRoutes(moduleParams),
   ...getTaxRoutes(moduleParams),
   ...getBusinessRoutes(moduleParams),

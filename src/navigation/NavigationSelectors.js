@@ -292,6 +292,7 @@ export const getPurchasesUrls = createSelector(
       billCreate: enabledUrls.billCreate,
       billPaymentCreate: enabledUrls.billPaymentCreate,
       supplierPaymentCreate: enabledUrls.supplierPaymentCreate,
+      remittanceAdvice: enabledUrls.remittanceAdvice,
       recurringTransactionPurchaseList: isRecurringTransactionEnabled
         ? enabledUrls.recurringTransactionPurchaseList
         : undefined,
