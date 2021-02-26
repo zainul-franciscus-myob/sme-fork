@@ -2,7 +2,6 @@ import {
   FieldGroup,
   Icons,
   Input,
-  Select,
   TextArea,
   Tooltip,
 } from '@myob/myob-widgets';
@@ -10,6 +9,7 @@ import React from 'react';
 
 import CountryEditableCombobox from '../../../../components/combobox/CountryEditableCombobox';
 import PhoneNumberList from '../../../../components/phoneNumberList/PhoneNumberList';
+import StateEditableCombobox from '../../../../components/combobox/StateEditableCombobox';
 import style from './Address.module.css';
 
 const onInputChange = (handler) => (e) => {
@@ -44,25 +44,22 @@ const Address = ({
   onAddressChange,
 }) => {
   const stateInput = isStateDropdown ? (
-    <Select
-      label="State/territory"
+    <StateEditableCombobox
+      hideLabel={false}
       name="state"
-      value={state}
-      onChange={onInputChange(onAddressChange)}
-      width="xs"
-    >
-      {[<Select.Option value="placeholder" label="" hidden />].concat(
-        stateOptions.map(({ name, id }) => (
-          <Select.Option key={id} value={id} label={name} />
-        ))
-      )}
-    </Select>
+      selectedId={state}
+      onChange={onComboBoxChange(onAddressChange, 'state')}
+      width="lg"
+      label="State/territory"
+      items={stateOptions}
+    />
   ) : (
     <Input
       label="Region"
       name="state"
       value={state}
       onChange={onInputChange(onAddressChange)}
+      width="lg"
     />
   );
 
