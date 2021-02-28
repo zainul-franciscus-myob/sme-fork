@@ -43,12 +43,12 @@ class OnboardingModule {
       this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS);
       this.redirectToDashboard();
     };
-    const onFailure = () => {
+    const onFailure = (response) => {
       this.dispatcher.setAlert({
         type: 'danger',
-        message: 'Sorry, something went wrong on our end. Please try again.',
+        message: response.message,
       });
-      this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS); // For soft faliure
+      this.dispatcher.setLoadingState(loadingState.LOADING_SUCCESS); // For soft failure
     };
 
     this.dispatcher.setLoadingState(loadingState.LOADING);
