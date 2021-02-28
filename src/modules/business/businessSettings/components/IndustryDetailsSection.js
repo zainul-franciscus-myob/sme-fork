@@ -1,10 +1,4 @@
-import {
-  Combobox,
-  FieldGroup,
-  InfoIcon,
-  ReadOnly,
-  Tooltip,
-} from '@myob/myob-widgets';
+import { Combobox, FieldGroup, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -25,7 +19,7 @@ const IndustryDetailsSection = ({
 }) => (
   <FieldGroup label="Industry details">
     {shouldDisplaySpecificIndustry && (
-      <ReadOnly name="BusinessDivision" label="Business Industry">
+      <ReadOnly name="BusinessDivision" label="Business industry">
         <strong>{industry}</strong>
       </ReadOnly>
     )}
@@ -34,16 +28,11 @@ const IndustryDetailsSection = ({
         items={industryCodeOptions}
         metaData={industryCodeMetaData}
         name="ANZSICCode"
-        label="Specific Industry"
+        label="Specific industry code"
         renderItem={(columnName, item) => {
           return columnName === 'Display' ? item.Display : '';
         }}
         onChange={onIndustryChange}
-        labelAccessory={
-          <Tooltip triggerContent={<InfoIcon />}>
-            Choose or search for the industry most like yours
-          </Tooltip>
-        }
         noMatchFoundMessage="There seems to be no industry matching your clues. Please try another clue"
       />
     )}
