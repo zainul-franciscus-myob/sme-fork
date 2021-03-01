@@ -48,7 +48,6 @@ import {
   getCreateBillFromOrderUrl,
   getCreateNewPurchaseOrderUrl,
   getPurchaseOrderListUrl,
-  getPurchasesSettingsUrl,
 } from './selectors/PurchaseOrderRedirectSelectors';
 import { getExportPdfFilename } from './selectors/exportPdfSelectors';
 import {
@@ -800,18 +799,6 @@ class PurchaseOrderModule {
     });
   };
 
-  redirectToPurchasesSettings = () => {
-    const state = this.store.getState();
-    const url = getPurchasesSettingsUrl(state);
-
-    this.navigateTo(url);
-  };
-
-  closeEmailSettingsModal = () => {
-    this.dispatcher.closeModal();
-    this.dispatcher.resetOpenSendEmail();
-  };
-
   handleSaveEmailSettings = () => {
     if (getCanSaveEmailSettings(this.store.getState())) {
       this.saveEmailSettings();
@@ -844,11 +831,6 @@ class PurchaseOrderModule {
     };
 
     this.integrator.saveEmailSettings({ onSuccess, onFailure });
-  };
-
-  openPurchasesSettingsTabAndCloseModal = () => {
-    this.closeEmailSettingsModal();
-    this.redirectToPurchasesSettings();
   };
 
   closeEmailModal = () => {

@@ -29,9 +29,3 @@ export const getCreateBillFromOrderUrl = createSelector(
   getPurchaseOrderId,
   (baseUrl, orderId) => `${baseUrl}/bill/new?orderId=${orderId}`
 );
-
-export const getPurchasesSettingsUrl = (state) => {
-  const baseUrl = getBaseUrl(state);
-
-  return `${baseUrl}/purchasesSettings`;
-};

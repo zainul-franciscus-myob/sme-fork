@@ -23,6 +23,7 @@ const PurchaseOrderActions = ({
   isBlocking,
   isReadOnly,
   isForeignCurrency,
+  // eslint-disable-next-line no-unused-vars
   showEmailButton,
   showExportPdfButton,
   onSaveButtonClick,
@@ -134,6 +135,7 @@ const PurchaseOrderActions = ({
     </Button>
   );
 
+  // eslint-disable-next-line no-unused-vars
   const emailButton = (
     <Button
       key="saveAndEmail"
@@ -153,7 +155,8 @@ const PurchaseOrderActions = ({
         secondary={[
           !isCreating && !isForeignCurrency,
           showExportPdfButton && exportPdfButton,
-          showEmailButton && emailButton,
+          // TODO Enable email after ARL release; 2021.2
+          // showEmailButton && emailButton,
         ]}
       />
     );
@@ -167,7 +170,8 @@ const PurchaseOrderActions = ({
         !isCreating && separator,
         !isCreating && convertToBillButton,
         exportPdfButton,
-        emailButton,
+        // TODO Enable email after ARL release; 2021.2
+        // emailButton,
       ]}
     />
   );
