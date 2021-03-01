@@ -1,7 +1,7 @@
 import { Table } from '@myob/myob-widgets';
 import React from 'react';
 
-import AmountInput from '../../../../../../components/autoFormatter/AmountInput/AmountInput';
+import FormattedAmountInput from '../../../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import ReadOnlyRowItem from './ReadOnlyRowItem';
 import styles from '../../AccountListTable.module.css';
 
@@ -45,7 +45,7 @@ const OpeningBalanceRowItem = ({
       columnName={config.columnName}
       {...config.styles}
     >
-      <AmountInput
+      <FormattedAmountInput
         textAlign="right"
         className={styles.textAlign}
         label=""

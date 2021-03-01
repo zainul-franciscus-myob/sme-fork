@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import { getOpeningBalance } from '../accountDetailSelectors';
-import AmountInput from '../../../../components/autoFormatter/AmountInput/AmountInput';
+import FormattedAmountInput from '../../../../components/autoFormatter/AmountInput/FormattedAmountInput';
 import onAmountInputChange from '../../../../components/handlers/handleAmountInputChange';
 import style from './AccountOpeningBalance.module.css';
 
 const AccountOpeningBalance = ({ openingBalance, onChange }) => (
-  <AmountInput
+  <FormattedAmountInput
     className={style.openingBalance}
     name="openingBalance"
     label="Opening balance ($)"
