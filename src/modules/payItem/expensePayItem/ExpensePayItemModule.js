@@ -27,6 +27,7 @@ import {
   getBusinessId,
   getCreateExpensePayItemUrlParams,
   getIsCreating,
+  getIsPageEdited,
   getIsSubmitting,
   getModalType,
   getRegion,
@@ -289,6 +290,17 @@ class ExpensePayItemModule {
     this.redirectToExpensePayItemsList();
   };
 
+  confirmBeforeOpenCancelModal = () => {
+    const state = this.store.getState();
+    const isEdited = getIsPageEdited(state);
+
+    if (isEdited) {
+      this.openCancelModal();
+    } else {
+      this.cancelExpensePayItem();
+    }
+  };
+
   dismissAlert = () => {
     this.setAlertMessage('');
   };
@@ -379,7 +391,7 @@ class ExpensePayItemModule {
           onConfirmCancelButtonClick={this.cancelExpensePayItem}
           onSaveButtonClick={this.saveExpensePayItem}
           onDeleteButtonClick={this.openDeleteModal}
-          onCancelButtonClick={this.openCancelModal}
+          onCancelButtonClick={this.confirmBeforeOpenCancelModal}
         />
       </Provider>
     );

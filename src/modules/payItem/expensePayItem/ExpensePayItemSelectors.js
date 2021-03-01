@@ -9,6 +9,7 @@ export const getIsAlertShown = (state) => Boolean(getAlertMessage(state));
 export const getLoadingState = (state) => state.loadingState;
 export const getIsSubmitting = (state) => state.isSubmitting;
 export const getIsCreating = (state) => state.expensePayItemId === 'new';
+export const getIsPageEdited = (state) => state.isPageEdited;
 
 export const getBusinessId = (state) => state.businessId;
 export const getExpensePayItemId = (state) => state.expensePayItemId;
