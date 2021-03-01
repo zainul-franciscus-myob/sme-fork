@@ -15,7 +15,7 @@ const createOnboardingIntegrator = (store, integration) => ({
     });
   },
 
-  saveOnboarding: async ({ onSuccess, onFailure }) => {
+  saveOnboarding: ({ onSuccess, onFailure }) => {
     const state = store.getState();
     const intent = SAVE_ONBOARDING;
     const urlParams = { businessId: getBusinessId(state) };

@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getDashboardUrl } from './OnboardingSelectors';
+import { getDashboardUrl, getIsFormValid } from './OnboardingSelectors';
 import OnboardingView from './components/OnboardingView';
 import Store from '../../store/Store';
 import createOnboardingDispatcher from './createOnboardingDispatcher';
@@ -31,9 +31,7 @@ class OnboardingModule {
     });
   }
 
-  save = async (event) => {
-    event.preventDefault();
-
+  submitForm = () => {
     const onSuccess = () => {
       this.dispatcher.setAlert(undefined);
       this.globalCallbacks.refreshTaskEvent();
@@ -52,10 +50,26 @@ class OnboardingModule {
     };
 
     this.dispatcher.setLoadingState(loadingState.LOADING);
-    await this.integrator.saveOnboarding({
+    this.integrator.saveOnboarding({
       onSuccess,
       onFailure,
     });
+  };
+
+  save = (event) => {
+    event.preventDefault();
+    this.dispatcher.setIsFormSubmitted(true);
+    const state = this.store.getState();
+    if (getIsFormValid(state)) {
+      this.dispatcher.setIsFormSubmitted(false);
+      this.submitForm();
+    } else {
+      this.dispatcher.setAlert({
+        type: 'danger',
+        message:
+          'We could not continue because one or more required fields is empty. Please complete all required fields.',
+      });
+    }
   };
 
   loadOnboarding = () => {

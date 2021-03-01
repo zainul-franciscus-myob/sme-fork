@@ -3,10 +3,13 @@ import { createSelector } from 'reselect';
 export const getBusinessId = (state) => state.businessId;
 export const getBusinessName = (state) => state.businessName;
 export const getBusinessRole = (state) => state.businessRole;
+export const getIndustryId = (state) => state.industryId;
 export const getLoadingState = (state) => state.loadingState;
 export const getRegion = (state) => state.region;
 export const getAlert = (state) => state.alert;
 export const getIndustries = (state) => state.industries;
+export const getIsFormSubmitted = (state) => state.isFormSubmitted;
+export const getIsBusinessNameEdited = (state) => state.isBusinessNameEdited;
 
 export const getIndustryMetaData = () => [
   { columnName: 'title', showData: true },
@@ -30,12 +33,6 @@ export const getOnboardingDetails = (state) => ({
   businessRoles: state.businessRoles,
 });
 
-export const getPageEditedDetails = (state) => ({
-  isIndustryEdited: state.isIndustryEdited,
-  isBusinessNameEdited: state.isBusinessNameEdited,
-  isBusinessRoleEdited: state.isBusinessRoleEdited,
-});
-
 export const getIsMoveToMyobEnabled = (state) => state.isMoveToMyobEnabled;
 
 export const getSaveOnboardingContent = (state) => ({
@@ -49,3 +46,11 @@ export const getSaveOnboardingContent = (state) => ({
 
 export const getDashboardUrl = (state) =>
   `/#/${state.region}/${state.businessId}/dashboard`;
+
+export const getIsFormValid = createSelector(
+  getBusinessName,
+  getBusinessRole,
+  getIndustryId,
+  (businessName, businessRole, industryId) =>
+    businessName && businessRole && industryId
+);

@@ -4,6 +4,7 @@ import {
   SET_BUSINESS_NAME,
   SET_BUSINESS_ROLE,
   SET_INDUSTRY,
+  SET_IS_FORM_SUBMITTED,
   SET_LOADING_STATE,
   SET_ONBOARDING_DETAILS,
   SET_USING_COMPETITOR_PRODUCT,
@@ -23,8 +24,7 @@ const getDefaultState = () => ({
   loadingState: LoadingState.LOADING,
   isMoveToMyobEnabled: false,
   isBusinessNameEdited: false,
-  isIndustryEdited: false,
-  isBusinessRoleEdited: false,
+  isFormSubmitted: false,
   usingCompetitorProduct: false,
 });
 
@@ -39,13 +39,11 @@ const setBusinessName = (state, { businessName }) => ({
 const setBusinessRole = (state, { businessRole }) => ({
   ...state,
   businessRole,
-  isBusinessRoleEdited: true,
 });
 
 const setIndustry = (state, { industryId }) => ({
   ...state,
   industryId,
-  isIndustryEdited: true,
 });
 
 const setInitialState = (state, action) => ({
@@ -73,6 +71,11 @@ const setAlert = (state, { alert }) => ({
   alert,
 });
 
+const setIsFormSubmitted = (state, { isFormSubmitted }) => ({
+  ...state,
+  isFormSubmitted,
+});
+
 const handlers = {
   [RESET_STATE]: resetState,
   [SET_ALERT]: setAlert,
@@ -83,6 +86,7 @@ const handlers = {
   [SET_INDUSTRY]: setIndustry,
   [SET_BUSINESS_ROLE]: setBusinessRole,
   [SET_USING_COMPETITOR_PRODUCT]: setUsingCompetitorProduct,
+  [SET_IS_FORM_SUBMITTED]: setIsFormSubmitted,
 };
 
 const onboardingReducer = createReducer(getDefaultState(), handlers);

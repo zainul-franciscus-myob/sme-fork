@@ -9,3 +9,4 @@ export const SET_USING_COMPETITOR_PRODUCT = Symbol(
   'Set using competitor product'
 );
 export const SET_ALERT = Symbol('Set alert');
+export const SET_IS_FORM_SUBMITTED = Symbol('Set is form submitted');

@@ -21,10 +21,11 @@ import {
   getAlert,
   getIndustryItems,
   getIndustryMetaData,
+  getIsBusinessNameEdited,
+  getIsFormSubmitted,
   getIsMoveToMyobEnabled,
   getLoadingState,
   getOnboardingDetails,
-  getPageEditedDetails,
 } from '../OnboardingSelectors';
 import LoadingPageState from '../../../components/LoadingPageState/LoadingPageState';
 import PageView from '../../../components/PageView/PageView';
@@ -45,8 +46,7 @@ const OnboardingView = ({
   industryId,
   industryItems,
   isBusinessNameEdited,
-  isBusinessRoleEdited,
-  isIndustryEdited,
+  isFormSubmitted,
   isMoveToMyobEnabled,
   onChangeBusinessName,
   onChangeBusinessRole,
@@ -59,9 +59,9 @@ const OnboardingView = ({
 }) => {
   if (!businessId) return <LoadingPageState />;
 
-  const businessNameError = 'You need to enter a business name';
-  const industryError = 'You need to select an industry';
-  const businessRoleError = 'You need to select your role';
+  const businessNameError = 'Business name is required.';
+  const industryError = 'Your industry is required.';
+  const businessRoleError = 'Your role is required.';
 
   const alertComponent = alert && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -107,7 +107,9 @@ const OnboardingView = ({
               autoFocus
               className={styles.input}
               errorMessage={
-                !businessName && isBusinessNameEdited && businessNameError
+                !businessName &&
+                (isBusinessNameEdited || isFormSubmitted) &&
+                businessNameError
               }
               name="businessName"
               label="What's the name of your business?"
@@ -120,7 +122,7 @@ const OnboardingView = ({
           <div>
             <Combobox
               defaultItem={industryItems.find((ind) => ind.id === industryId)}
-              errorMessage={!industryId && isIndustryEdited && industryError}
+              errorMessage={!industryId && isFormSubmitted && industryError}
               items={industryItems}
               label="What industry is your business in?"
               metaData={industryMetaData}
@@ -142,7 +144,7 @@ const OnboardingView = ({
               value={businessRole}
               requiredLabel="This is required"
               errorMessage={
-                !businessRole && isBusinessRoleEdited && businessRoleError
+                !businessRole && isFormSubmitted && businessRoleError
               }
               renderRadios={({ id, value, ...props }) => {
                 return businessRoles.map((businessType) => (
@@ -198,10 +200,11 @@ const mapStateToProps = (state) => ({
   alert: getAlert(state),
   ...getOnboardingDetails(state),
   isMoveToMyobEnabled: getIsMoveToMyobEnabled(state),
-  ...getPageEditedDetails(state),
+  isBusinessNameEdited: getIsBusinessNameEdited(state),
   loadingState: getLoadingState(state),
   industryItems: getIndustryItems(state),
   industryMetaData: getIndustryMetaData(),
+  isFormSubmitted: getIsFormSubmitted(state),
 });
 
 export default connect(mapStateToProps)(OnboardingView);

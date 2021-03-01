@@ -4,6 +4,7 @@ import {
   SET_BUSINESS_NAME,
   SET_BUSINESS_ROLE,
   SET_INDUSTRY,
+  SET_IS_FORM_SUBMITTED,
   SET_LOADING_STATE,
   SET_ONBOARDING_DETAILS,
   SET_USING_COMPETITOR_PRODUCT,
@@ -30,6 +31,9 @@ const createOnboardingDispatcher = (store) => ({
   },
   setIndustry: (industryId) => {
     store.dispatch({ intent: SET_INDUSTRY, industryId });
+  },
+  setIsFormSubmitted: (isFormSubmitted) => {
+    store.dispatch({ intent: SET_IS_FORM_SUBMITTED, isFormSubmitted });
   },
   setUsingCompetitorProduct: (usingCompetitorProduct) => {
     store.dispatch({
