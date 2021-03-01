@@ -25,7 +25,7 @@ export const activeMapping = {
   [RouteName.SUPPLIER_RETURN_LIST]: 'purchases',
   [RouteName.SUPPLIER_RETURN_RECEIVE_REFUND]: 'purchases',
   [RouteName.SUPPLIER_RETURN_PURCHASE]: 'purchases',
-  [RouteName.REMITTANCE_ADVICE]: 'purchases',
+  [RouteName.REMITTANCE_ADVICE_LIST]: 'purchases',
 
   [RouteName.BANKING_TRANSACTION_LIST]: 'banking',
   [RouteName.BANK_RECONCILIATION]: 'banking',
@@ -129,8 +129,8 @@ export const featuresConfig = {
     routeName: RouteName.SUPPLIER_PAYMENT_DETAIL,
     params: { supplierPaymentId: 'new' },
   },
-  remittanceAdvice: {
-    routeName: RouteName.REMITTANCE_ADVICE,
+  remittanceAdviceList: {
+    routeName: RouteName.REMITTANCE_ADVICE_LIST,
   },
   recurringTransactionPurchaseList: {
     routeName: RouteName.RECURRING_TRANSACTION_LIST,

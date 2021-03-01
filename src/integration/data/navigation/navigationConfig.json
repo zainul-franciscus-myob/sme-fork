@@ -21,7 +21,7 @@
     "billCreate",
     "billPaymentCreate",
     "supplierPaymentCreate",
-    "remittanceAdvice",
+    "remittanceAdviceList",
     "recurringTransactionPurchaseList",
     "supplierReturnList",
 

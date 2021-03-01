@@ -11,7 +11,7 @@ const isSeparatorRequired = (urls) =>
   urls.billCreate ||
   urls.supplierPaymentCreate ||
   urls.recurringTransactionPurchaseList ||
-  urls.remittanceAdvice;
+  urls.remittanceAdviceList;
 
 const isPurchaseOrderSeparatorRequired = (urls) =>
   urls.purchaseOrderList || urls.purchaseOrderCreate;
@@ -76,8 +76,12 @@ const getItems = (urls, onMenuLinkClick) => {
         onMenuLinkClick,
         trackCreateSupplierPayment
       ),
-    urls.remittanceAdvice &&
-      getMenuLink(urls.remittanceAdvice, 'Remittance advice', onMenuLinkClick),
+    urls.remittanceAdviceList &&
+      getMenuLink(
+        urls.remittanceAdviceList,
+        'Remittance advice',
+        onMenuLinkClick
+      ),
     urls.recurringTransactionPurchaseList &&
       getMenuLink(
         urls.recurringTransactionPurchaseList,

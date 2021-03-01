@@ -3,7 +3,7 @@ import RouteName from '../../router/RouteName';
 
 const getRemittanceAdviceRoutes = ({ integration, setRootView }) => [
   {
-    name: RouteName.REMITTANCE_ADVICE,
+    name: RouteName.REMITTANCE_ADVICE_LIST,
     path: '/:region/:businessId/remittanceAdvice/',
     module: new RemittanceAdviceListModule({
       integration,
