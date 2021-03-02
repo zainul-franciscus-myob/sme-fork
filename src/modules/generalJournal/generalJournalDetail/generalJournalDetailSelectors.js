@@ -110,8 +110,10 @@ export const getTableData = createSelector(getLength, (len) =>
 
 export const getNewLineData = (state) => state.newLine;
 
-export const getIndexOfLastLine = (state) =>
-  state.generalJournal.lines.length - 1;
+const getLines = (state) => state.generalJournal.lines;
+export const getIndexOfLastLine = createSelector(getLines, (lines) =>
+  lines ? lines.length - 1 : -1
+);
 
 const getGeneralJournal = (state) => state.generalJournal;
 
