@@ -2,6 +2,8 @@ import {
   CLEAR_EI_SUBMISSIONS_LIST,
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
+  SET_DETAILS_ALERT,
+  SET_DETAILS_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
@@ -56,6 +58,27 @@ const createEiSubmissionsDispatcher = (store) => ({
   clearEiSubmissionsList: () => {
     store.dispatch({
       intent: CLEAR_EI_SUBMISSIONS_LIST,
+    });
+  },
+
+  setDetailsLoadingState: (detailsLoadingState) => {
+    store.dispatch({
+      intent: SET_DETAILS_LOADING_STATE,
+      detailsLoadingState,
+    });
+  },
+
+  setDetailsAlert: (detailsAlertMessage) => {
+    store.dispatch({
+      intent: SET_DETAILS_ALERT,
+      detailsAlertMessage,
+    });
+  },
+
+  clearDetailsAlert: () => {
+    store.dispatch({
+      intent: SET_DETAILS_ALERT,
+      detailsAlertMessage: '',
     });
   },
 });

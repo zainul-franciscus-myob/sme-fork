@@ -5,6 +5,7 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYDAY_USER_SESSION,
+  LOAD_PAYRUN_PDF_REPORT,
   UPDATE_ONBOARD_USER,
 } from '../PaydayFilingIntents';
 
@@ -49,6 +50,12 @@ const PaydayFilingMapping = {
     method: 'GET',
     getPath: ({ businessId }) =>
       `/${businessId}/nz-payroll/paydayFiling/load_filtered_ei_submissions`,
+  },
+
+  [LOAD_PAYRUN_PDF_REPORT]: {
+    method: 'GET',
+    getPath: ({ businessId, payRunId }) =>
+      `/${businessId}/nz-payroll/paydayFiling/payruns/${payRunId}/load_report`,
   },
 };
 

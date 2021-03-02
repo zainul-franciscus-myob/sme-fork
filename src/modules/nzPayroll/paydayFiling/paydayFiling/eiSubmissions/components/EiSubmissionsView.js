@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getDetailsAlertMessage,
+  getDetailsLoadingState,
   getHasSelectedPayRun,
   getIsTableLoading,
   getPayRuns,
@@ -12,7 +14,7 @@ import {
   getShouldDisplaySubmissionInfo,
 } from '../EiSubmissionsSelector';
 import { getLoadingState } from '../../PaydayFilingSelectors';
-import EiSubmissionsDetailView from './EiSubmissionsDetailView';
+import EiSubmissionsDetailView from './EiSubmissionsDetail/EiSubmissionsDetailView';
 import EiSubmissionsFilter from './EiSubmissionsFilter';
 import EiSubmissionsTable from './EiSubmissionsTable';
 import EiSubmissionsTruncatedTable from './EiSubmissionsTruncatedTable';
@@ -30,9 +32,12 @@ const EiSubmissionsView = ({
   hasRowSelected,
   onRowSelect,
   selectedPayRun,
-  onViewPayRunReportClick = () => {},
+  onViewPayRunReportClick,
   onClosePayRunDetails,
   shouldDisplaySubmissionInfo,
+  detailsLoadingState,
+  detailsAlertMessage,
+  onDismissDetailsAlert,
 }) => {
   const tableConfig = {
     payPeriod: {
@@ -94,6 +99,9 @@ const EiSubmissionsView = ({
       onClose={onClosePayRunDetails}
       onViewPayRunReportClick={onViewPayRunReportClick}
       shouldDisplaySubmissionInfo={shouldDisplaySubmissionInfo}
+      loadingState={detailsLoadingState}
+      detailsAlertMessage={detailsAlertMessage}
+      onDismissDetailsAlert={onDismissDetailsAlert}
     />
   );
 
@@ -121,6 +129,8 @@ const mapStateToProps = (state) => ({
   payRuns: getPayRuns(state),
   selectedPayRun: getSelectedPayRun(state),
   shouldDisplaySubmissionInfo: getShouldDisplaySubmissionInfo(state),
+  detailsLoadingState: getDetailsLoadingState(state),
+  detailsAlertMessage: getDetailsAlertMessage(state),
 });
 
 export default connect(mapStateToProps)(EiSubmissionsView);

@@ -2,7 +2,7 @@ import { Card, Table } from '@myob/myob-widgets';
 import React from 'react';
 
 import EiSubmissionsEmptyTable from './EiSubmissionsEmptyTable';
-import EiSubmissionsStatusLabel from './EiSubmissionsStatusLabel';
+import EiSubmissionsStatusLabel from './EiSubmissionsDetail/EiSubmissionsStatusLabel';
 import TableView from '../../../../../../components/TableView/TableView';
 
 const EiSubmissionsTruncatedTable = ({

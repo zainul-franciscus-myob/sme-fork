@@ -2,10 +2,13 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { findButtonWithTestId } from '../../../../../../../common/tests/selectors';
-import EiSubmissionsDetailView from '../EiSubmissionsDetailView';
-import EiSubmissionsDetailedInformation from '../EiSubmissionsDetailedInformation';
-import EiSubmissionsStatusLabel from '../EiSubmissionsStatusLabel';
-import EiSubmissionsStatusMessage from '../EiSubmissionsStatusMessage';
+import EiSubmissionErrorMessage from '../EiSubmissionsDetail/EiSubmissionErrorMessage';
+import EiSubmissionsDetailView from '../EiSubmissionsDetail/EiSubmissionsDetailView';
+import EiSubmissionsDetailedInformation from '../EiSubmissionsDetail/EiSubmissionsDetailedInformation';
+import EiSubmissionsPayrunDetails from '../EiSubmissionsDetail/EiSubmissionsPayrunDetails';
+import EiSubmissionsStatusLabel from '../EiSubmissionsDetail/EiSubmissionsStatusLabel';
+import EiSubmissionsStatusMessage from '../EiSubmissionsDetail/EiSubmissionsStatusMessage';
+import SubmittedStatusMessage from '../EiSubmissionsDetail/StatusMessages/SubmittedStatusMessage';
 import formatDateTime from '../../../../../../../common/valueFormatters/formatDate/formatDateTime';
 
 describe('EiSubmissionsDetailView', () => {
@@ -47,6 +50,7 @@ describe('EiSubmissionsDetailView', () => {
       const wrapper = mount(<EiSubmissionsDetailView {...props} />);
       expect(wrapper.exists(EiSubmissionsStatusLabel)).toEqual(true);
       expect(wrapper.exists(EiSubmissionsStatusMessage)).toEqual(true);
+      expect(wrapper.exists(SubmittedStatusMessage)).toEqual(true);
     });
   });
 
@@ -91,9 +95,9 @@ describe('EiSubmissionsDetailView', () => {
   describe('Pay run', () => {
     it('should have correct labels and values', () => {
       const wrapper = mount(<EiSubmissionsDetailView {...props} />);
-      const submissionInformationForm = wrapper.find({
-        testid: 'payRunInfoForm',
-      });
+      const submissionInformationForm = wrapper.find(
+        EiSubmissionsPayrunDetails
+      );
 
       const expectedLabels = [
         'Pay period',
@@ -185,6 +189,28 @@ describe('EiSubmissionsDetailView', () => {
 
       // Assert
       expect(props.onSubmitToIrClick).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Error alert', () => {
+    it('should render alert message when message defined', () => {
+      // Arrange
+      const detailsAlertMessage = 'An error occurred';
+      const propsWithAlert = { detailsAlertMessage, ...props };
+      const wrapper = mount(<EiSubmissionsDetailView {...propsWithAlert} />);
+
+      // Assert
+      expect(wrapper.find(EiSubmissionErrorMessage).exists()).toBe(true);
+    });
+
+    it('should not render alert message when message not defined', () => {
+      // Arrange
+      const detailsAlertMessage = '';
+      const propsWithAlert = { detailsAlertMessage, ...props };
+      const wrapper = mount(<EiSubmissionsDetailView {...propsWithAlert} />);
+
+      // Assert
+      expect(wrapper.find(EiSubmissionErrorMessage).exists()).toBe(false);
     });
   });
 });

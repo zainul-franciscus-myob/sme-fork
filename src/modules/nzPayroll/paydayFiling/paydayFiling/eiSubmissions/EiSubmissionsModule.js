@@ -5,6 +5,7 @@ import EiSubmissionsView from './components/EiSubmissionsView';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import createEiSubmissionsDispatcher from './createEiSubmissionsDispatcher';
 import createEiSubmissionsIntegrator from './createEiSubmissionsIntegrator';
+import openBlob from '../../../../../common/blobOpener/openBlob';
 
 export default class EiSubmissionsModule {
   constructor({ store, integration }) {
@@ -12,6 +13,10 @@ export default class EiSubmissionsModule {
     this.dispatcher = createEiSubmissionsDispatcher(this.store);
     this.integrator = createEiSubmissionsIntegrator(this.store, integration);
   }
+
+  clearDetailsAlert = () => {
+    this.dispatcher.clearDetailsAlert();
+  };
 
   loadFilteredEiSubmissions = () => {
     this.dispatcher.setTableLoadingState(true);
@@ -64,12 +69,36 @@ export default class EiSubmissionsModule {
     this.dispatcher.clearSelectedPayRun();
   };
 
+  viewPdfReport = () => {
+    this.dispatcher.setDetailsLoadingState(LoadingState.LOADING);
+    this.clearDetailsAlert();
+
+    const onSuccess = (response) => {
+      this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_SUCCESS);
+      openBlob({
+        blob: response,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setDetailsAlert(message);
+    };
+
+    this.integrator.loadPayRunPdfReport({
+      onSuccess,
+      onFailure,
+    });
+  };
+
   getView = () => (
     <EiSubmissionsView
       onPayrollYearChange={this.updatePayrollYearAndLoadEiSubmissions}
       onRefreshClick={this.loadFilteredEiSubmissions}
       onRowSelect={this.setSelectedPayRun}
       onClosePayRunDetails={this.clearSelectedPayRun}
+      onViewPayRunReportClick={this.viewPdfReport}
+      onDismissDetailsAlert={this.clearDetailsAlert}
     />
   );
 

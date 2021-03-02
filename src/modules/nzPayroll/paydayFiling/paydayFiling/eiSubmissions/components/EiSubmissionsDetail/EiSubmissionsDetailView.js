@@ -1,26 +1,24 @@
-import {
-  Aside,
-  Button,
-  ButtonRow,
-  FormHorizontal,
-  Icons,
-  ReadOnly,
-} from '@myob/myob-widgets';
+import { Aside, Button, ButtonRow, Icons } from '@myob/myob-widgets';
 import React from 'react';
 
+import EiSubmissionErrorMessage from './EiSubmissionErrorMessage';
 import EiSubmissionsDetailedInformation from './EiSubmissionsDetailedInformation';
+import EiSubmissionsPayrunDetails from './EiSubmissionsPayrunDetails';
 import EiSubmissionsStatusLabel from './EiSubmissionsStatusLabel';
 import EiSubmissionsStatusMessage from './EiSubmissionsStatusMessage';
-import PageView from '../../../../../../components/PageView/PageView';
-import styles from './EiSubmissionsView.module.css';
+import PageView from '../../../../../../../components/PageView/PageView';
+import styles from '../EiSubmissionsView.module.css';
 
 const EiSubmissionsDetailView = ({
+  loadingState,
   onClose,
   payRun,
   onViewPayRunReportClick,
   shouldDisplaySubmissionInfo,
   showSubmitToIr = false,
   onSubmitToIrClick = () => {},
+  detailsAlertMessage,
+  onDismissDetailsAlert,
 }) => {
   const actions = (
     <Aside.Actions>
@@ -39,6 +37,15 @@ const EiSubmissionsDetailView = ({
     <EiSubmissionsStatusLabel status={payRun.status} size="small" />
   );
 
+  const alertMessage = detailsAlertMessage && (
+    <div className={styles.payRunStatusContainer}>
+      <EiSubmissionErrorMessage
+        onDismissAlert={onDismissDetailsAlert}
+        alertMessage={detailsAlertMessage}
+      />
+    </div>
+  );
+
   const statusMessage = payRun.status && (
     <div className={styles.payRunStatusContainer}>
       <EiSubmissionsStatusMessage
@@ -48,6 +55,8 @@ const EiSubmissionsDetailView = ({
       />
     </div>
   );
+
+  const payRunDetails = <EiSubmissionsPayrunDetails payRun={payRun} />;
 
   const resubmitAction = showSubmitToIr && (
     <ButtonRow>
@@ -86,32 +95,12 @@ const EiSubmissionsDetailView = ({
 
   const view = (
     <>
+      {alertMessage}
       {statusMessage}
       <hr />
-      <div>
+      <div className={styles.baseInformation}>
         {submissionInfo}
-
-        <h3>Pay run</h3>
-        <FormHorizontal testid="payRunInfoForm">
-          <ReadOnly label="Pay period" name="payPeriod">
-            {payRun.payPeriod}
-          </ReadOnly>
-          <ReadOnly label="Pay on date" name="payOnDate">
-            {payRun.payOnDate}
-          </ReadOnly>
-          <ReadOnly label="Date recorded" name="dateRecorded">
-            {payRun.dateRecorded}
-          </ReadOnly>
-          <ReadOnly label="Employees" name="employeesCount">
-            {payRun.employeeCount}
-          </ReadOnly>
-          <ReadOnly label="Gross payments ($)" name="totalGross">
-            {payRun.totalGross}
-          </ReadOnly>
-          <ReadOnly label="PAYE and/or schedular tax ($)" name="totalPaye">
-            {payRun.totalPaye}
-          </ReadOnly>
-        </FormHorizontal>
+        {payRunDetails}
       </div>
       <hr />
       {resubmitAction}
@@ -120,7 +109,7 @@ const EiSubmissionsDetailView = ({
 
   return (
     <Aside header={header}>
-      <PageView view={view} />
+      <PageView loadingState={loadingState} view={view} />
     </Aside>
   );
 };

@@ -19,6 +19,12 @@ export const getIsTableLoading = createSelector(
   (eiSubmissions) => eiSubmissions.isTableLoading
 );
 
+export const getSelectedPayRunId = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) =>
+    eiSubmissions.selectedPayRun ? eiSubmissions.selectedPayRun.id : ''
+);
+
 export const getHasSelectedPayRun = createSelector(
   getEiSubmissionState,
   (eiSubmissions) => !!eiSubmissions.selectedPayRun
@@ -66,6 +72,16 @@ export const getSelectedPayRun = createSelector(
 export const getShouldDisplaySubmissionInfo = (state) =>
   getHasSelectedPayRun(state) &&
   getSelectedPayRun(state).status.label !== 'Not submitted';
+
+export const getDetailsLoadingState = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => eiSubmissions.detailsLoadingState
+);
+
+export const getDetailsAlertMessage = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => eiSubmissions.detailsAlertMessage
+);
 
 export const getFilterEiSubmissionsParams = (state) => {
   const selectedYear = getSelectedPayrollYear(state);

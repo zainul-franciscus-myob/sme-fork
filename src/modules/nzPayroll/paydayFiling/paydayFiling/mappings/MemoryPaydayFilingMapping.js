@@ -5,6 +5,7 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYDAY_USER_SESSION,
+  LOAD_PAYRUN_PDF_REPORT,
   UPDATE_ONBOARD_USER,
 } from '../PaydayFilingIntents';
 import loadBusinessOnboardedResponse from './data/loadBusinessOnboardedResponse.json';
@@ -35,6 +36,8 @@ const PaydayFilingMapping = {
     onSuccess(loadInitialEiSubmissions),
   [LOAD_FILTERED_EI_SUBMISSIONS]: ({ onSuccess }) =>
     onSuccess(loadFilteredEiSubmissions),
+  [LOAD_PAYRUN_PDF_REPORT]: ({ onSuccess }) =>
+    onSuccess(new Blob([], { type: 'application/pdf' })),
 };
 
 export default PaydayFilingMapping;

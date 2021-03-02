@@ -1,6 +1,7 @@
 import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
+  LOAD_PAYRUN_PDF_REPORT,
 } from '../../PaydayFilingIntents';
 import createEiSubmissionsIntegrator from '../createEiSubmissionsIntegrator';
 
@@ -87,6 +88,38 @@ describe('Submission list integrator', () => {
       expect(parameterObject.intent).toEqual(LOAD_FILTERED_EI_SUBMISSIONS);
       expect(parameterObject.urlParams).toEqual({ businessId });
       expect(parameterObject.params).toEqual(expectedParams);
+    });
+  });
+
+  describe('loadPayRunPdfReport', () => {
+    it('calls integrator with expected url params', () => {
+      // arrange
+      const integration = { readFile: jest.fn() };
+      const businessId = 42;
+      const payRunId = '12345';
+      const selectedPayRun = { id: payRunId };
+
+      const store = {
+        getState: () => ({
+          businessId,
+          eiSubmissions: {
+            selectedPayRun,
+          },
+        }),
+      };
+
+      const integrator = createEiSubmissionsIntegrator(store, integration);
+
+      // act
+      integrator.loadPayRunPdfReport({
+        onSuccess: () => {},
+        onFailure: () => {},
+      });
+
+      // assert
+      const parameterObject = integration.readFile.mock.calls[0][0];
+      expect(parameterObject.intent).toEqual(LOAD_PAYRUN_PDF_REPORT);
+      expect(parameterObject.urlParams).toEqual({ businessId, payRunId });
     });
   });
 });

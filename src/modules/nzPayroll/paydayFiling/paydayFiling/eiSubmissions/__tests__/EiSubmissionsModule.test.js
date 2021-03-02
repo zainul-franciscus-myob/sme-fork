@@ -6,6 +6,7 @@ import React from 'react';
 import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
+  LOAD_PAYRUN_PDF_REPORT,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
 } from '../../PaydayFilingIntents';
@@ -21,6 +22,9 @@ import TestIntegration from '../../../../../../integration/TestIntegration';
 import TestStore from '../../../../../../store/TestStore';
 import createEiSubmissionsDispatcher from '../createEiSubmissionsDispatcher';
 import createEiSubmissionsIntegrator from '../createEiSubmissionsIntegrator';
+import openBlob from '../../../../../../common/blobOpener/openBlob';
+
+jest.mock('../../../../../../common/blobOpener/openBlob');
 
 describe('EiSubmissionsModule', () => {
   let integration;
@@ -276,6 +280,31 @@ describe('EiSubmissionsModule', () => {
       );
 
       expect(store.getState().eiSubmissions.selectedPayrollYear).toBe('2020');
+    });
+  });
+
+  describe('View payrun pdf report', () => {
+    it('should open pdf report in new tab', () => {
+      // Arrange
+      store.setState({
+        ...store.getState(),
+        region: 'nz',
+        businessId: '123',
+      });
+
+      const { wrapper } = constructEiSubmissionsModule();
+
+      wrapper.find(Table.Row).first().simulate('click');
+      const button = findButtonWithTestId(wrapper, 'viewPayRunReportPdf');
+
+      // Act
+      button.simulate('click');
+
+      expect(integration.getRequests()).toContainEqual(
+        expect.objectContaining({ intent: LOAD_PAYRUN_PDF_REPORT })
+      );
+
+      expect(openBlob).toHaveBeenCalled();
     });
   });
 

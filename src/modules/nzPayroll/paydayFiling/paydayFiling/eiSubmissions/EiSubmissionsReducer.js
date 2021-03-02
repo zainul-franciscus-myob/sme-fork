@@ -2,10 +2,13 @@ import {
   CLEAR_EI_SUBMISSIONS_LIST,
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
+  SET_DETAILS_ALERT,
+  SET_DETAILS_LOADING_STATE,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
 } from '../PaydayFilingIntents';
+import LoadingState from '../../../../../components/PageView/LoadingState';
 
 export const getEiSubmissionsDefaultState = () => ({
   payrollYears: [],
@@ -13,6 +16,8 @@ export const getEiSubmissionsDefaultState = () => ({
   payRuns: [],
   isTableLoading: false,
   selectedPayRun: undefined,
+  detailsLoadingState: LoadingState.LOADING_SUCCESS,
+  detailsAlertMessage: undefined,
 });
 
 const setSelectedPayrollYear = (state, { selectedPayrollYear }) => ({
@@ -47,6 +52,17 @@ const setSelectedPayRun = (state, { selectedPayRunId }) => ({
   selectedPayRun: state.payRuns.find(
     (payRun) => payRun.id === selectedPayRunId
   ),
+  detailsAlertMessage: undefined,
+});
+
+const setDetailsLoadingState = (state, { detailsLoadingState }) => ({
+  ...state,
+  detailsLoadingState,
+});
+
+const setDetailsAlert = (state, { detailsAlertMessage }) => ({
+  ...state,
+  detailsAlertMessage,
 });
 
 export const eiSubmissionsHandlers = {
@@ -56,4 +72,6 @@ export const eiSubmissionsHandlers = {
   [LOAD_FILTERED_EI_SUBMISSIONS]: setEiSubmissions,
   [CLEAR_EI_SUBMISSIONS_LIST]: clearEiSubmissions,
   [SET_SELECTED_PAYRUN]: setSelectedPayRun,
+  [SET_DETAILS_LOADING_STATE]: setDetailsLoadingState,
+  [SET_DETAILS_ALERT]: setDetailsAlert,
 };

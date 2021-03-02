@@ -1,13 +1,17 @@
 import {
+  getDetailsAlertMessage,
+  getDetailsLoadingState,
   getFilterEiSubmissionsParams,
   getHasSelectedPayRun,
   getIsTableLoading,
   getPayRuns,
   getPayrollYears,
   getSelectedPayRun,
+  getSelectedPayRunId,
   getSelectedPayrollYear,
   getShouldDisplaySubmissionInfo,
 } from '../EiSubmissionsSelector';
+import LoadingState from '../../../../../../components/PageView/LoadingState';
 import formatDateTime from '../../../../../../common/valueFormatters/formatDate/formatDateTime';
 
 describe('EiSubmissionSelectors', () => {
@@ -248,6 +252,26 @@ describe('EiSubmissionSelectors', () => {
     });
   });
 
+  describe('getSelectedPayRunId', () => {
+    it(`should return payrun id of selected payrun`, () => {
+      const selectedPayRun = { id: '123' };
+      const expected = '123';
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getSelectedPayRunId(state);
+      expect(result).toEqual(expected);
+    });
+
+    it(`should be empty when there is no selected payrun`, () => {
+      const selectedPayRun = undefined;
+      const expected = '';
+      const state = { eiSubmissions: { selectedPayRun } };
+
+      const result = getSelectedPayRunId(state);
+      expect(result).toEqual(expected);
+    });
+  });
+
   describe('getHasSelectedPayRun', () => {
     it('should be true when selected payrun present', () => {
       const selectedPayRun = {
@@ -341,6 +365,28 @@ describe('EiSubmissionSelectors', () => {
       const result = getShouldDisplaySubmissionInfo(state);
 
       expect(result).toEqual(false);
+    });
+  });
+
+  describe('getDetailsLoadingState', () => {
+    it(`should return detail loading state`, () => {
+      const detailsLoadingState = LoadingState.LOADING_SUCCESS;
+      const expected = LoadingState.LOADING_SUCCESS;
+      const state = { eiSubmissions: { detailsLoadingState } };
+
+      const result = getDetailsLoadingState(state);
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getDetailsAlertMessage', () => {
+    it(`should return the detail alert message`, () => {
+      const detailsAlertMessage = 'An error occurred';
+      const expected = detailsAlertMessage;
+      const state = { eiSubmissions: { detailsAlertMessage } };
+
+      const result = getDetailsAlertMessage(state);
+      expect(result).toEqual(expected);
     });
   });
 });

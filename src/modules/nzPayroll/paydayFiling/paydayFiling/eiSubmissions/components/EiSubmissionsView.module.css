@@ -37,3 +37,6 @@
   align-items: center;
 }
 
+.baseInformation :global(.form-group) {
+  margin-bottom: 0;
+}
