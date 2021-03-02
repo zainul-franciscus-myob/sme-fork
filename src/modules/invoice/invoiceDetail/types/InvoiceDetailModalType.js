@@ -14,6 +14,7 @@ const InvoiceDetailModalType = {
   SEND_EINVOICE: 'SEND_EINVOICE',
   SEND_EINVOICE_ABN_WARNING: 'SEND_EINVOICE_ABN_WARNING',
   NONE: '',
+  INVOICE_PAYMENT_SETTINGS: 'INVOICE_PAYMENT_SETTINGS',
 };
 
 export default InvoiceDetailModalType;

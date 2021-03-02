@@ -11,6 +11,7 @@ import {
   LOAD_CUSTOMER_QUOTES,
   LOAD_INVOICE_HISTORY,
   LOAD_ITEM_SELLING_DETAILS,
+  LOAD_PAYMENT_SETTINGS,
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
@@ -357,6 +358,17 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     );
 
     integration.read({ intent, urlParams, onSuccess, onFailure });
+  },
+
+  loadPaymentSettings: ({ onSuccess, onFailure }) => {
+    integration.read({
+      intent: LOAD_PAYMENT_SETTINGS,
+      urlParams: {
+        businessId: getBusinessId(store.getState()),
+      },
+      onSuccess,
+      onFailure,
+    });
   },
 });
 

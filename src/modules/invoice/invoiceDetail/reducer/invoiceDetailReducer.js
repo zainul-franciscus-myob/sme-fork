@@ -43,6 +43,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
+  SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -520,6 +521,14 @@ const loadPrefillFromRecurringInvoice = (state, { invoice }) => {
   };
 };
 
+const setShouldShowPaymentSettingsModal = (
+  state,
+  { hasUpdatedPaymentSettings }
+) => ({
+  ...state,
+  hasUpdatedPaymentSettings,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -577,6 +586,7 @@ const handlers = {
   [RESET_SEND_EINVOICE_ATTACHMENTS]: resetSendEInvoiceAttachments,
   [ADD_EINVOICE_ATTACHMENTS]: addEInvoiceAttachments,
   [REMOVE_EINVOICE_ATTACHMENT]: removeEInvoiceAttachment,
+  [SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL]: setShouldShowPaymentSettingsModal,
   [SET_IS_PREVIEWING_PDF]: setIsPreviewingPdf,
 };
 

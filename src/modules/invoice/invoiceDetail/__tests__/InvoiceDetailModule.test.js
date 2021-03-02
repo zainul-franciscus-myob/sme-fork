@@ -575,7 +575,7 @@ describe('InvoiceDetailModule', () => {
         integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -595,7 +595,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -689,7 +689,7 @@ describe('InvoiceDetailModule', () => {
     });
   });
 
-  describe('saveAndEmailInvoice', () => {
+  describe('checkEmailModalToDisplay', () => {
     describe('new invoice', () => {
       it('create invoice, update invoice id, update url params, reload invoice, load history, open email modal and show alert inside modal', () => {
         const { module, store, integration } = setupWithRun({
@@ -697,7 +697,7 @@ describe('InvoiceDetailModule', () => {
         });
         module.replaceURLParams = jest.fn();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -740,7 +740,7 @@ describe('InvoiceDetailModule', () => {
         integration.mapFailure(CREATE_INVOICE_DETAIL, { message });
         module.replaceURLParams = jest.fn();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -760,7 +760,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -802,7 +802,7 @@ describe('InvoiceDetailModule', () => {
         });
         module.replaceURLParams = jest.fn();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -842,7 +842,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -862,7 +862,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -892,7 +892,7 @@ describe('InvoiceDetailModule', () => {
         const { module, store, integration } = setUpWithEdited();
         module.replaceURLParams = jest.fn();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -930,7 +930,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(UPDATE_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -948,7 +948,7 @@ describe('InvoiceDetailModule', () => {
         const message = 'Error';
         integration.mapFailure(LOAD_INVOICE_DETAIL, { message });
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual([
           { intent: SET_MODAL_TYPE, modalType: '' },
@@ -983,7 +983,7 @@ describe('InvoiceDetailModule', () => {
         store.resetActions();
         integration.resetRequests();
 
-        module.saveAndEmailInvoice();
+        module.checkEmailModalToDisplay();
 
         expect(store.getActions()).toEqual(
           expect.arrayContaining([

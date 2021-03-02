@@ -27,6 +27,7 @@ import {
   getNewLineIndex,
   getShouldSaveAndReload,
   getShouldShowAbn,
+  getShouldShowPaymentSettingsModal,
   getShowOnlinePayment,
   getTaxCalculations,
   getUniqueSelectedItemIds,
@@ -334,18 +335,42 @@ export default class InvoiceDetailModule {
   };
 
   saveAndEmailInvoice = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setShouldShowPaymentSettingsModal(
+        response.hasUpdatedPaymentSettings
+      );
+      this.checkEmailModalToDisplay();
+    };
+
+    const onFailure = () =>
+      this.dispatcher.setLoadingState(LoadingState.LOADING_FAIL);
+
+    this.integrator.loadPaymentSettings({ onSuccess, onFailure });
+  };
+
+  checkEmailModalToDisplay = () => {
     this.closeModal();
 
     const state = this.store.getState();
-    const shouldSaveAndReload = getShouldSaveAndReload(state);
-    if (shouldSaveAndReload) {
-      const onSuccess = ({ message }) => {
-        this.openEmailModal();
-        this.dispatcher.displayModalAlert({ type: 'success', message });
-      };
-      this.saveAndReload({ onSuccess });
-    } else {
+    const onSuccess = ({ message }) => {
       this.openEmailModal();
+      this.dispatcher.displayModalAlert({ type: 'success', message });
+    };
+
+    switch (true) {
+      case getShouldShowPaymentSettingsModal(state):
+        this.dispatcher.setModalType(
+          InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS
+        );
+        break;
+      case getShouldSaveAndReload(state):
+        this.saveAndReload({ onSuccess });
+        break;
+      default:
+        this.openEmailModal();
     }
 
     this.sendInvoiceTelemetry('click_send_email_invoice_button');
@@ -1159,6 +1184,7 @@ export default class InvoiceDetailModule {
       ...context,
     });
     setupHotKeys(keyMap, this.handlers);
+
     this.render();
 
     this.readMessages();
@@ -1500,6 +1526,9 @@ export default class InvoiceDetailModule {
         onRedirectToCreatePayment={this.onCreatePaymentHeaderClicked}
         onDismissPreConversionAlert={this.dismissPreConversionAlert}
         redirectToSetUpOnlinePayments={this.redirectToSetUpOnlinePayments}
+        paymentSettingsModalListeners={{
+          onCancel: this.closeModal,
+        }}
       />
     );
 

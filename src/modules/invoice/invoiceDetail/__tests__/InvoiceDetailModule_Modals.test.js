@@ -37,7 +37,7 @@ describe('InvoiceDetailModule_Modals', () => {
           businessId: 'businessId',
           region: 'au',
         });
-        module.saveAndEmailInvoice(); // open email settings modal and not fill out Reply-to email
+        module.checkEmailModalToDisplay(); // open email settings modal and not fill out Reply-to email
         store.resetActions();
         integration.resetRequests();
 
@@ -66,7 +66,7 @@ describe('InvoiceDetailModule_Modals', () => {
           businessId: 'businessId',
           region: 'au',
         });
-        module.saveAndEmailInvoice(); // open email settings modal
+        module.checkEmailModalToDisplay(); // open email settings modal
         module.updateEmailInvoiceDetail({
           key: 'fromEmail',
           value: 'romeo@meow.com',
@@ -123,7 +123,7 @@ describe('InvoiceDetailModule_Modals', () => {
           businessId: 'businessId',
           region: 'au',
         });
-        module.saveAndEmailInvoice(); // open email settings modal
+        module.checkEmailModalToDisplay(); // open email settings modal
         module.updateEmailInvoiceDetail({
           key: 'fromEmail',
           value: 'romeo@meow.com',

@@ -12,6 +12,7 @@ import EmailSettingsModal from './email/EmailSettingsModal';
 import ExportPdfModal from './modal/ExportPdfModal';
 import InvalidAbnModal from './modal/InvalidAbnModal';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
+import InvoiceDetailPaymentSettingsModal from './modal/InvoiceDetailPaymentSettingsModal';
 import InvoiceDetailPreConversionModal from './modal/InvoiceDetailPreConversionModal';
 import InvoiceDetailSaveAndConfirmModal from './modal/InvoiceDetailSaveAndConfirmModal';
 import QuickQuoteModal from './modal/QuickQuoteModal';
@@ -38,6 +39,7 @@ const InvoiceDetailModal = ({
   quickQuoteModalListeners,
   sendEInvoiceModalListeners,
   invalidAbnModalListeners,
+  paymentSettingsModalListeners,
 }) => {
   if (modalType === InvoiceDetailModalType.EMAIL_INVOICE) {
     return (
@@ -186,6 +188,14 @@ const InvoiceDetailModal = ({
       <InvoiceDetailPreConversionModal
         onCancel={preConversionModalListeners.onCancel}
         onConfirm={preConversionModalListeners.onConfirm}
+      />
+    );
+  }
+
+  if (modalType === InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS) {
+    return (
+      <InvoiceDetailPaymentSettingsModal
+        onCancel={paymentSettingsModalListeners.onCancel}
       />
     );
   }

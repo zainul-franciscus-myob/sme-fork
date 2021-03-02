@@ -40,6 +40,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
+  SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
   SET_UPGRADE_MODAL_SHOWING,
@@ -360,6 +361,13 @@ const createInvoiceDetailDispatcher = (store) => ({
   removeEInvoiceAttachment: (index) => {
     const intent = REMOVE_EINVOICE_ATTACHMENT;
     store.dispatch({ intent, index });
+  },
+
+  setShouldShowPaymentSettingsModal: (hasUpdatedPaymentSettings) => {
+    store.dispatch({
+      intent: SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
+      hasUpdatedPaymentSettings,
+    });
   },
 
   setIsPreviewingPdf: (isPreviewingPdf) => {

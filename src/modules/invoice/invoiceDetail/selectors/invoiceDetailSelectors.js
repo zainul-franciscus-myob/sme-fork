@@ -535,3 +535,16 @@ export const getUniqueSelectedJobIds = (state) => {
 };
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getHasUpdatedPaymentSettings = (state) =>
+  state.hasUpdatedPaymentSettings;
+
+export const getShouldShowPaymentSettingsModal = createSelector(
+  getBusinessId,
+  getHasUpdatedPaymentSettings,
+  (businessId, hasUpdatedPaymentSettings) =>
+    (businessId === '4d0429b1-c5c1-4b90-803d-03d3124fc216' &&
+      hasUpdatedPaymentSettings === false) ||
+    (businessId === '7b69f1fe-6353-4e4e-a7c7-897efa893362' &&
+      hasUpdatedPaymentSettings === false)
+);

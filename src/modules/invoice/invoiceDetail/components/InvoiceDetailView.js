@@ -81,6 +81,7 @@ const InvoiceDetailView = ({
   redirectToSetUpOnlinePayments,
   sendEInvoiceModalListeners,
   invalidAbnModalListeners,
+  paymentSettingsModalListeners,
 }) => {
   const options = (
     <InvoiceDetailOptions
@@ -120,6 +121,7 @@ const InvoiceDetailView = ({
       quickQuoteModalListeners={quickQuoteModalListeners}
       sendEInvoiceModalListeners={sendEInvoiceModalListeners}
       invalidAbnModalListeners={invalidAbnModalListeners}
+      paymentSettingsModalListeners={paymentSettingsModalListeners}
     />
   );
 
@@ -167,7 +169,7 @@ const InvoiceDetailView = ({
   );
 
   const view = (
-    <React.Fragment>
+    <>
       <LineItemTemplate
         pageHead={
           <InvoiceDetailHeader
@@ -197,7 +199,7 @@ const InvoiceDetailView = ({
           onClickOnRefNo={onClickOnRefNo}
         />
       )}
-    </React.Fragment>
+    </>
   );
 
   return <PageView loadingState={loadingState} view={view} />;
