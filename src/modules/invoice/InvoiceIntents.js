@@ -140,3 +140,5 @@ export const RESET_SEND_EINVOICE_ATTACHMENTS = Symbol(
 export const ADD_EINVOICE_ATTACHMENTS = Symbol('Add e-invoice attachments');
 export const REMOVE_EINVOICE_ATTACHMENT = Symbol('Remove e-invoice attachment');
 export const UPDATE_PAYMENT_OPTIONS = Symbol('Update payment options');
+
+export const SET_IS_PREVIEWING_PDF = Symbol('Set is previewing pdf');

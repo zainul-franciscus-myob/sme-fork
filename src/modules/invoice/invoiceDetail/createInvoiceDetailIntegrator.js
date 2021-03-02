@@ -42,10 +42,7 @@ import {
   getLoadPayDirectUrlParams,
   getLoadPrefillFromRecurringInvoiceUrlParams,
 } from './selectors/integratorSelectors';
-import {
-  getExportPdfQueryParams,
-  getExportPdfUrlParams,
-} from './selectors/exportPdfSelectors';
+import { getExportPdfUrlParams } from './selectors/exportPdfSelectors';
 import {
   getSaveEmailSettingsContent,
   getSaveEmailSettingsUrlParams,
@@ -256,12 +253,14 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
     });
   },
 
-  exportPdf: ({ onSuccess, onFailure }) => {
+  exportPdf: ({ template, onSuccess, onFailure }) => {
     const state = store.getState();
 
     const intent = EXPORT_INVOICE_PDF;
     const urlParams = getExportPdfUrlParams(state);
-    const params = getExportPdfQueryParams(state);
+    const params = {
+      formName: template,
+    };
 
     integration.readFile({
       intent,

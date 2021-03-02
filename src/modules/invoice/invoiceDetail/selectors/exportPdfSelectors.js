@@ -21,10 +21,6 @@ export const getExportPdfUrlParams = (state) => {
   return { businessId, invoiceId };
 };
 
-export const getExportPdfQueryParams = (state) => ({
-  formName: getExportPdfTemplate(state),
-});
-
 export const getExportPdfFilename = (state) => {
   const invoiceNumber = getInvoiceNumber(state);
 

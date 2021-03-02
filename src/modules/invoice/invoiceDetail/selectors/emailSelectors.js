@@ -14,7 +14,7 @@ const getCcEmailToAddresses = (state) => state.emailInvoice.ccToEmail;
 const getIsEmailMeACopy = (state) => state.emailInvoice.isEmailMeACopy;
 const getEmailSubject = (state) => state.emailInvoice.subject;
 const getEmailMessageBody = (state) => state.emailInvoice.messageBody;
-const getEmailTemplateName = (state) => state.emailInvoice.templateName;
+export const getEmailTemplateName = (state) => state.emailInvoice.templateName;
 const getHasEmailReplyDetails = (state) =>
   state.emailInvoice.hasEmailReplyDetails;
 export const getFromName = (state) => state.emailInvoice.fromName;
@@ -136,3 +136,5 @@ export const getShowEmailButton = createSelector(
     [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout) &&
     !isForeignCurrency
 );
+
+export const getIsPreviewingPdf = (state) => state.emailInvoice.isPreviewingPdf;

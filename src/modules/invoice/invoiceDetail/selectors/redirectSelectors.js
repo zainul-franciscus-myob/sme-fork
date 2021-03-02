@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 import { businessEventToFeatureMap } from '../../../../common/types/BusinessEventTypeMap';
 import {
   getAmountDue,
@@ -35,6 +37,13 @@ export const getInvoiceAndQuoteSettingsUrl = (state) => {
 
   return `/#/${region}/${businessId}/salesSettings`;
 };
+
+export const getTemplateSettingsUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) =>
+    `/#/${region}/${businessId}/salesSettings?selectedTab=templates`
+);
 
 export const getInvoiceListUrl = (state) => {
   const baseUrl = getBaseUrl(state);

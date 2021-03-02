@@ -83,3 +83,11 @@ export const removeEmailAttachment = (state, { index }) => ({
     ),
   },
 });
+
+export const setIsPreviewingPdf = (state, { isPreviewingPdf }) => ({
+  ...state,
+  emailInvoice: {
+    ...state.emailInvoice,
+    isPreviewingPdf,
+  },
+});

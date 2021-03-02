@@ -54,6 +54,12 @@ const InvoiceDetailModal = ({
         onDismissAlert={emailInvoiceDetailModalListeners.onDismissAlert}
         onAddAttachments={emailInvoiceDetailModalListeners.onAddAttachments}
         onRemoveAttachment={emailInvoiceDetailModalListeners.onRemoveAttachment}
+        onCustomiseTemplateLinkClick={
+          emailInvoiceDetailModalListeners.onCustomiseTemplateLinkClick
+        }
+        onPreviewPdfButtonClick={
+          emailInvoiceDetailModalListeners.onPreviewPdfButtonClick
+        }
       />
     );
   }

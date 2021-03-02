@@ -36,6 +36,7 @@ import {
   SET_INVOICE_HISTORY_OPEN,
   SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
+  SET_IS_PREVIEWING_PDF,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -63,6 +64,7 @@ import {
   removeEmailAttachment,
   resetEmailInvoiceDetail,
   saveEmailSettings,
+  setIsPreviewingPdf,
   updateEmailInvoiceDetail,
   uploadEmailAttachment,
   uploadEmailAttachmentFailed,
@@ -575,6 +577,7 @@ const handlers = {
   [RESET_SEND_EINVOICE_ATTACHMENTS]: resetSendEInvoiceAttachments,
   [ADD_EINVOICE_ATTACHMENTS]: addEInvoiceAttachments,
   [REMOVE_EINVOICE_ATTACHMENT]: removeEInvoiceAttachment,
+  [SET_IS_PREVIEWING_PDF]: setIsPreviewingPdf,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

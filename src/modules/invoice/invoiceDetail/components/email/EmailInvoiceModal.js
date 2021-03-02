@@ -5,17 +5,17 @@ import {
   CheckboxGroup,
   Input,
   Modal,
-  Select,
+  Separator,
   TextArea,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import EmailInvoiceAttachmentsContent from './EmailInvoiceAttachmentsContent';
+import EmailInvoiceModalSettings from './EmailInvoiceModalSettings';
 import EmailItemList from '../../../../../components/itemList/EmailItemList';
 import EnterKeyFocusableWrapper from '../../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
-import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import handleTextAreaChange from '../../../../../components/handlers/handleTextAreaChange';
 import styles from './EmailInvoiceModal.module.css';
 
@@ -33,10 +33,12 @@ const EmailInvoiceModal = ({
   isActionsDisabled,
   onCancel,
   onConfirm,
+  onCustomiseTemplateLinkClick,
   onEmailInvoiceDetailChange,
   onDismissAlert,
   onRemoveAttachment,
   onAddAttachments,
+  onPreviewPdfButtonClick,
 }) => {
   const renderContent = (onKeyDown) => (
     <div className={styles.formWidth}>
@@ -89,17 +91,14 @@ const EmailInvoiceModal = ({
       <Alert type="info">
         Total size of uploaded documents cannot exceed 25MB
       </Alert>
-      <Select
-        label="Template"
-        name="templateName"
-        value={emailInvoiceDetail.templateName}
-        onChange={handleSelectChange(onEmailInvoiceDetailChange)}
-        requiredLabel="This is required"
-      >
-        {templateOptions.map(({ name, label }) => (
-          <Select.Option value={name} label={label} key={name} />
-        ))}
-      </Select>
+      <Separator />
+      <EmailInvoiceModalSettings
+        emailInvoiceDetail={emailInvoiceDetail}
+        templateOptions={templateOptions}
+        onEmailInvoiceDetailChange={onEmailInvoiceDetailChange}
+        onCustomiseTemplateLinkClick={onCustomiseTemplateLinkClick}
+        onPreviewPdfButtonClick={onPreviewPdfButtonClick}
+      />
     </div>
   );
 
@@ -108,6 +107,7 @@ const EmailInvoiceModal = ({
       title="Email invoice"
       onCancel={onCancel}
       canClose={!isActionsDisabled}
+      underlayProps={{ id: 'emailInvoiceModal' }}
     >
       <Modal.Body>
         {alert && (

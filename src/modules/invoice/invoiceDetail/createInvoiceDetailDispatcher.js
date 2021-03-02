@@ -33,6 +33,7 @@ import {
   SET_INVOICE_HISTORY_OPEN,
   SET_INVOICE_HISTORY_UNAVAILABLE,
   SET_INVOICE_ITEM_LINE_DIRTY,
+  SET_IS_PREVIEWING_PDF,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
@@ -359,6 +360,11 @@ const createInvoiceDetailDispatcher = (store) => ({
   removeEInvoiceAttachment: (index) => {
     const intent = REMOVE_EINVOICE_ATTACHMENT;
     store.dispatch({ intent, index });
+  },
+
+  setIsPreviewingPdf: (isPreviewingPdf) => {
+    const intent = SET_IS_PREVIEWING_PDF;
+    store.dispatch({ intent, isPreviewingPdf });
   },
 });
 

@@ -1,0 +1,37 @@
+.templateSettings {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.templateSettingsHeading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.templateSettingsHeading > span {
+  color: var(--flx-color-input-label);
+}
+
+.templateSettingsHeading > div {
+  display: flex;
+}
+
+.templateSettingsFields {
+  display: flex;
+}
+
+.templateSettingsFields > div:first-of-type {
+  flex-grow: 1;
+  margin-right: var(--flx-spacing-tiny);
+}
+
+.templateSettingsFields > .previewButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-bottom: 1.6rem;
+}

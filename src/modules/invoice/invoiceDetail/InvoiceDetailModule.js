@@ -36,6 +36,7 @@ import {
 import {
   getCanSaveEmailSettings,
   getEmailModalType,
+  getEmailTemplateName,
   getFilesForUpload,
 } from './selectors/emailSelectors';
 import {
@@ -45,8 +46,12 @@ import {
   getInvoicePaymentUrl,
   getRedirectRefUrl,
   getRedirectState,
+  getTemplateSettingsUrl,
 } from './selectors/redirectSelectors';
-import { getExportPdfFilename } from './selectors/exportPdfSelectors';
+import {
+  getExportPdfFilename,
+  getExportPdfTemplate,
+} from './selectors/exportPdfSelectors';
 import {
   getInvoiceQuoteUrl,
   getShouldLoadCustomerQuote,
@@ -479,6 +484,11 @@ export default class InvoiceDetailModule {
     this.navigateTo(url);
   };
 
+  redirectToTemplateSettings = () => {
+    const state = this.store.getState();
+    this.navigateTo(getTemplateSettingsUrl(state), true);
+  };
+
   redirectToInvoiceAndQuoteSettings = () => {
     const state = this.store.getState();
     const url = getInvoiceAndQuoteSettingsUrl(state);
@@ -879,6 +889,7 @@ export default class InvoiceDetailModule {
   exportPdf = () => {
     if (getIsModalActionDisabled(this.store.getState())) return;
 
+    const state = this.store.getState();
     this.dispatcher.setModalSubmittingState(true);
 
     const onSuccess = (data) => {
@@ -886,7 +897,6 @@ export default class InvoiceDetailModule {
       this.dispatcher.setModalSubmittingState(false);
       this.closeModal();
 
-      const state = this.store.getState();
       const filename = getExportPdfFilename(state);
       openBlob({ blob: data, filename });
     };
@@ -897,7 +907,30 @@ export default class InvoiceDetailModule {
       this.closeModal();
     };
 
-    this.integrator.exportPdf({ onSuccess, onFailure });
+    const template = getExportPdfTemplate(state);
+    this.integrator.exportPdf({ template, onSuccess, onFailure });
+  };
+
+  previewPdf = () => {
+    const state = this.store.getState();
+    this.dispatcher.setIsPreviewingPdf(true);
+
+    const onSuccess = (data) => {
+      this.dispatcher.setIsPreviewingPdf(false);
+      const filename = getExportPdfFilename(state);
+      openBlob({ blob: data, filename });
+    };
+
+    const onFailure = () => {
+      this.dispatcher.displayModalAlert({
+        type: 'danger',
+        message: 'Failed to export PDF',
+      });
+      this.dispatcher.setIsPreviewingPdf(false);
+    };
+
+    const template = getEmailTemplateName(state);
+    this.integrator.exportPdf({ template, onSuccess, onFailure });
   };
 
   openExportPdfModalOrSaveAndExportPdf = () => {
@@ -1429,6 +1462,8 @@ export default class InvoiceDetailModule {
           onDismissAlert: this.dispatcher.dismissModalAlert,
           onAddAttachments: this.addEmailAttachments,
           onRemoveAttachment: this.dispatcher.removeEmailAttachment,
+          onCustomiseTemplateLinkClick: this.redirectToTemplateSettings,
+          onPreviewPdfButtonClick: this.previewPdf,
         }}
         applyPaymentUnsavedChangesListeners={{
           onConfirmSave: this.saveAndRedirectToInvoicePayment,

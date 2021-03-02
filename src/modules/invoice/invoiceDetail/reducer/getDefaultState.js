@@ -83,6 +83,7 @@ const getDefaultState = () => ({
     attachments: [],
     templateName: '',
     emailDefaultSettings: {},
+    isPreviewingPdf: false,
   },
   eInvoice: {
     appName: '',
