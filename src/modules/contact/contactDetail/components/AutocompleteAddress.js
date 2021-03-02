@@ -4,13 +4,13 @@ import {
   FieldGroup,
   Icons,
   Input,
-  Select,
   Tooltip,
 } from '@myob/myob-widgets';
 import React from 'react';
 
 import CountryEditableCombobox from '../../../../components/combobox/CountryEditableCombobox';
 import PhoneNumberList from '../../../../components/phoneNumberList/PhoneNumberList';
+import StateEditableCombobox from '../../../../components/combobox/StateEditableCombobox';
 import handleComboboxChange from '../../../../components/handlers/handleComboboxChange';
 import handleInputChange from '../../../../components/handlers/handleInputChange';
 import style from './Address.module.css';
@@ -43,20 +43,16 @@ const AutocompleteAddress = ({
   shouldShowAutocompleteAddressCombobox,
 }) => {
   const stateInput = isStateDropdown ? (
-    <Select
-      label="State/territory"
+    <StateEditableCombobox
+      hideLabel={false}
       name="state"
-      value={state}
-      onChange={handleInputChange(onAddressChange)}
-      width="xs"
+      selectedId={state}
+      onChange={handleComboboxChange('state', onAddressChange)}
+      width="lg"
+      label="State/territory"
+      items={stateOptions}
       disabled={disabled}
-    >
-      {[<Select.Option value="placeholder" label="" hidden />].concat(
-        stateOptions.map(({ name, id }) => (
-          <Select.Option key={id} value={id} label={name} />
-        ))
-      )}
-    </Select>
+    />
   ) : (
     <Input
       label="Region"
