@@ -8,6 +8,7 @@ import style from './AccountOpeningBalance.module.css';
 
 const AccountOpeningBalance = ({ openingBalance, onChange }) => (
   <FormattedAmountInput
+    numeralDecimalScaleMin={2}
     className={style.openingBalance}
     name="openingBalance"
     label="Opening balance ($)"
