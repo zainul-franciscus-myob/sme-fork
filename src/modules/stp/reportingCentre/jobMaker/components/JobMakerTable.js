@@ -110,15 +110,7 @@ const JobMakerTable = ({
         </div>
       </Table.HeaderItem>
       <Table.HeaderItem {...tableConfig.actions}>
-        <div>
-          {tableConfig.actions.columnName}
-          <span testid="JM-column-action-tooltip">
-            &nbsp;
-            <Tooltip triggerContent={<Icons.Info />} placement="top">
-              Employee updates coming soon.
-            </Tooltip>
-          </span>
-        </div>
+        <div>{tableConfig.actions.columnName}</div>
       </Table.HeaderItem>
     </Table.Header>
   );
