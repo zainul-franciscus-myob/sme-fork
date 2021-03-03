@@ -43,6 +43,7 @@ import {
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
   SET_REDIRECT_STATE,
+  SET_SENDING_EMAIL_STATE,
   SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
   SET_SHOW_PRE_CONVERSION_ALERT,
   SET_SUBMITTING_STATE,
@@ -66,6 +67,7 @@ import {
   resetEmailInvoiceDetail,
   saveEmailSettings,
   setIsPreviewingPdf,
+  setSendingEmailState,
   updateEmailInvoiceDetail,
   uploadEmailAttachment,
   uploadEmailAttachmentFailed,
@@ -586,6 +588,7 @@ const handlers = {
   [RESET_SEND_EINVOICE_ATTACHMENTS]: resetSendEInvoiceAttachments,
   [ADD_EINVOICE_ATTACHMENTS]: addEInvoiceAttachments,
   [REMOVE_EINVOICE_ATTACHMENT]: removeEInvoiceAttachment,
+  [SET_SENDING_EMAIL_STATE]: setSendingEmailState,
   [SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL]: setShouldShowPaymentSettingsModal,
   [SET_IS_PREVIEWING_PDF]: setIsPreviewingPdf,
 };

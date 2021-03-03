@@ -140,6 +140,8 @@ export const RESET_SEND_EINVOICE_ATTACHMENTS = Symbol(
 export const ADD_EINVOICE_ATTACHMENTS = Symbol('Add e-invoice attachments');
 export const REMOVE_EINVOICE_ATTACHMENT = Symbol('Remove e-invoice attachment');
 export const UPDATE_PAYMENT_OPTIONS = Symbol('Update payment options');
+
+export const SET_SENDING_EMAIL_STATE = Symbol('Set the sending email state');
 export const LOAD_PAYMENT_SETTINGS = Symbol('Load invoice payment settings');
 export const SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL = Symbol(
   'Sets if invoice payment settings have been updated and if modal should be displayed'

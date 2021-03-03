@@ -84,6 +84,11 @@ export const removeEmailAttachment = (state, { index }) => ({
   },
 });
 
+export const setSendingEmailState = (state, { isSendingEmail }) => ({
+  ...state,
+  isSendingEmail,
+});
+
 export const setIsPreviewingPdf = (state, { isPreviewingPdf }) => ({
   ...state,
   emailInvoice: {

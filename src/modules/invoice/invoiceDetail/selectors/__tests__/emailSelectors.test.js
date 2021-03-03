@@ -48,7 +48,7 @@ describe('emailSelectors', () => {
       expect(actual.toEmail).toEqual(['']);
     });
 
-    it('defaults ccToEmail to an array of empty string if ccToEmail is empty', () => {
+    it('defaults ccToEmail to an empty array if ccToEmail is empty', () => {
       const emailInvoice = {
         hasEmailReplyDetails: true,
         ccToEmail: [],
@@ -63,7 +63,7 @@ describe('emailSelectors', () => {
         invoiceNumber,
       });
 
-      expect(actual.ccToEmail).toEqual(['']);
+      expect(actual.ccToEmail).toEqual([]);
     });
 
     it('returns an empty object if there is no emailInvoice in payload', () => {

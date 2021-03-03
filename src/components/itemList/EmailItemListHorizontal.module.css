@@ -1,0 +1,18 @@
+.item {
+  display: flex;
+}
+
+.item button {
+  border-color: transparent;
+  background: none;
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.emailInput {
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.addEmailButton {
+  margin: 0 var(--flx-spacing-x-small);
+  flex-basis: 30%;
+}

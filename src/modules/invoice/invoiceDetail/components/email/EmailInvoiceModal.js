@@ -1,18 +1,27 @@
 import {
+  AddIcon,
   Alert,
   Button,
   Checkbox,
   CheckboxGroup,
+  InfoIcon,
   Input,
   Modal,
   Separator,
   TextArea,
+  Tooltip,
 } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
+import {
+  getHasCCEmails,
+  getHasEmailToAddress,
+  getIsSendingEmail,
+} from '../../selectors/emailSelectors';
 import EmailInvoiceAttachmentsContent from './EmailInvoiceAttachmentsContent';
 import EmailInvoiceModalSettings from './EmailInvoiceModalSettings';
-import EmailItemList from '../../../../../components/itemList/EmailItemList';
+import EmailItemListHorizontal from '../../../../../components/itemList/EmailItemListHorizontal';
 import EnterKeyFocusableWrapper from '../../../../../components/EnterKeyFocusableWrapper/EnterKeyFocusableWrapper';
 import handleCheckboxChange from '../../../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../../../components/handlers/handleInputChange';
@@ -26,11 +35,24 @@ const handleItemChange = (handler, key) => (emails) => {
   });
 };
 
+const AddCcButton = ({ onClick }) => (
+  <div>
+    <Button type="link" icon={<AddIcon />} onClick={onClick}>
+      Add CC email
+    </Button>
+  </div>
+);
+
+const emailToError = 'You need to enter an email address.';
+
 const EmailInvoiceModal = ({
   alert,
   emailInvoiceDetail,
   templateOptions,
   isActionsDisabled,
+  hasCCEmails,
+  hasToEmailAddress,
+  isSendingEmail,
   onCancel,
   onConfirm,
   onCustomiseTemplateLinkClick,
@@ -38,23 +60,39 @@ const EmailInvoiceModal = ({
   onDismissAlert,
   onRemoveAttachment,
   onAddAttachments,
+  onEmailDefaultsButtonClick,
   onPreviewPdfButtonClick,
 }) => {
   const renderContent = (onKeyDown) => (
     <div className={styles.formWidth}>
-      <EmailItemList
+      <EmailItemListHorizontal
         label="To"
         items={emailInvoiceDetail.emailToAddresses}
         requiredLabel="Required"
+        errorMessage={!hasToEmailAddress && isSendingEmail && emailToError}
         onItemChange={handleItemChange(onEmailInvoiceDetailChange, 'toEmail')}
         onKeyDown={onKeyDown}
+        accessory={
+          !hasCCEmails && (
+            <AddCcButton
+              onClick={() =>
+                onEmailInvoiceDetailChange({ key: 'ccToEmail', value: [''] })
+              }
+            />
+          )
+        }
       />
-      <EmailItemList
-        label="CC"
-        items={emailInvoiceDetail.ccEmailToAddresses}
-        onItemChange={handleItemChange(onEmailInvoiceDetailChange, 'ccToEmail')}
-        onKeyDown={onKeyDown}
-      />
+      {hasCCEmails && (
+        <EmailItemListHorizontal
+          label="CC"
+          items={emailInvoiceDetail.ccEmailToAddresses}
+          onItemChange={handleItemChange(
+            onEmailInvoiceDetailChange,
+            'ccToEmail'
+          )}
+          onKeyDown={onKeyDown}
+        />
+      )}
       <CheckboxGroup
         label=""
         hideLabel
@@ -67,7 +105,6 @@ const EmailInvoiceModal = ({
           />
         )}
       />
-      <hr />
       <Input
         name="subject"
         label="Subject"
@@ -75,22 +112,31 @@ const EmailInvoiceModal = ({
         onChange={handleInputChange(onEmailInvoiceDetailChange)}
         onKeyDown={onKeyDown}
         maxLength={255}
+        containerClassName={styles.subject}
+        labelAccessory={
+          <div className={styles.tooltip}>
+            <Button type="link" onClick={onEmailDefaultsButtonClick}>
+              Subject and message defaults
+            </Button>
+            <Tooltip triggerContent={<InfoIcon />}>
+              Save your default email subject and message, so you don’t need to
+              write them every time
+            </Tooltip>
+          </div>
+        }
       />
       <TextArea
         name="messageBody"
         label="Message"
         value={emailInvoiceDetail.messageBody}
         onChange={handleTextAreaChange(onEmailInvoiceDetailChange)}
-        rows={10}
         maxLength={4000}
+        autoSize
       />
       <EmailInvoiceAttachmentsContent
         onRemoveAttachment={onRemoveAttachment}
         onAddAttachments={onAddAttachments}
       />
-      <Alert type="info">
-        Total size of uploaded documents cannot exceed 25MB
-      </Alert>
       <Separator />
       <EmailInvoiceModalSettings
         emailInvoiceDetail={emailInvoiceDetail}
@@ -133,4 +179,10 @@ const EmailInvoiceModal = ({
   );
 };
 
-export default EmailInvoiceModal;
+const mapStateToProps = (state) => ({
+  hasCCEmails: getHasCCEmails(state),
+  hasToEmailAddress: getHasEmailToAddress(state),
+  isSendingEmail: getIsSendingEmail(state),
+});
+
+export default connect(mapStateToProps)(EmailInvoiceModal);

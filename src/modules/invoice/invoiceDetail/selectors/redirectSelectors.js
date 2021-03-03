@@ -79,3 +79,10 @@ export const getRedirectState = ({ redirectUrl, isOpenInNewTab }) => ({
   redirectUrl,
   isOpenInNewTab,
 });
+
+export const getSalesSettingsEmailDefaultsUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) =>
+    `/#/${region}/${businessId}/salesSettings?selectedTab=emailDefaults`
+);

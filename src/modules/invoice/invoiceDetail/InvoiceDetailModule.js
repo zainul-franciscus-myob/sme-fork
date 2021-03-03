@@ -39,6 +39,7 @@ import {
   getEmailModalType,
   getEmailTemplateName,
   getFilesForUpload,
+  getHasEmailToAddress,
 } from './selectors/emailSelectors';
 import {
   getCreateNewInvoiceUrl,
@@ -47,6 +48,7 @@ import {
   getInvoicePaymentUrl,
   getRedirectRefUrl,
   getRedirectState,
+  getSalesSettingsEmailDefaultsUrl,
   getTemplateSettingsUrl,
 } from './selectors/redirectSelectors';
 import {
@@ -534,6 +536,13 @@ export default class InvoiceDetailModule {
     this.navigateTo(url, true);
   };
 
+  redirectToSalesSettingsEmailDefaults = () => {
+    const state = this.store.getState();
+    const url = getSalesSettingsEmailDefaultsUrl(state);
+
+    this.navigateTo(url, true);
+  };
+
   loadCustomer = () => {
     const onSuccess = (payload) => {
       this.dispatcher.loadCustomer(payload);
@@ -805,13 +814,19 @@ export default class InvoiceDetailModule {
     this.dispatcher.setModalType(InvoiceDetailModalType.QUICK_QUOTE);
 
   sendEmail = () => {
-    if (getIsSubmitting(this.store.getState())) return;
+    const state = this.store.getState();
+    if (getIsSubmitting(state)) return;
+
+    this.dispatcher.setSendingEmailState(true);
+
+    if (!getHasEmailToAddress(state)) return;
 
     this.dispatcher.setSubmittingState(true);
 
     const onSuccess = ({ message }) => {
       this.globalCallbacks.invoiceSaved();
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setSendingEmailState(false);
       this.pushMessage({
         type: SUCCESSFULLY_EMAILED_INVOICE,
         content: message,
@@ -821,6 +836,7 @@ export default class InvoiceDetailModule {
 
     const onFailure = ({ message }) => {
       this.dispatcher.setSubmittingState(false);
+      this.dispatcher.setSendingEmailState(false);
       this.dispatcher.displayModalAlert({ type: 'danger', message });
     };
 
@@ -1488,6 +1504,7 @@ export default class InvoiceDetailModule {
           onDismissAlert: this.dispatcher.dismissModalAlert,
           onAddAttachments: this.addEmailAttachments,
           onRemoveAttachment: this.dispatcher.removeEmailAttachment,
+          onEmailDefaultsButtonClick: this.redirectToSalesSettingsEmailDefaults,
           onCustomiseTemplateLinkClick: this.redirectToTemplateSettings,
           onPreviewPdfButtonClick: this.previewPdf,
         }}

@@ -56,6 +56,9 @@ const InvoiceDetailModal = ({
         onDismissAlert={emailInvoiceDetailModalListeners.onDismissAlert}
         onAddAttachments={emailInvoiceDetailModalListeners.onAddAttachments}
         onRemoveAttachment={emailInvoiceDetailModalListeners.onRemoveAttachment}
+        onEmailDefaultsButtonClick={
+          emailInvoiceDetailModalListeners.onEmailDefaultsButtonClick
+        }
         onCustomiseTemplateLinkClick={
           emailInvoiceDetailModalListeners.onCustomiseTemplateLinkClick
         }

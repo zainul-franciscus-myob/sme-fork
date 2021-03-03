@@ -120,6 +120,7 @@ const getDefaultState = () => ({
   customerQuoteId: '',
   viewedAccountToolTip: false,
   isRecurringTransactionEnabled: false,
+  isSendingEmail: false,
   hasUpdatedPaymentSettings: false,
 });
 

@@ -40,7 +40,7 @@ export const getEmailDetailFromLoadInvoiceDetail = ({
         ...emailInvoice,
         toEmail: emailInvoice.toEmail.length > 0 ? emailInvoice.toEmail : [''],
         ccToEmail:
-          emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [''],
+          emailInvoice.ccToEmail.length > 0 ? emailInvoice.ccToEmail : [],
         subject: emailInvoice.includeInvoiceNumberInEmail
           ? `Invoice ${invoiceNumber}; ${emailInvoice.subject}`
           : emailInvoice.subject,
@@ -137,4 +137,18 @@ export const getShowEmailButton = createSelector(
     !isForeignCurrency
 );
 
+export const getIsTotalMoreThan25MB = (state) =>
+  state.emailInvoice.attachments.reduce(
+    (total, attachment) => total + attachment.file.size,
+    0
+  ) > 25000000;
+
+export const getHasCCEmails = (state) =>
+  state.emailInvoice.ccToEmail && state.emailInvoice.ccToEmail.length > 0;
+
+export const getHasEmailToAddress = (state) =>
+  state.emailInvoice.toEmail &&
+  state.emailInvoice.toEmail.some((val) => val && val !== '');
+
+export const getIsSendingEmail = (state) => state.isSendingEmail;
 export const getIsPreviewingPdf = (state) => state.emailInvoice.isPreviewingPdf;

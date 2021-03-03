@@ -1,3 +1,16 @@
 .formWidth :global(.form-group) {
   width: 100%;
 }
+
+.subject > div > div {
+  justify-content: space-between;
+}
+
+.tooltip {
+  display: flex;
+  align-items: center;
+}
+
+.tooltip > button {
+  margin-right: var(--flx-spacing-x-tiny);
+}
