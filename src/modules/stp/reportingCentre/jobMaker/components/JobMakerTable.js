@@ -56,31 +56,26 @@ const JobMakerTable = ({
       key: 'nominateEmployee',
       value: JobMakerActionTypes.Nominate,
       label: 'Nominate employee',
-      disabled: false,
     },
     {
       key: 'declareEmployee',
       value: JobMakerActionTypes.Claim,
       label: 'Declare for claim period',
-      disabled: false,
     },
     {
       key: 'removeDeclaration',
       value: JobMakerActionTypes.CancelClaim,
       label: 'Remove declaration',
-      disabled: false,
     },
     {
       key: 'removeNomination',
       value: JobMakerActionTypes.CancelNominate,
       label: 'Remove nomination',
-      disabled: false,
     },
     {
       key: 'updateEmployeeDetails',
       value: JobMakerActionTypes.UpdateEmployee,
       label: 'Update employee details',
-      disabled: true,
     },
   ];
   const dropdownItems = dropDownItemsList.map((dropdownItem) => {

@@ -19,6 +19,7 @@ import JobMakerReducer from '../JobMakerReducer';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import TestStore from '../../../../../store/TestStore';
 import createJobMakerDispatcher from '../createJobMakerDispatcher';
+import createJobMakerIntegrator from '../createJobMakerIntegrator';
 import loadJobMakerInitialEmployees from '../../mappings/data/loadJobMakerInitialEmployees';
 
 describe('JobMakerModule', () => {
@@ -45,6 +46,7 @@ describe('JobMakerModule', () => {
     });
     const store = new TestStore(JobMakerReducer);
     module.store = store;
+    module.integrator = createJobMakerIntegrator(store, integration);
     module.dispatcher = createJobMakerDispatcher(store);
 
     module.run({});
@@ -375,7 +377,40 @@ describe('JobMakerModule', () => {
             message: expectedMessage,
           });
         });
+
+        [
+          {
+            testCase: JobMakerActionTypes.UpdateEmployee,
+            expected: JobMakerActionTypes.Nominate,
+          },
+          {
+            testCase: JobMakerActionTypes.UpdateEmployeeReNominate,
+            expected: JobMakerActionTypes.ReNominate,
+          },
+        ].forEach(({ testCase, expected }) => {
+          it(`should call the integrator with correct action ${expected} for ${testCase}  `, () => {
+            const mockIntegrationWrite = jest.fn(({ onSuccess }) =>
+              onSuccess({ message: 'Hello' })
+            );
+            const integration = {
+              write: mockIntegrationWrite,
+              read: ({ onSuccess }) => onSuccess(loadJobMakerInitialEmployees),
+            };
+
+            const { module } = setupModule(featureToggleOn, integration);
+            module.dispatcher.setDropdownAction(testCase);
+
+            module.setAlert = jest.fn();
+            module.createJobMakerEmployeeAction();
+            const { calls } = mockIntegrationWrite.mock;
+            const {
+              content: { action },
+            } = calls[0][0];
+            expect(action).toBe(expected);
+          });
+        });
       });
+
       describe('onActionModalCheckboxChanged', () => {
         let module;
 
@@ -405,6 +440,10 @@ describe('JobMakerModule', () => {
             action: JobMakerActionTypes.ReNominate,
             expected: JobMakerActionTypes.Nominate,
           },
+          {
+            action: JobMakerActionTypes.UpdateEmployee,
+            expected: JobMakerActionTypes.UpdateEmployeeReNominate,
+          },
         ].forEach(({ action, expected }) => {
           it(`should change from ${action} to be ${expected} by calling dispatcher.setDropdownAction`, () => {
             module.dispatcher.setDropdownAction = jest.fn();
@@ -415,17 +454,17 @@ describe('JobMakerModule', () => {
           });
         });
 
-        [
-          JobMakerActionTypes.Claim,
-          JobMakerActionTypes.CancelClaim,
-          JobMakerActionTypes.UpdateEmployee,
-        ].forEach((action) => {
-          it(`should not change for action that does not support renomination: ${action}`, () => {
-            module.dispatcher.setDropdownAction = jest.fn();
-            module.onActionModalCheckboxChanged(action);
-            expect(module.dispatcher.setDropdownAction).not.toHaveBeenCalled();
-          });
-        });
+        [JobMakerActionTypes.Claim, JobMakerActionTypes.CancelClaim].forEach(
+          (action) => {
+            it(`should not change for action that does not support renomination: ${action}`, () => {
+              module.dispatcher.setDropdownAction = jest.fn();
+              module.onActionModalCheckboxChanged(action);
+              expect(
+                module.dispatcher.setDropdownAction
+              ).not.toHaveBeenCalled();
+            });
+          }
+        );
       });
     });
   });

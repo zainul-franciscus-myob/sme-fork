@@ -6,6 +6,7 @@ import JobMakerActionModal, {
   JobMakerActionCancelNominationModalBody,
   JobMakerActionClaimModalBody,
   JobMakerActionNominationModalBody,
+  JobMakerActionUpdateEmployeeModalBody,
   generateModalConfig,
 } from '../components/JobMakerActionModal';
 import JobMakerActionTypes from '../JobMakerActionTypes';
@@ -144,6 +145,22 @@ describe('generateModalConfig', () => {
       expected: (
         <JobMakerActionCancelNominationModalBody
           currentDropDownAction={JobMakerActionTypes.CancelReNominate}
+        />
+      ),
+    },
+    {
+      action: JobMakerActionTypes.UpdateEmployee,
+      expected: (
+        <JobMakerActionUpdateEmployeeModalBody
+          currentDropDownAction={JobMakerActionTypes.UpdateEmployee}
+        />
+      ),
+    },
+    {
+      action: JobMakerActionTypes.UpdateEmployeeReNominate,
+      expected: (
+        <JobMakerActionUpdateEmployeeModalBody
+          currentDropDownAction={JobMakerActionTypes.UpdateEmployeeReNominate}
         />
       ),
     },

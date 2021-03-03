@@ -104,6 +104,14 @@ export default class JobMakerModule {
       case JobMakerActionTypes.CancelReNominate:
         this.dispatcher.setDropdownAction(JobMakerActionTypes.CancelNominate);
         break;
+      case JobMakerActionTypes.UpdateEmployee:
+        this.dispatcher.setDropdownAction(
+          JobMakerActionTypes.UpdateEmployeeReNominate
+        );
+        break;
+      case JobMakerActionTypes.UpdateEmployeeReNominate:
+        this.dispatcher.setDropdownAction(JobMakerActionTypes.UpdateEmployee);
+        break;
       default:
         break;
     }

@@ -95,6 +95,7 @@ describe('JobMakerTable', () => {
         JobMakerActionTypes.CancelNominate,
         JobMakerActionTypes.CancelClaim,
         JobMakerActionTypes.Claim,
+        JobMakerActionTypes.UpdateEmployee,
       ];
 
       const enabledAction = wrapper

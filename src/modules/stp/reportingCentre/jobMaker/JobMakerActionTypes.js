@@ -6,6 +6,7 @@ const JobMakerActionTypes = {
   Claim: 'claim',
   CancelClaim: 'claimx',
   UpdateEmployee: 'updateEmployee',
+  UpdateEmployeeReNominate: 'updateEmployeeRenominate',
 };
 
 export const isValidJobMakerAction = (action) =>

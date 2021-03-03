@@ -40,7 +40,7 @@ export const JobMakerActionNominationModalBody = ({
     <p>I nominate this employee for the JobMaker Hiring Credit.</p>
     <Checkbox
       name="renominationCheckbox"
-      label="Check this box if the employee was previously nominated for JobMaker but left the business.Now they have returned, you wish to renominate them."
+      label="Check this box if the employee was previously nominated for JobMaker but left the business. Now they have returned, you wish to renominate them."
       onChange={() => onModalCheckboxChanged(currentDropDownAction)}
       checked={currentDropDownAction === JobMakerActionTypes.ReNominate}
     />
@@ -61,6 +61,34 @@ export const JobMakerActionCancelNominationModalBody = ({
       label="Check this box if the employee was re-nominated for JobMaker and you want to remove them from claiming."
       onChange={() => onModalCheckboxChanged(currentDropDownAction)}
       checked={currentDropDownAction === JobMakerActionTypes.CancelReNominate}
+    />
+  </div>
+);
+
+export const JobMakerActionUpdateEmployeeModalBody = ({
+  onModalCheckboxChanged,
+  currentDropDownAction,
+}) => (
+  <div>
+    <p>
+      If you are updating a nominated employee’s date of birth, TFN or start
+      date, make sure you follow the step by step guide before notifying the
+      ATO.{' '}
+      <a
+        href="https://help.myob.com/wiki/display/myob/Handling+JobMaker+payments#expand-HowdoIupdateanominatedemployeesdetails"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Step by step guide
+      </a>
+    </p>
+    <Checkbox
+      name="renominationCheckbox"
+      label="Only check this box if your employee has been re-nominated for JobMaker and you are updating their details."
+      onChange={() => onModalCheckboxChanged(currentDropDownAction)}
+      checked={
+        currentDropDownAction === JobMakerActionTypes.UpdateEmployeeReNominate
+      }
     />
   </div>
 );
@@ -105,6 +133,18 @@ export const generateModalConfig = (dropDownAction, onModalCheckboxChanged) => {
       actionButtonLabel = 'Remove';
       title = 'Remove employee declaration';
       body = <JobMakerActionCancelClaimModalBody />;
+      testid = `jobmakerAction-modal-${dropDownAction}`;
+      break;
+    case JobMakerActionTypes.UpdateEmployee:
+    case JobMakerActionTypes.UpdateEmployeeReNominate:
+      actionButtonLabel = 'Notify ATO';
+      title = 'Update employee details';
+      body = (
+        <JobMakerActionUpdateEmployeeModalBody
+          onModalCheckboxChanged={onModalCheckboxChanged}
+          currentDropDownAction={dropDownAction}
+        />
+      );
       testid = `jobmakerAction-modal-${dropDownAction}`;
       break;
     default:
