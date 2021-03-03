@@ -71,7 +71,7 @@ export const getUserTypeOptions = createSelector(
     if (shouldShowUserTypeOptions) {
       return [
         { name: 'File User', value: 'FileUser' },
-        { name: 'Admin User', value: 'AdminUser' },
+        { name: 'Online Admin', value: 'AdminUser' },
       ];
     }
 

@@ -383,7 +383,7 @@ describe('User Detail Selectors', () => {
 
     const userTypeOptionsForSelect = [
       { name: 'File User', value: 'FileUser' },
-      { name: 'Admin User', value: 'AdminUser' },
+      { name: 'Online Admin', value: 'AdminUser' },
     ];
 
     const userTypeOptionsForDisabled = [

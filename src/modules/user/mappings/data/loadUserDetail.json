@@ -22,7 +22,7 @@
     ],
     "isOnlineAdministrator": false,
     "isAdvisor": false,
-    "userType": "FileUser",
+    "userType": "AdminUser",
     "inviteeFirstName": "partner",
     "inviteeLastName": "InviteeLastName",
     "currentUser": {

@@ -39,7 +39,8 @@
     "isAdmin": false,
     "isAdvisor": true,
     "isOnlineAdministrator": true,
-    "userType": "FileUser",
+    "userType": "AdminUser",
+    "newUserType": "AdminUser",
     "inviteeFirstName": "partner",
     "inviteeLastName": "InviteeLastName"
   },
