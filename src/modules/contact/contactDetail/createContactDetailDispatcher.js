@@ -12,11 +12,11 @@ import {
   SET_LOADING_STATE,
   SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
   SET_SUBMITTING_STATE,
-  UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
-  UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
+  UPDATE_SELECTED_AUTOCOMPLETE_BILLING_ADDRESS,
+  UPDATE_SELECTED_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -135,17 +135,17 @@ const createContactDetailDispatcher = (store) => ({
     });
   },
 
-  updateAutocompleteBillingAddress: (addressInfo) => {
+  updateSelectedAutocompleteBillingAddress: (selected) => {
     store.dispatch({
-      intent: UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
-      addressInfo,
+      intent: UPDATE_SELECTED_AUTOCOMPLETE_BILLING_ADDRESS,
+      selected,
     });
   },
 
-  updateAutocompleteShippingAddress: (addressInfo) => {
+  updateSelectedAutocompleteShippingAddress: (selected) => {
     store.dispatch({
-      intent: UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
-      addressInfo,
+      intent: UPDATE_SELECTED_AUTOCOMPLETE_SHIPPING_ADDRESS,
+      selected,
     });
   },
 

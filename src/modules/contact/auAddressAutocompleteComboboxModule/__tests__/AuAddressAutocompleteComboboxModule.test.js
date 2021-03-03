@@ -1,6 +1,7 @@
 import {
   AUTOCOMPLETE_ADDRESS_SELECTED,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
+  SET_KEYWORDS_TO_SELECTED,
 } from '../../ContactIntents';
 import { SET_INITIAL_STATE } from '../../../../SystemIntents';
 import AuAddressAutocompleteComboboxModule from '../AuAddressAutocompleteComboboxModule';
@@ -28,18 +29,33 @@ describe('AuAddressAutocompleteComboboxModule', () => {
       integration,
     });
 
-    const onSelected = () => {};
+    const onAutoCompleteAddressSelect = () => {};
+    const onAddressChange = () => {};
     const street =
       'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216';
 
-    return { store, integration, module, onSelected, street };
+    return {
+      store,
+      integration,
+      module,
+      onAutoCompleteAddressSelect,
+      onAddressChange,
+      street,
+    };
   };
 
   describe('run', () => {
     it('successfully run autocomplete addressCombobox with `street`', () => {
-      const { store, module, onSelected, street } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+        street,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
         street,
       });
 
@@ -49,15 +65,21 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           context: {},
         },
         expect.objectContaining({
-          intent: AUTOCOMPLETE_ADDRESS_SELECTED,
+          intent: SET_KEYWORDS_TO_SELECTED,
         }),
       ]);
     });
 
     it('successfully run autocomplete addressCombobox without `street`', () => {
-      const { store, module, onSelected } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
       });
 
       expect(store.getActions()).toEqual([
@@ -71,9 +93,15 @@ describe('AuAddressAutocompleteComboboxModule', () => {
 
   describe('handleOnInputValueChange', () => {
     it('successfully load autocomplete addresses', () => {
-      const { store, module, onSelected } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
       });
 
       module.debounceLoadAutocompleteAddresses = jest.fn();
@@ -88,26 +116,32 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           intent: SET_INITIAL_STATE,
           context: {},
         },
-        { intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS, keywords: 'queen' },
+        {
+          intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
+          keywords: 'queen',
+        },
       ]);
     });
   });
 
   describe('handleOnChange', () => {
     it('successfully update selected address', () => {
-      const { store, module, onSelected } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
       });
-      module.onSelected = jest.fn();
+      module.onAutoCompleteAddressSelect = jest.fn();
       const selectedAddress = {
-        address:
-          'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
-        info: {
-          suburb: 'QUEANBEYAN',
-          state: 'NSW',
-          postcode: '2620',
-        },
+        address: 'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT',
+        suburb: 'QUEANBEYAN',
+        state: 'NSW',
+        postcode: '2620',
       };
 
       module.handleOnChange(selectedAddress);
@@ -119,20 +153,28 @@ describe('AuAddressAutocompleteComboboxModule', () => {
         },
         {
           intent: AUTOCOMPLETE_ADDRESS_SELECTED,
-          selectedAutocompleteAddress: selectedAddress,
+          selected: selectedAddress,
         },
       ]);
-      expect(module.onSelected).toBeCalledWith(selectedAddress);
+      expect(module.onAutoCompleteAddressSelect).toBeCalledWith(
+        selectedAddress
+      );
     });
   });
 
   describe('handleOnBlur', () => {
     it('set keywords as selected address if has no valid autocomplete addresses', () => {
-      const { store, module, onSelected } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
       });
-      module.onSelected = jest.fn();
+      module.onAddressChange = jest.fn();
       module.debounceLoadAutocompleteAddresses = jest.fn();
 
       module.handleOnInputValueChange('abcdefg');
@@ -151,20 +193,26 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           keywords: 'abcdefg',
         },
         {
-          intent: AUTOCOMPLETE_ADDRESS_SELECTED,
-          selectedAutocompleteAddress: 'abcdefg',
+          intent: SET_KEYWORDS_TO_SELECTED,
+          street: 'abcdefg',
         },
       ]);
 
-      expect(module.onSelected).toBeCalledWith('abcdefg');
+      expect(module.onAddressChange).toBeCalledWith('abcdefg');
     });
 
     it('does nothing if has selected address', () => {
-      const { store, module, onSelected } = setup();
+      const {
+        store,
+        module,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
+      } = setup();
       module.run({
-        onSelected,
+        onAutoCompleteAddressSelect,
+        onAddressChange,
       });
-      module.onSelected = jest.fn();
+      module.onAddressChange = jest.fn();
 
       module.handleOnBlur();
 
@@ -174,7 +222,7 @@ describe('AuAddressAutocompleteComboboxModule', () => {
           context: {},
         },
       ]);
-      expect(module.onSelected).not.toBeCalled();
+      expect(module.onAddressChange).not.toBeCalled();
     });
   });
 });

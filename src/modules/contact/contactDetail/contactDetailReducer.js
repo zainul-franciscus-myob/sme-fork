@@ -12,11 +12,11 @@ import {
   SET_LOADING_STATE,
   SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS,
   SET_SUBMITTING_STATE,
-  UPDATE_AUTOCOMPLETE_BILLING_ADDRESS,
-  UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_BILLING_ADDRESS,
   UPDATE_CONTACT_DETAILS,
   UPDATE_PAYMENT_DETAILS,
+  UPDATE_SELECTED_AUTOCOMPLETE_BILLING_ADDRESS,
+  UPDATE_SELECTED_AUTOCOMPLETE_SHIPPING_ADDRESS,
   UPDATE_SHIPPING_ADDRESS,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
@@ -257,16 +257,14 @@ const clearAbnValidationResult = (state) => ({
   abnValidationResult: undefined,
 });
 
-const updateAutocompleteBillingAddress = (state, { addressInfo }) => {
+const updateSelectedAutocompleteBillingAddress = (state, { selected }) => {
   const updatedBillingAddress = {
     ...state.contact.billingAddress,
-    street: addressInfo?.address ?? addressInfo,
-    city: addressInfo.info?.suburb ?? state.contact.billingAddress.city,
-    state: addressInfo.info?.state ?? state.contact.billingAddress.state,
-    postcode:
-      addressInfo.info?.postcode ?? state.contact.billingAddress.postcode,
+    street: selected.streetLine,
+    city: selected.suburb,
+    state: selected.state,
+    postcode: selected.postcode,
   };
-
   return {
     ...state,
     contact: {
@@ -280,17 +278,16 @@ const updateAutocompleteBillingAddress = (state, { addressInfo }) => {
   };
 };
 
-const updateAutocompleteShippingAddress = (state, { addressInfo }) => ({
+const updateSelectedAutocompleteShippingAddress = (state, { selected }) => ({
   ...state,
   contact: {
     ...state.contact,
     shippingAddress: {
       ...state.contact.shippingAddress,
-      street: addressInfo?.address ?? addressInfo,
-      city: addressInfo.info?.suburb ?? state.contact.shippingAddress.city,
-      state: addressInfo.info?.state ?? state.contact.shippingAddress.state,
-      postcode:
-        addressInfo.info?.postcode ?? state.contact.shippingAddress.postcode,
+      street: selected.streetLine,
+      city: selected.suburb,
+      state: selected.state,
+      postcode: selected.postcode,
     },
   },
   ...pageEdited,
@@ -330,8 +327,8 @@ const handlers = {
   [SET_ABN_VALIDATE_STATE]: setAbnValidateState,
   [LOAD_ABN_VALIDATION_RESULT]: setAbnValidationResult,
   [CLEAR_ABN_VALIDATION_RESULT]: clearAbnValidationResult,
-  [UPDATE_AUTOCOMPLETE_SHIPPING_ADDRESS]: updateAutocompleteShippingAddress,
-  [UPDATE_AUTOCOMPLETE_BILLING_ADDRESS]: updateAutocompleteBillingAddress,
+  [UPDATE_SELECTED_AUTOCOMPLETE_SHIPPING_ADDRESS]: updateSelectedAutocompleteShippingAddress,
+  [UPDATE_SELECTED_AUTOCOMPLETE_BILLING_ADDRESS]: updateSelectedAutocompleteBillingAddress,
   [SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS]: setShippingAddressSameAsBillingAddress,
 };
 

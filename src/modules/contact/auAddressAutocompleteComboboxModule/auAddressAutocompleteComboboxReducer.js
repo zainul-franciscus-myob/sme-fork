@@ -2,6 +2,7 @@ import {
   AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
+  SET_KEYWORDS_TO_SELECTED,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 import createReducer from '../../../store/createReducer';
@@ -10,11 +11,10 @@ const getDefaultState = () => ({
   keywords: '',
   selected: {
     address: '',
-    info: {
-      state: '',
-      suburb: '',
-      postcode: '',
-    },
+    streetLine: '',
+    state: '',
+    suburb: '',
+    postcode: '',
   },
   addresses: [],
 });
@@ -30,22 +30,23 @@ const loadAutocompleteAddresses = (state, { addresses }) => ({
   addresses,
 });
 
-const autocompleteAddressSelected = (
-  state,
-  { selectedAutocompleteAddress }
-) => ({
+const autocompleteAddressSelected = (state, { selected }) => ({
   ...state,
-  selected: selectedAutocompleteAddress.address
-    ? selectedAutocompleteAddress
-    : {
-        ...state.selected,
-        address: selectedAutocompleteAddress,
-      },
+  selected,
 });
 
 const setAutocompleteAddressKeywords = (state, { keywords }) => ({
   ...state,
   keywords,
+});
+
+const setKeywordsToSelected = (state, { street }) => ({
+  ...state,
+  selected: {
+    ...state.selected,
+    address: street,
+    streetLine: street,
+  },
 });
 
 const handlers = {
@@ -54,6 +55,7 @@ const handlers = {
   [LOAD_AUTOCOMPLETE_ADDRESSES]: loadAutocompleteAddresses,
   [AUTOCOMPLETE_ADDRESS_SELECTED]: autocompleteAddressSelected,
   [SET_AUTOCOMPLETE_ADDRESS_KEYWORDS]: setAutocompleteAddressKeywords,
+  [SET_KEYWORDS_TO_SELECTED]: setKeywordsToSelected,
 };
 
 const auAddressAutocompleteComboboxReducer = createReducer(

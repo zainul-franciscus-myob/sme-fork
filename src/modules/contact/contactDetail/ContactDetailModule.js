@@ -39,7 +39,7 @@ export default class ContactDetailModule {
     this.accountModalModule = new AccountModalModule({
       integration,
     });
-    this.billingAddressAutocompleteAddressComboboxModule = new AuAddressAutocompleteComboboxModule(
+    this.billingAddressAutocompleteComboboxModule = new AuAddressAutocompleteComboboxModule(
       { integration, name: 'street' }
     );
     this.shippingAddressAutoCompleteComboboxModule = new AuAddressAutocompleteComboboxModule(
@@ -98,7 +98,7 @@ export default class ContactDetailModule {
 
   render = () => {
     const accountModal = this.accountModalModule.render();
-    const billingAddressAutocompleteAddressCombobox = this.billingAddressAutocompleteAddressComboboxModule.render();
+    const billingAddressAutocompleteCombobox = this.billingAddressAutocompleteComboboxModule.render();
     const shippingAddressAutoCompleteCombobox = this.shippingAddressAutoCompleteComboboxModule.render();
 
     const contactDetailView = (
@@ -117,9 +117,7 @@ export default class ContactDetailModule {
         accountModal={accountModal}
         onAddAccount={this.openAccountModal}
         onAbnBlur={this.validateAbn}
-        billingAddressAutoCompleteCombobox={
-          billingAddressAutocompleteAddressCombobox
-        }
+        billingAddressAutoCompleteCombobox={billingAddressAutocompleteCombobox}
         shippingAddressAutoCompleteCombobox={
           shippingAddressAutoCompleteCombobox
         }
@@ -198,14 +196,12 @@ export default class ContactDetailModule {
     const billingAddressStreet = getBillingAddressStreet(state);
     const shippingAddressStreet = getShippingAddressStreet(state);
 
-    this.runBillingAddressAutocompleteAddressComboboxModule(
-      billingAddressStreet
-    );
+    this.runBillingAddressAutocompleteComboboxModule(billingAddressStreet);
     this.runShippingAddressAutoCompleteComboboxModule(shippingAddressStreet);
   };
 
   runAutocompleteAddressModuleForNewContact = () => {
-    this.runBillingAddressAutocompleteAddressComboboxModule();
+    this.runBillingAddressAutocompleteComboboxModule();
     this.runShippingAddressAutoCompleteComboboxModule();
   };
 
@@ -314,15 +310,27 @@ export default class ContactDetailModule {
     SAVE_ACTION: this.saveHandler,
   };
 
-  runBillingAddressAutocompleteAddressComboboxModule = (street) =>
-    this.billingAddressAutocompleteAddressComboboxModule.run({
-      onSelected: this.dispatcher.updateAutocompleteBillingAddress,
+  runBillingAddressAutocompleteComboboxModule = (street) =>
+    this.billingAddressAutocompleteComboboxModule.run({
+      onAutoCompleteAddressSelect: this.dispatcher
+        .updateSelectedAutocompleteBillingAddress,
+      onAddressChange: (keywords) =>
+        this.dispatcher.updateBillingAddress({
+          key: 'street',
+          value: keywords,
+        }),
       street,
     });
 
   runShippingAddressAutoCompleteComboboxModule = (street) =>
     this.shippingAddressAutoCompleteComboboxModule.run({
-      onSelected: this.dispatcher.updateAutocompleteShippingAddress,
+      onAutoCompleteAddressSelect: this.dispatcher
+        .updateSelectedAutocompleteShippingAddress,
+      onAddressChange: (keywords) =>
+        this.dispatcher.updateShippingAddress({
+          key: 'street',
+          value: keywords,
+        }),
       street,
     });
 
@@ -340,6 +348,6 @@ export default class ContactDetailModule {
     this.dispatcher.resetState();
     this.accountModalModule.resetState();
     this.shippingAddressAutoCompleteComboboxModule.resetState();
-    this.billingAddressAutocompleteAddressComboboxModule.resetState();
+    this.billingAddressAutocompleteComboboxModule.resetState();
   }
 }

@@ -2,6 +2,7 @@ import {
   AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
+  SET_KEYWORDS_TO_SELECTED,
 } from '../ContactIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
 
@@ -23,16 +24,22 @@ const createAuAddressAutocompleteComboboxDispatcher = ({ store }) => ({
       addresses,
     });
   },
-  autocompleteAddressSelected: (selectedAutocompleteAddress) => {
+  autocompleteAddressSelected: (selected) => {
     store.dispatch({
       intent: AUTOCOMPLETE_ADDRESS_SELECTED,
-      selectedAutocompleteAddress,
+      selected,
     });
   },
   setAutocompleteAddressKeywords: (keywords) => {
     store.dispatch({
       intent: SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
       keywords,
+    });
+  },
+  setKeywordsToSelected: (street) => {
+    store.dispatch({
+      intent: SET_KEYWORDS_TO_SELECTED,
+      street,
     });
   },
 });

@@ -1,4 +1,4 @@
-import { Combobox as FeelixCombobox } from '@myob/myob-widgets';
+import { Combobox } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 import classnames from 'classnames';
@@ -10,12 +10,14 @@ import {
 import styles from './AuAddressAutocompleteComboboxView.module.css';
 
 const AuAddressAutocompleteComboboxView = (props) => {
-  const metaData = [{ columnName: 'address', showData: true }];
+  const metaData = [{ columnName: 'streetLine', showData: 'true' }];
+  const renderItem = (_, item) => item.address;
 
   return (
-    <FeelixCombobox
+    <Combobox
       className={classnames(styles.hideArrow, styles.hideErrorMessage)}
       metaData={metaData}
+      renderItem={renderItem}
       {...props}
     />
   );

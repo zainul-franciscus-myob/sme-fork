@@ -1,82 +1,72 @@
 [
   {
     "address": "QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216",
-    "info": {
-      "suburb": "PARADISE POINT",
-      "state": "QLD",
-      "postcode": "4216"
-    }
+    "streetLine": "QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT",
+    "suburb": "PARADISE POINT",
+    "state": "QLD",
+    "postcode": "4216"
   },
   {
     "address": "QUEEN ELIZABETH 2 PARK, 41 MORISSET ST, QUEANBEYAN NSW 2620",
-    "info": {
-      "suburb": "QUEANBEYAN",
-      "state": "NSW",
-      "postcode": "2620"
-    }
+    "streetLine": "QUEEN ELIZABETH 2 PARK, 41 MORISSET ST",
+    "suburb": "QUEANBEYAN",
+    "state": "NSW",
+    "postcode": "2620"
   },
   {
     "address": "QUEEN ELIZABETH HOSPITAL, 28 WOODVILLE RD, WOODVILLE SOUTH SA 5011",
-    "info": {
-      "suburb": "WOODVILLE SOUTH",
-      "state": "SA",
-      "postcode": "5011"
-    }
+    "streetLine": "QUEEN ELIZABETH HOSPITAL, 28 WOODVILLE RD",
+    "suburb": "WOODVILLE SOUTH",
+    "state": "SA",
+    "postcode": "5011"
   },
   {
     "address": "QUEEN ELIZABETH II MEDICAL, 22 VERDUN ST, NEDLANDS WA 6009",
-    "info": {
-      "suburb": "NEDLANDS",
-      "state": "WA",
-      "postcode": "6009"
-    }
+    "streetLine": "QUEEN ELIZABETH II MEDICAL, 22 VERDUN ST",
+    "suburb": "NEDLANDS",
+    "state": "WA",
+    "postcode": "6009"
   },
   {
     "address": "QUEEN ELIZABETH VILLAGE HOME FOR THE AGED, 302 GILLIES ST N, WENDOUREE VIC 3355",
-    "info": {
-      "suburb": "WENDOUREE",
-      "state": "VIC",
-      "postcode": "3355"
-    }
+    "streetLine": "QUEEN ELIZABETH VILLAGE HOME FOR THE AGED, 302 GILLIES ST N",
+    "suburb": "WENDOUREE",
+    "state": "VIC",
+    "postcode": "3355"
   },
   {
     "address": "QUEEN ELIZABETH/EATONS CROSSING NOT A, 1 QUEEN ELIZABETH DR, EATONS HILL QLD 4037",
-    "info": {
-      "suburb": "EATONS HILL",
-      "state": "QLD",
-      "postcode": "4037"
-    }
+    "streetLine": "QUEEN ELIZABETH/EATONS CROSSING NOT A, 1 QUEEN ELIZABETH DR",
+    "suburb": "EATONS HILL",
+    "state": "QLD",
+    "postcode": "4037"
   },
   {
     "address": "QUEEN HIGH, 91 QUEEN ST, SOUTHPORT QLD 4215",
-    "info": {
-      "suburb": "SOUTHPORT",
-      "state": "QLD",
-      "postcode": "4215"
-    }
+    "streetLine": "QUEEN HIGH, 91 QUEEN ST",
+    "suburb": "SOUTHPORT",
+    "state": "QLD",
+    "postcode": "4215"
   },
   {
     "address": "QUEEN MARY CLUB, 143 MACQUARIE ST, HOBART TAS 7000",
-    "info": {
-      "suburb": "HOBART",
-      "state": "TAS",
-      "postcode": "7000"
-    }
+    "streetLine": "QUEEN MARY CLUB, 143 MACQUARIE ST",
+    "suburb": "HOBART",
+    "state": "TAS",
+    "postcode": "7000"
   },
   {
     "address": "QUEEN MARY FALLS CVAN PK, 676 SPRING CREEK RD, THE FALLS QLD 4373",
-    "info": {
-      "suburb": "THE FALLS",
-      "state": "QLD",
-      "postcode": "4373"
-    }
+    "streetLine": "QUEEN MARY FALLS CVAN PK, 676 SPRING CREEK RD",
+    "suburb": "THE FALLS",
+    "state": "QLD",
+    "postcode": "4373"
   },
   {
     "address": "QUEEN OF APOSTLES SCHOOL, 10 THURUNA ST, STAFFORD QLD 4053",
-    "info": {
-      "suburb": "STAFFORD",
-      "state": "QLD",
-      "postcode": "4053"
-    }
+    "streetLine": "QUEEN OF APOSTLES SCHOOL, 10 THURUNA ST",
+    "suburb": "STAFFORD",
+    "state": "QLD",
+    "postcode": "4053"
   }
 ]

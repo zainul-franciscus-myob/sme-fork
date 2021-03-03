@@ -12,20 +12,18 @@ describe('autocompleteAddressComboboxSelectors', () => {
           {
             address:
               'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
-            info: {
-              suburb: 'PARADISE POINT',
-              state: 'QLD',
-              postcode: '4216',
-            },
+            streetLine: 'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT',
+            suburb: 'PARADISE POINT',
+            state: 'QLD',
+            postcode: '4216',
           },
           {
             address:
               'QUEEN ELIZABETH 2 PARK, 41 MORISSET ST, QUEANBEYAN NSW 2620',
-            info: {
-              suburb: 'QUEANBEYAN',
-              state: 'NSW',
-              postcode: '2620',
-            },
+            streetLine: 'QUEEN ELIZABETH 2 PARK, 41 MORISSET ST',
+            suburb: 'QUEANBEYAN',
+            state: 'NSW',
+            postcode: '2620',
           },
         ],
       };
@@ -33,20 +31,18 @@ describe('autocompleteAddressComboboxSelectors', () => {
         {
           address:
             'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
-          info: {
-            suburb: 'PARADISE POINT',
-            state: 'QLD',
-            postcode: '4216',
-          },
+          streetLine: 'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT',
+          suburb: 'PARADISE POINT',
+          state: 'QLD',
+          postcode: '4216',
         },
         {
           address:
             'QUEEN ELIZABETH 2 PARK, 41 MORISSET ST, QUEANBEYAN NSW 2620',
-          info: {
-            suburb: 'QUEANBEYAN',
-            state: 'NSW',
-            postcode: '2620',
-          },
+          streetLine: 'QUEEN ELIZABETH 2 PARK, 41 MORISSET ST',
+          suburb: 'QUEANBEYAN',
+          state: 'NSW',
+          postcode: '2620',
         },
       ];
       const actual = getAutocompleteAddresses(state);
@@ -60,21 +56,19 @@ describe('autocompleteAddressComboboxSelectors', () => {
         selected: {
           address:
             'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
-          info: {
-            suburb: 'PARADISE POINT',
-            state: 'QLD',
-            postcode: '4216',
-          },
+          streetLine: 'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT',
+          suburb: 'PARADISE POINT',
+          state: 'QLD',
+          postcode: '4216',
         },
       };
       const expected = {
         address:
           'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT, PARADISE POINT QLD 4216',
-        info: {
-          suburb: 'PARADISE POINT',
-          state: 'QLD',
-          postcode: '4216',
-        },
+        streetLine: 'QUEEN ANNE COURT RESERVE, 1 QUEEN ANNE CT',
+        suburb: 'PARADISE POINT',
+        state: 'QLD',
+        postcode: '4216',
       };
       const actual = getSelectedAutocompleteAddress(state);
       expect(actual).toEqual(expected);

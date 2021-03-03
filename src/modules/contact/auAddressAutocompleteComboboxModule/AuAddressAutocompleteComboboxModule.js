@@ -32,19 +32,21 @@ export default class AuAddressAutocompleteComboboxModule {
 
   handleOnChange = (value) => {
     this.dispatcher.autocompleteAddressSelected(value);
-    this.onSelected(value);
+    this.onAutoCompleteAddressSelect(value);
   };
 
   handleOnBlur = () => {
     const selectedAddress = this.getSelectedAddress();
     const keywords = getKeywords(this.getState());
-    if (keywords === selectedAddress?.address) return;
+    if (keywords === selectedAddress?.streetLine) return;
 
-    this.dispatcher.autocompleteAddressSelected(keywords);
-    this.onSelected(keywords);
+    this.dispatcher.setKeywordsToSelected(keywords);
+    this.onAddressChange(keywords);
   };
 
   handleOnInputValueChange = (value) => {
+    const prevKeywords = getKeywords(this.getState());
+    if (value === prevKeywords) return;
     this.dispatcher.setAutocompleteAddressKeywords(value);
     if (!value) return;
     this.debounceLoadAutocompleteAddresses({ keywords: value });
@@ -69,13 +71,14 @@ export default class AuAddressAutocompleteComboboxModule {
   };
 
   updateSelectedAddress = (street) =>
-    street && this.dispatcher.autocompleteAddressSelected(street);
+    street && this.dispatcher.setKeywordsToSelected(street);
 
   resetState = () => this.dispatcher.resetState();
 
-  run = ({ onSelected, street }) => {
+  run = ({ onAutoCompleteAddressSelect, onAddressChange, street }) => {
     this.dispatcher.setInitialState();
-    this.onSelected = onSelected;
+    this.onAutoCompleteAddressSelect = onAutoCompleteAddressSelect;
+    this.onAddressChange = onAddressChange;
     this.updateSelectedAddress(street);
   };
 
