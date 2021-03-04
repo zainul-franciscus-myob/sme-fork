@@ -87,10 +87,17 @@ export default class UserDetailModule {
     this.setRootView(wrappedView);
   };
 
+  isMydotRequestFail = (data) => data.isMydotRequestFail;
+
   loadUser = () => {
     const onSuccess = (response) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadUser(response);
+      if (this.isMydotRequestFail(response)) {
+        this.dispatcher.setAlertMessage(
+          'There was an issue loading this page, Reload page'
+        );
+      }
     };
 
     const onFailure = () => {

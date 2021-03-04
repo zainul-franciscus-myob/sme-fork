@@ -41,11 +41,19 @@ export default class UserListModule {
     this.integrator = createUserListIntegrator(this.store, integration);
   }
 
+  isMydotRequestFail = (data) => data.isMydotRequestFail;
+
   loadUserList = () => {
     const onSuccess = (data) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setTableLoadingState(false);
       this.dispatcher.loadUserList(data);
+      if (this.isMydotRequestFail(data)) {
+        this.dispatcher.setAlert({
+          type: 'danger',
+          message: 'There was an issue loading this page, Reload page',
+        });
+      }
     };
 
     const onFailure = () => {

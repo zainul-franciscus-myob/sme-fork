@@ -144,6 +144,7 @@
       "isCurrentUser": false
     }
   ],
+  "isMydotRequestFail": false,
   "serialNumber": "000000000000",
   "practices": [
     {
