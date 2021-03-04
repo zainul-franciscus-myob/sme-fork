@@ -42,15 +42,16 @@ const SalesSettingsEmailDetails = (props) => {
       <FieldGroup label="Email settings">
         <p>
           These email settings apply to all email sent on your behalf from MYOB.
-          This includes invoices, quotes and pay slips (payroll).
+          This includes invoices, quotes, purchase orders, remittance advice and
+          pay slips (payroll).
         </p>
         <Input
           name="fromName"
           label="From name"
           labelAccessory={
             <Tooltip>
-              The name that will display when your clients receive an invoice.
-              This could be your business name or contact person.
+              The name that will display when your clients receive an email from
+              MYOB. This could be your business name or contact person.
             </Tooltip>
           }
           value={fromName}
@@ -61,8 +62,8 @@ const SalesSettingsEmailDetails = (props) => {
           label="Reply-to email address"
           labelAccessory={
             <Tooltip>
-              The email address used when your clients reply to an emailed
-              invoice.
+              The email address used when your clients reply to an email sent
+              from MYOB.
             </Tooltip>
           }
           value={replyToEmail}

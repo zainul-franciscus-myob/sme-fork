@@ -3,6 +3,8 @@ import {
   Button,
   ButtonRow,
   Card,
+  Checkbox,
+  CheckboxGroup,
   FieldGroup,
   FormTemplate,
   Input,
@@ -15,7 +17,7 @@ import React from 'react';
 
 import {
   getAlert,
-  getDefaultRemittanceAdviceEmailSettings,
+  getDefaultPurchasesEmailSettings,
   getLoadingState,
   getModalType,
   getShouldDisplayCustomTemplateList,
@@ -23,12 +25,13 @@ import {
 } from '../purchaseSettingsSelector';
 import CancelModal from '../../../components/modal/CancelModal';
 import PageView from '../../../components/PageView/PageView';
+import handleCheckboxChange from '../../../components/handlers/handleCheckboxChange';
 import handleInputChange from '../../../components/handlers/handleInputChange';
 import modalTypes from '../modalTypes';
 import styles from './PurchaseSettingsView.module.css';
 
 const PurchaseSettingsView = ({
-  onDefaultRemittanceAdviceEmailFieldChange,
+  onUpdateEmailSettingsField,
   saveEmailSettings,
   loadingState,
   emailSettings,
@@ -64,54 +67,78 @@ const PurchaseSettingsView = ({
       <Card>
         <FieldGroup label="Email settings">
           <p>
-            These email settings apply to all emails sent on your behalf from
-            MYOB. This includes invoices, quotes and pay slips (payroll).
+            These email settings apply to all email sent on your behalf from
+            MYOB. This includes invoices, quotes, purchase orders, remittance
+            advice and pay slips (payroll).
           </p>
           <Input
             name="fromName"
             label="From name"
             labelAccessory={
               <Tooltip>
-                The name that will display when your suppliers receive a
-                remittance advice. This could be your business name or contact
-                person.
+                The name that will display when your clients receive an email
+                from MYOB. This could be your business name or contact person.
               </Tooltip>
             }
             value={emailSettings.fromName}
             maxLength={255}
-            onChange={handleInputChange(
-              onDefaultRemittanceAdviceEmailFieldChange
-            )}
+            onChange={handleInputChange(onUpdateEmailSettingsField)}
           />
           <Input
             name="fromEmail"
             label="Reply-to email address"
             labelAccessory={
               <Tooltip>
-                The email address used when your suppliers reply to an emailed
-                remittance advice.
+                The email address used when your clients reply to an email sent
+                from MYOB.
               </Tooltip>
             }
             value={emailSettings.fromEmail}
             maxLength={255}
-            onChange={handleInputChange(
-              onDefaultRemittanceAdviceEmailFieldChange
+            onChange={handleInputChange(onUpdateEmailSettingsField)}
+          />
+        </FieldGroup>
+      </Card>
+      <Card>
+        <FieldGroup label="Default purchase order email">
+          <Input
+            name="purchaseOrderEmailSubject"
+            label="Subject"
+            value={emailSettings.purchaseOrderEmailSubject}
+            onChange={handleInputChange(onUpdateEmailSettingsField)}
+          />
+          <CheckboxGroup
+            label="isPurchaseOrderNumberIncluded"
+            hideLabel
+            renderCheckbox={() => (
+              <Checkbox
+                name="isPurchaseOrderNumberIncluded"
+                label="Include purchase order number in subject"
+                checked={emailSettings.isPurchaseOrderNumberIncluded}
+                onChange={handleCheckboxChange(onUpdateEmailSettingsField)}
+              />
             )}
+          />
+          <TextArea
+            name="purchaseOrderEmailBody"
+            label="Message"
+            autoSize
+            resize="vertical"
+            value={emailSettings.purchaseOrderEmailBody}
+            onChange={handleInputChange(onUpdateEmailSettingsField)}
           />
         </FieldGroup>
       </Card>
       <div>
         <Card>
-          <FieldGroup label="Default Remittance Advice email">
+          <FieldGroup label="Default remittance advice email">
             <Input
               label="Subject"
               width="xl"
               value={emailSettings.remittanceAdviceEmailSubject}
               name="remittanceAdviceEmailSubject"
               maxLength={256}
-              onChange={handleInputChange(
-                onDefaultRemittanceAdviceEmailFieldChange
-              )}
+              onChange={handleInputChange(onUpdateEmailSettingsField)}
             />
             <TextArea
               label="Message"
@@ -121,9 +148,7 @@ const PurchaseSettingsView = ({
               autoSize
               resize="vertical"
               maxLength={4000}
-              onChange={handleInputChange(
-                onDefaultRemittanceAdviceEmailFieldChange
-              )}
+              onChange={handleInputChange(onUpdateEmailSettingsField)}
             />
           </FieldGroup>
         </Card>
@@ -169,7 +194,7 @@ const PurchaseSettingsView = ({
 
 const mapStateToProps = (state) => ({
   loadingState: getLoadingState(state),
-  emailSettings: getDefaultRemittanceAdviceEmailSettings(state),
+  emailSettings: getDefaultPurchasesEmailSettings(state),
   alert: getAlert(state),
   templateList: getTemplateList(state),
   shouldDisplayCustomTemplateList: getShouldDisplayCustomTemplateList(state),

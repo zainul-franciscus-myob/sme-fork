@@ -60,8 +60,8 @@ export default class PurchaseSettingsModule {
     this.integrator.loadSamplePdf({ onSuccess, onFailure });
   };
 
-  updateRemittanceAdviceEmailField = ({ key, value }) => {
-    this.dispatcher.updateDefaultRemittanceAdviceEmailField({ key, value });
+  updateEmailSettingsField = ({ key, value }) => {
+    this.dispatcher.updateEmailSettingsField({ key, value });
   };
 
   saveEmailSettings = () => {
@@ -112,9 +112,7 @@ export default class PurchaseSettingsModule {
   render = () => {
     const view = (
       <PurchaseSettingsView
-        onDefaultRemittanceAdviceEmailFieldChange={
-          this.updateRemittanceAdviceEmailField
-        }
+        onUpdateEmailSettingsField={this.updateEmailSettingsField}
         saveEmailSettings={this.saveEmailSettings}
         onDismissAlert={this.dispatcher.dismissAlert}
         exportPdf={this.exportPdf}

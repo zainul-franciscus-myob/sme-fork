@@ -5,7 +5,7 @@ import {
 } from './purchaseSettingsIntents';
 import {
   getBusinessId,
-  getDefaultRemittanceAdviceEmailSettings,
+  getDefaultPurchasesEmailSettings,
 } from './purchaseSettingsSelector';
 
 const createPurchaseSettingsIntegrator = (store, integration) => ({
@@ -45,7 +45,7 @@ const createPurchaseSettingsIntegrator = (store, integration) => ({
     const state = store.getState();
     const intent = UPDATE_EMAIL_SETTINGS;
 
-    const content = getDefaultRemittanceAdviceEmailSettings(state);
+    const content = getDefaultPurchasesEmailSettings(state);
 
     const urlParams = {
       businessId: getBusinessId(state),

@@ -3,7 +3,10 @@
     "fromName": "From name",
     "fromEmail": "reply@to.com",
     "remittanceAdviceEmailBody": "Remittance advice body sample",
-    "remittanceAdviceEmailSubject": "To Supplier"
+    "remittanceAdviceEmailSubject": "To Supplier",
+    "purchaseOrderEmailBody": "Please contact us immediately if you are unable to detach or download your Purchase Order. Thank you.",
+    "purchaseOrderEmailSubject": "Purchase Order from Clearwater Pty Ltd",
+    "isPurchaseOrderNumberIncluded": true
   },
   "templateList": [
     {

@@ -5,7 +5,7 @@ import {
   SET_ALERT,
   SET_LOADING_STATE,
   SET_REDIRECT_URL,
-  UPDATE_DEFAULT_REMITTANCE_ADVICE_EMAIL_FIELD,
+  UPDATE_EMAIL_SETTINGS_FIELD,
 } from './purchaseSettingsIntents';
 import { RESET_STATE, SET_INITIAL_STATE } from '../../SystemIntents';
 import createReducer from '../../store/createReducer';
@@ -13,11 +13,14 @@ import modalTypes from './modalTypes';
 
 const getDefaultState = () => ({
   shouldDisplayCustomTemplateList: false,
-  defaultRemittanceAdviceEmailSettings: {
+  defaultPurchasesEmailSettings: {
     remittanceAdviceEmailBody: '',
     remittanceAdviceEmailSubject: '',
     fromName: '',
     fromEmail: '',
+    purchaseOrderEmailBody: '',
+    purchaseOrderEmailSubject: '',
+    isPurchaseOrderNumberIncluded: 'true',
   },
   alert: {},
   templateList: [],
@@ -47,17 +50,17 @@ const loadPurchaseSettings = (
   isPageEdited: false,
   shouldDisplayCustomTemplateList,
   templateList,
-  defaultRemittanceAdviceEmailSettings: {
-    ...state.defaultRemittanceAdviceEmailSettings,
+  defaultPurchasesEmailSettings: {
+    ...state.defaultPurchasesEmailSettings,
     ...emailSettings,
   },
 });
 
-const updateDefaultRemittanceAdviceEmailField = (state, { key, value }) => ({
+const updateEmailSettingsField = (state, { key, value }) => ({
   ...state,
   ...pageEdited,
-  defaultRemittanceAdviceEmailSettings: {
-    ...state.defaultRemittanceAdviceEmailSettings,
+  defaultPurchasesEmailSettings: {
+    ...state.defaultPurchasesEmailSettings,
     [key]: value,
   },
 });
@@ -91,7 +94,7 @@ const handlers = {
   [RESET_STATE]: resetState,
   [SET_LOADING_STATE]: setLoadingState,
   [LOAD_PURCHASE_SETTINGS]: loadPurchaseSettings,
-  [UPDATE_DEFAULT_REMITTANCE_ADVICE_EMAIL_FIELD]: updateDefaultRemittanceAdviceEmailField,
+  [UPDATE_EMAIL_SETTINGS_FIELD]: updateEmailSettingsField,
   [SET_ALERT]: setAlert,
 };
 

@@ -58,7 +58,7 @@ describe('PurchaseSettingsDetailModule', () => {
     const toolbox = setupWithRun();
     const { module, store } = toolbox;
 
-    module.updateRemittanceAdviceEmailField({
+    module.updateEmailSettingsField({
       remittanceAdviceEmailBody: 'woot',
     });
 
@@ -144,11 +144,14 @@ describe('PurchaseSettingsDetailModule', () => {
 
       store.setState({
         ...store.getState(),
-        defaultRemittanceAdviceEmailSettings: {
+        defaultPurchasesEmailSettings: {
           fromName: 'name',
           fromEmail: 'reply@to.com',
           remittanceAdviceEmailBody: 'body',
           remittanceAdviceEmailSubject: 'subject',
+          purchaseOrderEmailBody: 'body',
+          purchaseOrderEmailSubject: 'subject',
+          isPurchaseOrderNumberIncluded: 'true',
         },
       });
 
@@ -179,6 +182,9 @@ describe('PurchaseSettingsDetailModule', () => {
             fromEmail: 'reply@to.com',
             remittanceAdviceEmailBody: 'body',
             remittanceAdviceEmailSubject: 'subject',
+            purchaseOrderEmailBody: 'body',
+            purchaseOrderEmailSubject: 'subject',
+            isPurchaseOrderNumberIncluded: 'true',
           },
         }),
       ]);
