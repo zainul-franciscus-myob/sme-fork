@@ -170,12 +170,9 @@ export default class TransactionListModule {
     this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, true);
     this.setLastLoadingTab(JOURNAL_TRANSACTIONS);
 
-    const onSuccess = ({ entries, pagination }) => {
+    const onSuccess = (response) => {
       this.dispatcher.setTableLoadingState(JOURNAL_TRANSACTIONS, false);
-      this.dispatcher.sortAndFilterJournalTransactions({
-        entries,
-        pagination,
-      });
+      this.dispatcher.sortAndFilterJournalTransactions(response);
     };
 
     const onFailure = ({ message }) => {

@@ -190,6 +190,7 @@ describe('TransactionListModule', () => {
           intent: SORT_AND_FILTER_TRANSACTION_LIST,
           entries: expect.any(Object),
           pagination: expect.any(Object),
+          lastMonthInFinancialYear: expect.any(Number),
         },
       ]);
 

@@ -181,6 +181,7 @@ const loadCreditsAndDebitsNextPage = (state, action) => ({
 
 const sortAndFilterTransactionList = (state, action) => ({
   ...state,
+  lastMonthInFinancialYear: action.lastMonthInFinancialYear,
   [JOURNAL_TRANSACTIONS]: {
     ...state[JOURNAL_TRANSACTIONS],
     entries: action.entries,

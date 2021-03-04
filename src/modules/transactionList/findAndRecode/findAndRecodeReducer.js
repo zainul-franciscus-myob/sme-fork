@@ -139,13 +139,14 @@ const sortAndFilterFindAndRecodeList = (state, { entries, pagination }) => ({
 
 const loadFindAndRecodeList = (
   state,
-  { accountList, taxCodeList, entries, pagination }
+  { accountList, taxCodeList, entries, pagination, lastMonthInFinancialYear }
 ) => ({
   ...state,
   accountList,
   taxCodeList,
   entries,
   pagination,
+  lastMonthInFinancialYear,
 });
 
 const loadFindAndRecodeListNextPage = (state, { entries, pagination }) => ({

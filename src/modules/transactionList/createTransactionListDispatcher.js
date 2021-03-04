@@ -60,13 +60,12 @@ const createTransactionListDispatcher = (store) => ({
     });
   },
 
-  sortAndFilterJournalTransactions: ({ entries, pagination }) => {
+  sortAndFilterJournalTransactions: (response) => {
     const intent = SORT_AND_FILTER_TRANSACTION_LIST;
 
     store.dispatch({
       intent,
-      entries,
-      pagination,
+      ...response,
     });
   },
 
