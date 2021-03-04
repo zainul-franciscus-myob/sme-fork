@@ -31,8 +31,7 @@ const EmailSettingsModal = ({
       )}
       <div className={styles.description}>
         Before you can send invoices, you&apos;ll need to complete the settings
-        below. You can update the email settings at any time in invoice and
-        quote settings.
+        below. You can update the email settings at any time in sales settings.
       </div>
       <Input
         name="fromName"
