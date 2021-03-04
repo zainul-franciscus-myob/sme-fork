@@ -12,7 +12,7 @@ import buildOnlinePaymentLink from '../../../../common/links/buildOnlinePaymentL
 export const getPayDirect = (state) => state.payDirect;
 const getIsLoading = (state) => state.payDirect.isLoading;
 const getIsServiceAvailable = (state) => state.payDirect.isServiceAvailable;
-const getIsRegistered = (state) => state.payDirect.isRegistered;
+export const getIsRegistered = (state) => state.payDirect.isRegistered;
 const getRegistrationUrl = (state) => state.payDirect.registrationUrl;
 const getIsSurchargingAvailable = (state) =>
   state.payDirect.isSurchargingAvailable && getIsAllowOnlinePayments(state);

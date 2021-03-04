@@ -62,6 +62,9 @@ const InvoiceDetailModal = ({
         onCustomiseTemplateLinkClick={
           emailInvoiceDetailModalListeners.onCustomiseTemplateLinkClick
         }
+        onManagePaymentOptionClick={
+          emailInvoiceDetailModalListeners.onManagePaymentOptionClick
+        }
         onPreviewPdfButtonClick={
           emailInvoiceDetailModalListeners.onPreviewPdfButtonClick
         }

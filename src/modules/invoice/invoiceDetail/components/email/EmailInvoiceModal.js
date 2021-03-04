@@ -57,6 +57,7 @@ const EmailInvoiceModal = ({
   onConfirm,
   onCustomiseTemplateLinkClick,
   onEmailInvoiceDetailChange,
+  onManagePaymentOptionClick,
   onDismissAlert,
   onRemoveAttachment,
   onAddAttachments,
@@ -143,6 +144,7 @@ const EmailInvoiceModal = ({
         templateOptions={templateOptions}
         onEmailInvoiceDetailChange={onEmailInvoiceDetailChange}
         onCustomiseTemplateLinkClick={onCustomiseTemplateLinkClick}
+        onManagePaymentOptionClick={onManagePaymentOptionClick}
         onPreviewPdfButtonClick={onPreviewPdfButtonClick}
       />
     </div>

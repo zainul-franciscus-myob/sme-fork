@@ -1,8 +1,20 @@
-import { Box, Button, Select, Spinner, Tooltip } from '@myob/myob-widgets';
+import {
+  Box,
+  Button,
+  CloseIcon,
+  Select,
+  Spinner,
+  TickIcon,
+  Tooltip,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
+import classNames from 'classnames';
 
-import { getIsPreviewingPdf } from '../../selectors/emailSelectors';
+import {
+  getIsPreviewingPdf,
+  getPaymentOptions,
+} from '../../selectors/emailSelectors';
 import handleSelectChange from '../../../../../components/handlers/handleSelectChange';
 import styles from './EmailInvoiceModalSettings.module.css';
 
@@ -11,9 +23,24 @@ const EmailInvoiceModalSettings = ({
   isPreviewingPdf,
   onCustomiseTemplateLinkClick,
   onEmailInvoiceDetailChange,
+  onManagePaymentOptionClick,
   onPreviewPdfButtonClick,
+  paymentOptions,
   templateOptions,
 }) => {
+  const paymentOptionIcon = (isOptionAvailable) =>
+    isOptionAvailable ? (
+      <div className={classNames(styles.paymentOptionAvailable, styles.tick)}>
+        <TickIcon />
+      </div>
+    ) : (
+      <div
+        className={classNames(styles.paymentOptionUnavailable, styles.cross)}
+      >
+        <CloseIcon />
+      </div>
+    );
+
   return (
     <>
       <h3>Settings</h3>
@@ -62,12 +89,37 @@ const EmailInvoiceModalSettings = ({
           </div>
         </div>
       </div>
+      <div className={styles.paymentSettingsHeading}>
+        <span>Payment options</span>
+        <div>
+          <Box marginRight="xTiny">
+            <Button type="link" onClick={onManagePaymentOptionClick}>
+              Manage payment options
+            </Button>
+          </Box>
+          <Tooltip
+            container={() => document.querySelector('#emailInvoiceModal')}
+          >
+            Edit details and select the payment options you want to include on
+            your sales invoice.
+          </Tooltip>
+        </div>
+      </div>
+      <div className={styles.paymentSettings}>
+        {paymentOptions.map((option) => (
+          <div className={styles.paymentOption}>
+            {paymentOptionIcon(option.isAvailable)}
+            <span>{option.option}</span>
+          </div>
+        ))}
+      </div>
     </>
   );
 };
 
 const mapStateToProps = (state) => ({
   isPreviewingPdf: getIsPreviewingPdf(state),
+  paymentOptions: getPaymentOptions(state),
 });
 
 export default connect(mapStateToProps)(EmailInvoiceModalSettings);

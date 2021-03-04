@@ -46,6 +46,7 @@ import {
   getInvoiceAndQuoteSettingsUrl,
   getInvoiceListUrl,
   getInvoicePaymentUrl,
+  getPaymentSettingsUrl,
   getRedirectRefUrl,
   getRedirectState,
   getSalesSettingsEmailDefaultsUrl,
@@ -514,6 +515,11 @@ export default class InvoiceDetailModule {
   redirectToTemplateSettings = () => {
     const state = this.store.getState();
     this.navigateTo(getTemplateSettingsUrl(state), true);
+  };
+
+  redirectToPaymentSettings = () => {
+    const state = this.store.getState();
+    this.navigateTo(getPaymentSettingsUrl(state), true);
   };
 
   redirectToInvoiceAndQuoteSettings = () => {
@@ -1506,6 +1512,7 @@ export default class InvoiceDetailModule {
           onRemoveAttachment: this.dispatcher.removeEmailAttachment,
           onEmailDefaultsButtonClick: this.redirectToSalesSettingsEmailDefaults,
           onCustomiseTemplateLinkClick: this.redirectToTemplateSettings,
+          onManagePaymentOptionClick: this.redirectToPaymentSettings,
           onPreviewPdfButtonClick: this.previewPdf,
         }}
         applyPaymentUnsavedChangesListeners={{

@@ -3,6 +3,7 @@
   flex-wrap: nowrap;
   justify-content: space-between;
   flex-direction: column;
+  margin-bottom: var(--flx-spacing-tiny);
 }
 
 .templateSettingsHeading {
@@ -12,11 +13,21 @@
   align-items: flex-end;
 }
 
-.templateSettingsHeading > span {
+.paymentSettingsHeading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--flx-spacing-x-small);
+}
+
+.templateSettingsHeading > span,
+.paymentSettingsHeading > span {
   color: var(--flx-color-input-label);
 }
 
-.templateSettingsHeading > div {
+.templateSettingsHeading > div,
+.paymentSettingsHeading > div {
   display: flex;
 }
 
@@ -34,4 +45,57 @@
   flex-direction: column;
   justify-content: flex-end;
   margin-bottom: 1.6rem;
+}
+
+.paymentSettings {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.paymentSettings > .paymentOption {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: var(--flx-spacing-tiny);
+}
+
+.paymentSettings > .paymentOption:not(:last-child) {
+  margin-right: var(--flx-spacing-tiny);
+}
+
+.paymentSettings > .paymentOption > .tick {
+  height: 2.2rem;
+  width: 2.2rem;
+  background-color: #cceee0;
+  border: 0.1rem solid #cceee0;
+  border-radius: 100%;
+}
+
+.paymentSettings > .paymentOption > .cross {
+  height: 2.2rem;
+  width: 2.2rem;
+  background-color: #f3cbd5;
+  border: 0.1rem solid #f3cbd5;
+  border-radius: 100%;
+}
+
+.paymentSettings > .paymentOption > span {
+  margin-left: var(--flx-spacing-tiny);
+}
+
+.paymentSettings > .paymentOption > .paymentOptionAvailable :global(svg) {
+  fill: #077b4d;
+  border: 0.1rem solid #cceee0;
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.paymentSettings > .paymentOption > .paymentOptionUnavailable :global(svg) {
+  fill: var(--flx-palette-berry);
+  border: 0.1rem solid #f3cbd5;
+  border-radius: 100%;
+  height: 100%;
+  width: 100%;
 }

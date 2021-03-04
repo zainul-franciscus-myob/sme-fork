@@ -45,6 +45,13 @@ export const getTemplateSettingsUrl = createSelector(
     `/#/${region}/${businessId}/salesSettings?selectedTab=templates`
 );
 
+export const getPaymentSettingsUrl = createSelector(
+  getBusinessId,
+  getRegion,
+  (businessId, region) =>
+    `/#/${region}/${businessId}/salesSettings?selectedTab=payments`
+);
+
 export const getInvoiceListUrl = (state) => {
   const baseUrl = getBaseUrl(state);
 

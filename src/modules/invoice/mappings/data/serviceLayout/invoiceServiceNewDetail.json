@@ -123,6 +123,15 @@
   "conversionDate": "2014-07-23T00:00:00",
   "startOfFinancialYearDate": "2019-07-01T00:00:00",
   "linkedAccountId": "123",
+  "paymentOptions": {
+    "isAllowPaymentsByDirectDeposit": true,
+    "isAllowPaymentsByMail": false,
+    "address": "25 Spring Street\nBlackburn\nVIC, 3130",
+    "bankNameAu": "ING Australia",
+    "accountNameAu": "Test Bank Account",
+    "bsbNumber": "123-456",
+    "accountNumberAu": "123456789"
+  },
   "eligibility": {
     "eligible": true,
     "entryUrl": "https://invoicefinance.myob.com",

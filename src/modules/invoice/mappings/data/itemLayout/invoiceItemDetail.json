@@ -44,25 +44,18 @@
     "hasEmailReplyDetails": true,
     "isEmailMeACopy": false,
     "businessName": "Hot Choccers",
-    "ccToEmail": [
-      "t-pain@myob.com",
-      "hamzzz@myob.com"
-    ],
+    "ccToEmail": ["t-pain@myob.com", "hamzzz@myob.com"],
     "fromEmail": "tpain@myob.com",
     "fromName": "Romeo Romeo",
     "messageBody": "Let's make some hot chocolate!!",
     "subject": "Hot Chocolate is life",
-    "toEmail": [
-      "geoff.spires@myob.com",
-      "tom.xu@myob.com"
-    ],
+    "toEmail": ["geoff.spires@myob.com", "tom.xu@myob.com"],
     "toName": "Geoff Speirs",
     "includeInvoiceNumberInEmail": true,
     "attachments": [],
     "templateName": "a"
   },
-  "template":
-  {
+  "template": {
     "defaultTemplate": "c",
     "templateOptions": [
       {
@@ -75,7 +68,11 @@
       }
     ]
   },
-  "comments": ["Happy Holiday!", "Great doing business", "don't call us we'll call you"],
+  "comments": [
+    "Happy Holiday!",
+    "Great doing business",
+    "don't call us we'll call you"
+  ],
   "accountOptions": [
     {
       "id": "123",
@@ -186,6 +183,15 @@
   "conversionDate": "2014-07-23T00:00:00",
   "startOfFinancialYearDate": "2019-07-01T00:00:00",
   "linkedAccountId": "123",
+  "paymentOptions": {
+    "isAllowPaymentsByDirectDeposit": true,
+    "isAllowPaymentsByMail": false,
+    "address": "25 Spring Street\nBlackburn\nVIC, 3130",
+    "bankNameAu": "ING Australia",
+    "accountNameAu": "Test Bank Account",
+    "bsbNumber": "123-456",
+    "accountNumberAu": "123456789"
+  },
   "eligibility": {
     "eligible": true,
     "entryUrl": "https://invoicefinance.myob.com",

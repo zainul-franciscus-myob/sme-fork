@@ -6,6 +6,11 @@ import {
   getIsForeignCurrency,
   getLayout,
 } from './invoiceDetailSelectors';
+import {
+  getIsAllowPaymentsByDirectDeposit,
+  getIsAllowPaymentsByMail,
+} from './paymentOptionsSelectors';
+import { getIsRegistered } from './payDirectSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceLayout from '../types/InvoiceLayout';
 
@@ -152,3 +157,27 @@ export const getHasEmailToAddress = (state) =>
 
 export const getIsSendingEmail = (state) => state.isSendingEmail;
 export const getIsPreviewingPdf = (state) => state.emailInvoice.isPreviewingPdf;
+
+export const getPaymentOptions = createSelector(
+  getIsAllowPaymentsByDirectDeposit,
+  getIsAllowPaymentsByMail,
+  getIsRegistered,
+  (
+    isDirectDepositAvailable,
+    isPaymentByMailAvailable,
+    isPayDirectAvailable
+  ) => [
+    {
+      option: 'Direct deposit',
+      isAvailable: isDirectDepositAvailable,
+    },
+    {
+      option: 'Mail',
+      isAvailable: isPaymentByMailAvailable,
+    },
+    {
+      option: 'Online invoice payments',
+      isAvailable: isPayDirectAvailable,
+    },
+  ]
+);
