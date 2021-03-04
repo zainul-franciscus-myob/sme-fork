@@ -47,6 +47,8 @@ export const getIsCreating = (state) => state.supplierPaymentId === 'new';
 export const getAreEmailsEnabled = (state) => state.areEmailsEnabled !== false;
 export const getShouldSendRemittanceAdvice = (state) =>
   state.shouldSendRemittanceAdvice;
+export const getSendRemittanceAdviceNow = (state) =>
+  state.sendRemittanceAdviceNow;
 export const getRemittanceAdviceDetails = (state) =>
   state.remittanceAdviceDetails;
 export const getRemittanceAdviceType = createSelector(

@@ -29,4 +29,5 @@ export default {
   isPurchaseOrdersEnabled: true,
   isAutocompleteAddressEnabled: true,
   isNonGSTEnabled: true,
+  isBulkRemittanceAdviceEnabled: true,
 };

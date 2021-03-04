@@ -16,6 +16,7 @@ import {
   UPDATE_REFERENCE_ID,
   UPDATE_REMITTANCE_ADVICE_DETAILS,
   UPDATE_REMITTANCE_ADVICE_TYPE,
+  UPDATE_SEND_REMITTANCE_ADVICE_NOW,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_SUPPLIER_PAYMENT_ID,
   UPDATE_TABLE_INPUT_FIELD,
@@ -119,6 +120,12 @@ const createSupplierPaymentDetailDispatcher = (store) => ({
     store.dispatch({
       intent: UPDATE_SUPPLIER_PAYMENT_ID,
       supplierPaymentId,
+    });
+  },
+  updateSendRemittanceAdviceNow: ({ value }) => {
+    store.dispatch({
+      intent: UPDATE_SEND_REMITTANCE_ADVICE_NOW,
+      sendRemittanceAdviceNow: value,
     });
   },
   updateShouldSendRemittanceAdvice: ({ value }) => {

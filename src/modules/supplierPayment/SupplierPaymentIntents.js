@@ -21,6 +21,9 @@ export const DELETE_SUPPLIER_PAYMENT = Symbol('Delete supplier payment');
 export const UPDATE_SHOULD_SEND_REMITTANCE_ADVICE = Symbol(
   'Update Should Send Remittance Advice'
 );
+export const UPDATE_SEND_REMITTANCE_ADVICE_NOW = Symbol(
+  'Update Send Remittance Advice now'
+);
 export const SEND_EMAIL = Symbol('Send remittance advice email');
 export const EXPORT_PDF = Symbol('Export remittance advice PDF');
 

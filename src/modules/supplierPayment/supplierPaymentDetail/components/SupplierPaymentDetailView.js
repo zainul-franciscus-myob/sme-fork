@@ -1,4 +1,4 @@
-import { Alert, Checkbox, Separator } from '@myob/myob-widgets';
+import { Alert, Checkbox, Separator, Tooltip } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -8,10 +8,12 @@ import {
   getLoadingState,
   getModalType,
   getRemittanceAdviceType,
+  getSendRemittanceAdviceNow,
   getShouldSendRemittanceAdvice,
   getShouldShowAlertMessage,
   getTitle,
 } from '../SupplierPaymentDetailSelectors';
+import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import CancelModal from '../../../../components/modal/CancelModal';
 import DeleteModal from '../../../../components/modal/DeleteModal';
 import LineItemTemplate from '../../../../components/Feelix/LineItemTemplate/LineItemTemplate';
@@ -56,9 +58,12 @@ const SupplierPaymentDetailView = ({
   alertMessage,
   onDismissAlert,
   remittanceAdviceType,
+  sendRemittanceAdviceNow,
   shouldSendRemittanceAdvice,
   shouldShowAlertMessage,
+  onSendRemittanceAdviceNowChange,
   onShouldSendRemittanceAdviceChange,
+  isBulkRemittanceAdviceEnabled,
 }) => {
   let modal;
   if (modalType === supplierPaymentModalTypes.cancel) {
@@ -114,20 +119,34 @@ const SupplierPaymentDetailView = ({
         label="Send remittance advice"
         checked={shouldSendRemittanceAdvice}
         onChange={handleCheckboxChange(onShouldSendRemittanceAdviceChange)}
+        labelAccessory={<Tooltip>Send by email or download as PDF</Tooltip>}
       />
-      <br />
+
       {shouldSendRemittanceAdvice && (
-        <Alert type="info">
-          You&#39;ll have the option to send by email or export a PDF when you
-          save this payment.&nbsp;
-          <a
-            href="https://help.myob.com/wiki/x/TA5XAw"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn more
-          </a>
-        </Alert>
+        <>
+          {isBulkRemittanceAdviceEnabled && (
+            <BooleanRadioButtonGroup
+              name="sendRemittanceAdviceTiming"
+              value={sendRemittanceAdviceNow}
+              trueLabel="Send now"
+              falseLabel="Send later"
+              disabled={!shouldSendRemittanceAdvice}
+              handler={onSendRemittanceAdviceNowChange}
+            />
+          )}
+          <br />
+          <Alert type="info">
+            To send in bulk later, go to{' '}
+            <b>Purchases {'>'} Remittance advice</b>.&nbsp;
+            <a
+              href="https://help.myob.com/wiki/x/TA5XAw"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Learn more
+            </a>
+          </Alert>
+        </>
       )}
     </>
   );
@@ -181,6 +200,7 @@ const mapStateToProps = (state) => ({
   shouldSendRemittanceAdvice: getShouldSendRemittanceAdvice(state),
   remittanceAdviceType: getRemittanceAdviceType(state),
   shouldShowAlertMessage: getShouldShowAlertMessage(state),
+  sendRemittanceAdviceNow: getSendRemittanceAdviceNow(state),
 });
 
 export default connect(mapStateToProps)(SupplierPaymentDetailView);

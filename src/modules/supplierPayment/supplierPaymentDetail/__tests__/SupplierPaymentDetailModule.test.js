@@ -424,11 +424,12 @@ describe('SupplierPaymentDetailModule', () => {
       expect(integration.getRequests()).toEqual([]);
     });
 
-    it(`shows email remittance advice modal when send remittance is selected`, () => {
+    it(`shows email remittance advice modal when send remittance now is selected`, () => {
       const { module, store, integration } = setupWithNew();
       module.pushMessage = jest.fn();
 
       module.dispatcher.updateShouldSendRemittanceAdvice({ value: true });
+      module.dispatcher.updateSendRemittanceAdviceNow({ value: true });
       module.saveSupplierPayment();
 
       expect(store.getActions()).toEqual(
@@ -466,6 +467,25 @@ describe('SupplierPaymentDetailModule', () => {
       expect(module.replaceURLParams).toHaveBeenCalledWith({
         supplierPaymentId: 1,
       });
+    });
+
+    it(`redirect to bill screen when send remittance later is selected`, () => {
+      const { module, integration } = setupWithNew();
+      module.pushMessage = jest.fn();
+
+      module.dispatcher.updateShouldSendRemittanceAdvice({ value: true });
+      module.dispatcher.updateSendRemittanceAdviceNow({ value: false });
+      module.saveSupplierPayment();
+
+      expect(integration.getRequests()).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            intent: CREATE_SUPPLIER_PAYMENT,
+          }),
+        ])
+      );
+
+      expect(window.location.href).toEqual(expect.stringContaining('/bill'));
     });
   });
 
@@ -902,10 +922,11 @@ describe('SupplierPaymentDetailModule', () => {
   });
 
   describe('sendRemittanceAdviceModal', () => {
-    it('should not show when send remittance advice checkbox is unchecked', () => {
+    it('should not show when send remittance advice checkbox is unchecked and send remittance now is selected', () => {
       const { module, store } = setupWithExisting();
 
       module.dispatcher.updateShouldSendRemittanceAdvice({ value: false });
+      module.dispatcher.updateSendRemittanceAdviceNow({ value: true });
       module.saveSupplierPayment();
 
       expect(store.getActions()).not.toContain({

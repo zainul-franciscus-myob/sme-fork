@@ -16,6 +16,7 @@ import {
   getModalType,
   getRedirectUrl,
   getReferenceId,
+  getSendRemittanceAdviceNow,
   getShouldSendRemittanceAdvice,
 } from './SupplierPaymentDetailSelectors';
 import { isToggleOn } from '../../../splitToggle';
@@ -192,7 +193,10 @@ export default class SupplierPaymentModule {
 
       // Change applyPaymentToBillId to applyPaymentToPurchaseId
       const url = getRedirectUrl({ ...state, applyPaymentToPurchaseId: '' });
-      if (getShouldSendRemittanceAdvice(state)) {
+      if (
+        getShouldSendRemittanceAdvice(state) &&
+        getSendRemittanceAdviceNow(state)
+      ) {
         this.dispatcher.setRedirectUrl(url);
         const id = response.id || state.supplierPaymentId;
         this.reloadSavedSupplierPayment({ ...response, id });
@@ -348,6 +352,9 @@ export default class SupplierPaymentModule {
         onConfirmSaveAndRedirect={this.saveAndRedirect}
         onDiscardAndRedirect={this.discardAndRedirect}
         onCloseUnsaveModal={this.closeUnsaveModal}
+        onSendRemittanceAdviceNowChange={
+          this.dispatcher.updateSendRemittanceAdviceNow
+        }
         onShouldSendRemittanceAdviceChange={
           this.dispatcher.updateShouldSendRemittanceAdvice
         }
@@ -356,6 +363,9 @@ export default class SupplierPaymentModule {
         }
         onDeleteButtonClick={this.openDeleteModal}
         onDeleteModal={this.deleteSupplierPayment}
+        isBulkRemittanceAdviceEnabled={
+          this.featureToggles.isBulkRemittanceAdviceEnabled
+        }
       />
     );
 

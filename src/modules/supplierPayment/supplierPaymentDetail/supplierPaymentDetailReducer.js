@@ -18,6 +18,7 @@ import {
   UPDATE_REFERENCE_ID,
   UPDATE_REMITTANCE_ADVICE_DETAILS,
   UPDATE_REMITTANCE_ADVICE_TYPE,
+  UPDATE_SEND_REMITTANCE_ADVICE_NOW,
   UPDATE_SHOULD_SEND_REMITTANCE_ADVICE,
   UPDATE_SUPPLIER_PAYMENT_ID,
   UPDATE_TABLE_INPUT_FIELD,
@@ -62,6 +63,7 @@ const getDefaultState = () => ({
   applyPaymentToPurchaseId: '',
   startOfFinancialYearDate: '',
   shouldSendRemittanceAdvice: false,
+  sendRemittanceAdviceNow: true,
   remittanceAdviceType: remittanceAdviceTypes.email,
   areEmailSettingsSet: false,
   templateOptions: [''],
@@ -317,6 +319,11 @@ const updateShouldSendRemittanceAdvice = (state, action) => ({
   shouldSendRemittanceAdvice: action.shouldSendRemittanceAdvice,
 });
 
+const updateSendRemittanceAdviceNow = (state, action) => ({
+  ...state,
+  sendRemittanceAdviceNow: action.sendRemittanceAdviceNow,
+});
+
 const updateRemittanceAdviceType = (state, { remittanceAdviceType }) => ({
   ...state,
   remittanceAdviceType,
@@ -370,6 +377,7 @@ const handlers = {
   [SET_ALERT_MESSAGE]: setAlertMessage,
   [SET_REDIRECT_URL]: setRedirectUrl,
   [UPDATE_SHOULD_SEND_REMITTANCE_ADVICE]: updateShouldSendRemittanceAdvice,
+  [UPDATE_SEND_REMITTANCE_ADVICE_NOW]: updateSendRemittanceAdviceNow,
   [UPDATE_REMITTANCE_ADVICE_TYPE]: updateRemittanceAdviceType,
 };
 
