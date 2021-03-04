@@ -37,7 +37,12 @@ const RecurringTransactionListModalTable = ({
       </Table.HeaderItem>
       {showTransactionType && (
         <Table.HeaderItem {...tableConfig.transactionType}>
-          Transaction type
+          <HeaderSort
+            title="Transaction type"
+            sortName="TransactionTypeDescription"
+            activeSort={order}
+            onSort={onSort}
+          />
         </Table.HeaderItem>
       )}
       <Table.HeaderItem {...tableConfig.amount}>
