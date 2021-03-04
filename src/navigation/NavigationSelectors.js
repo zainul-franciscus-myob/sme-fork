@@ -404,3 +404,13 @@ export const getMoveToMYOBUrl = createSelector(
   getRegion,
   (businessId, region) => `#/${region}/${businessId}/moveToMYOB`
 );
+
+export const getIsGSTUser = (state) => state.isGSTUser;
+
+export const getIsNonGSTEnabled = (state) => state.isNonGSTEnabled;
+
+export const getShouldDisplayAccountingTaxMenuItem = createSelector(
+  getIsGSTUser,
+  getIsNonGSTEnabled,
+  (isGSTUser, isNonGSTEnabled) => (isNonGSTEnabled ? isGSTUser : true)
+);

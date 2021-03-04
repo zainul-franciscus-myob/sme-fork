@@ -76,5 +76,6 @@
     "purchaseOrderCreate"
   ],
   "isReadOnly": false,
-  "isCurrentUserAdvisor": true
+  "isCurrentUserAdvisor": true,
+  "isGSTUser": false
 }

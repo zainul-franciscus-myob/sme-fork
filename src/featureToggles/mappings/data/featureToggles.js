@@ -28,4 +28,5 @@ export default {
   shouldDisplayAccountBillingMenuText: true,
   isPurchaseOrdersEnabled: true,
   isAutocompleteAddressEnabled: true,
+  isNonGSTEnabled: true,
 };

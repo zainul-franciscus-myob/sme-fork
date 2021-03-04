@@ -7,6 +7,7 @@ import {
   getActiveNav,
   getIsNzPayrollOnly,
   getOnlineTaxLabel,
+  getShouldDisplayAccountingTaxMenuItem,
   getTaxCodesLabel,
 } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
@@ -51,7 +52,8 @@ const getAccountingMenuItems = (
   urls,
   taxCodesLabel,
   onMenuLinkClick,
-  isNzPayrollOnly
+  isNzPayrollOnly,
+  shouldDisplayAccountingTaxMenuItem
 ) => [
   urls.accountList &&
     getMenuLink(urls.accountList, 'Chart of accounts', onMenuLinkClick),
@@ -60,11 +62,14 @@ const getAccountingMenuItems = (
   urls.jobList &&
     !isNzPayrollOnly &&
     getMenuLink(urls.jobList, 'Jobs', onMenuLinkClick),
-  urls.taxList && getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
+  urls.taxList &&
+    shouldDisplayAccountingTaxMenuItem &&
+    getMenuLink(urls.taxList, taxCodesLabel, onMenuLinkClick),
 ];
 
 const getItems = ({
   isNzPayrollOnly,
+  shouldDisplayAccountingTaxMenuItem,
   urls,
   taxCodesLabel,
   onlineTaxLabel,
@@ -80,7 +85,8 @@ const getItems = ({
     urls,
     taxCodesLabel,
     onMenuLinkClick,
-    isNzPayrollOnly
+    isNzPayrollOnly,
+    shouldDisplayAccountingTaxMenuItem
   );
   const menu = [...journalMenu, ...accountingMenu, ...onlineTaxMenu].filter(
     Boolean
@@ -97,6 +103,7 @@ const AccountingMenu = ({
   onMenuSelect,
   onMenuLinkClick,
   isNzPayrollOnly,
+  shouldDisplayAccountingTaxMenuItem,
 }) => (
   <Navigation.Menu
     label="Accounting"
@@ -104,6 +111,7 @@ const AccountingMenu = ({
     onSelect={onMenuSelect}
     items={getItems({
       isNzPayrollOnly,
+      shouldDisplayAccountingTaxMenuItem,
       urls,
       taxCodesLabel,
       onlineTaxLabel,
@@ -119,5 +127,8 @@ const mapStateToProps = (state, props) => ({
   taxCodesLabel: getTaxCodesLabel(state),
   onlineTaxLabel: getOnlineTaxLabel(state),
   isNzPayrollOnly: getIsNzPayrollOnly(state),
+  shouldDisplayAccountingTaxMenuItem: getShouldDisplayAccountingTaxMenuItem(
+    state
+  ),
 });
 export default connect(mapStateToProps)(AccountingMenu);

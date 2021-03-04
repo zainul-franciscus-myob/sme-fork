@@ -5,6 +5,7 @@ import {
   getPurchasesUrls,
   getSalesUrls,
   getShouldDisplayAccountingMenu,
+  getShouldDisplayAccountingTaxMenuItem,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
@@ -425,6 +426,44 @@ describe('NavigationSelectors', () => {
 
       const actual = getIsNzPayrollOnly(updatedState);
       expect(actual).toEqual(true);
+    });
+  });
+
+  describe('getShouldDisplayAccountingTaxMenuItem', () => {
+    it('true when isNonGSTEnabled is false and isGSTUser is true', () => {
+      const state = {
+        isNonGSTEnabled: false,
+        isGSTUser: true,
+      };
+      const actual = getShouldDisplayAccountingTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('true when isNonGSTEnabled is false and isGSTUser is false', () => {
+      const state = {
+        isNonGSTEnabled: false,
+        isGSTUser: false,
+      };
+      const actual = getShouldDisplayAccountingTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('true when isNonGSTEnabled is true and isGSTUser is true', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: true,
+      };
+      const actual = getShouldDisplayAccountingTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when isNonGSTEnabled is true and isGSTUser is false', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: false,
+      };
+      const actual = getShouldDisplayAccountingTaxMenuItem(state);
+      expect(actual).toEqual(false);
     });
   });
 });

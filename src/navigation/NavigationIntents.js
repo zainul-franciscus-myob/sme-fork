@@ -24,3 +24,7 @@ export const SET_PURCHASE_ORDER_FEATURE_TOGGLE = Symbol(
 export const SET_MOVE_TO_MYOB_FEATURE_TOGGLE = Symbol(
   'Set move to MYOB feature toggle'
 );
+
+export const SET_IS_NON_GST_FEATURE_TOGGLE = Symbol(
+  'Set is non-GST feature toggle'
+);

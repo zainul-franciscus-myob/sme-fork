@@ -5,6 +5,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
+  SET_IS_NON_GST_FEATURE_TOGGLE,
   SET_LOADING_STATE,
   SET_MOVE_TO_MYOB_FEATURE_TOGGLE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
@@ -64,6 +65,7 @@ export default class NavigationModule {
     this.navigateTo = navigateTo;
     this.shouldDisplayAccountBillingMenuText =
       featureToggles?.shouldDisplayAccountBillingMenuText;
+    this.isNonGSTEnabled = featureToggles?.isNonGSTEnabled;
   }
 
   setLoadingState = (isLoading) => {
@@ -352,6 +354,13 @@ export default class NavigationModule {
     });
   };
 
+  setIsNonGSTFeatureToggle = () => {
+    this.store.dispatch({
+      intent: SET_IS_NON_GST_FEATURE_TOGGLE,
+      isNonGSTEnabled: this.isNonGSTEnabled,
+    });
+  };
+
   setMoveToMyobFeatureToggle = () => {
     const isMoveToMyobEnabled = isFeatureEnabled({
       isFeatureCompleted: this.featureToggles.isMoveToMyobEnabled,
@@ -377,6 +386,7 @@ export default class NavigationModule {
     this.setAccountBillingMenuTextFeatureToggle();
     this.setPurchaseOrderFeatureToggle();
     this.setMoveToMyobFeatureToggle();
+    this.setIsNonGSTFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

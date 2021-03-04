@@ -2,6 +2,7 @@ import {
   LOAD_CONFIG,
   LOAD_NAVIGATION_CONFIG,
   SET_DISPLAY_ACCOUNT_BILLING_MENU_TEXT,
+  SET_IS_NON_GST_FEATURE_TOGGLE,
   SET_LOADING_STATE,
   SET_MOVE_TO_MYOB_FEATURE_TOGGLE,
   SET_NZPAYROLL_ACCOUNTING_FEATURE_TOGGLE,
@@ -21,6 +22,7 @@ const getDefaultState = () => ({
   isLoading: false,
   isReadOnly: false,
   isTrial: false,
+  isGSTUser: false,
   myReportsUrl: '',
   myobUrl: '',
   myobTeamUrl: '',
@@ -48,6 +50,7 @@ const loadBusinessDetails = (state, action) => ({
   subscriptionType: action.subscriptionType,
   trialEndDate: action.trialEndDate,
   userEmail: action.userEmail,
+  isGSTUser: action.isGSTUser,
 });
 
 const setRouteInfo = (state, action) => ({
@@ -103,6 +106,11 @@ const setMoveToMyobFeatureToggle = (state, { isMoveToMyobEnabled }) => ({
   isMoveToMyobEnabled,
 });
 
+const setIsNonGSTFeatureToggle = (state, { isNonGSTEnabled }) => ({
+  ...state,
+  isNonGSTEnabled,
+});
+
 const setAccountBillingMenuTextFeatureToggle = (
   state,
   { shouldDisplayAccountBillingMenuText }
@@ -129,6 +137,7 @@ const handlers = {
   [SET_PAYDAY_FILING_FEATURE_TOGGLE]: setPaydayFilingFeatureToggle,
   [SET_PURCHASE_ORDER_FEATURE_TOGGLE]: setPurchaseOrderFeatureToggle,
   [SET_MOVE_TO_MYOB_FEATURE_TOGGLE]: setMoveToMyobFeatureToggle,
+  [SET_IS_NON_GST_FEATURE_TOGGLE]: setIsNonGSTFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);
