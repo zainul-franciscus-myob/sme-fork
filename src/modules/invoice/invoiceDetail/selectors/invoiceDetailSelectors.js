@@ -13,6 +13,7 @@ import InvoiceLineType from '../types/InvoiceLineType';
 import ItemTypes from '../../../inventory/itemCombobox/ItemTypes';
 import Region from '../../../../common/types/Region';
 import buildAbnLink from '../../../../common/links/buildAbnLink';
+import buildOnlinePaymentLink from '../../../../common/links/buildOnlinePaymentLink';
 import calculateLineTotals from '../../../../common/taxCalculator/calculateLineTotals';
 import getExpiredDate from '../../../../common/expiredDate/expiredDate';
 import getRegionToDialectText from '../../../../dialect/getRegionToDialectText';
@@ -547,4 +548,47 @@ export const getShouldShowPaymentSettingsModal = createSelector(
       hasUpdatedPaymentSettings === false) ||
     (businessId === '7b69f1fe-6353-4e4e-a7c7-897efa893362' &&
       hasUpdatedPaymentSettings === false)
+);
+
+export const getPayDirectIsRegistered = (state) => state.payDirect.isRegistered;
+
+export const getPayDirectUrl = (state) => state.payDirect.url;
+
+export const getPayDirectIsLoading = (state) => state.payDirect.isLoading;
+
+export const getPayDirectLink = createSelector(
+  getPayDirectUrl,
+  getBusinessId,
+  getSerialNumber,
+  getIsTrial,
+  getPayDirectIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) =>
+    buildOnlinePaymentLink({
+      url,
+      businessId,
+      serialNumber,
+      isTrial,
+      isRegistered,
+      location: 'invoiceDetails',
+    })
+);
+
+export const getPayDirectRegistrationUrl = (state) =>
+  state.payDirect.registrationUrl;
+
+export const getPayDirectRegistrationLink = createSelector(
+  getPayDirectRegistrationUrl,
+  getBusinessId,
+  getSerialNumber,
+  getIsTrial,
+  getPayDirectIsRegistered,
+  (url, businessId, serialNumber, isTrial, isRegistered) =>
+    buildOnlinePaymentLink({
+      url,
+      businessId,
+      serialNumber,
+      isTrial,
+      isRegistered,
+      location: 'invoiceDetails',
+    })
 );

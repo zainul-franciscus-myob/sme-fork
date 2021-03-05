@@ -201,7 +201,14 @@ const InvoiceDetailModal = ({
   if (modalType === InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS) {
     return (
       <InvoiceDetailPaymentSettingsModal
+        alert={alert}
         onCancel={paymentSettingsModalListeners.onCancel}
+        onDismissAlert={paymentSettingsModalListeners.onDismissAlert}
+        onEditPreferences={paymentSettingsModalListeners.onEditPreferences}
+        onSetupPaymentOptions={
+          paymentSettingsModalListeners.onSetupPaymentOptions
+        }
+        onSubscribeNow={paymentSettingsModalListeners.onSubscribeNow}
       />
     );
   }

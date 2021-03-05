@@ -10,6 +10,7 @@ import {
 } from '../../../common/types/MessageTypes';
 import {
   getAccountModalContext,
+  getBusinessId,
   getContactComboboxContext,
   getCustomerId,
   getInvoiceId,
@@ -25,6 +26,8 @@ import {
   getJobComboboxContext,
   getModalType,
   getNewLineIndex,
+  getPayDirectLink,
+  getPayDirectRegistrationLink,
   getShouldSaveAndReload,
   getShouldShowAbn,
   getShouldShowPaymentSettingsModal,
@@ -91,6 +94,7 @@ import formatIsoDate from '../../../common/valueFormatters/formatDate/formatIsoD
 import invoiceDetailReducer from './reducer/invoiceDetailReducer';
 import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import keyMap from '../../../hotKeys/keyMap';
+import loadSubscriptionUrl from '../../settings/subscription/loadSubscriptionUrl';
 import openBlob from '../../../common/blobOpener/openBlob';
 import setupHotKeys from '../../../hotKeys/setupHotKeys';
 
@@ -106,6 +110,7 @@ export default class InvoiceDetailModule {
     subscribeOrUpgrade,
     featureToggles,
   }) {
+    this.integration = integration;
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.popMessages = popMessages;
@@ -1426,6 +1431,33 @@ export default class InvoiceDetailModule {
     this.sendInvoiceTelemetry('click_save_and_action_button');
   };
 
+  onSetupPaymentOptions = () => {
+    this.navigateTo(getPayDirectRegistrationLink(this.store.getState()), true);
+  };
+
+  onEditPreferences = () => {
+    this.navigateTo(getPayDirectLink(this.store.getState()), true);
+  };
+
+  onSubscribeNow = async () => {
+    const url = await loadSubscriptionUrl(
+      this.integration,
+      getBusinessId(this.store.getState()),
+      window.location.href
+    );
+
+    if (!url) {
+      this.dispatcher.displayModalAlert({
+        type: 'danger',
+        message: 'Sorry, something went wrong on our end. Please try again.',
+      });
+
+      return;
+    }
+
+    this.navigateTo(url);
+  };
+
   render = () => {
     const accountModal = this.accountModalModule.render();
     const recurringListModal = this.recurringTransactionListModal.render();
@@ -1552,6 +1584,10 @@ export default class InvoiceDetailModule {
         redirectToSetUpOnlinePayments={this.redirectToSetUpOnlinePayments}
         paymentSettingsModalListeners={{
           onCancel: this.closeModal,
+          onDismissAlert: this.dispatcher.dismissModalAlert,
+          onEditPreferences: this.onEditPreferences,
+          onSetupPaymentOptions: this.onSetupPaymentOptions,
+          onSubscribeNow: this.onSubscribeNow,
         }}
       />
     );

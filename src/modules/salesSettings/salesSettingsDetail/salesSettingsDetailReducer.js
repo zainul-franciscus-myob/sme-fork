@@ -58,6 +58,7 @@ const getDefaultState = () => ({
     isLoading: false,
     isServiceAvailable: false,
     isRegistered: false,
+    registrationUrl: '',
     url: '',
   },
   reminders: {

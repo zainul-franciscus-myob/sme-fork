@@ -1,14 +1,29 @@
-import { Button, Modal } from '@myob/myob-widgets';
+import { Alert, Button, Modal } from '@myob/myob-widgets';
 import React from 'react';
 
-const InvoiceDetailPaymentSettingsModal = ({ onCancel }) => (
-  <Modal title="Default modal" onCancel={onCancel}>
+import InvoiceOnlinePaymentOptions from '../InvoiceOnlinePaymentOptions';
+
+const InvoiceDetailPaymentSettingsModal = ({
+  alert,
+  onCancel,
+  onDismissAlert,
+  onEditPreferences,
+  onSetupPaymentOptions,
+  onSubscribeNow,
+}) => (
+  <Modal title="Invoice payment options" onCancel={onCancel}>
     <Modal.Body>
-      <h3>Table heading</h3>
-      <p>
-        Maecenas faucibus mollis interdum. Nullam id dolor id nibh ultricies
-        vehicula ut id elit. Cras mattis consectetur purus sit amet fermentum.
-      </p>
+      {alert && (
+        <Alert type={alert.type} onDismiss={onDismissAlert}>
+          {alert.message}
+        </Alert>
+      )}
+
+      <InvoiceOnlinePaymentOptions
+        onEditPreferences={onEditPreferences}
+        onSetupPaymentOptions={onSetupPaymentOptions}
+        onSubscribeNow={onSubscribeNow}
+      />
     </Modal.Body>
     <Modal.Footer>
       <Button type="secondary" onClick={onCancel}>

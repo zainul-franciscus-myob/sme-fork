@@ -1,0 +1,18 @@
+.active {
+  color: var(--flx-palette-golf);
+}
+
+.inactive {
+  color: var(--flx-palette-berry);
+}
+
+.paymentOptions {
+  margin-bottom: var(--flx-spacing-small)
+}
+
+.setupInfo {
+  margin:
+    var(--flx-spacing-medium)
+    var(--flx-spacing-clear)
+    var(--flx-spacing-clear)
+}

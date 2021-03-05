@@ -1,7 +1,7 @@
 {
   "payDirect": {
     "isRegistered": false,
-    "url": "https://paydirectonline.myob.com/payments",
-    "registrationUrl": "https://www.myob.com/au/comms/invoice-payments/essentials-signup#/creditcard/abn"
+    "registrationUrl": "https://www.myob.com/au/comms/invoice-payments/essentials-signup#/creditcard/abn",
+    "url": "https://paydirectonline.myob.com/payments"
   }
 }

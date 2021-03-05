@@ -50,7 +50,6 @@ import loadAddedAccountResponse from './data/loadAddedAccountResponse';
 import loadCustomerQuotesResponse from './data/loadCustomerQuotesResponse';
 import loadInvoiceHistory from './data/invoiceHistory.json';
 import loadItemSellingDetailsResponse from './data/loadItemSellingDetailsResponse';
-import loadPaymentSettings from './data/loadPaymentSettings';
 import loadPrefillFromRecurringInvoiceResponse from './data/loadPrefillFromRecurringInvoiceResponse';
 import payDirect from './data/loadPayDirect';
 import saveEmailSettingsSuccessResponse from './data/saveEmailSettingsSuccessResponse';
@@ -150,7 +149,7 @@ const MemoryInvoiceMapping = {
     onSuccess(loadPrefillFromRecurringInvoiceResponse),
   [UPDATE_PAYMENT_OPTIONS]: ({ onSuccess }) => onSuccess(successResponse),
   [LOAD_PAYMENT_SETTINGS]: ({ onSuccess }) =>
-    onSuccess({ paymentSettings: loadPaymentSettings }),
+    onSuccess({ hasUpdatedPaymentSettings: false }),
 };
 
 export default MemoryInvoiceMapping;
