@@ -27,11 +27,13 @@ describe('PurchaseSettingsDetailModule', () => {
   const setup = () => {
     const store = new TestStore(purchaseSettingsDetailReducer);
     const integration = new TestIntegration();
+    const featureToggles = { isPurchaseOrderEnabled: false };
 
     const module = new PurchaseSettingsModule({
       store,
       integration,
       setRootView,
+      featureToggles,
     });
     module.store = store;
     module.dispatcher = createPurchaseSettingsDispatcher(store);
@@ -82,6 +84,7 @@ describe('PurchaseSettingsDetailModule', () => {
           context: {
             businessId: '🦖',
             region: 'au',
+            isPurchaseOrderEnabled: false,
           },
         },
         {
@@ -118,6 +121,7 @@ describe('PurchaseSettingsDetailModule', () => {
           context: {
             businessId: '🦖',
             region: 'au',
+            isPurchaseOrderEnabled: false,
           },
         },
         {

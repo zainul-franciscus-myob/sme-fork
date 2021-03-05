@@ -2,22 +2,26 @@ import { Provider } from 'react-redux';
 import React from 'react';
 
 import { getIsPageEdited, getRedirectUrl } from './purchaseSettingsSelector';
+import { isToggleOn } from '../../splitToggle';
+import FeatureToggles from '../../FeatureToggles';
 import LoadingState from '../../components/PageView/LoadingState';
 import PurchaseSettingsView from './components/PurchaseSettingsView';
 import Store from '../../store/Store';
 import createPurchaseSettingsDispatcher from './createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from './createPurchaseSettingsIntegrator';
+import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
 import modalTypes from './modalTypes';
 import openBlob from '../../common/blobOpener/openBlob';
 import purchaseSettingsReducer from './purchaseSettingsReducer';
 
 export default class PurchaseSettingsModule {
-  constructor({ integration, setRootView, navigateTo }) {
+  constructor({ integration, setRootView, navigateTo, featureToggles }) {
     this.setRootView = setRootView;
     this.store = new Store(purchaseSettingsReducer);
     this.dispatcher = createPurchaseSettingsDispatcher(this.store);
     this.integrator = createPurchaseSettingsIntegrator(this.store, integration);
     this.navigateTo = navigateTo;
+    this.featureToggles = featureToggles;
   }
 
   resetState = () => {
@@ -103,7 +107,12 @@ export default class PurchaseSettingsModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    const isPurchaseOrderEnabled = isFeatureEnabled({
+      isFeatureCompleted: this.featureToggles.isPurchaseOrderEnabled,
+      isEarlyAccess: isToggleOn(FeatureToggles.PurchaseOrders),
+    });
+
+    this.dispatcher.setInitialState({ ...context, isPurchaseOrderEnabled });
     this.loadPurchaseSettings();
 
     this.render();

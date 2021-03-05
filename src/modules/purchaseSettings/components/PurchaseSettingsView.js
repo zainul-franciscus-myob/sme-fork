@@ -18,6 +18,7 @@ import React from 'react';
 import {
   getAlert,
   getDefaultPurchasesEmailSettings,
+  getIsFeatureAvailable,
   getLoadingState,
   getModalType,
   getShouldDisplayCustomTemplateList,
@@ -43,6 +44,7 @@ const PurchaseSettingsView = ({
   templateList,
   shouldDisplayCustomTemplateList,
   exportPdf,
+  isFeatureAvailable,
 }) => {
   const alertComponent = alert.type && (
     <Alert type={alert.type} onDismiss={onDismissAlert}>
@@ -99,36 +101,38 @@ const PurchaseSettingsView = ({
           />
         </FieldGroup>
       </Card>
-      <Card>
-        <FieldGroup label="Default purchase order email">
-          <Input
-            name="purchaseOrderEmailSubject"
-            label="Subject"
-            value={emailSettings.purchaseOrderEmailSubject}
-            onChange={handleInputChange(onUpdateEmailSettingsField)}
-          />
-          <CheckboxGroup
-            label="isPurchaseOrderNumberIncluded"
-            hideLabel
-            renderCheckbox={() => (
-              <Checkbox
-                name="isPurchaseOrderNumberIncluded"
-                label="Include purchase order number in subject"
-                checked={emailSettings.isPurchaseOrderNumberIncluded}
-                onChange={handleCheckboxChange(onUpdateEmailSettingsField)}
-              />
-            )}
-          />
-          <TextArea
-            name="purchaseOrderEmailBody"
-            label="Message"
-            autoSize
-            resize="vertical"
-            value={emailSettings.purchaseOrderEmailBody}
-            onChange={handleInputChange(onUpdateEmailSettingsField)}
-          />
-        </FieldGroup>
-      </Card>
+      {isFeatureAvailable && (
+        <Card>
+          <FieldGroup label="Default purchase order email">
+            <Input
+              name="purchaseOrderEmailSubject"
+              label="Subject"
+              value={emailSettings.purchaseOrderEmailSubject}
+              onChange={handleInputChange(onUpdateEmailSettingsField)}
+            />
+            <CheckboxGroup
+              label="isPurchaseOrderNumberIncluded"
+              hideLabel
+              renderCheckbox={() => (
+                <Checkbox
+                  name="isPurchaseOrderNumberIncluded"
+                  label="Include purchase order number in subject"
+                  checked={emailSettings.isPurchaseOrderNumberIncluded}
+                  onChange={handleCheckboxChange(onUpdateEmailSettingsField)}
+                />
+              )}
+            />
+            <TextArea
+              name="purchaseOrderEmailBody"
+              label="Message"
+              autoSize
+              resize="vertical"
+              value={emailSettings.purchaseOrderEmailBody}
+              onChange={handleInputChange(onUpdateEmailSettingsField)}
+            />
+          </FieldGroup>
+        </Card>
+      )}
       <div>
         <Card>
           <FieldGroup label="Default remittance advice email">
@@ -199,6 +203,7 @@ const mapStateToProps = (state) => ({
   templateList: getTemplateList(state),
   shouldDisplayCustomTemplateList: getShouldDisplayCustomTemplateList(state),
   modalType: getModalType(state),
+  isFeatureAvailable: getIsFeatureAvailable(state),
 });
 
 export default connect(mapStateToProps)(PurchaseSettingsView);

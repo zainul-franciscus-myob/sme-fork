@@ -9,3 +9,4 @@ export const getRedirectUrl = (state) => state.redirectUrl;
 export const getTemplateList = (state) => state.templateList;
 export const getShouldDisplayCustomTemplateList = (state) =>
   state.shouldDisplayCustomTemplateList;
+export const getIsFeatureAvailable = (state) => state.isPurchaseOrderEnabled;

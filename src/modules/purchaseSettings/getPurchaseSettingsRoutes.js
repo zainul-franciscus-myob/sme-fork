@@ -5,6 +5,7 @@ const getPurchaseSettingsRoutes = ({
   integration,
   setRootView,
   navigateTo,
+  featureToggles,
 }) => [
   {
     name: RouteName.PURCHASE_SETTINGS,
@@ -13,6 +14,7 @@ const getPurchaseSettingsRoutes = ({
       integration,
       setRootView,
       navigateTo,
+      featureToggles,
     }),
     documentTitle: 'Purchases settings',
   },
