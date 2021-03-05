@@ -99,3 +99,9 @@
   height: 100%;
   width: 100%;
 }
+
+@media (max-width: 500px) {
+  .paymentSettings > .paymentOption {
+    flex-basis: 100%;
+  }
+}
