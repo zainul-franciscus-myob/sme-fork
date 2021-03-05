@@ -28,7 +28,7 @@ const createEmployeePayDetailIntegrator = (store, integration) => ({
     const urlParams = {
       businessId: getBusinessId(state),
       payRunId: getEmployeePay(state).payRunId,
-      employeePayId: getEmployeePay(state).employeeId,
+      employeePayId: getEmployeePay(state).id,
     };
 
     integration.write({
