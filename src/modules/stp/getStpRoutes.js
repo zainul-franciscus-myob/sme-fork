@@ -1,7 +1,15 @@
+import ReportingCentreModule from './reportingCentre/ReportingCentreModule';
 import RouteName from '../../router/RouteName';
 
 /** @type {import('../module-types').RouteConfig} */
-const getStpRoutes = ({ featureToggles }) => {
+const getStpRoutes = ({
+  integration,
+  setRootView,
+  replaceURLParams,
+  pushMessage,
+  popMessages,
+  featureToggles,
+}) => {
   /** @type {Array<import('../module-types').Route>} */
   let routes = [
     {
@@ -27,7 +35,14 @@ const getStpRoutes = ({ featureToggles }) => {
       name: RouteName.STP_REPORTING_CENTRE,
       allowedParams: ['tab'],
       path: '/:region/:businessId/stp/reportingCentre',
-      loadModule: () => import('./reportingCentre/ReportingCentreModule'),
+      module: new ReportingCentreModule({
+        integration,
+        setRootView,
+        replaceURLParams,
+        pushMessage,
+        popMessages,
+        featureToggles,
+      }),
       documentTitle: 'Single Touch Payroll reporting',
     },
     {
