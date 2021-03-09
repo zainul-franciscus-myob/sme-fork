@@ -14,6 +14,7 @@ import Store from '../../../store/Store';
 import createElectronicPaymentsCreateDispatcher from './createElectronicPaymentsCreateDispatcher';
 import createElectronicPaymentsCreateIntegrator from './createElectronicPaymentsCreateIntegrator';
 import electronicPaymentsCreateReducer from './electronicPaymentsCreateReducer';
+import isFeatureEnabled from '../../../common/feature/isFeatureEnabled';
 import openBlob from '../../../common/blobOpener/openBlob';
 
 const downloadAsFile = (content, filename) => {
@@ -37,7 +38,7 @@ const downloadAsFile = (content, filename) => {
 };
 
 export default class ElectronicPaymentsModule {
-  constructor({ setRootView, integration, replaceURLParams }) {
+  constructor({ setRootView, integration, replaceURLParams, featureToggles }) {
     this.setRootView = setRootView;
     this.integration = integration;
     this.replaceURLParams = replaceURLParams;
@@ -47,6 +48,7 @@ export default class ElectronicPaymentsModule {
       this.store,
       this.integration
     );
+    this.featureToggles = featureToggles;
   }
 
   loadAccountsAndElectronicPayments = () => {
@@ -143,8 +145,13 @@ export default class ElectronicPaymentsModule {
   };
 
   run(context) {
+    const isSendPaymentsButtonEnabled = isFeatureEnabled({
+      isFeatureCompleted:
+        this.featureToggles && this.featureToggles.isSendPaymentsButtonEnabled,
+    });
     this.dispatcher.setInitialState({
       ...context,
+      isSendPaymentsButtonEnabled,
     });
     this.render();
     this.loadAccountsAndElectronicPayments();

@@ -1,5 +1,6 @@
 import {
   getIsBeforeStartOfFinancialYear,
+  getIsTransactionsSelected,
   getTableEntries,
   getTotalPayment,
 } from '../ElectronicPaymentsCreateSelector';
@@ -114,6 +115,48 @@ describe('ElectronicPaymentsCreateSelector', () => {
       const actual = getTableEntries(state);
 
       expect(actual[0].isNegativeSelected).toEqual(false);
+    });
+  });
+
+  describe('getIsTransactionsSelected', () => {
+    it('returns true when selected transactions', () => {
+      const transactionsSelectedState = {
+        transactions: [
+          {
+            id: 1,
+            date: '02/12/2018',
+            referenceNumber: '23',
+            name: 'Leonard Dunn',
+            paymentType: 'Pay employees',
+            amount: 408.05,
+            isSelected: true,
+          },
+        ],
+      };
+
+      const actual = getIsTransactionsSelected(transactionsSelectedState);
+
+      expect(actual).toBeTruthy();
+    });
+
+    it('returns false when no payments are selected', () => {
+      const noTransactionsSelectedState = {
+        transactions: [
+          {
+            id: 1,
+            date: '02/12/2018',
+            referenceNumber: '23',
+            name: 'Leonard Dunn',
+            paymentType: 'Pay employees',
+            amount: 408.05,
+            isSelected: false,
+          },
+        ],
+      };
+
+      const actual = getIsTransactionsSelected(noTransactionsSelectedState);
+
+      expect(actual).toBeFalsy();
     });
   });
 });

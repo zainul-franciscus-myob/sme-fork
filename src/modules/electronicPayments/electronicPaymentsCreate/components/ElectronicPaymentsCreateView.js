@@ -10,7 +10,9 @@ import {
   getDateOfPayment,
   getFilterOptions,
   getIsBeforeStartOfFinancialYear,
+  getIsSendPaymentsButtonEnabled,
   getIsTableLoading,
+  getIsTransactionsSelected,
   getLoadingState,
   getModal,
   getOrder,
@@ -60,6 +62,8 @@ const ElectronicPaymentsCreateView = ({
   onRecordButtonClick,
   onContinueButtonClick,
   isBeforeStartOfFinancialYear,
+  isTransactionsSelected,
+  shouldShowSendPaymentsButton,
 }) => {
   const totalPaymentFooter = (
     <div className={styles.totalPaymentsFooter}>
@@ -121,6 +125,8 @@ const ElectronicPaymentsCreateView = ({
       </Card>
       <ElectronicPaymentsCreateButtons
         onRecordAndDownloadBankFile={onRecordAndDownloadBankFile}
+        showSendPaymentsButton={shouldShowSendPaymentsButton}
+        disableSendPayment={!isTransactionsSelected}
       />
     </BaseTemplate>
   );
@@ -145,6 +151,8 @@ const mapStateToProps = (state) => ({
   bankStatementDescription: getBankStatementDescription(state),
   modal: getModal(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  shouldShowSendPaymentsButton: getIsSendPaymentsButtonEnabled(state),
+  isTransactionsSelected: getIsTransactionsSelected(state),
 });
 
 export default connect(mapStateToProps)(ElectronicPaymentsCreateView);

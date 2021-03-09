@@ -107,3 +107,11 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
     startOfFinancialYearDate &&
     isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );
+
+export const getIsSendPaymentsButtonEnabled = (state) =>
+  state.isSendPaymentsButtonEnabled;
+
+export const getIsTransactionsSelected = createSelector(
+  getTransactions,
+  (transactions) => transactions.filter((p) => p.isSelected).length > 0
+);

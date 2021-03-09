@@ -30,4 +30,5 @@ export default {
   isAutocompleteAddressEnabled: true,
   isNonGSTEnabled: true,
   isBulkRemittanceAdviceEnabled: true,
+  isSendPaymentsButtonEnabled: true,
 };
