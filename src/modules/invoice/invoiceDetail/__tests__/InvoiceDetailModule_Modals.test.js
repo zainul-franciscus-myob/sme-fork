@@ -190,7 +190,7 @@ describe('InvoiceDetailModule_Modals', () => {
   });
 
   describe('SendEInvoiceAbnWarningModal', () => {
-    describe('openSendEInvoiceAbnWarningModal', () => {
+    describe('openSendEInvoiceAbnNzbnWarningModal', () => {
       it.each`
         isCreating | isPageEdited
         ${true}    | ${false}
@@ -206,7 +206,7 @@ describe('InvoiceDetailModule_Modals', () => {
             abn: { status: AbnStatus.INVALID },
           });
 
-          module.openSendEInvoiceAbnWarningModal();
+          module.openSendEInvoiceAbnNzbnWarningModal();
 
           expect(store.getActions()).toEqual([
             {

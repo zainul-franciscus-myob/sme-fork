@@ -288,6 +288,7 @@ const resetCustomer = (state) => ({
     address: '',
   },
   abn: undefined,
+  nzbn: undefined,
 });
 
 const updateInvoiceIdAfterCreate = (state, { invoiceId }) => ({

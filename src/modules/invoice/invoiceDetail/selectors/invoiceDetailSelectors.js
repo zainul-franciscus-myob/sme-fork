@@ -70,6 +70,8 @@ export const getMonthlyLimit = (state) => state.subscription.monthlyLimit;
 
 export const getAbn = (state) => state.abn;
 
+export const getNzbn = (state) => state.nzbn;
+
 export const getIsLineAmountDirty = (state) => state.isLineAmountDirty;
 
 export const getTemplateOptions = (state) => state.template.templateOptions;

@@ -1,7 +1,10 @@
 import { Button, Modal } from '@myob/myob-widgets';
+import { connect } from 'react-redux';
 import React from 'react';
 
-const InvalidAbnModal = ({ onCancel, title, body }) => (
+import { getInvalidAbnNzbnModalText } from '../../selectors/eInvoiceSelectors';
+
+const InvalidAbnNzbnModal = ({ onCancel, title, body }) => (
   <Modal title={title} size="small" onCancel={onCancel} canClose={false}>
     <Modal.Body>{body || 'Invalid or empty ABN'}</Modal.Body>
     <Modal.Footer>
@@ -12,4 +15,8 @@ const InvalidAbnModal = ({ onCancel, title, body }) => (
   </Modal>
 );
 
-export default InvalidAbnModal;
+const mapStateToProps = (state) => ({
+  ...getInvalidAbnNzbnModalText(state),
+});
+
+export default connect(mapStateToProps)(InvalidAbnNzbnModal);

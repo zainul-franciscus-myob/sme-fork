@@ -109,6 +109,7 @@ const getDefaultState = () => ({
     url: '',
   },
   abn: undefined,
+  nzbn: undefined,
   isLineAmountDirty: false,
   invoiceHistory: [],
   invoiceHistoryAccordionStatus: InvoiceHistoryAccordionStatus.LOADING,

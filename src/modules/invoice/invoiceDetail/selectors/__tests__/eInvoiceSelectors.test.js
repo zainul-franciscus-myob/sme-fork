@@ -1,7 +1,8 @@
 import {
   getEInvoiceAppName,
   getEInvoiceAttachmentsToSend,
-  getIsActiveAbn,
+  getInvalidAbnNzbnModalText,
+  getIsActiveAbnOrNzbn,
   getSendEInvoiceOptions,
   getSendEInvoicePayload,
   getSendEInvoiceUrlParams,
@@ -33,7 +34,7 @@ describe('eInvoiceSelectors', () => {
     it.each`
       appName     | region  | expected
       ${'FooBar'} | ${'au'} | ${true}
-      ${'FooBar'} | ${'nz'} | ${false}
+      ${'FooBar'} | ${'nz'} | ${true}
       ${''}       | ${'au'} | ${false}
       ${''}       | ${'nz'} | ${false}
       ${' '}      | ${'au'} | ${false}
@@ -60,26 +61,30 @@ describe('eInvoiceSelectors', () => {
     );
   });
 
-  describe('getIsActiveAbn', () => {
+  describe('getIsActiveAbnOrNzbn', () => {
     it.each`
-      isAbnLoading | abnStatus    | expected
-      ${false}     | ${''}        | ${false}
-      ${true}      | ${''}        | ${false}
-      ${false}     | ${'Invalid'} | ${false}
-      ${true}      | ${'Invalid'} | ${false}
-      ${false}     | ${'Active'}  | ${true}
-      ${true}      | ${'Active'}  | ${false}
+      isAbnLoading | abnStatus    | nzbn      | region  | expected
+      ${false}     | ${''}        | ${''}     | ${'au'} | ${false}
+      ${true}      | ${''}        | ${''}     | ${'au'} | ${false}
+      ${false}     | ${'Invalid'} | ${''}     | ${'au'} | ${false}
+      ${true}      | ${'Invalid'} | ${''}     | ${'au'} | ${false}
+      ${false}     | ${'Active'}  | ${''}     | ${'au'} | ${true}
+      ${true}      | ${'Active'}  | ${''}     | ${'au'} | ${false}
+      ${false}     | ${''}        | ${''}     | ${'nz'} | ${false}
+      ${false}     | ${''}        | ${'blah'} | ${'nz'} | ${true}
     `(
-      'should return $expected if isAvnLoading is "$isAbnLoading" and ABN status is "$abnStatus"',
-      ({ isAbnLoading, abnStatus, expected }) => {
+      'should return $expected if isAbnLoading is "$isAbnLoading" and ABN status is "$abnStatus" and NZBN is "$nzbn" and region is "$region"',
+      ({ isAbnLoading, abnStatus, nzbn, region, expected }) => {
         const state = {
           isAbnLoading,
           abn: {
             status: abnStatus,
           },
+          nzbn,
+          region,
         };
 
-        const actual = getIsActiveAbn(state);
+        const actual = getIsActiveAbnOrNzbn(state);
 
         expect(actual).toEqual(expected);
       }
@@ -178,36 +183,44 @@ describe('eInvoiceSelectors', () => {
 
   describe('getSendEInvoiceOptions', () => {
     it.each([
-      [null, ''],
-      [{}, ''],
-      [{ abn: { abn: 'Test', branch: 'Blah' } }, 'Test'],
-    ])('given abn state of "%o" it should return "%s"', (abn, expectedAbn) => {
-      const state = {
-        emailInvoice: {
-          fromEmail: 'email@email.com',
-        },
-        serialNumber: 'test',
-        eInvoice: {
-          appName: 'FooBar',
-          attachments: [],
-        },
-        invoice: {
-          isTaxInclusive: false,
-          taxExclusiveFreightAmount: 0,
-          freightTaxAmount: 0,
-          freightTaxCodeId: 1,
-          lines: [],
-        },
-        ...abn,
-      };
+      [null, null, {}],
+      [{}, null, {}],
+      [
+        { abn: { abn: 'Test', branch: 'Blah' } },
+        'au',
+        { subHeading: 'ABN', value: 'Test' },
+      ],
+    ])(
+      'given abn state of "%o" and region "%s" it should return "%s"',
+      (abn, region, expectedAbn) => {
+        const state = {
+          emailInvoice: {
+            fromEmail: 'email@email.com',
+          },
+          serialNumber: 'test',
+          eInvoice: {
+            appName: 'FooBar',
+            attachments: [],
+          },
+          region,
+          invoice: {
+            isTaxInclusive: false,
+            taxExclusiveFreightAmount: 0,
+            freightTaxAmount: 0,
+            freightTaxCodeId: 1,
+            lines: [],
+          },
+          ...abn,
+        };
 
-      const actual = getSendEInvoiceOptions(state);
-      const expected = {
-        abn: expectedAbn,
-      };
+        const actual = getSendEInvoiceOptions(state);
+        const expected = {
+          abnNzbn: expectedAbn,
+        };
 
-      expect(actual).toMatchObject(expected);
-    });
+        expect(actual).toMatchObject(expected);
+      }
+    );
 
     it('should return correct payload for send e-invoice modal', () => {
       const attachments = new Array(1).fill({
@@ -217,6 +230,7 @@ describe('eInvoiceSelectors', () => {
       });
       const state = {
         abn: { abn: 'Test' },
+        region: 'au',
         invoice: {
           issueDate: '2020-12-15',
           lines: [
@@ -252,7 +266,10 @@ describe('eInvoiceSelectors', () => {
       };
 
       const expected = {
-        abn: 'Test',
+        abnNzbn: {
+          subHeading: 'ABN',
+          value: 'Test',
+        },
         amountDue: '$452.00',
         customerName: 'Tom Cruise',
         invoiceNumber: '00000001',
@@ -274,5 +291,36 @@ describe('eInvoiceSelectors', () => {
       const actual = getSendEInvoiceOptions(state);
       expect(actual).toMatchObject(expected);
     });
+  });
+
+  describe('getInvalidAbnNzbnModalText', () => {
+    const auResponse = {
+      title: 'Invalid or empty ABN',
+      body:
+        "You can't send this as an e-invoice as the customer does not have a valid ABN entered.",
+    };
+
+    const nzResponse = {
+      title: 'Invalid or empty NZBN',
+      body:
+        "You can't send this as an e-invoice as the customer does not have a valid NZBN entered.",
+    };
+
+    it.each([
+      [null, auResponse],
+      ['au', auResponse],
+      ['nz', nzResponse],
+    ])(
+      'given region state of "%s" it should return "%o"',
+      (region, expected) => {
+        const state = {
+          region,
+        };
+
+        const actual = getInvalidAbnNzbnModalText(state);
+
+        expect(expected).toEqual(actual);
+      }
+    );
   });
 });

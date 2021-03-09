@@ -9,6 +9,7 @@ import {
   getInvoiceNumber,
   getIsAbnLoading,
   getIssueDate,
+  getNzbn,
   getRegion,
 } from './invoiceDetailSelectors';
 import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
@@ -16,10 +17,28 @@ import Region from '../../../../common/types/Region';
 import formatCurrency from '../../../../common/valueFormatters/formatCurrency';
 import formatSlashDate from '../../../../common/valueFormatters/formatDate/formatSlashDate';
 
-const constructAbn = (state) => {
-  const abn = getAbn(state);
+const constructEinvoiceOptionsAbnNzbn = (state) => {
+  const region = getRegion(state);
 
-  return abn?.abn || '';
+  if (region === Region.nz) {
+    const nzbn = getNzbn(state);
+
+    return {
+      subHeading: 'NZBN',
+      value: nzbn?.nzbn || '',
+    };
+  }
+
+  if (region === Region.au) {
+    const abn = getAbn(state);
+
+    return {
+      subHeading: 'ABN',
+      value: abn?.abn || '',
+    };
+  }
+
+  return {};
 };
 
 const getFormattedIssueDate = (state) => formatSlashDate(getIssueDate(state));
@@ -51,14 +70,30 @@ export const getEInvoiceAppName = (state) => state.eInvoice.appName;
 
 export const getShowEInvoiceButton = createSelector(
   getEInvoiceAppName,
-  getRegion,
-  (appName, region) => region !== Region.nz && Boolean(appName?.trim().length)
+  (appName) => Boolean(appName?.trim().length)
 );
 
-export const getIsActiveAbn = createSelector(
+export const getInvalidAbnNzbnModalText = createSelector(
+  getRegion,
+  (region) => {
+    const displayMsg = region === Region.nz ? 'NZBN' : 'ABN';
+
+    return {
+      title: `Invalid or empty ${displayMsg}`,
+      body: `You can't send this as an e-invoice as the customer does not have a valid ${displayMsg} entered.`,
+    };
+  }
+);
+
+export const getIsActiveAbnOrNzbn = createSelector(
   getIsAbnLoading,
   getAbn,
-  (isAbnLoading, abn) => !isAbnLoading && abn?.status === AbnStatus.ACTIVE
+  getNzbn,
+  getRegion,
+  (isAbnLoading, abn, nzbn, region) =>
+    region === Region.au
+      ? !isAbnLoading && abn?.status === AbnStatus.ACTIVE
+      : !!nzbn
 );
 
 export const getSendEInvoiceUrlParams = createSelector(
@@ -80,7 +115,7 @@ export const getSendEInvoicePayload = createSelector(
 );
 
 export const getSendEInvoiceOptions = createStructuredSelector({
-  abn: constructAbn,
+  abnNzbn: constructEinvoiceOptionsAbnNzbn,
   amountDue: getFormattedAmountDue,
   customerName: getCustomerName,
   invoiceNumber: getInvoiceNumber,

@@ -13,7 +13,7 @@ import SendEInvoiceAttachmentsContent from './SendEInvoiceAttachmentsContent';
 import styles from './SendEInvoiceModal.module.css';
 
 const SendEInvoiceModal = ({
-  abn,
+  abnNzbn,
   alert,
   amountDue,
   customerName,
@@ -39,8 +39,8 @@ const SendEInvoiceModal = ({
     <div className={styles.subHeadingGroup}>
       <h3>Invoice details</h3>
       <div className={styles.subHeadingContainer}>
-        <SubHeadingGroup size="md" subHeading="ABN">
-          <p>{abn}</p>
+        <SubHeadingGroup size="md" subHeading={abnNzbn.subHeading}>
+          <p>{abnNzbn.value}</p>
         </SubHeadingGroup>
         <SubHeadingGroup
           size="md"

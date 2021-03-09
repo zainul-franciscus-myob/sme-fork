@@ -63,7 +63,7 @@ import {
   getInvoiceQuoteUrl,
   getShouldLoadCustomerQuote,
 } from './selectors/quickQuoteSelectors';
-import { getIsActiveAbn } from './selectors/eInvoiceSelectors';
+import { getIsActiveAbnOrNzbn } from './selectors/eInvoiceSelectors';
 import {
   getIsRecurringTransactionReadOnly,
   getRecurringTransactionListModalContext,
@@ -390,10 +390,10 @@ export default class InvoiceDetailModule {
     const state = this.store.getState();
 
     const openModal = () => {
-      if (getIsActiveAbn(state)) {
+      if (getIsActiveAbnOrNzbn(state)) {
         this.openSendEInvoiceModal();
       } else {
-        this.openSendEInvoiceAbnWarningModal();
+        this.openSendEInvoiceAbnNzbnWarningModal();
       }
     };
 
@@ -406,7 +406,7 @@ export default class InvoiceDetailModule {
     this.sendInvoiceTelemetry('click_send_einvoice_button');
   };
 
-  openSendEInvoiceAbnWarningModal = () => {
+  openSendEInvoiceAbnNzbnWarningModal = () => {
     this.dispatcher.setModalType(
       InvoiceDetailModalType.SEND_EINVOICE_ABN_WARNING
     );
