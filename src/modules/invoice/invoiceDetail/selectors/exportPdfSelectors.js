@@ -9,6 +9,11 @@ import {
   getLayout,
   getModalType,
 } from './invoiceDetailSelectors';
+import {
+  getIsAllowPaymentsByDirectDeposit,
+  getIsAllowPaymentsByMail,
+} from './paymentOptionsSelectors';
+import { getIsRegistered } from './payDirectSelectors';
 import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceLayout from '../types/InvoiceLayout';
 
@@ -40,4 +45,28 @@ export const getShowExportPdfButton = createSelector(
   (layout, isForeignCurrency) =>
     [InvoiceLayout.SERVICE, InvoiceLayout.ITEM_AND_SERVICE].includes(layout) &&
     !isForeignCurrency
+);
+
+export const getPaymentOptions = createSelector(
+  getIsAllowPaymentsByDirectDeposit,
+  getIsAllowPaymentsByMail,
+  getIsRegistered,
+  (
+    isDirectDepositAvailable,
+    isPaymentByMailAvailable,
+    isPayDirectAvailable
+  ) => [
+    {
+      option: 'Direct deposit',
+      isAvailable: isDirectDepositAvailable,
+    },
+    {
+      option: 'Mail',
+      isAvailable: isPaymentByMailAvailable,
+    },
+    {
+      option: 'Online invoice payments',
+      isAvailable: isPayDirectAvailable,
+    },
+  ]
 );

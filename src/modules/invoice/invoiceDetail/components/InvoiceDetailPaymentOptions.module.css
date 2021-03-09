@@ -1,0 +1,25 @@
+.tick {
+  background: #cceee0; /* @FEELIX */
+  fill: var(--flx-fill-success-icon-inner);
+}
+
+.close {
+  background: #f3cbd5; /* @FEELIX */
+  fill: var(--flx-fill-error-icon-inner);
+}
+
+.tick,
+.close {
+  border-radius: var(--flx-border-radius-badge);
+  height: 2.2rem;
+  margin-right: var(--flx-spacing-tiny);
+  padding: var(--flx-spacing-xx-tiny);
+  width: 2.2rem;
+}
+
+@media screen and (max-width: 480px) {
+  .paymentOptions:not(:last-of-type) {
+    margin-bottom: var(--flx-spacing-tiny);
+    flex-basis: 100%;
+  }
+}

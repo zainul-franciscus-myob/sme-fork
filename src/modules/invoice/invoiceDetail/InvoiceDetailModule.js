@@ -1559,8 +1559,10 @@ export default class InvoiceDetailModule {
         }}
         exportPdfModalListeners={{
           onCancel: this.closeModal,
-          onConfirm: this.exportPdf,
           onChange: this.dispatcher.updateExportPdfDetail,
+          onConfirm: this.exportPdf,
+          onCustomiseTemplate: this.redirectToTemplateSettings,
+          onManagePaymentOptions: this.redirectToPaymentSettings,
         }}
         preConversionModalListeners={{
           onCancel: this.dismissPreConversionModal,
