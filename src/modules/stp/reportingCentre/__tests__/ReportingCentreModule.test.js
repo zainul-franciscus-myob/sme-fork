@@ -1,10 +1,10 @@
-import { Tabs } from '@myob/myob-widgets';
 import { mount } from 'enzyme';
 
 import { tabIds } from '../TabItems';
 import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
 import ReportingCentreModule from '../ReportingCentreModule';
 import ReportingCentreView from '../components/ReportingCentreView';
+import Tabs from '../../../../components/Tabs/Tabs';
 
 describe('ReportingCentreModule', () => {
   const setupModule = (

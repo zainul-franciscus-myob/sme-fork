@@ -1,4 +1,4 @@
-import { Alert, BaseTemplate, PageHead, Tabs } from '@myob/myob-widgets';
+import { Alert, BaseTemplate, PageHead } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,6 +12,7 @@ import {
 import { getTabItems } from '../TabItems';
 import PageView from '../../../../components/PageView/PageView';
 import PayrollNotSetup from '../../../../components/Payroll/PayrollNotSetup';
+import Tabs from '../../../../components/Tabs/Tabs';
 
 const ReportingCentreView = ({
   loadingState,
