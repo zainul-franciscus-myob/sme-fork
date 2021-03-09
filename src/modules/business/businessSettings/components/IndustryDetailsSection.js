@@ -1,4 +1,10 @@
-import { Combobox, FieldGroup, ReadOnly } from '@myob/myob-widgets';
+import {
+  Alert,
+  Combobox,
+  Field,
+  FieldGroup,
+  ReadOnly,
+} from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -16,14 +22,13 @@ const IndustryDetailsSection = ({
   shouldDisplaySpecificIndustry,
   onIndustryChange,
   industry,
-}) => (
-  <FieldGroup label="Industry details">
-    {shouldDisplaySpecificIndustry && (
+  industryAlertOpen,
+}) =>
+  shouldDisplaySpecificIndustry && (
+    <FieldGroup label="Industry details">
       <ReadOnly name="BusinessDivision" label="Business industry">
         <strong>{industry}</strong>
       </ReadOnly>
-    )}
-    {shouldDisplaySpecificIndustry && (
       <Combobox
         items={industryCodeOptions}
         metaData={industryCodeMetaData}
@@ -35,9 +40,28 @@ const IndustryDetailsSection = ({
         onChange={onIndustryChange}
         noMatchFoundMessage="There seems to be no industry matching your clues. Please try another clue"
       />
-    )}
-  </FieldGroup>
-);
+      {industryAlertOpen && (
+        <Field
+          label=""
+          hideLabel
+          width="xxl"
+          renderField={() => (
+            <Alert inline type="warning">
+              Tell us more about your industry to help us personalise your MYOB
+              experience. Browse or search by{' '}
+              <a
+                href="https://www.ato.gov.au/Calculators-and-tools/Business-industry-code-tool/"
+                target="_ANZSIC"
+              >
+                ANZSIC code
+              </a>
+              . Specific industry codes may change the Business industry.
+            </Alert>
+          )}
+        />
+      )}
+    </FieldGroup>
+  );
 
 const mapStateToProps = (state) => getIndustryDetails(state);
 

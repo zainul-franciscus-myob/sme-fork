@@ -1,11 +1,4 @@
-import {
-  Combobox,
-  FieldGroup,
-  InfoIcon,
-  Input,
-  ReadOnly,
-  Tooltip,
-} from '@myob/myob-widgets';
+import { FieldGroup, Input, ReadOnly } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -21,13 +14,6 @@ const onInputChange = (handler) => (e) => {
   handler({ key: name, value });
 };
 
-const industryCodeMetaData = [
-  { columnName: 'Display', showData: 'true', columnWidth: '128px' },
-  { columnName: 'Code', columnWidth: '0px' },
-  { columnName: 'Searchable', columnWidth: '0px' },
-  { columnName: 'Division', columnWidth: '0px' },
-];
-
 const BusinessDetailsSection = ({
   serialNumber,
   organisationName,
@@ -35,10 +21,6 @@ const BusinessDetailsSection = ({
   isAu,
   onChange,
   clientCode,
-  industryCodeOptions,
-  shouldDisplaySpecificIndustry,
-  onIndustryChange,
-  industry,
 }) => (
   <FieldGroup label="Business details">
     <ReadOnly name="serialNumber" label="MYOB serial number">
@@ -73,29 +55,6 @@ const BusinessDetailsSection = ({
       maxLength={10}
       width="sm"
     />
-    {shouldDisplaySpecificIndustry && (
-      <ReadOnly name="BusinessDivision" label="Business Industry">
-        <strong>{industry}</strong>
-      </ReadOnly>
-    )}
-    {shouldDisplaySpecificIndustry && (
-      <Combobox
-        items={industryCodeOptions}
-        metaData={industryCodeMetaData}
-        name="ANZSICCode"
-        label="Specific Industry"
-        renderItem={(columnName, item) => {
-          return columnName === 'Display' ? item.Display : '';
-        }}
-        onChange={onIndustryChange}
-        labelAccessory={
-          <Tooltip triggerContent={<InfoIcon />}>
-            Choose or search for the industry most like yours
-          </Tooltip>
-        }
-        noMatchFoundMessage="There seems to be no industry matching your clues. Please try another clue"
-      />
-    )}
   </FieldGroup>
 );
 

@@ -82,6 +82,7 @@ export const getBusinessDetails = createStructuredSelector({
 export const getIndustryDetails = createStructuredSelector({
   industryCodeOptions: (state) => state.businessDetails.industryCodeOptions,
   industry: (state) => state.businessDetails.industry,
+  industryAlertOpen: (state) => state.businessDetails.industry?.length !== 0,
 });
 
 export const getMyAccountLink = createSelector(

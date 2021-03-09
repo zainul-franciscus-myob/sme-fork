@@ -89,6 +89,7 @@ export default class BusinessSettingsModule {
 
   updateBusinessIndustry = (item) => {
     this.updateBusinessDetailField({ key: 'industry', value: item.Division });
+    this.updateBusinessDetailField({ key: 'industryAlertOpen', value: false });
   };
 
   updateGstSettingsField = ({ key, value }) => {
