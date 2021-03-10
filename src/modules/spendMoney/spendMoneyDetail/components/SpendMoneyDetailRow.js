@@ -10,6 +10,7 @@ import {
   getIsSupplierBlocking,
   getLineDataByIndexSelector,
   getNewLineData,
+  getShouldShowIsTaxInclusiveAndTaxCodeColumn,
   getTaxCodeOptions,
 } from '../spendMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -60,6 +61,7 @@ const SpendMoneyDetailRow = (props) => {
     isSupplierBlocking,
     isSubmitting,
     onAddAccount,
+    shouldShowIsTaxInclusiveAndTaxCodeColumn,
     ...feelixInjectedProps
   } = props;
   const data = isNewLineRow ? newLineData : lineData;
@@ -138,14 +140,16 @@ const SpendMoneyDetailRow = (props) => {
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        label="Tax code"
-        hideLabel={false}
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isSupplierBlocking || isSubmitting}
-      />
+      {shouldShowIsTaxInclusiveAndTaxCodeColumn && (
+        <TaxCodeCombobox
+          label="Tax code"
+          hideLabel={false}
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={onComboboxChange('taxCodeId', onChange)}
+          disabled={isSupplierBlocking || isSubmitting}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -160,6 +164,9 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     isSupplierBlocking: getIsSupplierBlocking(state),
     isSubmitting: getIsSubmitting(state),
+    shouldShowIsTaxInclusiveAndTaxCodeColumn: getShouldShowIsTaxInclusiveAndTaxCodeColumn(
+      state
+    ),
   });
 };
 

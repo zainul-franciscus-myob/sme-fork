@@ -8,6 +8,7 @@ import {
   getIsBeforeStartOfFinancialYear,
   getIsSupplierBlocking,
   getPrefillStatus,
+  getShouldShowIsTaxInclusiveAndTaxCodeColumn,
 } from '../spendMoneyDetailSelectors';
 import BooleanRadioButtonGroup from '../../../../components/BooleanRadioButtonGroup/BooleanRadioButtonGroup';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
@@ -25,6 +26,7 @@ const SpendMoneyDetailSecondaryOptions = ({
   onUpdateHeaderOptions,
   prefillStatus,
   isBeforeStartOfFinancialYear,
+  shouldShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const handleInputChange = (e) => {
     const { value, name } = e.target;
@@ -63,15 +65,17 @@ const SpendMoneyDetailSecondaryOptions = ({
           warningMessage={'The date is set to a previous financial year'}
         />
       </div>
-      <BooleanRadioButtonGroup
-        name="isTaxInclusive"
-        label="Amounts are"
-        value={isTaxInclusive}
-        trueLabel={taxInclusiveLabel}
-        falseLabel={taxExclusiveLabel}
-        handler={onUpdateHeaderOptions}
-        disabled={isSupplierBlocking}
-      />
+      {shouldShowIsTaxInclusiveAndTaxCodeColumn && (
+        <BooleanRadioButtonGroup
+          name="isTaxInclusive"
+          label="Amounts are"
+          value={isTaxInclusive}
+          trueLabel={taxInclusiveLabel}
+          falseLabel={taxExclusiveLabel}
+          handler={onUpdateHeaderOptions}
+          disabled={isSupplierBlocking}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -81,6 +85,9 @@ const mapStateToProps = (state) => ({
   headerOptions: getHeaderOptions(state),
   prefillStatus: getPrefillStatus(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  shouldShowIsTaxInclusiveAndTaxCodeColumn: getShouldShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(SpendMoneyDetailSecondaryOptions);

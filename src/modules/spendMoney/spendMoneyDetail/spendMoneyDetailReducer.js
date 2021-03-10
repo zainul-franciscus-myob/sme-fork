@@ -129,6 +129,8 @@ const getDefaultState = () => ({
   contactType: undefined,
   viewedAccountToolTip: false,
   isRecurringTransactionEnabled: false,
+  isNonGSTEnabled: false,
+  isRegisteredForGst: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -290,6 +292,7 @@ const loadNewSpendMoney = (state, action) => {
     pageTitle: action.pageTitle,
     inTrayDocument: { ...state.inTrayDocument, ...action.document },
     startOfFinancialYearDate: action.startOfFinancialYearDate,
+    isRegisteredForGst: action.isRegisteredForGst,
   };
 
   const bankStatementText = getBankStatementText(
@@ -326,6 +329,7 @@ const loadSpendMoneyDetail = (state, action) => ({
   pageTitle: action.pageTitle,
   attachments: action.attachments,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const loadReferenceId = (state, action) => {

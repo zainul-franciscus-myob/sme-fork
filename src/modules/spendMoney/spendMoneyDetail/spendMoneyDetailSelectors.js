@@ -527,3 +527,20 @@ export const getRecurringTransactionModalContext = (state) => ({
     lines: getLines(state),
   },
 });
+
+export const getIsNonGSTEnabled = (state) => state.isNonGSTEnabled;
+
+export const getIsRegisteredForGst = (state) => state.isRegisteredForGst;
+
+export const getHasTaxCodeOtherThanNT = (state) =>
+  state.spendMoney.lines.some(
+    (line) => line.taxCodeId && line.taxCodeId !== '4'
+  );
+
+export const getShouldShowIsTaxInclusiveAndTaxCodeColumn = createSelector(
+  getIsNonGSTEnabled,
+  getIsRegisteredForGst,
+  getHasTaxCodeOtherThanNT,
+  (isNonGSTEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isNonGSTEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+);

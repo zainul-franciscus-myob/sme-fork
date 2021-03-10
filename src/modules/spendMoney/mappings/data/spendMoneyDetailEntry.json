@@ -140,5 +140,6 @@
       "size": 2000000
     }
   ],
-  "startOfFinancialYearDate": "2019-07-01T00:00:00"
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "isRegisteredForGst": false
 }
