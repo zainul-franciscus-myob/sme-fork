@@ -101,7 +101,9 @@ export default class StartPayRunModule {
   };
 
   validateStp = () => {
+    this.dispatcher.setLoadingState(LoadingState.LOADING);
     const onSuccess = (response) => {
+      this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       const { hasRegistrationErrors } = response;
 
       if (hasRegistrationErrors) {
