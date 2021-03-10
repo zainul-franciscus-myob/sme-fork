@@ -18,7 +18,7 @@ import {
 } from './contactDetailSelectors';
 import { getIsSubmitting } from '../contactModal/ContactModalSelectors';
 import AccountModalModule from '../../account/accountModal/AccountModalModule';
-import AuAddressAutocompleteComboboxModule from '../auAddressAutocompleteComboboxModule/AuAddressAutocompleteComboboxModule';
+import AuAddressAutocompleteComboboxModule from '../../shared/addressAutocompleteCombobox/auAddressAutocompleteCombobox/AuAddressAutocompleteComboboxModule';
 import ContactDetailView from './components/ContactDetailView';
 import LoadingState from '../../../components/PageView/LoadingState';
 import Store from '../../../store/Store';

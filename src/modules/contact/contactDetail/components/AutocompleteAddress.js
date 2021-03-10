@@ -69,7 +69,6 @@ const AutocompleteAddress = ({
     <Input
       name="street"
       label="Address"
-      autoSize
       rows={3}
       resize="vertical"
       maxLength={255}

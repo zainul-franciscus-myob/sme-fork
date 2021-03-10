@@ -86,15 +86,6 @@ export const SET_CONTACT_COMBOBOX_LOADING_STATE = Symbol(
 export const SET_CONTACT_COMBOBOX_OPTIONS_LOADING_STATE = Symbol(
   'Set contact combobox loading state'
 );
-export const LOAD_AUTOCOMPLETE_ADDRESSES = Symbol(
-  'Load autocomplete addresses'
-);
-export const AUTOCOMPLETE_ADDRESS_SELECTED = Symbol(
-  'Selected an autocomplete address'
-);
-export const SET_AUTOCOMPLETE_ADDRESS_KEYWORDS = Symbol(
-  'Set autocomplete address keywords'
-);
 export const UPDATE_SELECTED_AUTOCOMPLETE_SHIPPING_ADDRESS = Symbol(
   'Update selected autocomplete shipping address'
 );
@@ -103,7 +94,4 @@ export const UPDATE_SELECTED_AUTOCOMPLETE_BILLING_ADDRESS = Symbol(
 );
 export const SET_SHIPPING_ADDRESS_SAME_AS_BILLING_ADDRESS = Symbol(
   'Set shipping address same as billing address'
-);
-export const SET_KEYWORDS_TO_SELECTED = Symbol(
-  'Set keywords to selected address'
 );

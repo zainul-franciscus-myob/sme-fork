@@ -3,8 +3,8 @@ import {
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
   SET_KEYWORDS_TO_SELECTED,
-} from '../ContactIntents';
-import { RESET_STATE, SET_INITIAL_STATE } from '../../../SystemIntents';
+} from '../AddressAutocompleteIntents';
+import { RESET_STATE, SET_INITIAL_STATE } from '../../../../SystemIntents';
 
 const createAuAddressAutocompleteComboboxDispatcher = ({ store }) => ({
   resetState: () => {

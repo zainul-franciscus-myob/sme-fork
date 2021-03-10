@@ -2,11 +2,11 @@ import {
   AUTOCOMPLETE_ADDRESS_SELECTED,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
   SET_KEYWORDS_TO_SELECTED,
-} from '../../ContactIntents';
-import { SET_INITIAL_STATE } from '../../../../SystemIntents';
+} from '../../AddressAutocompleteIntents';
+import { SET_INITIAL_STATE } from '../../../../../SystemIntents';
 import AuAddressAutocompleteComboboxModule from '../AuAddressAutocompleteComboboxModule';
-import TestIntegration from '../../../../integration/TestIntegration';
-import TestStore from '../../../../store/TestStore';
+import TestIntegration from '../../../../../integration/TestIntegration';
+import TestStore from '../../../../../store/TestStore';
 import auAddressAutocompleteComboboxReducer from '../auAddressAutocompleteComboboxReducer';
 import createAuAddressAutocompleteComboboxDispatcher from '../createAuAddressAutocompleteComboboxDispatcher';
 import createAuAddressAutocompleteComboboxIntegrator from '../createAuAddressAutocompleteComboboxIntegrator';

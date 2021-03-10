@@ -6,11 +6,11 @@ import {
   getSelectedAutocompleteAddress,
 } from './auAddressAutocompleteComboboxSelectors';
 import AutocompleteAddressComboboxView from './components/AuAddressAutocompleteComboboxView';
-import Store from '../../../store/Store';
+import Store from '../../../../store/Store';
 import auAddressAutocompleteComboboxReducer from './auAddressAutocompleteComboboxReducer';
 import createAuAddressAutocompleteComboboxDispatcher from './createAuAddressAutocompleteComboboxDispatcher';
 import createAuAddressAutocompleteComboboxIntegrator from './createAuAddressAutocompleteComboboxIntegrator';
-import debounce from '../../../common/debounce/debounce';
+import debounce from '../../../../common/debounce/debounce';
 
 export default class AuAddressAutocompleteComboboxModule {
   constructor({ integration, name, label = 'Address' }) {

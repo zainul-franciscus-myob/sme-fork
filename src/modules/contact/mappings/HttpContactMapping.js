@@ -4,7 +4,6 @@ import {
   DELETE_CONTACT,
   LOAD_ABN_VALIDATION_RESULT,
   LOAD_ACCOUNT_AFTER_CREATE,
-  LOAD_AUTOCOMPLETE_ADDRESSES,
   LOAD_CONTACT_COMBOBOX_OPTIONS,
   LOAD_CONTACT_COMBOBOX_OPTION_BY_ID,
   LOAD_CONTACT_DETAIL,
@@ -85,11 +84,6 @@ const ContactListMapping = {
   [SEARCH_CONTACT_COMBOBOX]: {
     method: 'GET',
     getPath: ({ businessId }) => `/${businessId}/contact/load_contact_options`,
-  },
-  [LOAD_AUTOCOMPLETE_ADDRESSES]: {
-    method: 'GET',
-    getPath: ({ country, keywords }) =>
-      `/address-autocomplete/${country}/${keywords}`,
   },
 };
 

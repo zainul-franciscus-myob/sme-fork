@@ -1,4 +1,4 @@
-import { LOAD_AUTOCOMPLETE_ADDRESSES } from '../ContactIntents';
+import { LOAD_AUTOCOMPLETE_ADDRESSES } from '../AddressAutocompleteIntents';
 
 const createAuAddressAutocompleteComboboxIntegrator = ({ integration }) => ({
   loadAutocompleteAddresses: ({

@@ -1,4 +1,5 @@
 import AccountMapping from '../../modules/account/mappings/MemoryAccountMapping';
+import AddressAutocompleteMapping from '../../modules/shared/addressAutocompleteCombobox/mappings/MemoryAddressAutocompleteMapping';
 import ApplyToSaleMapping from '../../modules/applyToSale/mappings/MemoryApplyToSaleMapping';
 import BankFeedsCreateMapping from '../../modules/bankFeeds/bankFeedsApply/mappings/MemoryBankFeedsCreateMapping';
 import BankFeedsMapping from '../../modules/bankFeeds/bankFeedsManage/mappings/MemoryBankFeedsMapping';
@@ -199,6 +200,7 @@ const RootMapping = Object.freeze({
   ...MoveToMYOBMapping,
   ...PaydayFilingMapping,
   ...OnboardingMapping,
+  ...AddressAutocompleteMapping,
 });
 
 export default RootMapping;

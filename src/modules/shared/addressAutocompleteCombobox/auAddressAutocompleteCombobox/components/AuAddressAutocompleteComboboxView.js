@@ -10,7 +10,7 @@ import {
 import styles from './AuAddressAutocompleteComboboxView.module.css';
 
 const AuAddressAutocompleteComboboxView = (props) => {
-  const metaData = [{ columnName: 'streetLine', showData: 'true' }];
+  const metaData = [{ columnName: 'streetLine', showData: true }];
   const renderItem = (_, item) => item.address;
 
   return (

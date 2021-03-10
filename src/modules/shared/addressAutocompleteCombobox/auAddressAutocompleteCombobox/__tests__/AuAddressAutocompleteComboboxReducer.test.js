@@ -2,7 +2,7 @@ import {
   AUTOCOMPLETE_ADDRESS_SELECTED,
   LOAD_AUTOCOMPLETE_ADDRESSES,
   SET_AUTOCOMPLETE_ADDRESS_KEYWORDS,
-} from '../../ContactIntents';
+} from '../../AddressAutocompleteIntents';
 import auAddressAutocompleteComboboxReducer from '../auAddressAutocompleteComboboxReducer';
 
 describe('AutocompleteAddressComboboxReducer', () => {
