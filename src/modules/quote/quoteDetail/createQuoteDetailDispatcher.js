@@ -20,6 +20,7 @@ import {
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -248,6 +249,13 @@ const createQuoteDetailDispatcher = (store) => ({
     store.dispatch({
       intent: SET_VIEWED_ACCOUNT_TOOL_TIP_STATE,
       viewedAccountToolTip,
+    });
+  },
+
+  setIsCustomizedForNonGstFeatureToggle: (isCustomizedForNonGstEnabled) => {
+    store.dispatch({
+      intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+      isCustomizedForNonGstEnabled,
     });
   },
 });

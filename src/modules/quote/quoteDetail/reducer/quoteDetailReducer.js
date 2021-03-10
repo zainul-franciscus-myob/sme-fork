@@ -22,6 +22,7 @@ import {
   SET_ACCOUNT_LOADING_STATE,
   SET_ALERT,
   SET_CONTACT_LOADING_STATE,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -169,6 +170,7 @@ const loadQuoteDetail = (state, action) => ({
   },
   startOfFinancialYearDate: action.startOfFinancialYearDate,
   activityHistory: action.activityHistory,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const reloadQuoteDetail = (state, action) => {
@@ -430,6 +432,14 @@ const setViewedAccountToolTipState = (state, { viewedAccountToolTip }) => ({
   viewedAccountToolTip,
 });
 
+const setIsCustomizedForNonGstFeatureToggle = (
+  state,
+  { isCustomizedForNonGstEnabled }
+) => ({
+  ...state,
+  isCustomizedForNonGstEnabled,
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -471,6 +481,7 @@ const handlers = {
   [CACHE_ITEM_SELLING_DETAILS]: cacheItemSellingDetails,
   [TOGGLE_QUOTE_HISTORY_ACCORDION]: toggleQuoteHistoryAccordion,
   [SET_VIEWED_ACCOUNT_TOOL_TIP_STATE]: setViewedAccountToolTipState,
+  [SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE]: setIsCustomizedForNonGstFeatureToggle,
 };
 
 const quoteDetailReducer = createReducer(getDefaultState(), handlers);

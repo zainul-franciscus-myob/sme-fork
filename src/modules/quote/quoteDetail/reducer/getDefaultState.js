@@ -89,6 +89,8 @@ const getDefaultState = () => ({
   quoteHistoryAccordionStatus: QuoteHistoryAccordionStatus.OPEN,
   activityHistory: [],
   viewedAccountToolTip: false,
+  isCustomizedForNonGstEnabled: true,
+  isRegisteredForGst: true,
 });
 
 export default getDefaultState;

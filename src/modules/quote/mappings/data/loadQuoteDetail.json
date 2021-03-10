@@ -34,7 +34,7 @@
         "unitPrice": "100",
         "discount": "0",
         "jobId": "1",
-        "taxCodeId": "2",
+        "taxCodeId": "4",
         "taxAmount": "0.9111",
         "taxExclusiveAmount": "850",
         "lineTypeId": "5"
@@ -49,7 +49,7 @@
         "unitPrice": "",
         "discount": "",
         "jobId": "1",
-        "taxCodeId": "3",
+        "taxCodeId": "4",
         "taxAmount": "0.9111",
         "taxExclusiveAmount": "850",
         "lineTypeId": "5"
@@ -230,5 +230,6 @@
     {"id": "Invoiced757", "invoiceId": "757", "status": "CREATED_INVOICE", "date": "2020-08-21T00:00:00", "referenceNo": "00000092"},
     {"id": "Emailed", "status": "EMAILED"},
     {"id": "Created", "status": "CREATED", "date": "2020-08-21T00:00:00"}
-  ]
+  ],
+  "isRegisteredForGst": false
 }

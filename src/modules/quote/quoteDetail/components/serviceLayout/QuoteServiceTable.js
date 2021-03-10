@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/QuoteDetailSelectors';
@@ -34,6 +35,7 @@ const QuoteServiceTable = ({
   },
   taxCodeLabel,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const headerItems = [
     <LineItemTable.HeaderItem>{descriptionLabel}</LineItemTable.HeaderItem>,
@@ -47,9 +49,11 @@ const QuoteServiceTable = ({
       {amountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {taxCodeLabel}
-    </LineItemTable.HeaderItem>,
+    isShowIsTaxInclusiveAndTaxCodeColumn && (
+      <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+        {taxCodeLabel}
+      </LineItemTable.HeaderItem>
+    ),
   ];
 
   const columnConfig = [
@@ -115,6 +119,9 @@ const QuoteServiceTable = ({
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(QuoteServiceTable);

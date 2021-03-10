@@ -92,3 +92,7 @@ export const TOGGLE_QUOTE_HISTORY_ACCORDION = Symbol(
 export const SET_VIEWED_ACCOUNT_TOOL_TIP_STATE = Symbol(
   'Set the viewed Account tool tip state'
 );
+
+export const SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE = Symbol(
+  'Set isCustomizedForNonGstEnabled feature toggle'
+);

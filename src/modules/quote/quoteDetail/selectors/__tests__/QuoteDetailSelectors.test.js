@@ -5,6 +5,7 @@ import {
   getIsExportingPDF,
   getIsLinesSupported,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getIsTaxCalculationRequired,
   getLayoutDisplayName,
   getQuoteDetailOptions,
@@ -530,5 +531,39 @@ describe('QuoteDetailSelectors', () => {
 
       expect(actual).toEqual(['Open', 'Accepted', 'Declined', 'Invoiced']);
     });
+  });
+
+  describe('getisShowIsTaxInclusiveAndTaxCodeColumn', () => {
+    it.each([
+      [false, false, '4', true],
+      [true, true, '4', true],
+      [true, true, '1', true],
+      [true, false, '4', false],
+      [true, false, '1', true],
+    ])(
+      'when isCustomizedForNonGstEnabled is %s & isRegisteredForGst is %s & taxCodeId is %s, should return %s',
+      (
+        isCustomizedForNonGstEnabled,
+        isRegisteredForGst,
+        taxCodeId,
+        expected
+      ) => {
+        const state = {
+          isCustomizedForNonGstEnabled,
+          isRegisteredForGst,
+          quote: {
+            lines: [
+              {
+                taxCodeId,
+                expected,
+              },
+            ],
+          },
+        };
+        const actual = getIsShowIsTaxInclusiveAndTaxCodeColumn(state);
+
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

@@ -28,7 +28,7 @@ export default {
   shouldDisplayAccountBillingMenuText: true,
   isPurchaseOrdersEnabled: true,
   isAutocompleteAddressEnabled: true,
-  isNonGSTEnabled: true,
+  isCustomizedForNonGstEnabled: true,
   isBulkRemittanceAdviceEnabled: true,
   isSendPaymentsButtonEnabled: true,
 };

@@ -7,6 +7,7 @@ import {
   OPEN_MODAL,
   RELOAD_QUOTE_DETAIL,
   SET_ALERT,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_DUPLICATE_ID,
   SET_LOADING_STATE,
   SET_MODAL_ALERT,
@@ -36,6 +37,7 @@ describe('QuoteDetailModule', () => {
     const popMessages = () => [];
     const replaceURLParams = () => {};
     const integration = new TestIntegration();
+    const featureToggles = { isCustomizedForNonGstEnabled: true };
 
     const module = new QuoteDetailModule({
       integration,
@@ -43,6 +45,7 @@ describe('QuoteDetailModule', () => {
       pushMessage,
       popMessages,
       replaceURLParams,
+      featureToggles,
     });
     module.redirectToUrl = jest.fn();
     const store = new TestStore(quoteDetailReducer);
@@ -105,6 +108,10 @@ describe('QuoteDetailModule', () => {
               },
             },
             {
+              intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+              isCustomizedForNonGstEnabled: true,
+            },
+            {
               intent: SET_LOADING_STATE,
               loadingState: LoadingState.LOADING,
             },
@@ -143,6 +150,10 @@ describe('QuoteDetailModule', () => {
                 region: 'au',
                 quoteId: test.quoteId,
               },
+            },
+            {
+              intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+              isCustomizedForNonGstEnabled: true,
             },
             {
               intent: SET_LOADING_STATE,
@@ -205,6 +216,10 @@ describe('QuoteDetailModule', () => {
           },
         },
         {
+          intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+          isCustomizedForNonGstEnabled: true,
+        },
+        {
           intent: SET_DUPLICATE_ID,
           duplicateId: '🐛',
         },
@@ -253,6 +268,10 @@ describe('QuoteDetailModule', () => {
             region: 'au',
             quoteId: 'new',
           },
+        },
+        {
+          intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+          isCustomizedForNonGstEnabled: true,
         },
         {
           intent: SET_DUPLICATE_ID,

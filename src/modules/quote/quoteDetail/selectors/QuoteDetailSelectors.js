@@ -442,3 +442,19 @@ export const getUniqueSelectedItemIds = (state) => {
 };
 
 export const getViewedAccountToolTip = (state) => state.viewedAccountToolTip;
+
+export const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
+
+export const getIsRegisteredForGST = (state) => state.isRegisteredForGst;
+
+export const getHasTaxCodeOtherThanNT = (state) =>
+  state.quote.lines.some((line) => line.taxCodeId && line.taxCodeId !== '4');
+
+export const getIsShowIsTaxInclusiveAndTaxCodeColumn = createSelector(
+  getIsCustomizedForNonGstEnabled,
+  getIsRegisteredForGST,
+  getHasTaxCodeOtherThanNT,
+  (isCustomizedForNonGstEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isCustomizedForNonGstEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+);

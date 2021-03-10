@@ -12,6 +12,7 @@ import {
   getIsBeforeStartOfFinancialYear,
   getIsOpenAndExpired,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getQuoteDetailOptions,
   getReadOnlyMessage,
   getStatusDropdownOptions,
@@ -51,6 +52,7 @@ const QuoteDetailOptions = (props) => {
     isExpired,
     onInputAlert,
     statusOptions,
+    isShowIsTaxInclusiveAndTaxCodeColumn,
   } = props;
 
   const primary = (
@@ -127,15 +129,17 @@ const QuoteDetailOptions = (props) => {
           <Select.Option key={item} value={item} label={item} />
         ))}
       </Select>
-      <BooleanRadioButtonGroup
-        name="isTaxInclusive"
-        label="Amounts are"
-        value={isTaxInclusive}
-        trueLabel={taxInclusiveLabel}
-        falseLabel={taxExclusiveLabel}
-        handler={onUpdateHeaderOptions}
-        disabled={isCalculating || isReadOnlyLayout}
-      />
+      {isShowIsTaxInclusiveAndTaxCodeColumn && (
+        <BooleanRadioButtonGroup
+          name="isTaxInclusive"
+          label="Amounts are"
+          value={isTaxInclusive}
+          trueLabel={taxInclusiveLabel}
+          falseLabel={taxExclusiveLabel}
+          handler={onUpdateHeaderOptions}
+          disabled={isCalculating || isReadOnlyLayout}
+        />
+      )}
     </Fragment>
   );
 
@@ -156,6 +160,9 @@ const mapStateToProps = (state) => ({
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
   isExpired: getIsOpenAndExpired(state),
   statusOptions: getStatusDropdownOptions(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(QuoteDetailOptions);

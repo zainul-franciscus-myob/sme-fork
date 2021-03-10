@@ -6,6 +6,7 @@ import {
   getAccountOptions,
   getIsCalculating,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getQuoteLine,
   getTaxCodeOptions,
 } from '../../selectors/QuoteDetailSelectors';
@@ -72,6 +73,7 @@ const QuoteItemAndServiceTableRow = ({
   onAddAccountButtonClick,
   onAddJob,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
   ...feelixInjectedProps
 }) => {
   if ([QuoteLineType.HEADER, QuoteLineType.SUB_TOTAL].includes(type)) {
@@ -86,7 +88,7 @@ const QuoteItemAndServiceTableRow = ({
         <QuoteTableReadOnlyRowItem />
         <QuoteTableReadOnlyRowItem value={displayAmount} />
         <QuoteTableReadOnlyRowItem />
-        <QuoteTableReadOnlyRowItem />
+        {isShowIsTaxInclusiveAndTaxCodeColumn && <QuoteTableReadOnlyRowItem />}
       </LineItemTable.Row>
     );
   }
@@ -188,12 +190,14 @@ const QuoteItemAndServiceTableRow = ({
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isCalculating || isReadOnly}
-      />
+      {isShowIsTaxInclusiveAndTaxCodeColumn && (
+        <TaxCodeCombobox
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={onComboboxChange('taxCodeId', onChange)}
+          disabled={isCalculating || isReadOnly}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -204,6 +208,9 @@ const mapStateToProps = (state, props) => ({
   accountOptions: getAccountOptions(state),
   isCalculating: getIsCalculating(state),
   isReadOnly: getIsReadOnly(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(QuoteItemAndServiceTableRow);

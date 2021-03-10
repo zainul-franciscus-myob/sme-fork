@@ -27,7 +27,7 @@
         "unitPrice": "100",
         "discount": "0",
         "jobId": "1",
-        "taxCodeId": "2",
+        "taxCodeId": "4",
         "taxAmount": "0.9111",
         "taxExclusiveAmount": "850",
         "lineTypeId": "5"
@@ -42,7 +42,7 @@
         "unitPrice": "",
         "discount": "",
         "jobId": "1",
-        "taxCodeId": "3",
+        "taxCodeId": "4",
         "taxAmount": "0.9111",
         "taxExclusiveAmount": "850",
         "lineTypeId": "5"
@@ -183,5 +183,6 @@
       "value": "don't call us we'll call you"
     }
   ],
-  "startOfFinancialYearDate": "2019-07-01T00:00:00"
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "isRegisteredForGst": true
 }

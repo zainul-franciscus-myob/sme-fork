@@ -100,6 +100,8 @@ export default class QuoteDetailModule {
       onAlert: this.dispatcher.setAlert,
       featureToggles,
     });
+    this.isCustomizedForNonGstEnabled =
+      featureToggles?.isCustomizedForNonGstEnabled;
   }
 
   loadQuote = () => {
@@ -918,6 +920,9 @@ export default class QuoteDetailModule {
 
   run(context) {
     this.dispatcher.setInitialState(context);
+    this.dispatcher.setIsCustomizedForNonGstFeatureToggle(
+      this.isCustomizedForNonGstEnabled
+    );
     setupHotKeys(keyMap, this.handlers);
     this.render();
 
