@@ -87,5 +87,5 @@
   "isTrial": false,
   "isReadOnly": true,
   "isCurrentUserAdvisor": false,
-  "isGSTUser": false
+  "isRegisteredForGst": false
 }

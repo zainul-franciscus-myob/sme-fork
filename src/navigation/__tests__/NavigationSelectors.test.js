@@ -2,6 +2,7 @@ import {
   getBankingUrls,
   getIsNzPayrollOnly,
   getMenuLogoUrl,
+  getOnlineTaxLabel,
   getPurchasesUrls,
   getSalesUrls,
   getShouldDisplayAccountingMenu,
@@ -431,37 +432,37 @@ describe('NavigationSelectors', () => {
   });
 
   describe('getShouldDisplayAccountingTaxMenuItem', () => {
-    it('true when isCustomizedForNonGstEnabled is false and isGSTUser is true', () => {
+    it('true when isCustomizedForNonGstEnabled is false and isRegisteredForGst is true', () => {
       const state = {
         isCustomizedForNonGstEnabled: false,
-        isGSTUser: true,
+        isRegisteredForGst: true,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('true when isCustomizedForNonGstEnabled is false and isGSTUser is false', () => {
+    it('true when isCustomizedForNonGstEnabled is false and isRegisteredForGst is false', () => {
       const state = {
         isCustomizedForNonGstEnabled: false,
-        isGSTUser: false,
+        isRegisteredForGst: false,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('true when isCustomizedForNonGstEnabled is true and isGSTUser is true', () => {
+    it('true when isCustomizedForNonGstEnabled is true and isRegisteredForGst is true', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: true,
+        isRegisteredForGst: true,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('false when isCustomizedForNonGstEnabled is true and isGSTUser is false', () => {
+    it('false when isCustomizedForNonGstEnabled is true and isRegisteredForGst is false', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: false,
+        isRegisteredForGst: false,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(false);
@@ -472,7 +473,7 @@ describe('NavigationSelectors', () => {
     it('false when getIsNzPayrollOnly is true', () => {
       const state = {
         isCustomizedForNonGstEnabled: false,
-        isGSTUser: true,
+        isRegisteredForGst: true,
         routeParams: {
           region: 'nz',
         },
@@ -489,7 +490,7 @@ describe('NavigationSelectors', () => {
     it('true when isCustomizedForNonGstEnabled toggle is off', () => {
       const state = {
         isCustomizedForNonGstEnabled: false,
-        isGSTUser: true,
+        isRegisteredForGst: true,
         routeParams: {
           region: 'au',
         },
@@ -504,7 +505,7 @@ describe('NavigationSelectors', () => {
     it('false when is loading', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: true,
+        isRegisteredForGst: true,
         routeParams: {
           region: 'au',
         },
@@ -519,7 +520,7 @@ describe('NavigationSelectors', () => {
     it('true when region is au with gst user', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: true,
+        isRegisteredForGst: true,
         routeParams: {
           region: 'au',
         },
@@ -534,7 +535,7 @@ describe('NavigationSelectors', () => {
     it('true when region is nz with gst user', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: true,
+        isRegisteredForGst: true,
         routeParams: {
           region: 'nz',
         },
@@ -549,7 +550,7 @@ describe('NavigationSelectors', () => {
     it('true when region is au with non-gst user', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: false,
+        isRegisteredForGst: false,
         routeParams: {
           region: 'au',
         },
@@ -564,7 +565,7 @@ describe('NavigationSelectors', () => {
     it('false when region is nz with non-gst user', () => {
       const state = {
         isCustomizedForNonGstEnabled: true,
-        isGSTUser: false,
+        isRegisteredForGst: false,
         routeParams: {
           region: 'nz',
         },
@@ -574,6 +575,68 @@ describe('NavigationSelectors', () => {
       };
       const actual = getShouldDisplayOnlineTaxMenuItem(state);
       expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getOnlineTaxLabel', () => {
+    it('"GST and provisional tax" when region is nz and isCustomizedForNonGstEnabled toggle is off', () => {
+      const state = {
+        isCustomizedForNonGstEnabled: false,
+        isRegisteredForGst: true,
+        routeParams: {
+          region: 'nz',
+        },
+      };
+      const actual = getOnlineTaxLabel(state);
+      expect(actual).toEqual('GST and provisional tax');
+    });
+
+    it('"GST and provisional tax" when region is nz and isCustomizedForNonGstEnabled toggle is on', () => {
+      const state = {
+        isCustomizedForNonGstEnabled: true,
+        isRegisteredForGst: true,
+        routeParams: {
+          region: 'nz',
+        },
+      };
+      const actual = getOnlineTaxLabel(state);
+      expect(actual).toEqual('GST and provisional tax');
+    });
+
+    it('"Prepare BAS or IAS" when region is au and isCustomizedForNonGstEnabled toggle is off', () => {
+      const state = {
+        isCustomizedForNonGstEnabled: false,
+        isRegisteredForGst: true,
+        routeParams: {
+          region: 'au',
+        },
+      };
+      const actual = getOnlineTaxLabel(state);
+      expect(actual).toEqual('Prepare BAS or IAS');
+    });
+
+    it('"Prepare BAS or IAS" when region is au and isCustomizedForNonGstEnabled toggle is on and is gst user', () => {
+      const state = {
+        isCustomizedForNonGstEnabled: true,
+        isRegisteredForGst: true,
+        routeParams: {
+          region: 'au',
+        },
+      };
+      const actual = getOnlineTaxLabel(state);
+      expect(actual).toEqual('Prepare BAS or IAS');
+    });
+
+    it('"Prepare IAS" when region is au and isCustomizedForNonGstEnabled toggle is on and is non-gst user', () => {
+      const state = {
+        isCustomizedForNonGstEnabled: true,
+        isRegisteredForGst: false,
+        routeParams: {
+          region: 'au',
+        },
+      };
+      const actual = getOnlineTaxLabel(state);
+      expect(actual).toEqual('Prepare IAS');
     });
   });
 });

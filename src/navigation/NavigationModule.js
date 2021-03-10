@@ -355,7 +355,7 @@ export default class NavigationModule {
     });
   };
 
-  setIsNonGSTFeatureToggle = () => {
+  setIsCustomizedForNonGstFeatureToggle = () => {
     this.store.dispatch({
       intent: SET_IS_NON_GST_FEATURE_TOGGLE,
       isCustomizedForNonGstEnabled: this.isCustomizedForNonGstEnabled,
@@ -387,7 +387,7 @@ export default class NavigationModule {
     this.setAccountBillingMenuTextFeatureToggle();
     this.setPurchaseOrderFeatureToggle();
     this.setMoveToMyobFeatureToggle();
-    this.setIsNonGSTFeatureToggle();
+    this.setIsCustomizedForNonGstFeatureToggle();
     if (action[ModuleAction.LOAD_BUSINESS]) {
       this.loadBusinessInfo();
       this.store.dispatch({ intent: RESET_STATE });

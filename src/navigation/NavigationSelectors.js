@@ -329,10 +329,6 @@ export const getTaxCodesLabel = createSelector(getRegion, (region) =>
   getRegionToDialectText(region)('Tax codes')
 );
 
-export const getOnlineTaxLabel = createSelector(getRegion, (region) =>
-  getRegionToDialectText(region)('Prepare BAS or IAS')
-);
-
 export const getInTrayUrl = (state) => getEnabledUrls(state).inTrayList;
 export const getIsInTrayActive = (state) => getActiveNav(state) === 'inTray';
 export const getShouldDisplayInTray = createSelector(
@@ -405,32 +401,49 @@ export const getMoveToMYOBUrl = createSelector(
   (businessId, region) => `#/${region}/${businessId}/moveToMYOB`
 );
 
-export const getIsGSTUser = (state) => state.isGSTUser;
+export const getIsRegisteredForGst = (state) => state.isRegisteredForGst;
 
 export const getIsCustomizedForNonGstEnabled = (state) =>
   state.isCustomizedForNonGstEnabled;
 
 export const getShouldDisplayAccountingTaxMenuItem = createSelector(
-  getIsGSTUser,
+  getIsRegisteredForGst,
   getIsCustomizedForNonGstEnabled,
-  (isGSTUser, isCustomizedForNonGstEnabled) =>
-    isCustomizedForNonGstEnabled ? isGSTUser : true
+  (isRegisteredForGst, isCustomizedForNonGstEnabled) =>
+    isCustomizedForNonGstEnabled ? isRegisteredForGst : true
 );
 
 export const getShouldDisplayOnlineTaxMenuItem = createSelector(
   getIsLoading,
-  getIsGSTUser,
+  getIsRegisteredForGst,
   getIsCustomizedForNonGstEnabled,
   getRegion,
   getIsNzPayrollOnly,
   (
     isLoading,
-    isGSTUser,
+    isRegisteredForGst,
     isCustomizedForNonGstEnabled,
     region,
     isNzPayrollOnly
   ) =>
     !isNzPayrollOnly &&
     !isLoading &&
-    (isCustomizedForNonGstEnabled ? region === Region.au || isGSTUser : true)
+    (isCustomizedForNonGstEnabled
+      ? region === Region.au || isRegisteredForGst
+      : true)
+);
+
+export const getOnlineTaxLabel = createSelector(
+  getRegion,
+  getIsRegisteredForGst,
+  getIsCustomizedForNonGstEnabled,
+  (region, isRegisteredForGst, isCustomizedForNonGstEnabled) => {
+    const labelKey =
+      region === Region.au &&
+      isCustomizedForNonGstEnabled &&
+      !isRegisteredForGst
+        ? 'Prepare IAS'
+        : 'Prepare BAS or IAS';
+    return getRegionToDialectText(region)(labelKey);
+  }
 );

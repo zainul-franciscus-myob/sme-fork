@@ -48,6 +48,7 @@ import LinkedAccountsMapping from '../../modules/linkedAccounts/mappings/HttpLin
 import MoveToMYOBMapping from '../../modules/moveToMYOB/mappings/HttpMoveToMYOBMapping';
 import NavigationMapping from './NavigationMapping';
 import OnboardingMapping from '../../modules/onboarding/mappings/HttpOnboardingMapping';
+import OnlineTaxMapping from '../../modules/onlineTax/mappings/HttpOnlineTaxMapping';
 import PayItemMapping from '../../modules/payItem/payItemList/mappings/HttpPayItemMapping';
 import PayRefundMapping from '../../modules/payRefund/mappings/HttpPayRefundMapping';
 import PayRunDetailMapping from '../../modules/payRun/mappings/HttpPayRunDetailMapping';
@@ -200,6 +201,7 @@ const RootMapping = Object.freeze({
   ...MoveToMYOBMapping,
   ...OnboardingMapping,
   ...AddressAutocompleteMapping,
+  ...OnlineTaxMapping,
 });
 
 export default RootMapping;

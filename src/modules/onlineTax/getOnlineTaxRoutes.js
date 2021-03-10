@@ -1,7 +1,7 @@
 import OnlineTaxModule from './OnlineTaxModule';
 import RouteName from '../../router/RouteName';
 
-const getOnlineTaxRoutes = ({ integration, setRootView }) => {
+const getOnlineTaxRoutes = ({ integration, setRootView, featureToggles }) => {
   const routes = [
     {
       name: RouteName.ONLINE_TAX,
@@ -9,6 +9,7 @@ const getOnlineTaxRoutes = ({ integration, setRootView }) => {
       module: new OnlineTaxModule({
         integration,
         setRootView,
+        featureToggles,
       }),
       documentTitle: 'Online tax',
     },

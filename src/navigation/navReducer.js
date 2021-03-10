@@ -22,7 +22,7 @@ const getDefaultState = () => ({
   isLoading: false,
   isReadOnly: false,
   isTrial: false,
-  isGSTUser: false,
+  isRegisteredForGst: false,
   myReportsUrl: '',
   myobUrl: '',
   myobTeamUrl: '',
@@ -51,7 +51,7 @@ const loadBusinessDetails = (state, action) => ({
   subscriptionType: action.subscriptionType,
   trialEndDate: action.trialEndDate,
   userEmail: action.userEmail,
-  isGSTUser: action.isGSTUser,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const setRouteInfo = (state, action) => ({
@@ -107,7 +107,10 @@ const setMoveToMyobFeatureToggle = (state, { isMoveToMyobEnabled }) => ({
   isMoveToMyobEnabled,
 });
 
-const setIsNonGSTFeatureToggle = (state, { isCustomizedForNonGstEnabled }) => ({
+const setIsCustomizedForNonGstFeatureToggle = (
+  state,
+  { isCustomizedForNonGstEnabled }
+) => ({
   ...state,
   isCustomizedForNonGstEnabled,
 });
@@ -138,7 +141,7 @@ const handlers = {
   [SET_PAYDAY_FILING_FEATURE_TOGGLE]: setPaydayFilingFeatureToggle,
   [SET_PURCHASE_ORDER_FEATURE_TOGGLE]: setPurchaseOrderFeatureToggle,
   [SET_MOVE_TO_MYOB_FEATURE_TOGGLE]: setMoveToMyobFeatureToggle,
-  [SET_IS_NON_GST_FEATURE_TOGGLE]: setIsNonGSTFeatureToggle,
+  [SET_IS_NON_GST_FEATURE_TOGGLE]: setIsCustomizedForNonGstFeatureToggle,
 };
 
 const navReducer = createReducer(getDefaultState(), handlers);
