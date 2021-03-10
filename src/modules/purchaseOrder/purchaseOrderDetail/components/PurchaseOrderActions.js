@@ -143,6 +143,8 @@ const PurchaseOrderActions = ({
       type="secondary"
       onClick={onSaveAndEmailButtonClick}
       disabled={isBlocking}
+      // TODO Remove style after ARL release; 2021.2
+      style={{ visibility: 'hidden' }}
     >
       Email purchase order
     </Button>
@@ -155,8 +157,7 @@ const PurchaseOrderActions = ({
         secondary={[
           !isCreating && !isForeignCurrency,
           showExportPdfButton && exportPdfButton,
-          // TODO Enable email after ARL release; 2021.2
-          // showEmailButton && emailButton,
+          showEmailButton && emailButton,
         ]}
       />
     );
@@ -170,8 +171,7 @@ const PurchaseOrderActions = ({
         !isCreating && separator,
         !isCreating && convertToBillButton,
         exportPdfButton,
-        // TODO Enable email after ARL release; 2021.2
-        // emailButton,
+        emailButton,
       ]}
     />
   );
