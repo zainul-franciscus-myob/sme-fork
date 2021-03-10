@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIsPreConversion,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/invoiceDetailSelectors';
@@ -26,6 +27,7 @@ const InvoiceServiceTable = ({
   },
   renderJobCombobox,
   isPreConversion,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -45,9 +47,11 @@ const InvoiceServiceTable = ({
       {amountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {taxCodeLabel}
-    </LineItemTable.HeaderItem>,
+    isShowIsTaxInclusiveAndTaxCodeColumn && (
+      <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+        {taxCodeLabel}
+      </LineItemTable.HeaderItem>
+    ),
   ];
 
   const columnConfig = [
@@ -116,6 +120,9 @@ const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isPreConversion: getIsPreConversion(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(InvoiceServiceTable);

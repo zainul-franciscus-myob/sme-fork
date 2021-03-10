@@ -1207,6 +1207,7 @@ export default class InvoiceDetailModule {
     });
 
     this.dispatcher.setInitialState({
+      isNonGSTEnabled: this.featureToggles.isNonGSTEnabled,
       isRecurringTransactionEnabled,
       ...context,
     });

@@ -124,6 +124,8 @@ const getDefaultState = () => ({
   isRecurringTransactionEnabled: false,
   isSendingEmail: false,
   hasUpdatedPaymentSettings: false,
+  isNonGSTEnabled: false,
+  isRegisteredForGst: false,
 });
 
 export default getDefaultState;

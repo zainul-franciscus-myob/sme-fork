@@ -6,6 +6,7 @@ import {
   getAccountOptions,
   getInvoiceLine,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getIsSubmitting,
   getTaxCodeOptions,
 } from '../../selectors/invoiceDetailSelectors';
@@ -72,6 +73,7 @@ const InvoiceItemTableRow = ({
   onAddAccount,
   renderItemCombobox,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
   ...feelixInjectedProps
 }) => {
   const onChangeAccountId = onComboboxChange('accountId', onChange);
@@ -88,7 +90,9 @@ const InvoiceItemTableRow = ({
         <InvoiceTableReadOnlyRowItem />
         <InvoiceTableReadOnlyRowItem value={amount} />
         <InvoiceTableReadOnlyRowItem />
-        <InvoiceTableReadOnlyRowItem />
+        {isShowIsTaxInclusiveAndTaxCodeColumn && (
+          <InvoiceTableReadOnlyRowItem />
+        )}
       </LineItemTable.Row>
     );
   }
@@ -181,12 +185,14 @@ const InvoiceItemTableRow = ({
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isSubmitting || isReadOnly}
-      />
+      {isShowIsTaxInclusiveAndTaxCodeColumn && (
+        <TaxCodeCombobox
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={onComboboxChange('taxCodeId', onChange)}
+          disabled={isSubmitting || isReadOnly}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -197,6 +203,9 @@ const mapStateToProps = (state, props) => ({
   taxCodeOptions: getTaxCodeOptions(state),
   accountOptions: getAccountOptions(state),
   isReadOnly: getIsReadOnly(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTableRow);

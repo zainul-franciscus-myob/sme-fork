@@ -20,6 +20,7 @@ import {
   getIsBeforeFYAndAfterConversionDate,
   getIsPreConversion,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getReadOnlyMessage,
   getShouldShowAbn,
   getShowPreConversionAlert,
@@ -64,6 +65,7 @@ const InvoiceDetailOptions = ({
   customerHasNoQuotes,
   shouldShowCustomerQuotes,
   redirectToSetUpOnlinePayments,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const onIsTaxInclusiveChange = (handler) => (e) => {
     handler({ key: 'isTaxInclusive', value: e.value === taxInclusiveLabel });
@@ -157,14 +159,16 @@ const InvoiceDetailOptions = ({
           redirectToSetUpOnlinePayments={redirectToSetUpOnlinePayments}
         />
       )}
-      <RadioButtonGroup
-        label="Amounts are"
-        name="isTaxInclusive"
-        value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
-        options={[taxInclusiveLabel, taxExclusiveLabel]}
-        onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
-        disabled={isSubmitting || isReadOnly || isPreConversion}
-      />
+      {isShowIsTaxInclusiveAndTaxCodeColumn && (
+        <RadioButtonGroup
+          label="Amounts are"
+          name="isTaxInclusive"
+          value={isTaxInclusive ? taxInclusiveLabel : taxExclusiveLabel}
+          options={[taxInclusiveLabel, taxExclusiveLabel]}
+          onChange={onIsTaxInclusiveChange(onUpdateHeaderOptions)}
+          disabled={isSubmitting || isReadOnly || isPreConversion}
+        />
+      )}
     </div>
   );
 
@@ -201,6 +205,9 @@ const mapStateToProps = (state) => ({
   customerQuoteCount: getCustomerQuoteCount(state),
   customerHasNoQuotes: getCustomerHasNoQuotes(state),
   shouldShowCustomerQuotes: getShouldShowCustomerQuotes(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(InvoiceDetailOptions);

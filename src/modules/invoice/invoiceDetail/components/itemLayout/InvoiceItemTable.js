@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getTableData,
   getTaxCodeLabel,
 } from '../../selectors/invoiceDetailSelectors';
@@ -24,6 +25,7 @@ const InvoiceItemTable = ({
   taxCodeLabel,
   renderItemCombobox,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const itemIdLabel = 'Item ID';
   const itemNameLabel = 'Description';
@@ -53,9 +55,11 @@ const InvoiceItemTable = ({
       {amountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {taxCodeLabel}
-    </LineItemTable.HeaderItem>,
+    isShowIsTaxInclusiveAndTaxCodeColumn && (
+      <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+        {taxCodeLabel}
+      </LineItemTable.HeaderItem>
+    ),
   ];
 
   const labels = [
@@ -147,6 +151,9 @@ const InvoiceItemTable = ({
 const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(InvoiceItemTable);

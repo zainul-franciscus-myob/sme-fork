@@ -552,6 +552,21 @@ export const getShouldShowPaymentSettingsModal = createSelector(
       hasUpdatedPaymentSettings === false)
 );
 
+export const getIsNonGSTEnabled = (state) => state.isNonGSTEnabled;
+
+export const getIsRegisteredForGST = (state) => state.isRegisteredForGst;
+
+export const getHasTaxCodeOtherThanNT = (state) =>
+  state.invoice.lines.some((line) => line.taxCodeId && line.taxCodeId !== '4');
+
+export const getIsShowIsTaxInclusiveAndTaxCodeColumn = createSelector(
+  getIsNonGSTEnabled,
+  getIsRegisteredForGST,
+  getHasTaxCodeOtherThanNT,
+  (isNonGSTEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isNonGSTEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+);
+
 export const getPayDirectIsRegistered = (state) => state.payDirect.isRegistered;
 
 export const getPayDirectUrl = (state) => state.payDirect.url;

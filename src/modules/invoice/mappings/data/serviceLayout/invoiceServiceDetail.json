@@ -211,5 +211,6 @@
     "eligible": true,
     "entryUrl": "https://invoicefinance.myob.com",
     "message": "Fund this invoice"
-  }
+  },
+  "isRegisteredForGst": true
 }
