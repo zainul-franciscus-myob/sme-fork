@@ -9,6 +9,7 @@ import {
   getIsBlocking,
   getIsNewLine,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getTaxCodeOptions,
 } from '../selectors/billSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -63,6 +64,7 @@ const BillItemAndServiceTableRow = ({
   onRowInputBlur,
   renderItemCombobox,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
   ...feelixInjectedProps
 }) => {
   const prefillStatus = billLine.prefillStatus || {};
@@ -90,7 +92,7 @@ const BillItemAndServiceTableRow = ({
         <BillTableReadOnlyRowItem />
         <BillTableReadOnlyRowItem value={amount} />
         <BillTableReadOnlyRowItem />
-        <BillTableReadOnlyRowItem />
+        {isShowIsTaxInclusiveAndTaxCodeColumn && <BillTableReadOnlyRowItem />}
       </LineItemTable.Row>
     );
   }
@@ -188,12 +190,14 @@ const BillItemAndServiceTableRow = ({
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={handleComboboxChange(onChange, 'taxCodeId')}
-        disabled={isBlocking || isReadOnly}
-      />
+      {isShowIsTaxInclusiveAndTaxCodeColumn && (
+        <TaxCodeCombobox
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={handleComboboxChange(onChange, 'taxCodeId')}
+          disabled={isBlocking || isReadOnly}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -205,6 +209,9 @@ const mapStateToProps = (state, props) => ({
   isNewLine: getIsNewLine(state, props),
   isBlocking: getIsBlocking(state),
   isReadOnly: getIsReadOnly(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(BillItemAndServiceTableRow);

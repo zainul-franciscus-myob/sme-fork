@@ -1348,6 +1348,7 @@ class BillModule {
 
   setInitialState = (context) => {
     this.dispatcher.setInitialState({
+      isNonGSTEnabled: this.featureToggles.isNonGSTEnabled,
       ...context,
     });
   };

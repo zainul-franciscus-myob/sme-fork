@@ -9,6 +9,7 @@ import {
   getIsLinesSupported,
   getIsNewLine,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getItemComboboxContext,
   getModalContext,
   getNewLineIndex,
@@ -633,5 +634,39 @@ describe('BillSelectors', () => {
         expect(actual).toEqual(test.expected);
       });
     });
+  });
+
+  describe('getIsShowIsTaxInclusiveAndTaxCodeColumn', () => {
+    it.each([
+      [true, true, '1', true],
+      [true, true, '4', true],
+      [true, false, '1', true],
+      [true, false, '4', false],
+      [true, false, '', false],
+      [true, false, undefined, false],
+      [false, true, '4', true],
+      [false, true, '4', true],
+      [false, false, '1', true],
+      [false, false, '4', true],
+    ])(
+      'when isCustomizedForNonGstEnabled is %s and isRegisteredForGst is %s and taxCodeId is %s, should return %s',
+      (isNonGSTEnabled, isRegisteredForGst, taxCodeId, expected) => {
+        const state = {
+          isNonGSTEnabled,
+          isRegisteredForGst,
+          bill: {
+            lines: [
+              {
+                taxCodeId,
+              },
+            ],
+          },
+        };
+
+        const actual = getIsShowIsTaxInclusiveAndTaxCodeColumn(state);
+
+        expect(actual).toEqual(expected);
+      }
+    );
   });
 });

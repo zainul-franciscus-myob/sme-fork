@@ -12,6 +12,7 @@ import {
   getIsBlocking,
   getIsPreConversion,
   getIsReadOnly,
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
   getIsTaxInclusive,
   getIssueDate,
   getSupplierInvoiceNumber,
@@ -43,6 +44,7 @@ const BillSecondaryOptions = ({
   prefillStatus,
   onUpdateBillOption,
   isBeforeFYAndAfterConversionDate,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => (
   <React.Fragment>
     <Input
@@ -91,15 +93,17 @@ const BillSecondaryOptions = ({
       expirationTerm={expirationTerm}
       disabled={isReadOnly}
     />
-    <BooleanRadioButtonGroup
-      name="isTaxInclusive"
-      label="Amounts are"
-      value={isTaxInclusive}
-      trueLabel={taxInclusiveLabel}
-      falseLabel={taxExclusiveLabel}
-      handler={onUpdateBillOption}
-      disabled={isBlocking || isReadOnly || isPreConversion}
-    />
+    {isShowIsTaxInclusiveAndTaxCodeColumn && (
+      <BooleanRadioButtonGroup
+        name="isTaxInclusive"
+        label="Amounts are"
+        value={isTaxInclusive}
+        trueLabel={taxInclusiveLabel}
+        falseLabel={taxExclusiveLabel}
+        handler={onUpdateBillOption}
+        disabled={isBlocking || isReadOnly || isPreConversion}
+      />
+    )}
   </React.Fragment>
 );
 
@@ -118,6 +122,9 @@ const mapStateToProps = (state) => ({
   isReadOnly: getIsReadOnly(state),
   isBeforeFYAndAfterConversionDate: getIsBeforeFYAndAfterConversionDate(state),
   isPreConversion: getIsPreConversion(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(BillSecondaryOptions);

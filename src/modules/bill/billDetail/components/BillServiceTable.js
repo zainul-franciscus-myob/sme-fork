@@ -2,7 +2,10 @@ import { LineItemTable } from '@myob/myob-widgets';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { getTaxCodeLabel } from '../selectors/billSelectors';
+import {
+  getIsShowIsTaxInclusiveAndTaxCodeColumn,
+  getTaxCodeLabel,
+} from '../selectors/billSelectors';
 import BillLineItemTable from './BillLineItemTable';
 import BillServiceTableRow from './BillServiceTableRow';
 import LineItemTableHeader from '../../../../components/LineItemTable/LineItemTableHeader';
@@ -38,6 +41,7 @@ const BillServiceTable = ({
   },
   taxCodeLabel,
   renderJobCombobox,
+  isShowIsTaxInclusiveAndTaxCodeColumn,
 }) => {
   const descriptionLabel = 'Description';
   const accountLabel = 'Account';
@@ -65,9 +69,11 @@ const BillServiceTable = ({
       {amountLabel}
     </LineItemTable.HeaderItem>,
     <LineItemTable.HeaderItem>{jobLabel}</LineItemTable.HeaderItem>,
-    <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
-      {taxCodeLabel}
-    </LineItemTable.HeaderItem>,
+    isShowIsTaxInclusiveAndTaxCodeColumn && (
+      <LineItemTable.HeaderItem requiredLabel={requiredLabel}>
+        {taxCodeLabel}
+      </LineItemTable.HeaderItem>
+    ),
   ];
 
   const columnConfig = [
@@ -114,6 +120,9 @@ const BillServiceTable = ({
 
 const mapStateToProps = (state) => ({
   taxCodeLabel: getTaxCodeLabel(state),
+  isShowIsTaxInclusiveAndTaxCodeColumn: getIsShowIsTaxInclusiveAndTaxCodeColumn(
+    state
+  ),
 });
 
 export default connect(mapStateToProps)(BillServiceTable);
