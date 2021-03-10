@@ -33,7 +33,9 @@ const BusinessDetailView = ({
           Changes made here will not be reflected in the bills you receive from
           MYOB. To review your account and billing details with MYOB,
           visit&nbsp;
-          <a href={myAccountLink}>My Account.</a>
+          <a target="_blank" rel="noopener noreferrer" href={myAccountLink}>
+            My Account.
+          </a>
         </Alert>
       )}
       <BusinessDetailsSection onChange={onChange} />
