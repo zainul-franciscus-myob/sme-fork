@@ -8,6 +8,7 @@ import {
   getIsNzPayrollOnly,
   getOnlineTaxLabel,
   getShouldDisplayAccountingTaxMenuItem,
+  getShouldDisplayOnlineTaxMenuItem,
   getTaxCodesLabel,
 } from '../NavigationSelectors';
 import handleMenuLinkClick from './handlers/handleMenuLinkClick';
@@ -69,18 +70,19 @@ const getAccountingMenuItems = (
 
 const getItems = ({
   isNzPayrollOnly,
-  shouldDisplayAccountingTaxMenuItem,
   urls,
   taxCodesLabel,
   onlineTaxLabel,
   onMenuLinkClick,
+  shouldDisplayAccountingTaxMenuItem,
+  shouldDisplayOnlineTaxMenuItem,
 }) => {
   const journalMenu = isNzPayrollOnly
     ? []
     : getJournalMenuItems(urls, onMenuLinkClick);
-  const onlineTaxMenu = isNzPayrollOnly
-    ? []
-    : getOnlineTaxMenuItems(urls, onMenuLinkClick, onlineTaxLabel);
+  const onlineTaxMenu = shouldDisplayOnlineTaxMenuItem
+    ? getOnlineTaxMenuItems(urls, onMenuLinkClick, onlineTaxLabel)
+    : [];
   const accountingMenu = getAccountingMenuItems(
     urls,
     taxCodesLabel,
@@ -104,6 +106,7 @@ const AccountingMenu = ({
   onMenuLinkClick,
   isNzPayrollOnly,
   shouldDisplayAccountingTaxMenuItem,
+  shouldDisplayOnlineTaxMenuItem,
 }) => (
   <Navigation.Menu
     label="Accounting"
@@ -111,11 +114,12 @@ const AccountingMenu = ({
     onSelect={onMenuSelect}
     items={getItems({
       isNzPayrollOnly,
-      shouldDisplayAccountingTaxMenuItem,
       urls,
       taxCodesLabel,
       onlineTaxLabel,
       onMenuLinkClick,
+      shouldDisplayAccountingTaxMenuItem,
+      shouldDisplayOnlineTaxMenuItem,
     })}
     active={activeNav === 'accounting'}
   />
@@ -130,5 +134,6 @@ const mapStateToProps = (state, props) => ({
   shouldDisplayAccountingTaxMenuItem: getShouldDisplayAccountingTaxMenuItem(
     state
   ),
+  shouldDisplayOnlineTaxMenuItem: getShouldDisplayOnlineTaxMenuItem(state),
 });
 export default connect(mapStateToProps)(AccountingMenu);

@@ -414,3 +414,15 @@ export const getShouldDisplayAccountingTaxMenuItem = createSelector(
   getIsNonGSTEnabled,
   (isGSTUser, isNonGSTEnabled) => (isNonGSTEnabled ? isGSTUser : true)
 );
+
+export const getShouldDisplayOnlineTaxMenuItem = createSelector(
+  getIsLoading,
+  getIsGSTUser,
+  getIsNonGSTEnabled,
+  getRegion,
+  getIsNzPayrollOnly,
+  (isLoading, isGSTUser, isNonGSTEnabled, region, isNzPayrollOnly) =>
+    !isNzPayrollOnly &&
+    !isLoading &&
+    (isNonGSTEnabled ? region === Region.au || isGSTUser : true)
+);

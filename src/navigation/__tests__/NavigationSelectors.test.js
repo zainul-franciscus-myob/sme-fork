@@ -6,6 +6,7 @@ import {
   getSalesUrls,
   getShouldDisplayAccountingMenu,
   getShouldDisplayAccountingTaxMenuItem,
+  getShouldDisplayOnlineTaxMenuItem,
   getShouldDisplayPayrollMenu,
   getShouldDisplayPayrollNzMenu,
   getShouldDisplaySubscriptionNow,
@@ -463,6 +464,115 @@ describe('NavigationSelectors', () => {
         isGSTUser: false,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
+      expect(actual).toEqual(false);
+    });
+  });
+
+  describe('getShouldDisplayOnlineTaxMenu', () => {
+    it('false when getIsNzPayrollOnly is true', () => {
+      const state = {
+        isNonGSTEnabled: false,
+        isGSTUser: true,
+        routeParams: {
+          region: 'nz',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeListNz'],
+        urls: {
+          employeeListNz: 'employee',
+        },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('true when isNonGSTEnabled toggle is off', () => {
+      const state = {
+        isNonGSTEnabled: false,
+        isGSTUser: true,
+        routeParams: {
+          region: 'au',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when is loading', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: true,
+        routeParams: {
+          region: 'au',
+        },
+        isLoading: true,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('true when region is au with gst user', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: true,
+        routeParams: {
+          region: 'au',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('true when region is nz with gst user', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: true,
+        routeParams: {
+          region: 'nz',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('true when region is au with non-gst user', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: false,
+        routeParams: {
+          region: 'au',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('false when region is nz with non-gst user', () => {
+      const state = {
+        isNonGSTEnabled: true,
+        isGSTUser: false,
+        routeParams: {
+          region: 'nz',
+        },
+        isLoading: false,
+        enabledFeatures: ['employeeList'],
+        urls: { employeeList: 'employee' },
+      };
+      const actual = getShouldDisplayOnlineTaxMenuItem(state);
       expect(actual).toEqual(false);
     });
   });
