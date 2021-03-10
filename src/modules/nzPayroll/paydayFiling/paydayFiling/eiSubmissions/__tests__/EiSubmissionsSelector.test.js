@@ -10,6 +10,7 @@ import {
   getSelectedPayRunId,
   getSelectedPayrollYear,
   getShouldDisplaySubmissionInfo,
+  getShouldDisplaySubmitToIrButton,
 } from '../EiSubmissionsSelector';
 import LoadingState from '../../../../../../components/PageView/LoadingState';
 import formatDateTime from '../../../../../../common/valueFormatters/formatDate/formatDateTime';
@@ -344,7 +345,7 @@ describe('EiSubmissionSelectors', () => {
       expect(result).toEqual(false);
     });
 
-    it("should be false when selected payrun is available but status is 'not submitted'", () => {
+    it("should be false when selected payrun is available but initial status is 'not submitted'", () => {
       const selectedPayRun = {
         id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
         payPeriod: '01/10/2020 - 15/10/2020',
@@ -353,7 +354,8 @@ describe('EiSubmissionSelectors', () => {
         totalPaye: '3,400.00',
         totalGross: '13,340.00',
         employeeCount: 2,
-        status: 'Not submitted',
+        status: 'Submitting',
+        initialStatus: 'Not submitted',
         username: 'payday@mailinator.com',
         responseCode: '1',
         submissionKey: '',
@@ -387,6 +389,38 @@ describe('EiSubmissionSelectors', () => {
 
       const result = getDetailsAlertMessage(state);
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getShouldDisplaySubmitToIrButton', () => {
+    const selectedPayRun = {
+      id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+      payPeriod: '01/10/2020 - 15/10/2020',
+      payOnDate: '01/10/2020',
+      dateRecorded: '2020-10-01T07:18:14.174Z',
+      totalPaye: '3,400.00',
+      totalGross: '13,340.00',
+      employeeCount: 2,
+      status: 'Rejected',
+      initialStatus: 'Rejected',
+      username: 'payday@mailinator.com',
+      responseCode: '1',
+      submissionKey: '',
+      detail: 'Error code 1: Unauthorised delegation',
+    };
+    it('should return true for rejected status with no submission key', () => {
+      const state = { eiSubmissions: { selectedPayRun } };
+      const result = getShouldDisplaySubmitToIrButton(state);
+      expect(result).toEqual(true);
+    });
+    it('should return false for rejected status with a submission key', () => {
+      const state = {
+        eiSubmissions: {
+          selectedPayRun: { ...selectedPayRun, submissionKey: '123' },
+        },
+      };
+      const result = getShouldDisplaySubmitToIrButton(state);
+      expect(result).toEqual(false);
     });
   });
 });

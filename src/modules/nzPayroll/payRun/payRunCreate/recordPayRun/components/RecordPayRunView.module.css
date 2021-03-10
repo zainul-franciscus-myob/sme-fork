@@ -6,10 +6,6 @@
   padding-bottom: 0.5em;
 }
 
-.withPaddingTop {
-  padding-bottom: 1em;
-}
-
 .alertWithLinkButton {
   display: flex;
   align-items: center;

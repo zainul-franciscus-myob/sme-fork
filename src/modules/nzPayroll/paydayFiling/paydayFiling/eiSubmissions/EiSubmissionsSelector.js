@@ -69,9 +69,21 @@ export const getSelectedPayRun = createSelector(
   }
 );
 
-export const getShouldDisplaySubmissionInfo = (state) =>
+export const getShouldDisplaySubmissionInfo = createSelector(
+  getEiSubmissionState,
+  (eiSubmissions) => {
+    return (
+      !!eiSubmissions.selectedPayRun &&
+      eiSubmissions.selectedPayRun.initialStatus !== 'Not submitted'
+    );
+  }
+);
+
+export const getShouldDisplaySubmitToIrButton = (state) =>
   getHasSelectedPayRun(state) &&
-  getSelectedPayRun(state).status.label !== 'Not submitted';
+  (getSelectedPayRun(state).status.label === 'Not submitted' ||
+    (getSelectedPayRun(state).status.label === 'Rejected' &&
+      !getSelectedPayRun(state).submissionKey));
 
 export const getDetailsLoadingState = createSelector(
   getEiSubmissionState,

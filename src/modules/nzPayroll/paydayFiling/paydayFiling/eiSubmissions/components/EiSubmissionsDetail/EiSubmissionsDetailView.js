@@ -15,8 +15,8 @@ const EiSubmissionsDetailView = ({
   payRun,
   onViewPayRunReportClick,
   shouldDisplaySubmissionInfo,
-  showSubmitToIr = false,
-  onSubmitToIrClick = () => {},
+  showSubmitToIr,
+  onSubmitToIrClick,
   detailsAlertMessage,
   onDismissDetailsAlert,
 }) => {

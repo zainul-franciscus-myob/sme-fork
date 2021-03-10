@@ -2,6 +2,7 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYRUN_PDF_REPORT,
+  UPDATE_PAY_EVENT,
 } from '../PaydayFilingIntents';
 import { getBusinessId } from '../PaydayFilingSelectors';
 import {
@@ -51,6 +52,22 @@ const createEiSubmissionsIntegrator = (store, integration) => ({
     };
 
     integration.readFile({
+      intent,
+      urlParams,
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  updatePayEvent: ({ onSuccess, onFailure }) => {
+    const intent = UPDATE_PAY_EVENT;
+    const state = store.getState();
+    const urlParams = {
+      businessId: getBusinessId(state),
+      payRunId: getSelectedPayRunId(state),
+    };
+
+    integration.write({
       intent,
       urlParams,
       onSuccess,

@@ -4,6 +4,7 @@ import {
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   SET_DETAILS_ALERT,
   SET_DETAILS_LOADING_STATE,
+  SET_PAYRUN_SUBMITTING_STATUS,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
@@ -51,7 +52,7 @@ describe('eiSubmissionsReducer', () => {
   });
 
   describe('setEiSubmissions', () => {
-    it('setEiSubmissions should set ei submissions list', () => {
+    it('setEiSubmissions should set ei submissions list with initial status same as status', () => {
       const state = {};
       const payRuns = [
         {
@@ -71,7 +72,25 @@ describe('eiSubmissionsReducer', () => {
       ];
 
       const expected = {
-        eiSubmissions: { payRuns },
+        eiSubmissions: {
+          payRuns: [
+            {
+              id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+              payPeriod: '01/10/2020 - 15/10/2020',
+              payOnDate: '01/10/2020',
+              dateRecorded: '2020-10-01T07:18:14.174Z',
+              totalPaye: '3,400.00',
+              totalGross: '13,340.00',
+              employeeCount: 2,
+              status: 'Submitted',
+              initialStatus: 'Submitted',
+              username: 'payday@mailinator.com',
+              responseCode: '0',
+              submissionKey: '123456789',
+              detail: 'Submitted successfully',
+            },
+          ],
+        },
       };
 
       const action = {
@@ -326,6 +345,61 @@ describe('eiSubmissionsReducer', () => {
         const action = {
           intent: SET_DETAILS_ALERT,
           detailsAlertMessage,
+        };
+
+        expect(paydayFilingReducer(state, action)).toMatchObject(expected);
+      });
+    });
+
+    describe('setPayRunSubmittingStatus', () => {
+      it('should set isSubmitting to true', () => {
+        const payRuns = [
+          {
+            id: '123',
+            status: 'Rejected',
+            initialStatus: 'Rejected',
+          },
+          {
+            id: '567',
+            status: 'Rejected',
+            initialStatus: 'Rejected',
+          },
+        ];
+
+        const selectedPayRun = payRuns[0];
+
+        const state = {
+          eiSubmissions: {
+            payRuns,
+            selectedPayRun,
+          },
+        };
+
+        const expected = {
+          eiSubmissions: {
+            payRuns: [
+              {
+                id: '123',
+                status: 'Submitting',
+                initialStatus: 'Rejected',
+              },
+              {
+                id: '567',
+                status: 'Rejected',
+                initialStatus: 'Rejected',
+              },
+            ],
+            selectedPayRun: {
+              id: '123',
+              status: 'Submitting',
+              initialStatus: 'Rejected',
+            },
+          },
+        };
+
+        const action = {
+          intent: SET_PAYRUN_SUBMITTING_STATUS,
+          selectedPayRun,
         };
 
         expect(paydayFilingReducer(state, action)).toMatchObject(expected);

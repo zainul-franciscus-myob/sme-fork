@@ -4,6 +4,7 @@ import {
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   SET_DETAILS_ALERT,
   SET_DETAILS_LOADING_STATE,
+  SET_PAYRUN_SUBMITTING_STATUS,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
@@ -79,6 +80,13 @@ const createEiSubmissionsDispatcher = (store) => ({
     store.dispatch({
       intent: SET_DETAILS_ALERT,
       detailsAlertMessage: '',
+    });
+  },
+
+  setPayRunSubmittingStatus: (selectedPayRun) => {
+    store.dispatch({
+      intent: SET_PAYRUN_SUBMITTING_STATUS,
+      selectedPayRun,
     });
   },
 });

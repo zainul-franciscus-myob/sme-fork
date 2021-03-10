@@ -7,6 +7,7 @@ import {
   LOAD_PAYDAY_USER_SESSION,
   LOAD_PAYRUN_PDF_REPORT,
   UPDATE_ONBOARD_USER,
+  UPDATE_PAY_EVENT,
 } from '../PaydayFilingIntents';
 
 const PaydayFilingMapping = {
@@ -56,6 +57,12 @@ const PaydayFilingMapping = {
     method: 'GET',
     getPath: ({ businessId, payRunId }) =>
       `/${businessId}/nz-payroll/paydayFiling/payruns/${payRunId}/load_report`,
+  },
+
+  [UPDATE_PAY_EVENT]: {
+    method: 'PUT',
+    getPath: ({ businessId, payRunId }) =>
+      `/${businessId}/nz-payroll/paydayFiling/update_pay_event/${payRunId}`,
   },
 };
 

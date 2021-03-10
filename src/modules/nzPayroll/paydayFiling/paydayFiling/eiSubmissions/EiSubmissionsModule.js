@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { getSelectedPayrollYear } from './EiSubmissionsSelector';
+import {
+  getSelectedPayRun,
+  getSelectedPayrollYear,
+} from './EiSubmissionsSelector';
 import EiSubmissionsView from './components/EiSubmissionsView';
 import LoadingState from '../../../../../components/PageView/LoadingState';
 import createEiSubmissionsDispatcher from './createEiSubmissionsDispatcher';
@@ -91,6 +94,34 @@ export default class EiSubmissionsModule {
     });
   };
 
+  setPayRunSubmittingStatus = () => {
+    const selectedPayRun = getSelectedPayRun(this.store.getState());
+    this.dispatcher.setPayRunSubmittingStatus(selectedPayRun);
+  };
+
+  updatePayEvent = () => {
+    this.dispatcher.setDetailsLoadingState(LoadingState.LOADING);
+    this.dispatcher.setTableLoadingState(true);
+    this.clearDetailsAlert();
+
+    const onSuccess = () => {
+      this.setPayRunSubmittingStatus();
+      this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setTableLoadingState(false);
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setDetailsLoadingState(LoadingState.LOADING_SUCCESS);
+      this.dispatcher.setTableLoadingState(false);
+      this.dispatcher.setDetailsAlert(message);
+    };
+
+    this.integrator.updatePayEvent({
+      onSuccess,
+      onFailure,
+    });
+  };
+
   getView = () => (
     <EiSubmissionsView
       onPayrollYearChange={this.updatePayrollYearAndLoadEiSubmissions}
@@ -99,6 +130,7 @@ export default class EiSubmissionsModule {
       onClosePayRunDetails={this.clearSelectedPayRun}
       onViewPayRunReportClick={this.viewPdfReport}
       onDismissDetailsAlert={this.clearDetailsAlert}
+      onSubmitToIrClick={this.updatePayEvent}
     />
   );
 

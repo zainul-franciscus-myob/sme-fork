@@ -7,13 +7,18 @@ import {
   LOAD_FILTERED_EI_SUBMISSIONS,
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   LOAD_PAYRUN_PDF_REPORT,
+  SET_DETAILS_ALERT,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
+  UPDATE_PAY_EVENT,
 } from '../../PaydayFilingIntents';
 import { findButtonWithTestId } from '../../../../../../common/tests/selectors';
+import EiSubmissionErrorMessage from '../components/EiSubmissionsDetail/EiSubmissionErrorMessage';
+import EiSubmissionsDetailView from '../components/EiSubmissionsDetail/EiSubmissionsDetailView';
 import EiSubmissionsEmptyTable from '../components/EiSubmissionsEmptyTable';
 import EiSubmissionsFilter from '../components/EiSubmissionsFilter';
 import EiSubmissionsModule from '../EiSubmissionsModule';
+import EiSubmissionsStatusLabel from '../components/EiSubmissionsDetail/EiSubmissionsStatusLabel';
 import EiSubmissionsTable from '../components/EiSubmissionsTable';
 import EiSubmissionsTruncatedTable from '../components/EiSubmissionsTruncatedTable';
 import PageView from '../../../../../../components/PageView/PageView';
@@ -130,8 +135,6 @@ describe('EiSubmissionsModule', () => {
     it('should load initial ei submissions and payroll options when selected payroll year is missing', () => {
       store.setState({
         ...store.getState(),
-        region: 'nz',
-        businessId: '123',
         eiSubmissions: {
           selectedPayrollYear: '',
         },
@@ -150,8 +153,6 @@ describe('EiSubmissionsModule', () => {
     it(' should load filtered ei submissions when module runs and selected payroll year is present', () => {
       store.setState({
         ...store.getState(),
-        region: 'nz',
-        businessId: '123',
         eiSubmissions: {
           payRuns: [
             {
@@ -219,8 +220,6 @@ describe('EiSubmissionsModule', () => {
 
       store.setState({
         ...store.getState(),
-        region: 'nz',
-        businessId: '123',
         eiSubmissions: {
           payRuns: [payRun],
           selectedPayRun: payRun,
@@ -260,8 +259,6 @@ describe('EiSubmissionsModule', () => {
     it('should update selected payroll year and load filtered ei submissions when a different payroll year is selected', () => {
       store.setState({
         ...store.getState(),
-        region: 'nz',
-        businessId: '123',
         eiSubmissions: {
           selectedPayrollYear: '',
         },
@@ -286,12 +283,6 @@ describe('EiSubmissionsModule', () => {
   describe('View payrun pdf report', () => {
     it('should open pdf report in new tab', () => {
       // Arrange
-      store.setState({
-        ...store.getState(),
-        region: 'nz',
-        businessId: '123',
-      });
-
       const { wrapper } = constructEiSubmissionsModule();
 
       wrapper.find(Table.Row).first().simulate('click');
@@ -312,8 +303,6 @@ describe('EiSubmissionsModule', () => {
     it('should load filtered ei submissions when refresh button is clicked', () => {
       store.setState({
         ...store.getState(),
-        region: 'nz',
-        businessId: '123',
         eiSubmissions: {
           selectedPayrollYear: '',
         },
@@ -324,6 +313,103 @@ describe('EiSubmissionsModule', () => {
 
       expect(integration.getRequests()).toContainEqual(
         expect.objectContaining({ intent: LOAD_FILTERED_EI_SUBMISSIONS })
+      );
+    });
+  });
+
+  describe('Submit to Inland Revenue button', () => {
+    const payRun = {
+      id: '1234d3e7-4c5b-4a50-a114-3e652c123456',
+      payPeriod: '01/10/2020 - 15/10/2020',
+      payOnDate: '01/10/2020',
+      dateRecorded: '2020-10-01T07:18:14.174Z',
+      totalPaye: '3,400.00',
+      totalGross: '13,340.00',
+      employeeCount: 2,
+      status: 'Rejected',
+      username: 'payday@mailinator.com',
+      responseCode: '0',
+      submissionKey: '',
+      detail: 'Unauthorised delegation',
+    };
+    const eiSubmissions = {
+      payRuns: [payRun],
+      selectedPayRun: payRun,
+      payrollYears: [
+        {
+          label: '2020/21',
+          year: '2021',
+          startDate: '2020-04-01',
+          endDate: '2021-03-31',
+        },
+      ],
+      selectedPayrollYear: '2021',
+    };
+
+    it('should update the selected pay run status to submitting', () => {
+      const { wrapper } = constructEiSubmissionsModule();
+
+      store.setState({
+        ...store.getState(),
+        eiSubmissions,
+      });
+
+      wrapper.update();
+      wrapper.find(Table.Row).first().simulate('click');
+      findButtonWithTestId(wrapper, 'submitToIrTestId').simulate('click');
+
+      const detailStatus = wrapper
+        .find(EiSubmissionsDetailView)
+        .find(EiSubmissionsStatusLabel);
+      const listStatus = wrapper.find(Table.Row).first().find('Label');
+
+      expect(detailStatus.text()).toEqual('Submitting');
+      expect(listStatus.text()).toEqual('Submitting');
+    });
+
+    it('should send selected pay run to ir', () => {
+      const { wrapper } = constructEiSubmissionsModule();
+
+      store.setState({
+        ...store.getState(),
+        eiSubmissions,
+      });
+
+      wrapper.find(Table.Row).first().simulate('click');
+      findButtonWithTestId(wrapper, 'submitToIrTestId').simulate('click');
+
+      expect(integration.getRequests()).toContainEqual(
+        expect.objectContaining({ intent: UPDATE_PAY_EVENT })
+      );
+    });
+
+    it('should render an error message when integration is unsuccessful', () => {
+      const { wrapper } = constructEiSubmissionsModule();
+
+      store.setState({
+        ...store.getState(),
+        eiSubmissions,
+      });
+
+      const message = 'this failed!';
+      integration.mapFailure(UPDATE_PAY_EVENT, { message });
+
+      wrapper.find(Table.Row).first().simulate('click');
+      findButtonWithTestId(wrapper, 'submitToIrTestId').simulate('click');
+
+      const detailError = wrapper
+        .find(EiSubmissionsDetailView)
+        .find(EiSubmissionErrorMessage);
+
+      expect(detailError.text()).toContain(message);
+
+      expect(store.getActions()).toContainEqual({
+        intent: SET_DETAILS_ALERT,
+        detailsAlertMessage: message,
+      });
+
+      expect(integration.getRequests()).toContainEqual(
+        expect.objectContaining({ intent: UPDATE_PAY_EVENT })
       );
     });
   });

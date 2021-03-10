@@ -7,6 +7,7 @@ import {
   LOAD_PAYDAY_USER_SESSION,
   LOAD_PAYRUN_PDF_REPORT,
   UPDATE_ONBOARD_USER,
+  UPDATE_PAY_EVENT,
 } from '../PaydayFilingIntents';
 import loadBusinessOnboardedResponse from './data/loadBusinessOnboardedResponse.json';
 import loadFilteredEiSubmissions from './data/loadFilteredEiSubmissions.json';
@@ -38,6 +39,7 @@ const PaydayFilingMapping = {
     onSuccess(loadFilteredEiSubmissions),
   [LOAD_PAYRUN_PDF_REPORT]: ({ onSuccess }) =>
     onSuccess(new Blob([], { type: 'application/pdf' })),
+  [UPDATE_PAY_EVENT]: ({ onSuccess }) => onSuccess({}),
 };
 
 export default PaydayFilingMapping;

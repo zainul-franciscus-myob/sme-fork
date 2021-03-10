@@ -12,6 +12,7 @@ import {
   getSelectedPayRun,
   getSelectedPayrollYear,
   getShouldDisplaySubmissionInfo,
+  getShouldDisplaySubmitToIrButton,
 } from '../EiSubmissionsSelector';
 import { getLoadingState } from '../../PaydayFilingSelectors';
 import EiSubmissionsDetailView from './EiSubmissionsDetail/EiSubmissionsDetailView';
@@ -38,6 +39,8 @@ const EiSubmissionsView = ({
   detailsLoadingState,
   detailsAlertMessage,
   onDismissDetailsAlert,
+  showSubmitToIr,
+  onSubmitToIrClick,
 }) => {
   const tableConfig = {
     payPeriod: {
@@ -102,6 +105,8 @@ const EiSubmissionsView = ({
       loadingState={detailsLoadingState}
       detailsAlertMessage={detailsAlertMessage}
       onDismissDetailsAlert={onDismissDetailsAlert}
+      showSubmitToIr={showSubmitToIr}
+      onSubmitToIrClick={onSubmitToIrClick}
     />
   );
 
@@ -131,6 +136,7 @@ const mapStateToProps = (state) => ({
   shouldDisplaySubmissionInfo: getShouldDisplaySubmissionInfo(state),
   detailsLoadingState: getDetailsLoadingState(state),
   detailsAlertMessage: getDetailsAlertMessage(state),
+  showSubmitToIr: getShouldDisplaySubmitToIrButton(state),
 });
 
 export default connect(mapStateToProps)(EiSubmissionsView);

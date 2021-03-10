@@ -33,3 +33,7 @@ export const CLEAR_EI_SUBMISSIONS_LIST = Symbol('Clear ei submissions list');
 export const LOAD_FILTERED_EI_SUBMISSIONS = Symbol(
   'Load filtered ei submissions'
 );
+export const UPDATE_PAY_EVENT = Symbol('Update pay event');
+export const SET_PAYRUN_SUBMITTING_STATUS = Symbol(
+  'Set payrun submitting status'
+);

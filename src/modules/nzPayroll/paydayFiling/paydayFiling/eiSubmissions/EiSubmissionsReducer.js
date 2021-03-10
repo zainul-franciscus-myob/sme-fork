@@ -4,6 +4,7 @@ import {
   LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS,
   SET_DETAILS_ALERT,
   SET_DETAILS_LOADING_STATE,
+  SET_PAYRUN_SUBMITTING_STATUS,
   SET_SELECTED_PAYROLL_YEAR,
   SET_SELECTED_PAYRUN,
   SET_TABLE_LOADING_STATE,
@@ -32,14 +33,20 @@ const setIsTableLoading = (state, { isTableLoading }) => ({
 
 const setInitialEiSubmissionsAndPayrollOptions = (state, { response }) => ({
   ...state,
-  payRuns: response.payRuns,
+  payRuns: response.payRuns.map((payRun) => ({
+    ...payRun,
+    initialStatus: payRun.status,
+  })),
   payrollYears: response.payrollYears,
   selectedPayrollYear: response.selectedPayrollYear,
 });
 
 const setEiSubmissions = (state, { response }) => ({
   ...state,
-  payRuns: response.payRuns,
+  payRuns: response.payRuns.map((payRun) => ({
+    ...payRun,
+    initialStatus: payRun.status,
+  })),
 });
 
 const clearEiSubmissions = (state) => ({
@@ -65,6 +72,18 @@ const setDetailsAlert = (state, { detailsAlertMessage }) => ({
   detailsAlertMessage,
 });
 
+const setPayRunSubmittingStatus = (state, { selectedPayRun }) => ({
+  ...state,
+  payRuns: state.payRuns.map((payRun) => ({
+    ...payRun,
+    status: payRun.id === selectedPayRun.id ? 'Submitting' : payRun.status,
+  })),
+  selectedPayRun: {
+    ...state.selectedPayRun,
+    status: 'Submitting',
+  },
+});
+
 export const eiSubmissionsHandlers = {
   [SET_SELECTED_PAYROLL_YEAR]: setSelectedPayrollYear,
   [LOAD_INITIAL_EI_SUBMISSIONS_AND_PAYROLL_OPTIONS]: setInitialEiSubmissionsAndPayrollOptions,
@@ -74,4 +93,5 @@ export const eiSubmissionsHandlers = {
   [SET_SELECTED_PAYRUN]: setSelectedPayRun,
   [SET_DETAILS_LOADING_STATE]: setDetailsLoadingState,
   [SET_DETAILS_ALERT]: setDetailsAlert,
+  [SET_PAYRUN_SUBMITTING_STATUS]: setPayRunSubmittingStatus,
 };
