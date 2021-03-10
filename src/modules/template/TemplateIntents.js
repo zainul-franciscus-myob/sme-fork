@@ -16,3 +16,6 @@ export const SET_PAY_DIRECT_LOADING_STATE = Symbol(
 export const SET_ALERT = Symbol('Set alert');
 export const SET_MODAL_TYPE = Symbol('Set modal type');
 export const SET_TEMP_FILE = Symbol('Set temp file');
+export const SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE = Symbol(
+  'Set isCustomizedForNonGstEnabled feature toggle'
+);

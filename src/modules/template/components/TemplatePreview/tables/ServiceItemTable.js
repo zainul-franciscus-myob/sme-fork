@@ -3,7 +3,7 @@ import React from 'react';
 import Table from './Table';
 import getRegionToDialectText from '../../../../../dialect/getRegionToDialectText';
 
-const ServiceItemTable = ({ region }) => {
+const ServiceItemTable = ({ region, shouldShowTaxCodeAndAmount }) => {
   const columns = [
     { key: 'itemId', name: 'Item ID', width: '70px' },
     { key: 'description', name: 'Description' },
@@ -41,6 +41,7 @@ const ServiceItemTable = ({ region }) => {
     },
   ];
 
+  const taxCode = shouldShowTaxCodeAndAmount ? 'GST' : 'N-T';
   const items = [
     {
       itemId: 'IT008174',
@@ -49,7 +50,7 @@ const ServiceItemTable = ({ region }) => {
       quantity: '2',
       unitPrice: '16.83',
       discount: '0.00',
-      taxCode: 'GST',
+      taxCode,
       amount: '33.66',
     },
     {
@@ -59,7 +60,7 @@ const ServiceItemTable = ({ region }) => {
       quantity: '1',
       unitPrice: '48.642',
       discount: '0.00',
-      taxCode: 'GST',
+      taxCode,
       amount: '48.64',
     },
     {
@@ -69,7 +70,7 @@ const ServiceItemTable = ({ region }) => {
       quantity: '2',
       unitPrice: '7.876',
       discount: '0.00',
-      taxCode: 'GST',
+      taxCode,
       amount: '15.75',
     },
   ];

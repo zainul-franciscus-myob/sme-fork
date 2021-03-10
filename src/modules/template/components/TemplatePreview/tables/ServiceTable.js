@@ -3,7 +3,7 @@ import React from 'react';
 import Table from './Table';
 import getRegionToDialectText from '../../../../../dialect/getRegionToDialectText';
 
-const ServiceTable = ({ region }) => {
+const ServiceTable = ({ region, shouldShowTaxCodeAndAmount }) => {
   const columns = [
     { key: 'description', name: 'Description' },
     {
@@ -19,21 +19,21 @@ const ServiceTable = ({ region }) => {
       description: getRegionToDialectText(region)('Including tax'),
     },
   ];
-
+  const taxCode = shouldShowTaxCodeAndAmount ? 'GST' : 'N-T';
   const items = [
     {
       description: 'Dog walking',
-      taxCode: 'GST',
+      taxCode,
       amount: '40.00',
     },
     {
       description: 'Deluxe grooming package',
-      taxCode: 'GST',
+      taxCode,
       amount: '135.00',
     },
     {
       description: 'Organic shampoo option',
-      taxCode: 'GST',
+      taxCode,
       amount: '15.00',
     },
   ];

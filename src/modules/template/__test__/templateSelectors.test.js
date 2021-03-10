@@ -3,6 +3,7 @@ import {
   getBusinessDetailsOptions,
   getBusinessDetailsOptionsForDisplay,
   getSavePayload,
+  getShouldShowTaxCodeAndAmount,
 } from '../templateSelectors';
 
 describe('templateSelectors', () => {
@@ -266,6 +267,43 @@ describe('templateSelectors', () => {
       };
 
       expect(actual).toEqual(expected);
+    });
+  });
+  describe('getShouldShowTaxCodeAndAmount', () => {
+    it('should be true when toggle is off', () => {
+      const state = {
+        gstSettings: {
+          reportingFrequency: 'NotRegistered',
+        },
+        isCustomizedForNonGstEnabled: false,
+      };
+
+      const actual = getShouldShowTaxCodeAndAmount(state);
+      expect(actual).toEqual(true);
+    });
+
+    it('should be false when toggle is on and NotRegistered', () => {
+      const state = {
+        gstSettings: {
+          reportingFrequency: 'NotRegistered',
+        },
+        isCustomizedForNonGstEnabled: true,
+      };
+
+      const actual = getShouldShowTaxCodeAndAmount(state);
+      expect(actual).toEqual(false);
+    });
+
+    it('should be true when toggle is on and Registered', () => {
+      const state = {
+        gstSettings: {
+          reportingFrequency: 'Monthly',
+        },
+        isCustomizedForNonGstEnabled: true,
+      };
+
+      const actual = getShouldShowTaxCodeAndAmount(state);
+      expect(actual).toEqual(true);
     });
   });
 });

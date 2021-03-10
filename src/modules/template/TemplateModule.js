@@ -20,12 +20,14 @@ import createTemplateIntegrator from './createTemplateIntegrator';
 import templateReducer from './templateReducer';
 
 class TemplateModule {
-  constructor({ integration, setRootView, pushMessage }) {
+  constructor({ integration, setRootView, pushMessage, featureToggles }) {
     this.store = new Store(templateReducer);
     this.dispatcher = createTemplateDispatcher(this.store);
     this.integrator = createTemplateIntegrator(this.store, integration);
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
+    this.isCustomizedForNonGstEnabled =
+      featureToggles?.isCustomizedForNonGstEnabled;
   }
 
   unsubscribeFromStore = () => this.store.unsubscribeAll();
@@ -70,7 +72,9 @@ class TemplateModule {
 
   run = (context) => {
     this.setInitialState(context);
-
+    this.dispatcher.setIsCustomizedForNonGstFeatureToggle(
+      this.isCustomizedForNonGstEnabled
+    );
     this.render();
 
     this.loadTemplate(context.templateName);
@@ -87,7 +91,6 @@ class TemplateModule {
       return;
     }
     this.dispatcher.setLoadingState(true);
-
     const onSuccess = (payload) => {
       this.dispatcher.setLoadingState(false);
       this.dispatcher.loadTemplate(payload);

@@ -23,7 +23,8 @@
     "abn": "80 000 000 001",
     "gstNumber": "123 456 789"
   },
-  "saleLayout": "Service",
+  "saleLayout": "ItemAndService",
   "isAllowPaymentByDirectDeposit": true,
-  "isAllowPaymentByCheque": true
+  "isAllowPaymentByCheque": true,
+  "reportingFrequency": "NotRegistered"
 }

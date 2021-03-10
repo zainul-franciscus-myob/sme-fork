@@ -5,6 +5,7 @@ import {
   LOAD_TEMPLATE,
   REMOVE_TEMPLATE_IMAGE,
   SET_ALERT,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
@@ -46,8 +47,13 @@ describe('TemplateModule', () => {
     const setRootView = () => {};
     const store = new TestStore(templateReducer);
     const integration = new TestIntegration();
+    const featureToggles = { isCustomizedForNonGstEnabled: true };
 
-    const module = new TemplateModule({ integration, setRootView });
+    const module = new TemplateModule({
+      integration,
+      setRootView,
+      featureToggles,
+    });
     module.store = store;
 
     module.dispatcher = createTemplateDispatcher(store);
@@ -143,6 +149,10 @@ describe('TemplateModule', () => {
                 },
               },
               {
+                intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+                isCustomizedForNonGstEnabled: true,
+              },
+              {
                 intent: SET_LOADING_STATE,
                 isLoading: true,
               },
@@ -195,6 +205,10 @@ describe('TemplateModule', () => {
                 },
               },
               {
+                intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+                isCustomizedForNonGstEnabled: true,
+              },
+              {
                 intent: SET_LOADING_STATE,
                 isLoading: true,
               },
@@ -241,6 +255,10 @@ describe('TemplateModule', () => {
                 },
               },
               {
+                intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+                isCustomizedForNonGstEnabled: true,
+              },
+              {
                 intent: SET_LOADING_STATE,
                 isLoading: true,
               },
@@ -277,6 +295,10 @@ describe('TemplateModule', () => {
                   templateName: test.templateName,
                   region: 'nz',
                 },
+              },
+              {
+                intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+                isCustomizedForNonGstEnabled: true,
               },
               {
                 intent: SET_LOADING_STATE,

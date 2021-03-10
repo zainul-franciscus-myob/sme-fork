@@ -288,3 +288,13 @@ export const getLoadPayDirectUrlParams = createSelector(
 
 export const getGstRegistered = (state) =>
   state.gstSettings.reportingFrequency !== 'NotRegistered';
+
+export const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
+
+export const getShouldShowTaxCodeAndAmount = createSelector(
+  getGstRegistered,
+  getIsCustomizedForNonGstEnabled,
+  (gstRegistered, isCustomizedForNonGstEnabled) =>
+    !isCustomizedForNonGstEnabled || gstRegistered
+);

@@ -46,30 +46,63 @@ const getDocInfoForPreviewType = (type, gstRegistered) => {
   }
 };
 
-const getTemplateTable = (previewType, saleLayout, region) => {
+const getTemplateTable = (
+  previewType,
+  saleLayout,
+  region,
+  shouldShowTaxCodeAndAmount
+) => {
   if (previewType === PreviewType.Statement) {
     return <StatementTable />;
   }
   if (saleLayout === SaleLayout.ItemAndService) {
-    return <ServiceItemTable region={region} />;
+    return (
+      <ServiceItemTable
+        region={region}
+        shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
+      />
+    );
   }
-  return <ServiceTable region={region} />;
+  return (
+    <ServiceTable
+      region={region}
+      shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
+    />
+  );
 };
 
-const getTemplateTableSummary = (previewType, saleLayout, region) => {
+const getTemplateTableSummary = (
+  previewType,
+  saleLayout,
+  region,
+  shouldShowTaxCodeAndAmount
+) => {
   switch (previewType) {
     case PreviewType.Statement:
       return <StatementTableSummary />;
     case PreviewType.Quote:
       return saleLayout === SaleLayout.Service ? (
-        <QuoteServiceSummary region={region} />
+        <QuoteServiceSummary
+          region={region}
+          shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
+        />
       ) : (
-        <QuoteServiceItemSummary region={region} />
+        <QuoteServiceItemSummary
+          region={region}
+          shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
+        />
       );
     case PreviewType.Invoice:
     default:
+      // eslint-disable-next-line no-case-declarations
+      const { subtotal, tax, total } = shouldShowTaxCodeAndAmount
+        ? { subtotal: '$89.14', tax: '$8.91', total: '$98.05' }
+        : { subtotal: '$98.05', tax: '$0.00', total: '$98.05' };
       return saleLayout === SaleLayout.Service ? (
-        <InvoiceServiceSummary region={region} />
+        <InvoiceServiceSummary
+          region={region}
+          shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
+        />
       ) : (
         <InvoiceServiceItemSummary
           region={region}
@@ -84,9 +117,9 @@ const getTemplateTableSummary = (previewType, saleLayout, region) => {
               </p>
             </>
           }
-          subtotalAmount="$89.14"
-          taxAmount="$8.91"
-          totalAmount="$98.05"
+          subtotalAmount={subtotal}
+          taxAmount={tax}
+          totalAmount={total}
           totalPaid="$0.00"
           balanceDue="$98.05"
         />
@@ -196,6 +229,7 @@ const TemplatePreview = ({
   isAllowPaymentByCheque,
   gstRegistered,
   gstNumber,
+  shouldShowTaxCodeAndAmount,
 }) => (
   <div className={styles.wrapper}>
     <div>
@@ -221,8 +255,18 @@ const TemplatePreview = ({
         useAddressEnvelopePosition={useAddressEnvelopePosition}
       />
       <Separator featureColour={featureColour} />
-      {getTemplateTable(previewType, saleLayout, region)}
-      {getTemplateTableSummary(previewType, saleLayout, region)}
+      {getTemplateTable(
+        previewType,
+        saleLayout,
+        region,
+        shouldShowTaxCodeAndAmount
+      )}
+      {getTemplateTableSummary(
+        previewType,
+        saleLayout,
+        region,
+        shouldShowTaxCodeAndAmount
+      )}
     </div>
     <div>
       {getPaymentMethod({

@@ -23,6 +23,7 @@ import {
   getPreviewType,
   getRegion,
   getSaleLayout,
+  getShouldShowTaxCodeAndAmount,
   getUseAddressEnvelopePosition,
 } from '../templateSelectors';
 import PageView from '../../../components/PageView/PageView';
@@ -75,6 +76,7 @@ const TemplateView = ({
   isAllowPaymentByDirectDeposit,
   isAllowPaymentByCheque,
   gstRegistered,
+  shouldShowTaxCodeAndAmount,
 }) => {
   const pageTitle = isCreating ? 'Create template' : 'Edit template';
   const pageHead = (
@@ -116,6 +118,7 @@ const TemplateView = ({
       isAllowPaymentByCheque={isAllowPaymentByCheque}
       gstRegistered={gstRegistered}
       gstNumber={gstNumber}
+      shouldShowTaxCodeAndAmount={shouldShowTaxCodeAndAmount}
     />
   );
 
@@ -183,6 +186,7 @@ const mapStateToProps = (state) => ({
   isAllowPaymentByDirectDeposit: getIsAllowPaymentByDirectDeposit(state),
   isAllowPaymentByCheque: getIsAllowPaymentByCheque(state),
   gstRegistered: getGstRegistered(state),
+  shouldShowTaxCodeAndAmount: getShouldShowTaxCodeAndAmount(state),
 });
 
 export default connect(mapStateToProps)(TemplateView);

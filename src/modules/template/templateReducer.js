@@ -9,6 +9,7 @@ import {
   LOAD_TEMPLATE,
   REMOVE_TEMPLATE_IMAGE,
   SET_ALERT,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
@@ -75,6 +76,7 @@ const getDefaultState = () => ({
     gstNumber: true,
     isDefault: false,
   },
+  isCustomizedForNonGstEnabled: true,
 });
 
 const resetState = () => ({ ...getDefaultState() });
@@ -189,6 +191,14 @@ const setModalType = (state, { modalType }) => ({
   modalType,
 });
 
+const setIsCustomizedForNonGstFeatureToggle = (
+  state,
+  { isCustomizedForNonGstEnabled }
+) => ({
+  ...state,
+  isCustomizedForNonGstEnabled,
+});
+
 const handlers = {
   [LOAD_NEW_TEMPLATE]: loadNewTemplate,
   [SET_INITIAL_STATE]: setInitialState,
@@ -204,6 +214,7 @@ const handlers = {
   [SET_TEMP_FILE]: setTempFile,
   [UPDATE_TEMPLATE_IMAGE]: updateTemplateImage,
   [REMOVE_TEMPLATE_IMAGE]: removeTemplateImage,
+  [SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE]: setIsCustomizedForNonGstFeatureToggle,
 };
 const templateReducer = createReducer(getDefaultState(), handlers);
 

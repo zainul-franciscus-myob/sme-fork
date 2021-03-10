@@ -4,6 +4,7 @@ import {
   LOAD_TEMPLATE,
   REMOVE_TEMPLATE_IMAGE,
   SET_ALERT,
+  SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
   SET_LOADING_STATE,
   SET_MODAL_TYPE,
   SET_PAY_DIRECT_LOADING_STATE,
@@ -122,6 +123,13 @@ const createTemplateDispatcher = (store) => ({
     store.dispatch({
       intent: SET_MODAL_TYPE,
       modalType,
+    });
+  },
+
+  setIsCustomizedForNonGstFeatureToggle: (isCustomizedForNonGstEnabled) => {
+    store.dispatch({
+      intent: SET_CUSTOMIZED_FOR_NONGST_FEATURE_TOGGLE,
+      isCustomizedForNonGstEnabled,
     });
   },
 });
