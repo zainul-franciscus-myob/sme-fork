@@ -650,9 +650,14 @@ describe('BillSelectors', () => {
       [false, false, '4', true],
     ])(
       'when isCustomizedForNonGstEnabled is %s and isRegisteredForGst is %s and taxCodeId is %s, should return %s',
-      (isNonGSTEnabled, isRegisteredForGst, taxCodeId, expected) => {
+      (
+        isCustomizedForNonGstEnabled,
+        isRegisteredForGst,
+        taxCodeId,
+        expected
+      ) => {
         const state = {
-          isNonGSTEnabled,
+          isCustomizedForNonGstEnabled,
           isRegisteredForGst,
           bill: {
             lines: [

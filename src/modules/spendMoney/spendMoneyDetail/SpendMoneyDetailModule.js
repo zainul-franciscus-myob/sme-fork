@@ -1055,11 +1055,11 @@ export default class SpendMoneyDetailModule {
       isFeatureCompleted: this.featureToggles.isRecurringTransactionEnabled,
       isEarlyAccess: isToggleOn(FeatureToggles.RecurringTransactions),
     });
-    const isNonGSTEnabled = this.featureToggles.isCustomizedForNonGstEnabled;
+    const { isCustomizedForNonGstEnabled } = this.featureToggles;
 
     this.dispatcher.setInitialState({
       isRecurringTransactionEnabled,
-      isNonGSTEnabled,
+      isCustomizedForNonGstEnabled,
       ...context,
     });
     setupHotKeys(keyMap, this.handlers);

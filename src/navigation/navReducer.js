@@ -33,6 +33,7 @@ const getDefaultState = () => ({
   trialEndDate: undefined,
   urls: {},
   userEmail: '',
+  isCustomizedForNonGstEnabled: false,
 });
 
 const setLoadingState = (state, { isLoading }) => ({
@@ -106,9 +107,9 @@ const setMoveToMyobFeatureToggle = (state, { isMoveToMyobEnabled }) => ({
   isMoveToMyobEnabled,
 });
 
-const setIsNonGSTFeatureToggle = (state, { isNonGSTEnabled }) => ({
+const setIsNonGSTFeatureToggle = (state, { isCustomizedForNonGstEnabled }) => ({
   ...state,
-  isNonGSTEnabled,
+  isCustomizedForNonGstEnabled,
 });
 
 const setAccountBillingMenuTextFeatureToggle = (

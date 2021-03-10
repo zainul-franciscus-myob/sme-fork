@@ -65,7 +65,8 @@ export default class NavigationModule {
     this.navigateTo = navigateTo;
     this.shouldDisplayAccountBillingMenuText =
       featureToggles?.shouldDisplayAccountBillingMenuText;
-    this.isNonGSTEnabled = featureToggles?.isNonGSTEnabled;
+    this.isCustomizedForNonGstEnabled =
+      featureToggles?.isCustomizedForNonGstEnabled;
   }
 
   setLoadingState = (isLoading) => {
@@ -357,7 +358,7 @@ export default class NavigationModule {
   setIsNonGSTFeatureToggle = () => {
     this.store.dispatch({
       intent: SET_IS_NON_GST_FEATURE_TOGGLE,
-      isNonGSTEnabled: this.isNonGSTEnabled,
+      isCustomizedForNonGstEnabled: this.isCustomizedForNonGstEnabled,
     });
   };
 

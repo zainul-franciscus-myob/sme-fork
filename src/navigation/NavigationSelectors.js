@@ -407,22 +407,30 @@ export const getMoveToMYOBUrl = createSelector(
 
 export const getIsGSTUser = (state) => state.isGSTUser;
 
-export const getIsNonGSTEnabled = (state) => state.isNonGSTEnabled;
+export const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
 
 export const getShouldDisplayAccountingTaxMenuItem = createSelector(
   getIsGSTUser,
-  getIsNonGSTEnabled,
-  (isGSTUser, isNonGSTEnabled) => (isNonGSTEnabled ? isGSTUser : true)
+  getIsCustomizedForNonGstEnabled,
+  (isGSTUser, isCustomizedForNonGstEnabled) =>
+    isCustomizedForNonGstEnabled ? isGSTUser : true
 );
 
 export const getShouldDisplayOnlineTaxMenuItem = createSelector(
   getIsLoading,
   getIsGSTUser,
-  getIsNonGSTEnabled,
+  getIsCustomizedForNonGstEnabled,
   getRegion,
   getIsNzPayrollOnly,
-  (isLoading, isGSTUser, isNonGSTEnabled, region, isNzPayrollOnly) =>
+  (
+    isLoading,
+    isGSTUser,
+    isCustomizedForNonGstEnabled,
+    region,
+    isNzPayrollOnly
+  ) =>
     !isNzPayrollOnly &&
     !isLoading &&
-    (isNonGSTEnabled ? region === Region.au || isGSTUser : true)
+    (isCustomizedForNonGstEnabled ? region === Region.au || isGSTUser : true)
 );

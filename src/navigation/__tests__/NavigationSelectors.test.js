@@ -431,36 +431,36 @@ describe('NavigationSelectors', () => {
   });
 
   describe('getShouldDisplayAccountingTaxMenuItem', () => {
-    it('true when isNonGSTEnabled is false and isGSTUser is true', () => {
+    it('true when isCustomizedForNonGstEnabled is false and isGSTUser is true', () => {
       const state = {
-        isNonGSTEnabled: false,
+        isCustomizedForNonGstEnabled: false,
         isGSTUser: true,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('true when isNonGSTEnabled is false and isGSTUser is false', () => {
+    it('true when isCustomizedForNonGstEnabled is false and isGSTUser is false', () => {
       const state = {
-        isNonGSTEnabled: false,
+        isCustomizedForNonGstEnabled: false,
         isGSTUser: false,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('true when isNonGSTEnabled is true and isGSTUser is true', () => {
+    it('true when isCustomizedForNonGstEnabled is true and isGSTUser is true', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: true,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
       expect(actual).toEqual(true);
     });
 
-    it('false when isNonGSTEnabled is true and isGSTUser is false', () => {
+    it('false when isCustomizedForNonGstEnabled is true and isGSTUser is false', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: false,
       };
       const actual = getShouldDisplayAccountingTaxMenuItem(state);
@@ -471,7 +471,7 @@ describe('NavigationSelectors', () => {
   describe('getShouldDisplayOnlineTaxMenu', () => {
     it('false when getIsNzPayrollOnly is true', () => {
       const state = {
-        isNonGSTEnabled: false,
+        isCustomizedForNonGstEnabled: false,
         isGSTUser: true,
         routeParams: {
           region: 'nz',
@@ -486,9 +486,9 @@ describe('NavigationSelectors', () => {
       expect(actual).toEqual(false);
     });
 
-    it('true when isNonGSTEnabled toggle is off', () => {
+    it('true when isCustomizedForNonGstEnabled toggle is off', () => {
       const state = {
-        isNonGSTEnabled: false,
+        isCustomizedForNonGstEnabled: false,
         isGSTUser: true,
         routeParams: {
           region: 'au',
@@ -503,7 +503,7 @@ describe('NavigationSelectors', () => {
 
     it('false when is loading', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: true,
         routeParams: {
           region: 'au',
@@ -518,7 +518,7 @@ describe('NavigationSelectors', () => {
 
     it('true when region is au with gst user', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: true,
         routeParams: {
           region: 'au',
@@ -533,7 +533,7 @@ describe('NavigationSelectors', () => {
 
     it('true when region is nz with gst user', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: true,
         routeParams: {
           region: 'nz',
@@ -548,7 +548,7 @@ describe('NavigationSelectors', () => {
 
     it('true when region is au with non-gst user', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: false,
         routeParams: {
           region: 'au',
@@ -563,7 +563,7 @@ describe('NavigationSelectors', () => {
 
     it('false when region is nz with non-gst user', () => {
       const state = {
-        isNonGSTEnabled: true,
+        isCustomizedForNonGstEnabled: true,
         isGSTUser: false,
         routeParams: {
           region: 'nz',

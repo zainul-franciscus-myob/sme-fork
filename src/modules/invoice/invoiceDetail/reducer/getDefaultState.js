@@ -124,7 +124,7 @@ const getDefaultState = () => ({
   isRecurringTransactionEnabled: false,
   isSendingEmail: false,
   hasUpdatedPaymentSettings: false,
-  isNonGSTEnabled: false,
+  isCustomizedForNonGstEnabled: false,
   isRegisteredForGst: false,
 });
 

@@ -129,7 +129,7 @@ const getDefaultState = () => ({
   contactType: undefined,
   viewedAccountToolTip: false,
   isRecurringTransactionEnabled: false,
-  isNonGSTEnabled: false,
+  isCustomizedForNonGstEnabled: false,
   isRegisteredForGst: false,
 });
 

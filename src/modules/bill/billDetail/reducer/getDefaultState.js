@@ -140,6 +140,6 @@ export const getDefaultState = () => ({
   },
   viewedAccountToolTip: false,
   isRecurringTransactionEnabled: false,
-  isNonGSTEnabled: false,
+  isCustomizedForNonGstEnabled: false,
   isRegisteredForGst: false,
 });

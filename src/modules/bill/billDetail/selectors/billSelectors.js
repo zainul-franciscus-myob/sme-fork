@@ -443,7 +443,8 @@ export const getUniqueSelectedJobIds = (state) => {
   return [];
 };
 
-export const getIsNonGSTEnabled = (state) => state.isNonGSTEnabled;
+export const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
 
 export const getIsRegisteredForGST = (state) => state.isRegisteredForGst;
 
@@ -451,9 +452,9 @@ export const getHasTaxCodeOtherThanNT = (state) =>
   state.bill.lines.some((line) => line.taxCodeId && line.taxCodeId !== '4');
 
 export const getIsShowIsTaxInclusiveAndTaxCodeColumn = createSelector(
-  getIsNonGSTEnabled,
+  getIsCustomizedForNonGstEnabled,
   getIsRegisteredForGST,
   getHasTaxCodeOtherThanNT,
-  (isNonGSTEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
-    !isNonGSTEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+  (isCustomizedForNonGstEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isCustomizedForNonGstEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
 );
