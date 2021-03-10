@@ -143,6 +143,9 @@ export const getFinancialYearDateRange = createSelector(
   }
 );
 
+export const logSearchData = (event) => {
+  console.log(event);
+};
 export const getCannotRecordTransactionBeforeDate = (state) => {
   const financialYearDateFormat = 'd MMM yyyy';
   const { openingBalanceMonth, openingBalanceYear } = state.businessDetails;
