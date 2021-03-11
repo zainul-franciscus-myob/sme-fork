@@ -1,12 +1,7 @@
 import EmployeePayDetailModule from './employeePayDetail/EmployeePayDetailModule';
 import RouteName from '../../router/RouteName';
 
-const getEmployeePayRoutes = ({
-  integration,
-  setRootView,
-  pushMessage,
-  featureToggles,
-}) => {
+const getEmployeePayRoutes = ({ integration, setRootView, pushMessage }) => {
   const routes = [
     {
       name: RouteName.EMPLOYEE_PAY_DETAIL,
@@ -17,7 +12,6 @@ const getEmployeePayRoutes = ({
         integration,
         setRootView,
         pushMessage,
-        featureToggles,
       }),
     },
   ];

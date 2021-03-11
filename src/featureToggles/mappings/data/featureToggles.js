@@ -10,7 +10,6 @@ export default {
   isMoveToMyobEnabled: true,
   isJobKeeperTabEnabled: true,
   isJobKeeperReportingEnabled: true,
-  isPayrollReversibleEnabled: true,
   isJobKeeper2Enabled: true,
   isJobKeeperCalculatorEnabled: true,
   isJobKeeperTierSuggestionEnabled: true,

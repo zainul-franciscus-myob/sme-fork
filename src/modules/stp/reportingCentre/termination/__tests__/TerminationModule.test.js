@@ -103,20 +103,12 @@ describe('TerminationModule', () => {
   };
 
   describe('ETP page', () => {
-    it('should not render etp link and show tooltip when the reversible feature is on', () => {
-      const wrapper = setupModule({}, { isPayrollReversibleEnabled: true });
+    it('should not render etp link and show tooltip', () => {
+      const wrapper = setupModule({});
 
       const terminationView = wrapper.find(TerminationTable);
       expect(terminationView.find({ name: 'view-etp-link' })).toHaveLength(0);
       expect(terminationView.find(Tooltip)).toHaveLength(3);
     });
-  });
-
-  it('should render etp link and not show tooltip when the reversible feature is off', () => {
-    const wrapper = setupModule({}, { isPayrollReversibleEnabled: false });
-
-    const terminationView = wrapper.find(TerminationTable);
-    expect(terminationView.find({ name: 'view-etp-link' })).toHaveLength(3);
-    expect(terminationView.find(Tooltip)).toHaveLength(0);
   });
 });

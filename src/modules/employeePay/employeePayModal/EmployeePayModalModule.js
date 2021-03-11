@@ -17,12 +17,11 @@ import createEmployeePayModalIntegrator from './createEmployeePayModalIntegrator
 import employeePayModalReducer from './employeePayModalReducer';
 
 export default class EmployeePayModalModule {
-  constructor({ integration, onDelete, featureToggles }) {
+  constructor({ integration, onDelete }) {
     this.store = new Store(employeePayModalReducer);
     this.onDelete = onDelete;
     this.dispatcher = createEmployeePayModalDispatchers(this.store);
     this.integrator = createEmployeePayModalIntegrator(this.store, integration);
-    this.featureToggles = featureToggles;
     this.stpDeclarationModule = new StpDeclarationModalModule({
       integration,
       onDeclared: this.sendReversalEmployeePay,
@@ -148,7 +147,6 @@ export default class EmployeePayModalModule {
           onRecordReversalButtonClick={this.onRecordReversal}
           onCancelReversalButtonClick={this.closeModal}
           onDismissAlert={this.dispatcher.dismissAlert}
-          featureToggles={this.featureToggles}
         />
       </Provider>
     );

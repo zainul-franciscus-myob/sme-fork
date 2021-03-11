@@ -19,7 +19,7 @@ import createEmployeePayDetailIntegrator from './createEmployeePayDetailIntegrat
 import employeePayDetailReducer from './employeePayDetailReducer';
 
 export default class EmployeePayDetailModule {
-  constructor({ integration, setRootView, pushMessage, featureToggles }) {
+  constructor({ integration, setRootView, pushMessage }) {
     this.setRootView = setRootView;
     this.pushMessage = pushMessage;
     this.store = new Store(employeePayDetailReducer);
@@ -28,7 +28,6 @@ export default class EmployeePayDetailModule {
       integration
     );
     this.dispatcher = createEmployeePayDetailDispatchers(this.store);
-    this.featureToggles = featureToggles;
     this.stpDeclarationModule = new StpDeclarationModalModule({
       integration,
       onDeclared: this.sendReversalEmployeePay,
@@ -156,7 +155,6 @@ export default class EmployeePayDetailModule {
           onDismissAlert={this.dispatcher.dismissAlert}
           onReverseButtonClick={this.loadEmployeePayReversalPreviewDetail}
           onRecordReversalButtonClick={this.onRecordReversal}
-          featureToggles={this.featureToggles}
         />
       </Provider>
     );

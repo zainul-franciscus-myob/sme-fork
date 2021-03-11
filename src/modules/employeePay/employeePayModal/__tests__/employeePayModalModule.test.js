@@ -13,7 +13,7 @@ import loadEmployeePayDetail from '../../mappings/data/loadEmployeePayDetail';
 import loadEmployeePayReversalPreviewDetail from '../../mappings/data/loadEmployeePayReversalPreviewDetail';
 
 describe('employeePayModalModule', () => {
-  describe('employeePayModalModule without feature toggles', () => {
+  describe('employeePayModalModule', () => {
     const constructModule = (
       module = new EmployeePayModalModule({
         integration: {
@@ -64,63 +64,8 @@ describe('employeePayModalModule', () => {
       ).toHaveLength(0);
     });
 
-    it('should not render reverse buttons if feature toggle isPayrollReversibleEnabled is not enabled', () => {
+    it('should render reverse buttons', () => {
       const { wrapper, module } = constructModule();
-      module.openModal({
-        transactionId: '01',
-        businessId: '0000-1111-2222-3333',
-        employeeName: 'Batman',
-        region: 'au',
-        readonly: false,
-      });
-      wrapper.update();
-
-      expect(
-        findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')
-      ).toHaveLength(0);
-    });
-
-    it('clear modal after sending the reversal of employee pay transaction successfully', () => {
-      const { wrapper, module } = constructModule();
-
-      module.sendReversalEmployeePay();
-      wrapper.update();
-
-      expect(wrapper).toEqual({});
-      expect(window.location.href).toEqual(
-        expect.stringContaining('/#/au/1/payRun')
-      );
-    });
-  });
-
-  describe('construct module with Feature toggles', () => {
-    const constructModuleWithFT = (
-      module = new EmployeePayModalModule({
-        integration: {
-          read: ({ intent, onSuccess }) => {
-            if (intent === SET_MODAL_IS_OPEN) {
-              onSuccess(true);
-            } else {
-              onSuccess(loadEmployeePayReversalPreviewDetail);
-            }
-          },
-        },
-        onDelete: {},
-        featureToggles: { isPayrollReversibleEnabled: true },
-      })
-    ) => {
-      const wrapper = mount(module.getView());
-      module.openModal({});
-      wrapper.update();
-
-      return {
-        wrapper,
-        module,
-      };
-    };
-
-    it('should render reverse buttons if feature toggle isPayrollReversibleEnabled is true', () => {
-      const { wrapper, module } = constructModuleWithFT();
       module.openModal({
         transactionId: '01',
         businessId: '0000-1111-2222-3333',
@@ -133,6 +78,18 @@ describe('employeePayModalModule', () => {
       expect(
         findButtonWithTestId(wrapper, 'modal-preview-reverse-btn')
       ).toHaveLength(1);
+    });
+
+    it('clear modal after sending the reversal of employee pay transaction successfully', () => {
+      const { wrapper, module } = constructModule();
+
+      module.sendReversalEmployeePay();
+      wrapper.update();
+
+      expect(wrapper).toEqual({});
+      expect(window.location.href).toEqual(
+        expect.stringContaining('/#/au/1/payRun')
+      );
     });
   });
 
@@ -158,7 +115,6 @@ describe('employeePayModalModule', () => {
           },
         },
         onDelete: {},
-        featureToggles: { isPayrollReversibleEnabled: true },
       })
     ) => {
       const wrapper = mount(module.getView());
@@ -219,7 +175,6 @@ describe('employeePayModalModule', () => {
           },
         },
         onDelete: {},
-        featureToggles: { isPayrollReversibleEnabled: true },
       })
     ) => {
       const wrapper = mount(module.getView());
@@ -279,7 +234,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -324,7 +278,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -369,7 +322,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: false },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -396,7 +348,7 @@ describe('employeePayModalModule', () => {
   });
 
   describe('Render stp alert message', () => {
-    it('should display alert message if stp alert message exists and isPayrollReversibleEnabled feature toggle is on', () => {
+    it('should display alert message if stp alert message exists', () => {
       const isPending = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -415,7 +367,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -445,7 +396,7 @@ describe('employeePayModalModule', () => {
       );
     });
 
-    it('should not display alert message if isPending is false and isPayrollReversibleEnabled feature toggle is on', () => {
+    it('should not display alert message if isPending is false', () => {
       const isPending = false;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -464,7 +415,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -489,12 +439,10 @@ describe('employeePayModalModule', () => {
       );
     });
 
-    it('should not display alert message if isPending and isRejected is true and isPayrollReversibleEnabled feature toggle is off', () => {
-      const isPending = true;
-      const isRejected = true;
+    it('should not display alert message if isPending and isRejected is false', () => {
+      const isRejected = false;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
-        isPending,
         isRejected,
       };
       const constructModule = (
@@ -510,7 +458,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: false },
         })
       ) => {
         const wrapper = mount(module.getView());
@@ -530,15 +477,12 @@ describe('employeePayModalModule', () => {
       });
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'pending-alert-message-id' })).toHaveLength(
-        0
-      );
       expect(wrapper.find({ testid: 'reject-alert-message-id' })).toHaveLength(
         0
       );
     });
 
-    it('should display alert message if payrun is isRejected and isPayrollReversibleEnabled feature toggle is on', () => {
+    it('should display alert message if payrun is isRejected is true', () => {
       const isRejected = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -557,7 +501,6 @@ describe('employeePayModalModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
         })
       ) => {
         const wrapper = mount(module.getView());

@@ -21,19 +21,17 @@ import createPaySuperCreateIntegrator from './createPaySuperCreateIntegrator';
 import paySuperCreateReducer from './paySuperCreateReducer';
 
 export default class PaySuperCreateModule {
-  constructor({ setRootView, integration, pushMessage, featureToggles }) {
+  constructor({ setRootView, integration, pushMessage }) {
     this.setRootView = setRootView;
     this.store = new Store(paySuperCreateReducer);
     this.integration = integration;
     this.pushMessage = pushMessage;
     this.dispatcher = createPaySuperCreateDispatcher(this.store);
     this.integrator = createPaySuperCreateIntegrator(this.store, integration);
-    this.featureToggles = featureToggles;
     this.subModules = {
       employeePayModal: new EmployeePayModalModule({
         integration,
         onDelete: this.onEmployeePayDeleteSuccess,
-        featureToggles: this.featureToggles,
       }),
       paySuperAuthorisationModal: new PaySuperAuthorisationModalModule({
         integration,

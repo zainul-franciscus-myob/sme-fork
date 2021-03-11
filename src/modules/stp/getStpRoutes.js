@@ -10,8 +10,7 @@ const getStpRoutes = ({
   popMessages,
   featureToggles,
 }) => {
-  /** @type {Array<import('../module-types').Route>} */
-  let routes = [
+  const routes = [
     {
       name: RouteName.STP_GET_STARTED,
       path: '/:region/:businessId/stp/getStarted',
@@ -45,18 +44,7 @@ const getStpRoutes = ({
       }),
       documentTitle: 'Single Touch Payroll reporting',
     },
-    {
-      name: RouteName.STP_EMPLOYEE_ETP,
-      path: '/:region/:businessId/stp/employeeEtp/:employeeId',
-      allowedParams: ['year'],
-      loadModule: () => import('./reportingCentre/etps/EtpModule'),
-      documentTitle: 'Single Touch Payroll reporting',
-    },
   ];
-
-  if (featureToggles && featureToggles.isPayrollReversibleEnabled) {
-    routes = routes.filter((obj) => obj.name !== RouteName.STP_EMPLOYEE_ETP);
-  }
   return routes;
 };
 

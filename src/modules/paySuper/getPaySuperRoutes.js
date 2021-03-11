@@ -8,7 +8,6 @@ const getPaySuperRoutes = ({
   setRootView,
   popMessages,
   pushMessage,
-  featureToggles,
 }) => {
   const routes = [
     {
@@ -28,7 +27,6 @@ const getPaySuperRoutes = ({
         setRootView,
         integration,
         pushMessage,
-        featureToggles,
       }),
       documentTitle: 'Pay super',
     },
@@ -39,7 +37,6 @@ const getPaySuperRoutes = ({
         integration,
         setRootView,
         pushMessage,
-        featureToggles,
       }),
       documentTitle: 'Pay super',
     },

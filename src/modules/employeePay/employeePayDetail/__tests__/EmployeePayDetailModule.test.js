@@ -180,7 +180,7 @@ describe('EmployeePayDetailsModule', () => {
   });
 
   describe('Render stp alert message', () => {
-    it('should display alert message if isPending is true and isPayrollReversibleEnabled feature toggle is on', () => {
+    it('should display alert message if isPending is true', () => {
       const isPending = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -200,7 +200,6 @@ describe('EmployeePayDetailsModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
           setRootView,
         });
         module.run({ businessId: '1', region: 'au' });
@@ -245,7 +244,6 @@ describe('EmployeePayDetailsModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
           setRootView,
         });
         module.run({ businessId: '1', region: 'au' });
@@ -265,12 +263,10 @@ describe('EmployeePayDetailsModule', () => {
       );
     });
 
-    it('should not display alert message if isPending and isRejected is true but isPayrollReversibleEnabled feature toggle is off', () => {
-      const isPending = true;
-      const isRejected = true;
+    it('should not display alert message if isRejected is false', () => {
+      const isRejected = false;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
-        isPending,
         isRejected,
       };
       const constructModule = () => {
@@ -288,7 +284,6 @@ describe('EmployeePayDetailsModule', () => {
             write: ({ onSuccess }) => onSuccess(),
           },
           setRootView,
-          featureToggles: { isPayrollReversibleEnabled: false },
         });
         module.run({ businessId: '1', region: 'au' });
 
@@ -302,15 +297,12 @@ describe('EmployeePayDetailsModule', () => {
       module.loadEmployeePayDetail();
       wrapper.update();
 
-      expect(wrapper.find({ testid: 'pending-alert-message-id' })).toHaveLength(
-        0
-      );
       expect(wrapper.find({ testid: 'reject-alert-message-id' })).toHaveLength(
         0
       );
     });
 
-    it('should display alert message if payrun is isRejected and isPayrollReversibleEnabled feature toggle is on', () => {
+    it('should display alert message if payrun is isRejected', () => {
       const isRejected = true;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -331,7 +323,6 @@ describe('EmployeePayDetailsModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
           setRootView,
         });
         module.run({ businessId: '1', region: 'au' });
@@ -358,7 +349,7 @@ describe('EmployeePayDetailsModule', () => {
   });
 
   describe('Render Delete button', () => {
-    it('should not render delete button if isDeletable is false and feature toggle in on', () => {
+    it('should not render delete button if isDeletable is false', () => {
       const isDeletable = false;
       const employeePayDetail = {
         ...loadEmployeePayDetail,
@@ -380,7 +371,6 @@ describe('EmployeePayDetailsModule', () => {
             write: ({ onSuccess }) => onSuccess(),
           },
           setRootView,
-          featureToggles: { isPayrollReversibleEnabled: true },
         });
         module.run({ businessId: '1', region: 'au' });
 
@@ -417,47 +407,6 @@ describe('EmployeePayDetailsModule', () => {
             },
             write: ({ onSuccess }) => onSuccess(),
           },
-          featureToggles: { isPayrollReversibleEnabled: true },
-          setRootView,
-        });
-        module.run({ businessId: '1', region: 'au' });
-
-        return {
-          wrapper,
-          module,
-        };
-      };
-      const { wrapper, module } = constructModule();
-      module.loadEmployeePayDetail();
-      wrapper.update();
-
-      expect(
-        wrapper.find({ testid: 'pay-detail-delete-btn' })
-      ).not.toHaveLength(0);
-    });
-
-    it('should render delete button if isDeletale is false and feature toggle is off', () => {
-      const isDeletable = false;
-      const employeePayDetail = {
-        ...loadEmployeePayDetail,
-        isDeletable,
-      };
-
-      const constructModule = () => {
-        let wrapper;
-        const setRootView = (component) => {
-          wrapper = mount(component);
-        };
-        const module = new EmployeePayDetailModule({
-          integration: {
-            read: ({ intent, onSuccess }) => {
-              if (intent === LOAD_EMPLOYEE_PAY_DETAIL) {
-                onSuccess(employeePayDetail);
-              }
-            },
-            write: ({ onSuccess }) => onSuccess(),
-          },
-          featureToggles: { isPayrollReversibleEnabled: false },
           setRootView,
         });
         module.run({ businessId: '1', region: 'au' });
