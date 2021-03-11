@@ -31,7 +31,7 @@ const InvoiceDetailHeader = ({
   );
 
   const invoiceFinanceAction = (
-    <div className={styles.topRight}>
+    <div className={styles.right}>
       <Button
         name="invoiceFinance"
         key="invoiceFinance"
@@ -87,11 +87,15 @@ const InvoiceDetailHeader = ({
     <div className={styles.titleWrapper}>
       <TotalsHeader
         title={title}
-        actions={!isCreating && actions}
+        actions={
+          !isCreating &&
+          (showInvoiceFinanceButton
+            ? [...actions, invoiceFinanceAction]
+            : actions)
+        }
         tag={!isCreating && statusItem}
         totalItems={!isCreating && totalItems}
       />
-      {showInvoiceFinanceButton && invoiceFinanceAction}
     </div>
   );
 };

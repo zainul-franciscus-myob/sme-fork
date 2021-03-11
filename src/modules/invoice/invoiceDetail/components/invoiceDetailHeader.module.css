@@ -1,11 +1,23 @@
 .headerWrapper{
   position: relative;
 }
-.topRight{
-  position: absolute;
-  top: 0;
-  right: 0
-}
+
 .capitalFirst{
   text-transform:capitalize;
 }
+
+@media only screen and (min-width: 784px){
+  .right{
+    position: absolute;
+    right: 0;
+    bottom: 56px;
+  }
+}
+
+@media only screen and (max-width: 784px){
+  .right{
+    position: relative;
+  }
+}
+
+
