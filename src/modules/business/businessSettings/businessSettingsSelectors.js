@@ -1,6 +1,7 @@
 import { addMonths, addYears, endOfMonth, format } from 'date-fns';
 import { createSelector, createStructuredSelector } from 'reselect';
 
+import { trackUserEvent } from '../../../telemetry';
 import buildMyAccountLink from '../../../common/links/buildMyAccountLink';
 
 export const getLoadingState = (state) => state.loadingState;
@@ -144,7 +145,13 @@ export const getFinancialYearDateRange = createSelector(
 );
 
 export const logSearchData = (event) => {
-  console.log(event);
+  trackUserEvent({
+    eventName: 'comboboxEvent',
+    customProperties: {
+      action: 'searchClue',
+      searchClue: event,
+    },
+  });
 };
 export const getCannotRecordTransactionBeforeDate = (state) => {
   const financialYearDateFormat = 'd MMM yyyy';

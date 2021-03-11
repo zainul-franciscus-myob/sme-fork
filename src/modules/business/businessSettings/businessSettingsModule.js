@@ -12,6 +12,7 @@ import {
 } from './businessSettingsSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import { mainTabIds } from './tabItems';
+import { trackUserEvent } from '../../../telemetry';
 import BusinessSettingsView from './components/BusinessSettingsView';
 import FeatureToggle from '../../../FeatureToggles';
 import LoadingState from '../../../components/PageView/LoadingState';
@@ -90,6 +91,13 @@ export default class BusinessSettingsModule {
   updateBusinessIndustry = (item) => {
     this.updateBusinessDetailField({ key: 'industry', value: item.Division });
     this.updateBusinessDetailField({ key: 'industryAlertOpen', value: false });
+    trackUserEvent({
+      eventName: 'comboboxEvent',
+      customProperties: {
+        action: 'searchChoice',
+        searchChoice: item.Display,
+      },
+    });
   };
 
   updateGstSettingsField = ({ key, value }) => {
