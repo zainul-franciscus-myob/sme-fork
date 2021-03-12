@@ -2,14 +2,12 @@ import {
   ADD_PURCHASE_ORDER_LINE,
   LOAD_ITEM_DETAIL_FOR_LINE,
   LOAD_PURCHASE_ORDER,
-  OPEN_MODAL,
   RELOAD_PURCHASE_ORDER,
   REMOVE_PURCHASE_ORDER_LINE,
   UPDATE_LAYOUT,
   UPDATE_PURCHASE_ORDER_LINE,
   UPDATE_PURCHASE_ORDER_OPTION,
 } from '../../PurchaseOrderIntents';
-import ModalType from '../../types/ModalType';
 import PurchaseOrderLineType from '../../types/PurchaseOrderLineType';
 import purchaseOrderDetail from '../fixtures/purchaseOrderDetail';
 import purchaseOrderReducer from '../purchaseOrderReducer';
@@ -401,23 +399,6 @@ describe('purchaseOrderReducer', () => {
       ];
       const actual = purchaseOrderReducer(state, action);
       expect(actual.purchaseOrder.lines).toEqual(expected);
-    });
-  });
-
-  describe('open unsaved modal', () => {
-    it('should set redirect url', () => {
-      const state = {};
-
-      const url = "I'm a url";
-
-      const action = {
-        intent: OPEN_MODAL,
-        modalType: ModalType.UNSAVED,
-        redirectUrl: url,
-      };
-
-      const actual = purchaseOrderReducer(state, action);
-      expect(actual.redirectUrl).toEqual(url);
     });
   });
 });
