@@ -62,7 +62,6 @@ describe('BillModule_SaveCancelDelete', () => {
     it('should open save amount due warning modal', () => {
       const { module, store } = setUpWithClosedBillEdited();
 
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.handleSaveBill();
 
       expect(store.getActions()).toEqual([
@@ -77,7 +76,6 @@ describe('BillModule_SaveCancelDelete', () => {
   describe('saveBill', () => {
     it('successfully creates a new bill', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -102,8 +100,6 @@ describe('BillModule_SaveCancelDelete', () => {
         { intent: LOAD_BILL, urlParams: { businessId: 'bizId', billId: '1' } },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
     });
 
     it('fails to create a new bill', () => {
@@ -127,7 +123,6 @@ describe('BillModule_SaveCancelDelete', () => {
 
     it('successfully updates an existing bill', () => {
       const { module, store, integration } = setUpWithRun();
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -154,8 +149,6 @@ describe('BillModule_SaveCancelDelete', () => {
         },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
     });
 
     it('fails to update an existing bill', () => {
@@ -204,7 +197,6 @@ describe('BillModule_SaveCancelDelete', () => {
       const { module, store, integration } = setUpNewBillWithPrefilled();
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -218,7 +210,6 @@ describe('BillModule_SaveCancelDelete', () => {
         expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
       ]);
 
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_SAVED_BILL,
         content: 'Bill successfully created from document',
@@ -231,7 +222,6 @@ describe('BillModule_SaveCancelDelete', () => {
       integration.mapFailure(LINK_IN_TRAY_DOCUMENT);
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -245,7 +235,6 @@ describe('BillModule_SaveCancelDelete', () => {
         expect.objectContaining({ intent: LINK_IN_TRAY_DOCUMENT }),
       ]);
 
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_SAVED_BILL_WITHOUT_LINK,
         content:
@@ -258,7 +247,6 @@ describe('BillModule_SaveCancelDelete', () => {
       const { module, store, integration } = setUpWithPreConversion({
         isCreating: true,
       });
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -286,15 +274,12 @@ describe('BillModule_SaveCancelDelete', () => {
         },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
     });
 
     it('successfully updates an existing preconversion bill', () => {
       const { module, store, integration } = setUpWithPreConversion({
         isCreating: false,
       });
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveBill();
 
@@ -321,15 +306,12 @@ describe('BillModule_SaveCancelDelete', () => {
         },
         expect.objectContaining({ intent: LOAD_ABN_FROM_SUPPLIER }),
       ]);
-
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
     });
   });
 
   describe('saveAndCreateNewBill', () => {
     it('successfully saves bill and reloads the module to create another new bill', () => {
       const { module, store, integration } = setUpWithRun({ isCreating: true });
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
 
@@ -347,7 +329,6 @@ describe('BillModule_SaveCancelDelete', () => {
         }),
       ]);
 
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL })
       );
@@ -370,7 +351,6 @@ describe('BillModule_SaveCancelDelete', () => {
       store.resetActions();
       integration.resetRequests();
 
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
       module.navigateTo = jest.fn();
       module.pushMessage = jest.fn();
 
@@ -388,7 +368,6 @@ describe('BillModule_SaveCancelDelete', () => {
         }),
       ]);
 
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith(
         expect.objectContaining({ type: SUCCESSFULLY_SAVED_BILL })
       );
@@ -422,7 +401,6 @@ describe('BillModule_SaveCancelDelete', () => {
       integration.mapSuccess(CREATE_BILL, { message: '🍉', id: '🍍' });
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveAndDuplicateBill();
 
@@ -438,7 +416,6 @@ describe('BillModule_SaveCancelDelete', () => {
         }),
       ]);
 
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.pushMessage).toHaveBeenCalledWith({
         type: SUCCESSFULLY_SAVED_BILL,
         content: '🍉',
@@ -455,7 +432,6 @@ describe('BillModule_SaveCancelDelete', () => {
       integration.mapSuccess(UPDATE_BILL, { message: '🍉' });
       module.pushMessage = jest.fn();
       module.navigateTo = jest.fn();
-      module.globalCallbacks.inTrayBillSaved = jest.fn();
 
       module.saveAndDuplicateBill();
 
@@ -479,7 +455,6 @@ describe('BillModule_SaveCancelDelete', () => {
         type: DUPLICATE_BILL,
         duplicateId: 'billId',
       });
-      expect(module.globalCallbacks.inTrayBillSaved).toHaveBeenCalled();
       expect(module.navigateTo).toHaveBeenCalledWith('/#/au/bizId/bill/new');
     });
 

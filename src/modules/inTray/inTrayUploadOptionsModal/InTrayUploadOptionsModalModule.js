@@ -33,8 +33,6 @@ export default class InTrayUploadOptionsModalModule {
       this.hideEmailGenerationConfirmation();
       this.dispatcher.resetState();
     }
-
-    this.globalCallbacks.inTrayUploadOptionsClosed();
   };
 
   openInNewTab = (url) => this.navigateTo(url, true);

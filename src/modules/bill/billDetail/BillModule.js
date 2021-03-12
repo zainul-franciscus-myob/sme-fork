@@ -415,7 +415,6 @@ class BillModule {
     if (isCreatingFromInTray && !isPreConversion) {
       const onSuccess = ({ message }) => {
         this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
-        this.globalCallbacks.inTrayBillSaved();
         this.createSmartMeTask();
         this.redirectToInTray();
       };
@@ -438,7 +437,6 @@ class BillModule {
     this.dispatcher.closeModal();
 
     const onSuccess = () => {
-      this.globalCallbacks.inTrayBillSaved();
       const url = getRedirectUrl(this.store.getState());
       this.navigateTo(url);
     };
@@ -450,7 +448,6 @@ class BillModule {
     this.dispatcher.closeModal();
 
     const onSuccess = ({ message }) => {
-      this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.createSmartMeTask();
       this.redirectToCreateNewBill();
@@ -467,7 +464,6 @@ class BillModule {
       const isCreating = getIsCreating(state);
       const duplicateId = isCreating ? id : getBillId(state);
 
-      this.globalCallbacks.inTrayBillSaved();
       this.pushMessage({ type: SUCCESSFULLY_SAVED_BILL, content: message });
       this.pushMessage({ type: DUPLICATE_BILL, duplicateId });
       this.createSmartMeTask();
@@ -480,7 +476,6 @@ class BillModule {
 
   saveAndReload = ({ onSuccess: next = () => {} }) => {
     const onSuccess = ({ message, id }) => {
-      this.globalCallbacks.inTrayBillSaved();
       const state = this.store.getState();
       const isCreating = getIsCreating(state);
       if (isCreating) {

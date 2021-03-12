@@ -65,9 +65,6 @@ export const setUp = () => {
   const popMessages = () => [];
   const replaceURLParams = () => {};
   const navigateTo = jest.fn();
-  const globalCallbacks = {
-    inTrayBillSaved: jest.fn(),
-  };
   const featureToggles = { isRecurringTransactionEnabled: false };
   const integration = new TestIntegration();
 
@@ -77,7 +74,6 @@ export const setUp = () => {
     pushMessage,
     popMessages,
     replaceURLParams,
-    globalCallbacks,
     navigateTo,
     featureToggles,
   });
@@ -1158,7 +1154,6 @@ describe('BillModule', () => {
         const { module, store, integration } = setUpWithRun({
           isCreating: true,
         });
-        module.globalCallbacks.inTrayBillSaved = jest.fn();
         module.replaceURLParams = jest.fn();
         module.pushMessage = jest.fn();
 
@@ -1213,7 +1208,6 @@ describe('BillModule', () => {
         });
         const message = 'Error';
         integration.mapFailure(LOAD_BILL, { message });
-        module.globalCallbacks.inTrayBillSaved = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
 
@@ -1237,7 +1231,6 @@ describe('BillModule', () => {
         const { module, store, integration } = setUpWithRun({
           isPageEdited: true,
         });
-        module.globalCallbacks.inTrayBillSaved = jest.fn();
         module.replaceURLParams = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
@@ -1288,7 +1281,6 @@ describe('BillModule', () => {
         });
         const message = 'Error';
         integration.mapFailure(LOAD_BILL, { message });
-        module.globalCallbacks.inTrayBillSaved = jest.fn();
 
         module.openExportPdfModalOrSaveAndExportPdf();
 
