@@ -199,12 +199,18 @@ const InvoiceDetailModal = ({
       <InvoiceDetailPaymentSettingsModal
         alert={alert}
         onCancel={paymentSettingsModalListeners.onCancel}
+        onUpdatePaymentOptions={
+          paymentSettingsModalListeners.onUpdatePaymentOptions
+        }
         onDismissAlert={paymentSettingsModalListeners.onDismissAlert}
         onEditPreferences={paymentSettingsModalListeners.onEditPreferences}
         onSetupPaymentOptions={
           paymentSettingsModalListeners.onSetupPaymentOptions
         }
         onSubscribeNow={paymentSettingsModalListeners.onSubscribeNow}
+        onSavePaymentOptions={
+          paymentSettingsModalListeners.onSavePaymentOptions
+        }
       />
     );
   }

@@ -54,6 +54,7 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
+  UPDATE_PAYMENT_OPTIONS,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../InvoiceIntents';
@@ -378,6 +379,14 @@ const createInvoiceDetailDispatcher = (store) => ({
   setIsPreviewingPdf: (isPreviewingPdf) => {
     const intent = SET_IS_PREVIEWING_PDF;
     store.dispatch({ intent, isPreviewingPdf });
+  },
+
+  updatePaymentOptions: (key, value) => {
+    store.dispatch({
+      intent: UPDATE_PAYMENT_OPTIONS,
+      key,
+      value,
+    });
   },
 });
 

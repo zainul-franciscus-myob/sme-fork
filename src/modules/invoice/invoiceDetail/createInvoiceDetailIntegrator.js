@@ -15,6 +15,7 @@ import {
   LOAD_PAY_DIRECT,
   LOAD_PREFILL_FROM_RECURRING_INVOICE,
   SAVE_EMAIL_SETTINGS,
+  SAVE_PAYMENT_OPTIONS,
   SEND_EINVOICE,
   SEND_EMAIL,
   UPDATE_INVOICE_DETAIL,
@@ -42,6 +43,8 @@ import {
   getLoadInvoiceUrlParams,
   getLoadPayDirectUrlParams,
   getLoadPrefillFromRecurringInvoiceUrlParams,
+  getSavePaymentOptionsPayload,
+  getSavePaymentOptionsUrlParams,
 } from './selectors/integratorSelectors';
 import { getExportPdfUrlParams } from './selectors/exportPdfSelectors';
 import {
@@ -366,6 +369,21 @@ const createInvoiceDetailIntegrator = (store, integration) => ({
       urlParams: {
         businessId: getBusinessId(store.getState()),
       },
+      onSuccess,
+      onFailure,
+    });
+  },
+
+  savePaymentOptions: ({ onSuccess, onFailure }) => {
+    const state = store.getState();
+    const intent = SAVE_PAYMENT_OPTIONS;
+    const content = getSavePaymentOptionsPayload(state);
+    const urlParams = getSavePaymentOptionsUrlParams(state);
+
+    integration.write({
+      intent,
+      content,
+      urlParams,
       onSuccess,
       onFailure,
     });

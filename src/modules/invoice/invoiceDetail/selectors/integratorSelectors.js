@@ -189,3 +189,12 @@ export const getLoadPrefillFromRecurringInvoiceUrlParams = (
 
   return { businessId, recurringTransactionId };
 };
+
+export const getSavePaymentOptionsPayload = (state) => {
+  return { ...state.paymentOptions };
+};
+
+export const getSavePaymentOptionsUrlParams = (state) => {
+  const businessId = getBusinessId(state);
+  return { businessId };
+};

@@ -2,9 +2,11 @@ import {
   LOAD_INVOICE_DETAIL,
   RESET_SEND_EINVOICE_ATTACHMENTS,
   SAVE_EMAIL_SETTINGS,
+  SAVE_PAYMENT_OPTIONS,
   SET_MODAL_ALERT,
   SET_MODAL_SUBMITTING_STATE,
   SET_MODAL_TYPE,
+  SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
 } from '../../InvoiceIntents';
 import { setup, setupWithRun } from './InvoiceDetailModule.test';
 import AbnStatus from '../../../../components/autoFormatter/AbnInput/AbnStatus';
@@ -155,6 +157,143 @@ describe('InvoiceDetailModule_Modals', () => {
           expect.objectContaining({ intent: SAVE_EMAIL_SETTINGS }),
         ]);
       });
+
+      describe('payment options modal', () => {
+        const invoiceDetail = {
+          ...loadInvoiceDetailResponse,
+          paymentOptions: {
+            ...loadInvoiceDetailResponse.paymentOptions,
+            isAllowPaymentsByDirectDeposit: false,
+            isAllowPaymentsByMail: false,
+          },
+          hasUpdatedPaymentSettings: false,
+          emailInvoice: {
+            ...loadInvoiceDetailResponse.emailInvoice,
+            fromEmail: '',
+          },
+        };
+
+        it('shows payment settings modal after saving email settings', () => {
+          const { module, store, integration } = setup();
+          integration.mapSuccess(LOAD_INVOICE_DETAIL, invoiceDetail);
+
+          module.run({
+            invoiceId: 'invoiceId',
+            businessId: 'businessId',
+            region: 'au',
+          });
+          module.checkEmailModalToDisplay(); // open email settings modal
+          module.updateEmailInvoiceDetail({
+            key: 'fromEmail',
+            value: 'romeo@meow.com',
+          }); // fill out fromEmail
+          store.resetActions();
+          integration.resetRequests();
+
+          module.handleSaveEmailSettings();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_MODAL_SUBMITTING_STATE,
+              isModalSubmitting: true,
+            },
+            expect.objectContaining({
+              intent: SAVE_EMAIL_SETTINGS,
+            }),
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.NONE,
+            },
+            {
+              intent: SET_MODAL_SUBMITTING_STATE,
+              isModalSubmitting: false,
+            },
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS,
+            },
+            {
+              intent: SET_MODAL_ALERT,
+              modalAlert: {
+                type: 'success',
+                message: 'Successfully updated email settings',
+              },
+            },
+          ]);
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({ intent: SAVE_EMAIL_SETTINGS }),
+          ]);
+        });
+
+        it('does not show payment settings modal when payment options are saved', () => {
+          const invoiceDetailWithPaymentOptions = {
+            ...loadInvoiceDetailResponse,
+            paymentOptions: {
+              ...loadInvoiceDetailResponse.paymentOptions,
+              isAllowPaymentsByMail: true,
+            },
+            emailInvoice: {
+              ...loadInvoiceDetailResponse.emailInvoice,
+              fromEmail: '',
+            },
+          };
+
+          const { module, store, integration } = setup();
+          integration.mapSuccess(
+            LOAD_INVOICE_DETAIL,
+            invoiceDetailWithPaymentOptions
+          );
+
+          module.run({
+            invoiceId: 'invoiceId',
+            businessId: 'businessId',
+            region: 'au',
+          });
+          module.checkEmailModalToDisplay(); // open email settings modal
+          module.updateEmailInvoiceDetail({
+            key: 'fromEmail',
+            value: 'romeo@meow.com',
+          }); // fill out fromEmail
+          store.resetActions();
+          integration.resetRequests();
+
+          module.handleSaveEmailSettings();
+
+          expect(store.getActions()).toEqual([
+            {
+              intent: SET_MODAL_SUBMITTING_STATE,
+              isModalSubmitting: true,
+            },
+            expect.objectContaining({
+              intent: SAVE_EMAIL_SETTINGS,
+            }),
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.NONE,
+            },
+            {
+              intent: SET_MODAL_SUBMITTING_STATE,
+              isModalSubmitting: false,
+            },
+            {
+              intent: SET_MODAL_TYPE,
+              modalType: InvoiceDetailModalType.EMAIL_INVOICE,
+            },
+            {
+              intent: SET_MODAL_ALERT,
+              modalAlert: {
+                type: 'success',
+                message: 'Successfully updated email settings',
+              },
+            },
+          ]);
+
+          expect(integration.getRequests()).toEqual([
+            expect.objectContaining({ intent: SAVE_EMAIL_SETTINGS }),
+          ]);
+        });
+      });
     });
   });
 
@@ -231,6 +370,111 @@ describe('InvoiceDetailModule_Modals', () => {
           },
         ]);
       });
+    });
+  });
+
+  describe('savePaymentOptions', () => {
+    const invoiceDetail = {
+      ...loadInvoiceDetailResponse,
+      emailInvoice: {
+        ...loadInvoiceDetailResponse.emailInvoice,
+        fromEmail: 'something@test.com',
+      },
+      hasUpdatedPaymentSettings: false,
+    };
+
+    it('saves the payment options', () => {
+      const { module, store, integration } = setup();
+      integration.mapSuccess(LOAD_INVOICE_DETAIL, invoiceDetail);
+
+      module.run({
+        invoiceId: 'invoiceId',
+        businessId: 'businessId',
+        region: 'au',
+      });
+      module.updatePaymentOptions({
+        key: 'isAllowPaymentsByMail',
+        value: true,
+      });
+      store.resetActions();
+      integration.resetRequests();
+
+      module.onSavePaymentOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_SUBMITTING_STATE,
+          isModalSubmitting: true,
+        },
+        expect.objectContaining({
+          intent: SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL,
+        }),
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: InvoiceDetailModalType.NONE,
+        },
+        {
+          intent: SET_MODAL_SUBMITTING_STATE,
+          isModalSubmitting: false,
+        },
+        {
+          intent: SET_MODAL_TYPE,
+          modalType: InvoiceDetailModalType.EMAIL_INVOICE,
+        },
+        {
+          intent: SET_MODAL_ALERT,
+          modalAlert: {
+            type: 'success',
+            message: "Great Work! You've done it well!",
+          },
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SAVE_PAYMENT_OPTIONS }),
+      ]);
+    });
+
+    it('fails to save the payment options and shows alert on modal', () => {
+      const { module, store, integration } = setup();
+      integration.mapSuccess(LOAD_INVOICE_DETAIL, invoiceDetail);
+      integration.mapFailure(SAVE_PAYMENT_OPTIONS, { message: 'failed' });
+
+      module.run({
+        invoiceId: 'invoiceId',
+        businessId: 'businessId',
+        region: 'au',
+      });
+      module.updatePaymentOptions({
+        key: 'isAllowPaymentsByMail',
+        value: true,
+      });
+      store.resetActions();
+      integration.resetRequests();
+
+      module.onSavePaymentOptions();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_MODAL_SUBMITTING_STATE,
+          isModalSubmitting: true,
+        },
+        {
+          intent: SET_MODAL_SUBMITTING_STATE,
+          isModalSubmitting: false,
+        },
+        {
+          intent: SET_MODAL_ALERT,
+          modalAlert: {
+            type: 'danger',
+            message: 'failed',
+          },
+        },
+      ]);
+
+      expect(integration.getRequests()).toEqual([
+        expect.objectContaining({ intent: SAVE_PAYMENT_OPTIONS }),
+      ]);
     });
   });
 });

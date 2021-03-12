@@ -147,3 +147,4 @@ export const SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL = Symbol(
   'Sets if invoice payment settings have been updated and if modal should be displayed'
 );
 export const SET_IS_PREVIEWING_PDF = Symbol('Set is previewing pdf');
+export const SAVE_PAYMENT_OPTIONS = Symbol('Save the updated payment settings');

@@ -57,6 +57,7 @@ import {
   UPDATE_INVOICE_LAYOUT,
   UPDATE_INVOICE_LINE,
   UPDATE_INVOICE_PAYMENT_AMOUNT,
+  UPDATE_PAYMENT_OPTIONS,
   UPLOAD_EMAIL_ATTACHMENT,
   UPLOAD_EMAIL_ATTACHMENT_FAILED,
 } from '../../InvoiceIntents';
@@ -532,6 +533,14 @@ const setShouldShowPaymentSettingsModal = (
   hasUpdatedPaymentSettings,
 });
 
+const updateMailPaymentOptions = (state, action) => ({
+  ...state,
+  paymentOptions: {
+    ...state.paymentOptions,
+    [action.key]: action.value,
+  },
+});
+
 const handlers = {
   [SET_INITIAL_STATE]: setInitialState,
   [RESET_STATE]: resetState,
@@ -592,6 +601,7 @@ const handlers = {
   [SET_SENDING_EMAIL_STATE]: setSendingEmailState,
   [SET_SHOULD_SHOW_PAYMENT_SETTINGS_MODAL]: setShouldShowPaymentSettingsModal,
   [SET_IS_PREVIEWING_PDF]: setIsPreviewingPdf,
+  [UPDATE_PAYMENT_OPTIONS]: updateMailPaymentOptions,
 };
 
 const invoiceDetailReducer = createReducer(getDefaultState(), handlers);

@@ -30,7 +30,6 @@ import {
   getPayDirectRegistrationLink,
   getShouldSaveAndReload,
   getShouldShowAbn,
-  getShouldShowPaymentSettingsModal,
   getShowOnlinePayment,
   getTaxCalculations,
   getUniqueSelectedItemIds,
@@ -39,9 +38,9 @@ import {
 } from './selectors/invoiceDetailSelectors';
 import {
   getCanSaveEmailSettings,
-  getEmailModalType,
   getEmailTemplateName,
   getFilesForUpload,
+  getHasEmailReplyDetails,
   getHasEmailToAddress,
 } from './selectors/emailSelectors';
 import {
@@ -70,6 +69,7 @@ import {
   getRecurringTransactionModalContext,
 } from './selectors/recurringInvoiceSelectors';
 import { getSetUpOnlinePaymentsLink } from './selectors/payDirectSelectors';
+import { getShouldShowPaymentSettingsModal } from './selectors/paymentOptionsSelectors';
 import { getShowInvoiceFinanceButton } from './selectors/invoiceFinanceSelectors';
 import { isToggleOn } from '../../../splitToggle';
 import { shouldShowSaveAmountDueWarningModal } from './selectors/invoiceSaveSelectors';
@@ -362,24 +362,18 @@ export default class InvoiceDetailModule {
   checkEmailModalToDisplay = () => {
     this.closeModal();
 
-    const state = this.store.getState();
     const onSuccess = ({ message }) => {
       this.openEmailModal();
       this.dispatcher.displayModalAlert({ type: 'success', message });
     };
 
-    switch (true) {
-      case getShouldShowPaymentSettingsModal(state):
-        this.dispatcher.setModalType(
-          InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS
-        );
-        break;
-      case getShouldSaveAndReload(state):
-        this.saveAndReload({ onSuccess });
-        break;
-      default:
-        this.openEmailModal();
+    const state = this.store.getState();
+    if (getShouldSaveAndReload(state)) {
+      this.saveAndReload({ onSuccess });
+      return;
     }
+
+    this.openEmailModal();
 
     this.sendInvoiceTelemetry('click_send_email_invoice_button');
   };
@@ -793,9 +787,20 @@ export default class InvoiceDetailModule {
   };
 
   openEmailModal = () => {
-    const state = this.store.getState();
-    const type = getEmailModalType(state);
+    const type = this.getEmailModalType();
     this.dispatcher.setModalType(type);
+  };
+
+  getEmailModalType = () => {
+    const state = this.store.getState();
+
+    if (!getHasEmailReplyDetails(state))
+      return InvoiceDetailModalType.EMAIL_SETTINGS;
+
+    if (getShouldShowPaymentSettingsModal(state))
+      return InvoiceDetailModalType.INVOICE_PAYMENT_SETTINGS;
+
+    return InvoiceDetailModalType.EMAIL_INVOICE;
   };
 
   executeSaveAndAction = (saveAction) =>
@@ -1127,6 +1132,36 @@ export default class InvoiceDetailModule {
 
   unsubscribeFromStore = () => {
     this.store.unsubscribeAll();
+  };
+
+  updatePaymentOptions = ({ key, value }) => {
+    this.dispatcher.updatePaymentOptions(key, value);
+  };
+
+  onSavePaymentOptions = () => {
+    this.dispatcher.setModalSubmittingState(true);
+
+    const onSuccess = (response) => {
+      this.dispatcher.setShouldShowPaymentSettingsModal(true);
+      this.closeModal();
+      this.dispatcher.setModalSubmittingState(false);
+
+      this.openEmailModal();
+      this.dispatcher.displayModalAlert({
+        type: 'success',
+        message: response.message,
+      });
+    };
+
+    const onFailure = ({ message }) => {
+      this.dispatcher.setModalSubmittingState(false);
+      this.dispatcher.displayModalAlert({ type: 'danger', message });
+    };
+
+    this.integrator.savePaymentOptions({
+      onSuccess,
+      onFailure,
+    });
   };
 
   saveHandler = () => {
@@ -1588,10 +1623,12 @@ export default class InvoiceDetailModule {
         redirectToSetUpOnlinePayments={this.redirectToSetUpOnlinePayments}
         paymentSettingsModalListeners={{
           onCancel: this.closeModal,
+          onUpdatePaymentOptions: this.updatePaymentOptions,
           onDismissAlert: this.dispatcher.dismissModalAlert,
           onEditPreferences: this.onEditPreferences,
           onSetupPaymentOptions: this.onSetupPaymentOptions,
           onSubscribeNow: this.onSubscribeNow,
+          onSavePaymentOptions: this.onSavePaymentOptions,
         }}
       />
     );

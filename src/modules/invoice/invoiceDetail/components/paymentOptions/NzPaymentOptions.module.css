@@ -1,0 +1,51 @@
+@media (min-width: 768px) {
+  .inputContainer {
+    display: flex;
+  }
+
+  .inputContainer div {
+    width: 100%;
+  }
+
+  .inputContainer div:not(:last-child) {
+    margin-right: var(--flx-spacing-tiny);
+  }
+}
+
+.container {
+  display: flex;
+}
+
+.container > div {
+  padding-right: var(--flx-spacing-tiny);
+}
+
+/*
+  @FEELIX:
+  Alter feelix class to line up the inputs in single line
+*/
+.container :global(.form-group) {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.bankNumber {
+  width: 5rem;
+}
+
+.branch {
+  width: 7rem;
+}
+
+.accountNumber {
+  width: 10.1rem;
+}
+
+.suffix {
+  width: 6rem;
+}
+
+.fieldGroup legend {
+  font: inherit;
+  margin-bottom: var(--flx-spacing-x-tiny);
+}

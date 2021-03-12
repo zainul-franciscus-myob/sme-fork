@@ -11,7 +11,6 @@ import {
   getIsAllowPaymentsByMail,
 } from './paymentOptionsSelectors';
 import { getIsRegistered } from './payDirectSelectors';
-import InvoiceDetailModalType from '../types/InvoiceDetailModalType';
 import InvoiceLayout from '../types/InvoiceLayout';
 
 const getEmailToAddresses = (state) => state.emailInvoice.toEmail;
@@ -20,7 +19,7 @@ const getIsEmailMeACopy = (state) => state.emailInvoice.isEmailMeACopy;
 const getEmailSubject = (state) => state.emailInvoice.subject;
 const getEmailMessageBody = (state) => state.emailInvoice.messageBody;
 export const getEmailTemplateName = (state) => state.emailInvoice.templateName;
-const getHasEmailReplyDetails = (state) =>
+export const getHasEmailReplyDetails = (state) =>
   state.emailInvoice.hasEmailReplyDetails;
 export const getFromName = (state) => state.emailInvoice.fromName;
 export const getFromEmail = (state) => state.emailInvoice.fromEmail;
@@ -128,11 +127,6 @@ export const getFilesForUpload = (state, files) =>
         (attachment) => attachment.file === file
       ).state === 'queued'
   );
-
-export const getEmailModalType = (state) =>
-  getHasEmailReplyDetails(state)
-    ? InvoiceDetailModalType.EMAIL_INVOICE
-    : InvoiceDetailModalType.EMAIL_SETTINGS;
 
 export const getShowEmailButton = createSelector(
   getLayout,
