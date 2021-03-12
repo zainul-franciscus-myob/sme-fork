@@ -1,0 +1,28 @@
+{
+  "remittanceAdviceList": [
+    {
+      "id": "1",
+      "paymentDate": "01/03/2019",
+      "emailAddress": "some@email.com",
+      "referenceNumber": "32423423",
+      "supplier": "Some Fancy Supplier of Things",
+      "amountPaid": 1020
+    },
+    {
+      "id": "2",
+      "paymentDate": "01/03/2019",
+      "emailAddress": "some@email.com",
+      "referenceNumber": "54235345",
+      "supplier": "Some Fancy Supplier of Things",
+      "amountPaid": 100
+    },
+    {
+      "id": "3",
+      "paymentDate": "01/03/2019",
+      "emailAddress": "some@email.com",
+      "referenceNumber": "23423423",
+      "supplier": "Some Fancy Supplier of Things",
+      "amountPaid": 50
+    }
+  ]
+}
