@@ -3,12 +3,15 @@ import {
   EXPORT_SAMPLE_PDF,
   LOAD_PURCHASE_SETTINGS,
   OPEN_MODAL,
+  SAVE_TAB_DATA,
   SET_ALERT,
   SET_LOADING_STATE,
-  SET_REDIRECT_URL,
+  SET_PENDING_TAB,
+  SET_TAB,
   UPDATE_EMAIL_SETTINGS,
 } from '../purchaseSettingsIntents';
 import { SET_INITIAL_STATE } from '../../../SystemIntents';
+import { mainTabIds } from '../tabItems';
 import LoadingState from '../../../components/PageView/LoadingState';
 import PurchaseSettingsModule from '../PurchaseSettingsModule';
 import TestIntegration from '../../../integration/TestIntegration';
@@ -17,15 +20,15 @@ import createPurchaseSettingsDispatcher from '../createPurchaseSettingsDispatche
 import createPurchaseSettingsIntegrator from '../createPurchaseSettingsIntegrator';
 import modalTypes from '../modalTypes';
 import openBlob from '../../../common/blobOpener/openBlob';
-import purchaseSettingsDetailReducer from '../purchaseSettingsReducer';
+import purchaseSettingsReducer from '../purchaseSettingsReducer';
 import successResponse from '../mappings/data/success';
 
 jest.mock('../../../common/blobOpener/openBlob');
 
-describe('PurchaseSettingsDetailModule', () => {
+describe('PurchaseSettingsModule', () => {
   const setRootView = () => {};
   const setup = () => {
-    const store = new TestStore(purchaseSettingsDetailReducer);
+    const store = new TestStore(purchaseSettingsReducer);
     const integration = new TestIntegration();
     const featureToggles = { isPurchaseOrderEnabled: false };
 
@@ -52,19 +55,6 @@ describe('PurchaseSettingsDetailModule', () => {
     });
     store.resetActions();
     integration.resetRequests();
-
-    return toolbox;
-  };
-
-  const setupWithEditedPage = () => {
-    const toolbox = setupWithRun();
-    const { module, store } = toolbox;
-
-    module.updateEmailSettingsField({
-      remittanceAdviceEmailBody: 'woot',
-    });
-
-    store.resetActions();
 
     return toolbox;
   };
@@ -148,7 +138,7 @@ describe('PurchaseSettingsDetailModule', () => {
 
       store.setState({
         ...store.getState(),
-        defaultPurchasesEmailSettings: {
+        tabData: {
           fromName: 'name',
           fromEmail: 'reply@to.com',
           remittanceAdviceEmailBody: 'body',
@@ -177,6 +167,9 @@ describe('PurchaseSettingsDetailModule', () => {
             type: 'success',
           },
         },
+        {
+          intent: SAVE_TAB_DATA,
+        },
       ]);
       expect(integration.getRequests()).toEqual([
         expect.objectContaining({
@@ -195,6 +188,84 @@ describe('PurchaseSettingsDetailModule', () => {
     });
   });
 
+  describe('switchTab', () => {
+    it('sets tab to selected tab', () => {
+      const { module, store } = setupWithRun();
+      module.replaceURLParams = jest.fn();
+
+      module.switchTab(mainTabIds.emailDefaults);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TAB,
+          selectedTab: mainTabIds.emailDefaults,
+        },
+      ]);
+      expect(module.replaceURLParams).toHaveBeenCalledWith({
+        selectedTab: mainTabIds.emailDefaults,
+      });
+    });
+
+    it('opens switch tab modal when page edited', () => {
+      const { module, store } = setupWithRun();
+      module.dispatcher.updateEmailSettingsField({
+        key: 'replyToEmail',
+        value: '🦄',
+      });
+      store.resetActions();
+
+      module.switchTab(mainTabIds.templates);
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_PENDING_TAB,
+          pendingTab: mainTabIds.templates,
+        },
+        {
+          intent: OPEN_MODAL,
+          modalType: modalTypes.SWITCH_TAB,
+        },
+      ]);
+    });
+  });
+
+  describe('onConfirmSwitchTab', () => {
+    const setupWithSwitchTabModal = () => {
+      const toolbox = setupWithRun();
+      const { module, store } = toolbox;
+
+      module.dispatcher.updateEmailSettingsField({
+        key: 'replyToEmail',
+        value: '🦄',
+      });
+      module.switchTab(mainTabIds.emailDefaults);
+
+      store.resetActions();
+
+      return toolbox;
+    };
+
+    it('sets tab to pending tab', () => {
+      const { module, store } = setupWithSwitchTabModal();
+      module.replaceURLParams = jest.fn();
+
+      module.onConfirmSwitchTab();
+
+      expect(store.getActions()).toEqual([
+        {
+          intent: SET_TAB,
+          selectedTab: mainTabIds.emailDefaults,
+        },
+        {
+          intent: CLOSE_MODAL,
+        },
+      ]);
+      expect(module.replaceURLParams).toHaveBeenCalledWith({
+        selectedTab: mainTabIds.emailDefaults,
+      });
+    });
+  });
+
   describe('exportPdf', () => {
     it('downloads sample PDF', () => {
       const { module, integration } = setupWithRun();
@@ -209,62 +280,6 @@ describe('PurchaseSettingsDetailModule', () => {
         expect.objectContaining({
           intent: EXPORT_SAMPLE_PDF,
         }),
-      ]);
-    });
-  });
-
-  describe('handlePageTransition', () => {
-    it('opens unsaved modal when page is edited', () => {
-      const { module, store } = setupWithEditedPage();
-
-      module.handlePageTransition('/#/foo');
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_REDIRECT_URL,
-          redirectUrl: '/#/foo',
-        },
-        {
-          intent: OPEN_MODAL,
-          modalType: modalTypes.UNSAVED,
-        },
-      ]);
-    });
-
-    it('redirect when page is not edited', () => {
-      const { module } = setupWithRun();
-      module.navigateTo = jest.fn();
-      module.handlePageTransition('/#/foo');
-
-      expect(module.navigateTo).toBeCalledWith('/#/foo');
-    });
-  });
-
-  describe('unsavedModal', () => {
-    it('navigates without saving when discarded', () => {
-      const { module, integration } = setupWithEditedPage();
-      module.navigateTo = jest.fn();
-
-      module.handlePageTransition('/#/bar');
-      module.discardAndRedirect();
-
-      expect(integration.getRequests()).toHaveLength(0);
-
-      expect(module.navigateTo).toBeCalledWith('/#/bar');
-    });
-
-    it('should not navigate on cancel', () => {
-      const { module, store } = setupWithEditedPage();
-      module.closeUnsavedModal();
-
-      expect(store.getActions()).toEqual([
-        {
-          intent: SET_REDIRECT_URL,
-          redirectUrl: '',
-        },
-        {
-          intent: CLOSE_MODAL,
-        },
       ]);
     });
   });

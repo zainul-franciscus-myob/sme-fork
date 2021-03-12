@@ -3,10 +3,7 @@ import {
   LOAD_PURCHASE_SETTINGS,
   UPDATE_EMAIL_SETTINGS,
 } from './purchaseSettingsIntents';
-import {
-  getBusinessId,
-  getDefaultPurchasesEmailSettings,
-} from './purchaseSettingsSelector';
+import { getBusinessId, getTabData } from './purchaseSettingsSelector';
 
 const createPurchaseSettingsIntegrator = (store, integration) => ({
   loadPurchaseSettings: ({ onSuccess, onFailure }) => {
@@ -45,7 +42,7 @@ const createPurchaseSettingsIntegrator = (store, integration) => ({
     const state = store.getState();
     const intent = UPDATE_EMAIL_SETTINGS;
 
-    const content = getDefaultPurchasesEmailSettings(state);
+    const content = getTabData(state);
 
     const urlParams = {
       businessId: getBusinessId(state),

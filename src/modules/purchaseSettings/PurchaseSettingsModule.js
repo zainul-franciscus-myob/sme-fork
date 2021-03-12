@@ -1,8 +1,14 @@
 import { Provider } from 'react-redux';
 import React from 'react';
 
-import { getIsPageEdited, getRedirectUrl } from './purchaseSettingsSelector';
+import {
+  getIsPageEdited,
+  getModalType,
+  getPendingTab,
+  getSelectedTab,
+} from './purchaseSettingsSelector';
 import { isToggleOn } from '../../splitToggle';
+import { mainTabIds } from './tabItems';
 import FeatureToggles from '../../FeatureToggles';
 import LoadingState from '../../components/PageView/LoadingState';
 import PurchaseSettingsView from './components/PurchaseSettingsView';
@@ -10,16 +16,25 @@ import Store from '../../store/Store';
 import createPurchaseSettingsDispatcher from './createPurchaseSettingsDispatcher';
 import createPurchaseSettingsIntegrator from './createPurchaseSettingsIntegrator';
 import isFeatureEnabled from '../../common/feature/isFeatureEnabled';
+import keyMap from '../../hotKeys/keyMap';
 import modalTypes from './modalTypes';
 import openBlob from '../../common/blobOpener/openBlob';
 import purchaseSettingsReducer from './purchaseSettingsReducer';
+import setupHotKeys from '../../hotKeys/setupHotKeys';
 
 export default class PurchaseSettingsModule {
-  constructor({ integration, setRootView, navigateTo, featureToggles }) {
+  constructor({
+    integration,
+    setRootView,
+    replaceURLParams,
+    navigateTo,
+    featureToggles,
+  }) {
     this.setRootView = setRootView;
     this.store = new Store(purchaseSettingsReducer);
     this.dispatcher = createPurchaseSettingsDispatcher(this.store);
     this.integrator = createPurchaseSettingsIntegrator(this.store, integration);
+    this.replaceURLParams = replaceURLParams;
     this.navigateTo = navigateTo;
     this.featureToggles = featureToggles;
   }
@@ -74,6 +89,7 @@ export default class PurchaseSettingsModule {
     const onSuccess = ({ message }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.setAlert({ type: 'success', message });
+      this.dispatcher.saveDataTab();
     };
 
     const onFailure = ({ message }) => {
@@ -84,9 +100,23 @@ export default class PurchaseSettingsModule {
     this.integrator.saveEmailSettings({ onSuccess, onFailure });
   };
 
-  closeUnsavedModal = () => {
-    this.dispatcher.setRedirectUrl('');
+  switchTab = (selectedTab) => {
+    if (getIsPageEdited(this.store.getState())) {
+      this.dispatcher.setPendingTab(selectedTab);
+      this.dispatcher.openModal(modalTypes.SWITCH_TAB);
+    } else {
+      this.dispatcher.setTab(selectedTab);
+      this.replaceURLParams({ selectedTab });
+    }
+  };
+
+  onConfirmSwitchTab = () => {
+    const state = this.store.getState();
+    const pendingTab = getPendingTab(state);
+
+    this.dispatcher.setTab(pendingTab);
     this.dispatcher.closeModal();
+    this.replaceURLParams({ selectedTab: pendingTab });
   };
 
   handlePageTransition = (url) => {
@@ -99,12 +129,24 @@ export default class PurchaseSettingsModule {
     }
   };
 
-  discardAndRedirect = () => {
-    this.dispatcher.closeModal();
+  saveHandler = () => {
     const state = this.store.getState();
-    const url = getRedirectUrl(state);
-    this.navigateTo(url);
+    const modalType = getModalType(state);
+
+    if (modalType) return;
+
+    const selectTab = getSelectedTab(state);
+
+    const handler = {
+      [mainTabIds.emailDefaults]: this.saveEmailSettings,
+    }[selectTab];
+
+    if (handler) {
+      handler();
+    }
   };
+
+  handlers = { SAVE_ACTION: this.saveHandler };
 
   run(context) {
     const isPurchaseOrderEnabled = isFeatureEnabled({
@@ -113,6 +155,8 @@ export default class PurchaseSettingsModule {
     });
 
     this.dispatcher.setInitialState({ ...context, isPurchaseOrderEnabled });
+
+    setupHotKeys(keyMap, this.handlers);
     this.loadPurchaseSettings();
 
     this.render();
@@ -122,11 +166,12 @@ export default class PurchaseSettingsModule {
     const view = (
       <PurchaseSettingsView
         onUpdateEmailSettingsField={this.updateEmailSettingsField}
+        onConfirmSwitchTab={this.onConfirmSwitchTab}
+        onTabSelect={this.switchTab}
         saveEmailSettings={this.saveEmailSettings}
         onDismissAlert={this.dispatcher.dismissAlert}
         exportPdf={this.exportPdf}
-        onUnsavedModalCancel={this.closeUnsavedModal}
-        onUnsavedModalConfirm={this.discardAndRedirect}
+        onCloseModal={this.dispatcher.closeModal}
       />
     );
 

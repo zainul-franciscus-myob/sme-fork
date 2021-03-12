@@ -1,6 +1,6 @@
 const modalTypes = {
-  NONE: 'NONE',
-  UNSAVED: 'UNSAVED',
+  UNSAVED: 'unsaved',
+  SWITCH_TAB: 'switchTab',
 };
 
 export default modalTypes;

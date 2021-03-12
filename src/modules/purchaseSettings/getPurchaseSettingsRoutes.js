@@ -6,6 +6,7 @@ const getPurchaseSettingsRoutes = ({
   setRootView,
   navigateTo,
   featureToggles,
+  replaceURLParams,
 }) => [
   {
     name: RouteName.PURCHASE_SETTINGS,
@@ -15,6 +16,7 @@ const getPurchaseSettingsRoutes = ({
       setRootView,
       navigateTo,
       featureToggles,
+      replaceURLParams,
     }),
     documentTitle: 'Purchases settings',
   },

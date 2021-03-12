@@ -9,3 +9,7 @@ export const EXPORT_SAMPLE_PDF = Symbol('Export sample PDF');
 export const OPEN_MODAL = Symbol('Open Modal');
 export const CLOSE_MODAL = Symbol('Close Modal');
 export const SET_REDIRECT_URL = Symbol('Set Redirect URL');
+
+export const SAVE_TAB_DATA = Symbol('Save tab data');
+export const SET_TAB = Symbol('Set tab');
+export const SET_PENDING_TAB = Symbol('Set pending tab');
