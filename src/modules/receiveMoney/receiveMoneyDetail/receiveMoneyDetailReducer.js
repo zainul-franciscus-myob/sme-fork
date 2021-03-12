@@ -66,6 +66,8 @@ const getDefaultState = () => ({
   region: '',
   startOfFinancialYearDate: '',
   viewedAccountToolTip: false,
+  isCustomizedForNonGstEnabled: false,
+  isRegisteredForGst: false,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -90,6 +92,7 @@ const loadReceiveMoneyDetail = (state, action) => ({
   accountOptions: action.accountOptions,
   taxCodeOptions: action.taxCodeOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const updateLine = (state, action) => ({
@@ -163,6 +166,7 @@ const loadNewReceiveMoney = (state, action) => ({
   accountOptions: action.accountOptions,
   taxCodeOptions: action.taxCodeOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const setLoadingState = (state, { loadingState }) => ({

@@ -453,7 +453,11 @@ export default class ReceiveMoneyDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      isCustomizedForNonGstEnabled: this.featureToggles
+        .isCustomizedForNonGstEnabled,
+      ...context,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

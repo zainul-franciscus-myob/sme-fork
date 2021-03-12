@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   getIndexOfLastLine,
+  getShouldShowTaxOptions,
   getTableData,
   getTaxCodeLabel,
   getTaxLabel,
@@ -25,6 +26,7 @@ const ReceiveMoneyDetailTable = ({
   onAddAccount,
   renderJobCombobox,
   onViewedAccountToolTip,
+  shouldShowTaxOptions,
 }) => {
   const renderRow = (index, data, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -67,12 +69,17 @@ const ReceiveMoneyDetailTable = ({
       label: 'Job',
       styles: { width: '9rem' },
     },
-    {
-      label: taxCodeLabel,
-      requiredLabel: 'This is required',
-      styles: { width: '8.4rem', align: 'left' },
-    },
-  ];
+  ].concat(
+    shouldShowTaxOptions
+      ? [
+          {
+            label: taxCodeLabel,
+            requiredLabel: 'This is required',
+            styles: { width: '8.4rem', align: 'left' },
+          },
+        ]
+      : []
+  );
 
   const labels = columns.map(({ label }) => label);
 
@@ -122,6 +129,7 @@ const mapStateToProps = (state) => ({
   tableData: getTableData(state),
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
+  shouldShowTaxOptions: getShouldShowTaxOptions(state),
 });
 
 export default connect(mapStateToProps)(ReceiveMoneyDetailTable);

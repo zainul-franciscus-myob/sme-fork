@@ -7,6 +7,7 @@ import {
   getIsActionsDisabled,
   getLineDataByIndexSelector,
   getNewLineData,
+  getShouldShowTaxOptions,
   getTaxCodeOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -56,6 +57,7 @@ const ReceiveMoneyDetailRow = ({
   onAddAccount,
   isSubmitting,
   renderJobCombobox,
+  shouldShowTaxOptions,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -115,14 +117,16 @@ const ReceiveMoneyDetailRow = ({
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        label="Tax code"
-        hideLabel
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isSubmitting}
-      />
+      {shouldShowTaxOptions && (
+        <TaxCodeCombobox
+          label="Tax code"
+          hideLabel
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={onComboboxChange('taxCodeId', onChange)}
+          disabled={isSubmitting}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -135,6 +139,7 @@ const makeMapRowStateToProps = () => {
     taxCodeOptions: getTaxCodeOptions(state),
     accountOptions: getAccountOptions(state),
     isSubmitting: getIsActionsDisabled(state),
+    shouldShowTaxOptions: getShouldShowTaxOptions(state),
   });
 };
 

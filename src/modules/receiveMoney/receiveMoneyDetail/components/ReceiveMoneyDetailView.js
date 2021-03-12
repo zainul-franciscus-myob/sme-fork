@@ -62,7 +62,7 @@ const ReceiveMoneyDetailView = ({
   );
 
   const view = (
-    <React.Fragment>
+    <>
       <LineItemTemplate
         pageHead={pageTitle}
         options={templateOptions}
@@ -89,7 +89,7 @@ const ReceiveMoneyDetailView = ({
           onViewedAccountToolTip={onViewedAccountToolTip}
         />
       </LineItemTemplate>
-    </React.Fragment>
+    </>
   );
 
   return <PageView loadingState={loadingState} view={view} />;

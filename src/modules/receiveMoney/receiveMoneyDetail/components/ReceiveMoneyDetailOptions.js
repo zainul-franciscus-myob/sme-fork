@@ -11,6 +11,7 @@ import React, { Component } from 'react';
 import {
   getHeaderOptions,
   getIsBeforeStartOfFinancialYear,
+  getShouldShowTaxOptions,
 } from '../selectors/receiveMoneyDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
 import DatePicker from '../../../../components/DatePicker/DatePicker';
@@ -61,10 +62,11 @@ class ReceiveMoneyDetailOptions extends Component {
       onUpdateHeaderOptions,
       renderContactCombobox,
       isBeforeStartOfFinancialYear,
+      shouldShowTaxOptions,
     } = this.props;
 
     const primary = (
-      <React.Fragment>
+      <>
         <AccountCombobox
           label="Bank account"
           hideLabel={false}
@@ -94,11 +96,11 @@ class ReceiveMoneyDetailOptions extends Component {
           value={description}
           onChange={this.handleInputChange}
         />
-      </React.Fragment>
+      </>
     );
 
     const secondary = (
-      <React.Fragment>
+      <>
         <Input
           name="referenceId"
           maxLength={13}
@@ -116,29 +118,31 @@ class ReceiveMoneyDetailOptions extends Component {
           displayWarning={isBeforeStartOfFinancialYear}
           warningMessage={'The date is set to a previous financial year'}
         />
-        <RadioButtonGroup
-          label="Amounts are"
-          name="isTaxInclusive"
-          renderRadios={({ value, ...props }) => (
-            <React.Fragment>
-              <RadioButton
-                {...props}
-                checked={isTaxInclusive}
-                onChange={this.handleRadioChange}
-                value="true"
-                label="Tax inclusive"
-              />
-              <RadioButton
-                {...props}
-                checked={!isTaxInclusive}
-                onChange={this.handleRadioChange}
-                value="false"
-                label="Tax exclusive"
-              />
-            </React.Fragment>
-          )}
-        />
-      </React.Fragment>
+        {shouldShowTaxOptions && (
+          <RadioButtonGroup
+            label="Amounts are"
+            name="isTaxInclusive"
+            renderRadios={({ value, ...props }) => (
+              <>
+                <RadioButton
+                  {...props}
+                  checked={isTaxInclusive}
+                  onChange={this.handleRadioChange}
+                  value="true"
+                  label="Tax inclusive"
+                />
+                <RadioButton
+                  {...props}
+                  checked={!isTaxInclusive}
+                  onChange={this.handleRadioChange}
+                  value="false"
+                  label="Tax exclusive"
+                />
+              </>
+            )}
+          />
+        )}
+      </>
     );
 
     return <DetailHeader primary={primary} secondary={secondary} />;
@@ -148,6 +152,7 @@ class ReceiveMoneyDetailOptions extends Component {
 const mapStateToProps = (state) => ({
   headerOptions: getHeaderOptions(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  shouldShowTaxOptions: getShouldShowTaxOptions(state),
 });
 
 export default connect(mapStateToProps)(ReceiveMoneyDetailOptions);

@@ -186,3 +186,21 @@ export const getContactComboboxContext = (state) => {
     displayMode: DisplayMode.NAME_AND_TYPE,
   };
 };
+
+const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
+
+const getIsRegisteredForGst = (state) => state.isRegisteredForGst;
+
+const getHasTaxCodeOtherThanNT = (state) =>
+  state.receiveMoney.lines?.some(
+    (line) => line.taxCodeId && line.taxCodeId !== '4'
+  );
+
+export const getShouldShowTaxOptions = createSelector(
+  getIsCustomizedForNonGstEnabled,
+  getIsRegisteredForGst,
+  getHasTaxCodeOtherThanNT,
+  (isCustomizedForNonGstEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isCustomizedForNonGstEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+);
