@@ -3,7 +3,7 @@ import chatIcon from './icon-chat.svg';
 const liveChatConfig = (
   businessId,
   businessName,
-  email,
+  userEmail,
   region,
   serialNumber
 ) => {
@@ -38,7 +38,7 @@ const liveChatConfig = (
           region === 'au' ? 'SME Trails Chat' : 'SME-Trial-NZ',
         businessId,
         businessName,
-        email,
+        userEmail,
         region,
         serialNumber,
       },
