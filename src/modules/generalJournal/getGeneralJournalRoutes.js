@@ -7,6 +7,7 @@ const getGeneralJournalRoutes = ({
   popMessages,
   pushMessage,
   navigateTo,
+  featureToggles,
 }) => {
   const routes = [
     {
@@ -19,6 +20,7 @@ const getGeneralJournalRoutes = ({
         popMessages,
         pushMessage,
         navigateTo,
+        featureToggles,
       }),
       documentTitle: 'General Journal',
     },

@@ -76,5 +76,6 @@
     "lineTypeId": "37"
   },
   "pageTitle": "Create general journal transaction",
-  "startOfFinancialYearDate": "2019-07-01T00:00:00"
+  "startOfFinancialYearDate": "2019-07-01T00:00:00",
+  "isRegisteredForGst": true
 }

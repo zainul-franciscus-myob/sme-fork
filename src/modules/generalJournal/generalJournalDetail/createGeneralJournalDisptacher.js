@@ -113,6 +113,7 @@ const createGeneralJournalDispatcher = (store) => ({
     taxCodeOptions,
     accountOptions,
     startOfFinancialYearDate,
+    isRegisteredForGst,
   }) => {
     const state = store.getState();
     const intent = getLoadGeneralJournalIntent(state);
@@ -126,6 +127,7 @@ const createGeneralJournalDispatcher = (store) => ({
       taxCodeOptions,
       accountOptions,
       startOfFinancialYearDate,
+      isRegisteredForGst,
     });
   },
   loadAccountAfterCreate: (payload) => {

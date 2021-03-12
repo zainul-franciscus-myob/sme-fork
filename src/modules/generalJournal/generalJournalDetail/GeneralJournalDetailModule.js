@@ -49,6 +49,7 @@ export default class GeneralJournalDetailModule {
     popMessages,
     pushMessage,
     navigateTo,
+    featureToggles,
   }) {
     this.store = new Store(generalJournalDetailReducer);
     this.setRootView = setRootView;
@@ -70,6 +71,7 @@ export default class GeneralJournalDetailModule {
       integration,
       onAlert: this.dispatcher.setAlert,
     });
+    this.featureToggles = featureToggles;
   }
 
   loadGeneralJournal = () => {
@@ -81,6 +83,7 @@ export default class GeneralJournalDetailModule {
       taxCodes: taxCodeOptions,
       accounts: accountOptions,
       startOfFinancialYearDate,
+      isRegisteredForGst,
     }) => {
       this.dispatcher.setLoadingState(LoadingState.LOADING_SUCCESS);
       this.dispatcher.loadGeneralJournalDetail({
@@ -91,6 +94,7 @@ export default class GeneralJournalDetailModule {
         taxCodeOptions,
         accountOptions,
         startOfFinancialYearDate,
+        isRegisteredForGst,
       });
       this.updateJobCombobox();
     };
@@ -475,7 +479,11 @@ export default class GeneralJournalDetailModule {
   };
 
   run(context) {
-    this.dispatcher.setInitialState(context);
+    this.dispatcher.setInitialState({
+      isCustomizedForNonGstEnabled: this.featureToggles
+        ?.isCustomizedForNonGstEnabled,
+      ...context,
+    });
     setupHotKeys(keyMap, this.handlers);
     this.render();
     this.readMessages();

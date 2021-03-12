@@ -71,6 +71,8 @@ const getDefaultState = () => ({
   accountOptions: [],
   taxCodeOptions: [],
   startOfFinancialYearDate: '',
+  isRegisteredForGst: true,
+  isCustomizedForNonGstEnabled: true,
 });
 
 const pageEdited = { isPageEdited: true };
@@ -135,6 +137,7 @@ const loadGeneralJournalDetail = (state, action) => ({
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const updateGeneralJournalLine = (line, { lineKey, lineValue }, accounts) => {
@@ -238,6 +241,7 @@ const loadNewGeneralJournal = (state, action) => ({
   taxCodeOptions: action.taxCodeOptions,
   accountOptions: action.accountOptions,
   startOfFinancialYearDate: action.startOfFinancialYearDate,
+  isRegisteredForGst: action.isRegisteredForGst,
 });
 
 const setLoadingState = (state, { loadingState }) => ({

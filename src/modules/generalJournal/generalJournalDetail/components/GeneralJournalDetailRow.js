@@ -8,6 +8,7 @@ import {
   getIsTableDisabled,
   getLineDataByIndexSelector,
   getNewLineData,
+  getShouldShowTaxOptions,
   getTaxCodeOptions,
 } from '../generalJournalDetailSelectors';
 import AccountCombobox from '../../../../components/combobox/AccountCombobox';
@@ -54,6 +55,7 @@ const GeneralJournalDetailRow = ({
   onCreateAccountButtonClick,
   renderJobCombobox,
   isSystem,
+  shouldShowTaxOptions,
   ...feelixInjectedProps
 }) => {
   const data = isNewLineRow ? newLineData : lineData;
@@ -129,13 +131,15 @@ const GeneralJournalDetailRow = ({
         onChange: handleAutoCompleteItemChange(onChange, 'jobId'),
         left: true,
       })}
-      <TaxCodeCombobox
-        label="Tax codes"
-        items={taxCodeOptions}
-        selectedId={taxCodeId}
-        onChange={onComboboxChange('taxCodeId', onChange)}
-        disabled={isTableDisabled || isSystem}
-      />
+      {shouldShowTaxOptions && (
+        <TaxCodeCombobox
+          label="Tax codes"
+          items={taxCodeOptions}
+          selectedId={taxCodeId}
+          onChange={onComboboxChange('taxCodeId', onChange)}
+          disabled={isTableDisabled || isSystem}
+        />
+      )}
     </LineItemTable.Row>
   );
 };
@@ -149,6 +153,7 @@ const makeMapRowStateToProps = () => {
     accountOptions: getAccountOptions(state),
     isTableDisabled: getIsTableDisabled(state),
     isSystem: getIsSystem(state),
+    shouldShowTaxOptions: getShouldShowTaxOptions(state),
   });
 };
 

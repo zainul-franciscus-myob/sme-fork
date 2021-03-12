@@ -341,3 +341,23 @@ export const getIsBeforeStartOfFinancialYear = createSelector(
     startOfFinancialYearDate &&
     isBefore(new Date(date), new Date(startOfFinancialYearDate))
 );
+
+export const getIsCustomizedForNonGstEnabled = (state) =>
+  state.isCustomizedForNonGstEnabled;
+
+export const getIsRegisteredForGST = (state) => state.isRegisteredForGst;
+
+export const getHasTaxCodeOtherThanNT = (state) => {
+  const taxCodeIdOfNTForAU = 4;
+  return state.generalJournal.lines.some(
+    (line) => line.taxCodeId && line.taxCodeId !== taxCodeIdOfNTForAU
+  );
+};
+
+export const getShouldShowTaxOptions = createSelector(
+  getIsCustomizedForNonGstEnabled,
+  getIsRegisteredForGST,
+  getHasTaxCodeOtherThanNT,
+  (isCustomizedForNonGstEnabled, isRegisteredForGst, hasTaxCodeOtherThanNT) =>
+    !isCustomizedForNonGstEnabled || isRegisteredForGst || hasTaxCodeOtherThanNT
+);

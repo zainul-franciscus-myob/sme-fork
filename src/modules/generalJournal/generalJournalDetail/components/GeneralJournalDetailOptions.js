@@ -16,6 +16,7 @@ import {
   getHeaderOptions,
   getIsBeforeStartOfFinancialYear,
   getIsSystem,
+  getShouldShowTaxOptions,
   getTaxExclusiveLabel,
   getTaxInclusiveLabel,
 } from '../generalJournalDetailSelectors';
@@ -67,6 +68,7 @@ class GeneralJournalDetailOptions extends Component {
       taxExclusiveLabel,
       isSystem,
       isBeforeStartOfFinancialYear,
+      shouldShowTaxOptions,
     } = this.props;
 
     const isPurchase = gstReportingMethod === 'purchase';
@@ -91,30 +93,32 @@ class GeneralJournalDetailOptions extends Component {
           displayWarning={!isSystem && isBeforeStartOfFinancialYear}
           warningMessage={'The date is set to a previous financial year'}
         />
-        <RadioButtonGroup
-          label="Display in GST report as:"
-          requiredLabel="This is required"
-          name="gstReportingMethod"
-          disabled={isSystem}
-          renderRadios={({ value, ...props }) => (
-            <React.Fragment>
-              <RadioButton
-                {...props}
-                label="Purchase"
-                value="purchase"
-                checked={isPurchase}
-                onChange={this.handleInputChange}
-              />
-              <RadioButton
-                {...props}
-                label="Sale"
-                value="sale"
-                checked={isSale}
-                onChange={this.handleInputChange}
-              />
-            </React.Fragment>
-          )}
-        />
+        {shouldShowTaxOptions && (
+          <RadioButtonGroup
+            label="Display in GST report as:"
+            requiredLabel="This is required"
+            name="gstReportingMethod"
+            disabled={isSystem}
+            renderRadios={({ value, ...props }) => (
+              <React.Fragment>
+                <RadioButton
+                  {...props}
+                  label="Purchase"
+                  value="purchase"
+                  checked={isPurchase}
+                  onChange={this.handleInputChange}
+                />
+                <RadioButton
+                  {...props}
+                  label="Sale"
+                  value="sale"
+                  checked={isSale}
+                  onChange={this.handleInputChange}
+                />
+              </React.Fragment>
+            )}
+          />
+        )}
         <TextArea
           name="description"
           label="Description of transaction"
@@ -159,29 +163,31 @@ class GeneralJournalDetailOptions extends Component {
             />
           )}
         />
-        <RadioButtonGroup
-          label="Amounts are"
-          name="isTaxInclusive"
-          disabled={isSystem}
-          renderRadios={({ value, ...props }) => (
-            <React.Fragment>
-              <RadioButton
-                {...props}
-                checked={isTaxInclusive}
-                onChange={this.handleRadioChange}
-                value="true"
-                label={taxInclusiveLabel}
-              />
-              <RadioButton
-                {...props}
-                checked={!isTaxInclusive}
-                onChange={this.handleRadioChange}
-                value="false"
-                label={taxExclusiveLabel}
-              />
-            </React.Fragment>
-          )}
-        />
+        {shouldShowTaxOptions && (
+          <RadioButtonGroup
+            label="Amounts are"
+            name="isTaxInclusive"
+            disabled={isSystem}
+            renderRadios={({ value, ...props }) => (
+              <React.Fragment>
+                <RadioButton
+                  {...props}
+                  checked={isTaxInclusive}
+                  onChange={this.handleRadioChange}
+                  value="true"
+                  label={taxInclusiveLabel}
+                />
+                <RadioButton
+                  {...props}
+                  checked={!isTaxInclusive}
+                  onChange={this.handleRadioChange}
+                  value="false"
+                  label={taxExclusiveLabel}
+                />
+              </React.Fragment>
+            )}
+          />
+        )}
       </React.Fragment>
     );
 
@@ -201,6 +207,7 @@ const mapStateToProps = (state) => ({
   taxExclusiveLabel: getTaxExclusiveLabel(state),
   isSystem: getIsSystem(state),
   isBeforeStartOfFinancialYear: getIsBeforeStartOfFinancialYear(state),
+  shouldShowTaxOptions: getShouldShowTaxOptions(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailOptions);

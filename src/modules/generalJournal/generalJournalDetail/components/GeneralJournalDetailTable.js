@@ -6,6 +6,7 @@ import {
   getIndexOfLastLine,
   getIsOutOfBalanced,
   getIsSystem,
+  getShouldShowTaxOptions,
   getTableData,
   getTaxCodeLabel,
   getTaxLabel,
@@ -27,6 +28,7 @@ const GeneralJournalDetailTable = ({
   onCreateAccountButtonClick,
   renderJobCombobox,
   isSystem,
+  shouldShowTaxOptions,
 }) => {
   const renderRow = (index, _, onChange, labels) => {
     const isNewLineRow = indexOfLastLine < index;
@@ -68,12 +70,15 @@ const GeneralJournalDetailTable = ({
       styles: {},
     },
     { label: 'Job', styles: { width: '8.4rem', align: 'left' } },
-    {
+  ];
+
+  if (shouldShowTaxOptions) {
+    columns.push({
       label: taxCodeLabel,
       requiredLabel: 'Required',
       styles: { width: '8.4rem', align: 'left' },
-    },
-  ];
+    });
+  }
 
   const columnConfig = [
     {
@@ -130,6 +135,7 @@ const mapStateToProps = (state) => ({
   taxLabel: getTaxLabel(state),
   taxCodeLabel: getTaxCodeLabel(state),
   isSystem: getIsSystem(state),
+  shouldShowTaxOptions: getShouldShowTaxOptions(state),
 });
 
 export default connect(mapStateToProps)(GeneralJournalDetailTable);
