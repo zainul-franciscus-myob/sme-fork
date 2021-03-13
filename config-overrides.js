@@ -2,34 +2,33 @@ const TreatPlugin = require('treat/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.plugins = [
     new TreatPlugin({
       outputLoaders: [MiniCssExtractPlugin.loader],
       hmr: process.env.NODE_ENV === 'development',
       localIdentName: '_[name]-[local]_[hash:base64:5]',
-      themeIdentName: '__[name]-[local]_[hash:base64:4]',
+      themeIdentName: '__[name]-[local]_[hash:base64:4]'
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin()
   ].concat(config.plugins);
-
 
   config.module.rules = [
     {
       test: /\.(png|jpe?g|gif|svg)$/i,
       use: [
         {
-          loader: 'file-loader',
-        },
-      ],
+          loader: 'file-loader'
+        }
+      ]
     },
     // extract css from feelix's treat files
     {
       test: /\.css$/i,
       exclude: /src/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader'],
+      use: [MiniCssExtractPlugin.loader, 'css-loader']
     },
-    //this is used to load [xxx].module.css
+    // this is used to load [xxx].module.css
     {
       test: /\.css$/i,
       exclude: /node_modules/,
@@ -38,10 +37,10 @@ module.exports = function (config) {
         {
           loader: 'css-loader',
           options: {
-            modules: true,
-          },
-        },
-      ],
+            modules: true
+          }
+        }
+      ]
     },
     {
       test: /\.(js|jsx)$/,
@@ -49,23 +48,32 @@ module.exports = function (config) {
         {
           test: path.resolve(__dirname, 'node_modules'),
           // Exclude the following from the exclusion
-          exclude: path.resolve(__dirname, 'node_modules/@myob'),
-        },
+          exclude: path.resolve(__dirname, 'node_modules/@myob')
+        }
       ],
       loader: 'babel-loader',
       options: {
-        presets: ['@babel/preset-env', '@babel/react'],
+        presets: [
+          //this is to enable async/await: https://medium.com/@binyamin/enabling-async-await-and-generator-functions-in-babel-node-and-express-71e941b183e2
+          ['@babel/preset-env',
+            {
+              'targets': {
+                'node': '10'
+              }
+            }],
+          '@babel/react'
+        ],
         plugins: [
           [
             '@babel/plugin-proposal-class-properties',
             {
-              loose: true,
-            },
-          ],
-        ],
-      },
-    },
-  ]
+              loose: true
+            }
+          ]
+        ]
+      }
+    }
+  ];
 
   return config;
 };

@@ -2038,10 +2038,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@myob/design-tokens@^6.8.1-DES-336.2":
-  version "6.8.1-DES-336.2"
-  resolved "https://npm.myob.com/npm/@myob/design-tokens/-/6.8.1-DES-336.2/design-tokens-6.8.1-DES-336.2.tgz#30575a6224e0af9df9e44509b9acc938fc4b5277"
-  integrity sha512-BQfot8ymooUnlvFDpsCgsrdhyyaT9paZoubBH3PmyieOxtI/M3l71pXqhQ3M/IPxE3/qffXNVonFRlB+Io6WVg==
+"@myob/design-tokens@^6.8.1-DES-336.3":
+  version "6.8.1-DES-336.3"
+  resolved "https://npm.myob.com/npm/@myob/design-tokens/-/6.8.1-DES-336.3/design-tokens-6.8.1-DES-336.3.tgz#f5e9796019d2acb85805d547d3a7c0e375198687"
+  integrity sha512-pypL6FOv1esshsXf50KrtpkXawHYl4+yiAYIqiwm3GdNJrmW7VXbtIMjgubvqdUcxi+QDlytJYgESVRC3vkOdQ==
 
 "@myob/entente@0.4.0":
   version "0.4.0"
@@ -2060,18 +2060,18 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@6.8.1-DES-336.2":
-  version "6.8.1-DES-336.2"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.8.1-DES-336.2/styles-6.8.1-DES-336.2.tgz#734a93c1e3f89208e34ba6fe3836d2f477784066"
-  integrity sha512-FCDZz6AC5BaSpfkmhKVi+IZUdeLvwSWR+WJVxfQ7HyOHLjglgen9iUtGWkwXf+lBmxS31SIheit/w2GzRKPnLA==
+"@myob/myob-styles@6.8.1-DES-336.3":
+  version "6.8.1-DES-336.3"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.8.1-DES-336.3/styles-6.8.1-DES-336.3.tgz#e43bc5d699db05bb53f413f3d131fde3034f7bcd"
+  integrity sha512-QOn/nFAxzxbBuIzGnriJzgeQYODnlA9YKaosqFxyXmnoiErAJIqEwaUMIy30uM4cqmmk9UmxRPR7dNmie01xyg==
 
-"@myob/myob-widgets@6.8.1-DES-336.2":
-  version "6.8.1-DES-336.2"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.8.1-DES-336.2/widgets-6.8.1-DES-336.2.tgz#a43058cf6c3beed64e1b9f26d12482c0f68e2855"
-  integrity sha512-jvHSUJofULoSAwiUU3J4s6draNhD1Khv8TAuYlmZn0MUedJyoX0RPezTSE64rID0sUT/9DGrw9ZPxTNitNn4TA==
+"@myob/myob-widgets@6.8.1-DES-336.3":
+  version "6.8.1-DES-336.3"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.8.1-DES-336.3/widgets-6.8.1-DES-336.3.tgz#eb73ac4e808cfa2fa0c51b18f51cddbf1f5376c0"
+  integrity sha512-8ugn9MPB13KB4SZG0Cd+/BvwknA9zxqRohNOILsRfjlXk0VFxcdbk12DTpU5b4u5JQjbMHW3R+HrJPLpbYDofQ==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@myob/design-tokens" "^6.8.1-DES-336.2"
+    "@myob/design-tokens" "^6.8.1-DES-336.3"
     accounting "0.4.1"
     classnames "2.2.5"
     downshift "3.2.12"
