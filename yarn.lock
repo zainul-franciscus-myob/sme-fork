@@ -2038,10 +2038,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@myob/design-tokens@^6.8.1-DES-336.4":
-  version "6.8.1-DES-336.4"
-  resolved "https://npm.myob.com/npm/@myob/design-tokens/-/6.8.1-DES-336.4/design-tokens-6.8.1-DES-336.4.tgz#b908a3c0274f2492696b933a477ac072b7d126f2"
-  integrity sha512-lpP41CVioWr5fqW6xzsX6va5zQ/58L5ztJIKw3Lxfi7L+dRmOBTBW9BYzuOvrofLpMljMe+c6cDLqLKgyQRH8A==
+"@myob/design-tokens@^6.8.1-feelix7.1":
+  version "6.8.1-feelix7.1"
+  resolved "https://npm.myob.com/npm/@myob/design-tokens/-/6.8.1-feelix7.1/design-tokens-6.8.1-feelix7.1.tgz#634ffebb8ed38f9f357b38fbdc99f8a69752e8c9"
+  integrity sha512-Dpj24slnW3pJE8s2KRMiVufS+vp42U4NN/TNpRqrg+EoEHXB8KqOaWNEvRomRK/mn/BjTxht5UsKTrCA8vqiCw==
 
 "@myob/entente@0.4.0":
   version "0.4.0"
@@ -2060,18 +2060,18 @@
   resolved "https://npm.myob.com/npm/@myob/ldal/-/0.2.4/ldal-0.2.4.tgz#17cf7f18196150a8aeb9bdf880c9eced274092ee"
   integrity sha512-YtTcUfYbRLD2YgjPqkiN2PLMiDtnAPV6AZ+o+BqGgElOak6QWv/aqMrPBkJfj8dPVhFcxpZ2iV7RowswE+k5sg==
 
-"@myob/myob-styles@6.8.1-DES-336.4":
-  version "6.8.1-DES-336.4"
-  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.8.1-DES-336.4/styles-6.8.1-DES-336.4.tgz#9df738cadb67eb8c9b2ce6bf4a1b9d77b737125d"
-  integrity sha512-vddZYjxBUgTCwKvblTX8wC9MjJSGa2DT7ScYKuJlYggaCQdsFobAV4FXng1NP4SVSkYMYWtbko4xJyjSA30Zvw==
+"@myob/myob-styles@6.8.1-feelix7.1":
+  version "6.8.1-feelix7.1"
+  resolved "https://npm.myob.com/npm/@myob/myob-styles/-/6.8.1-feelix7.1/styles-6.8.1-feelix7.1.tgz#387276ecbb74c5c216b67c65e7cb7719d24167f3"
+  integrity sha512-M5ZHZOL7HoqnI/xB5BkBkuA9y75cn5nR5nJgNG3b79K9mIsOxjvfQeeGeNmzE7s+1Z1qQwtN4akaU+mXxUPXcQ==
 
-"@myob/myob-widgets@6.8.1-DES-336.4":
-  version "6.8.1-DES-336.4"
-  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.8.1-DES-336.4/widgets-6.8.1-DES-336.4.tgz#a27044dbd9cf7917b152865c461f8c73bf2d6982"
-  integrity sha512-qijtX9JNGsPeqSHkgOHzaRb3ERoEKJExGgr3Dts/+7ObsUsnG4hGl9audSMDQA0P9h+sIPbe9M+NcDwvQXAO8w==
+"@myob/myob-widgets@6.8.1-feelix7.1":
+  version "6.8.1-feelix7.1"
+  resolved "https://npm.myob.com/npm/@myob/myob-widgets/-/6.8.1-feelix7.1/widgets-6.8.1-feelix7.1.tgz#d148624dfe5612abb3e2d38aafb3c17ff419cf60"
+  integrity sha512-ioHJplUcIZ97OJ5XWYUFHC1wLM+nNxuBdfA+A8HkcKoWixfLfgLoYqAqxO2Gy0kIte8ZEx94mdnKRNVNcHqJ4g==
   dependencies:
     "@babel/runtime" "^7.10.3"
-    "@myob/design-tokens" "^6.8.1-DES-336.4"
+    "@myob/design-tokens" "^6.8.1-feelix7.1"
     accounting "0.4.1"
     classnames "2.2.5"
     downshift "3.2.12"
@@ -2104,7 +2104,6 @@
     react-dnd-html5-backend "^3.0.2"
     react-popover "^0.5.10"
     react-sticky-el "1.0.20"
-    react-treat "^2.0.1"
     resize-observer-polyfill "^1.5.1"
     shortid "2.2.8"
     store2 "2.7.0"
@@ -11758,11 +11757,6 @@ react-transition-group@^2.0.0, react-transition-group@^2.2.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
-
-react-treat@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-treat/-/react-treat-2.0.1.tgz#d2c99b037672ab251d406e698adc369ed1b828ea"
-  integrity sha512-sa+gKdOxJ4UXRuyUnXY8BjhPmyU4nGq/LehpDf8t0nxLiok2IWpOd9OpcNyfK/by8rO7UxnoJ3mjEVa3naFRYw==
 
 react-with-direction@^1.3.0:
   version "1.3.1"
