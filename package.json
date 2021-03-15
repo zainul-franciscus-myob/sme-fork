@@ -6,8 +6,8 @@
     "@contentful/rich-text-react-renderer": "14.1.1",
     "@contentful/rich-text-types": "14.1.1",
     "@myob/ldal": "0.2.4",
-    "@myob/myob-styles": "6.8.1-DES-336.3",
-    "@myob/myob-widgets": "6.8.1-DES-336.3",
+    "@myob/myob-styles": "6.8.1-DES-336.4",
+    "@myob/myob-widgets": "6.8.1-DES-336.4",
     "@myob/tax-calculator": "0.0.20",
     "@splitsoftware/splitio": "10.14.1",
     "abortcontroller-polyfill": "1.5.0",
@@ -80,9 +80,9 @@
   "prettier": {
     "singleQuote": true
   },
-
-  "transformIgnorePatterns": ["node_modules/(?!(@myob/myob-widgets/)/)"],
-  "moduleNameMapper": {
-    "^@myob/myob-widgets/(.*)": "<rootDir>/node_modules/@myob/myob-widgets/$1"
+  "jest": {
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!@myob)"
+    ]
   }
 }
