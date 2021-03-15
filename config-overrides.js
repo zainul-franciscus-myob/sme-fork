@@ -55,15 +55,7 @@ module.exports = function (config) {
       loader: 'babel-loader',
       options: {
         presets: [
-          // this is to enable async/await: https://medium.com/@binyamin/enabling-async-await-and-generator-functions-in-babel-node-and-express-71e941b183e2
-          [
-            '@babel/preset-env',
-            {
-              targets: {
-                node: '10',
-              },
-            },
-          ],
+          '@babel/preset-env',
           '@babel/react',
         ],
         plugins: [
