@@ -79,5 +79,10 @@
   },
   "prettier": {
     "singleQuote": true
+  },
+
+  "transformIgnorePatterns": ["node_modules/(?!(@myob/myob-widgets/)/)"],
+  "moduleNameMapper": {
+    "^@myob/myob-widgets/(.*)": "<rootDir>/node_modules/@myob/myob-widgets/$1"
   }
 }

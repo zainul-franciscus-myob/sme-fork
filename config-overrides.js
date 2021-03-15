@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = function (config) {
+
   config.plugins = [
     new TreatPlugin({
       outputLoaders: [MiniCssExtractPlugin.loader],
