@@ -3,7 +3,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
 module.exports = function (config) {
-
   config.plugins = [
     new TreatPlugin({
       outputLoaders: [MiniCssExtractPlugin.loader],
@@ -44,31 +43,89 @@ module.exports = function (config) {
       ],
     },
     {
-      test: /\.(js|jsx)$/,
-      exclude: [
+      oneOf: [
         {
-          test: path.resolve(__dirname, 'node_modules'),
-          // Exclude the following from the exclusion
-          exclude: path.resolve(__dirname, 'node_modules/@myob'),
+          test: /\.*(?<!treat).(js|jsx)$/,
+          include: /src/,
+          loader:
+            path.resolve(
+              __dirname,
+              'node_modules/babel-loader/lib/index.js'
+            ),
+          options: {
+            customize:
+              path.resolve(
+                __dirname,
+                'node_modules/babel-preset-react-app/webpack-overrides.js'
+              ),
+            babelrc: false,
+            configFile: false,
+            presets: [
+              path.resolve(
+                __dirname,
+                'node_modules/babel-preset-react-app/index.js'
+              ),
+            ],
+            cacheIdentifier:
+              'production:babel-plugin-named-asset-import@0.3.6:babel-preset-react-app@9.1.2:react-dev-utils@10.2.1:react-scripts@3.4.3',
+            plugins: [
+              [
+                path.resolve(
+                  __dirname,
+                  'node_modules/babel-plugin-named-asset-import/index.js'
+                ),
+                {
+                  loaderMap: {
+                    svg: {
+                      ReactComponent:
+                        '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+                    },
+                  },
+                },
+              ],
+            ],
+            cacheDirectory: true,
+            cacheCompression: false,
+            compact: true,
+          },
+        },
+        {
+          test: /\.*(?<!treat).(js|jsx)$/,
+          include: [
+            path.resolve(__dirname, 'src'),
+            path.resolve(__dirname, 'node_modules/@myob/myob-widgets'),
+          ],
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            configFile: false,
+            compact: false,
+            presets: [
+              [
+                path.resolve(
+                  __dirname,
+                  'node_modules/babel-preset-react-app/dependencies.js'
+                ),
+                {
+                  helpers: true,
+                },
+              ],
+              '@babel/preset-react',
+            ],
+            plugins: [
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-transform-runtime',
+            ],
+            cacheDirectory: true,
+            cacheCompression: false,
+            cacheIdentifier:
+              'production:babel-plugin-named-asset-import@0.3.6:babel-preset-react-app@9.1.2:react-dev-utils@10.2.1:react-scripts@3.4.3',
+            sourceMaps: true,
+            inputSourceMap: true,
+          },
         },
       ],
-      loader: 'babel-loader',
-      options: {
-        presets: [
-          '@babel/preset-env',
-          '@babel/react',
-        ],
-        plugins: [
-          [
-            '@babel/plugin-proposal-class-properties',
-            {
-              loose: true,
-            },
-          ],
-        ],
-      },
     },
   ];
-
   return config;
 };
