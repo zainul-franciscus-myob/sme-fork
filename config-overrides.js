@@ -1,14 +1,15 @@
 const TreatPlugin = require('treat/webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = function (config) {
+
+  config.optimization.minimizer= [new TerserPlugin()];
+
   config.plugins = [
     new TreatPlugin({
       outputLoaders: [MiniCssExtractPlugin.loader],
-      hmr: process.env.NODE_ENV === 'development',
-      localIdentName: '_[name]-[local]_[hash:base64:5]',
-      themeIdentName: '__[name]-[local]_[hash:base64:4]',
     }),
     new MiniCssExtractPlugin(),
   ].concat(config.plugins);
@@ -47,17 +48,15 @@ module.exports = function (config) {
         {
           test: /\.*(?<!treat).(js|jsx)$/,
           include: /src/,
-          loader:
-            path.resolve(
-              __dirname,
-              'node_modules/babel-loader/lib/index.js'
-            ),
+          loader: path.resolve(
+            __dirname,
+            'node_modules/babel-loader/lib/index.js'
+          ),
           options: {
-            customize:
-              path.resolve(
-                __dirname,
-                'node_modules/babel-preset-react-app/webpack-overrides.js'
-              ),
+            customize: path.resolve(
+              __dirname,
+              'node_modules/babel-preset-react-app/webpack-overrides.js'
+            ),
             babelrc: false,
             configFile: false,
             presets: [
